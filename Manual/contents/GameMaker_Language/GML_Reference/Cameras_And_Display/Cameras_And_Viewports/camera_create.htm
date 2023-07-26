@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>camera_create</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
+  <script src="../../../../assets/scripts/main_script.js" type="module"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Reference page for camera_create" />
+  <meta name="rh-index-keywords" content="camera_create" />
+  <meta name="search-keywords" content="camera_create" />
+  <meta name="is_pure" content="true" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>camera_create</h1>
+  <p>This function will create an &quot;empty&quot; camera, ie: a camera with no view or projection settings defined. Once you have created the camera you can then use the different <a href="../../Maths_And_Numbers/Matrix_Functions/Matrix_Functions.htm">matrix functions</a> to set the view and projection matrices. You can also use this function to create the camera and then use the different <span class="inline">camera_set_*</span> functions to set up the view, however note that you <i>must</i> provide at least a position and view size, otherwise the resulting camera will not be valid and give odd results if applied to a view port (if you do not set the object following, borders or move speed these will be set to the default values for a view camera in the Room Editor).</p>
+  <p>Note that cameras are like all dynamic resources and will occupy memory when created. This means that you need to take care not to create cameras unnecessarily and to destroy those that you don&#39;t need by calling the function <a href="camera_destroy.htm"><span class="inline">camera_destroy()</span></a>. This also means that cameras will persist from room to room if assigned to a <span class="inline">global</span> variable (they will persist when assigned to instance or local variables too, but you can&#39;t access them after changing room, hence the memory leak), so that you can - for example - create a new camera, assign it to a global variable, and then at the start of each room set the required view and projection matrices and the view port you need to use.</p>
+  <p> </p>
+  <h4>Syntax:</h4>
+  <p class="code">camera_create();</p>
+  <p> </p>
+  <h4>Returns:</h4>
+  <p class="code"><span data-keyref="Type_ID_Camera">Camera ID</span></p>
+  <p> </p>
+  <h4>Example:</h4>
+  <p class="code">view_camera[0] = camera_create();<br />
+    var viewmat = matrix_build_lookat(640, 240, -10, 640, 240, 0, 0, 1, 0);<br />
+    var projmat = matrix_build_projection_ortho(640, 480, 1.0, 32000.0);<br />
+    camera_set_view_mat(view_camera[0], viewmat);<br />
+    camera_set_proj_mat(view_camera[0], projmat);</p>
+  <p>The above code creates a new camera and assigns its ID to view[0]. The view and projection matrices are then created and stored in local variables before being used to set the camera.</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Back: <a href="Cameras_And_View_Ports.htm">Cameras And View Ports</a></div>
+        <div style="float:right">Next: <a href="camera_create_view.htm">camera_create_view</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2022 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+camera_create
+-->
+  <!-- TAGS
+camera_create
+-->
+</body>
+</html>

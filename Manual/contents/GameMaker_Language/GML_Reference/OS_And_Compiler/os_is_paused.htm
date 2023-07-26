@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>os_is_paused</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../assets/css/default.css" type="text/css" />
+  <script src="../../../assets/scripts/main_script.js" type="module"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Reference page for os_is_paused" />
+  <meta name="rh-index-keywords" content="os_is_paused" />
+  <meta name="search-keywords" content="os_is_paused" />
+  <meta name="is_pure" content="true" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>os_is_paused</h1>
+  <p>When developing for mobile devices, you need to have a way to check that the device is still focused on your game or not, especially as if your game is on an iOS, Android or Windows Phone device then it can be interrupted by phone calls and other apps. You can use this function to check if the device is paused or not.</p>
+  <p>It is worth noting that this function will run any code that is contained within the code block on devices but then <span data-keyref="GameMaker Name">GameMaker</span> will be paused immediately after as the device caches the game as a background process. So if you have something like the example code provided below, the instance to be created will not actually appear or run any of its events <i>until after the game has been restarted from the cached state</i>. This means that you may prefer to have the <span class="inline">os_is_paused</span> function call an alarm and then in the alarm event (which will be set when the device is paused but not run until it is un-paused) create a pause menu, restart music etc...</p>
+  <p>If you are using this function on Windows, Ubuntu (Linux), MacOS or HTML5 platforms, then the function is only toggled for <b>one step</b> to <span class="inline">true</span> when the game loses focus, and then it will return <span class="inline">false</span> again until the game is returned to focus (and loses it again). This is because these platforms do not cache apps and games, and so these will continue to run in the background.</p>
+  <p class="note"><b>NOTE</b>: On mobile devices, sounds and music will be stopped when the os is paused. They will <b>not</b> restart again unless you specifically start them with the appropriate function.</p>
+  <p> </p>
+  <h4>Syntax:</h4>
+  <p class="code">os_is_paused()</p>
+  <p> </p>
+  <h4>Returns:</h4>
+  <p class="code"><span data-keyref="Type_Bool"></span></p>
+  <p> </p>
+  <h4>Example:</h4>
+  <p class="code">if os_is_paused()<br />
+    {<br />
+        if !instance_exists(obj_PauseMenu)<br />
+        {<br />
+            instance_create_layer(0, 0, &quot;Controllers&quot;, obj_PauseMenu);<br />
+        }<br />
+    }</p>
+  <p>The above code checks to see if the game has been paused, and if it has then it creates an instance of the object &quot;obj_PauseMenu&quot; if none exist already.</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Back: <a href="OS_And_Compiler.htm">OS And Compiler</a></div>
+        <div style="float:right">Next: <a href="os_is_network_connected.htm">os_is_network_connected</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2022 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+os_is_paused
+-->
+  <!-- TAGS
+os_is_paused
+-->
+</body>
+</html>

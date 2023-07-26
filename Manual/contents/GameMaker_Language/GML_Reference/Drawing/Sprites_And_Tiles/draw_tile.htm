@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>draw_tile</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
+  <script src="../../../../assets/scripts/main_script.js" type="module"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Reference page for draw_tile" />
+  <meta name="rh-index-keywords" content="draw_tile,tile_rotate,tile_mirror,tile_flip,tile_index_mask" />
+  <meta name="search-keywords" content="draw_tile,tile_rotate,tile_mirror,tile_flip,tile_index_mask" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>draw_tile</h1>
+  <p>With this function you can draw any given tile from a tile set - compete with rotations, flips and mirrors - setting the frame (if animated) and the position within the room. The tile set ID value is the tile set index as set in the IDE and the tile data is the data &quot;blob&quot; that contains all the information about the tile index and the transformations that have been applied. You can use the function <a href="../../Asset_Management/Rooms/Tile_Map_Layers/tilemap_get.htm"><span class="inline">tilemap_get()</span></a> to get the tile data which can then be manipulated using the <a href="../../Asset_Management/Rooms/Tile_Map_Layers/Tile_Map_Layers.htm">Tile Functions</a>, or you can construct it yourself using the following tile constants along with the index value of the tile to create:</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>Constant</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td><span class="inline">tile_rotate</span></td>
+        <td>Used to set/get the rotate bit of a tile data blob.</td>
+      </tr>
+      <tr>
+        <td><span class="inline">tile_mirror</span></td>
+        <td>Used to set/get the mirror bit of a tile data blob.</td>
+      </tr>
+      <tr>
+        <td><span class="inline">tile_flip</span></td>
+        <td>Used to set/get the flip bit of a tile data blob.</td>
+      </tr>
+      <tr>
+        <td><span class="inline">tile_index_mask</span></td>
+        <td>A special constant that is for &quot;and&quot;-ing with the tile data blob to extract the tile index.</td>
+      </tr>
+    </tbody>
+  </table>
+  <p><br />
+    You would bitwise &quot;or&quot; these constants with the tile index value to get the final tiledata:</p>
+  <p class="code">var tiledata = 8 | tile_rotate | tile_flip;</p>
+  <p>The above code simply creates a local variable to store the tiledata for the tile with the index of 8 on the tile set, and it is rotated and flipped. This can then be used to draw the tile at that index from the tile set that you specify. this is not linked to any tilemap layer and the tile will be drawn at the layer depth of the instance doing the drawing, at the x/y position that you specify in the room. Note that you can also set the frame to draw too. If the indexed tile is part of an animation set, then you can set the frame number here (from 0 to the number of frames - 1) and the indexed tile will simply be the indicator for which animated tile set you are using while it will be the given frame that is drawn. If the tile is not part of an animated set then frame should be set to 0.</p>
+  <p> </p>
+  <h4>Syntax:</h4>
+  <p class="code">draw_tile(tileset, tiledata, frame, x, y)</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>Argument</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>tileset</td>
+        <td><span data-keyref="Type_Asset_Tile_Set">Tile Set Asset</span></td>
+        <td>The ID of the tile set to use</td>
+      </tr>
+      <tr>
+        <td>tiledata</td>
+        <td><span data-keyref="Type_Real_Tile_Data">Tile Data</span></td>
+        <td>The tile data to use</td>
+      </tr>
+      <tr>
+        <td>frame</td>
+        <td><span data-keyref="Type_Real">Real</span></td>
+        <td>The frame number for the animated tile to use (default 0 for non-animated tiles)</td>
+      </tr>
+      <tr>
+        <td>x</td>
+        <td><span data-keyref="Type_Real">Real</span></td>
+        <td>The x position within the room to draw at</td>
+      </tr>
+      <tr>
+        <td>y</td>
+        <td><span data-keyref="Type_Real">Real</span></td>
+        <td>The y position within the room to draw at</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>Returns:</h4>
+  <p class="code"><span data-keyref="Type_Real">Real</span></p>
+  <p> </p>
+  <h4>Example:</h4>
+  <p class="code">var lay_id = layer_get_id(&quot;Tiles_sky&quot;);<br />
+    var map_id = layer_tilemap_get_id(lay_id);<br />
+    var data = tilemap_get(map_id, 0, 0);<br />
+    tile_set_flip(data, true);<br />
+    draw_tile(set_Wall, data, 0, x, y);</p>
+  <p>The above code will get the data on a tile from the given tilemap, then set the &quot;flip&quot; flag and use this data to draw the tile flipped at the instance position.</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Back: <a href="Sprites_And_Tiles.htm">Sprites And Tiles</a></div>
+        <div style="float:right">Next: <a href="draw_tilemap.htm">draw_tilemap</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2022 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+draw_tile
+tile_rotate
+tile_mirror
+tile_flip
+tile_index_mask
+-->
+  <!-- TAGS
+draw_tile
+-->
+</body>
+</html>

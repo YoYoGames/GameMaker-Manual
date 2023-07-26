@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>audio_play_sound_at</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
+  <script src="../../../../assets/scripts/main_script.js" type="module"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Page explaining the function audio_play_sound_at" />
+  <meta name="rh-index-keywords" content="audio_play_sound_at" />
+  <meta name="search-keywords" content="audio_play_sound_at" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1><span data-field="title" data-format="default">audio_play_sound_at</span></h1>
+  <p>With this function you can play any sound asset at a given position within the audio space.</p>
+  <p>You provide the sound index and then assign it a position within the 3D space. The default listener position is <span data-keyref="Position_Origin">(0, 0, 0)</span> so this means that if the listener has not been moved and you want the sound to come from the left (for example), you should set the x position to a negative value (for more information on setting the listener position see <a href="Audio_Listeners/audio_listener_position.htm"><span class="inline">audio_listener_position()</span></a>).</p>
+  <p>You can also set a fall-off distance (0 will make the sound silent, default is 100) which will make the sound fade out as it gets further from the listener position. How the fade itself is heard will depend on the falloff reference (which is the distance under which the volume for the source would normally drop by half) and the roll off factor (which affects the sound past the falloff reference distance only). The default factor is normally 1, and the effect of the different falloff values will depend on the model chosen (for a complete guide to the different falloff models and how these values are used, please see the function <a href="audio_falloff_set_model.htm"><span class="inline">audio_falloff_set_model()</span></a>).</p>
+  <p>The next two arguments are to set the sound is to loop or not and for assigning a priority to the sound. This priority is then used to determine how sounds are dealt with when the number of sounds playing is over the limit set by the function <a href="audio_channel_num.htm"><span class="inline">audio_channel_num()</span></a>. Lower priority sounds will be stopped in favour of higher priority sounds, and the priority value can be any real number (the actual value is arbitrary, and can be from 0 to 1 or 0 to 100, as <span data-keyref="GameMaker Name">GameMaker</span> will prioritise them the same). Note that when dealing with priority, the <i>higher</i> the number the <i>higher</i> the priority, such that a sound with priority 100 will be favoured over a sound with priority 1.</p>
+  <p>This function will also return a unique index for the sound being played, which can be stored in a variable so you can later <a href="audio_pause_sound.htm">pause it</a> or <a href="audio_stop_sound.htm">stop it</a>. This means that if you have multiple instances of the same sound playing at any one time, you can target just one instance of that sound using the <a href="Audio.htm">audio functions</a>.</p>
+  <div data-conref="../../../../assets/snippets/audio_play_sound_last_arguments.hts"> </div>
+  <p> </p>
+  <h4>Syntax:</h4>
+  <p class="code"><span data-field="title" data-format="default">audio_play_sound_at</span>(index, x, y, z, falloff_ref, falloff_max, falloff_factor, loop, priority, [gain], [offset], [pitch], [listener_mask]);</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>Argument</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>index</td>
+        <td><span data-keyref="Type_Asset_Sound"><a href="../../../../../The_Asset_Editors/Sounds.htm" target="_blank">Sound Asset</a></span></td>
+        <td>The index of the sound to play.</td>
+      </tr>
+      <tr>
+        <td>x</td>
+        <td><span data-keyref="Type_Real"><a href="../../../../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td>The x position.</td>
+      </tr>
+      <tr>
+        <td>y</td>
+        <td><span data-keyref="Type_Real"><a href="../../../../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td>The y position.</td>
+      </tr>
+      <tr>
+        <td>z</td>
+        <td><span data-keyref="Type_Real"><a href="../../../../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td>The z position.</td>
+      </tr>
+      <tr>
+        <td>falloff_ref</td>
+        <td><span data-keyref="Type_Real"><a href="../../../../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td>The falloff reference relative to the listener (clamp).</td>
+      </tr>
+      <tr>
+        <td>falloff_max</td>
+        <td><span data-keyref="Type_Real"><a href="../../../../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td>The maximum falloff distance relative to the listener.</td>
+      </tr>
+      <tr>
+        <td>falloff_factor</td>
+        <td><span data-keyref="Type_Real"><a href="../../../../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td>The falloff factor (default 1).</td>
+      </tr>
+      <tr>
+        <td>loop</td>
+        <td><span data-keyref="Type_Bool"><a href="../../../../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">Boolean</a></span></td>
+        <td>Flags the sound as looping or not.</td>
+      </tr>
+      <tr>
+        <td>priority</td>
+        <td><span data-keyref="Type_Real"><a href="../../../../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td>Set the channel priority for the sound.</td>
+      </tr>
+      <tr>
+        <td>gain</td>
+        <td><span data-keyref="Type_Real"><a href="../../../../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td><span class="optional">OPTIONAL</span> Value for the gain.</td>
+      </tr>
+      <tr>
+        <td>offset</td>
+        <td><span data-keyref="Type_Real"><a href="../../../../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td><span class="optional">OPTIONAL</span> The time (in seconds) to set the start point to. Values beyond the end of the sound are clamped to its length.</td>
+      </tr>
+      <tr>
+        <td>pitch</td>
+        <td><span data-keyref="Type_Real"><a href="../../../../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td><span class="optional">OPTIONAL</span> The pitch multiplier (default 1).</td>
+      </tr>
+      <tr>
+        <td>listener_mask</td>
+        <td><span data-keyref="Type_Real"><a href="../../../../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td><span class="optional">OPTIONAL</span> The bitmask data to set for the sound. On the HTML5 target  this will have no effect as the target does not support more than one listener.</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>Returns:</h4>
+  <p class="code"><span data-keyref="Type_ID_Sound_Instance"><a href="../../../../../GameMaker_Language/GML_Reference/Asset_Management/Audio/audio_play_sound.htm" target="_blank">Sound Instance ID</a></span></p>
+  <p> </p>
+  <h4>Example 1:</h4>
+  <p class="code">if global.SFX<br />
+    {<br />
+        <span data-field="title" data-format="default">audio_play_sound_at</span>(snd_Waterfall, x, y, 0, 100, 300, 1, true, 1);<br />
+    }</p>
+  <p>The above code checks the global variable &quot;SFX&quot; and if it returns <span class="inline">true</span> then the sound indexed in the variable &quot;snd_Waterfall&quot; will be looped at its room position, with a fall-off reference of 100, a falloff distance of 300, a falloff factor of 1 and a low priority.</p>
+  <h4>Example 2:</h4>
+  <p class="code">if global.SFX<br />
+    {<br />
+        <span data-field="title" data-format="default">audio_play_sound_at</span>(snd_Waterfall, x, y, 0, 100, 300, 1, true, 1, 1, 2);<br />
+    }</p>
+  <p>The above code checks the global variable &quot;SFX&quot; and if it returns <span class="inline">true</span> then the sound indexed in the variable &quot;snd_Waterfall&quot; will be looped at its room position using the given falloff settings and no change in gain. The sound immediately starts playing from second 2.</p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Back: <a data-xref="{title}" href="Audio.htm">Audio</a></div>
+        <div style="float:right">Next: <a data-xref="{title}" href="audio_pause_sound.htm">audio_pause_sound</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2022 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+audio_play_sound_at
+-->
+  <!-- TAGS
+audio_play_sound_at
+-->
+</body>
+</html>

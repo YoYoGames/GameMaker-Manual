@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>gpu_get_blendmode_ext_sepalpha</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
+  <script src="../../../../assets/scripts/main_script.js" type="module"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Reference for the function gpu_get_blendmode_ext_sepalpha" />
+  <meta name="rh-index-keywords" content="gpu_get_blendmode_ext_sepalpha,bm_zero,bm_one,bm_src_colour,bm_inv_src_colour,bm_src_alpha,bm_inv_src_alpha,bm_dest_alpha,bm_inv_dest_alpha,bm_dest_colour,bm_inv_dest_colour,bm_src_alpha_sat,bm_src_color,bm_inv_src_color,bm_dest_color,bm_inv_dest_colour" />
+  <meta name="search-keywords" content="gpu_get_blendmode_ext_sepalpha,bm_zero,bm_one,bm_src_colour,bm_inv_src_colour,bm_src_alpha,bm_inv_src_alpha,bm_dest_alpha,bm_inv_dest_alpha,bm_dest_colour,bm_inv_dest_colour,bm_src_alpha_sat,bm_src_color,bm_inv_src_color,bm_dest_color,bm_inv_dest_colour" />
+  <meta name="is_pure" content="true" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>gpu_get_blendmode_ext_sepalpha</h1>
+  <p>This function can be used to retrieve the current extended blend mode being used for drawing, separating out the blend modes into two parts - the RGB component and the Alpha component. The function returns a 4 element 1D array with the following elements in it:</p>
+  <ul class="colour">
+    <li>[0] = Source blend mode minus the alpha component (default is <span class="inline">bm_src_alpha</span> (As, As, As))</li>
+    <li>[1] = Destination blend mode minus the alpha component (default is <span class="inline">bm_inv_src_alpha</span> (1-As, 1-As, 1-As))</li>
+    <li>[2] = Source alpha component (default is <span class="inline">bm_src_alpha</span> (As))</li>
+    <li>[3] = Destination alpha component (default is <span class="inline">bm_inv_src_alpha</span> (1-As))</li>
+  </ul>
+  <p>The values of the array will be one of the following constants (&quot;s&quot; denotes a value taken from the source while a &quot;d&quot; denotes a value from the destination):</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>Constant</th>
+        <th>Blend factor (Red, Green, Blue, Alpha)</th>
+      </tr>
+      <tr>
+        <td><span class="inline">bm_zero</span></td>
+        <td>(0, 0, 0, 0)</td>
+      </tr>
+      <tr>
+        <td><span class="inline">bm_one</span></td>
+        <td>(1, 1, 1, 1)</td>
+      </tr>
+      <tr>
+        <td><span class="inline">bm_src_colour</span></td>
+        <td>(Rs, Gs, Bs, As)</td>
+      </tr>
+      <tr>
+        <td><span class="inline">bm_inv_src_colour</span></td>
+        <td>(1-Rs, 1-Gs, 1-Bs, 1-As)</td>
+      </tr>
+      <tr>
+        <td><span class="inline">bm_src_alpha</span></td>
+        <td>(As, As, As, As)</td>
+      </tr>
+      <tr>
+        <td><span class="inline">bm_inv_src_alpha</span></td>
+        <td>(1-As, 1-As, 1-As, 1-As)</td>
+      </tr>
+      <tr>
+        <td><span class="inline">bm_dest_alpha</span></td>
+        <td>(Ad, Ad, Ad, Ad)</td>
+      </tr>
+      <tr>
+        <td><span class="inline">bm_inv_dest_alpha</span></td>
+        <td>(1-Ad, 1-Ad, 1-Ad, 1-Ad)</td>
+      </tr>
+      <tr>
+        <td><span class="inline">bm_dest_colour</span></td>
+        <td>(Rd, Gd, Bd, Ad)</td>
+      </tr>
+      <tr>
+        <td><span class="inline">bm_inv_dest_colour</span></td>
+        <td>(1-Rd, 1-Gd, 1-Bd, 1-Ad)</td>
+      </tr>
+      <tr>
+        <td><span class="inline">bm_src_alpha_sat</span></td>
+        <td>(f, f, f, 1) where f = min(As, 1-Ad)</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>When creating the extended blend modes in this way, the RGB components will be taken from one blend mode and the Alpha component will be taken from another, so that - for example - if you use <span class="inline">bm_zero</span> (0, 0, 0, 0) as the RGB blend mode and <span class="inline">bm_one</span> as the alpha blend mode, you will get a composite blend of (0,0,0,1).</p>
+  <p>Note that you can change these values directly within the array and pass the full array to the function as a single argument (as shown in the example below).</p>
+  <p> </p>
+  <h4>Syntax:</h4>
+  <p class="code">gpu_get_blendmode_ext_sepalpha();</p>
+  <p> </p>
+  <h4>Returns:</h4>
+  <p class="code"><span data-keyref="Type_Array"></span> (4 elements only; see above for constants)</p>
+  <p> </p>
+  <h4>Example:</h4>
+  <p class="code">var bm = gpu_get_blendmode_ext_sepalpha();<br />
+    bm[0] = bm_src_alpha;<br />
+    bm[1] = bm_inv_src_alpha;<br />
+    gpu_set_blendmode_ext_sepalpha(bm);</p>
+  <p>The above code creates a local array and gets the current extended blend mode with separate alpha values. This array is then manipulated and returned to set the blend mode.</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Back: <a href="GPU_Control.htm">GPU Control</a></div>
+        <div style="float:right">Next: <a href="gpu_get_blendmode_src.htm">gpu_get_blendmode_src</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2022 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+gpu_get_blendmode_ext_sepalpha
+bm_zero
+bm_one
+bm_src_colour
+bm_inv_src_colour
+bm_src_alpha
+bm_inv_src_alpha
+bm_dest_alpha
+bm_inv_dest_alpha
+bm_dest_colour
+bm_inv_dest_colour
+bm_src_alpha_sat
+-->
+  <!-- TAGS
+gpu_get_blendmode_ext_sepalpha
+-->
+</body>
+</html>

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>external_define</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../assets/css/default.css" type="text/css" />
+  <script src="../../../assets/scripts/main_script.js" type="module"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Reference page for external_define" />
+  <meta name="rh-index-keywords" content="external_define,dll_cdecl,dll_stdcall,ty_real,ty_string" />
+  <meta name="search-keywords" content="external_define,dll_cdecl,dll_stdcall,ty_real,ty_string" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>external_define</h1>
+  <p>This function can be used to define an external function call to a specific dll (for Windows) or dylib (for Mac). This file can be either an included file or part of an extension.</p>
+  <p>You supply the name (and path) of the file, then the name of the function that you wish to define. Next you need to define the calling convention to be used (see the constants list below) as well as the type of result to be expected (also a constant, as listed below).</p>
+  <p>Finally you must give the number of arguments that the function can take (from 0 to 15) and for each of the arguments you must specify its type too. Please note that for functions with 4 or more arguments, all of them <i>must</i> be of type <span class="inline">ty_real</span>.</p>
+  <p class="note"><b>NOTE</b>: This is only for dll or dylib that have been added as &quot;Included Files&quot; to the <span data-keyref="GameMaker Name">GameMaker</span> IDE. It will not work with those files added as extensions, since those require that you define the functions in the extension package itself.</p>
+  <table>
+    <colgroup>
+      <col />
+      <col />
+    </colgroup>
+    <tbody>
+      <tr>
+        <th colspan="2">External Call Type Constants</th>
+      </tr>
+      <tr>
+        <th>Constant</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td><span class="inline">dll_cdecl</span></td>
+        <td>This is the default C, C++ call</td>
+      </tr>
+      <tr>
+        <td><span class="inline">dll_stdcall</span></td>
+        <td>This is the standard WinAPI call (Windows <span class="inline">dll</span> only)</td>
+      </tr>
+    </tbody>
+  </table>
+  <table>
+    <colgroup>
+      <col />
+      <col />
+    </colgroup>
+    <tbody>
+      <tr>
+        <th colspan="2">External Data Type Constants</th>
+      </tr>
+      <tr>
+        <th>Constant</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td><span class="inline">ty_real</span></td>
+        <td>A real number argument</td>
+      </tr>
+      <tr>
+        <td><span class="inline">ty_string</span></td>
+        <td>A null-terminated string argument</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>Syntax:</h4>
+  <p class="code">external_define(dll, name, calltype, restype, argnumb, argtype[0], argtype[1], ...argtype[10]);</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>Argument</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>dll</td>
+        <td><span data-keyref="Type_String"><a data-rhwidget="HyperlinkPopover" href="../../../../LINKGOESHERE">String</a></span></td>
+        <td>The name of the DLL file (string)</td>
+      </tr>
+      <tr>
+        <td>name</td>
+        <td><span data-keyref="Type_String"><a data-rhwidget="HyperlinkPopover" href="../../../../LINKGOESHERE">String</a></span></td>
+        <td>The name of the function (string)</td>
+      </tr>
+      <tr>
+        <td>calltype</td>
+        <td><span data-keyref="Type_Constant_External_Call_Type"><a data-rhwidget="HyperlinkPopover" href="../../../../GameMaker_Language/GML_Reference/OS_And_Compiler/external_define.htm">External Call Type Constant (dll_*)</a></span></td>
+        <td>The calling convention used</td>
+      </tr>
+      <tr>
+        <td>restype</td>
+        <td><span data-keyref="Type_Constant_External_Argument_Type"><a data-rhwidget="HyperlinkPopover" href="../../../../GameMaker_Language/GML_Reference/OS_And_Compiler/external_define.htm">External Data Type Constant (ty_*)</a></span></td>
+        <td>The type of the result to expect</td>
+      </tr>
+      <tr>
+        <td>argnumb</td>
+        <td><span data-keyref="Type_Real"><a data-rhwidget="HyperlinkPopover" href="../../../../LINKGOESHERE">Real</a></span></td>
+        <td>The number of arguments (0 - 10)</td>
+      </tr>
+      <tr>
+        <td>argtype[0 ... 10]</td>
+        <td><span data-keyref="Type_Constant_External_Argument_Type"><a data-rhwidget="HyperlinkPopover" href="../../../../GameMaker_Language/GML_Reference/OS_And_Compiler/external_define.htm">External Data Type Constant (ty_*)</a></span></td>
+        <td>The types of the arguments being used</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <p> </p>
+  <h4>Returns:</h4>
+  <p class="code"><span data-keyref="Type_Function_External"><a data-rhwidget="HyperlinkPopover" href="../../../../GameMaker_Language/GML_Reference/OS_And_Compiler/external_define.htm">External Function</a></span></p>
+  <p> </p>
+  <h4>Example:</h4>
+  <p class="code">my_funcion = external_define(&quot;MyDLL.dll&quot;, &quot;MyMin&quot;, dll_cdecl, ty_real, 2, ty_real, ty_real);</p>
+  <p>The above example code will define an external function called &quot;MyMin&quot; with two arguments.</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Back: <a href="OS_And_Compiler.htm">OS And Compiler</a></div>
+        <div style="float:right">Next: <a href="external_call.htm">external_call</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2022 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+external_define
+dll_cdecl
+dll_stdcall
+ty_real
+ty_string
+-->
+  <!-- TAGS
+external_define
+-->
+</body>
+</html>

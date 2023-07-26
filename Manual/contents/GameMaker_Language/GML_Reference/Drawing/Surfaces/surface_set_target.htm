@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>surface_set_target</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
+  <script src="../../../../assets/scripts/main_script.js" type="module"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Reference for surface_set_target" />
+  <meta name="rh-index-keywords" content="surface_set_target" />
+  <meta name="search-keywords" content="surface_set_target" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>surface_set_target</h1>
+  <p>With this function you set all further drawing to the target surface rather than the screen and in this way you can tell <span data-keyref="GameMaker Name">GameMaker</span> to only draw specific things to the specified surface. Please note that if you do not call <a href="surface_reset_target.htm"><span class="inline">surface_reset_target()</span></a> after you have finished, nothing will be drawn on the screen as all further drawing (even in other instances) will be done on the surface. You should also realise that nothing will be seen if the surface itself is not drawn on the screen in the draw event of an instance. You can check the return value of this function too as a debug tool to check whether the surface target was set or not, with a return value of 0 being a failure to set the target and any other positive value being a success.</p>
+  <p>One thing that should be noted is that surfaces are <i>stacked</i> so you cannot jump from target to target and then reset to the normal draw target at the end, but rather you must open and close rendering targets. For example, this will <b>not</b> work correctly:</p>
+  <p class="code">surface_set_target(surf1);<br />
+    draw_text(32, 32, &quot;surface1&quot;);<br />
+    surface_set_target(surf2);<br />
+    draw_text(32, 64, &quot;surface2&quot;);<br />
+    surface_reset_target();</p>
+  <p>Instead, you must reset the target for each of the surfaces that you set, much like you must use opening and closing brackets {} for code blocks. So the above should be written as either this:</p>
+  <p class="code">surface_set_target(surf1);<br />
+    draw_text(32, 32, &quot;surface1&quot;);<br />
+    surface_reset_target();<br />
+    surface_set_target(surf2);<br />
+    draw_text(32, 64, &quot;surface2&quot;);<br />
+    surface_reset_target();</p>
+  <p>or as this:</p>
+  <p class="code">surface_set_target(surf1);<br />
+    draw_text(32, 32, &quot;surface1&quot;);<br />
+    surface_set_target(surf2);<br />
+    draw_text(32, 64, &quot;surface2&quot;);<br />
+    surface_reset_target();<br />
+    surface_reset_target();</p>
+  <p class="note"><b>NOTE</b>: When working with surfaces there is the possibility that they can cease to exist at any time due to them being stored in texture memory. You should <b>ALWAYS</b> check that a surface exists using <span style="font-size:1px;"><a href="surface_exists.htm"><span class="inline">surface_exists()</span></a></span> before referencing them directly.</p>
+  <p> </p>
+  <h4>Syntax:</h4>
+  <p class="code">surface_set_target(surface_id);</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>Argument</th><th>Type</th>
+        <th>Description</th>
+     </tr>
+      <tr>
+        <td>surface_id</td><td><span data-keyref="Type_ID_Surface"></span></td>
+        <td>The ID of the surface to set as the drawing target.</td>
+     </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>Returns:</h4>
+  <p class="code"><span data-keyref="Type_Bool"></span></p>
+  <p> </p>
+  <h4>Example:</h4>
+  <p class="code">if view_current = 0<br />
+    {<br />
+        surface_set_target(surf);<br />
+        with (obj_Effect)<br />
+        {<br />
+            draw_self();<br />
+        }<br />
+        surface_reset_target();<br />
+    }<br />
+    else<br />
+    {<br />
+        draw_surface(surf, 0, 0);<br />
+    }</p>
+  <p>The above code will check to see which view is currently being drawn, and if it is view[0] it sets the draw target to a surface and draws all instances of the object &quot;obj_Effect&quot; before resetting the draw target again. If the view is not view[0] the surface is drawn to the screen.</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Back: <a href="Surfaces.htm">Surfaces</a></div>
+        <div style="float:right">Next: <a href="surface_set_target_ext.htm">surface_set_target_ext</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2021 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+surface_set_target
+-->
+  <!-- TAGS
+surface_set_target
+-->
+</body>
+</html>

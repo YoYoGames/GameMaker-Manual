@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>buffer_load_async</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../assets/css/default.css" type="text/css" />
+  <script src="../../../assets/scripts/main_script.js" type="module"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Reference page for buffer_load_async" />
+  <meta name="rh-index-keywords" content="buffer_load_async" />
+  <meta name="search-keywords" content="buffer_load_async" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>buffer_load_async</h1>
+  <p>With this function you can load a file that you have created previously using the <a href="buffer_save.htm"><span class="inline">buffer_save()</span></a> function (or any of the other functions for saving buffers) into a buffer. The &quot;offset&quot; defines the start position within the buffer for loading (in bytes), and the &quot;size&quot; is the size of the buffer area to be loaded from that offset onwards (also in bytes). You can supply a value of -1 for the size argument and the entire buffer will be loaded. Note that the function will load from a &quot;default&quot; folder, which does <i>not</i> need to be included as part of the file path you provide. This folder will be created if it doesn&#39;t exist or when you save a file using <a href="buffer_save_async.htm"><span class="inline">buffer_save_async()</span></a>.</p>
+  <p>The function returns a unique ID value which can then be used in the <a href="../../../The_Asset_Editors/Object_Properties/Async_Events/Save_Load.htm">Save / Load Asynchronous event</a> to check the <a href="../../GML_Overview/Variables/Builtin_Global_Variables/async_load.htm"><span class="inline">async_load</span></a> ID value, as shown in the extended example below. The <span class="inline">async_load</span> map in the event will have the following two key/value pairs:</p>
+  <ul class="colour">
+    <li><b>&quot;id&quot;: </b>the ID of the async function as returned by the save function.</li>
+    <li><b>&quot;status&quot;: </b>will return <span class="inline">true</span> if the data was saved/loaded correctly, and <span class="inline">false</span> otherwise.</li>
+  </ul>
+  <p class="note"><span class="note">NOTE</span> On <b>HTML5</b>, this is the preferred method for loading a file if you are loading from a server and not local storage, as loading synchronously has been deprecated on most browsers and will eventually be obsoleted.</p>
+  <p>Please read the <span class="inline"><a href="buffer_load.htm">buffer_load()</a></span> page for platform-specific notes.</p>
+  <p> </p>
+  <h4>Syntax:</h4>
+  <p class="code">buffer_load_async(buffer, filename, offset, size);</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>Argument</th><th>Type</th>
+        <th>Description</th>
+     </tr>
+      <tr>
+        <td>buffer</td><td><span data-keyref="Type_ID_Buffer"></span></td>
+        <td>The index of the buffer to load.</td>
+     </tr>
+      <tr>
+        <td>filename</td><td><span data-keyref="Type_String"></span></td>
+        <td>The name of the file to load.</td>
+     </tr>
+      <tr>
+        <td>offset</td><td><span data-keyref="Type_Real"></span></td>
+        <td>The offset within the buffer to load to (in bytes).</td>
+     </tr>
+      <tr>
+        <td>size</td><td><span data-keyref="Type_Real"></span></td>
+        <td>The size of the buffer area to load (in bytes).</td>
+     </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>Returns:</h4>
+  <p class="code"><span data-keyref="Type_ID_Async_Event">Async Request ID</span></p>
+  <p> </p>
+  <h4>Extended Example:</h4>
+  <p>The <span class="inline">buffer_load_async()</span> function can be called from any event, and since it is asynchronous the callback can be almost instantaneous or could take several seconds. Calling the function is simple and would look something like this:</p>
+  <p class="code">loadid = buffer_load_async(buff, &quot;Player_Save.sav&quot;, 0, 16384);</p>
+  <p>The above code loads the contents of the file &quot;<i>Player_Save.sav</i>&quot; to the given buffer, storing the ID of the function call in the variable &quot;<i>loadid</i>&quot;. When the load is complete, the asynchronous Save/Load event will be triggered and you can parse the <span class="inline">async_load</span> map for the correct ID of the function, like this:</p>
+  <p class="code">if ds_map_find_value(async_load, &quot;id&quot;) == loadid<br />
+    {<br />
+        if ds_map_find_value(async_load, &quot;status&quot;) == false<br />
+        {<br />
+            show_debug_message(&quot;Load failed!&quot;);<br />
+        }<br />
+    }</p>
+  <p>The above code will first check the ID of the DS map that has been created, then check the status of the callback, posting a debug message if there has been any issues.</p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Back: <a href="Buffers.htm">Buffers</a></div>
+        <div style="float:right">Next: <a href="buffer_load_partial.htm">buffer_load_partial</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2022 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+buffer_load_async
+-->
+  <!-- TAGS
+buffer_load_async
+-->
+</body>
+</html>

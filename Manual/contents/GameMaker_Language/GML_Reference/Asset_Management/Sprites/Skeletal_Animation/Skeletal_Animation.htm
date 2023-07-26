@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Skeletal Animation</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../../../assets/css/default.css" type="text/css" />
+  <script src="../../../../../assets/scripts/main_script.js" type="module"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Page outlining the different Skeletal Animation functions" />
+  <meta name="rh-index-keywords" content="" />
+  <meta name="search-keywords" content="Skeletal Animation,gm_SpineTintBlackColour,tint black,Spine" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>Skeletal Animation Sprites</h1>
+  <p>The functions found in this section are <i>only</i> for use with sprites that have been imported from a skeletal animation file (specifically, the JSON files that <a href="http://es.esotericsoftware.com/"><b>Spine</b></a> exports) and can be used to get information about an animation asset in your game, as well as for setting certain properties within an animation. These functions can to be used along with the regular sprite functions and variables, permitting you to (for example) mix two skeleton animations using these special functions while setting the image scale using the normal sprite instance variables (for more information on the sprite instance variables see <a href="../Sprite_Instance_Variables/Sprite_Instance_Variables.htm">here</a>).</p>
+  <p class="note"><span class="note">NOTE</span> For further information on importing skeletal animation sprites made with Spine, please see the section <a href="../../../../../Settings/Texture_Information/Non-Bitmap_Sprites.htm">Importing Non-Bitmap Sprites</a>.</p>
+  <p>You can find out more about the functions for these kinds of sprites from the sections below:</p>
+  <ul class="colour">
+    <li><a href="Animation/Animation.htm"><label for="a">Animation</label></a></li>
+    <li><a href="Skins/Skins.htm"><label for="b">Skins</label></a></li>
+    <li><a href="Attachments/Attachments.htm"><label for="c">Attachments</label></a></li>
+    <li><a href="Bones/Bones.htm"><label for="d">Bones</label></a></li>
+    <li><a href="Slots/Slots.htm"><label for="f">Slots</label></a></li>
+    <li><a href="Drawing_And_Miscellaneous/Drawing_And_Miscellaneous.htm"><label for="e">Drawing and Miscellaneous</label></a></li>
+  </ul>
+  <p> </p>
+  <h2>Tint Black Support</h2>
+  <p>This feature allows the dark areas of Spine sprite slots to be tinted differently to the light areas (this is a Spine IDE feature, see the <b>Tint black</b> section <a href="http://esotericsoftware.com/spine-attachments" target="_blank">here</a> more details). Currently, in order to make use of this feature in <span data-keyref="GameMaker Name">GameMaker</span>, you are required to use a custom <a href="../../../../../The_Asset_Editors/Shaders.htm">shader</a> when drawing a Spine sprite that uses it. This shader contains a global uniform variable called &quot;<span class="inline">gm_SpineTintBlackColour</span>&quot; which the runner fills with the current tint-black colour, retrieved from the Spine data automatically. The shader required is shown below:</p>
+  <p>The Vertex Shader (this is the same as the default passthrough vertex shader)</p>
+  <p class="code">attribute vec3 in_Position; // (x,y,z)<br />
+    attribute vec4 in_Colour; // (r,g,b,a)<br />
+    attribute vec2 in_TextureCoord; // (u,v)<br />
+    <br />
+    varying vec2 v_vTexcoord;<br />
+    varying vec4 v_vColour;<br />
+    <br />
+    void main()<br />
+    {<br />
+        vec4 object_space_pos = vec4( in_Position.x, in_Position.y, in_Position.z, 1.0);<br />
+        gl_Position = gm_Matrices[MATRIX_WORLD_VIEW_PROJECTION] * object_space_pos;<br />
+        v_vColour = in_Colour;<br />
+        v_vTexcoord = in_TextureCoord;<br />
+    }
+  </p>
+  <p>The Fragment Shader:</p>
+  <p class="code">varying vec2 v_vTexcoord;<br />
+    varying vec4 v_vColour;<br />
+    <br />
+    uniform vec4 gm_SpineTintBlackColour; // This is the uniform containing the tint-black colour<br />
+    <br />
+    void main()<br />
+    {<br />
+        vec4 tb = gm_SpineTintBlackColour;<br />
+        vec4 texcol = texture2D( gm_BaseTexture, v_vTexcoord );<br />
+        vec4 outcol;<br />
+        outcol.rgb = v_vColour.rgb * texcol.rgb;<br />
+        outcol.rgb += tb.rgb * ((tb.a * (texcol.a - 1.0)) + (1.0 - texcol.rgb)); // This line performs the tint-    black blending logic<br />
+        outcol.a = v_vColour.a * texcol.a;<br />
+        gl_FragColor = outcol;<br />
+    }
+  </p>
+  <p>You would use this by first calling the shader, then drawing the sprite, then resetting the shader, something like this:</p>
+  <p class="code">shader_set(shd_spine_tint_black);<br />
+    draw_self();<br />
+    shader_reset();</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Back: <a href="../Sprites.htm">Sprites</a></div>
+        <div style="float:right">Next: <a href="../Sprite_Information/Sprite_Information.htm"><label for="three">Sprite Information</label></a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2022 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+Spine Sprites
+Spine
+Skeleton Animation Sprites
+gm_SpineTintBlackColour
+tint black
+-->
+  <!-- TAGS
+sprite_spìne_functions
+-->
+</body>
+</html>

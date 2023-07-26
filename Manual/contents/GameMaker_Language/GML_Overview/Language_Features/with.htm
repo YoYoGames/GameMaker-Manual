@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>with</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../assets/css/default.css" type="text/css" />
+  <script src="../../../assets/scripts/main_script.js" type="module"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Page outlining the with function" />
+  <meta name="rh-index-keywords" content="with" />
+  <meta name="search-keywords" content="with" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>with</h1>
+  <p>As indicated in the section <a href="../Addressing_Variables_In_Other_Instances.htm">Addressing Variables in Other Instances</a>, it is possible to read and change the value of variables in instances and <a href="../Structs.htm">structs</a> other than the one currently executing any given code. However, in a number of cases you want to do a lot more than just change a single variable within those other instances, and may want to perform more complex code actions that require multiple functions and lines of code. For example, imagine that you want to move all the instances of a ball object in your game 8 pixels down. You may think that this is achieved simply by the following piece of code:</p>
+  <p class="code">obj_ball.y = obj_ball.y + 8;</p>
+  <p>But this is not correct, as the right side of the assignment gets the value of the y-coordinate of the first ball and adds 8 to it. Next this new value is set as the y-coordinate of <em>all </em>balls, so the result is that all balls get the same y-coordinate, and even if you use the following:</p>
+  <p class="code">obj_ball.y += 8;</p>
+  <p>it will have exactly the same effect because it is simply an abbreviation of the first statement. So how <i>do</i> we achieve something like this? This is why the <span class="inline">with</span> statement exists in GML. The <span class="inline">with</span> statement has the following syntax:</p>
+  <p class="code">with (&lt;expression&gt;)<br />
+    {<br />
+        &lt;statement&gt;;<br />
+        &lt;statement&gt;;<br />
+        ...<br />
+    }</p>
+  <p>For the <a class="glossterm" data-glossterm="expression" href="#">expression</a>, you can indicate one or more instances (or a struct) to perform the code on, using an instance ID, the object ID (which indicates that <i>all instances</i> in the room of this object are to run the code block), the struct ID, or one of the special <a href="../Instance_Keywords.htm">keywords</a> (<span class="inline">all</span> or <span class="inline">other</span>). This will then change the <strong>scope</strong> of the code within the curly brackets <span class="inline">{}</span> from the instance, struct or function that actually holds the code to the instance (or instances or struct) given in the expression.</p>
+  <p>Once the expression has set the scope of the <span class="inline">with</span>, the <a class="glossterm" data-glossterm="statement" href="#">statement</a> will then be executed for each of the indicated instances, as if that instance is the current ( <span class="inline">self</span>) instance. So, returning to our original problem, to move all instances of the ball object 8 pixels down you would type:</p>
+  <p class="code">with (obj_ball)<br />
+    {<br />
+        y += 8;<br />
+    }</p>
+  <p>Essentially this is a loop, and each <a class="glossterm" data-glossterm="iteration" href="#">iteration</a> of the loop, the code will run on one instance of the object <span class="inline">obj_ball</span>.</p>
+  <p>If you want to execute multiple statements, just include them in the curly brackets, the same as you would around any other code block. So for example, to move all the balls in our example to a random position and give them a random speed and direction, you would use:</p>
+  <p class="code">with (obj_ball)<br />
+    {<br />
+        x = random(room_width);<br />
+        y = random(room_height);<br />
+        speed = 1 + random(2);<br />
+        direction = random(360);<br />
+    }</p>
+  <p>As mentioned above, within the statement(s), the indicated instance or struct has become the target (<span class="inline">self</span>) instance that runs the code block, which means that the original instance (that contains the <span class="inline">with</span> and the entire code block) has become the <a href="../Instance_Keywords.htm"><span class="inline">other</span></a> instance. So - for example - to move all balls to the position of the current instance that actually contains the code, you can type this:</p>
+  <p class="code">with (obj_ball)<br />
+    {<br />
+        x = other.x;<br />
+        y = other.y;<br />
+    }</p>
+  <p>The <span class="inline">with</span> statement is an extremely powerful tool and is useful in many, many circumstances so it is important that you understand fully how it can be used. To help there are a few more examples of use below:</p>
+  <p class="code">with (instance_create_layer(x, y, &quot;Instances&quot;, obj_Ball))<br />
+    {<br />
+        speed = other.speed;<br />
+        direction = other.direction;<br />
+    }</p>
+  <p>The above code will create an instance of <span class="inline">obj_Ball</span> and assign it the speed and direction of the instance that runs the whole code block.</p>
+  <p class="code">with (instance_nearest(x, y, obj_Ball))<br />
+    {<br />
+        instance_destroy();<br />
+    }</p>
+  <p>The above code will destroy the instance of <span class="inline">obj_Ball</span> nearest to the instance running the code.</p>
+  <p class="code">with(clone_struct)<br />
+    {<br />
+        xx = other.x;<br />
+        yy = other.y;<br />
+        spd = other.speed;<br />
+        dir = other.direction;<br />
+    }</p>
+  <p>The above code uses <span class="inline">with</span> to target a struct and set the given struct member variables to the values stored in the instance variables from the instance calling the code.</p>
+  <p class="code">var _inst = noone;<br />
+    with (obj_ball)<br />
+    {<br />
+        if (str &gt; other.str)<br />
+        {<br />
+            _inst = id;<br />
+        }<br />
+    }<br />
+    if (_inst != noone)<br />
+    {<br />
+        target = _inst;<br />
+    }</p>
+  <p>The above code is slightly more complex than previous ones due to it using a <a href="../Variables_And_Variable_Scope.htm">local variable</a>. This variable is <strong>local </strong>to either the <em>event</em> or the <em>script </em><em>function</em> and not to the instance or struct and so can be used and accessed by all instances that are referenced within the code block. So, in the code above we have set a local variable to the special keyword <span class="inline">noone</span> and then use the <span class="inline">with</span> construction to have every instance of <span class="inline">obj_Ball</span> check their <span class="inline">str</span> variable against that of the instance running the code block. If the value of the variable is larger, then they store their unique ID in the <span class="inline">inst</span> local variable, meaning that at the end of the code, only the instance with a value greater than the calling instance (or the keyword <span class="inline">noone</span> if none are larger) will be stored in the local variable <span class="inline">_inst</span>.</p>
+  <p>It is worth noting that you can use the special <span class="inline"><a href="break.htm">break</a></span> and <span class="inline"><a href="continue.htm">continue</a></span> statements within a <font face="Lucida Console"><span style="font-size: 16px;"><b>with</b></span></font> call too. Using <span class="inline">break</span> will immediately exit the <span class="inline">with</span> code block and move on to any code that is in the event or function after the <span class="inline">with</span> should have finished, eg:</p>
+  <p class="code">var count = 0;<br />
+    with (obj_Enemy)<br />
+    {<br />
+        if (++count &gt; 10)<br />
+        {<br />
+            break;<br />
+        }<br />
+        hp = 100;<br />
+    }</p>
+  <p>The above code loops through the instances in the room of the object <span class="inline">obj_Enemy</span> and sets the variable <span class="inline">hp</span> to 100 for the first 10 it finds. If any more than 10 instances exist, the with code will call <span class="inline">break</span> and end.</p>
+  <p>An example of using <span class="inline">continue</span> in a <span class="inline">with</span> loop would be:</p>
+  <p class="code">with (obj_Enemy_Parent)<br />
+    {<br />
+        if (invulnerable == true)<br />
+        {<br />
+            continue;<br />
+        }<br />
+        hp -= 25;<br />
+    }</p>
+  <p>This code will loop through all instance with the parent <span class="inline">obj_Enemy_Parent</span>, then checks each instance to see if the <span class="inline">invulnerable</span> instance variable is <span class="inline">true</span> or not. If it is, the <span class="inline">continue</span> keyword ends the current iteration of the loop and moves on to the next available instance, otherwise it removes 25 from the <span class="inline">hp</span> variable. This will repeat until all instances with that parent have been checked.</p>
+  <div data-conref="../../../assets/snippets/Instance_creation_order_warning.hts"> </div>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Back: <a href="../Language_Features.htm">Language Features</a></div>
+        <div style="float:right">Next: <a href="return.htm">return</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2022 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+with
+-->
+  <!-- TAGS
+with
+-->
+</body>
+</html>

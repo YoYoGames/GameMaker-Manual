@@ -1,0 +1,409 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Guide To Using Shaders</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../assets/css/default.css" type="text/css" />
+  <script src="../assets/scripts/main_script.js" type="module"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Page that explains how to set up and use shaders" />
+  <meta name="rh-index-keywords" content="Guide To Using Shaders" />
+  <meta name="search-keywords" content="shaders,shader,use shaders,shader guide,shader setup,shader examples,shader example" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>Guide To Using Shaders</h1>
+  <p>Shaders are often used to create beautiful graphical effects in games. They are also among the most advanced features offered by <span data-keyref="GameMaker Name">GameMaker</span>, so it is necessary that you have a basic understanding of programming and how <span data-keyref="GameMaker Name">GameMaker</span> works before getting started with them.</p>
+  <p>So, what is a shader? Initially they were created to provide shading for lighting (hence the name), but they are now used to produce a huge variety of effects. Shader code is similar to regular code, but it is (almost always) executed by the GPU, not the CPU. This difference comes with its own set of rules and limitations, but we’ll cover those later.</p>
+  <p>Each shader is made up of two separate components: a <strong>vertex shader </strong>and a <strong>fragment shader </strong>(also referred to as <strong>pixel shader</strong>). Let’s start with the vertex shader. Each sprite is formed by a rectangle, but computers like to draw triangles, so those rectangles are split into two triangles (sometimes called a <em>quad</em>). This leaves us with six vertices (corners) per sprite, but two of those are the same one, so we should only worry about four. Now, imagine we have a for loop that goes over every vertex and executes the code inside the vertex shader for each. This allows us to change the vertex position and color before passing it over to the fragment shader since the vertex shader is executed earlier.</p>
+  <p>Here’s how that would look:</p>
+  <p><img alt="Shader Vertices" class="center" src="../assets/Images/Scripting_Reference/Additional_Information/Shader_Vertices.gif" />For the fragment shader, you can imagine the same loop as before, but this time it goes over every single pixel in your sprite, giving you information such as location and color of that pixel. In your fragment shader code, you perform operations and calculations to determine the color of that pixel to get the effect you want. For example, if you want a shader to make your sprite be black and white, then you’d calculate which shade of grey each pixel needs to be to create the effect.</p>
+  <p>It would look something like this:</p>
+  <p><img alt="Shader Fragments" class="center" src="../assets/Images/Scripting_Reference/Additional_Information/Shader_Fragments.gif" />The reason shader code is usually executed by the GPU is that it is more efficient at it. Modern CPUs typically have between two to eight cores. Each core can perform one task at a time, so by taking advantage of multiple cores, we can perform that many tasks simultaneously. In contrast, modern GPUs can perform thousands, and even tens of thousands, of tasks running at the same time. This is helpful for shaders because we can execute the shader code of thousands of pixels concurrently. The limitation is that we only have access to the initial state of the sprite, so we don’t know about any modifications done to other pixels since we can’t know for sure the code has run on them yet.</p>
+  <p class="note"><strong>NOTE</strong>: <span data-keyref="GameMaker Name">GameMaker</span> allows users to write shaders in <strong>GLSL</strong> (OpenGL Shader Language), <strong>HLSL</strong> (High-level Shader Language, used when working with DirectX), and <strong>GLSL ES</strong> (a subset of GLSL which is common in mobile devices). Here we are using <strong>GLSL ES</strong> as the shader language since it’s the one that provides the best compatibility across target platforms. Generally this is the one you always want to use unless you have very specific needs and understand the limitation of the other shader languages. The math and techniques should be similar between all three languages however, save for a few syntax differences here and there.</p>
+  <p>The vertex shader is executed first, and as we explained above, it deals with <strong>vertices</strong>. It is used to calculate positions, normals, and texture coordinates. These shaders are not particularly useful in 2D, since every sprite is usually a square, but it can be used to do some skewing, scaling, etc... It becomes much more useful in 3D for lighting calculations and mesh deformations. Fragment shaders are much more interesting and are what will be covered mostly here, since the fragment shader is where we get information about our textures and can tweak the final color of each pixel in our image.</p>
+  <p> </p>
+  <h2>Shader Variables</h2>
+  <p>If you have created a shader in <span data-keyref="GameMaker Name">GameMaker</span>, you might have noticed the following keywords in the default <strong>pass-through</strong> shader. These keywords help the shader understand the purpose and scope of each variable:</p>
+  <ul class="colour">
+    <li><strong>Attribute</strong>: These are variables passed in by OpenGL to the <strong>vertex </strong>shader. These can change per vertex and are read-only. These include information such as vertex position, texture coordinates, vertex color, and vertex normal.</li>
+    <li><strong>Varying</strong>: These are variables used to pass data between the <strong>vertex </strong>and <strong>fragment </strong>shaders. These are available for writing in the vertex shader, but are read-only in the fragment shader.</li>
+    <li><strong>Uniform</strong>: These are variables that change per object and are passed by the user to the shader. These can be used in both the vertex and fragment shaders, but are read-only.</li>
+  </ul>
+  <p>You&#39;ll also see the use of <strong>vec</strong> as a keyword. This is used to identify a vector variable in the shader and you&#39;ll soon see that vectors are very important when working with shaders. That is why they are implemented as a base type in GLSL. If you are unfamiliar with them, they are a mathematical term represented as a matrix with only one column. In programming, we usually represent them as an array where the number of components corresponds to the dimension. Two and three-dimensional vectors are often used for positions, texture coordinates, or colors without an alpha channel, while four-dimensional ones are used for colors with an alpha channel. We can also specify if they hold booleans, integers, or floating point values. The syntax to declare a vector is this:</p>
+  <p class="code">vec2 firstVec;  // Two-dimensional vector of floats<br />
+    vec3 secondVec; // Three-dimensional vector of floats<br />
+    vec4 thirdVec;  // Four-dimensional vector of floats<br />
+    <br />
+    bvec3 boolVec;  // Three-dimensional vector of booleans<br />
+    ivec4 intVec;   // Four-dimensional vector of integers
+  </p>
+  <p>To initialize them, we can use the constructor to create the vector. You need to provide the same number of values as the length of the vector, but you can mix and match scalars and smaller vectors to reach the target length. Here are some examples of this:</p>
+  <p class="code">// Simple 2D vector with 2 scalar values<br />
+    vec2 firstVec  = vec2(2.0, 1.0);<br />
+    // A 4D vector using 2 scalars and a vec2 create the 4 values<br />
+    vec4 secondVec = vec4(1.0, firstVec, 0.0);<br />
+    // A 3D vector using 1 component of a vec4 plus a vec2 to create the 3 values<br />
+    vec3 thirdVec  = vec3(secondVec.x, firstVec);</p>
+  <p>We can also assign them another vector of the same length (or <em>swizzle </em>the vector until it has the proper length, but we&#39;ll explain that in a moment):</p>
+  <p class="code">vec3 firstVec;<br />
+    vec3 secondVec = firstVec;<br />
+    vec4 thirdVec  = secondVec.xyz;<br />
+    vec2 fourthVec = thirdVec.zx;</p>
+  <p>When accessing vector components in GLSL, we have a few options. The most basic one is to treat the vector as an array and access the components using square brackets, like this:</p>
+  <p class="code">vec4 myVec;<br />
+    myVec[0] = 1.0;<br />
+    myVec[1] = 0.0;<br />
+    myVec[2] = 2.0;<br />
+    myVec[3] = 1.0;</p>
+  <p>However, there is another way to access the components with the following syntax:</p>
+  <p class="code">vec4 myVec;<br />
+    myVec.x = 1.0;<br />
+    myVec.y = 2.0;</p>
+  <p>This uses the component names inside the vector to access them. You can use x, y, z, or w, to get the first, second, third, or fourth components, respectively. We refer to this method as <strong>swizzling </strong>because the following syntax is also valid:</p>
+  <p class="code">vec4 firstVec;<br />
+    vec3 secondVec = firstVec.xyz;<br />
+    vec2 thirdVec  = secondVec.zy;<br />
+    vec4 fourthVec = thirdVec.yxxy;</p>
+  <p>As you can see, we can use any combination of up to four letters to create a vector of that length. We cannot attempt to access a component that would be out of bounds (for example, trying to access w in <span class="inline">secondVec</span> or <span class="inline">thirdVec</span>, since they don’t have a fourth component). Also, we can repeat letters and use them in any order, as long as the vector variable it’s being assigned to is the same size as the number of letters used.</p>
+  <p>For obvious reasons, when using swizzle to set component values, you can’t use the same component twice. For example, the below is not valid as you are trying to set the same component to two different values:</p>
+  <p class="code">myVec.xx = vec2(2.0, 3.0);</p>
+  <p>Last, we have been using <span class="inline">xyzw</span> as our swizzle mask, which is usually the case when dealing with positions. There are two more sets of masks you can use: <span class="inline">rgba</span> (used for colors), or <span class="inline">stpq</span> (used for texture coordinates). Internally, there is no difference between these masks, and we only use them to make the code clearer as to what the vector represents in that instance. Also, we can’t combine swizzle masks in the same operation, so this is invalid:</p>
+  <p class="code"><span class="inline"></span>myVec = otherVec.ybp;</p>
+  <p>Those were a lot of definitions and information, but knowing these things is necessary to understand shaders themselves.</p>
+  <p> </p>
+  <h2>Creating A Shader</h2>
+  <p>When you create a shader in <span data-keyref="GameMaker Name">GameMaker</span>, it will open two files for you: a vertex shader (<span class="inline">.vsh</span>) and a fragment shader (<span class="inline">.fsh</span>). This is the most basic shader you can make, which takes a sprite, reads the texture, and colors each pixel with that color. If you specify vertex colors when drawing, those colors will blend with the texture.</p>
+  <p>Let’s go through the code for a newly created shader asset and analyze it, starting with the vertex shader.</p>
+  <p class="code">// Passthrough Vertex Shader<br />
+    attribute vec3 in_Position;                  // (x,y,z)<br />
+    //attribute vec3 in_Normal;                  // (x,y,z)     unused in this shader.<br />
+    attribute vec4 in_Colour;                    // (r,g,b,a)<br />
+    attribute vec2 in_TextureCoord;              // (u,v)<br />
+    <br />
+    varying vec2 v_vTexcoord;<br />
+    varying vec4 v_vColour;<br />
+    <br />
+    void main()<br />
+    {<br />
+        vec4 object_space_pos = vec4( in_Position.x, in_Position.y, in_Position.z, 1.0);<br />
+        gl_Position = gm_Matrices[MATRIX_WORLD_VIEW_PROJECTION] * object_space_pos;<br />
+        <br />
+        v_vColour = in_Colour;<br />
+        v_vTexcoord = in_TextureCoord;<br />
+    }
+  </p>
+  <p>Outside of the main function, we see some variable declarations and their qualifiers. The attributes are given to us by GameMaker. The varying ones are created by the user to pass that information over to the fragment shader. Inside the main function, we have the calculations to find the screen position of the vertex:</p>
+  <ul class="colour">
+    <li>First, we create a <span class="inline">vec4</span> and initialize it with the components of the position, adding one as the fourth component. In linear algebra, the convention is that we add a one to the fourth component if the vector is representing a point, or a zero if it represents an actual vector.</li>
+    <li>Next, we need to add this fourth component to multiply it with the <span class="inline">MATRIX_WORLD_VIEW_PROJECTION</span> matrix, which is a 4x4 matrix. This multiplication will project the world position of the vertex into screen coordinates.</li>
+    <li>Finally we pass the vertex color and texture coordinate to the fragment shader through our varying variables.</li>
+  </ul>
+  <p>This shader should be left alone if you are not planning to play with vertex positions and it will not be used in any of the examples given below because all the effects shown will be created using the fragment shader.</p>
+  <p>Let’s take a quick look at the fragment shader now:</p>
+  <p class="code">// Passthrough Fragment Shader<br />
+    varying vec2 v_vTexcoord;<br />
+    varying vec4 v_vColour;<br />
+    <br />
+    void main()<br />
+    {<br />
+        gl_FragColor = v_vColour * texture2D( gm_BaseTexture, v_vTexcoord );<br />
+    }
+  </p>
+  <p>As explained before, the idea behind a fragment shader is to return the color of the current pixel. This is done by assigning the variable <span class="inline">gl_FragColor</span> the final color value. The <span class="inline">texture2D</span> function takes a texture and a <span class="inline">vec2</span> with the UV coordinates you want to check in that texture, which returns a <span class="inline">vec4</span> with the color. In the pass through shader, all we are doing is grabbing the color of the texture in the coordinate of this pixel and multiplying it by the color of the vertex associated with this pixel.</p>
+  <p>Now that we have our first shader, all we have to do to test it is create an object and assign it a sprite, then in the <strong>Draw Event</strong> of the object you set the shader like this:</p>
+  <p class="code">// Draw Event<br />
+    shader_set(shdrColorOverlay);<br />
+    draw_self();<br />
+    shader_reset();</p>
+  <p>Every draw call we make between <a href="../GameMaker_Language/GML_Reference/Asset_Management/Shaders/shader_set.htm"><span class="inline">shader_set()</span></a> and <a href="../GameMaker_Language/GML_Reference/Asset_Management/Shaders/shader_reset.htm"><span class="inline">shader_reset()</span></a> will have the shader applied to it. Here, we are drawing the object sprite with our passthrough shader:</p>
+  <p><img alt="Drawing Sprite Using Passthough Shader" class="center" src="../assets/Images/Scripting_Reference/Additional_Information/Shader_PassThrough.gif" />As you might have guessed, this does not visually changing anything, as this is a simple pass-through shader. However the sections below outline some simple steps you can take to modify this and change the way the sprite will be drawn. Each of the section shows a different shader that you can create and use in your projects, explaining the steps required to create them and why we are doing things the way we are.</p>
+  <p> </p>
+  <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down" href="#">Colour Overlay Shader</a></p>
+  <div class="droptext" data-targetname="drop-down">
+    <p class="dropspot">We can edit the base shader now to do something different. We&#39;ll not be touching the vertex shader part, and only editing the fragment shader, and to start with we&#39;ll do a very simple operation, which is to make the shader draw the sprite using the colour red. We&#39;ll do this by simply changing the <span class="inline">gl_FragColor</span> to be red., like this:</p>
+    <p class="code">// Color Overlay Fragment Shader<br />
+      void main()<br />
+      {<br />
+          gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);<br />
+      }</p>
+    <p class="dropspot">This will give us the following result:</p>
+    <p class="dropspot"><img alt="Initial Colour Overlay Block" class="center" src="../assets/Images/Scripting_Reference/Additional_Information/Shader_ColourOverlay_Block.gif" />Not exactly what we expected! What we need to remember is that every sprite is ultimately a rectangle, so unless we consider transparency - which we haven&#39;t - this is the result we’ll get.</p>
+    <p class="note"><strong>NOTE</strong>: In the image above, the rectangle changes size because the base sprite has had the &quot;empty&quot; space around it cropped automatically when it was placed on the texture page by GameMaker, so each animation frame the triangles that make it up are different sizes to fit the cropped size of the frame. If you disable this option, then you&#39;d simply have a motionless red square on the screen.</p>
+    <p class="dropspot">Above we mentioned the <span class="inline">texture2D</span> function, and we&#39;ll use that to grab the color at the pixel we are working on and get the transparency from it. The return value of is <span class="inline">texture2D</span> is a <span class="inline">vec4</span>, where the components are the red, green, blue, and alpha, in that order. We can access the alpha channel either by putting a period followed by an <span class="inline">a</span> or a <span class="inline">w</span> after the variable name. This corresponds to RGBA and XYZW, respectively.</p>
+    <p class="dropspot">Here’s the updated code:</p>
+    <p class="code">// Color Overlay Fragment Shader<br />
+      varying vec2 v_vTexcoord;<br />
+      <br />
+      void main()<br />
+      {<br />
+          vec4 texColor = texture2D(gm_BaseTexture, v_vTexcoord);<br />
+          gl_FragColor = vec4(1.0, 0.0, 0.0, texColor.a);<br />
+      }
+    </p>
+    <p class="dropspot">We are now assigning a new <span class="inline">vec4</span> to <span class="inline">gl_FragColor</span>, where the red channel is maxed, the green, and blue channels are zero, and the alpha channel is the same as the original texture. The output looks like this:</p>
+    <p class="dropspot"><img alt="Overlay Shader Making Sprite Red" class="center" src="../assets/Images/Scripting_Reference/Additional_Information/Shader_ColourOverlay.gif" />Now that’s what we were after! We have replaced the color of every pixel with red, but have kept the alpha channel intact.</p>
+    <p class="dropspot">Having to change the shader each time we want to use a different color isn’t a good idea, especially since we’d need to have a separate shader for each color we want. Instead, we will pass the color information to the shader using a <strong>uniform</strong>. To do this, we first need to get a <strong>pointer </strong>to the uniform. We will do this in the <strong>Create Event</strong> of our object that has the sprite by adding:</p>
+    <p class="code">// Create Event<br />
+      _uniColor = shader_get_uniform(shdrColorOverlay, &quot;u_colour&quot;);<br />
+      _color    = [1.0, 1.0, 0.0, 1.0];</p>
+    <p class="dropspot">All we need to do is call <a href="../GameMaker_Language/GML_Reference/Asset_Management/Shaders/shader_get_uniform.htm"><span class="inline">shader_get_uniform()</span></a> to get a pointer to the uniform. The parameters we need to pass are the shader asset name (without quotation because we want to pass the ID that GameMaker generates for us) and the name of the uniform variable inside of the shader, this time as a string. This name needs to match exactly the one inside the shader code for it to work. We have also added a colour variable so we can change it at runtime and have it remember our changes.</p>
+    <p class="dropspot">Now the code in our draw event will change slightly to pass the uniform variable.</p>
+    <p class="code">// Draw Event<br />
+      shader_set(shdrColorOverlay);<br />
+      shader_set_uniform_f_array(_uniColor, _color);<br />
+      draw_self();<br />
+      shader_reset();</p>
+    <p class="dropspot">It’s the same code as before, but before we draw anything, we need to pass all the uniform values to the shader. In this case, we are passing the color as an array of floats. As for the shader, we will change it to include the uniform and use it, so it becomes:</p>
+    <p class="code">// Color Overlay Fragment Shader<br />
+      varying vec2 v_vTexcoord;<br />
+      uniform vec4 u_colour;<br />
+      void main()<br />
+      {<br />
+          vec4 texColor = texture2D(gm_BaseTexture, v_vTexcoord);<br />
+          gl_FragColor = vec4(u_colour.rgb, texColor.a);<br />
+      }</p>
+    <p class="dropspot">We declare a variable with the same name as in the create shader (<span class="inline">u_colour</span>) and we pass it as the first three components of the <span class="inline">gl_FragColor</span> vector, taking advantage of swizzling. If we compile again, we should see this:</p>
+    <p class="dropspot"><img alt="Overlay Shader Making Sprite Yellow" class="center" src="../assets/Images/Scripting_Reference/Additional_Information/Shader_ColourOverlay_Yellow.gif" />Now the shader is much more useful and reusable. It’s up to you to add more functionality if you need it to set the color (using the variable <span class="inline">_color</span>) during runtime.</p>
+    <p> </p>
+  </div>
+  <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down1" href="#">Black And White Shader</a></p>
+  <div class="droptext" data-targetname="drop-down1">
+    <p class="dropspot">Making a black and white shader is a great way to learn more about how shaders work, and a lot of beginners start by trying to do this, since conceptually it&#39;s quite simple: get every pixel and assign it a shade of gray. But is it simple? Not quite...</p>
+    <p class="dropspot">When using RGB colour, if all three components are the same value, then we get a gray tone. The naïve approach to creating a shader to use this idea would be to add all three color channels (red, green, and blue) and then divide it by three. After that you&#39;d assigned the value to all three channels, thus creating a gray tone. Here’s what that fragment shader looks like:</p>
+    <p class="code">// Black and white fragment shader<br />
+      varying vec2 v_vTexcoord;<br />
+      varying vec4 v_vColour;<br />
+      <br />
+      void main()<br />
+      {<br />
+          vec4 texColor = texture2D(gm_BaseTexture, v_vTexcoord);<br />
+          float gray = (texColor.r + texColor.g + texColor.b) / 3.0;<br />
+          gl_FragColor = v_vColour * vec4(gray, gray, gray, texColor.a);<br />
+      }
+    </p>
+    <p class="dropspot">One thing you might have noticed is that in the <span class="inline">gl_FragColor</span> code, we&#39;re multiplying the <span class="inline">vec4</span> with something called <span class="inline">v_vColour</span>. This is a variable passed by the vertex shader which tells us the color of the vertex associated with this pixel. It’s always a good idea to multiply your final calculated color with the vertex color. In most cases, it won’t do anything, but if you changed the vertex color in GML, this will reflect that (by using functions such as <a href="../GameMaker_Language/GML_Reference/Drawing/Sprites_And_Tiles/draw_sprite_ext.htm"><span class="inline">draw_sprite_ext()</span></a> or <a href="../GameMaker_Language/GML_Reference/Drawing/Sprites_And_Tiles/draw_sprite_general.htm"><span class="inline">draw_sprite_general()</span></a> to change the <a href="../GameMaker_Language/GML_Reference/Asset_Management/Sprites/Sprite_Instance_Variables/image_blend.htm"><span class="inline">image_blend</span></a>).</p>
+    <p class="dropspot">As for the draw event, it’s quite simple since we don’t have a uniform to pass in:</p>
+    <p class="code">// Draw Event<br />
+      shader_set(shdrBlackAndWhite);<br />
+      draw_self();<br />
+      shader_reset();</p>
+    <p class="dropspot">Let’s compile and see what we got.</p>
+    <p class="dropspot"><img alt="Black And White Shader" class="center" src="../assets/Images/Scripting_Reference/Additional_Information/Shader_BlackAndWhite.gif" />This looks great already, right? Well, yes and no... there is a solution that is more “correct”, since instead of adding the components and dividing by three, we multiply each component by the standard NTSC values for black and white. Here’s the modified fragment shader code:</p>
+    <p class="code">// Black and white fragment shader<br />
+      varying vec2 v_vTexcoord;<br />
+      <br />
+      void main()<br />
+      {<br />
+          vec4 texColor = texture2D(gm_BaseTexture, v_vTexcoord);<br />
+          float gray = dot(texColor.rgb, vec3(0.299, 0.587, 0.114));<br />
+          gl_FragColor = vec4(gray, gray, gray, texColor.a);<br />
+      }
+    </p>
+    <p class="dropspot">We use the dot product as a shorthand for multiplying each component of <span class="inline">texColor</span> with the correct weights and then add them together. If you are unfamiliar with the dot product, this is essentially what’s happening:</p>
+    <p class="code">float gray = (texColor.r * 0.299) + (texColor.g * 0.587) + (texColor.b * 0.114);</p>
+    <p class="dropspot">In the end, it looks very similar, but it’s technically more correct.</p>
+    <p class="dropspot"><img alt="Corrected Black And White Shader" class="center" src="../assets/Images/Scripting_Reference/Additional_Information/Shader_BlackAndWhite_Improved.gif" /></p>
+    <p class="dropspot"> </p>
+  </div>
+  <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down2" href="#">Rainbow Shader</a></p>
+  <div class="droptext" data-targetname="drop-down2">
+    <p class="dropspot">Our final shader example is a fun one and can be used to add life to text and buttons and other things. We&#39;ll start simple and add functionality gradually since this shader is highly customizable. There&#39;s quite a lot to cover for this one, so if you feel a bit lost or confused, please go back and re-read some of the sections above.</p>
+    <p class="dropspot">The first thing we want to do is color pixels with every hue, depending on the pixel’s horizontal position. The way to do this is to set the x position to be the hue and then convert from HSV (hue, saturation, brightness) format to RGB (red, green, and blue) format. For this, we will need to write a helper function in our fragment shader that takes HSV values and returns an RGB vector. We will use a single function which does this without the need for any <span class="inline">if</span> statements, as using conditionals in shader code makes shaders <em>very </em>slow, and should be avoided.</p>
+    <p class="dropspot">Here’s what the shader looks like at this stage:</p>
+    <p class="code">// Fragment Shader<br />
+      varying vec2 v_vTexcoord;<br />
+      varying vec4 v_vColour;<br />
+      <br />
+      vec3 hsv2rgb(vec3 c) <br />
+      {<br />
+          vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);<br />
+          vec3 p = abs(fract(c.xxx + K.xyz) * 6.0 - K.www);<br />
+          return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);<br />
+      }<br />
+      <br />
+      void main()<br />
+      {<br />
+          vec3 col = vec3(v_vTexcoord.x, 1.0, 1.0);<br />
+          float alpha = texture2D(gm_BaseTexture, v_vTexcoord).a;<br />
+          gl_FragColor = v_vColour * vec4(hsv2rgb(col), alpha);<br />
+      }
+    </p>
+    <p class="dropspot">There&#39;s a bit more going on here than in the previous examples, but most of it should be fairly obvious to you now. First, there’s our <span class="inline">hsv2rgb</span> function, which takes a <span class="inline">vec3</span> with our HSV colour and returns another <span class="inline">vec3</span> with our RGB conversion. In the main function, we start by creating our HSV colour, where the hue is our x position, and we’ll leave the saturation and brightness as 1.0 for now. Then, we get the alpha from the texture so it only colors our sprite character and not the entire sprite rectangle (as we did in the colour overlay example, above). Lastly, we set our Fragment color to be our HSV color converted to RGB with the alpha, multiplied by the vertex color (good practice to do this always).</p>
+    <p class="dropspot">As for our draw code, it is trivial at the moment:</p>
+    <p class="code">// Draw Event<br />
+      shader_set(shdrRainbow);<br />
+      draw_self();<br />
+      shader_reset();</p>
+    <p class="dropspot">Let’s check out what we got:</p>
+    <p class="dropspot"><img alt="Initial Rainbow Shader" class="center" src="../assets/Images/Scripting_Reference/Additional_Information/Shader_Rainbow_Overlay.gif" />We are close to what we want, but there’s an issue: we are not seeing all the colors at once in every frame of the animation, and the colors seem to change randomly. The reason is that we assumed that <span class="inline">v_vTexcoord</span> gave us the coordinates of the sprite, starting at the top-left corner (0,0) and ending in the bottom right corner (1,1), which is standard in shaders. However, for optimization, GameMaker stuffs as many textures together as it can fit in what is called a <a href="../Settings/Texture_Information/Texture_Pages.htm">texture page,</a> and because of that, this is how our texture actually looks:</p>
+    <p class="dropspot"><img class="center" src="../assets/Images/Scripting_Reference/Additional_Information/Shader_Texture.png" />As explained above, <span class="inline">v_vTexcoord</span> gives us the absolute coordinates of the sprite within this entire texture page, but what we want is a value from 0.0 to 1.0 that only covers our current sprite. This process is called <strong>normalizing</strong> (getting a value and translating it to a 0 to 1 range). To normalize our horizontal values, we need to know the values of x0 and x1 in the picture above. Luckily, GameMaker has a function that gives us the location of every corner in our sprite within the texture page. First, we need to go to the Create Event and create a uniform to pass this data over to the shader:</p>
+    <p class="code">// Create Event<br />
+      _uniUV = shader_get_uniform(shdrRainbow, &quot;u_uv&quot;);</p>
+    <p class="dropspot">And we modify the draw event to get the values and then pass them to the shader:</p>
+    <p class="code">// Draw Event<br />
+      shader_set(shdrRainbow);<br />
+      var uv = sprite_get_uvs(sprite_index, image_index);<br />
+      shader_set_uniform_f(_uniUV, uv[0], uv[2]);<br />
+      draw_self();<br />
+      shader_reset();</p>
+    <p class="dropspot">The function <a href="../GameMaker_Language/GML_Reference/Asset_Management/Sprites/Sprite_Information/sprite_get_uvs.htm"><span class="inline">sprite_get_uvs()</span></a> takes a sprite and an index, and it returns an array with tons of information, such as the coordinates for each corner, how many pixels were cropped to optimize it, etc. We are interested in two of those values: the left and right coordinates of the sprite, which are stored in <span class="inline">uv[0]</span> and <span class="inline">uv[2]</span> respectively. In the fragment shader, we will use those values now to calculate the normalized horizontal position like this:</p>
+    <p class="code">// Fragment Shader<br />
+      varying vec2 v_vTexcoord;<br />
+      varying vec4 v_vColour;<br />
+      <br />
+      uniform vec2 u_uv;<br />
+      <br />
+      vec3 hsv2rgb(vec3 c) <br />
+      {<br />
+          vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);<br />
+          vec3 p = abs(fract(c.xxx + K.xyz) * 6.0 - K.www);<br />
+          return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);<br />
+      }<br />
+      <br />
+      void main()<br />
+      {<br />
+          float pos = (v_vTexcoord.x - u_uv[0]) / (u_uv[1] - u_uv[0]);<br />
+          vec3 col = vec3(pos, 1.0, 1.0);<br />
+          float alpha = texture2D(gm_BaseTexture, v_vTexcoord).a;<br />
+          gl_FragColor = v_vColour * vec4(hsv2rgb(col), alpha);<br />
+      }
+    </p>
+    <p class="dropspot">Here we add the uniform variable at the top of the file with the same name we used in the Create Event. Next, we calculate the normalized horizontal position by translating our current <span class="inline">x</span> coordinate to the origin ( <span class="inline">v_vTexcoord.x - u_uv[0]</span>) and then we divide it by the width of the sprite to make the range from 0 to 1 (<span class="inline">u_uv[1] - u_uv[0]</span>).</p>
+    <p class="dropspot">The result is:</p>
+    <p class="dropspot"><img alt="Rainbow Overlay Shader Improved" class="center" src="../assets/Images/Scripting_Reference/Additional_Information/Shader_Rainbow_Overlay_Improved.gif" />There we go! This is exactly what we wanted. We can see every color of the spectrum inside our sprite.</p>
+    <p class="dropspot">You might be happy with that, but we can have some more fun with this shader. What if we added an offset to the colors based around time to produce movement? To do this, we will need two extra variables for <strong>speed </strong>and <strong>time</strong>. We will also need two more uniforms, one for each of the new variables, so the Create Event becomes:</p>
+    <p class="code">// Create Event<br />
+      _uniUV    = shader_get_uniform(shdrRainbow, &quot;u_uv&quot;);<br />
+      _uniTime  = shader_get_uniform(shdrRainbow, &quot;u_time&quot;);<br />
+      _uniSpeed = shader_get_uniform(shdrRainbow, &quot;u_speed&quot;);<br />
+      _time  = 0;<br />
+      _speed = 1.0;</p>
+    <p class="dropspot">We also need to increase the time every frame, so in the Step Event we add:</p>
+    <p class="code">// Step Event<br />
+      _time += 1 / room_speed;</p>
+    <p class="dropspot">Let’s go to the draw event now to send these uniforms to the shader:</p>
+    <p class="code">// Draw Event<br />
+      shader_set(shdrRainbow);<br />
+      var uv = sprite_get_uvs(sprite_index, image_index);<br />
+      shader_set_uniform_f(_uniUV, uv[0], uv[2]);<br />
+      shader_set_uniform_f(_uniSpeed, _speed);<br />
+      shader_set_uniform_f(_uniTime, _time);<br />
+      draw_self();<br />
+      shader_reset();</p>
+    <p class="dropspot">Finally, we&#39;ll go back to our shader to actually use these variables now. What we will do is multiply the speed with the time and add it to the position, like so:</p>
+    <p class="code">// Fragment Shader<br />
+      varying vec2 v_vTexcoord;<br />
+      varying vec4 v_vColour;<br />
+      <br />
+      uniform vec2 u_uv;<br />
+      uniform float u_speed;<br />
+      uniform float u_time;<br />
+      <br />
+      vec3 hsv2rgb(vec3 c) <br />
+      {<br />
+          vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);<br />
+        vec3 p = abs(fract(c.xxx + K.xyz) * 6.0 - K.www);<br />
+          return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);<br />
+      }<br />
+      <br />
+      void main()<br />
+      {<br />
+          float pos = (v_vTexcoord.x - u_uv[0]) / (u_uv[1] - u_uv[0]);<br />
+          vec3 col = vec3((u_time * u_speed) + pos, 1.0, 1.0);<br />
+          float alpha = texture2D(gm_BaseTexture, v_vTexcoord).a;<br />
+          gl_FragColor = v_vColour * vec4(hsv2rgb(col), alpha);<br />
+      }
+    </p>
+    <p class="dropspot">If you did everything correctly, you should be seeing something like this:</p>
+    <p class="dropspot"><img alt="Rainbow Shader Overlay Moving With Time" class="center" src="../assets/Images/Scripting_Reference/Additional_Information/Shader_Rainbow_Overlay_Final.gif" />To finish this shader, we will add a few more uniforms to customize it even further. The first two are to control the saturation and brightness. The next one we&#39;ll call &quot;section&quot; and its function is to allow the user to pass a number between zero and one to determine what percentage of the entire spectrum we see at a time. Last, we will add a variable called &quot;mix&quot;, which will specify how much we want to mix our shader color with the original texture color (1.0 is all rainbow, 0.0 is all texture). As always, let’s start by adding the variables to the Create Event:</p>
+    <p class="code">// Create Event<br />
+      _uniUV         = shader_get_uniform(shdrRainbow, &quot;u_uv&quot;);<br />
+      _uniTime       = shader_get_uniform(shdrRainbow, &quot;u_time&quot;);<br />
+      _uniSpeed      = shader_get_uniform(shdrRainbow, &quot;u_speed&quot;);<br />
+      _uniSection    = shader_get_uniform(shdrRainbow, &quot;u_section&quot;);<br />
+      _uniSaturation = shader_get_uniform(shdrRainbow, &quot;u_saturation&quot;); <br />
+      _uniBrightness = shader_get_uniform(shdrRainbow, &quot;u_brightness&quot;);<br />
+      _uniMix        = shader_get_uniform(shdrRainbow, &quot;u_mix&quot;);<br />
+      <br />
+      _time  = 0;<br />
+      _speed = 1.0;<br />
+      _section = 0.5;<br />
+      _saturation = 0.7;<br />
+      _brightness = 0.8;<br />
+      _mix = 0.5;
+    </p>
+    <p class="dropspot">Our draw event changes to include these uniforms like this:</p>
+    <p class="code">// Draw Event<br />
+      shader_set(shdrRainbow);<br />
+      var uv = sprite_get_uvs(sprite_index, image_index);<br />
+      shader_set_uniform_f(_uniUV, uv[0], uv[2]);<br />
+      shader_set_uniform_f(_uniSpeed, _speed);<br />
+      shader_set_uniform_f(_uniTime, _time);<br />
+      shader_set_uniform_f(_uniSaturation, _saturation);<br />
+      shader_set_uniform_f(_uniBrightness, _brightness);<br />
+      shader_set_uniform_f(_uniSection, _section);<br />
+      shader_set_uniform_f(_uniMix, _mix);<br />
+      draw_self();<br />
+      shader_reset();</p>
+    <p class="dropspot">As for the shader, we need to pass the saturation and brightness to the color, which will affect the color generated by our helper function. The section needs to be multiplied by our position to reduce the range. We will also grab the entire texture color, so we can calculate our final color by mixing the texture color with the RGB conversion of our color. The last parameter of the mix function determines how much of the second color we want to add. This is our final shader code:</p>
+    <p class="code">// Fragment Shader<br />
+      varying vec2 v_vTexcoord;<br />
+      varying vec4 v_vColour;<br />
+      <br />
+      uniform vec2 u_uv;<br />
+      uniform float u_speed;<br />
+      uniform float u_time;<br />
+      uniform float u_saturation;<br />
+      uniform float u_brightness;<br />
+      uniform float u_section;<br />
+      Uniform float u_mix;<br />
+      <br />
+      vec3 hsv2rgb(vec3 c) <br />
+      {<br />
+          vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);<br />
+          vec3 p = abs(fract(c.xxx + K.xyz) * 6.0 - K.www);<br />
+          return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);<br />
+      }<br />
+      <br />
+      void main()<br />
+      {<br />
+          float pos = (v_vTexcoord.x - u_uv[0]) / (u_uv[1] - u_uv[0]);<br />
+          vec4 texColor = texture2D(gm_BaseTexture, v_vTexcoord);<br />
+          <br />
+          vec3 col = vec3(u_section * ((u_time * u_speed) + pos), u_saturation, u_brightness);<br />
+        vec4 finalCol = mix(texColor, vec4(hsv2rgb(col), texColor.a), u_mix);<br />
+          <br />
+          gl_FragColor = v_vColour * finalCol;<br />
+      }
+    </p>
+    <p class="dropspot">And our final result is this!</p>
+    <p class="dropspot"><img alt="Rainbow Shader Final" class="center" src="../assets/Images/Scripting_Reference/Additional_Information/Shader_Rainbow_Final.gif" /></p>
+    <p class="dropspot"> </p>
+  </div>
+  <p> </p>
+  <p>That&#39;s the end of this short guide and you should now have a better understanding of how shaders work and some of the uses they can be put to. You should take your time to play with the shaders you&#39;ve created following this guide, and try to experiment with them do other things - how about creating a blur shader, or a shader that makes a gameboy-style monochrome screen? - since shaders are an incredibly powerful tool for adding visual complexity and style to your games.</p>
+  <p class="note">We would like to thank <a href="https://twitter.com/AleHitti">Alejandro Hitti</a> and <strong>Amazon</strong> for permitting us to reproduce this guide. You can find the original version on the <a href="https://developer.amazon.com/es/blogs/appstore/post/acefafad-29ba-4f31-8dae-00805fda3f58/intro-to-shaders-and-surfaces-with-gamemaker-studio-2">Amazon Developer Blog</a>.</p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Back: <a href="Additional_Information.htm">Additional Information</a></div>
+        <div style="float:right">Next: <a href="Guide_To_Primitives_And_Vertex_Building.htm">Guide To Primitives And Vertex Building</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2022 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+Shaders
+Using Shaders
+Shader Guide
+Guide To Using Shaders
+-->
+  <!-- TAGS
+using_shaders
+-->
+</body>
+</html>

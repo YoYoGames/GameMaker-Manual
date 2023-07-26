@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <title>Rollback Constraints</title>
+  <meta name="topic-status" content="Draft" />
+  <link rel="stylesheet" type="text/css" href="../../../assets/css/default.css" />
+  <script src="../../../assets/scripts/main_script.js" type="module"></script>
+  <meta name="template" content="../../../assets/masterpages/Manual_Page.htt" />
+  <meta name="rh-authors" content="Gurpreet S. Matharoo" />
+  <meta name="condition-tags" content="Export:Beta" />
+</head>
+<body>
+  <h1>Rollback Constraints</h1>
+  <p>The Rollback system has some constraints that you should be aware of. Breaking any of these constraints will result in <a data-xref="{text}" href="Rollback_System.htm#h">Sync Test</a> throwing an error to let you know what&#39;s wrong.</p>
+  <h2>Browser Support</h2>
+  <p>Rollback Multiplayer makes use of the WebTransport API, which <a href="https://caniuse.com/?search=webtransport">may not be supported on all browsers</a>. At the moment, Safari, Firefox and Internet Explorer are unsupported on desktop. Chrome, Firefox, and Safari on mobile are also unsupported.</p>
+  <h2>Rooms</h2>
+  <p>You can change rooms while a multiplayer game is active, as long as all the players are connected.</p>
+  <p>Changing the room will cause the game to run its synchronisation process again.</p>
+  <p>Data for managed objects will <strong>not </strong>automatically be carried over when a room is changed. You can carry it over manually by using global variables, a persistent object, or by saving the local player&#39;s information to a file.</p>
+  <p>Using these options you can save the player&#39;s information before a room ends, and apply it back when the player instance is created in a new room.</p>
+  <h2>Event Order</h2>
+  <p>When a multiplayer game starts, the following events will run in the given order:</p>
+  <ul class="colour">
+    <li><a data-xref="{text}" href="../../../The_Asset_Editors/Object_Properties/Other_Events.htm#p">Room Start</a></li>
+    <li><strong>Create</strong> events for <a href="Rollback_Functions/rollback_define_player.htm">defined players</a></li>
+    <li><a data-xref="{text}" href="Rollback_Events.htm#h">Rollback Start</a>
+      <ul>
+        <li><span class="inline2">rollback_event_param.first_start</span> will be <span class="inline2">true</span></li>
+      </ul>
+    </li>
+  </ul>
+  <p>When you change the room in the middle of a multiplayer game, the following events will run in the given order:</p>
+  <ul class="colour">
+    <li><a data-xref="{text}" href="../../../The_Asset_Editors/Object_Properties/Other_Events.htm#p1">Room End</a></li>
+    <li><strong>Clean Up</strong> events for <a href="Rollback_Functions/rollback_define_player.htm">defined players </a></li>
+    <li><a data-xref="{text}" href="../../../The_Asset_Editors/Object_Properties/Other_Events.htm#p">Room Start</a></li>
+    <li><strong>Create</strong> events for <a href="Rollback_Functions/rollback_define_player.htm">defined players</a></li>
+    <li><a data-xref="{text}" href="Rollback_Events.htm#h">Rollback Start</a>
+      <ul>
+        <li><span class="inline2">rollback_event_param.first_start</span> will be <span class="inline2">false</span></li>
+      </ul>
+    </li>
+  </ul>
+  <h2>Destroy event</h2>
+  <p>The <strong>Destroy</strong> event of an instance normally runs as soon as it&#39;s destroyed, for example, after <span class="inline"><a href="../Asset_Management/Instances/instance_destroy.htm">instance_destroy()</a></span> is called. However, the event may not run immediately in a multiplayer game.</p>
+  <p>An <span class="inline">instance_destroy()</span> call can easily be run by a wrong prediction, which means that the destruction of the instance will soon be rolled back when the correct data from the responsible player is received.</p>
+  <p>Due to this, the Destroy event of an instance is only called when it&#39;s confirmed that it was supposed to be destroyed. This means there may be a slight lag in the instance being destroyed on a player&#39;s screen, and its Destroy event being called.</p>
+  <p>If you want something to happen on a client&#39;s screen on the same frame as an instance being destroyed, it&#39;s recommended to create a custom function and calling it along with <span class="inline">instance_destroy()</span>.</p>
+  <p>This also applies to the <strong>Clean Up</strong> event running on an instance being destroyed.</p>
+  <h2>State Management</h2>
+  <p>Rollback Multiplayer manages the &quot;state&quot; of your game between clients, which includes managed instances and their variables. Such managed parts of your game are able to be rolled back in case of a wrong prediction by the Rollback system.</p>
+  <p>When you create or destroy a managed instance, or modify any properties/variables in a managed instance, you are updating the state of your game. This state is <strong>not</strong> sent to other players, as only <a href="Rollback_Functions/rollback_define_input.htm">input</a> is shared for all clients.</p>
+  <p>There are some restrictions with managing your game&#39;s state that you should follow to ensure proper synchronisation between players.</p>
+  <h3 id="h1">State Before Rollback Start</h3>
+  <p>You must ensure that each player starts at the same game state. This means that everything about your game and its managed instances must be the same for all players when the <a href="Rollback_Events.htm">Rollback Start</a> event triggers, which is when the game actually starts.</p>
+  <p>You can run any creation or set-up code for your managed instances before that point, as long as it&#39;s done in exactly the same manner for all clients. To know if the game has started, use <span class="inline"><a data-xref="{title}" href="Rollback_Variables/rollback_game_running.htm">rollback_game_running</a></span>.</p>
+  <p>You can use the time between your start/join call and the <a href="Rollback_Events.htm">Rollback Start</a> event to display a loading screen for the players waiting.</p>
+  <p>The player is returned to the same state on <a href="Rollback_Functions/rollback_leave_game.htm">leaving a game</a>, meaning the use of <span class="inline"><a data-xref="{title}" href="Rollback_Variables/rollback_game_running.htm">rollback_game_running</a></span> is necessary to ensure that any game logic only runs while the game is connected.</p>
+  <h3>Global State</h3>
+  <p>You cannot have global variables affecting your game state, as they are not synchronised between players. All required variables should be within managed objects.</p>
+  <h3>Draw Event State</h3>
+  <p>You cannot change the state in a Draw event, and its purpose must remain to only draw graphics based on the state set in previous events. All managed objects become read-only during a Draw event, so you cannot change any variables in them, and you cannot create or destroy instances of managed objects.</p>
+  <h3 id="h">Time Variables</h3>
+  <p>Do not use variables/functions like <span class="inline"><a href="../Maths_And_Numbers/Date_And_Time/current_time.htm">current_time</a></span> or <span class="inline"><a href="../Maths_And_Numbers/Date_And_Time/get_timer.htm">get_timer()</a></span> to affect game logic. A managed variable called <span class="inline"><a data-xref="{title}" href="Rollback_Variables/rollback_current_frame.htm">rollback_current_frame</a></span> has been provided which can be used instead. It returns the number of frames that have passed since the multiplayer game began.</p>
+  <p><a href="../Asset_Management/Instances/Instance_Variables/alarm.htm">Alarm events</a> are safe to use in managed objects.</p>
+  <p>Also make sure that you don&#39;t use <span class="inline"><a href="../Maths_And_Numbers/Date_And_Time/delta_time.htm">delta_time</a></span>, as it is highly dependent on the system running the game and cannot be synchronised between players.</p>
+  <h3>Instance References</h3>
+  <p>An instance ID stored in a managed instance must point to a managed instance.</p>
+  <p>If a managed instance has a reference to a non-managed instance, it will result in inconsistencies between client states, as changes to that non-managed instance can&#39;t be managed and rolled back.</p>
+  <p>For example, if your managed <span class="inline2">obj_workstation</span> instance has a reference to an <span class="inline2">obj_anvil</span> instance, <span class="inline2">obj_anvil</span> must be a managed object.</p>
+  <h3>Lost Instance References</h3>
+  <p>A variable inside a managed instance, containing a reference to another managed instance, will be set to <span class="inline2">undefined</span> if the referenced instance is destroyed.</p>
+  <p>This means that if a variable in a <strong>persistent</strong> managed instance contains a reference to a <strong>non-persistent</strong> managed instance, that variable will be set to <span class="inline2">undefined</span> when the room changes, as the non-persistent instance would stop existing.</p>
+  <h2>Random Numbers</h2>
+  <p>Random number generation (RNG) state is managed between players, so it&#39;s completely safe to use random functions (e.g. <span class="inline">random()</span>, <span class="inline">choose()</span>, etc.) for game logic. The Rollback system will ensure that each player gets the same random number at the same point in the game.</p>
+  <p>Draw events use a separate RNG state. This means that random functions called in a Draw event will not affect the regular RNG state for other events, and may not be the same between different players.</p>
+  <h3>Seeds</h3>
+  <p>You can&#39;t use <span class="inline"><a href="../Maths_And_Numbers/Number_Functions/randomise.htm">randomise()</a></span> or <a href="../Maths_And_Numbers/Number_Functions/random_set_seed.htm"><span class="inline">random_set_seed()</span></a> to change the RNG seed, as it&#39;s managed by the Rollback system.</p>
+  <p>The managed RNG state only starts when <a data-xref="{text}" href="Rollback_Events.htm#h">Rollback Start</a> is called, which is when the multiplayer game starts. You can change the seed before that point, which will not have any affect past the starting point.</p>
+  <h2>Further Reading</h2>
+  <p>Read the following pages for more information on the Rollback system:</p>
+  <ul class="colour">
+    <li><a data-xref="{title}" href="Rollback_Events.htm">Rollback Events</a></li>
+    <li><a data-xref="{title}" href="Creating_Multiplayer.htm">Create a Multiplayer Game</a></li>
+    <li><a data-xref="{title}" href="Rollback_System.htm">Rollback System</a></li>
+    <li><a data-xref="{title}" href="Defining_Inputs.htm">Defining Inputs</a></li>
+  </ul>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div>Back: <a data-xref="{title}" href="Rollback_Multiplayer.htm">Rollback Multiplayer</a></div>
+        <div>Next: <a data-xref="{title}" href="Rollback_Events.htm">Rollback Events</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2022 All Rights Reserved</span></h5>
+  </div>
+</body>
+</html>

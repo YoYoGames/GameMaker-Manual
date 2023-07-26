@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>uwp_check_privilege</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../assets/css/default.css" type="text/css" />
+  <script src="../../../assets/scripts/main_script.js" type="module"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Reference page for uwp_check_privilege" />
+  <meta name="rh-index-keywords" content="uwp_check_privilege,uwp_privilege_result_no_issue,uwp_privilege_result_purchase_required,uwp_privilege_result_aborted,uwp_privilege_result_banned,uwp_privilege_result_restricted,uwp_privilege_internet_browsing,uwp_privilege_social_network_sharing,uwp_privilege_share_kinect_content,uwp_privilege_video_communications,uwp_privilege_communications,uwp_privilege_user_created_content,uwp_privilege_multiplayer_sessions,uwp_privilege_sessions,uwp_privilege_fitness_upload" />
+  <meta name="search-keywords" content="uwp_check_privilege,uwp_privilege_result_no_issue,uwp_privilege_result_purchase_required,uwp_privilege_result_aborted,uwp_privilege_result_banned,uwp_privilege_result_restricted,uwp_privilege_internet_browsing,uwp_privilege_social_network_sharing,uwp_privilege_share_kinect_content,uwp_privilege_video_communications,uwp_privilege_communications,uwp_privilege_user_created_content,uwp_privilege_multiplayer_sessions,uwp_privilege_sessions,uwp_privilege_fitness_upload" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>uwp_check_privilege <span data-conref="../../../assets/snippets/Tag_obsolete.hts"> </span></h1>
+  <p>With this function you can check that a given user has a chosen privilege. The function will return true or false in the System Asynchronous Event depending on whether the privilege is enabled or not, and if you set the attempt_resolution argument to true and the privilege isn&#39;t enabled, it will also open a system dialog (suspending the game) to prompt the user to upgrade the account or whatever is required to get the privilege. If the user then enables the required option, the function will return true.</p>
+  <p>The function requires that you use one of the following <span data-keyref="Type_Constant_UWP_Priv"><a href="../../../../GameMaker_Language/GML_Reference/UWP_And_XBox_Live/uwp_check_privilege.htm" target="_blank">UWP Privilege Constant</a></span>s for the privilege request:</p>
+  <table>
+    <colgroup>
+      <col />
+      <col />
+    </colgroup>
+    <tbody>
+      <tr>
+        <th colspan="2"><span data-keyref="Type_Constant_UWP_Priv"><a href="../../../../GameMaker_Language/GML_Reference/UWP_And_XBox_Live/uwp_check_privilege.htm" target="_blank">UWP Privilege Constant</a></span></th>
+      </tr>
+      <tr>
+        <th>Constant</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td><span class="inline">uwp_privilege_internet_browsing</span></td>
+        <td>Check to see if internet browsing is permitted</td>
+      </tr>
+      <tr>
+        <td><span class="inline">uwp_privilege_social_network_sharing</span></td>
+        <td>Check to see if sharing to social networks is permitted</td>
+      </tr>
+      <tr>
+        <td><span class="inline">uwp_privilege_share_kinect_content</span></td>
+        <td>Check whether sharing the Kinect controller is permitted</td>
+      </tr>
+      <tr>
+        <td><span class="inline">uwp_privilege_video_communications</span></td>
+        <td>Check to see if video communication is permitted</td>
+      </tr>
+      <tr>
+        <td><span class="inline">uwp_privilege_communications</span></td>
+        <td>Check to see if internet communication is permitted</td>
+      </tr>
+      <tr>
+        <td><span class="inline">uwp_privilege_user_created_content</span></td>
+        <td>Check if access to user created content is permitted</td>
+      </tr>
+      <tr>
+        <td><span class="inline">uwp_privilege_multiplayer_sessions</span></td>
+        <td>Check to see if online multiplayer sessions are permitted</td>
+      </tr>
+      <tr>
+        <td><span class="inline">uwp_privilege_sessions</span></td>
+        <td>Check to see if online sessions are permitted</td>
+      </tr>
+      <tr>
+        <td><span class="inline">uwp_privilege_fitness_upload</span></td>
+        <td>Check to see if fitness data uploading is permitted</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <p>Once the function has been called, on XBox One it will trigger an <a href="../../../The_Asset_Editors/Object_Properties/Async_Events/System.htm">Asynchronous System event</a> when the callback result has been received, which will have the special DS map <a href="../../GML_Overview/Variables/Builtin_Global_Variables/async_load.htm"><span class="inline">async_load</span></a>. This map should then be parsed for the following key:</p>
+  <ul class="colour">
+    <li>&quot;<b>event_type</b>&quot; - should hold the value <span class="inline2">&quot;check_privilege_result&quot;</span> if the event was triggered by this function</li>
+  </ul>
+  <p>If the event type relates to this function, then there will also be the following additional keys when the function is called on XBox:</p>
+  <ul class="colour">
+    <li>&quot;<b>result</b>&quot; - Will be one or more of the following <span data-keyref="Type_Constant_UWP_Priv_Result"><a href="../../../../GameMaker_Language/GML_Reference/UWP_And_XBox_Live/uwp_check_privilege.htm" target="_blank">UWP Privilege Result Constant</a></span>s (combined values):
+      <table>
+        <colgroup>
+          <col />
+          <col />
+          <col />
+        </colgroup>
+        <tbody>
+          <tr>
+            <th colspan="3"><span data-keyref="Type_Constant_UWP_Priv_Result"><a href="../../../../GameMaker_Language/GML_Reference/UWP_And_XBox_Live/uwp_check_privilege.htm" target="_blank">UWP Privilege Result Constant</a></span></th>
+          </tr>
+          <tr>
+            <th>Constant</th>
+            <th>Description</th>
+            <th>Value</th>
+          </tr>
+          <tr>
+            <td><span class="inline">uwp_privilege_result_no_issue</span></td>
+            <td>There are no privilege issues with the user</td>
+            <td>0</td>
+          </tr>
+          <tr>
+            <td><span class="inline">uwp_privilege_result_purchase_required</span></td>
+            <td>The user must purchase something additional, usually a subscription, for access</td>
+            <td>1</td>
+          </tr>
+          <tr>
+            <td><span class="inline">uwp_privilege_result_aborted</span></td>
+            <td>The check was aborted</td>
+            <td>2</td>
+          </tr>
+          <tr>
+            <td><span class="inline">uwp_privilege_result_banned</span></td>
+            <td>The user is banned</td>
+            <td>4</td>
+          </tr>
+          <tr>
+            <td><span class="inline">uwp_privilege_result_restricted</span></td>
+            <td>The user is restricted from access, usually through parental controls</td>
+            <td>8</td>
+          </tr>
+        </tbody>
+      </table>
+    </li>
+    <br />
+    <li>&quot;<b>privilege</b>&quot; - will be one of the constants listed above for use in the function, so you can check which privilege you have requested in the case of multiple checks.</li>
+  </ul>
+  <p>If the project is run on a UWP platform that is not XBox One, then the Async Event will <i>not</i> be triggered, and instead the function will immediately return wither -1, 0, or 1 where:</p>
+  <ul class="colour">
+    <li>-1 means -1 the user doesn&#39;t have the privilege</li>
+    <li>0 means the function hasn&#39;t been able to query the user</li>
+    <li>1 means the user has the privilege.</li>
+  </ul>
+  <p> </p>
+  <h4>Syntax:</h4>
+  <p class="code">uwp_check_privilege(user_id, privilege, attempt_resolution);</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>Argument</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>user_id</td>
+        <td><span data-keyref="Type_ID_Xbox_User"><a href="../../../../GameMaker_Language/GML_Reference/UWP_And_XBox_Live/Users_And_Accounts/xboxlive_get_user.htm" target="_blank">Xbox User ID</a></span></td>
+        <td>The User ID pointer to check.</td>
+      </tr>
+      <tr>
+        <td>privilege</td>
+        <td><span data-keyref="Type_Constant_UWP_Priv"><a href="../../../../GameMaker_Language/GML_Reference/UWP_And_XBox_Live/uwp_check_privilege.htm" target="_blank">UWP Privilege Constant</a></span></td>
+        <td>The privilege constant to check (see description, above).</td>
+      </tr>
+      <tr>
+        <td>attempt_resolution</td>
+        <td><span data-keyref="Type_Bool"><a href="../../../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">Boolean</a></span></td>
+        <td>Enable attempting a resolution if set to <span class="inline">true</span>, or ignore if set to <span class="inline">false</span>.</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>Returns:</h4>
+  <p class="code"><span data-keyref="Type_Real"><a href="../../../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">Real</a></span></p>
+  <p> </p>
+  <h4>Example:</h4>
+  <p class="code">var user_one = xboxlive_get_user(0);<br />
+    if (xboxlive_user_is_signed_in(user_one))<br />
+    {<br />
+        uwp_check_privilege(user_one, xboxlive_privilege_multiplayer_sessions, true);<br />
+    }</p>
+  <p>The above checks to see if the user is signed in and if they are it checks the multiplayer sessions permission.</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Back: <a href="UWP_And_XBox_Live.htm">UWP And XBox Live</a></div>
+        <div style="float:right">Next: <a href="uwp_suspend.htm">uwp_suspend</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2022 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+uwp_check_privilege
+uwp_privilege_result_no_issue
+uwp_privilege_result_purchase_required
+uwp_privilege_result_aborted
+uwp_privilege_result_banned
+uwp_privilege_result_restricted
+uwp_privilege_internet_browsing
+uwp_privilege_social_network_sharing
+uwp_privilege_share_kinect_content
+uwp_privilege_video_communications
+uwp_privilege_communications
+uwp_privilege_user_created_content
+uwp_privilege_multiplayer_sessions
+uwp_privilege_sessions
+uwp_privilege_fitness_upload
+-->
+  <!-- TAGS
+uwp_check_privilege
+-->
+</body>
+</html>

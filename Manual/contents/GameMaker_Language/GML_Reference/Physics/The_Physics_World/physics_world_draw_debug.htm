@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>physics_world_draw_debug</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
+  <script src="../../../../assets/scripts/main_script.js" type="module"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Reference page for physics_world_draw_debug" />
+  <meta name="rh-index-keywords" content="physics_world_draw_debug,phy_debug_render_aabb,phy_debug_render_collision_pairs,phy_debug_render_coms,phy_debug_render_core_shapes,phy_debug_render_joints,phy_debug_render_obb,phy_debug_render_shapes" />
+  <meta name="search-keywords" content="physics_world_draw_debug,phy_debug_render_aabb,phy_debug_render_collision_pairs,phy_debug_render_coms,phy_debug_render_core_shapes,phy_debug_render_joints,phy_debug_render_obb,phy_debug_render_shapes" />
+  <meta name="is_pure" content="true" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>physics_world_draw_debug</h1>
+  <p>This function will draw a representation of the physics world system of the room to help with debugging when you are having trouble getting the physics scene to work right. Sometimes the problem can be in the rendering part of your game, for example a sprite may be drawn at the wrong position or rotation, giving the appearance of incorrect physics, or it may be that your calculations are not correct. Either way, this function will help you to find and resolve the problem by drawing what is going on in your physics system. To do this, you need tell it which part of the system to draw, and this is done by passing a value created from the bits stored in various &quot;flag&quot; constants:</p>
+  <table>
+    <colgroup>
+      <col />
+      <col />
+    </colgroup>
+    <tbody>
+      <tr>
+        <th colspan="2"><span data-keyref="Type_Constant_Phy_Debug"><a data-rhwidget="HyperlinkPopover" href="../../../../../GameMaker_Language/GML_Reference/Physics/The_Physics_World/physics_world_draw_debug.htm">Physics Debug Flag</a></span></th>
+      </tr>
+      <tr>
+        <th>Flag</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td><span class="inline">phy_debug_render_aabb</span></td>
+        <td>This shows the absolute bounding box of each fixture in relation to the room axis</td>
+      </tr>
+      <tr>
+        <td><span class="inline">phy_debug_render_collision_pairs</span></td>
+        <td>This will show any fixtures that are currently in collision</td>
+      </tr>
+      <tr>
+        <td><span class="inline">phy_debug_render_coms</span></td>
+        <td>This marks the center of mass of each fixture in the room</td>
+      </tr>
+      <tr>
+        <td><span class="inline">phy_debug_render_core_shapes</span></td>
+        <td>Shows the basic shapes that make up the fixtures in the room</td>
+      </tr>
+      <tr>
+        <td><span class="inline">phy_debug_render_joints</span></td>
+        <td>This will draw each of the joints of all fixtures in the room</td>
+      </tr>
+      <tr>
+        <td><span class="inline">phy_debug_render_obb</span></td>
+        <td>This shows the relative bounding box for the fixtures in the room</td>
+      </tr>
+      <tr>
+        <td><span class="inline">phy_debug_render_shapes</span></td>
+        <td>This shows the actual shapes that make up fixtures within the room</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>So, to draw any two of those options we would need to do a <a href="../../../../Additional_Information/Bitwise_Operators.htm">bitwise &quot;or&quot;</a> (in <span data-keyref="GameMaker Name">GameMaker</span> this is represented by | ) on the two of them and store the resulting variable for the function to use. Here is an example of how you would set a variable to use with the function that will draw only the centers of mass and the joints of all fixtures in a room:</p>
+  <p class="code">flag = phy_debug_render_coms | phy_debug_render_shapes;</p>
+  <p>Which would give you something like this:</p>
+  <p><img alt="Physics debug draw example" class="center" src="../../../../assets/Images/Scripting_Reference/GML/Reference/Physics/physics_draw_debug_image.png" />As you can see with the above code, only the shapes and centers of mass are drawn on the screen (as well as colours representing their states - for further information please check the Box 2D documentation on-line). In the same way you can display more, or even all, of the constants that you wish to debug... Just &quot;or&quot; them all together! One further thing should be noted - this function should be called <i>only</i> in the draw event of an instance that has a depth lower than those you wish to debug or else you will not be able to see the debug information.</p>
+  <p> </p>
+  <h4>Syntax:</h4>
+  <p class="code">physics_world_draw_debug(flag)</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>Argument</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>flag</td>
+        <td><span data-keyref="Type_Constant_Phy_Debug"><a data-rhwidget="HyperlinkPopover" href="../../../../../GameMaker_Language/GML_Reference/Physics/The_Physics_World/physics_world_draw_debug.htm">Physics Debug Flag</a></span>(s)</td>
+        <td>The flag value for showing different debug features</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>Returns:</h4>
+  <p class="code"><span data-keyref="Type_Void"><a data-rhwidget="HyperlinkPopover" href="../../../../../LINKGOESHERE">N/A</a></span></p>
+  <p> </p>
+  <h4>Example:</h4>
+  <p class="code">flag = phy_debug_render_aabb | phy_debug_render_collision_pairs | phy_debug_render_obb;<br />
+    physics_world_draw_debug(flag);</p>
+  <p>The code above will draw all of the absolute bounding boxes, the relative bounding boxes as well as the fixtures in collision within the current physics system.</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Back: <a href="The_Physics_World.htm">The Physics World</a></div>
+        <div style="float:right">Next: <a href="physics_draw_debug.htm">physics_draw_debug</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2022 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+physics_world_draw_debug
+phy_debug_render_aabb
+phy_debug_render_collision_pairs
+phy_debug_render_coms
+phy_debug_render_core_shapes
+phy_debug_render_joints
+phy_debug_render_obb
+phy_debug_render_shapes
+-->
+  <!-- TAGS
+physics_world_draw_debug
+-->
+</body>
+</html>

@@ -1,0 +1,540 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Gesture Events</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Page detailing the gesture events." />
+  <meta name="rh-index-keywords" content="Objects - Gesture Events,event_data" />
+  <meta name="search-keywords" content="flick,pan,rotate,gesture,gesture events,tap" />
+  <link rel="stylesheet" type="text/css" href="../../assets/css/default.css" />
+  <script src="../../assets/scripts/main_script.js" type="module"></script>
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>The Gesture Events</h1>
+  <p><img alt="The Gesture Events" class="center" src="../../assets/Images/Asset_Editors/Editor_Objects_Gesture.png" /></p>
+  <p>Events in the Gesture Event category will be triggered whenever <span data-keyref="GameMaker Name">GameMaker</span> detects a &quot;gesture&quot; of the mouse or a touch screen event (while these gesture events are designed specifically for mobile use, they can also be used on other targets to detect the mouse, although they will not detect multiple touches in this case). The goal of the gesture system is to try and recognise inputs at a higher level than the direct mouse\touch reading functions, and is designed to simplify the implementation of commonly used inputs on touch-based devices.</p>
+  <p class="note"><span class="note">NOTE</span> These events will not be triggered on the HTML5 platform due to lack of support for multi-touch using these events on that platform. If you are looking for gestures on that target then you should be using the <a href="../../GameMaker_Language/GML_Reference/Game_Input/Device_Input/Device_Input.htm">device functions</a>.</p>
+  <p>You can choose to detect either <strong>instance </strong>gestures or <strong>global </strong>gestures, where instance gesture events will only be triggered when the initial touch/click is on an instance within the room. Note that the instance must have a valid collision mask (see <a href="../Sprites.htm">The Sprite Editor - Collision Mask</a> and <a href="../Objects.htm">The Object Editor - Collision Mask</a> sections for more details) for this event to be triggered. Global events, however, will be triggered by touching/clicking anywhere within the game room, and for all instances that have the event.</p>
+  <p>When a gesture is recognised, it will trigger one or more of the available events, and the event triggered will depend on the type of gesture that has been detected. In every case, however, a <a href="../../GameMaker_Language/GML_Reference/Data_Structures/DS_Maps/DS_Maps.htm">DS Map</a> will be generated for you and stored in the built-in variable <span class="inline">event_data</span>. The keys available will depend on which kind of event it has been created by and are shown in each of the sub-sections below.</p>
+  <p class="note"><strong>NOTE</strong>: The variable <span class="inline">event_data</span> is only valid in these events, as the DS map that it points to is automatically created at the start of the event, then destroyed again at the end, with this variable being reset to a value of -1 at all other times.</p>
+  <p>It is worth noting that if you have multiple instances under the position being touched and they all have a gesture event, then <em>all </em>of them will trigger, not just the &quot;topmost&quot; instance. Also note that when using multiple camera views and dragging an instance, the values returned will be based on the view you were in when the initial touch/click was received - this is true for all subsequent events in that gesture for that instance. So touching and dragging an instance in one view then releasing the touch in another view, will return values relative to the initial view where the gesture was first detected.</p>
+  <p> </p>
+  <p><img height="20" src="../../assets/Images/Icons/Icon_Tap.png" style="margin-left:0px" width="20" />  <img src="../../assets/Images/Icons/Icon_Drag.png" />  <img src="../../assets/Images/Icons/Icon_Flick.png" /><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down" href="#">Tap, Drag, And Flick Events</a></p>
+  <div class="droptext" data-targetname="drop-down">
+    <p class="dropspot">The &quot;Tap&quot;, &quot;Drag&quot; and &quot;Flick&quot; events are all based on a single touch or mouse click on the screen and the <span class="inline">event_data</span> DS Map will contain the following keys:</p>
+    <ul class="dropspotlist">
+    </ul>
+    <table class=" cke_show_border">
+      <tbody>
+        <tr>
+          <th>Key</th>
+          <th>Description</th>
+        </tr>
+        <tr>
+          <td>&quot;<span class="inline">gesture</span>&quot;</td>
+          <td><br /> This is an ID value that is <i>unique</i> to the gesture that is in play. This allows you to link the different parts of multi-part gestures (such as drag start, dragging and drag end) together.</td>
+        </tr>
+        <tr>
+          <td>&quot;<span class="inline">touch</span>&quot;</td>
+          <td><br /> This is the index of the touch that is being used for the gesture. In general this will start at 0 and increase for each finger that is held down, then reset back to 0 when all fingers are removed, but if the user is touching the screen
+            anywhere else when this event is triggered by another touch, then the value will be greater than 0.</td>
+        </tr>
+        <tr>
+          <td>&quot;<span class="inline">posX</span>&quot;</td>
+          <td><br /> This is the room-space X position of the touch.</td>
+        </tr>
+        <tr>
+          <td>&quot;<span class="inline">posY</span>&quot;</td>
+          <td><br /> This is the room-space Y position of the touch.</td>
+        </tr>
+        <tr>
+          <td>&quot;<span class="inline">rawposX</span>&quot;</td>
+          <td><br /> This is the <i>raw</i> window-space X position of the touch (equivalent to getting the mouse position using <a href="../../GameMaker_Language/GML_Reference/Game_Input/Device_Input/device_mouse_raw_x.htm"><span class="inline"><span class="inline">device_mouse_raw_x()</span></span></a>).</td>
+        </tr>
+        <tr>
+          <td>&quot;<span class="inline">rawposY</span>&quot;</td>
+          <td><br /> This is the <i>raw</i> window-space Y position of the touch (equivalent to getting the mouse position using <a href="../../GameMaker_Language/GML_Reference/Game_Input/Device_Input/device_mouse_raw_y.htm"><span class="inline"><span class="inline">device_mouse_raw_y()</span></span></a>).</td>
+        </tr>
+        <tr>
+          <td>&quot;<span class="inline">guiposX</span>&quot;</td>
+          <td><br /> This is the gui-space X position of the touch (equivalent to getting the mouse position using <a href="../../GameMaker_Language/GML_Reference/Game_Input/Device_Input/device_mouse_x_to_gui.htm"><span class="inline"><span class="inline">device_mouse_x_to_gui()</span></span></a>).</td>
+        </tr>
+        <tr>
+          <td>&quot;<span class="inline">guiposY</span>&quot;</td>
+          <td><br /> This is the gui-space Y position of the touch (equivalent to getting the mouse position using <a href="../../GameMaker_Language/GML_Reference/Game_Input/Device_Input/device_mouse_y_to_gui.htm"><span class="inline"><span class="inline">device_mouse_y_to_gui()</span></span></a>).</td>
+        </tr>
+        <tr>
+          <td>&quot;<span class="inline">diffX</span>&quot;</td>
+          <td><br /> This is the room-space X difference between the position of the current touch and the position of the last touch in this gesture.</td>
+        </tr>
+        <tr>
+          <td>&quot;<span class="inline">diffY</span>&quot;</td>
+          <td><br /> This is the room-space Y difference between the position of the current touch and the position of the last touch in this gesture.</td>
+        </tr>
+        <tr>
+          <td>&quot;<span class="inline">rawdiffX</span>&quot;</td>
+          <td><br /> This is the raw X difference between the position of the current touch and the position of the last touch in this gesture.</td>
+        </tr>
+        <tr>
+          <td>&quot;<span class="inline">rawdiffY</span>&quot;</td>
+          <td><br /> This is the raw Y difference between the position of the current touch and the position of the last touch in this gesture.</td>
+        </tr>
+        <tr>
+          <td>&quot;<span class="inline">guidiffX</span>&quot;</td>
+          <td><br /> This is the gui-space X difference between the position of the current touch and the position of the last touch in this gesture.</td>
+        </tr>
+        <tr>
+          <td>&quot;<span class="inline">guidiffY</span>&quot;</td>
+          <td><br /> This is the gui-space Y difference between the position of the current touch and the position of the last touch in this gesture.</td>
+        </tr>
+        <tr>
+          <td>&quot;<span class="inline">viewstartposX</span>&quot;</td>
+          <td><br /> This is the room X start position of the current gesture.</td>
+        </tr>
+        <tr>
+          <td>&quot;<span class="inline">viewstartposY</span>&quot;</td>
+          <td><br /> This is the room Y start position of the current gesture.</td>
+        </tr>
+        <tr>
+          <td>&quot;<span class="inline">rawstartposX</span>&quot;</td>
+          <td><br /> This is the raw X start position of the current gesture.</td>
+        </tr>
+        <tr>
+          <td>&quot;<span class="inline">rawstartposY</span>&quot;</td>
+          <td><br /> This is the raw Y start position of the current gesture.</td>
+        </tr>
+        <tr>
+          <td>&quot;<span class="inline">guistartposX</span>&quot;</td>
+          <td><br /> This is the gui-space X start position of the current gesture.</td>
+        </tr>
+        <tr>
+          <td>&quot;<span class="inline">guistartposY</span>&quot;</td>
+          <td><br /> This is the gui-space Y start position of the current gesture.</td>
+        </tr>
+        <tr>
+          <td>&quot;<span class="inline">isflick</span>&quot;</td>
+          <td><b><br />
+              Only available in the Drag End event</b>. This is set to 1 if the end of the drag is detected as a flick, meaning that you don&#39;t need a separate <b>Flick Event</b> if you&#39;re handling dragging anyway.</td>
+        </tr>
+      </tbody>
+    </table>
+    <p> </p>
+    <p class="dropspot"><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down11" href="#">Tap</a></p>
+    <div class="droptext" data-targetname="drop-down11">
+      <p class="dropspot">The Tap event will be triggered when an instance has been touched or clicked or - if it is a global event - when the game registers a touch or click anywhere in the room. A tap is considered a quick touch and release, and if the touch lasts too
+        long then it will be considered a Drag (and trigger the Drag gesture events instead of the Tap event). This event will generate an <span class="inline">event_data</span> DS map which you can then use to get information about the event. For example:</p>
+      <h4>Create Event</h4>
+      <p class="code">x_goto = x;<br /> y_goto = y;</p>
+      <h4>Tap Event</h4>
+      <p class="code">x_goto = event_data[? &quot;posX&quot;];<br /> y_goto = event_data[? &quot;posY&quot;];</p>
+      <h4>Step Event</h4>
+      <p class="code">var _pd = point_distance(x, y, x_goto, y_goto);<br /> move_towards_point(x_goto, y_goto, clamp(_pd, 0, 5);</p>
+      <p class="dropspot">The above code will detect a tap on the screen and then get the position of the tap to move the instance to that position. Note that if you want to have a longer or shorter tap detection time then you can set it with the function <a href="../../GameMaker_Language/GML_Reference/Game_Input/Gesture_Input/gesture_drag_time.htm"><span class="inline">gesture_drag_time()</span></a>.
+        This sets the time between the initial detection and the tap becoming a drag, so set it to a higher value to make tap detection longer or a lower value to make it shorter (value is in seconds and defaults to 0.16).</p>
+      <p class="dropspot"> </p>
+    </div>
+    <p class="dropspot"><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down6" href="#">Double Tap</a></p>
+    <div class="droptext" data-targetname="drop-down6">
+      <p class="dropspot">The Double Tap event will be triggered when an instance has been touched or clicked twice in quick succession (or - if it is a global event - when the game registers two quick touches or clicks anywhere in the room). A double tap is considered two
+        quick touches and releases, but if any of the touches lasts too long then it will be considered a Drag (and trigger the Drag gesture events instead of the Double Tap event). This event will generate an <span class="inline">event_data</span> DS
+        map which you can then use to get information about the event. For example:</p>
+      <h4>Create Event</h4>
+      <p class="code">x_goto = x;<br /> y_goto = y;</p>
+      <h4>Double Tap Event</h4>
+      <p class="code">instance_destroy();</p>
+      <p class="dropspot">The above code simply detects a double tap and then destroys the instance. Note that you can set the time between taps to trigger a double tap using the function <a href="../../GameMaker_Language/GML_Reference/Game_Input/Gesture_Input/gesture_double_tap_time.htm"><span class="inline">gesture_double_tap_time()</span></a> (which
+        has a default value - in seconds - of 0.16) and you can also set the distance for detection between taps with the function <a href="../../GameMaker_Language/GML_Reference/Game_Input/Gesture_Input/gesture_double_tap_distance.htm"><span class="inline">gesture_double_tap_distance()</span></a> (if
+        a second tap is detected outside of this distance it will be considered a regular tap event).</p>
+      <p class="dropspot"> </p>
+    </div>
+    <p class="dropspot"><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down7" href="#">Drag Start</a></p>
+    <div class="droptext" data-targetname="drop-down7">
+      <p class="dropspot">The Drag Start event will be triggered when the user maintains a touch or click without releasing it. It will be triggered once when a set time has passed after the initial touch, which is 0.16 seconds by default (although you can set this to any
+        other value in seconds using the function <a href="../../GameMaker_Language/GML_Reference/Game_Input/Gesture_Input/gesture_drag_time.htm"><span class="inline">gesture_drag_time()</span></a>). After this event has been triggered, and as long as
+        the user has a touch/click held down, then the Dragging event will be triggered every step until the touch/click has been released. This event will generate an <span class="inline">event_data</span> DS map which you can then use to get information
+        about the event. For example:</p>
+      <h4>Create Event</h4>
+      <p class="code">drag_offsetX = 0;<br /> drag_offsetY = 0;</p>
+      <h4>Drag Start Event</h4>
+      <p class="code">drag_offsetX = x - event_data[?&quot;posX&quot;];<br /> drag_offsetY = y - event_data[?&quot;posY&quot;];</p>
+      <p class="dropspot">The above code uses the Drag Start event to get the position of the touch/click and use it to set an offset value for the x and y axis. This can then be used when dragging the instance to ensure that it doesn&#39;t &quot;jump&quot; to the position
+        that the touch/click was detected at (see the Dragging event below for a continuation of this example).</p>
+      <p class="dropspot"> </p>
+    </div>
+    <p class="dropspot"><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down8" href="#">Dragging</a></p>
+    <div class="droptext" data-targetname="drop-down8">
+      <p class="dropspot">The Dragging event is triggered after the Drag Start event, and will be triggered for every step that the user maintains the touch/click on the instance (or the screen, if it&#39;s a global event) and moves more than the defined dragging threshold.
+        This distance is 0.1 inches by default but can be set using the function <a href="../../GameMaker_Language/GML_Reference/Game_Input/Gesture_Input/gesture_drag_distance.htm"><span class="inline">gesture_drag_distance()</span></a>. If there is no
+        movement or the movement is under the defined threshold, the event will not be triggered. This event will generate an <span class="inline">event_data</span> DS map which you can then use to get information about the event. For example:</p>
+      <h4>Create Event</h4>
+      <p class="code">drag_offsetX = 0;<br /> drag_offsetY = 0;</p>
+      <h4>Drag Start Event</h4>
+      <p class="code">drag_offsetX = x - event_data[?&quot;posX&quot;];<br /> drag_offsetY = y - event_data[?&quot;posY&quot;];</p>
+      <h4>Dragging Event</h4>
+      <p class="code">x = event_data[?&quot;posX&quot;] + drag_offsetX;<br /> y = event_data[?&quot;posY&quot;] + drag_offsetY;</p>
+      <p class="dropspot">The example code above uses the offset variables set in the Drag Start event to move the instance when the Dragging event is triggered.</p>
+      <p class="dropspot"> </p>
+    </div>
+    <p class="dropspot"><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down9" href="#">Drag End</a></p>
+    <div class="droptext" data-targetname="drop-down9">
+      <p class="dropspot">The Drag End event is triggered when the user releases the touch/click on the instance (or the screen if the event is global). This event will generate an <span class="inline">event_data</span> DS map which you can then use to get information about
+        the event, but in this event the map will have an extra key: &quot;<span class="inline">isflick</span>&quot;. Flick is calculated as the distance per second that the drag has occurred over, and the value for the &quot;<span class="inline">isflick</span>&quot;
+        key will be true if it is greater than the defined distance per second value, or false otherwise. Note that the default is 2 inches per second, but you can set it to another value using the function <a href="../../GameMaker_Language/GML_Reference/Game_Input/Gesture_Input/gesture_flick_speed.htm"><span class="inline">gesture_flick_speed()</span></a>.
+        Also note that there is a dedicated Flick event which will also be triggered if the &quot;isflick&quot; variable is true. An example of use would be:</p>
+      <h4>Create Event</h4>
+      <p class="code">flickVelX = 0.0;<br /> flickVelY = 0.0;</p>
+      <h4>Drag End Event</h4>
+      <p class="code">isFlick = event_data[?&quot;isflick&quot;];<br /> if (isFlick)<br />     {<br />     flickVelX = event_data[?&quot;diffX&quot;];<br />     flickVelY = event_data[?&quot;diffY&quot;];<br />     }<br /> else
+        <br />     {<br />     flickVelX = 0;<br />     flickVelY = 0;<br />     }
+      </p>
+      <h4>Step Event</h4>
+      <p class="code">x += flickVelX;<br /> y += flickVelY;<br /> flickVelX *= 0.7;<br /> flickVelY *= 0.7;</p>
+      <p class="dropspot">The above code simply gets the difference in x and y position of the last Dragging event and the current Drag End event, and if the movement has been greater than the flick threshold, it sets some variables that are use to the move the instance
+        in the step event.</p>
+      <p class="dropspot"> </p>
+    </div>
+    <p class="dropspot"><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down10" href="#">Flick</a></p>
+    <div class="droptext" data-targetname="drop-down10">
+      <p class="dropspot">The Flick event is only triggered when a touch/click has been held, dragged and then released and the distance between the last drag position and the release position is greater than 2 inches per second (this is the default setting, although this
+        can be changed using the function <a href="../../GameMaker_Language/GML_Reference/Game_Input/Gesture_Input/gesture_flick_speed.htm"><span class="inline">gesture_flick_speed()</span></a>). This event will generate an <span class="inline">event_data</span> DS map which you can then use to get information about the event. For example:</p>
+      <h4>Create Event</h4>
+      <p class="code">flickVelX = 0.0;<br /> flickVelY = 0.0;</p>
+      <h4>Flick Event</h4>
+      <p class="code">flickVelX = event_data[?&quot;diffX&quot;];<br /> flickVelY = event_data[?&quot;diffY&quot;];</p>
+      <h4>Step Event</h4>
+      <p class="code">x += flickVelX;<br /> y += flickVelY;<br /> flickVelX *= 0.7;<br /> flickVelY *= 0.7;</p>
+      <p class="dropspot">The above code simply gets the difference in x and y position of the last Dragging event and the current Flick event, and if the movement has been greater than the flick threshold, it sets some variables that are use to the move the instance in
+        the step event.</p>
+    </div>
+    <p> </p>
+  </div>
+  <p><img src="../../assets/Images/Icons/Icon_Pinch.png" style="margin-left: 60px" /><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down2" href="#">Pinch Events</a> </p>
+  <div class="droptext" data-targetname="drop-down2">
+    <p class="dropspot">The &quot;Pinch&quot; events are based on two touches to the devices screen being recognised at once, where one (or both) have moved more than a certain distance. The angle of movement of the touches along with the movement of each touch is what will
+      determine the detection of a Pinch or Rotate event, where (in the case of the Pinch Event type):</p>
+    <ul class="dropspotlist">
+      <li class="dropspot">If one of the touches isn&#39;t moving, the other must be moving towards it or away from it within a threshold angle (which can be set using the functions <a href="../../GameMaker_Language/GML_Reference/Game_Input/Gesture_Input/gesture_pinch_angle_towards.htm"><span class="inline">gesture_pinch_angle_towards()</span></a> and
+        - <a href="../../GameMaker_Language/GML_Reference/Game_Input/Gesture_Input/gesture_pinch_angle_away.htm"><span class="inline">gesture_pinch_angle_away()</span></a>).</li>
+      <li class="dropspot">If both touches are moving, their velocities must be in approximately opposite directions and the same angular threshold check is also done to ensure the touches are moving in approximate alignment.</li>
+    </ul>
+    <p class="dropspot">When two touches and a movement are detected with the above criteria, a Pinch Event will be triggered, and in each of the events the <span class="inline">event_data</span> DS Map will be populated with the following keys:</p>
+    <ul class="dropspotlist">
+    </ul>
+    <table class=" cke_show_border">
+      <tbody>
+        <tr>
+          <th>Key</th>
+          <th>Description</th>
+        </tr>
+        <tr>
+          <td>&quot;gesture&quot;</td>
+          <td><br /> This is an ID value that is <i>unique</i> to the gesture that is in play. This allows you to link the different parts of multi-part gestures (such as drag start, dragging and drag end) together.</td>
+        </tr>
+        <tr>
+          <td>&quot;touch1&quot;</td>
+          <td><br /> This is the index of the first touch that is being used as part of the pinch gesture. In general this will be 0, but if the user is touching the screen anywhere else when this event is triggered by another touch, then the value will be
+            greater than 0.</td>
+        </tr>
+        <tr>
+          <td>&quot;touch2&quot;</td>
+          <td><br /> This is the index of the second touch that is being used as part of the pinch gesture. In general this will be 1 more than the value for touch1, but may be some other value depending on the number of touches being detected elsewhere.</td>
+        </tr>
+        <tr>
+          <td>&quot;posX1&quot;</td>
+          <td><br /> This is the room-space X position of the first touch.</td>
+        </tr>
+        <tr>
+          <td>&quot;posY1&quot;</td>
+          <td><br /> This is the room-space Y position of the first touch.</td>
+        </tr>
+        <tr>
+          <td>&quot;rawposX1&quot;</td>
+          <td><br /> This is the <i>raw</i> window-space X position of the first touch (equivalent to getting the mouse position using <a href="../../GameMaker_Language/GML_Reference/Game_Input/Device_Input/device_mouse_raw_x.htm"><span class="inline"><span class="inline">device_mouse_raw_x()</span></span></a>).</td>
+        </tr>
+        <tr>
+          <td>&quot;rawposY1&quot;</td>
+          <td><br /> This is the <i>raw</i> window-space Y position of the first touch (equivalent to getting the mouse position using <a href="../../GameMaker_Language/GML_Reference/Game_Input/Device_Input/device_mouse_raw_y.htm"><span class="inline"><span class="inline">device_mouse_raw_y()</span></span></a>).</td>
+        </tr>
+        <tr>
+          <td>&quot;guiposX1&quot;</td>
+          <td><br /> This is the gui-space X position of the first touch (equivalent to getting the mouse position using <a href="../../GameMaker_Language/GML_Reference/Game_Input/Device_Input/device_mouse_x_to_gui.htm"><span class="inline"><span class="inline">device_mouse_x_to_gui()</span></span></a>).</td>
+        </tr>
+        <tr>
+          <td>&quot;guiposY1&quot;</td>
+          <td><br /> This is the gui-space Y position of the second touch (equivalent to getting the mouse position using <a href="../../GameMaker_Language/GML_Reference/Game_Input/Device_Input/device_mouse_y_to_gui.htm"><span class="inline"><span class="inline">device_mouse_y_to_gui()</span></span></a>).</td>
+        </tr>
+        <tr>
+          <td>&quot;posX2&quot;</td>
+          <td><br /> This is the room-space X position of the second touch.</td>
+        </tr>
+        <tr>
+          <td>&quot;posY2&quot;</td>
+          <td><br /> This is the room-space Y position of the second touch.</td>
+        </tr>
+        <tr>
+          <td>&quot;rawposX2&quot;</td>
+          <td><br /> This is the <i>raw</i> window-space X position of the first touch.</td>
+        </tr>
+        <tr>
+          <td>&quot;rawposY2&quot;</td>
+          <td><br /> This is the <i>raw</i> window-space Y position of the second touch.</td>
+        </tr>
+        <tr>
+          <td>&quot;guiposX2&quot;</td>
+          <td><br /> This is the gui-space X position of the second touch.</td>
+        </tr>
+        <tr>
+          <td>&quot;guiposY2&quot;</td>
+          <td><br /> This is the gui-space Y position of the second touch.</td>
+        </tr>
+        <tr>
+          <td>&quot;midpointX&quot;</td>
+          <td><br /> The X position of the mid point between the two touches in room space.</td>
+        </tr>
+        <tr>
+          <td>&quot;midpointY&quot;</td>
+          <td><br /> The Y position of the mid point between the two touches in room space.</td>
+        </tr>
+        <tr>
+          <td>&quot;rawmidpointX&quot;</td>
+          <td><br /> This is the raw window-space X position of the mid point.</td>
+        </tr>
+        <tr>
+          <td>&quot;rawmidpointY&quot;</td>
+          <td><br /> This is the raw window-space Y position of the mid point.</td>
+        </tr>
+        <tr>
+          <td>&quot;guimidpointX&quot;</td>
+          <td><br /> This the gui-space X position of the mid point.</td>
+        </tr>
+        <tr>
+          <td>&quot;guimidpointY&quot;</td>
+          <td><br /> This the gui-space Y position of the mid point.</td>
+        </tr>
+        <tr>
+          <td>&quot;relativescale&quot;</td>
+          <td><br /> This is difference in scale compared to the last event in this gesture (so for <b>Pinch In</b> events this will always be smaller than 1.0, whereas for <b>Pinch Out</b> events it will always be larger than 1.0)</td>
+        </tr>
+        <tr>
+          <td>&quot;absolutescale&quot;</td>
+          <td><br /> This is the scale compared to where the fingers were when the gesture started (so if the distance between the fingers has halved then this will be 0.5 whereas if the distance has doubled it will be 2.0).</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="dropspot"> </p>
+    <p class="dropspot"><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down12" href="#">Pinch Start</a></p>
+    <div class="droptext" data-targetname="drop-down12">
+      <p class="dropspot">The Pinch Start event will be triggered when an instance (or the screen if the event is global) has been touched by two &quot;fingers&quot; (and the touch is maintained) and then one or both of the &quot;fingers&quot; is moved. If the touches move
+        away from each other or towards each other more than the minimum check distance (which is 0.1 inches by default, but it can be set using the function <a href="../../GameMaker_Language/GML_Reference/Game_Input/Gesture_Input/gesture_pinch_distance.htm"><span class="inline">gesture_pinch_distance()</span></a>),
+        and the angle between them is within the defined value (this defaults to 45° but can be set using <a href="../../GameMaker_Language/GML_Reference/Game_Input/Gesture_Input/gesture_pinch_angle_towards.htm"><span class="inline">gesture_pinch_angle_towards()</span></a> and
+        <a href="../../GameMaker_Language/GML_Reference/Game_Input/Gesture_Input/gesture_pinch_angle_away.htm"><span class="inline">gesture_pinch_angle_away()</span></a>), then a Pinch Start event will be triggered. In this event you can set variables or store position date for future use. For example:
+      </p>
+      <h4>Pinch Start Event</h4>
+      <p class="code">pinching = true;<br /> pinch_x = event_data[? &quot;midpointX&quot;]; pinch_y = event_data[? &quot;midpointY&quot;];</p>
+      <p class="dropspot">The above code will detect a pinch and store the midpoint position for that pinch.</p>
+      <p class="dropspot"> </p>
+    </div>
+    <p class="dropspot"><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down13" href="#">Pinch In / Pinch Out</a></p>
+    <div class="droptext" data-targetname="drop-down13">
+      <p class="dropspot">The Pinch In and Pinch Out events will be triggered every step that the distance between the two touches that make up the pinch changes over the minimum threshold (set to +/- 0.1 inches by default, but you can change it using the function gesture_pinch_distance).
+        If there is no movement of the pinch touches then these events will not trigger. These events will generate an <span class="inline">event_data</span> DS map which you can then use to get information about the event. For example:</p>
+      <h4>Global Pinch In /Pinch Out Event</h4>
+      <p class="code">var _scale = event_data[? &quot;relativescale&quot;];<br /> var _w = camera_get_view_width(view_camera[0]);<br /> var _h = camera_get_view_height(view_camera[0]);<br /> var _x = camera_get_view_x(view_camera[0]) + (_w / 2);<br /> var _y = camera_get_view_y(view_camera[0])
+        + (_h / 2);<br />
+        <br /> _w *= _scale;<br /> _h = _w * (room_height / room_width);<br /> _x -= _w / 2;<br /> _y -= _h / 2;<br />
+        <br /> camera_set_view_pos(view_camera[0], _x, _y);<br /> camera_set_view_size(view_camera[0], _w, _h);
+      </p>
+      <p class="dropspot">The above code will scale the view based on the relative scale of the pinch touches.</p>
+      <p class="dropspot"> </p>
+    </div>
+    <p class="dropspot"><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down14" href="#">Pinch End</a><strong></strong></p>
+    <div class="droptext" data-targetname="drop-down14">
+      <p class="dropspot">The Pinch End event will be triggered when the user releases one (or both) of the touches from the device. This events will generate an <span class="inline">event_data</span> DS map which you can then use to get information about the event. For
+        example:</p>
+      <h4>Pinch End Event</h4>
+      <p class="code">var _pinchx = event_data[? &quot;midpointX&quot;];<br /> var _pinchy = event_data[? &quot;midpointY&quot;];<br /> var _w = camera_get_view_width(view_camera[0]);<br /> var _h = camera_get_view_height(view_camera[0]);<br /> var _x = _pinchx - (_w / 2);<br /> var _y = _pinchy - (_h / 2);<br />
+        <br /> camera_set_view_pos(view_camera[0], _x, _y);
+      </p>
+      <p class="dropspot">The above code will set the view position to be centered on the midpoint of the two touches that made up the pinch when the touches are released.</p>
+      <p><strong></strong></p>
+    </div>
+    <p class="dropspot"> </p>
+  </div>
+  <p><img src="../../assets/Images/Icons/Icon_Rotate.png" style="margin-left: 56px" /><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down15" href="#">Rotate Events</a></p>
+  <div class="droptext" data-targetname="drop-down15">
+    <p class="dropspot">The &quot;Rotate&quot; events are based on two touches to the devices screen being recognised at once, and where there has been a consistent angular rotation between the two within a specific time. The angle of movement of the touches along with the
+      movement of each touch is what will determine the detection of a Pinch or Rotate event, where (in the case of the Rotate Event type):</p>
+    <ul class="dropspotlist">
+      <li class="dropspot">Two touches must be held down for a specified minimum time (the default time is 0.16 seconds, but you can change it using the function <a href="../../GameMaker_Language/GML_Reference/Game_Input/Gesture_Input/gesture_rotate_time.htm"><span class="inline">gesture_rotate_time()</span></a>).</li>
+      <li class="dropspot">Within this minimum time period they must rotate in a consistent direction (if the rotation direction changes within that time then no rotate is started).</li>
+      <li class="dropspot">The rotation amount must exceed the minimum threshold angle (which is set to 5° by default, but this can be changed using the function <a href="../../GameMaker_Language/GML_Reference/Game_Input/Gesture_Input/gesture_rotate_angle.htm"><span class="inline">gesture_rotate_angle()</span></a>).</li>
+    </ul>
+    <p class="dropspot">When two touches and a movement are detected with the above criteria, a Rotate Event will be triggered, and in each of the events the <span class="inline">event_data</span> DS Map will be populated with the following keys:</p>
+    <ul class="dropspotlist">
+    </ul>
+    <table class=" cke_show_border">
+      <tbody>
+        <tr>
+          <th>Key</th>
+          <th>Description</th>
+        </tr>
+        <tr>
+          <td>&quot;gesture&quot;</td>
+          <td><br /> This is an ID value that is <i>unique</i> to the gesture that is in play. This allows you to link the different parts of multi-part gestures (such as drag start, dragging and drag end) together.</td>
+        </tr>
+        <tr>
+          <td>&quot;touch1&quot;</td>
+          <td><br /> This is the index of the first touch that is being used as part of the pinch gesture. In general this will be 0, but if the user is touching the screen anywhere else when this event is triggered by another touch, then the value will be
+            greater than 0.</td>
+        </tr>
+        <tr>
+          <td>&quot;touch2&quot;</td>
+          <td><br /> This is the index of the second touch that is being used as part of the pinch gesture. In general this will be 1 more than the value for touch1, but may be some other value depending on the number of touches being detected elsewhere.</td>
+        </tr>
+        <tr>
+          <td>&quot;posX1&quot;</td>
+          <td><br /> This is the room-space X position of the first touch.</td>
+        </tr>
+        <tr>
+          <td>&quot;posY1&quot;</td>
+          <td><br /> This is the room-space Y position of the first touch.</td>
+        </tr>
+        <tr>
+          <td>&quot;rawposX1&quot;</td>
+          <td><br /> This is the <i>raw</i> window-space X position of the first touch (equivalent to getting the mouse position using <a href="../../GameMaker_Language/GML_Reference/Game_Input/Device_Input/device_mouse_raw_x.htm"><span class="inline"><span class="inline">device_mouse_raw_x()</span></span></a>).</td>
+        </tr>
+        <tr>
+          <td>&quot;rawposY1&quot;</td>
+          <td><br /> This is the <i>raw</i> window-space Y position of the first touch (equivalent to getting the mouse position using <a href="../../GameMaker_Language/GML_Reference/Game_Input/Device_Input/device_mouse_raw_y.htm"><span class="inline"><span class="inline">device_mouse_raw_y()</span></span></a>).</td>
+        </tr>
+        <tr>
+          <td>&quot;guiposX1&quot;</td>
+          <td><br /> This is the gui-space X position of the first touch (equivalent to getting the mouse position using <a href="../../GameMaker_Language/GML_Reference/Game_Input/Device_Input/device_mouse_x_to_gui.htm"><span class="inline"><span class="inline">device_mouse_x_to_gui()</span></span></a>).</td>
+        </tr>
+        <tr>
+          <td>&quot;guiposY1&quot;</td>
+          <td><br /> This is the gui-space Y position of the second touch (equivalent to getting the mouse position using <a href="../../GameMaker_Language/GML_Reference/Game_Input/Device_Input/device_mouse_y_to_gui.htm"><span class="inline"><span class="inline">device_mouse_y_to_gui()</span></span></a>).</td>
+        </tr>
+        <tr>
+          <td>&quot;posX2&quot;</td>
+          <td><br /> This is the room-space X position of the second touch.</td>
+        </tr>
+        <tr>
+          <td>&quot;posY2&quot;</td>
+          <td><br /> This is the room-space Y position of the second touch.</td>
+        </tr>
+        <tr>
+          <td>&quot;rawposX2&quot;</td>
+          <td><br /> This is the <i>raw</i> window-space X position of the first touch.</td>
+        </tr>
+        <tr>
+          <td>&quot;rawposY2&quot;</td>
+          <td><br /> This is the <i>raw</i> window-space Y position of the second touch.</td>
+        </tr>
+        <tr>
+          <td>&quot;guiposX2&quot;</td>
+          <td><br /> This is the gui-space X position of the second touch.</td>
+        </tr>
+        <tr>
+          <td>&quot;guiposY2&quot;</td>
+          <td><br /> This is the gui-space Y position of the second touch.</td>
+        </tr>
+        <tr>
+          <td>&quot;pivotX&quot;</td>
+          <td><br /> The X position of the rotation pivot point in room space.</td>
+        </tr>
+        <tr>
+          <td>&quot;pivotY&quot;</td>
+          <td><br /> The Y position of the rotation pivot point in room space.</td>
+        </tr>
+        <tr>
+          <td>&quot;rawpivotX&quot;</td>
+          <td><br /> This is the raw window-space X position of the rotational pivot point.</td>
+        </tr>
+        <tr>
+          <td>&quot;rawpivotY&quot;</td>
+          <td><br /> This is the raw window-space Y position of the rotational pivot point.</td>
+        </tr>
+        <tr>
+          <td>&quot;guipivotX&quot;</td>
+          <td><br /> This the gui-space X position of the rotational pivot point.</td>
+        </tr>
+        <tr>
+          <td>&quot;guipivotY&quot;</td>
+          <td><br /> This the gui-space Y position of the rotational pivot point.</td>
+        </tr>
+        <tr>
+          <td>&quot;relativeangle&quot;</td>
+          <td><br /> This is difference in rotation compared to the last event in this gesture, measured in degrees</td>
+        </tr>
+        <tr>
+          <td>&quot;absoluteangle&quot;</td>
+          <td><br /> This is the difference in angle compared to where the fingers were when the gesture started, measured in degrees. So, for example, if the fingers have rotated a quarter-circle since the start of the gesture then this value will be 90°
+            or -90°, depending on the direction of rotation.</td>
+        </tr>
+      </tbody>
+    </table>
+    <p> </p>
+    <p class="dropspot"><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down16" href="#">Rotate Start</a></p>
+    <div class="droptext" data-targetname="drop-down16">
+      <p class="dropspot">The Rotate Start event will be triggered when an instance (or the screen if the event is global) has been touched by two &quot;fingers&quot; (and the touch is maintained) and then one or both of the &quot;fingers&quot; is rotated from its start
+        position. The rotation of the touches needs to have started within a short period of time (0.16 seconds by default, but it can be set using the function <a href="../../GameMaker_Language/GML_Reference/Game_Input/Gesture_Input/gesture_rotate_time.htm"><span class="inline">gesture_rotate_time()</span></a>)
+        and be greater than the minimum angular threshold (by default 5°, but, this can be changed using the function <a href="../../GameMaker_Language/GML_Reference/Game_Input/Gesture_Input/gesture_rotate_angle.htm"><span class="inline">gesture_rotate_angle()</span></a>).
+        If these checks are true, then a Rotate Start event will be triggered and you can use it to store values or set variables for use with the rest of the rotate events. For example:</p>
+      <h4>Create Event</h4>
+      <p class="code">rotating = false;<br /> view_a = camera_get_view_angle(view_camera[0]);</p>
+      <h4>Rotate Start Event</h4>
+      <p class="code">rotating = true;</p>
+      <p class="dropspot">The above code simply sets up some variables for rotating the view camera, and then in the Rotate Start event, it sets one of them to true.</p>
+      <p class="dropspot"> </p>
+    </div>
+    <p class="dropspot"><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down17" href="#">Rotating</a></p>
+    <div class="droptext" data-targetname="drop-down17">
+      <p class="dropspot">The Rotating event will be triggered every step that the touches on the screen rotate around each other, as long as the movement is greater than the minimum angular threshold (by default 5°, but, this can be changed using the function <a href="../../GameMaker_Language/GML_Reference/Game_Input/Gesture_Input/gesture_rotate_angle.htm"><span class="inline">gesture_rotate_angle()</span></a>).
+        This event can be used to set variables and manipulate instances, for example:</p>
+      <h4>Rotating Event</h4>
+      <p class="code">var _relangle = event_data[?&quot;relativeangle&quot;];<br /> var _a = camera_get_view_angle(view_camera[0]);<br /> _a += _relangle;<br /> camera_set_view_angle(view_camera[0], _a);</p>
+      <p class="dropspot">The above code rotates the camera view depending on the rotational movement of the touches in the event.</p>
+      <p class="dropspot"> <strong></strong></p>
+    </div>
+    <p class="dropspot"><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down18" href="#">Rotate End</a><strong></strong></p>
+    <div class="droptext" data-targetname="drop-down18">
+      <p class="dropspot">The Rotate End event will be triggered when one (or both) touches that comprise the gesture are released from the device screen. This event can be used to set variables and manipulate instances, for example:</p>
+      <h4>Rotate End Event</h4>
+      <p class="code">rotating = false;</p>
+      <h4>Step Event</h4>
+      <p class="code">if !rotating<br />     {<br />     var _a = camera_get_view_angle(view_camera[0]);<br />     var _adif = angle_difference(view_a, _a);<br />     _a += median(-5, _adif, 5);<br />     camera_set_view_angle(view_camera[0], _a);<br />     }</p>
+      <p class="dropspot">The above code uses the Rotate End event to detect when the user stops the gesture and then sets a variable. This variable is then used in the step event to rotate the view camera back to its original position.</p>
+      <p class="dropspot"> </p>
+    </div>
+    <p class="dropspot"> </p>
+  </div>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Back: <a href="Object_Events.htm">Object Events</a></div>
+        <div style="float:right">Next: <a href="Event_Order.htm">Event Order</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2022 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+Gesture Events
+Flick Events
+Pan Events
+Rotate Events
+Tap Events
+Gestures
+-->
+  <!-- TAGS
+gesture_events
+-->
+</body>
+</html>

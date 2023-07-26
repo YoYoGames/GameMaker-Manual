@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Static Struct</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../assets/css/default.css" type="text/css" />
+  <script src="../../../assets/scripts/main_script.js" type="module"></script>
+  <meta name="rh-authors" content="Gurpreet S. Matharoo" />
+  <meta name="topic-comment" content="Page explaining static structs for constructor functions" />
+  <meta name="rh-index-keywords" content="Static Structs" />
+  <meta name="search-keywords" content="Static Structs, static_get, static_set, is_instanceof" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1><span data-field="title" data-format="default">Static Struct</span></h1>
+  <p>Every function has a &quot;static struct&quot;, where its static variables are stored. You can get that struct using <span class="inline3_func"><a data-xref="{title}" href="../../GML_Reference/Variable_Functions/static_get.htm">static_get</a></span>:</p>
+  <p class="code">function counter() {<br />
+        static count = 0;<br />
+        return count ++;<br />
+    }<br />
+    <br />
+    repeat (10) counter()<br />
+    <br />
+    // Get static struct of counter()<br />
+    var _static_counter = static_get(counter);<br />
+    <br />
+    // Both of these read the same variable<br />
+    show_debug_message(counter.count); // 10<br />
+    show_debug_message(_static_counter.count); // 10
+  </p>
+  <p>This is also true for <a href="../Structs.htm#constr">constructor functions</a>. Each constructor has a static struct, where its static variables and static methods are stored.</p>
+  <p>Every struct created from the constructor accesses its static variables from that static struct.</p>
+  <h2 id="h">Static Chain</h2>
+  <p>When you use constructor inheritance, those constructors form a &quot;static chain&quot; - a chain of static structs where each child links to its parent.</p>
+  <p>For example, let&#39;s say you have a constructor <span class="inline2">item</span>, and a constructor <span class="inline2">potion</span> which is a child of <span class="inline2">item</span>:</p>
+  <p class="code">function item() constructor {}<br />
+    <br />
+    function potion() : item() constructor {}<br />
+    <br />
+    var _potion = new potion();
+  </p>
+  <p>You can get the static struct of <span class="inline2">potion</span> using <span class="inline2">static_get(potion)</span> - this is where the static variables for <span class="inline2">potion</span> are stored. Let&#39;s call this <span class="inline2">static_potion</span>.</p>
+  <p>Now, if you call <span class="inline2">static_get(static_potion)</span>, you will get the static struct for <span class="inline2">item</span>! This is the same struct you would get from <span class="inline2">static_get(item)</span>.</p>
+  <p class="code">function item () constructor {}<br />
+    function potion () : item () constructor {}<br />
+    <br />
+    var _potion = new potion();<br />
+    var _static_potion = static_get(potion);<br />
+    <br />
+    show_debug_message(static_get(item) == static_get(_static_potion)); // true (1)
+  </p>
+  <p>This is because <span class="inline2">item</span> is the parent of the <span class="inline2">potion</span> constructor, so the static struct for <span class="inline2">item</span> is linked to the static struct for <span class="inline2">potion</span>.</p>
+  <h2>Checking Inheritance</h2>
+  <p>You can use <span class="inline3_func"><a data-xref="{title}" href="../../GML_Reference/Variable_Functions/is_instanceof.htm">is_instanceof</a></span> to check if a struct belongs to the given constructor, or has the constructor as a parent.</p>
+  <p>This is done by checking if your struct has the given constructor&#39;s static struct anywhere in its static chain.</p>
+  <div data-conref="../../../assets/snippets/is_instanceof_example.hts"> </div>
+  <h2 id="h1">Changing The Static Struct</h2>
+  <p>The function <span class="inline3_func"><a data-xref="{title}" href="../../GML_Reference/Variable_Functions/static_set.htm">static_set</a></span> is provided to let you change the static struct of a function (constructor or not). This way you can change what static variables are available to a constructor and its structs, and also change the &quot;static chain&quot; that a constructor belongs to.</p>
+  <p>The recommended use-case for this function is deserialisation. If you&#39;re loading structs from JSON, those structs won&#39;t belong to any constructors, however you can change that by using <span class="inline3_func"><a data-xref="{title}" href="../../GML_Reference/Variable_Functions/static_set.htm">static_set</a></span> to &quot;apply&quot; a constructor to a struct, so that that struct receives its shared static variables and you can run <span class="inline3_func"><a data-xref="{title}" href="../../GML_Reference/Variable_Functions/is_instanceof.htm">is_instanceof</a></span> to check its kind.</p>
+  <div data-conref="../../../assets/snippets/static_set_example.hts"> </div>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Back: <a href="../Structs.htm">Structs</a></div>
+        <div style="float:right">Next: <a data-xref="{title}" href="../Struct_Forbidden_Variables.htm">Struct Forbidden Variables</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2023 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+Static Structs
+-->
+  <!-- TAGS
+static_structs
+-->
+</body>
+</html>

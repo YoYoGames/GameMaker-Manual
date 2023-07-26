@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>network_create_server_raw</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../assets/css/default.css" type="text/css" />
+  <script src="../../../assets/scripts/main_script.js" type="module"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Reference page for network_create_server_raw" />
+  <meta name="rh-index-keywords" content="network_create_server_raw,network_socket_tcp,network_socket_udp,network_socket_ws" />
+  <meta name="search-keywords" content="network_create_server_raw,network_socket_tcp,network_socket_udp,network_socket_ws" />
+  <meta name="is_pure" content="true" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>network_create_server_raw</h1>
+  <p>This function is used to create a new network server for your game, using one of the permitted connection protocols (see the constants listed below). You supply the server type, then give it a port to use, and finally the number of maximum connections that should be permitted at any one time to the server (note that this number is up to you, but too many connected clients will saturate the network or the device CPU won&#39;t be able to handle the processing of that number of players, so use with care). The function returns a unique <i>id</i> which should be used stored in a variable and used to identify the server in all further network functions, or a value of less than 0 if the connection fails.</p>
+  <div data-conref="../../../assets/snippets/network_socket_types.hts"> </div>
+  <p>As this creates a &quot;raw&quot; server, it will not accept nor use any of the built in GameMaker data headers for communication, and so you should be using the functions <a href="network_send_raw.htm"><span class="inline">network_send_raw()</span></a> and <a href="network_send_udp_raw.htm"><span class="inline">network_send_udp_raw()</span></a> to send unformatted data to the server created.</p>
+  <p> </p>
+  <h4>Syntax:</h4>
+  <p class="code">network_create_server_raw(type, port, max_client);</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>Argument</th><th>Type</th>
+        <th>Description</th>
+     </tr>
+      <tr>
+        <td>type</td><td><span data-keyref="Type_Constant_Network_Socket_Type"></span></td>
+        <td>The type of server to create (see the constants listed below).</td>
+     </tr>
+      <tr>
+        <td>port</td><td><span data-keyref="Type_Real"></span></td>
+        <td>The port that the server will use.</td>
+     </tr>
+      <tr>
+        <td>max_client</td><td><span data-keyref="Type_Real"></span></td>
+        <td>The maximum number of clients that can connect at once.</td>
+     </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>Returns:</h4>
+  <p class="code"><span data-keyref="Type_ID_Network_Socket">Network Socket ID</span></p>
+  <p> </p>
+  <h4>Example:</h4>
+  <p class="code">var port = 6510;<br />
+    server = network_create_server_raw(network_socket_tcp, port, 32);<br />
+    while (server &lt; 0 &amp;&amp; port &lt; 65535)<br />
+    {<br />
+        port++<br />
+        server = network_create_server(network_socket_tcp, port, 32);<br />
+    }</p>
+  <p>The above code will try and create a server using TCP through port 6510. If that port is unavailable, it will then loop through the ports to find one that is.</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Back: <a href="Networking.htm">Networking</a></div>
+        <div style="float:right">Next: <a href="network_create_socket.htm">network_create_socket</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2022 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+network_create_server_raw
+network_socket_tcp
+network_socket_udp
+network_socket_ws
+-->
+  <!-- TAGS
+network_create_server_raw
+-->
+</body>
+</html>

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Source Examples</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../assets/css/default.css" type="text/css" />
+  <script src="../../assets/scripts/main_script.js" type="module"></script>
+  <meta name="rh-authors" content="Gurpreet S. Matharoo" />
+  <meta name="topic-comment" content="Page containing extended examples for extensions" />
+  <meta name="rh-index-keywords" content="Source Extension Examples" />
+  <meta name="search-keywords" content="source android ios extensions native" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>Source Examples</h1>
+  <p>This page contains examples and information on extension source code for Android and iOS, to help you create your own native extensions for those platforms.</p>
+  <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down" href="#">Android (Base Example)</a></p>
+  <div class="droptext" data-targetname="drop-down">
+    <p>Our example extension for Android will contain functions that do the following:</p>
+    <ul class="dropspotlist">
+      <li>Return two numbers added together</li>
+      <li>Return a string consisting of an input string and value</li>
+      <li>Return a string consisting of two input strings</li>
+      <li>Trigger the <a href="../Object_Properties/Async_Events/Social.htm">Async - Social</a> event and fill values in its <span class="inline">async_load</span> map</li>
+    </ul>
+    <p>This extension will make use of a <span class="inline">.java</span> file, the contents of which are given below (click to open):</p>
+    <p class="note"><a data-height="800" data-rhwidget="HyperlinkPopover" data-width="1000" href="Source_Files/GenericTest.htm">GenericTest.java</a></p>
+    <p>To add such a file to your extension, you need to go under its <a href="Android_Extensions.htm">Android Properties</a> and first enter a class name (for this example, &quot;GenericTest&quot;), then click on &quot;Add Source&quot; and select the <span class="inline">.java</span> file. This will add the selected file to your project directory -- you can right-click on your extension, select &quot;Open in Explorer&quot; and see the source files there.</p>
+    <p>You can now add a new placeholder file to your extension and create functions inside it with the following properties:</p>
+    <ul class="dropspotlist">
+      <li><em>function / external name:</em><span><span> </span></span><span class="inline">AddTwoNumbers</span><br />
+        <em>help:</em><span><span> </span></span><span class="inline">AddTwoNumbers(value1, value2)</span><br />
+        <em>arguments:</em><span><span> </span></span><span class="inline">double, </span><span class="inline">double</span><br />
+        <em>return type:</em><span><span> </span></span><span class="inline">double</span>
+      </li>
+      <li><em>function / external name:</em><span> </span><span class="inline">HowManyObjects</span><br />
+        <em>help:</em><span><span> </span></span><span class="inline">HowManyObjects(value1, value2, string)</span><br />
+        <em>arguments:</em><span><span> </span></span><span class="inline">double, </span><span class="inline">double, </span><span class="inline">string</span><br />
+        <em>return type:</em><span><span> </span></span><span class="inline">string</span>
+      </li>
+      <li><em>function / external name:</em><span><span> </span></span><span class="inline">BuildAString</span><br />
+        <em>help:</em><span><span> </span></span><span class="inline">BuildAString(string1, string2)</span><br />
+        <em>arguments:</em><span><span> </span></span><span class="inline">string, </span><span class="inline">string</span><br />
+        <em>return type:</em><span><span> </span></span><span class="inline">string</span>
+      </li>
+      <li><em>function / external name:</em><span><span> </span></span><span class="inline">ReturnAsync</span><br />
+        <em>help:</em><span><span> </span></span><span class="inline">ReturnAsync(value1, value2)</span><br />
+        <em>arguments:</em><span><span> </span></span><span class="inline">double,</span><span> </span><span class="inline">double</span><br />
+        <em>return type:</em><span><span> </span></span><span class="inline">double</span>
+      </li>
+    </ul>
+    <p>Here is an example of the <span class="inline">AddTwoNumbers()</span> function:</p>
+    <p><img class="center" src="../../assets/Images/Asset_Editors/Editor_Extensions_EE1_Function.png" />You can now call these functions from your game code and use them like any other built-in function:</p>
+    <p class="code">var result1 = string(AddTwoNumbers(irandom(100), 50));<br />
+      var result2 = BuildAString(&quot;Hello&quot;, &quot;World&quot;);<br />
+      var result3 = HowManyObjects(irandom(1000), irandom(1000), &quot;Targets&quot;);<br />
+      ReturnAsync(irandom(1000), irandom(1000));</p>
+    <p>The <span class="inline">ReturnAsync()</span> function will trigger the <a href="../Object_Properties/Async_Events/Social.htm">Async - Social</a> event, so you will need to add that event to your object and read data from its <span class="inline">async_load</span> map (which is filled by the extension&#39;s source code given above).</p>
+    <p class="code">var type = async_load[? &quot;type&quot;];<br />
+      <br />
+      if (type == &quot;finished&quot;)<br />
+      {<br />
+          var result4 = &quot;value1: &quot; + string(async_load[? &quot;argument0&quot;]) + &quot;, &quot;;<br />
+          result4 += &quot;value2: &quot; + string(async_load[? &quot;argument1&quot;]);<br />
+      }
+    </p>
+    <p> </p>
+  </div>
+  <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down1" href="#">iOS (Base Example)</a></p>
+  <div class="droptext" data-targetname="drop-down1">
+    <p>The example provided for iOS is the same as the Android example given above; only the source files differ, which we&#39;ll cover in this section.</p>
+    <p>iOS extensions make use of an <span class="inline">.h</span> and an <span class="inline">.mm</span> file, and the contents of both are given below (click to open):</p>
+    <p class="note"><a data-height="800" data-rhwidget="HyperlinkPopover" data-width="1000" href="Source_Files/GenericTest-iOS.htm">GenericTest iOS Source Files</a></p>
+    <p>To add these files to your extension, you first need to go under its <a href="iOS_Extensions.htm">iOS Properties</a> and enter a class name (for this example, &quot;GenericTest&quot;). You can then use either the &quot;Enter framework path&quot; option (if the files are present on your macOS machine used for building) or the &quot;Add Source&quot; option (if they are on your development machine); regardless of the option you use, you will need to point them to the directory that contains your <span class="inline">.h</span> and <span class="inline">.mm</span> files.</p>
+    <p>You can add these source files to the same extension that was set up in the previous section for Android, meaning that any functions already defined in that extension will now work on iOS too (given that the <em>External Names</em> of all functions on Android and iOS are the same). If you are creating a new extension, you can simply create the functions in the same way as previously described.</p>
+    <p> </p>
+  </div>
+  <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down5" href="#">Android (Callbacks)</a></p>
+  <div class="droptext" data-targetname="drop-down5">
+    <p>You can use the following callback functions in your <span class="inline">.java</span> extension files:</p>
+    <p class="code">public void onStart()<br />public void onRestart()<br />public void onStop()<br />public void onDestroy()<br />public void onPause()<br />public void onResume()<br />public void onActivityResult(int requestCode, int resultCode, Intent data)<br />public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults)<br />public void onNewIntent(android.content.Intent newIntent)<br />public void onWindowFocusChanged(boolean hasFocus)<br />public void onConfigurationChanged(Configuration newConfig)<br /></p>
+    <p><br /></p>
+  </div>
+  <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down7" href="#">iOS (Callbacks)</a></p>
+  <div class="droptext" data-targetname="drop-down7">
+    <p>You can use the following callback functions in your <span class="inline">.mm</span> extension files:</p>
+    <p class="code">-(void) Init<br />
+      -(void) onLaunch:(NSDictionary*)launchOptions<br />
+      -(void) onResume<br />
+      -(void) onPause<br />
+      -(void) applicationDidEnterBackground:(UIApplication *)application<br />
+      -(void) applicationWillEnterForeground:(UIApplication *)application<br />
+      -(void) onStop<br />
+      -(void) applicationProtectedDataDidBecomeAvailable:(UIApplication *)application<br />
+      -(void) applicationProtectedDataWillBecomeUnavailable:(UIApplication *)application<br />
+      -(void) applicationDidReceiveMemoryWarning:(UIApplication *)application<br />
+      -(void) applicationSignificantTimeChange:(UIApplication *)application<br />
+      -(void) application:(UIApplication *)application willEncodeRestorableStateWithCoder:(NSCoder *)coder<br />
+      -(void) application:(UIApplication *)application didDecodeRestorableStateWithCoder:(NSCoder *)coder<br />
+      -(void) application:(UIApplication *)application didUpdateUserActivity:(NSUserActivity *)userActivity<br />
+      -(void) application:(UIApplication *)application didFailToContinueUserActivityWithType:(NSString *)userActivityType error:(NSError *)error<br />
+      -(void) application:(UIApplication *)application handleWatchKitExtensionRequest:(NSDictionary *)userInfo reply:(void (^)(NSDictionary *replyInfo))reply<br />
+      -(void) applicationShouldRequestHealthAuthorization:(UIApplication *)application<br />
+      -(void) openURL:(NSURL *)url sourceApplication:(NSString *) sourceApplication annotation:(id)annotation<br />
+      -(void) application:(UIApplication *)application userDidAcceptCloudKitShareWithMetadata:(CKShareMetadata *)cloudKitShareMetadata</p>
+    <p> </p>
+  </div>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Back: <a href="../Extensions.htm">The Extension Editor</a></div>
+        <div style="float:right">Next: <a href="Creating_An_Extension.htm">Creating An Extension</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2022 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+Android Extensions
+iOS Extensions
+Source
+Native
+java
+mm
+h
+-->
+  <!-- TAGS
+source_extensions
+-->
+</body>
+</html>

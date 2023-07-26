@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <title>Video Playback</title>
+  <meta name="topic-status" content="Draft" />
+  <link rel="stylesheet" type="text/css" href="../../../../assets/css/default.css" />
+  <script src="../../../../assets/scripts/main_script.js" type="module" ></script>
+  <meta name="rh-authors" content="Gurpreet S. Matharoo" />
+  <meta name="topic-comment" content="Overview of video drawing functions" />
+  <meta name="template" content="../../../../assets/masterpages/Manual_Page.htt" />
+  <meta name="rh-index-keywords" content="videos" />
+  <meta name="search-keywords" content="videos" />
+  <meta name="condition-tags" content="" />
+</head>
+<body>
+  <h1 id="h1">Video Playback</h1>
+  <h2>How to play videos?</h2>
+  <p>Follow these steps to load videos at runtime and play them:</p>
+  <ul class="colour">
+    <li>Add a video file to the <a data-xref="{text}" href="../../../../Settings/Included_Files.htm#h">Included Files</a> (<span class="inline2">/datafiles</span> directory) of your project.</li>
+    <li>Load the video using <span class="inline"><a href="video_open.htm">video_open()</a></span>.
+      <ul>
+        <li>Alternatively, load a video from a URL.</li>
+      </ul>
+    </li>
+    <li>Draw it in a Draw event using <span class="inline"><a href="video_draw.htm">video_draw()</a></span>.
+      <ul>
+        <li>This functions draws the video to an internal surface, which it returns as part of its return array.</li>
+        <li>You must draw that surface manually using <span class="inline"><a href="../Surfaces/draw_surface.htm">draw_surface()</a></span> for the video to appear.
+          <ul>
+            <li>Drawing <a data-xref="{title}" href="YUV_Videos.htm">YUV Videos</a> will require extra steps.</li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li>When the video is finished, remove it from memory by calling <span class="inline"><a href="video_close.htm">video_close()</a></span>.
+      <ul>
+        <li>Use the <a href="#h">Async Callbacks</a> to run code when the video ends.</li>
+      </ul>
+    </li>
+  </ul>
+  <h2>Video Codecs &amp; Licensing</h2>
+  <p><span data-keyref="GameMaker Name">GameMaker</span> does not ship with any codecs, and makes use of the codecs present on the platform that the game is running on. This means your videos must be encoded in a format that can be decoded on your intended target platform(s).</p>
+  <p>Making use of certain formats may require you to pay licensing fees depending on the related codec&#39;s licence and your game&#39;s revenue, and in such a case, the developer will be legally liable for any fees that is to be paid to the codec owners. Codecs are also licensed differently on each platform and so care must be taken for games that are distributed on multiple platforms.</p>
+  <p>Note that video formats (such as <span class="inline2">.mp4</span>, <span class="inline2">.avi</span>, <span class="inline2">.mkv</span>, etc.) are simply containers that wrap <strong>video</strong> and <strong>audio</strong> streams, both of which may be encoded separately and may require separate licences.</p>
+  <p>For distribution on console platforms, check with your account representative to find out what formats you are allowed to use without having to pay extra licencing fees.</p>
+  <h2>Formats</h2>
+  <p>The video formats that you are able to load and play in your game will depend on your target platform, and the codecs that are supported on that platform.</p>
+  <h2>Functions</h2>
+  <p>You can load, play and manipulate video files at runtime using the following functions:</p>
+  <ul class="colour">
+    <li><a data-xref="{title}" href="video_open.htm">video_open</a></li>
+    <li><a data-xref="{title}" href="video_close.htm">video_close</a></li>
+    <li><a data-xref="{title}" href="video_draw.htm">video_draw</a></li>
+    <li><a data-xref="{title}" href="video_set_volume.htm">video_set_volume</a></li>
+    <li><a href="video_pause.htm">video_pause</a></li>
+    <li><a href="video_resume.htm">video_resume</a></li>
+    <li><a href="video_enable_loop.htm">video_enable_loop</a></li>
+    <li><a href="video_seek_to.htm">video_seek_to</a></li>
+  </ul>
+  <p> </p>
+  <p>The following functions are used to get information about the currently loaded video:</p>
+  <ul class="colour">
+    <li><a href="video_is_looping.htm">video_is_looping</a></li>
+    <li><a href="video_get_volume.htm">video_get_volume</a></li>
+    <li><a href="video_get_duration.htm">video_get_duration </a></li>
+    <li><a href="video_get_position.htm">video_get_position</a></li>
+    <li><a href="video_get_status.htm">video_get_status</a></li>
+    <li><a href="video_get_format.htm">video_get_format </a></li>
+  </ul>
+  <h2 id="h">Async Callbacks</h2>
+  <p>The <a href="../../../../The_Asset_Editors/Object_Properties/Async_Events/Social.htm">Async Social</a> event is triggered at the stages given below, with the <span class="inline2">&quot;type&quot;</span> key in its <span class="inline2">async_load</span> map set to the given value:</p>
+  <ul class="colour">
+    <li><span class="inline2">&quot;video_start&quot;</span>: When the video starts playing, which is when its <a href="video_get_status.htm">status</a> changes from <span class="inline2">video_status_preparing</span> to <span class="inline2">video_status_playing</span>.</li>
+    <li><span class="inline2">&quot;video_end&quot;</span>: When the video ends. This does not trigger when the video is <a href="video_enable_loop.htm">set to loop</a>.</li>
+  </ul>
+  <p>Here is an example of an Async Social event listening to video callbacks:</p>
+  <p class="code">var _type = async_load[? &quot;type&quot;];<br />
+    <br />
+    if (_type == &quot;video_start&quot;)<br />
+    {<br />
+        obj_video.display_video = true;<br />
+    }<br />
+    else if (_type == &quot;video_end&quot;)<br />
+    {<br />
+        obj_video.display_video = false;<br />
+        video_close();<br />
+    }
+  </p>
+  <p>The above code reads the type from the <span class="inline2">async_load</span> map. When the video starts, it sets a variable in an object to <span class="inline2">true</span>, so it can display the video.</p>
+  <p>When the video ends, it sets that same variable to <span class="inline2">false</span>, and then calls <span class="inline"><a href="video_close.htm">video_close()</a></span> to remove the video from memory.</p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div>Back: <a data-xref="{title}" href="../Drawing.htm">Drawing</a></div>
+        <div>Next: <a data-xref="{title}" href="../Colour_And_Alpha/Colour_And_Alpha.htm">Colour And Alpha</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2022 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+	Videos
+-->
+  <!-- TAGS
+-->
+</body>
+</html>

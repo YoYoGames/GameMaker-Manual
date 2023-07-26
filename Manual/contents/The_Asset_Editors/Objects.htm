@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The Object Editor</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../assets/css/default.css" type="text/css" />
+  <script src="../assets/scripts/main_script.js" type="module"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Page detailing how the object editor works" />
+  <meta name="rh-index-keywords" content="Object Editor" />
+  <meta name="search-keywords" content="objects,object editor" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1><span data-field="title" data-format="default">The Object Editor</span></h1>
+  <p><img alt="The Object Editor" class="center" src="../assets/Images/Asset_Editors/Editor_Objects.png" />Objects are the resource that we use to control aspects of a game and to do specific things. Most of the time they have a sprite associated with them so that you see them in the game rooms, but sometimes they are used as a &quot;behind the scenes&quot; controller to do things related to the user or for timing, etc... They can be given behaviours and they can react to certain events as well as to each other, and most of the things you see in a game are based on objects and their interactions. Now, we say &quot;based on&quot; because you don&#39;t actually place objects directly into the game rooms, but rather you place <strong>instances</strong> of these objects which are basically copies (or clones if you prefer) of the object resource. This is a very important thing to remember as instances and objects <em>are not the same thing</em> and each have their own set of functions that can affect them.</p>
+  <p>To clarify this, think of a game made with <span data-keyref="GameMaker Name">GameMaker</span>. All the characters, monsters, balls, walls, etc... are all objects you create in the <a href="../Introduction/The_Asset_Browser.htm">Asset Browser</a>. You then drag the <em>object </em>into a room in the <a href="Rooms.htm">Room Editor</a> to create an <em>instance </em>copied from the basic object template. The instance in the room can then be changed in the editor itself or through code, so that it can be scaled, or coloured, or have other details modified from the &quot;base&quot; object. So when we talk about something affecting or changing an <strong>instance</strong>, we mean it affects that <em>one particular copy of an object in a room</em>. Only that single instance is being affected while all the rest are not. But, when we talk about affecting or changing an <strong>object</strong>, we mean that we are modifying the object in the Asset Browser and anything we do to it will be reflected in all the instances created from that point on too. So, the object is the template for the instance, and the instance is what we place in a room to make our game.</p>
+  <p>To create an object in your game, you can right click <img alt="RMB Icon" class="icon" src="../assets/Images/Icons/Icon_RMB.png" style="" /> on the Asset Browser and click the <em>Create Object</em> option. This will open the window pictured at the top of this page with the following sections:</p>
+  <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down" href="#">Details</a></p>
+  <div class="droptext" data-targetname="drop-down">
+    <p class="dropspot">Here you can give your object a name. This name should never contain spaces nor unauthorized characters (only alpha-numeric characters and the underbar &quot;_&quot; are allowed) and should be short but memorable so that you can easily identify resources
+      later when you may have many of them. For example many people use a prefix or a suffix to identify the differences between resources, like &quot;<span class="inline">obj_Ship</span>&quot; or &quot;<span class="inline">Ship_obj</span>&quot;.</p>
+    <p class="dropspot">Next you can choose the sprite for the object should you wish it to have one. Click with the left mouse button <img alt="LMB Icon" class="icon" src="../assets/Images/Icons/Icon_LMB.png" /> on the sprite box and the <strong>Asset Explorer</strong> will appear with a list of all the available sprites from the Asset Browser:</p>
+    <p class="dropspot"><img alt="The Asset Explorer" class="center" src="../assets/Images/Asset_Editors/Editor_Objects_AssetExplorer.png" />You can then select the one you want to use for the object. With a sprite assigned to the object you can click the <em>Edit Sprite</em> button <img alt="Edit Sprite Icon" class="icon" src="../assets/Images/Icons/Icon_EditSprite.png" /> to change the <a href="Sprites.htm">sprite properties</a>, or - if you do not have a sprite for the object but wish to create one - you can click
+      the <em>Add Sprite</em> button <img alt="Add Sprite Icon" class="icon" height="24" src="../assets/Images/Icons/Icon_NewSprite.png" width="24" /> to create a new sprite asset and assign that. You can also edit the sprite asset image that has been
+      assigned by clicking the <em>Edit Image</em> button <img alt="Edit Image Icon" class="icon" src="../assets/Images/Icons/Icon_EditImage.png" /> to open the <a href="Image_Editor.htm">Image Editor</a>.</p>
+    <p class="dropspot"> </p>
+  </div>
+  <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down1" href="#">Collision Mask</a></p>
+  <div class="droptext" data-targetname="drop-down1">
+    <p class="dropspot">Beneath the sprite assignment area you have a button for choosing a specific <strong>Collision Mask</strong>. By default an object will generate collision properties based off of the sprite assigned to it, but there are cases whereby you may want
+      collisions to be based off a different shape from a different sprite. For example, you may have a top down game where the main sprite has a rectangular collision mask, but to make collisions smoother a circular mask may be better. In these cases
+      you can click the Collision Mask button and select another sprite resource, so now instances of the object will <em>draw </em>the assigned sprite, but base <em>collisions </em>off of the mask sprite. You can find out more information about collision
+      masks from the page on the <a href="Sprites.htm">Sprite Editor</a>.</p>
+    <p class="dropspot"> </p>
+  </div>
+  <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down2" href="#">Properties</a></p>
+  <div class="droptext" data-targetname="drop-down2">
+    <p class="dropspot">Here you are presented with the following options for your object:<strong></strong></p>
+    <ul class="dropspotlist">
+      <li class="dropspot"><strong>Visible</strong>: Visible indicates whether instances of this object are visible when the room starts. Normally most instances are visible but sometimes it is useful to have invisible ones - for example, you can use them for way-points to control a moving monster, or to keep track values and perform certain timed actions. Invisible objects will still react to events and if they have a sprite or a mask assigned to them, they will also react should other instances collide with them... they just cannot be seen and do <em>not </em>perform their <strong>Draw Event</strong>. By default, the visible flag is checked.<strong></strong></li>
+      <li class="dropspot"><strong>Solid</strong>: When you flag an instance as being solid, you are telling <span data-keyref="GameMaker Name">GameMaker</span> that it should try to resolve any collisions before triggering a <strong>Collision Event</strong>. This is a very basic functionality, and in reality all it does is move the instance back to the position it was in the moment before a collision was detected before performing any code or GML Visual that is in the Collision Event itself, and as such is of limited use.</li>
+      <li class="dropspot"><strong>Persistent</strong>: A persistent object is one that does not go away when the room is changed, but rather it &quot;persists&quot; and is carried over into the new room. It will only disappear when you explicitly destroy it, either with a destroy action or in code. This means that if you place a persistent object in one room, it will still be available in all subsequent rooms and will continue to perform any actions assigned to the events in its object properties, <em>except </em>the <strong>Create Event</strong>, which is only fired <em>once </em>when it is created initially and not when you change to a new room. This is handy for when you have, for example, a main character that moves from room to room and you want to maintain the variables within the instance the same, but you should take great care to create and destroy persistent objects correctly as you can easily get errors creeping into your project by mistake.</li>
+    </ul>
+    <p class="dropspot"><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down7" href="#" style="margin-left:88px">Persistence And Room Layers</a>  </p>
+    <div class="droptext" data-targetname="drop-down7">
+      <p class="dropspot" style="margin-left: 132px">When you create an instance with persistence enabled in a room, it will be assigned a layer or a depth (depending on which function you used to create the instance of the object). When the room is changed, and if the following room does not have a layer with the same name or depth as the one assigned, then<strong> a new layer will be created for the instance that is persisting across the rooms</strong>. If you gave a named layer when the instance was created, then the new layer will also be named the same as original layer, while if you assigned a depth to the instance then the new layer will be named &quot;<span class="inline">_layer_XXX</span>&quot;, where &quot;<span class="inline">XXX</span>&quot; is a hex value used to give the layer a unique name. These layers will be removed from the room on <strong>Room End</strong>.<br />
+        <br />
+        Another thing to note about layers and persistent instances is that if you have assigned the instance a named layer on creation, and there is another layer in the following rooms with the same name, then the persisted instance will be assigned to the layer with the same name regardless of the depth of the layer.<br />
+        <br />
+        Finally, if a persisted instance moves to a room with a layer at the <em>same</em> depth as the instance was created on, it will <em>not </em>be assigned to this layer, but instead a new layer will be created at the same depth (following the naming convention explained above).
+      </p>
+    </div>
+    <p class="dropspot"><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down6" href="#" style="margin-left: 88px">Persistence And Events</a></p>
+    <div class="droptext" data-targetname="drop-down6">
+      <p class="dropspot" style="margin-left: 132px">As mentioned previously, a persistent object will only run its <strong>Create Event</strong> <em>once</em>, but it will also have its <strong>Game Start</strong>, <strong>Game End</strong>, <strong>Room Start</strong> and <strong>Room End</strong> events triggered at the appropriate times. However if you restart the game (with, for example, the <span class="inline">game_restart()</span> function) <em>all persistent objects will be removed and only exist when created again by the game</em>.<br />
+        <br />
+        Also note that if you <strong>deactivate </strong>a persistent object, it will no longer pass from one room to another unless re-activated before the <strong>Room End</strong> event is triggered. Re-activation <em>requires a full game step to occur</em>, so using the actual <strong>Room End</strong> event for this does not work, as it doesn&#39;t give the game a full step to reactivate the object, so you need to keep this in mind when using deactivation along with persistent objects and plan your code accordingly.
+      </p>
+    </div>
+    <ul class="dropspotlist">
+      <li class="dropspot"><strong>Uses Physics</strong>: When you check the Uses Physics box you are telling <span data-keyref="GameMaker Name">GameMaker</span> that this object should be part of a physics world (as set in the <strong></strong><a href="Rooms.htm">Room Editor</a>. Checking this will also open a further chained window where you can define the physical properties of all instances of this object. More information on this can be found in the section on <a href="Object_Properties/Physics_Objects.htm">Physics Objects</a>.</li>
+      <li class="dropspot"><strong>Managed</strong>: Whether this object should be managed when using <a href="../GameMaker_Language/GML_Reference/Rollback/Rollback_Multiplayer.htm">Rollback Multiplayer.</a> A managed object&#39;s state can be <i>rolled back</i> and predictions can be run on it. This feature is currently in beta versions only.<span data-condition="Export:Beta"> See <a data-xref="{text}" href="../GameMaker_Language/GML_Reference/Rollback/Rollback_System.htm#h2">Managed Objects</a>.</span></li>
+    </ul>
+  </div>
+  <p> </p>
+  <p>The last part of the Object Editor is taken up with the different object <strong>Options</strong>, each of which is discussed on its on page, linked below:</p>
+  <ul class="colour">
+    <li><a href="Object_Properties/Object_Events.htm">Object Events</a></li>
+    <li><a href="Object_Properties/Parent_Objects.htm">Parent Objects</a></li>
+    <li><a href="Object_Properties/Physics_Objects.htm">Physics Objects</a></li>
+    <li><a href="Object_Properties/Object_Variables.htm">Object Variables</a></li>
+  </ul>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Back: <a data-xref="{title}" href="The_Asset_Editors.htm">The Asset Editors</a></div>
+        <div style="float:right">Next: <a data-xref="{title}" href="Particle_Systems.htm">The Particle System Editor</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2023 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+Object Editor
+Objects
+-->
+  <!-- TAGS
+object_editor
+-->
+</body>
+</html>

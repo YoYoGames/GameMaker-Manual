@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <title>Audio Loop Points</title>
+  <meta name="topic-status" content="Draft" />
+  <link rel="stylesheet" type="text/css" href="../../../../../assets/css/default.css" />
+  <meta name="rh-authors" content="Bart Teunis" />
+  <meta name="topic-comment" content="Reference page for the audio loop points feature" />
+  <meta name="template" content="../../../../../assets/masterpages/Manual_Page.htt" />
+  <meta name="search-keywords" content="audio,loop,loop points" />
+  <meta name="rh-index-keywords" content="audio loop points" />
+</head>
+<body>
+  <h1><span data-field="title" data-format="default">Audio Loop Points</span></h1>
+  <p><span data-field="title" data-format="default">Audio Loop Points</span> allow you to loop a part (or section) of an audio asset.</p>
+  <p>While you can manually control audio playback using <span class="inline3_func"><a data-xref="{title}" href="../audio_sound_get_track_position.htm">audio_sound_get_track_position</a></span> and <span class="inline3_func"><a data-xref="{title}" href="../audio_sound_set_track_position.htm">audio_sound_set_track_position</a></span>, this will never be accurate for looping a section, as audio is processed at a much higher rate, e.g. 44100 or 48000 times a second (the sample rate), which is a lot more than the default game speed of 60. This means that many samples may have already played between the time you call one function and the next.</p>
+  <p>By using the functions provided for audio looping, the looping is performed on the audio thread, <em>at audio rates</em>.</p>
+  <p class="note"><span><span data-conref="../../../../../assets/snippets/Tag_note.hts"> </span> </span><span>You cannot use buffer-based audio queues or audio sync groups with the audio looping functions. All other kind of audio can be used without problems,<span> including <a href="../Audio_Buffers/Audio_Buffers.htm">buffer sounds</a> and <a href="../audio_create_stream.htm">streams</a>. </span></span></p>
+  <h2>Function Reference</h2>
+  <p>Here are the GML Code functions for audio looping:</p>
+  <ul class="Disc">
+    <li><a data-xref="{title}" href="audio_sound_loop.htm">audio_sound_loop</a></li>
+    <li><a data-xref="{title}" href="audio_sound_get_loop.htm">audio_sound_get_loop</a></li>
+    <li><a data-xref="{title}" href="audio_sound_loop_start.htm">audio_sound_loop_start</a></li>
+    <li><a data-xref="{title}" href="audio_sound_get_loop_start.htm">audio_sound_get_loop_start</a></li>
+    <li><a data-xref="{title}" href="audio_sound_loop_end.htm">audio_sound_loop_end</a></li>
+    <li><a data-xref="{title}" href="audio_sound_get_loop_end.htm">audio_sound_get_loop_end</a></li>
+  </ul>
+  <h2>Loop Section</h2>
+  <p>Every sound asset and sound instance has a single loop section, defined by a start and end time in seconds. The part of the sound between this start and end will play looped if the sound is set to loop.</p>
+  <p>Every sound that you play using any of the <span class="inline3_func">audio_play_sound_</span> functions gets its default loop start and loop end time from the asset when played, e.g.: </p>
+  <p class="code">audio_sound_loop_start(snd_loop, 2);<br />
+    audio_sound_loop_end(snd_loop, 6);<br />
+    ins_sound = audio_play_sound(snd_loop, 100, true);<br />
+    audio_sound_loop_end(ins_sound, 10);</p>
+  <p>By default, a sound is set to loop from the beginning to the end. This corresponds to a start value of 0.0 seconds and an end value of 0.0 seconds (corresponding to <span class="inline3_func"><a data-xref="{title}" href="../audio_sound_length.htm">audio_sound_length</a></span>).</p>
+  <p>The loop end position <em>must</em> be after the loop start position, except when they are both set to 0.0 (i.e. loop the sound from start to end).</p>
+  <h3>Enabling/Disabling Looping</h3>
+  <p>Setting the loop state of a sound instance can be done in two ways. The first is when playing the sound using <span class="inline3_func"><a data-xref="{title}" href="../audio_play_sound.htm">audio_play_sound</a></span> or any of the other <span class="inline2">audio_play_sound_</span> functions: </p>
+  <p class="code">ins_sound = audio_play_sound(snd_loop, 100, true);</p>
+  <p>The second is by calling the function <span class="inline3_func"><a data-xref="{title}" href="audio_sound_loop.htm">audio_sound_loop</a></span> on an already playing sound: </p>
+  <p class="code">audio_sound_loop(ins_sound, true);</p>
+  <p class="note"><span data-conref="../../../../../assets/snippets/Tag_note.hts"> </span> When a sound&#39;s track position reaches the loop end position <span data-keyref="GameMaker Name">GameMaker</span> checks whether it should loop. If at that moment its loop state is set to <span class="inline2">true</span>, the sound will jump back to the loop start position. If not, it will continue playing the sound until the end, unless you change either the track position or the loop end.</p>
+  <h2>Examples</h2>
+  <p>The following are a couple of ways in which you can use audio loop points to loop audio.</p>
+  <h3>Intro &amp; Outro</h3>
+  <p>In this situation you have an audio file with an intro, a looping mid-section and an outro. The audio is played from the start, plays the intro part first, then moves to the looped part and keeps playing this looped until the audio is set to no longer loop. At that point the looped part will finish playing a last time to then transition to the outro part.</p>
+  <p class="code">audio_sound_loop_start(snd_music, 10);<br />
+    audio_sound_loop_end(snd_music, 20);<br />
+    ins_sound = audio_play_sound(snd_music, 100, true);  // Play the sound looped</p>
+  <p>Once the sound is in the looping part, the sound instance can then be set to no longer loop: </p>
+  <p class="code">audio_sound_loop(ins_sound, false);</p>
+  <p>After changing this, the remainder of the looping part will be played, followed by the outro part.</p>
+  <p class="note"><span data-conref="../../../../../assets/snippets/Tag_note.hts"> </span> Once the sound has stopped playing <span class="inline2">ins_sound</span> will no longer refer to a valid sound instance and you will need to play a new one using <span class="inline3_func"><a data-xref="{title}" href="../audio_play_sound.htm">audio_play_sound</a></span>.</p>
+  <h3>Multiple Loops</h3>
+  <p>Every sound has one loop section. You can add multiple loop sections yourself by storing them in a struct and manually applying the start and end of the loop section you want to use at any given moment: </p>
+  <p class="code">loops = [<br />
+        {start: 0, end: 10},<br />
+        {start: 10, end: 20},<br />
+        {start: 20, end: 30}<br />
+    ];<br />
+    <br />
+    section = 2;<br />
+    <br />
+    audio_sound_loop_start(snd_several_sections, loops[section].start);<br />
+    audio_sound_loop_end(snd_several_sections, loops[section].end);<br />
+    ins_sound = audio_play(snd_several_sections, 200, true);
+  </p>
+  <h3>Converting from BPM</h3>
+  <p>Using the BPM of a piece of music you can calculate the time one &quot;beat&quot; takes. This way you can loop parts of a sound that correspond precisely to beats or bars in the music: </p>
+  <p class="code">var _bpm_to_sec = time_bpm_to_seconds(126);<br />
+    var _beats_per_bar = 4;<br />
+    var _bars = 4;<br />
+    audio_sound_loop_start(snd_bgm, _bars * _beats_per_bars);</p>
+  <p>This code sets the loop start position for a sound asset <span class="inline2">snd_bgm</span> to the start of the fifth bar.</p>
+  <p>See: </p>
+  <ul class="colour">
+    <li><a data-xref="{title}" href="../../../Time_Sources/time_bpm_to_seconds.htm">time_bpm_to_seconds</a></li>
+    <li><a data-xref="{title}" href="../../../Time_Sources/time_seconds_to_bpm.htm">time_seconds_to_bpm</a></li>
+  </ul>
+  <h2>Limitations</h2>
+  <ul class="colour">
+    <li><span>When pushing the feature to its limits (e.g. with extremely small loop-sections), compressed sounds will incur a performance penalty. In such cases, it is better to use uncompressed sound assets.</span></li>
+  </ul>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div>Back: <a data-xref="{title}" href="../Audio.htm">Audio</a></div>
+        <div>Next: <a data-xref="{title}" href="../Audio_Emitters/Audio_Emitters.htm">Audio Emitters</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2023 All Rights Reserved</span></h5>
+  </div>
+</body>
+</html>

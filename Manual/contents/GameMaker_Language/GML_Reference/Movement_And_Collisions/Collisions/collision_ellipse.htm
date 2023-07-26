@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>collision_ellipse</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
+  <script src="../../../../assets/scripts/main_script.js" type="module"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Page that gives an overview of the funtion collision_ellipse" />
+  <meta name="rh-index-keywords" content="collision_ellipse" />
+  <meta name="search-keywords" content="collision_ellipse" />
+  <meta name="is_pure" content="true" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>collision_ellipse</h1>
+  <p><span class="inline">Collision_ellipse</span> uses the first four arguments (x1,y1,x2,y2) to define the width and height of an ellipse within the current room and then checks to see if <b>any</b> object that is defined by the &quot;obj&quot; argument is in collision with that area. This collision can be checked as precise or not, and you may also choose to check for the instance running the code itself or not. Consider this image:</p>
+  <p><img alt="Collision ellipse example" class="center" src="../../../../assets/Images/Scripting_Reference/GML/Reference/Movement_Collisions/collision_ellipse_illustration.png" />Here, the instance in the middle is using a collision ellipse to check for ball objects. Now, the blue ones do <i>not</i> have a precise bounding box and as you can see, even if the sprite is not actually touching the ellipse, the collision can still happen (even if you set the precise option in the function to true) as the bounding box of that sprite over-laps the elliptical area defined by collision_circle. On the other hand, the green balls will only be considered in collision if the actual sprite over-laps the defined ellipse. Remember, for precise collisions to be considered <i>both</i> the object sprite and the collision function must have precise marked as on. It should also be noted that the return value of the function can be the id of <i>any one</i> of the instances considered to be in collision.</p>
+  <p>Note that instead of an object index you can supply an instance <a href="../../Asset_Management/Instances/Instance_Variables/id.htm"><span class="inline">id</span></a> to check for a specific instance, or the <a href="../../../GML_Overview/Instance_Keywords.htm">instance keywords</a> <span class="inline">all</span>, or <span class="inline">other</span> (depending on the event and current code scope).</p>
+  <p> </p>
+  <h4>Syntax:</h4>
+  <p class="code">collision_ellipse(x1, y1, x2, y2, obj, prec, notme);</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>Argument</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>x1</td>
+        <td><span data-keyref="Type_Real">Real</span></td>
+        <td>The x coordinate of the left side of the ellipse to check.</td>
+      </tr>
+      <tr>
+        <td>y1</td>
+        <td><span data-keyref="Type_Real">Real</span></td>
+        <td>The y coordinate of the top side of the ellipse to check.</td>
+      </tr>
+      <tr>
+        <td>x2</td>
+        <td><span data-keyref="Type_Real">Real</span></td>
+        <td>The x coordinate of the right side of the ellipse to check.</td>
+      </tr>
+      <tr>
+        <td>y2</td>
+        <td><span data-keyref="Type_Real">Real</span></td>
+        <td>The y coordinate of the bottom side of the ellipse to check.</td>
+      </tr>
+      <tr>
+        <td>obj</td>
+        <td><span data-keyref="Type_Asset_Object">Object Asset</span> or <span data-keyref="Type_ID_Instance">Instance ID</span></td>
+        <td>The object to check for instance collisions.</td>
+      </tr>
+      <tr>
+        <td>prec</td>
+        <td><span data-keyref="Type_Bool">Boolean</span></td>
+        <td>Whether the check is based on precise collisions (<span class="inline">true</span>, which is slower) or its bounding box in general (<span class="inline">false</span>, faster).</td>
+      </tr>
+      <tr>
+        <td>notme</td>
+        <td><span data-keyref="Type_Bool">Boolean</span></td>
+        <td>Whether the calling instance, if relevant, should be excluded (<span class="inline">true</span>) or not (<span class="inline">false</span>).</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>Returns:</h4>
+  <p class="code"><span data-keyref="Type_ID_Instance">Instance ID</span> or <span data-keyref="Type_ID_noone">noone</span></p>
+  <p> </p>
+  <h4>Example:</h4>
+  <p class="code">if collision_ellipse(50, 50, 200, 100, obj_Player, false, true)<br />
+    {<br />
+        instance_create_layer(obj_Player.x, obj_Player.y, &quot;Effects&quot;, obj_Splash);<br />
+    }</p>
+  <p>This will check an elliptical zone within the bounds of 50x, 50y and 200x, 100y for the object &quot;obj_Player&quot;. If there is a collision with that object, then it will create an instance of &quot;obj_Splash&quot; at the x/y coordinates of obj_Player.</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Back: <a href="Collisions.htm">Collisions</a></div>
+        <div style="float:right">Next: <a href="collision_ellipse_list.htm">collision_ellipse_list</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2022 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+collision_ellipse
+-->
+  <!-- TAGS
+collision_ellipse
+-->
+</body>
+</html>

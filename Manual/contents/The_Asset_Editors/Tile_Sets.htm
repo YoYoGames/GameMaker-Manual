@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The Tile Set Editor</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../assets/css/default.css" type="text/css" />
+  <script src="../assets/scripts/main_script.js" type="module"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Page detailing how the tile set editor works" />
+  <meta name="rh-index-keywords" content="Tile Set Editor" />
+  <meta name="search-keywords" content="tiles,tile sets,tile set editor" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1><span data-field="title" data-format="default">The Tile Set Editor</span></h1>
+  <p><img alt="Tile Set Editor" class="center" src="../assets/Images/Asset_Editors/Editor_Tilesets.png" />A <strong>tile set</strong> is a graphic resource for drawing levels and other static components of your game. A tile set is comprised of a single image that is then split into different &quot;cells&quot; (tiles), and each tile can then be placed into the room editor to create a complete image. Below you can see two example sprites that can be used as tile sets:</p>
+  <p><img alt="Tile Set Example" class="center" src="../assets/Images/Asset_Editors/Editor_Tilesets_Example.png" style="margin-top: -10px; margin-bottom: -20px;" /></p>
+  <p style="text-align:center;padding-top:0.5em;padding-right:1em;padding-bottom:1.5em;padding-left:1em"><span style="font-size:14px;font-style:italic">Images by <a href="http://www.lostgarden.com/2006/07/more-free-game-graphics.html">Lost Garden</a></span></p>
+  <p>These are the most common ways that people create tile sets - either all jammed up together or with little spaces separating them out, and <span data-keyref="GameMaker Name">GameMaker</span> can handle both types. Essentially all tile sets must be comprised of images that fit within a clearly defined grid, with each cell of the grid being the <em>exact same size</em> (note that while the images shown above are all made up of square tiles, a tile set can be made from rectangular tiles too).</p>
+  <p>When creating your tile sets, keep in mind that <strong>the top left grid cell must <em>always </em>be empty</strong> as this is the tile that <span data-keyref="GameMaker Name">GameMaker</span> will use for &quot;empty&quot; tiles in a room and for erasing existing tiles (and even if you have pixels in that part of the image they will be ignored).</p>
+  <p>When you first create a tile set resource the Tile Set Editor window will open with the following options:</p>
+  <p> </p>
+  <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down" href="#">Name</a></p>
+  <div class="droptext" data-targetname="drop-down">
+    <p class="dropspot">Here you can give a name to your tile set. Names can only be alpha-numeric and may only use the underbar &quot;_&quot; symbol, and they cannot start with a number.</p>
+    <p class="dropspot"> </p>
+  </div>
+  <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down1" href="#">Sprite</a></p>
+  <div class="droptext" data-targetname="drop-down1">
+    <p class="dropspot">Here you can select the <a href="../Quick_Start_Guide/Creating_Sprites.htm">sprite</a> asset from which to create our tile set. Clicking on the main button will open the Asset Explorer where you can choose the sprite you wish to use for the tile set:</p>
+    <p class="dropspot"><img alt="The Asset Explorer Window" class="center" src="../assets/Images/Asset_Editors/Editor_Tilesets_AssetExplorer.png" />You can also click on the <strong>New Sprite</strong> button <img alt="New Sprite Icon" class="icon" height="24" src="../assets/Images/Icons/Icon_NewSprite.png" width="24" /> button to create a new sprite asset (which will open the <a href="Sprites.htm">Sprite Editor</a> for the new asset within the workspace for editing), or you can edit the currently selected sprite using the <strong>Edit Sprite</strong> button <img alt="Edit Sprite Icon" class="icon" src="../assets/Images/Icons/Icon_EditSprite.png" />, or even choose to edit the sprite image itself in the <a href="Image_Editor.htm">Image Editor</a> by pressing the <img alt="Edit Image Icon" class="icon" src="../assets/Images/Icons/Icon_EditImage.png" /> button.</p>
+    <p class="dropspot">By default when you open a tile set the <strong>Tile Set Properties</strong> window will also be shown (see below), but if you close it then you can click the button here to reopen it again.</p>
+    <p class="dropspot"> </p>
+  </div>
+  <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down2" href="#">Properties</a></p>
+  <div class="droptext" data-targetname="drop-down2">
+    <p class="dropspot"><strong></strong>The <strong>Tile Set Properties</strong> window is for designating the base tile size (default is 16px square), the offset amount and the separation between tiles (these last two options are for use with sprites like the one shown in the example image further up this page where there are gaps between the individual parts of the tiles). You can also set the <strong>Output Border</strong> values for the tile set image, which controls how the image will be stored on disk and add extra pixels around each tile as required.</p>
+    <p class="dropspot">Due to how tiles are rendered they need to be prepared beforehand with a border around each one to &quot;smear&quot; the edges. The image shown below illustrates how tiles are generally mapped by the device graphic drivers, with the red line around the tile showing where the U,V coordinates are mapped to (The letters &quot;U&quot; and &quot;V&quot; are used to describe the 2D texture mesh because &quot;X&quot;, &quot;Y&quot; and &quot;Z&quot; are already used to describe room and object spatial coordinates):</p>
+    <p class="dropspot"><img alt="Single Tile" class="center" src="../assets/Images/Asset_Editors/Editor_Tilesets_Single.png" style="margin-top: -20px; margin-bottom: -10px;" />As you can see it picks the center of the <a class="glossterm" data-glossterm="texel" href="#">texel</a> to map directly when drawing the image in the room. Now at a scale of 1:1, this is all well and good, but what will happen when we scale this tile down? The issue with scaling down is that when you shrink the image, the UVs also scale down and try to fit into a more compressed space, but this obviously can&#39;t happen, so the graphics driver picks which texels to draw based on the available pixel centers.</p>
+    <p class="dropspot">So, if we are &quot;just&quot; moving into a new screen pixel then, because the graphics drivers use the center of the pixel to decide what to draw with, it&#39;ll pick a texel surrounding the tile, not a texel on the tile itself.</p>
+    <p class="dropspot"><img alt="Texel Tile" class="center" src="../assets/Images/Asset_Editors/Editor_Tilesets_Texel.png" style="margin-top: -20px; margin-bottom: -20px;" /></p>
+    <p class="dropspot">Shown above is a tile being draw scaled down into 6 screen pixels, and this shows that when you overlap a little into the next screen pixel, the graphics driver has to make a choice to either drop that texel, or it try and fill it with what it thinks is a valid texel. Let&#39;s just say that in this case it decides to draw the overlapped texel into the screen pixel, and, since it&#39;s now clearly outside our tile it gets this pixel from either the next tile, or the little bits of space you provided around the tiles, which means that when it shrinks you&#39;ll get cracks between tiles &quot;glitches&quot; in how they are drawn and this is where a lot of confusion arises... Each graphics driver and device actually does this in its own way, meaning that the results can be unpredictable and look terrible... but if you&#39;re careful and plan ahead you can work around it.</p>
+    <p class="dropspot">With high end games if you draw from a single texture (not on a texture page or texture atlas), you have the option of using a texture mode called <strong>clamp </strong>and what this does is repeats the last row of texels infinitely off into the distance, allowing you to scale without problems as it forces the hardware to get the last row of pixels no matter what. This is what the <strong>Output Border </strong>settings here do for you:</p>
+    <p class="dropspot"><img alt="Smear Tile" class="center" src="../assets/Images/Asset_Editors/Editor_Tilesets_Smear.png" style="margin-top: -10px;margin-bottom: 1px" />Shown above is a &quot;fixed&quot; tile sprite and you can see it now has a repeated section around each tile meaning that when the hardware overruns, it will always pick the last texel from the tile rather than one of the spaces or the tile after that. So, when creating a tile set, keep in mind that if you are going to be zooming the game view in or out or are going to be rendering the tiles scaled, you may need to have a higher Output Border width or height than the default value of 2.</p>
+    <p class="dropspot">Next, you can chose the <strong>texture group</strong> that you wish the tileset resource to belong to. Basically, a texture group (previously defined in the <a href="../Settings/Texture_Groups.htm">Texture Group Manager</a>) is something that you can set up so that all the image assets that you need for specific rooms or levels of your game can be stored together. So, for example, you can have all your level 1 images in one texture group, all your level 2 images in another etc... and <span data-keyref="GameMaker Name">GameMaker</span> will try to place all those grouped assets on the same <a class="glossterm" data-glossterm="texture page" href="#">texture page</a> to reduce texture page swapping while your game is running on the chosen target platform.</p>
+    <div class="dropspotnote"><strong>NOTE</strong>: This may not always be necessary and the performance increase from this method will depend on whether the target device is CPU bound or GPU bound.</div>
+    <p class="dropspot">The final option in the tile set properties is <strong>Disable Source Sprite Export</strong>. This is checked by default, and what it does is flags the source sprite asset to be omitted when the texture page for your project is being generated. This works under the assumption that a sprite used as a tile set will not be getting used for anything else, and so only needs to be exported once. However if you are using the base sprite resource for anything other than tiles, then you would want to un-check this so that the base sprite <em>and </em>the tile set are both added into the texture page on compile.</p>
+    <p class="dropspot"><strong></strong></p>
+  </div>
+  <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down3" href="#">Editors</a></p>
+  <div class="droptext" data-targetname="drop-down3">
+    <p class="dropspot">Each of the buttons in the <strong>Editors </strong>section will open a different editor for specific tile set functionality. You can create tile set <em>brushes </em>based on multiple tiles together, <em>animated tiles</em>, using different tiles as individual frames, and you can also create <em>auto tiles</em> that will &quot;join&quot; together based on the tiles that surround them. Each of these editors is explained in detail in the sections linked at the end of this page.</p>
+    <p class="dropspot"> </p>
+  </div>
+  <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down4" href="#">Preview Toolbox</a></p>
+  <div class="droptext" data-targetname="drop-down4">
+    <p class="dropspot">These are the tools you can use to preview the sprite selected for the tile set. These buttons control the current preview zoom level and you can use them to zoom in or out and clicking the <img alt="Zoom Reset Icon" class="icon" src="../assets/Images/Icons/Icon_ZoomReset.png" /> button will reset the preview to be 1:1 with the tile set sprite being edited. You can also click the <strong>Window Fit</strong> button <img alt="Canvas Fit Icon" class="icon" src="../assets/Images/Icons/Icon_CanvasFit.png" /> to make the entire tile set fit within the current preview window (this will zoom in/out as appropriate to make it fit). Note that you can also zoom in and out using the <img alt="Control Icon" class="icon" height="20" src="../assets/Images/Icons/Icon_Ctrl.png" width="55" /> / <img alt="CMD Icon" class="icon" height="20" src="../assets/Images/Icons/Icon_Cmd.png" width="55" /> and the Mouse Wheel <img alt="MMB Icon" class="icon" src="../assets/Images/Icons/Icon_MMB.png" />, and pressing <img alt="Control Icon" class="icon" height="20" src="../assets/Images/Icons/Icon_Ctrl.png" width="55" /> / <img alt="CMD Icon" class="icon" height="20" src="../assets/Images/Icons/Icon_Cmd.png" width="55" /> + <img alt="Enter Icon" class="icon" height="20" src="../assets/Images/Icons/Icon_Enter.png" width="55" /> will set the canvas to be 1:1 with the tile set sprite.</p>
+    <p class="dropspot">Another feature is that you can switch the grid view on or off by clicking the <img alt="Grid Icon" class="icon" src="../assets/Images/Icons/Icon_CanvasGrid.png" /> button, as well as set the colour for the grid to be used (clicking the <img alt="Preview Options Button" class="icon" src="../assets/Images/Icons/Icon_CanvasOptions.png" /> button). When the grid is active it will show a coloured outline for each of the tiles in the grid, respecting the settings for separation, etc...</p>
+    <p class="dropspot"> </p>
+  </div>
+  <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down5" href="#">Preview</a></p>
+  <div class="droptext" data-targetname="drop-down5">
+    <p class="dropspot">This section is the tile set Preview window. To navigate around the preview, you can use the same basic controls as for general Workspaces, ie: Use the middle mouse button <img alt="MMB Icon" class="icon" src="../assets/Images/Icons/Icon_MMB.png" /> and drag to pan the preview (or alternatively use the <img alt="Space Icon" class="icon" height="20" src="../assets/Images/Icons/Icon_Space.png" width="55" /> + <img alt="LMB Icon" class="icon" src="../assets/Images/Icons/Icon_LMB.png" /> combination), and you can scroll horizontally with the mouse wheel <img alt="MMB Icon" class="icon" src="../assets/Images/Icons/Icon_MMB.png" /> or zoom in and out using the <img alt="Control Icon" class="icon" height="20" src="../assets/Images/Icons/Icon_Ctrl.png" width="55" /> / <img alt="CMD Icon" class="icon" height="20" src="../assets/Images/Icons/Icon_Cmd.png" width="55" /> key and the mouse wheel <img alt="MMB Icon" class="icon" src="../assets/Images/Icons/Icon_MMB.png" />. You can also use the different buttons in the <strong>Preview Toolbox</strong> to change the zoom and enable/disable the grid cell overlay.</p>
+  </div>
+  <p> </p>
+  <p>As mentioned in the section on <strong>Editors</strong> above, there are are further tools available to edit tile sets and generate special <em>brushes </em>(combinations of tiles that can be painted into a room), <em>animated </em>tiles, and <em>auto tile</em> tiles (which are special tiles that will connect up automatically when placed in a room). Each of these editors is explained in depth from the following pages:</p>
+  <ul class="colour">
+    <li><a href="Tile_Set_Editors/Brush_Builder.htm">The Brush Builder</a></li>
+    <li><a href="Tile_Set_Editors/Animated_Tiles.htm">Animated Tiles</a></li>
+    <li><a href="Tile_Set_Editors/Auto_Tiles.htm">Auto Tiles</a></li>
+  </ul>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Back: <a data-xref="{title}" href="The_Asset_Editors.htm">The Asset Editors</a></div>
+        <div style="float:right">Next: <a data-xref="{title}" href="Timelines.htm">The Timeline Editor</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2023 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+The Tile Set Editor
+Tiles
+Tile Sets
+-->
+  <!-- TAGS
+tile_set_editor
+-->
+</body>
+</html>

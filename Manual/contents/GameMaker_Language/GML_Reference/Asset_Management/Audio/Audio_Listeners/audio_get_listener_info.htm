@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>audio_get_listener_info</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../../../assets/css/default.css" type="text/css" />
+  <script src="../../../../../assets/scripts/main_script.js" type="module"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Page explaining the function audio_get_listener_info" />
+  <meta name="rh-index-keywords" content="audio_get_listener_info" />
+  <meta name="search-keywords" content="audio_get_listener_info" />
+  <meta name="is_pure" content="true" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>audio_get_listener_info</h1>
+  <p>This function will create a <a href="../../../Data_Structures/DS_Maps/DS_Maps.htm">DS map</a> and populate it with information for the given listener.</p>
+  <p class="note"><b><span class="note">NOTE</span> </b>You are responsible for the destruction of the returned <span class="inline">DS Map</span> using the appropriate function.</p>
+  <p>The DS map will contain the following keys:</p>
+  <ul class="colour">
+    <li>&quot;<strong>name</strong>&quot; - The name of the listener, as a string, with &quot;default&quot; being the standard listener name on most target platforms</li>
+    <li>&quot;<strong>mask</strong>&quot; - The bit-mask for the listener</li>
+    <li>&quot;<strong>index</strong>&quot; - The unique index value of the listener</li>
+  </ul>
+  <p>The mask value can be used to set a sound or emitter to play from multiple listeners at once, simply using the bitwise <span class="inline">or</span> &quot;|&quot; to generate a mask for the sound (see the example code below), while the index is used to set the properties like position or velocity for a given listener using functions like <a href="audio_listener_set_position.htm"><span class="inline">audio_listener_set_position()</span></a>.</p>
+  <p> </p>
+  <h4>Syntax:</h4>
+  <p class="code">audio_get_listener_info(num);</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>Argument</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>num</td>
+        <td><span data-keyref="Type_Real">Real</span> or <span data-keyref="Type_ID_Audio_Listener">Audio Listener ID</span></td>
+        <td>The listener number to get the data for.</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>Returns:</h4>
+  <p class="code"><span data-keyref="Type_ID_DS_Map">DS Map ID</span></p>
+  <p> </p>
+  <h4>Example:</h4>
+  <p class="code">var num = audio_get_listener_count();<br />
+    var mask = 0; for(var i = 0; i &lt; num; ++i;)<br />
+    {<br />
+        var info = audio_get_listener_info(i);<br />
+        var m = audio_listener_get_data(info[? &quot;mask&quot;]);<br />
+        mask = mask | m;<br />
+        ds_map_destroy(info);<br />
+    }<br />
+    audio_set_listener_mask(mask);</p>
+  <p>The above code checks the number of listeners available then loops through them gets their mask bits, which are then combined to create a single bit mask which is applied to the global listener.</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Back: <a href="Audio_Listeners.htm">Audio Listeners</a></div>
+        <div style="float:right">Next: <a href="audio_get_listener_mask.htm">audio_get_listener_mask</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2022 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+audio_get_listener_info
+-->
+  <!-- TAGS
+audio_get_listener_info
+-->
+</body>
+</html>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>mp_grid_add_cell</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
+  <script src="../../../../assets/scripts/main_script.js" type="module"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="This page outlines the function mp_grid_add_cell" />
+  <meta name="rh-index-keywords" content="mp_grid_add_cell" />
+  <meta name="search-keywords" content="mp_grid_add_cell" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>mp_grid_add_cell</h1>
+  <p>With this function we can mark individual cells within the given MP grid as being &quot;forbidden&quot; meaning that the path finding functions will not ever cross them. Now, normally you work in x/y <i>room</i> coordinates, and not in MP grid <i>cell</i> coordinates. So let&#39;s consider the following image which shows how the two can correlate:</p>
+  <p><img alt="Add cell example" class="center" src="../../../../assets/Images/Scripting_Reference/GML/Reference/Movement_Collisions/mp_grid_add_cell_image.png" />As you can see the mp_grid is numbered as a series of cells (starting at 0,0 in the upper left corner), and when you place this grid over the room there is a direct correlation between the room coordinates (which also start at 0,0 in the top left) and the cells within the grid. In the image you can see that an instance at the position 260,130 falls on the grid cell 8,4. You can calculate mathematically the exact cell that a position lands on easily by either dividing the number by the grid resolution and then rounding down <i>or</i>, if you are using power of 2 grid resolutions (like 8, 16, 32 etc...) you can use the <a href="../../../../Additional_Information/Bitwise_Operators.htm">bitwise operators</a>. It should be noted that the bitwise operation is faster and the example below shows both methods.</p>
+  <p> </p>
+  <h4>Syntax:</h4>
+  <p class="code">mp_grid_add_cell(id, h, v);</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>Argument</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>id</td>
+        <td><span data-keyref="Type_ID_MP_Grid">MP Grid ID</span></td>
+        <td>Index of the mp_grid that is to be used</td>
+      </tr>
+      <tr>
+        <td>h</td>
+        <td><span data-keyref="Type_Real">Real</span></td>
+        <td>Horizontal position of the cell in the grid</td>
+      </tr>
+      <tr>
+        <td>v</td>
+        <td><span data-keyref="Type_Real">Real</span></td>
+        <td>Vertical position of the cell in the grid</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>Returns:</h4>
+  <p class="code"><span data-keyref="Type_Void">N/A</span></p>
+  <p> </p>
+  <h4>Example:</h4>
+  <p class="code">with (obj_Wall)<br />
+    {<br />
+        mp_grid_add_cell(grid, floor(x / 32), floor(y / 32));<br />
+    }<br />
+    with (obj_Door)<br />
+    {<br />
+        mp_grid_add_cell(grid, x&gt;&gt;5, y&gt;&gt;5);<br />
+    }</p>
+  <p>The above code will make all &quot;obj_Wall&quot; and all obj_Door add their equivalent cell positions into the mp_grid indexed in the variable &quot;grid&quot;. In the first part of the example, this is done by taking the x/y coordinates of the object and dividing them by the resolution of the grid (using <span class="inline">floor</span> to keep the values as integers), and in the second part (since the grid resolution is a power of 2) it is done by bit-shifting the x,y coordinates 5 places to the right.</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Back: <a href="Motion_Planning.htm">Motion Planning</a></div>
+        <div style="float:right">Next: <a href="mp_grid_add_instances.htm">mp_grid_add_instances</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2022 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+mp_grid_add_cell
+-->
+  <!-- TAGS
+mp_grid_add_cell
+-->
+</body>
+</html>

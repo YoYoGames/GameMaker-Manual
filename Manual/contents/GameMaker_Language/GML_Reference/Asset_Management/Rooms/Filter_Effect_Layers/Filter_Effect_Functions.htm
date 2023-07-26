@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Filter and Effect Functions</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../../../assets/css/default.css" type="text/css" />
+  <script src="../../../../../assets/scripts/main_script.js" type="module"></script>
+  <meta name="rh-authors" content="Gurpreet S. Matharoo" />
+  <meta name="topic-comment" content="Page outlining the different functions and variables associated with Filter/Effect Layers" />
+  <meta name="rh-index-keywords" content="" />
+  <meta name="search-keywords" content="Filter and Effect Functions" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>Filter and Effect Functions</h1>
+  <h2>Overview</h2>
+  <p>There are various GML functions that can be used to create, modify and remove filters/effects from layers within a room, allowing you to easily manage effects in real-time to create realistic and dynamic filters/effects.</p>
+  <div data-conref="../../../../../assets/snippets/FX_only_added_through_IDE.hts"> </div>
+  <p>The latter method (of specifying the filter/effect in your code) only works with string <a class="glossterm" data-glossterm="literal" href="#">literal</a><span class="glossextra">s</span> directly specified in the function argument, which means that if you use a variable or any logic to come up with the filter/effect name string, then the asset compiler will not detect that and the filter/effect will not be loaded.</p>
+  <p>Consider the following examples:</p>
+  <p class="code">// This will work on its own<br />
+    var _fxshake = fx_create(&quot;_filter_screenshake&quot;);<br />
+    <br />
+    // This will NOT work on its own<br />
+    var _myfilters = { screenshake: &quot;_screenshake&quot; }<br />
+    var _filter_to_use = &quot;_filter&quot; + _myfilters.screenshake;<br />
+    var _fxshake = fx_create(_filter_to_use);
+  </p>
+  <p>To ensure that the latter method works, you can simply add the filter to at least one room in your project, or ensure that <span class="inline"><a href="fx_create.htm">fx_create()</a></span> is called anywhere in your project with the filter name as a string constant (and not a variable).</p>
+  <div data-conref="../../../../../assets/snippets/FX_Limitations.hts"> </div>
+  <h2>Function List</h2>
+  <p>The following functions are used to create and manage &quot;FX Structs&quot; containing effect data:</p>
+  <ul class="colour">
+    <li><a href="fx_create.htm">fx_create</a></li>
+    <li><a href="fx_get_parameter.htm">fx_get_parameter</a></li>
+    <li><a href="fx_get_parameters.htm">fx_get_parameters</a></li>
+    <li><a href="fx_get_name.htm">fx_get_name</a></li>
+    <li><a href="fx_get_parameter_names.htm">fx_get_parameter_names</a></li>
+    <li><a data-xref="{title}" href="fx_get_single_layer.htm">fx_get_single_layer</a></li>
+    <li><a href="fx_set_parameter.htm">fx_set_parameter</a></li>
+    <li><a href="fx_set_parameters.htm">fx_set_parameters</a></li>
+    <li><a data-xref="{title}" href="fx_set_single_layer.htm">fx_set_single_layer</a></li>
+  </ul>
+  <p>The following functions are used for modifying layers that may contain Filters/Effects by making use of FX Structs:</p>
+  <ul class="colour">
+    <li><a href="layer_set_fx.htm">layer_set_fx</a></li>
+    <li><a href="layer_get_fx.htm">layer_get_fx</a></li>
+    <li><a href="layer_clear_fx.htm">layer_clear_fx</a></li>
+    <li><a data-xref="{title}" href="layer_enable_fx.htm">layer_enable_fx</a></li>
+    <li><a data-xref="{title}" href="layer_fx_is_enabled.htm">layer_fx_is_enabled</a></li>
+  </ul>
+  <h2>Modify FX At Runtime</h2>
+  <p>You can modify filters/effects at runtime by doing the following:</p>
+  <ul class="colour">
+    <li><strong>Retrieve the FX struct</strong> from the layer you want to modify by calling <span class="inline"><a href="layer_get_fx.htm">layer_get_fx()</a></span>
+      <ul>
+        <li><em>Or, create a new FX struct by calling <span class="inline"><a href="fx_create.htm">fx_create()</a></span> and apply it to a layer using <span class="inline"><a href="layer_set_fx.htm">layer_set_fx()</a></span></em></li>
+      </ul>
+    </li>
+    <li><strong>Retrieve its parameter struct</strong> by calling <span class="inline"><a href="fx_get_parameters.htm">fx_get_parameters()</a></span><span class="inline"></span></li>
+    <li><strong>Modify the parameters</strong> as required by assigning values to the struct variables
+      <ul>
+        <li><em>Get the parameter names from here: <a data-xref="{title}" href="../../../../../The_Asset_Editors/Room_Properties/FX/All_Filter_Effect_Types.htm">FX Types &amp; Parameters</a></em></li>
+      </ul>
+    </li>
+    <li><strong>Apply the modified struct</strong> back to the FX struct by calling <span class="inline"><a href="fx_set_parameters.htm">fx_set_parameters()</a></span>
+      <ul>
+        <li><em>You do not need to call <a href="layer_set_fx.htm"><span class="inline">layer_set_fx()</span></a> here as modifying the FX struct directly affects the layer it is already assigned to</em></li>
+      </ul>
+    </li>
+  </ul>
+  <p>Here is example code for the workflow mentioned above:</p>
+  <p class="code_heading">Create Event</p>
+  <p class="code">// Store the FX struct, and its parameters struct, in variables<br />
+    pixelate_fx = layer_get_fx(&quot;Effect_1&quot;);<br />
+    pixelate_fx_params = fx_get_parameters(pixelate_fx);</p>
+  <p class="code_heading">Step Event</p>
+  <p class="code">// Change param as variable<br />
+    pixelate_fx_params.g_CellSize = round((mouse_x / room_width) * 64);<br />
+    <br />
+    // Or, change param as string<br />
+    pixelate_fx_params[$ &quot;g_CellSize&quot;] = round((mouse_x / room_width) * 64);<br />
+    <br />
+    // Apply updated parameters struct to the FX struct<br />
+    fx_set_parameters(pixelate_fx, pixelate_fx_params);
+  </p>
+  <h2>FX Runtime Parameters</h2>
+  <p>The <a data-xref="{title}" href="../../../../../The_Asset_Editors/Room_Properties/FX/All_Filter_Effect_Types.htm">FX Types &amp; Parameters</a> page lists all Filters/Effects along with their <strong>Runtime Parameters</strong>.</p>
+  <p>You can use the Runtime parameter names in the following three ways (using the parameter <span class="inline2">&quot;g_CellSize&quot;</span> as an example):</p>
+  <ul class="colour">
+    <li>Modify a parameter in an FX struct by calling <span class="inline"><a href="fx_set_parameter.htm">fx_set_parameter()</a></span>: <span class="inline2">fx_set_parameter(fx_struct, <strong>&quot;g_CellSize&quot;</strong>, 8);</span></li>
+    <li>Modify a variable in a parameter struct: <span class="inline2">params_struct.<strong>g_CellSize</strong> = 8;</span>
+      <ul>
+        <li><span class="note">NOTE</span> <em>Make sure to get the parameter struct first by calling <span class="inline"><a href="fx_get_parameters.htm">fx_get_parameters()</a></span>.</em></li>
+      </ul>
+    </li>
+    <li>Modify a variable in a parameter struct using the <span class="inline2">$</span> accessor and a string: <span class="inline2">params_struct[$ <strong>&quot;g_CellSize&quot;</strong>] = 8;</span></li>
+  </ul>
+  <h2>Single Layer Mode</h2>
+  <p>By default, a filter/effect is applied to the layer that it is <a href="layer_set_fx.htm">assigned to</a> and all layers below that layer, however you can use <a href="fx_set_single_layer.htm"><span class="inline">fx_set_single_layer()</span></a> to enable <strong>Single Layer</strong> mode for a filter/effect to make sure that it&#39;s only applied to the layer that it is assigned to.</p>
+  <p>The following visual shows a filter being applied to multiple layers (which is the default behaviour for all FX layers), and then the same filter with Single Layer mode enabled and applied to a non-FX layer:</p>
+  <div class="image_columns">
+    <figure><img alt="Fire Jump man is woozy with the universe" class="center_shadow" src="../../../../../assets/Images/Scripting_Reference/GML/Reference/Rooms/FX_single_layer_off.png" title="Fire Jump man is woozy with the universe" />
+      <figcaption>Single Layer Mode OFF</figcaption>
+    </figure>
+    <figure><img alt="Fire Jump man is woozy... alone" class="center_shadow" src="../../../../../assets/Images/Scripting_Reference/GML/Reference/Rooms/FX_single_layer_on.png" style="cursor: nesw-resize;" title="Fire Jump man is woozy... alone" />
+      <figcaption>Single Layer Mode ON</figcaption>
+    </figure>
+  </div>
+  <p>You can also make use of Single-Layer effects in the Room Editor by using the <a href="../../../../../IDE_Tools/The_Inspector.htm">Inspector</a>.</p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Back: <a href="../Rooms.htm">Rooms</a></div>
+        <div style="float:right">Next: <a href="../General_Layer_Functions/General_Layer_Functions.htm">General Layer Functions</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2022 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+Filter and Effect Functions
+Filter/Effect Layers
+-->
+  <!-- TAGS
+fx_layer_functions
+-->
+</body>
+</html>

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>instance_create_layer</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
+  <script src="../../../../assets/scripts/main_script.js" type="module"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Page outlining the function instance_create_layer" />
+  <meta name="rh-index-keywords" content="instance_create_layer" />
+  <meta name="search-keywords" content="instance_create_layer" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>instance_create_layer</h1>
+  <p>With this function you can create a new instance of the specified object at any given point within the room and on the layer specified. The layer can be identified using the layer ID value (as returned by the function <a href="../Rooms/General_Layer_Functions/layer_create.htm"><span class="inline">layer_create()</span></a>) or by the name of the layer (as a string, for example &quot;instance_layer&quot;) as defined in the <a href="../../../../The_Asset_Editors/Rooms.htm">room editor</a>.</p>
+  <p>This function returns the <a href="Instance_Variables/id.htm"><span class="inline">id</span></a> of the new instance which can then be stored in a variable and used to access that instance. Note that this function will also call the <a href="../../../../The_Asset_Editors/Object_Properties/Object_Events.htm">Create Event</a> of the instance being created <i>before</i> continuing with the code or actions for the event that called the function.</p>
+  <p class="note"><span class="important">IMPORTANT</span> There is a minimum and maximum layer depth of -16000 to 16000. Anything placed on a layer outside that range <b>will not be drawn</b> although all events will still run as normal.</p>
+  <h2>Optional Struct</h2>
+  <p>The last argument, <span class="inline2">var_struct</span>, is optional and takes a struct containing additional variables for the new instance.</p>
+  <p>Variables from this struct are applied to the new instance <em>before</em> its Create event runs, but <em>after</em> its <a href="../../../../The_Asset_Editors/Object_Properties/Object_Variables.htm">Variable Definitions</a> are set.</p>
+  <p>This means that the values from that struct are readable in the Create event of the new instance. See <strong>Example 2</strong> at the bottom.</p>
+  <p>Values applied to the new instance through this struct can be of any type, including <a href="../../../GML_Overview/Method_Variables.htm">method</a> variables. <a href="Instance_Variables/Instance_Variables.htm">Built-in variables</a> can be changed as well.</p>
+  <p class="note"><span class="note">NOTE</span> Variables from the struct are &quot;shallow-copied&quot; to the new instance, meaning any arrays, structs, and other resources are copied by reference and not duplicated.</p>
+  <p> </p>
+  <h4>Syntax:</h4>
+  <p class="code">instance_create_layer(x, y, layer_id, obj);</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>Argument</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>x</td>
+        <td><span data-keyref="Type_Real"><a href="../../../../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td>The x position the object will be created at</td>
+      </tr>
+      <tr>
+        <td>y</td>
+        <td><span data-keyref="Type_Real"><a href="../../../../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td>The y position the object will be created at</td>
+      </tr>
+      <tr>
+        <td>layer_id</td>
+        <td><span data-keyref="Type_ID_Layer"><a href="../../../../../GameMaker_Language/GML_Reference/Asset_Management/Rooms/General_Layer_Functions/layer_get_id.htm" target="_blank">Layer ID</a></span> or <span data-keyref="Type_String"><a href="../../../../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">String</a></span></td>
+        <td>The layer ID (or name) to assign the created instance to</td>
+      </tr>
+      <tr>
+        <td>obj</td>
+        <td><span data-keyref="Type_Asset_Object"><a href="../../../../../The_Asset_Editors/Objects.htm" target="_blank">Object Asset</a></span></td>
+        <td>The object index of the object to create an instance of</td>
+      </tr>
+      <tr>
+        <td>var_struct</td>
+        <td><span data-keyref="Type_Struct"><a href="../../../../../GameMaker_Language/GML_Overview/Structs.htm" target="_blank">Struct</a></span></td>
+        <td><span class="optional">OPTIONAL</span> A struct with variables to assign to the new instance</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>Returns:</h4>
+  <p class="code"><span data-keyref="Type_ID_Instance"><a href="../../../../../GameMaker_Language/GML_Reference/Asset_Management/Instances/Instance_Variables/id.htm" target="_blank">Instance ID</a></span></p>
+  <p> </p>
+  <h4>Example 1:</h4>
+  <p class="code">var inst = instance_create_layer(x, y, &quot;Instances&quot;, obj_bullet);<br />
+    with (inst)<br />
+    {<br />
+        speed = other.shoot_speed;<br />
+        direction = other.image_angle;<br />
+    }</p>
+  <p>The above code creates a new instance of the object <span class="inline2">obj_bullet</span> in the &quot;Instances&quot; layer, and stores the instance ID in a variable. This variable is then used to assign <span class="inline">speed</span> and <span class="inline">direction</span> to the new instance.</p>
+  <p>This will first create the instance, run its Create event, and <em>then</em> assign values to its variables.</p>
+  <p>If you want to assign some variables <em>before</em> the Create event runs, see the example below.</p>
+  <p> </p>
+  <h4>Example 2:</h4>
+  <p class="code">var inst = instance_create_layer(x, y, &quot;Instances&quot;, obj_bullet,<br />
+    {<br />
+        speed : shoot_speed,<br />
+        direction : image_angle<br />
+    });</p>
+  <p>The above code creates an instance of <span class="inline2">obj_bullet</span>, and passes in a struct as the last argument.</p>
+  <p>That struct has variables for the speed and direction. It pulls its values from the calling instance, without the need to use <span class="inline2">other</span>.</p>
+  <p>These variables are applied to the new instance before its Create event runs.</p>
+  <p>You&#39;re not limited to a struct literal, as you can also pass in a variable that stores an existing struct, or create a <a href="../../../GML_Overview/Language_Features/new.htm">new</a> struct from a <a href="../../../GML_Overview/Structs.htm#constr">constructor</a>.</p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Back: <a href="Instances.htm">Instances</a></div>
+        <div style="float:right">Next: <a href="instance_create_depth.htm">instance_create_depth</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2022 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+instance_create_layer
+-->
+  <!-- TAGS
+instance_create_layer
+-->
+</body>
+</html>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The Shader Editor</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../assets/css/default.css" type="text/css" />
+  <script src="../assets/scripts/main_script.js" type="module"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Page detailing how the shader editor works" />
+  <meta name="rh-index-keywords" content="Shader Editor" />
+  <meta name="search-keywords" content="shaders,shader,open GL,open GL ES" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1><span data-field="title" data-format="default">The Shader Editor</span></h1>
+  <p><img alt="Shader Editor" class="center" src="../assets/Images/Asset_Editors/Editor_Shaders.png" />Shaders are a very powerful tool that can be used to manipulate the graphics that your game renders to the screen, permitting incredibly fast effects that can range from, for example, adding a subtle colour hue to a sprite, right up to full screen distortion effects. But what is a shader?</p>
+  <p>A shader is basically a two-part program that runs directly on the graphics card itself, making it very fast since the GPU is doing all the work and freeing up CPU cycles for your game code. The full shader is comprised of a vertex shader program, and a fragment shader program (also known as a pixel shader). Both of these tiny programs work together in order to manipulate what the graphics card renders to the screen. This then permits you to manipulate in real time, the position, colour and alpha values that are actually <a class="glossterm" data-glossterm="rendered" href="#">rendered</a> onto the <a class="glossterm" data-glossterm="display buffer" href="#">display buffer</a>.</p>
+  <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down" href="#">Vertex Shader</a></p>
+  <div class="droptext" data-targetname="drop-down">
+    <p class="dropspot">The Vertex Shader is the programmable shader stage in the rendering pipeline that handles the processing of individual vertices (the points of the triangles used to render any image), and when you are rendering a geometry - like a sprite or a surface - <span data-keyref="GameMaker Name">GameMaker</span> creates a stream of vertices - called a <strong>Vertex Buffer </strong>- that defines the geometry of these triangles. A sprite for example would have a geometry of two triangles (normally called <em>polygons</em>) rendered together to form a &quot;quad&quot;. This vertex stream from the Vertex Buffer is fed as an input to the Vertex Shader, which can process the vertices data in a programmable way. The Vertex Shader output is used by the GPU to assemble triangles, which are then properly clipped and culled to the view port and view camera, and then sent on to the rasterizer block of the GPU which generates a new output stream, constituted by something called <strong>Fragments</strong>. These are tiny data structures, each of which is relative to a single pixel that appears on the screen.</p>
+  </div>
+  <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down1" href="#">Fragment Shader</a></p>
+  <div class="droptext" data-targetname="drop-down1">
+    <p class="dropspot">The Fragment Shader is the programmable shader stage in the rendering pipeline that deals with &quot;fragments&quot; - the interpolated pixels used to texture any given polygon - and they are responsible for outputting the final pixel colour of each rendered triangle pixel. Basically it works like this: the Fragment Shader receives as its input all those fragments (the individual pixels of the triangle being rendered) that have been passed along the pipeline by the Vertex Shader. It can then process these fragments to change the colour and alpha of the final destination pixel that will be drawn to the screen.</p>
+  </div>
+  <p> </p>
+  <p>A complete overview of how shaders really work and what place they have in the graphics pipeline is outside the scope of this, but you can find a brief guide here:</p>
+  <ul class="colour">
+    <li><a href="../Additional_Information/Guide_To_Using_Shaders.htm">Guide To Using Shaders</a></li>
+  </ul>
+  <p> </p>
+  <h2>Language Support</h2>
+  <p><span data-keyref="GameMaker Name">GameMaker</span> supports the following shader languages:</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>Shader Language</th>
+        <th>Target Platform</th>
+      </tr>
+      <tr>
+        <td><strong>GLSL ES 1.0</strong></td>
+        <td>All target platforms</td>
+      </tr>
+      <tr>
+        <td><strong>GLSL</strong></td>
+        <td>Mac and Ubuntu (Linux)</td>
+      </tr>
+      <tr>
+        <td><strong>HLSL 11</strong></td>
+        <td>Windows and Xbox</td>
+      </tr>
+      <tr>
+        <td><strong>PSSL</strong></td>
+        <td>PlayStation 4 &amp; 5</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>When writing GLSL ES shaders, it is recommended to follow the <a href="https://www.khronos.org/registry/OpenGL/specs/es/2.0/GLSL_ES_Specification_1.00.pdf" title="GLSL ES 1.0 Specification">official language specification</a> as closely as possible to avoid errors as some target platforms can be stricter than others (such as the HTML5 and GX.games targets, which can be more restrictive than other platforms such as Windows, macOS, etc. when it comes to language limitations).</p>
+  <p> </p>
+  <h2>Creating a Shader</h2>
+  <p>To create a shader resource, simply right click <img alt="RMB Icon" class="icon" src="../assets/Images/Icons/Icon_RMB.png" /> inside the <a href="../Introduction/The_Asset_Browser.htm">Asset Browser</a> and select <em>Create -&gt; Shader</em>. Once you have created the base shader, you can then use the right mouse <img alt="RMB Icon" class="icon" src="../assets/Images/Icons/Icon_RMB.png" /> menu on the new resource to select the shader type before continuing to edit the code:</p>
+  <p><img alt="Shader Editor RMB Menu" class="center" src="../assets/Images/Asset_Editors/Editor_Shader_RMBMenu.png" />The code editor itself is split into two the &quot;programs&quot; - Vertex and Fragment - when you create a new shader, with each one being available from tabs at the top of the editor. Both are created at once because you <em>cannot create a shader without both parts</em>. Even if you wish to only use the fragment shader you will have to have created a &quot;pass through&quot; vertex shader first, which is why by default any new shader being created will have a vertex and fragment pass through shader already coded for you (in the screen shot at the top of the page, you can see that we have used the code editor pane view to show the two side by side... useful when working on both the shader programs together).</p>
+  <p>It is worth noting that you can use GLSL ES shaders on <em>all </em>target platforms, but for them to work on the <strong>HTML5 </strong>target platform you must have enabled WebGL in the <a href="../Settings/Game_Options/HTML5.htm">HTML5 Game Options</a> otherwise they will not work.</p>
+  <p>For further details relating to shader functions and how they can be used in <span data-keyref="GameMaker Name">GameMaker</span> please see the following pages:</p>
+  <ul class="colour">
+    <li><a href="../GameMaker_Language/GML_Reference/Asset_Management/Shaders/Shaders.htm">Shader Functions</a> - The GML reference section for shaders.</li>
+    <li><a href="../GameMaker_Language/GML_Reference/Asset_Management/Shaders/Shader_Constants.htm">Shader Constants</a> - The constants built in to <span data-keyref="GameMaker Name">GameMaker</span> that can be used when writing shaders.</li>
+    <li><a href="https://www.khronos.org/registry/OpenGL/specs/es/2.0/GLSL_ES_Specification_1.00.pdf">GLSL ES 1.0 Specifications</a> - PDF file for the OpenGL ES 1.0 Shader Language that <span data-keyref="GameMaker Name">GameMaker</span> uses.</li>
+    <li><a href="https://docs.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-reference">HLSL Language Reference</a> - The Microsoft reference pages for using HLSL.</li>
+    <li><a href="http://twvideo01.ubm-us.net/o1/vault/gdceurope2013/Presentations/825424RichardStenson.pdf">PSSL Language Presentation</a> - Overview of the PSSL language in presentation format.</li>
+  </ul>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Back: <a data-xref="{title}" href="The_Asset_Editors.htm">The Asset Editors</a></div>
+        <div style="float:right">Next: <a data-xref="{title}" href="Sounds.htm">The Sound Editor</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2023 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+The Shader Editor
+Shaders
+OpenGL ES
+HLSL
+PSSL
+-->
+  <!-- TAGS
+shader_editor
+-->
+</body>
+</html>

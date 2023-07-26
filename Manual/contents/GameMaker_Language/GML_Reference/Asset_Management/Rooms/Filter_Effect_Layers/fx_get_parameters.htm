@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>fx_get_parameters</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../../../assets/css/default.css" type="text/css" />
+  <script src="../../../../../assets/scripts/main_script.js" type="module"></script>
+  <meta name="rh-authors" content="Gurpreet S. Matharoo" />
+  <meta name="topic-comment" content="Page outlining the function fx_get_parameters" />
+  <meta name="rh-index-keywords" content="fx_get_parameters" />
+  <meta name="search-keywords" content="fx_get_parameters" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>fx_get_parameters</h1>
+  <p>This function is used to retrieve a <a href="../../../../GML_Overview/Structs.htm">struct</a> containing all the parameters for the given FX struct. You specify an FX struct (as returned from <span class="inline"><a href="fx_create.htm">fx_create()</a></span> or <span class="inline"><a href="layer_get_fx.htm">layer_get_fx()</a></span>) and this function returns a struct containing variables for all parameters applicable to that filter/effect. Parameters that use vectors (i.e. groups of values) will be present as arrays.</p>
+  <p>You can get the names of all parameters in a separate array by calling <span class="inline"><a href="fx_get_parameter_names.htm">fx_get_parameter_names()</a></span>, or find them on this page: <a data-xref="{title}" href="../../../../../The_Asset_Editors/Room_Properties/FX/All_Filter_Effect_Types.htm">FX Types &amp; Parameters</a>.</p>
+  <p>Changing values in this struct will not apply those changes to the filter/effect; you will need to call <span class="inline"><a href="fx_set_parameters.htm">fx_set_parameters()</a></span> to apply the modified struct back to the filter/effect for any changes to take effect.</p>
+  <p> </p>
+  <h4>Syntax:</h4>
+  <p class="code">fx_get_parameters(filter_or_effect);</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>Argument</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>filter_or_effect</td>
+        <td><span data-keyref="Type_Struct_FX"><a href="../../../../../../GameMaker_Language/GML_Reference/Asset_Management/Rooms/Filter_Effect_Layers/fx_create.htm" target="_blank">FX Struct</a></span></td>
+        <td>The FX struct for which the parameters will be returned</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>Returns:</h4>
+  <p class="code"><span data-keyref="Type_Struct"><a href="../../../../../../GameMaker_Language/GML_Overview/Structs.htm" target="_blank">Struct</a></span> (or -1 on failure)</p>
+  <p> </p>
+  <h4>Example:</h4>
+  <p class="code">var _fx_struct = layer_get_fx(&quot;TintEffect&quot;);<br />
+    <br />
+    if (_fx_struct != -1)<br />
+    {<br />
+        var _params = fx_get_parameters(_fx_struct);<br />
+        var _osc = sin(current_time / 1000);<br />
+        _params.g_TintCol = [_osc, 0.3 + _osc, 0.6 + _osc, 1];<br />
+    <br />
+        fx_set_parameters(_fx_struct, _params);<br />
+    }
+  </p>
+  <p>The above code gets the FX struct for a layer that is assumed to have the &quot;Colour Tint&quot; filter applied to it, and retrieves its parameter struct by calling <span class="inline">fx_get_parameters()</span>. After that it creates an oscillating value by using <span class="inline"><a href="../../../Maths_And_Numbers/Angles_And_Distance/sin.htm">sin()</a></span> and <span class="inline"><a href="../../../Maths_And_Numbers/Date_And_Time/current_time.htm">current_time</a></span>, which is then used for the RGBA values for the tint effect so it keeps animating. The RGBA array is assigned to the <span class="inline">g_TintCol</span> variable in the parameter struct, and the struct is then applied back to the FX struct by calling <a href="fx_set_parameter.htm"><span class="inline">fx_set_parameters()</span></a>.</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Back: <a href="Filter_Effect_Functions.htm">Filter and Effect Functions</a></div>
+        <div style="float:right">Next: <a href="fx_get_name.htm">fx_get_name</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2022 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+fx_get_parameters
+-->
+  <!-- TAGS
+fx_get_parameters
+-->
+</body>
+</html>

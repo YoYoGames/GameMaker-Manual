@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>fx_create</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../../../assets/css/default.css" type="text/css" />
+  <script src="../../../../../assets/scripts/main_script.js" type="module"></script>
+  <meta name="rh-authors" content="Gurpreet S. Matharoo" />
+  <meta name="topic-comment" content="Page outlining the function fx_create" />
+  <meta name="rh-index-keywords" content="fx_create" />
+  <meta name="search-keywords" content="fx_create" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>fx_create</h1>
+  <p>This function is used to create a new FX Struct for a given effect type, which can then be <a href="layer_set_fx.htm">applied to a layer</a>.</p>
+  <p>The names of the Filters/Effects that you can pass into this function are listed on this page: <a data-xref="{title}" href="../../../../../The_Asset_Editors/Room_Properties/FX/All_Filter_Effect_Types.htm">All Filter/Effect Types</a>.</p>
+  <h2>Usage</h2>
+  <p>You can read the parameters for the created effect by calling <a href="fx_get_parameter.htm"><span class="inline">fx_get_parameter</span></a>/<a href="fx_get_parameters.htm"><span class="inline">s</span></a> on the returned struct, and assign new values to them by calling <span class="inline"><a href="fx_set_parameter.htm">fx_set_parameter</a></span>/<span class="inline"><a href="fx_set_parameters.htm">s</a></span>.</p>
+  <p>Note that the struct returned by this function will contain no visible members and can only be modified through one of the <a href="Filter_Effect_Functions.htm">Filter/Effect Functions</a>.</p>
+  <h2>Function Failures</h2>
+  <p>The function will return -1 if the struct failed to create for any reason; this may happen if the specified FX name was wrong or the FX was not loaded into the game package.</p>
+  <p>To ensure that this function works properly, make sure the FX you need is loaded into your game package, as explained on the <a data-xref="{title}" href="Filter_Effect_Functions.htm">Filter and Effect Functions</a> page:</p>
+  <div class="snippet_quote">
+    <div data-conref="../../../../../assets/snippets/FX_only_added_through_IDE.hts"> </div>
+  </div>
+  <p>If these conditions are not fulfilled, i.e. you are not passing in a string literal <em>and</em> the filter/effect is not present in any rooms, then the function will not be able to load that filter/effect and will return -1.</p>
+  <p> </p>
+  <p> </p>
+  <h4>Syntax:</h4>
+  <p class="code">fx_create(filter_or_effect_name);</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>Argument</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>filter_or_effect_name</td>
+        <td><span data-keyref="Type_String"><a data-rhwidget="HyperlinkPopover" href="../../../../../../GameMaker_Language/GML_Overview/Data_Types.htm">String</a></span></td>
+        <td>The name of the filter/effect to create (get them from <a data-xref="{title}" href="../../../../../The_Asset_Editors/Room_Properties/FX/All_Filter_Effect_Types.htm">All Filter/Effect Types</a>).</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>Returns:</h4>
+  <p class="code"><span data-keyref="Type_Struct_FX"><a data-rhwidget="HyperlinkPopover" href="../../../../../../GameMaker_Language/GML_Reference/Asset_Management/Rooms/Filter_Effect_Layers/fx_create.htm">FX Struct</a></span> or -1 (on failure)</p>
+  <p> </p>
+  <h4>Example:</h4>
+  <p class="code">var _fx_tint = fx_create(&quot;_filter_tintfilter&quot;);<br />
+    fx_set_parameter(_fx_tint, &quot;g_TintCol&quot;, [1, 0, 0, 1]);<br />
+    layer_set_fx(&quot;EffectLayer&quot;, _fx_tint);</p>
+  <p>The above code creates a new FX struct from the <span class="inline2">&quot;_filter_tintfilter&quot;</span> effect, which is the &quot;Colour Tint&quot; filter found in the Room Editor. It assigns a value to its <span class="inline2">&quot;g_TintCol&quot;</span> parameter which is the colour of the tint, and as it&#39;s a <span class="inline">vec4</span> internally, it takes an array containing four values (corresponding to its red, green, blue and alpha values). The FX struct for the tint is then applied to an FX layer.</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Back: <a href="Filter_Effect_Functions.htm">Filter and Effect Functions</a></div>
+        <div style="float:right">Next: <a href="fx_get_parameter.htm">fx_get_parameter</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2022 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+fx_create
+-->
+  <!-- TAGS
+fx_create
+-->
+</body>
+</html>

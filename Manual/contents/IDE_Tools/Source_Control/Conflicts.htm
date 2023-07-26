@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Conflicts</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../assets/css/default.css" type="text/css" />
+  <script src="../../assets/scripts/main_script.js" type="module"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Section that covers Source Control standard workflow
+" />
+  <meta name="rh-index-keywords" content="Source Control - Conflicts" />
+  <meta name="search-keywords" content="source control conflicts,conflicts tools" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>Conflicts</h1>
+  <p>In this section we are going to look at resolving conflicts between a <a href="Cloning_A_Repository.htm">cloned local repository</a> and a master repository. Assuming you are now using a local repository we&#39;ll need to edit a file and then cause some kind of conflict, so open the test script we&#39;ve been using and change the &quot;Hello World&quot; message to something like this:</p>
+  <p class="code">show_debug_message(&quot;Hello World, How Are You?&quot;);</p>
+  <p>You should now save the project and commit it to the local repository. Now, since we are linked to a remote master repository (even if it&#39;s one we&#39;ve cloned to the same disk) we need to do a Push to get the changes on to master. For that, go to <strong>Source Control</strong> &gt; <strong>Push Changes</strong>, which will give us a status update in the Source Control <a href="../../Introduction/The_Output_Window.htm">Output Tab</a>:</p>
+  <p><img alt="Source Control Output Panel" class="center" src="../../assets/Images/IDE Tools/SCM_OutputPanel.png" />We now need to open up our original project (not the cloned one), so browse to where you saved it on disk - or simply check the <strong>Recent Projects</strong> in the <a href="../../IDE_Navigation/Menus/The_File_Menu.htm">File menu</a>, as it should be directly under the current one - and load it into <span data-keyref="GameMaker Name">GameMaker</span>. An easy way to check you have the right project is to simply check the script you have and if the message is &quot;Hello World&quot; then you have the right one, or you can open up the <strong>View History</strong> window and check that way.</p>
+  <p>You now need to edit the script again, so make it read something like this:</p>
+  <p class="code">show_debug_message(&quot;This will cause a conflict.&quot;);</p>
+  <p>This can be saved to disk, and the changes committed, but if you try to push these changes you&#39;ll get the following message:</p>
+  <p><span class="buttons"><img alt="Source Control Push Conflict Message" class="center" src="../../assets/Images/IDE Tools/SCM_PushConflict.png" /></span>Someone has already pushed changes which you don&#39;t have yet! This means that you need to do a pull on the repository and see what exactly the issue is, so go to <strong>Source Control</strong> &gt; <strong>Pull Changes</strong>. This will show two windows, the first is a warning about changed files (as with previous actions, you want to choose <strong>Reload </strong>here and <em>not </em><strong>Save</strong>), and the other is the <strong>Conflicts </strong>window:</p>
+  <p><img alt="Source Control Conflict Window" class="center" src="../../assets/Images/IDE Tools/SCM_ConflictsWindow.png" />This window will show the conflicted files in a list to the left, and you can select the files from that list using the left mouse button <img alt="LMB Icon" class="icon" height="22" src="../../assets/Images/Icons/Icon_LMB.png" width="20" /> (or select multiple files using <img alt="Control Icon" class="icon" height="20" src="../../assets/Images/Icons/Icon_Ctrl.png" width="55" /> / <img alt="CMD Icon" class="icon" height="20" src="../../assets/Images/Icons/Icon_Cmd.png" width="55" /> or <img alt="Shift Icon" class="icon" height="20" src="../../assets/Images/Icons/Icon_Shift.png" width="55" /> along with <img alt="LMB Icon" class="icon" height="22" src="../../assets/Images/Icons/Icon_LMB.png" width="20" />). You have four options for dealing with the conflicted files, available from the buttons on the right:</p>
+  <ul class="colour">
+    <li><strong>Use Theirs</strong> - This will overwrite the changes you have made with the one from the remote repository.</li>
+    <li><strong>Use Mine</strong> - This will overrule the changes from the remote repository with the ones you&#39;ve just made.</li>
+    <li><strong>Merge </strong>- This will attempt to open an External Merge Tool to handle the conflict.</li>
+    <li><strong>Choose Merge Tool</strong> - This will let you configure the Merge Tool (see the section on <a href="External_Merge_Diff_Tools.htm">External Merge/Diff Tools</a> for more details).</li>
+  </ul>
+  <p>Now, you can use the buttons to sort out the conflict, but before you do, let&#39;s just open the conflicted file to see exactly what the issue is. If you open the script that is conflicted it will now look like this:</p>
+  <p><img alt="Source Control Conflicted Code" class="center" src="../../assets/Images/IDE Tools/SCM_ConflictedCode.png" />This shows that &quot;This Will Cause A Conflict&quot; is on the HEAD (this is what we have pushed to the local repository) and that &quot;Hello World, How Are You?&quot; is being pulled from master, the remote repository. You can go back to the Conflicts window now and click on <strong>Use Theirs</strong> to pull the changed file and overwrite the current HEAD file. The script will now be flagged as changed and you should do a new commit and push before continuing.</p>
+  <p>Note that we could actually fix this in the <span data-keyref="GameMaker Name">GameMaker</span> IDE. If we remove lines 1, 2, 3 and 5 so we are left with just <span class="inline">show_debug_message(&quot;Hello World, How Are You?&quot;)</span> and save it, it&#39;ll clear the conflict, as Git will assume that you know what you are doing with your own file. However, this is error prone, so it is recommended to install a merge tool, then configure and use that instead of manually trying to merge.</p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Back: <a href="../Source_Control.htm">Source Control</a></div>
+        <div style="float:right">Next: <a href="External_Merge_Diff_Tools.htm">External Merge/Diff Tools</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2021 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+Source Control Conflicts
+conflicts
+-->
+  <!-- TAGS
+source_control_conflicts
+-->
+</body>
+</html>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Collision Compatibility Mode</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
+  <script src="../../../../assets/scripts/main_script.js" type="module"></script>
+  <meta name="rh-authors" content="Gurpreet S. Matharoo" />
+  <meta name="topic-comment" content="Page describing the Collision Compatibility Mode" />
+  <meta name="rh-index-keywords" content="Collision Compatibility" />
+  <meta name="search-keywords" content="Collision, Compatibility, Mode, integer collisions, floating point collisions, rounded bounding box" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>Collision Compatibility Mode</h1>
+  <p>In the <a href="../../../../Settings/Game_Options.htm">General Game Options</a> for your project, you can enable &quot;<strong>Collision Compatibility Mode</strong>&quot; to switch to the legacy collision system. You would only need to do this if you noticed odd behaviour with collisions in your existing project(s) after upgrading to <span data-keyref="GameMaker Name">GameMaker</span> 2022.1 or a newer version, which changed how collisions work.</p>
+  <p><img alt="Collision Compatibility Mode option in Game Options" class="center" src="../../../../assets/Images/Scripting_Reference/GML/Reference/Movement_Collisions/collision_compatibility_mode.png" /></p>
+  <h2>Changes in Collisions</h2>
+  <p>In the legacy collision system, all bounding box coordinates were rounded to integers and were &quot;exclusive&quot;, i.e. they would exclude the bottom-most and right-most edges of a collision mask. For example, the bounding box for a 16x16 collision mask would be generated from <span class="inline2">(0, 0)</span> to <span class="inline2">(15, 15)</span> (relative). This would work fine for instances that used only integer values for positioning and scaling, however using <a class="glossterm" data-glossterm="floating point" href="#">floating point</a> values would cause unexpected behaviour and a slight disconnect between rendering and collision checking, as GameMaker would then always round the bounding box values for performing collision checks.</p>
+  <p>In the current collision system, bounding box values are not rounded and are used as-is, meaning collisions are more accurate and behave as one would expect. Bounding boxes are also &quot;inclusive&quot; now, i.e. they include the bottom-most and right-most edges. For example, the bounding box for a 16x16 collision mask is now generated from <span class="inline2">(0.0, 0.0)</span> to <span class="inline2">(16.0, 16.0)</span> (relative).</p>
+  <h2>Compatibility Mode</h2>
+  <p>The collision changes explained above may cause some existing projects to break, which you can easily fix by enabling the <strong>Collision Compatibility Mode</strong> for such projects so the legacy collision system is used; however it is recommended to test and upgrade your collision code to work with the new system as it should allow your game to have more accurate and logical collisions.</p>
+  <p>For projects that are new or do not use existing collision code, there is no need to enable this option.</p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Back: <a href="Collisions.htm">Collisions</a></div>
+        <div style="float:right">Next: <a data-xref="{title}" href="place_empty.htm">place_empty</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2023 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+Collision Compatibility Mode
+-->
+  <!-- TAGS
+Collision Compatibility Mode
+-->
+</body>
+</html>

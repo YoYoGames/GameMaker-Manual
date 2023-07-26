@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>physics_joint_friction_create</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
+  <script src="../../../../assets/scripts/main_script.js" type="module"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Reference page for physics_joint_friction_create" />
+  <meta name="rh-index-keywords" content="physics_joint_friction_create" />
+  <meta name="search-keywords" content="physics_joint_friction_create" />
+  <meta name="is_pure" content="true" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>physics_joint_friction_create</h1>
+  <p>The friction joint is a bit different to all other joints in the physics simulation in that the connection created will not constrain the instances position or movement, but rather its speed and rotation. This works by taking the maximum input values for force and torque and applying those to the second fixture to bring the speed and angular momentum down to the same values as that of the first instance. So, if you have a stationary instance and a moving instance then connect them with a friction joint, the moving instance will gradually slow down until it too is stationary. If both instances were moving then the second instance will have its movement speed modified to match that of the first instance.</p>
+  <p><img alt="Friction joint illustration" class="center" src="../../../../assets/Images/Scripting_Reference/GML/Reference/Physics/friction_joint_image.png" />As with most other joints, you supply the instances to join together, as well as the position for the joint to be created at within the room. You then supply the maximum force and maximum torque (directional and rotational friction), and if you set the &quot;col&quot; value to <span class="inline">true</span> then the two instances can interact and collide with each other but <i>only</i> if they have collision events, however if it is set to <span class="inline">false</span>, they will not collide no matter what.</p>
+  <p> </p>
+  <h4>Syntax:</h4>
+  <p class="code">physics_joint_friction_create(inst1, inst2, anchor_x, anchor_y, max_force, max_torque, col)</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>Argument</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>inst1</td>
+        <td><span data-keyref="Type_ID_Instance">Instance ID</span></td>
+        <td>The first instance to connect with the joint</td>
+      </tr>
+      <tr>
+        <td>inst2</td>
+        <td><span data-keyref="Type_ID_Instance">Instance ID</span></td>
+        <td>The second instance to connect with the joint</td>
+      </tr>
+      <tr>
+        <td>anchor_x</td>
+        <td><span data-keyref="Type_Real">Real</span></td>
+        <td>The x coordinate for the joint, within the game world</td>
+      </tr>
+      <tr>
+        <td>anchor_y</td>
+        <td><span data-keyref="Type_Real">Real</span></td>
+        <td>The y coordinate for the joint, within the game world</td>
+      </tr>
+      <tr>
+        <td>max_force</td>
+        <td><span data-keyref="Type_Real">Real</span></td>
+        <td>The maximum frictional force that will be applied</td>
+      </tr>
+      <tr>
+        <td>max_torque</td>
+        <td><span data-keyref="Type_Real">Real</span></td>
+        <td>The maximum rotational force that will be applied</td>
+      </tr>
+      <tr>
+        <td>col</td>
+        <td><span data-keyref="Type_Bool">Boolean</span></td>
+        <td>Whether the two instances can collide (true) or not (false)</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>Returns:</h4>
+  <p class="code"><span data-keyref="Type_ID_Physics_Joint">Physics Joint ID</span></p>
+  <p> </p>
+  <h4>Example:</h4>
+  <p class="code">var mainFixture, o_id;<br />
+    mainFixture = physics_fixture_create();<br />
+    physics_fixture_set_circle_shape(mainFixture, sprite_get_width(sprite_index) / 2);<br />
+    o_id = instance_create_layer(x+300, y, &quot;Instances&quot;, obj_Rudder);<br />
+    physics_fixture_bind(mainFixture, id);<br />
+    physics_fixture_bind(mainFixture, o_id);<br />
+    physics_joint_friction_create(id, o_id, x, y, 10, 0.3, true);<br />
+    physics_fixture_delete(mainFixture);</p>
+  <p>The above code will create a fixture then bind it to two instances, before connecting them both using a friction joint.</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Back: <a href="Joints.htm">Joints</a></div>
+        <div style="float:right">Next: <a href="physics_joint_delete.htm">physics_joint_delete</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2022 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+physics_joint_friction_create
+-->
+  <!-- TAGS
+physics_joint_friction_create
+-->
+</body>
+</html>

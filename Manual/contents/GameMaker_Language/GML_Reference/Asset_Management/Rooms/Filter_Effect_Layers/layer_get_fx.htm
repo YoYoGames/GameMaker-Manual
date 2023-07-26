@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>layer_get_fx</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../../../assets/css/default.css" type="text/css" />
+  <script src="../../../../../assets/scripts/main_script.js" type="module"></script>
+  <meta name="rh-authors" content="Gurpreet S. Matharoo" />
+  <meta name="topic-comment" content="Page outlining the function layer_get_fx" />
+  <meta name="rh-index-keywords" content="layer_get_fx" />
+  <meta name="search-keywords" content="layer_get_fx" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>layer_get_fx</h1>
+  <p>This function is used to retrieve the FX struct for a layer. You specify either the ID or the name of the layer you want to target and the function will return a struct containing information on its applied effect. This struct will be similar to the struct you get from <span class="inline"><a href="fx_create.htm">fx_create()</a></span>, and the functions <a href="fx_get_parameter.htm"><span class="inline">fx_get_parameter</span></a>/<a href="fx_get_parameters.htm"><span class="inline">s</span></a> and <span class="inline"><a href="fx_set_parameter.htm">fx_set_parameter</a></span>/<span class="inline"><a href="fx_set_parameters.htm">s</a></span> can be used on it to read and modify its parameters.</p>
+  <p>If the specified layer has no filters/effects applied to it, the function will return -1.</p>
+  <p> </p>
+  <h4>Syntax:</h4>
+  <p class="code">layer_get_fx(layer_name_or_id);</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>Argument</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>layer_name_or_id</td>
+        <td><span data-keyref="Type_String"><a href="../../../../../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">String</a></span> or <span data-keyref="Type_ID_Layer"><a href="../../../../../../GameMaker_Language/GML_Reference/Asset_Management/Rooms/General_Layer_Functions/layer_get_id.htm" target="_blank">Layer ID</a></span></td>
+        <td>The name or ID of the layer to read</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>Returns:</h4>
+  <p class="code"><span data-keyref="Type_Struct_FX"><a href="../../../../../../GameMaker_Language/GML_Reference/Asset_Management/Rooms/Filter_Effect_Layers/fx_create.htm" target="_blank">FX Struct</a></span> (or -1 if not found)</p>
+  <p> </p>
+  <h4>Example:</h4>
+  <p class="code">var layers = layer_get_all();<br />
+    for(var i = 0; i &lt; array_length(layers); i ++)<br />
+    {    <br />
+        var layer_fx = layer_get_fx(layers[i]);<br />
+        <br />
+        if (layer_fx != -1)<br />
+        {<br />
+            if (fx_get_name(layer_fx) == &quot;_filter_tintfilter&quot;)<br />
+            {            <br />
+                fx_set_parameter(<span class="misspell-word">layer_fx</span>, &quot;g_TintCol&quot;, [0, 0, 1, 1]);<br />
+            }<br />
+        }<br />
+    }</p>
+  <p>The above code runs a <a href="../../../../GML_Overview/Language_Features/for.htm">for</a> loop through all the layers present in the room, and checks each layer for an FX struct. If a layer has an FX struct, it checks the name of that filter/effect by calling <a href="fx_get_name.htm"><span class="inline">fx_get_name()</span></a> on it; if it&#39;s equal to <span class="inline2">&quot;_filter_tintfilter&quot;</span> meaning that it&#39;s a &quot;Colour Tint&quot; filter, it changes its tint colour to blue.</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Back: <a href="Filter_Effect_Functions.htm">Filter and Effect Functions</a></div>
+        <div style="float:right">Next: <a href="layer_clear_fx.htm">layer_clear_fx</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2023 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+layer_get_fx
+-->
+  <!-- TAGS
+layer_get_fx
+-->
+</body>
+</html>

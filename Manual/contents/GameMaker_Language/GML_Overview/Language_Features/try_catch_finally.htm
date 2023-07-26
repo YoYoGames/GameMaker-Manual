@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>try / catch / finally</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../assets/css/default.css" type="text/css" />
+  <script src="../../../assets/scripts/main_script.js" type="module"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Page outlining the try / catch / finally functions" />
+  <meta name="rh-index-keywords" content="try,catch,finally" />
+  <meta name="search-keywords" content="try,catch,finally" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>try / catch / finally</h1>
+  <p>The <span class="inline">try</span>, <span class="inline">catch</span> and <span class="inline">finally</span> statements can be used in your game for error checking and permit you to test out blocks of code and control what happens if any <a href="../../../Additional_Information/Errors/Runner_Errors.htm">runtime exceptions</a> occur. Using these will prevent the exception ending the game and showing the standard error message to the user, but this means that you will have to handle what happens next in that case, like saving out log files - for example - and ending the game gracefully (note that if you choose to do nothing, your game may become unstable and not perform correctly).</p>
+  <p>At it&#39;s most basic the <span class="inline">try</span> syntax is as follows:</p>
+  <p class="code">try<br />
+    {<br />
+        &lt;statement1&gt;;<br />
+        &lt;statement2&gt;;<br />
+        ...<br />
+    }</p>
+  <p>However, having a <span class="inline">try</span> without anything to actually handle any exceptions the code may produce will not be very helpful, so we usually pair it with a <span class="inline">catch</span>, with the following syntax:</p>
+  <p class="code">try<br />
+    {<br />
+        &lt;statement1&gt;;<br />
+        &lt;statement2&gt;;<br />
+        ...<br />
+    }<br />
+    catch(&lt;variable&gt;)<br />
+    {<br />
+        &lt;statement1&gt;;<br />
+        &lt;statement2&gt;;<br />
+        ...<br />
+    }</p>
+  <p>What <span class="inline">catch</span> does is permit you to run extra code supplied in the following block when an exception from the previous <span class="inline">try</span> has been caught. If this is a runtime exception, then the supplied variable can be used to access a <a href="../Structs.htm">struct</a> which will contain the following information:</p>
+  <p class="code">{<br />
+    message : &quot;&quot;,               // a string that is a short message for this exception<br />
+    longMessage : &quot;&quot;,           // a string that is a longer message for this exception<br />
+    script : &quot;&quot;,                // a string that describes where the exception came from<br />
+    stacktrace : [ &quot;&quot;, &quot;&quot; ],    // an array of strings that is the stack frame the exception was generated<br />
+    }</p>
+  <p>A simple example of use is shown below:</p>
+  <p class="code">var a = 0, b = 0, c = 0;<br />
+    try<br />
+    {<br />
+        c = a div b;<br />
+    }<br />
+    catch( _exception)<br />
+    {<br />
+        show_debug_message(_exception.message);<br />
+        show_debug_message(_exception.longMessage);<br />
+        show_debug_message(_exception.script);<br />
+        show_debug_message(_exception.stacktrace);<br />
+    }</p>
+  <p>It may be that you want to run some code regardless of whether an exception was thrown or not, and so for that you can add in a <span class="inline">finally</span> block. The <span class="inline">finally</span> syntax is:</p>
+  <p class="code">finally<br />
+    {<br />
+        &lt;statement1&gt;;<br />
+        &lt;statement2&gt;;<br />
+        etc...<br />
+    }</p>
+  <p>It is worth noting that you can have any combination of these together, ie:</p>
+  <ul class="colour">
+    <li><span class="inline">try</span> / <span class="inline">finally</span></li>
+    <li><span class="inline">try</span> / <span class="inline">catch</span></li>
+    <li><span class="inline">try</span> / <span class="inline">catch</span> / <span class="inline">finally</span></li>
+  </ul>
+  <p>Note that within the <span class="inline">finally</span> block you <em>cannot </em>use <a href="break.htm"><span class="inline">break</span></a>, <a href="continue.htm"><span class="inline">continue</span></a>, <a href="exit.htm"><span class="inline">exit</span></a> or <a href="return.htm"><span class="inline">return</span></a> statements as they have no meaning in this context and the compiler will generate an error if they are used.</p>
+  <p>Finally, you can also nest various <span class="inline">try</span> / <span class="inline">catch</span> / <span class="inline">finally</span> within each other, for example:</p>
+  <p class="code">var a = 0, b = 0, c = 0;<br />
+    try<br />
+    {<br />
+        try<br />
+        {<br />
+            c = a div b;<br />
+        }<br />
+        finally<br />
+        {<br />
+            ++a;<br />
+        }<br />
+    }<br />
+    catch(_exception)<br />
+    {<br />
+        ++a;<br />
+        show_debug_message(_exception.message);<br />
+        show_debug_message(_exception.longMessage);<br />
+        show_debug_message(_exception.script);<br />
+        show_debug_message(_exception.stacktrace);<br />
+    }<br />
+    finally<br />
+    {<br />
+        show_debug_message(&quot;a = &quot; + string(a));<br />
+    }</p>
+  <p>It is worth noting that you can take over the default GML error message and use your own handler code by calling the function <a href="../../GML_Reference/Debugging/exception_unhandled_handler.htm"><span class="inline">exception_unhandled_handler()</span></a>. This <a href="../Runtime_Functions.htm">runtime function</a> permits you to supply a custom <a href="../Method_Variables.htm">method</a> to use that will be called whenever any unhandled exceptions occur in your game.</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Back: <a href="../Language_Features.htm">Language Features</a></div>
+        <div style="float:right">Next: <a href="throw.htm">throw</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2021 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+try
+catch
+finally
+-->
+  <!-- TAGS
+try
+catch
+finally
+-->
+</body>
+</html>

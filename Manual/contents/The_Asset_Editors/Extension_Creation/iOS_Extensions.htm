@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>iOS / tvOS Extensions</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../assets/css/default.css" type="text/css" />
+  <script src="../../assets/scripts/main_script.js" type="module"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Page detailing how iOS extensions work" />
+  <meta name="rh-index-keywords" content="Extensions - Creating iOS / tvOS Extensions" />
+  <meta name="search-keywords" content="iOS Extensions,iOS, tvOS Extensions, tvOS" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>iOS / tvOS Extensions</h1>
+  <p>To create an extension for iOS or tvOS you have to do it in two parts. The first part would be to add the extension itself, along with the required files, and the second is to create the functions and macros/constants that the extension requires.</p>
+  <p>The functions and constants are added using <strong>placeholder </strong>files to group them together, so you&#39;d add a placeholder and then define the functions and macros as explained in the section <a href="Creating_An_Extension.htm">here</a>. To add the rest of the files though you need to first tick the <em>iOS </em>and/or the <em>tvOS </em>check-box in the <strong>Additional Features</strong> section of the editor to open up the relevant <strong>Extension Properties</strong> window (the image below shows the iOS properties window, but the tvOS window is exactly the same):</p>
+  <p class="dropspot"><img alt="iOS Editor" class="center" src="../../assets/Images/Asset_Editors/Editor_Extensions_iOS.png" /></p>
+  <p>Here you can give the following details:</p>
+  <ul class="colour">
+    <li class="dropspot"><strong>Compiler Flags / Linker Flags</strong>: Some frameworks and third party SDKs require the addition of extra linker flags and compiler flags to work, which can be specified here (see the documentation that accompanies the SDK or framework in question for details).</li>
+    <li class="dropspot"><strong>Class Name</strong>: Your extension can have multiple classes, with each class having its own functions and constants, so you should give it a name that reflects its purpose.</li>
+    <li class="dropspot"><strong>App Delegate Class Name</strong>: The name of your custom app delegate class. Setting this allows the extension to override/extend core app functionality. To use this feature you need to do the following:
+      <ol>
+        <li>Ensure that the delegate source files have the same name as the delegate class (e.g. <span class="inline">@interface MyCustomAppDelegate</span> should be defined in &quot; <span class="inline">MyCustomAppDelegate.h</span>&quot;)</li>
+        <li>Add the <span class="inline">${YYExtAppDelegateIncludes}</span> environment variable at the top of your app delegate header file. This will be replaced at compile-time with the relevant include files for the parent delegate class.</li>
+        <li>Use the <span class="inline">${YYExtAppDelegateBaseClass}</span> environment variable as the base class for your custom app delegate. This will be replaced at compile-time with the correct base delegate class.<br />
+          <br />
+          To ensure your extension works with any other extensions that use custom app delegates, you should call any base class methods from overridden methods in your child class. Before calling the superclass method, you need to make sure it is implemented in the class hierarchy to avoid errors, for e.g.:
+        </li>
+      </ol>
+      <p class="code">- (BOOL)application:(UIApplication *)application willFinishLaunchingWithOptions:(NSDictionary *)launchOptions<br />
+        {<br />
+            // Check if any superclasses implement this method and call it<br />
+            if([[self superclass] instancesRespondToSelector:@selector(application:willFinishLaunchingWithOptions:)])<br />
+              return [super application:application willFinishLaunchingWithOptions:launchOptions];<br />
+            else<br />
+                return TRUE;<br />
+        }</p>
+    </li>
+    <li class="dropspot"><strong>System Frameworks</strong>: Here you can add in any iOS system <a class="glossterm" data-glossterm="framework" href="#">framework</a><span class="glossextra">s</span> to your extension. These are added by clicking the <img alt="Add Argument Icon" class="icon" height="18" src="../../assets/Images/Icons/Icon_AddArgument.png" width="18" /> button which will add a placeholder framework, which you can then edit by double clicking <img alt="LMB Icon" class="icon" src="../../assets/Images/Icons/Icon_LMB.png" /> on it. You can find out more about available system frameworks <a href="https://developer.apple.com/documentation/">here</a>. To remove a system framework, simply select it and then click the <img alt="Remove Argument Icon" class="icon" src="../../assets/Images/Icons/Icon_RemoveArgument.png" /> button.<br />
+      <br />
+      <img class="center" src="../../assets/Images/Asset_Editors/Editor_Extensions_iOS_Weak_Reference.png" />You can enable the checkbox for a framework to mark it as a &quot;<strong>Weak Reference</strong>&quot;. This adds it to &quot;<strong>Build Phases -&gt; Link Binary with Libraries</strong>&quot; section of Xcode as an &quot;<strong>Optional</strong>&quot; framework, as opposed to a &quot;<strong>Required</strong>&quot; framework (which is the default behaviour).
+    </li>
+    <li class="dropspot"><strong>3rd Party Frameworks + Bundles</strong>: This section is for adding third party and SDK bundles. As with system frameworks you click the <img alt="Add Argument Icon" class="icon" height="18" src="../../assets/Images/Icons/Icon_AddArgument.png" width="18" /> button to add them and then double click <img alt="LMB Icon" class="icon" src="../../assets/Images/Icons/Icon_LMB.png" /> to edit, and selecting them then clicking <img alt="Remove Argument Icon" class="icon" src="../../assets/Images/Icons/Icon_RemoveArgument.png" /> will remove them (see the documentation that came with your chosen SDK for info on the framework name).<br />
+      <br />
+      Here you can choose to <strong>Not Embed</strong> the framework, <strong>Embed &amp; Sign</strong> it, or <strong>Embed it without Signing</strong>:<br />
+      <img class="center" src="../../assets/Images/Asset_Editors/Editor_Extensions_iOS_Embed_Framework.png" />This reflects the same option for a framework added under &quot;<strong>Frameworks, Libraries and Embedded Content</strong>&quot; in Xcode.
+    </li>
+    <li class="dropspot"><strong>Enter framework path on Mac</strong>: If you want to add a framework to the extension whose files are present on the Mac that is used to build your project, you can enter the path to that framework (on the build machine) into this field and then click the <img alt="Add Argument Icon" class="icon" height="18" src="../../assets/Images/Icons/Icon_AddArgument.png" width="18" /> button to add it.<br />
+      <br />
+      The path needs to point to a <span class="inline">.framework</span> file which will be compressed as a <span class="inline">.zip</span> and placed into the <span class="inline">iOSSourceFromMac</span> folder under your extension directory; you can easily open that at any time by right clicking <img alt="RMB Icon" class="icon" src="../../assets/Images/Icons/Icon_RMB.png" /> on the extension and selecting <em>Open in Explorer</em>.
+    </li>
+    <li class="dropspot"><strong>Add Source</strong>: You can use this to add the source files required for your extension to work. Added files will be stored in the <span class="inline">iOSSource</span> folder inside your extension directory.</li>
+    <li class="dropspot"><b>Code Injection</b>: Here you can add any code to be injected (added) into your iOS application when your game is built for testing or final release. Make sure to revise this (and your permissions) carefully before submitting any games to the store, as incorrect settings will cause your game to be failed for submission.</li>
+  </ul>
+  <h2>Code Injection</h2>
+  <p>Code Injection can be used for iOS/tvOS extensions in the same way as described on the Android Extensions page: see <a data-xref="{text}" href="Android_Extensions.htm#h">Code Injection</a>.</p>
+  <p>The following tags are available for the iOS and tvOS platforms:</p>
+  <p class="code">YYIosPlist<br />
+    YYIosEntitlements<br />
+    YYIosCocoaPods<br />
+    YYIosCocoaPodsDependencies<br />
+    YYIosBuildRules<br />
+    YYIosBuildSettingsInjection<br />
+    YYIosScriptPhase<br />
+    YYIosCFBundleURLSchemesArray<br />
+    YYIosLSApplicationQueriesSchemesArray<br />
+    <br />
+    YYTvosPlist<br />
+    YYTvosEntitlements<br />
+    YYTvosCocoaPods<br />
+    YYTvosCocoaPodsDependencies<br />
+    YYTvosBuildRules<br />
+    YYTvosBuildSettingsInjection<br />
+    YYTvosScriptPhase<br />
+    YYTvosCFBundleURLSchemesArray<br />
+    YYTvosLSApplicationQueriesSchemesArray
+  </p>
+  <p>The runtime location where the code is injected will depend on the type of the tag:</p>
+  <table>
+    <colgroup>
+      <col style="width: 174px;" />
+      <col style="width: 760px;" />
+    </colgroup>
+    <tbody>
+      <tr>
+        <th style="">Tag Type</th>
+        <th style="">Injection Path</th>
+      </tr>
+      <tr>
+        <td style=""><b>Entitlements</b></td>
+        <td style="">{RUNTIME}\ios\TemplateProject\${YYXCodeProjName}\<br />
+          <span>${YYXCodeProjName}.entitlements</span>
+        </td>
+      </tr>
+      <tr>
+        <td style=""><b>info.plist</b></td>
+        <td style="">{RUNTIME}\ios\TemplateProject\${YYXCodeProjName}\<br />
+          Supporting Files\<span>${YYXCodeProjName}-Info.plist</span></td>
+      </tr>
+      <tr>
+        <td style=""><strong>infoPlist.strings</strong></td>
+        <td style="">{RUNTIME}\ios\TemplateProject\${YYXCodeProjName}\<br />
+          en.lproj\InfoPlist.strings</td>
+      </tr>
+      <tr>
+        <td style=""><strong>project.pbxproj</strong></td>
+        <td style="">{RUNTIME}\ios\TemplateProject\${YYXCodeProjName}.xcodeproj\<br />
+          project.pbxproj</td>
+      </tr>
+      <tr>
+        <td style=""><strong>xcscheme</strong></td>
+        <td style="">{RUNTIME}\ios\TemplateProject\${YYXCodeProjName}.xcodeproj\<br />
+          xcshareddata\xcschemes\${YYXCodeProjName}.xcscheme</td>
+      </tr>
+    </tbody>
+  </table>
+  <p class="note"><strong></strong><span class="note">NOTE</span> These paths are only for VM. For YYC, injected code will go into the <span class="inline">{RUNTIME}\yyc\</span> directory, where the paths may or may not be equivalent to those for VM.</p>
+  <p>Note that there is a Game Option <a href="../../Settings/Game_Options/iOS.htm">for iOS</a> and <a href="../../Settings/Game_Options/tvOS.htm">for tvOS</a> to add a <span class="inline">Podfile.lock</span> file to <span data-keyref="GameMaker Name">GameMaker</span>, which is required if you are adding CocoaPods Dependencies in this section.</p>
+  <h2>Additional Information</h2>
+  <p>If your extension has had any System Frameworks or 3rd Party Frameworks added, these will now be listed in the <strong>Extension Properties </strong>window, with each one having a check-box beside it. If you mark the check-box, you are enabling weak linking, which is useful should you need to &quot;override&quot; any symbol from the included library with your own value, but it should be noted that doing so will slow linking down.</p>
+  <p>For information on your creating native extensions for iOS, see <a href="Extended_Examples.htm">Source Examples</a>; and for information on using CocoaPods in extensions, see the following guide:</p>
+  <ul class="colour">
+    <li><a href="https://help.yoyogames.com/hc/en-us/articles/360008958858">iOS and tvOS: Using Cocoa Pods</a></li>
+  </ul>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Back: <a href="../Extensions.htm">The Extension Editor</a></div>
+        <div style="float:right">Next: <a data-xref="{title}" href="HTML5_Extensions.htm">HTML5 Extensions</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2023 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+iOS Extensions
+tvOS Extensions
+-->
+  <!-- TAGS
+extensions_ios
+-->
+</body>
+</html>

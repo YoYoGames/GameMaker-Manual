@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>cloud_synchronise</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
+  <script src="../../../../assets/scripts/main_script.js" type="module"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Reference page for cloud_synchronise" />
+  <meta name="rh-index-keywords" content="cloud_synchronise" />
+  <meta name="search-keywords" content="cloud_synchronise" />
+  <meta name="is_pure" content="true" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>cloud_synchronise <a href="Cloud_Saving.htm"><span data-conref="../../../../assets/snippets/Tag_obsolete.hts"></span></a> </h1>
+  <p>This function would normally be called at the start of a new game and is used to retrieve the current status of the cloud service at game start up. The function returns a unique <b>id</b> value which would then be used in the <a href="../../../../The_Asset_Editors/Object_Properties/Async_Events/Cloud.htm">Asynchronous Cloud Event</a> to retrieve the relevant information from the DS map that is created.</p>
+  <p>This function will send off to the cloud for data, which will then trigger the appropriate asynchronous event. In this event, you can check the returned <a href="../../../GML_Overview/Variables/Builtin_Global_Variables/async_load.htm"><span class="inline">async_load</span></a> DS map for the following values:</p>
+  <ul class="colour">
+    <li><b>&quot;status&quot;: </b>This holds the status code, where a negative value denotes an error, a description of which will be contained in the &quot;errorString&quot;. A value of 0 (or a positive value) indicates a success(see below for exact values), and the &quot;resultString&quot; will contain the returned data or a success message.</li>
+    <li><b>&quot;id&quot;: </b>The id which was returned from the called function. If you fire off a series of <span class="inline">cloud_</span> requests then you need to know which one you are getting the reply to, and so you would use this value to compare to the value you stored when you originally sent the request to find the right one.</li>
+    <li><b>&quot;description&quot;: </b>The description of the last uploaded file.</li>
+    <li><b>&quot;resultString&quot;: </b>This holds a string which is the data blob returned from the cloud.</li>
+    <li><b>&quot;errorString&quot;: </b>returns an Error String for any error.</li>
+  </ul>
+  <p>The exact meaning of the returned &quot;status&quot; map entry is explained in the following table:</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>Status Value</th>
+        <th>errorString / resultString</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>-1</td>
+        <td>errorString = &quot;Not logged in to &lt;SERVICE&gt;&quot;</td>
+        <td>You have not successfully logged in to the given Cloud Service</td>
+      </tr>
+      <tr>
+        <td>0</td>
+        <td>resultString = recovered data</td>
+        <td>New game data downloaded from the cloud (following a cloud_synchronise call)</td>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td>resultString = &quot;AlreadySynchronized&quot;</td>
+        <td>No new data since you last called cloud_synchronise</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>resultString = &quot;ConflictDeferral&quot;</td>
+        <td>A conflict was encountered, but the gamer chose to ignore it</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>resultString = &quot;GameUploadSuccess&quot;</td>
+        <td>data from <a href="cloud_string_save.htm"><span class="inline">cloud_string_save()</span></a> or <a href="cloud_file_save.htm"><span class="inline">cloud_file_save()</span></a> was successfully uploaded to the cloud</td>
+      </tr>
+      <tr>
+        <td>-n</td>
+        <td>errorString = Description of error</td>
+        <td>Any other negative number means a synchronisation failure</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>Syntax:</h4>
+  <p class="code">cloud_synchronise();</p>
+  <p> </p>
+  <h4>Returns:</h4>
+  <p class="code"><span data-keyref="Type_ID_Async_Event"><a href="../../../../../GameMaker_Language/GML_Reference/Asynchronous_Functions/Asynchronous_Functions.htm" target="_blank">Async Request ID</a></span></p>
+  <p> </p>
+  <h4>Extended Example:</h4>
+  <p>This function would be called in an event like the <strong>Game Start Event</strong> or in an object that is placed in the first room of your game, with the idea being that you check the current data blob from the cloud server to see if it is up to date or not.</p>
+  <p class="code">cloud_check = cloud_synchronise();</p>
+  <p>You would then want to check the returned <span class="inline">DS Map</span> in the asynchronous <b>Cloud Event</b> to get the status and the returned string, if there is one, with something like the following code:</p>
+  <p class="code">if ds_map_find_value(async_load, &quot;id&quot;) == cloud_check<br />
+    {<br />
+        if ds_map_find_value(async_load, &quot;status&quot;) &lt; 0<br />
+        {<br />
+            show_message_async(&quot;Cloud Services not available. Please check connectivity.&quot;);<br />
+        }<br />
+        else<br />
+        {<br />
+            if ds_map_find_value(async_load, &quot;status&quot;) == 0<br />
+            {<br />
+                var file = file_text_open_write(&quot;Save.txt&quot;);<br />
+                file_text_write_string(file, ds_map_find_value(async_load, &quot;resultString&quot;));<br />
+                file_text_close(file);<br />
+            }<br />
+        }<br />
+    }</p>
+  <p>The above code checks to make sure that the correct asynchronous function call is being revised, then goes on to get the status of the returned cloud DS map. if the status is a negative number, something has gone wrong and the user is informed, otherwise the code will continue and retrieve the synchronised data and write it to a text file for later use.</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Back: <a href="Cloud_Saving.htm">Cloud Saving</a></div>
+        <div style="float:right">Next: <a href="cloud_string_save.htm">cloud_string_save</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2022 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+cloud_synchronise
+-->
+  <!-- TAGS
+cloud_synchronise
+-->
+</body>
+</html>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>zip_unzip_async</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" type="text/css" href="../../../../assets/css/default.css" />
+  <script src="../../../../assets/scripts/main_script.js" type="module"></script>
+  <meta name="rh-authors" content="" />
+  <meta name="topic-comment" content="" />
+  <meta name="rh-index-keywords" content="zip_unzip_async" />
+  <meta name="search-keywords" content="zip_unzip_async" />
+  <meta name="template" content="assets/masterpages/Manual_Keyword_Page.htt" />
+</head>
+<body>
+  <h1><span data-field="title" data-format="default">zip_unzip_async</span></h1>
+  <p>The function is the asynchronous equivalent of <span class="inline3_func"><a data-xref="{title}" href="zip_unzip.htm">zip_unzip</a></span>. It takes a path to a ZIP file, and the target directory where it should be extracted.</p>
+  <p>If the call is successful, a request ID is returned, and later the Async <a data-xref="{title}" href="../../../../The_Asset_Editors/Object_Properties/Async_Events/Save_Load.htm">Save / Load</a> event is triggered where this ID can be checked. The <span class="inline2">async_load</span> map in that event will contain the following keys:</p>
+  <ul class="colour">
+    <li><span class="inline">&quot;id&quot;</span>: The request ID as returned by the original function call</li>
+    <li><span class="inline">&quot;status&quot;</span>: <span class="inline2">0</span> if the ZIP extracted successfully, <span class="inline2">-1</span> if it failed</li>
+  </ul>
+  <p>This function will trigger a fatal error if it&#39;s called between <span class="inline3_func"><a data-xref="{title}" href="../../Buffers/buffer_async_group_begin.htm">buffer_async_group_begin</a></span> and <span class="inline3_func"><a data-xref="{title}" href="../../Buffers/buffer_async_group_end.htm">buffer_async_group_end</a></span> calls.</p>
+  <p>Please read the <span class="inline3_func"><a data-xref="{title}" href="zip_unzip.htm">zip_unzip</a></span> page for file system limitations.</p>
+  <div data-conref="../../../../assets/snippets/HTML5_Not_Available.hts"> </div>
+  <p> </p>
+  <h4>Syntax:</h4>
+  <p class="code">zip_unzip_async(zip_file, target_directory);</p>
+  <table>
+    <colgroup>
+      <col />
+      <col />
+      <col />
+    </colgroup>
+    <tbody>
+      <tr>
+        <th>Argument</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>zip_file</td>
+        <td><span data-keyref="Type_String"><a href="../../../../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">String</a></span></td>
+        <td>The zip file to open</td>
+      </tr>
+      <tr>
+        <td>target_directory</td>
+        <td><span data-keyref="Type_String"><a href="../../../../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">String</a></span></td>
+        <td>The target directory to extract the files to</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>Returns:</h4>
+  <p class="code"><span data-keyref="Type_Real"><a href="../../../../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">Real</a></span></p>
+  <p> </p>
+  <h4>Example:</h4>
+  <p class="code">level_data_request = zip_unzip_async(&quot;/downloads/level_data.zip&quot;, working_directory + &quot;extracted/&quot;);</p>
+  <p class="code_heading">Async Save/Load event</p>
+  <p class="code">var _id = async_load[? &quot;id&quot;];<br />
+    <br />
+    if (_id == level_data_request)<br />
+    {<br />
+        var _status = async_load[? &quot;status&quot;];<br />
+    <br />
+        if (_status &lt; 0)<br />
+        {<br />
+            show_debug_message(&quot;ZIP file extraction failed.&quot;);<br />
+        }<br />
+    }
+  </p>
+  <p>The above code attempts to extract a ZIP file into the working directory. In the Async Save/Load event, it checks the status of that request, and prints a message to the output log if it failed.</p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div>Back: <a data-xref="{title}" href="Encoding_And_Hashing.htm">Encoding And Hashing</a></div>
+        <div>Next: <a data-xref="{title}" href="zip_create.htm">zip_create</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2023 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+zip_unzip_async
+-->
+  <!-- TAGS
+zip_unzip_async
+-->
+</body>
+</html>

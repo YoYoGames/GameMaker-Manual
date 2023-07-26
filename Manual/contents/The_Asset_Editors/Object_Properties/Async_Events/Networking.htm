@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Networking</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Page detailing the Networking async event." />
+  <meta name="rh-index-keywords" content="Objects - Async Networking Event,network_type_connect,network_type_disconnect,network_type_data,network_type_non_blocking_connect,network_type_up,network_type_up_failed,network_type_down" />
+  <meta name="search-keywords" content="networking,network_type_connect,network_type_disconnect,network_type_data,network_type_non_blocking_connect,ev_async_web_networking,network_type_up,network_type_up_failed,network_type_down" />
+  <link rel="stylesheet" type="text/css" href="../../../assets/css/default.css" />
+  <script src="../../../assets/scripts/main_script.js" type="module"></script>
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1><span data-field="title" data-format="default">Networking</span></h1>
+  <p><img alt="Networking Event" class="center" src="../../../assets/Images/Asset_Editors/Async_Networking.png" /></p>
+  <p>The Networking event is one which will be triggered by any incoming network traffic, and is linked to the <a href="../../../GameMaker_Language/GML_Reference/Networking/Networking.htm">Network Functions</a>. This event generates a special <a href="../../../GameMaker_Language/GML_Reference/Data_Structures/DS_Maps/DS_Maps.htm">DS Map</a> that is exclusive to this event and is stored in the special variable <a href="../../../GameMaker_Language/GML_Overview/Variables/Builtin_Global_Variables/async_load.htm">async_load</a>. This DS map will contain different information depending on the type of network event that generated it.</p>
+  <h2>Common Networking Events</h2>
+  <p>The following keys are common to all received network functions and will always be present in the <span class="inline">async_load</span> map:</p>
+  <ul class="colour">
+    <li>&quot;<strong>type</strong>&quot;: This will have one of the constants listed in the table below as its return value, and designates the network event type.</li>
+    <li>&quot;<strong>id</strong>&quot;: The socket id (a real number, as returned by the network_create_server or network_create_socket function) that is receiving the event. In most cases the socket ID returned is the ID of TCP or UDP socket that triggered the event, however if the event is triggered in a server and it&#39;s a Data Event (see below) then the socket ID is that of the client that sent the data.</li>
+    <li>&quot;<strong>ip</strong>&quot;: The IP address of the socket (as a string).</li>
+    <li>&quot;<strong>port</strong>&quot;: The port associated with the IP address (useful when working with UDP).</li>
+  </ul>
+  <p>The possible return values for the &quot;type&quot; key can be any of the four constants listed below:</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>Constant</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td><span class="inline">network_type_connect</span></td>
+        <td>The event was triggered by a connection.</td>
+      </tr>
+      <tr>
+        <td><span class="inline">network_type_disconnect</span></td>
+        <td>The event was triggered by a disconnection.</td>
+      </tr>
+      <tr>
+        <td><span class="inline">network_type_data</span></td>
+        <td>The event was triggered by incoming data.</td>
+      </tr>
+      <tr>
+        <td><span class="inline">network_type_non_blocking_connect</span></td>
+        <td>The event was triggered by a connection configured as non-blocking (you can use the function <a href="../../../GameMaker_Language/GML_Reference/Networking/network_set_config.htm"><span class="inline">network_set_config()</span></a> for this, or connect using <a href="../../../GameMaker_Language/GML_Reference/Networking/network_connect_async.htm"><span class="inline">network_connect_async()</span></a> or <a href="../../../GameMaker_Language/GML_Reference/Networking/network_connect_raw_async.htm"><span class="inline">network_connect_async_raw()</span></a>).</td>
+      </tr>
+    </tbody>
+  </table>
+  <h2>Connecting / Disconnecting</h2>
+  <p>When you have an event of the type <span class="inline">network_type_connect</span> or <span class="inline">network_type_disconnect</span>, the <span class="inline">async_load</span> map will have the following additional key:</p>
+  <ul class="colour">
+    <li>&quot;<strong>socket</strong>&quot;: This key will hold the connecting/disconnecting socket id.</li>
+  </ul>
+  <p>If the event is of the type <span class="inline">network_type_non_blocking_connect</span>, then additionally there will be the following key:</p>
+  <ul class="colour">
+    <li>&quot;<strong>succeeded</strong>&quot;: This key will be either 0 or 1, where 0 means the connection timed out and 1 means it succeeded and the socket is ready to use.</li>
+  </ul>
+  <p>It is worth noting that the Networking Event does not get triggered in clients when the server disconnects, and that neither of the <span class="inline">network_type_*</span> events will be triggered in clients when the server they are connected to disconnects, even if the connection is TCP based.</p>
+  <h2>Receiving Data</h2>
+  <p>When you have a <span class="inline">network_type_data</span> type event, which signifies that your network has received data, the map created will have the following keys:</p>
+  <ul class="colour">
+    <li>&quot;<strong>buffer</strong>&quot;: This is the unique &quot;buffer ID&quot; which is generated by the event. A &quot;grow&quot; type buffer, byte aligned to 1, is created to hold the ID should be stored in a variable and used for all further function calls to the buffer in this event. Just like the <span class="inline">async_load</span> map, the buffer created is automatically removed from memory at the end of this event. For more information on buffers, please see <a href="../../../GameMaker_Language/GML_Reference/Buffers/Buffers.htm">Reference - Buffers</a>.</li>
+    <li>&quot;<strong>size</strong>&quot;: This is the size (in bytes) of the buffer data that is being received.</li>
+    <li>&quot;<strong>message_type</strong>&quot;:<em> (WebSockets only)</em> - This will be <span class="inline2">network_send_binary</span> if the message received was in binary form, or <span class="inline2">network_send_text</span> if it was received in text form.</li>
+  </ul>
+  <p class="note"><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> The buffer created is only valid in these events and will be automatically freed when the event is over.</p>
+  <h2 id="h">Attempting Connection</h2>
+  <p>If the <span class="inline3_func"><a data-xref="{title}" href="../../../GameMaker_Language/GML_Reference/OS_And_Compiler/os_is_network_connected.htm">os_is_network_connected</a></span> function returns <span class="inline2">false</span> when using <span class="inline2">network_connect_active</span> or <span class="inline2">network_connect_passive</span>, the result is asynchronously returned in this event. The <span class="inline2">type</span> key in the <span class="inline2">async_load</span> map will be one of these values:</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>Constant</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td><span class="inline">network_type_up</span></td>
+        <td>The connection succeeded.</td>
+      </tr>
+      <tr>
+        <td><span class="inline">network_type_up_failed</span></td>
+        <td>The connection failed.</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>If the network goes down at any time, this event is triggered again with the <span class="inline2">type</span> key set to <span class="inline2">network_type_down</span>.</p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Back: <a href="../Async_Events.htm">Async Events</a></div>
+        <div style="float:right">Next: <a href="Push_Notifications.htm">Push Notifications</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2023 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+Asynchronous Networking Event
+network_type_connect
+network_type_disconnect
+network_type_data
+network_type_non_blocking_connect
+network_type_up
+network_type_up_failed
+network_type_down
+ev_web_networking
+-->
+  <!-- TAGS
+ev_web_networking
+-->
+</body>
+</html>

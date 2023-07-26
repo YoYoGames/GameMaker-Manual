@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Strings</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../assets/css/default.css" type="text/css" />
+  <script src="../../../assets/scripts/main_script.js" type="module"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Reference section for string functions" />
+  <meta name="rh-index-keywords" content="\r,\b,\f,\t,\v,\\,\a,\u,\x,\,\r,\b,\f,\t,\v,\\,\a,\u,\x,\" />
+  <meta name="search-keywords" content="Strings,\n,\r,\b,\f,\t,\v,\\,\a,\u,\x,\,string literal,@" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1><span data-field="title" data-format="default">Strings</span></h1>
+  <p>When you want to use text in your game, whether it&#39;s for dialogue, menus, or just debugging, use <span data-field="title" data-format="lower-alpha">strings</span>.</p>
+  <p>In GML, text is created as a <em>string</em>, which can be stored in a variable. &quot;String&quot; refers to a &quot;<em>string</em> of characters&quot; which makes up your text.</p>
+  <p><span data-keyref="GameMaker Name">GameMaker</span> has a complete set of functions that permit you to manipulate <span data-field="title" data-format="lower-alpha">strings</span> in many ways, including the insertion of one string in another, the copying of strings and the ability to parse <span data-field="title" data-format="lower-alpha">strings</span> for the digits or the letters that they contain.</p>
+  <p>It also has more advanced functions to deal with strings, including trimming, splitting into an array, concatenating from an array and iterating over characters.</p>
+  <p>Lastly, <span data-keyref="GameMaker Name">GameMaker</span> also provides a convenient way to convert <a href="../../GML_Overview/Structs.htm">structs</a> and <a href="../Asset_Management/Instances/Instances.htm">instances</a> to a string representation by assigning them a <a data-xref="{text}" href="Strings.htm#h3">toString() Method</a>.</p>
+  <h2>String Basics</h2>
+  <p>A string is a type of <a href="../../GML_Overview/Variables_And_Variable_Scope.htm">variable</a>. The simplest way to create one is by adding text within double quotes <span class="inline2">&quot; &quot;</span>:</p>
+  <p class="code">my_first_string = &quot;Hello World!&quot;;</p>
+  <p>The above line of code creates a string that reads &quot;Hello World!&quot; and assigns it to a variable called <span class="inline2">my_first_string</span>.</p>
+  <p class="note"><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> Single quote strings <span class="inline2">&#39; &#39;</span> are not accepted.</p>
+  <p class="note"><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> You cannot split a string over multiple lines in your code and expect <span data-keyref="GameMaker Name">GameMaker</span> to render it as if the line breaks were newlines, however, you can do that by using a string literal identifier <span class="inline2"><a data-xref="{bookmarkText}" href="Strings.htm#@">@</a></span> before your string&#39;s starting quotation mark, as <a href="#h2">explained below</a>.</p>
+  <h3 id="h1">Escape Characters</h3>
+  <p>Sometimes you will need to add special characters inside a string, such as double quotes <span class="inline2">&quot;</span>, newline characters or characters with a specific character code.</p>
+  <p>This can be done by using <i>escape characters</i>. These are characters that are preceded by a backslash <span class="inline2">\</span> symbol. For example, if you wanted to put quotation marks within a string you would have something like this:</p>
+  <p class="code">str = &quot;Hello\&quot;World\&quot;!&quot;;</p>
+  <p><span data-keyref="GameMaker Name">GameMaker</span> also has full four byte wide Unicode character support, allowing you to decode and encode Unicode characters in the upper bounds of the standard (including - but not limited to - emoji).</p>
+  <p>To deal with Unicode characters, you can use a backslash <span class="inline2">\</span> to precede any Unicode literal - digits of hex preceded by a &quot;<span class="inline">u</span>&quot;, for example &quot;<span class="inline"><span class="inline">\u00e2</span></span>&quot; for &quot;á&quot;- where the digits are the number of the Unicode character. When working with Unicode in this way, you need to be aware of the fact that <span data-keyref="GameMaker Name">GameMaker</span> will interpret <i>all</i> digits following the &quot;<span class="inline">u</span>&quot;, so if you wanted to write &quot;áa&quot; for example, you should use:</p>
+  <p class="code">&quot;\u00e2\a&quot;</p>
+  <p>or</p>
+  <p class="code">&quot;\u00e2\u61&quot;</p>
+  <p>or</p>
+  <p class="code">&quot;\u00e2&quot; + &quot;a&quot;</p>
+  <p>Just using &quot;<span class="inline">\u00e2a</span>&quot; would actually result in the Unicode character &quot;<span class="inline">ส</span>&quot; (essentially becoming &quot;<span class="inline">\ue2a</span>&quot;).<i></i></p>
+  <p><span data-keyref="GameMaker Name">GameMaker</span> can also handle any hexadecimal literal - normally written as digits of hex following &quot;<span class="inline">0x</span>&quot;, for example &quot;<span class="inline">0xff</span>&quot;, where the digits form the character code of the character to use. In <span data-keyref="GameMaker Name">GameMaker</span> strings, these are written using &quot;<span class="inline">\x</span>&quot; and then the hex value. These and other predefined escape characters are listed in the table below:</p>
+  <table style="caption-side: top">
+    <caption>String Escape Characters</caption>
+    <tbody>
+      <tr>
+        <th>Constant</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>\n</td>
+        <td>Newline</td>
+      </tr>
+      <tr>
+        <td>\r</td>
+        <td>Carriage return (0x0d)</td>
+      </tr>
+      <tr>
+        <td>\b</td>
+        <td>Backspace (0x08)</td>
+      </tr>
+      <tr>
+        <td>\f</td>
+        <td>Form Feed (0x0c)</td>
+      </tr>
+      <tr>
+        <td>\t</td>
+        <td>Horizontal Tab (0x09)</td>
+      </tr>
+      <tr>
+        <td>\v</td>
+        <td>Vertical Tab (0x0b)</td>
+      </tr>
+      <tr>
+        <td>\\</td>
+        <td>Backslash itself (0x5c)</td>
+      </tr>
+      <tr>
+        <td>\a</td>
+        <td>Alert (0x07)</td>
+      </tr>
+      <tr>
+        <td>\u[Hex Digits]</td>
+        <td>Insert Unicode character</td>
+      </tr>
+      <tr>
+        <td>\x[Hex Digits]</td>
+        <td>Insert hex literal character</td>
+      </tr>
+      <tr>
+        <td>\[Octal Digits]</td>
+        <td>Insert octal Unicode character</td>
+      </tr>
+    </tbody>
+  </table>
+  <p class="note"><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> Strings support form feed, vertical tab etc... but this does not mean to say that <b>rendering</b> does, and when drawing strings these characters may be ignored.</p>
+  <h3 id="h2">Multi-Line String Literal</h3>
+  <p>You can create multi-line string literals by preceding the whole string with the <span class="inline"><a id="@"></a>@</span> character:</p>
+  <p class="code">var test = @&quot;This string has<br />
+    line breaks<br />
+    over multiple<br />
+    lines<br />
+    &quot;;</p>
+  <p>The above code will create a string that is rendered over multiple lines as if there was a line break escape character included. A string literal can also be defined using single quotes <span class="inline2">&#39; &#39;</span> when prefixed by an <span class="inline">@</span> symbol.</p>
+  <p>Multi-line string literals do not support escaped characters, e.g. <span class="inline">@&quot;Hello\World&quot;</span> will <em>not</em> try to escape the W on World and will be stored verbatim. Note though that when using string literals like this, you will need to break the string if you wish to include quotation marks as part of the string, e.g.:</p>
+  <p class="code">var test = @&quot;Hello &quot; + &quot;\&quot;&quot; + @&quot;World&quot; + &quot;\&quot;&quot;;</p>
+  <div data-conref="../../../assets/snippets/Note_Unicode_missing_glyph_replacement.hts"> </div>
+  <h3 id="h4">Template Strings</h3>
+  <p>Template strings give you a convenient syntax to create and format strings. You can create them by prefixing a string literal with the <span class="inline2"><a id="$"></a>$</span> character, and including expressions inside <span class="inline2">{}</span>: </p>
+  <p class="code">var _world = &quot;Earth&quot;;<br />
+    var _template = $&quot;Hello {_world}!&quot;;</p>
+  <p>Which produces the same string as: </p>
+  <p class="code">var _world = &quot;Earth&quot;;<br />
+    var _template = string(&quot;Hello {0}!&quot;, _world);</p>
+  <p>Everything written between curly braces <span class="inline2">{ }</span> inside a template string is executed as regular GML. The result of the GML expression between the braces is inserted into the string: </p>
+  <p class="code">var _template = $&quot;The result of a random complicated calculation is {5 * power(pi, 3) + 37.84094}&quot;;</p>
+  <p>To make it more clear that this is regular GML, <a data-xref="{title}" href="../../../The_Asset_Editors/Scripts.htm">The Script Editor</a> also highlights this code normally. <a data-xref="{title}" href="../../../Setting_Up_And_Version_Information/IDE_Preferences/Feather_Settings.htm">Feather</a> also checks these GML expressions for any errors, e.g.: </p>
+  <p class="code">var _arr = [ 1, 2, 3, 4 ];<br />
+    var _a = $&quot;The first value is {_arr[| 0]}&quot;; // GM1028 - Accessor is intended for type of &#39;Id.DsList&#39; but &#39;Array&lt;Real&gt;&#39; appears instead.</p>
+  <p>You can split a template string across multiple lines, however you can only do this in the expression parts of the templates. Any newline and other white-space characters that need to be added to the actual string have to be added using <a data-xref="{text}" href="Strings.htm#h1">Escape Characters</a>.</p>
+  <p>The following code shows a valid and an invalid way of splitting a template string across multiple lines: </p>
+  <p class="code">var _a = $&quot;This is the \n{<br />
+    valid<br />
+    }\nway to split a template across multiple lines&quot;;<br />
+    <br />
+    var _b = $&quot;This is the <br />
+    {invalid}<br />
+    way to split a template across multiple lines&quot;;
+  </p>
+  <h2 id="h3">toString() Method</h2>
+  <p>When a reference to a struct or an instance of an object is passed as an argument to any of <span class="inline2"><a data-xref="{title}" href="string.htm">string</a></span> / <span class="inline2"><a data-xref="{title}" href="string_ext.htm">string_ext</a></span> / <span class="inline2"><a data-xref="{title}" href="../Debugging/show_debug_message.htm">show_debug_message</a></span> / <span class="inline2"><a data-xref="{title}" href="show_debug_message_ext.htm">show_debug_message_ext</a></span>, it will have its <span class="inline2">toString</span> method called, if it has one set.</p>
+  <p class="code">toString = function()<br />
+    {<br />
+        return string(&quot;I am the instance with ID {0}&quot;, id);<br />
+    }</p>
+  <p>You can pass a struct reference to one of the above functions for its <span class="inline2">toString()</span> method to be used, however for instances you must use <span class="inline2">self</span> within its scope, as passing an instance ID will not call its <span class="inline2">toString()</span> method.</p>
+  <p class="code">// In an instance<br />
+    string(self); // Calls its toString() method, if it exists<br />
+    string(id); // Prints &quot;ref &lt;id&gt;&quot;, same goes for IDs returned from instance_create_*()</p>
+  <p class="note"><span data-conref="../../../assets/snippets/Tag_tip.hts"> </span> Arrays are automatically converted to a string representation when they are passed to one of the above functions, without needing to assign a custom function to the array.</p>
+  <p>You&#39;re not required to convert a struct or instance to a string with <a href="string.htm"><span class="inline2">string()</span></a> if you want to draw it. Simply passing a valid reference to <span class="inline2"><a data-xref="{title}" href="../Drawing/Text/draw_text.htm">draw_text</a></span> or <a href="../Drawing/Text/Text.htm">any of the related <span class="inline2">draw_text_</span> functions</a> will automatically convert it to a string: </p>
+  <p class="code">draw_text(0, 0, self);</p>
+  <h2>Function Reference</h2>
+  <p>Below is the list of functions for dealing with strings.</p>
+  <div data-conref="../../../assets/snippets/Note_String_Indices_Start_At_1.hts"> </div>
+  <h3>Creating Strings</h3>
+  <ul class="Disc">
+    <li><a data-xref="{title}" href="string.htm">string</a></li>
+    <li><a data-xref="{title}" href="string_ext.htm">string_ext</a></li>
+  </ul>
+  <h3>Character Code</h3>
+  <ul class="Disc">
+    <li><a data-xref="{title}" href="ansi_char.htm">ansi_char</a></li>
+    <li><a data-xref="{title}" href="chr.htm">chr</a></li>
+    <li><a data-xref="{title}" href="ord.htm">ord</a></li>
+    <li><a data-xref="{title}" href="real.htm">real</a></li>
+    <li><a data-xref="{title}" href="string_byte_at.htm">string_byte_at</a></li>
+    <li><a data-xref="{title}" href="string_byte_length.htm">string_byte_length</a></li>
+    <li><a data-xref="{title}" href="string_set_byte_at.htm">string_set_byte_at</a></li>
+    <li><a data-xref="{title}" href="string_char_at.htm">string_char_at</a></li>
+    <li><a data-xref="{title}" href="string_ord_at.htm">string_ord_at</a></li>
+  </ul>
+  <h3>Searching and Information</h3>
+  <ul class="Disc">
+    <li><a data-xref="{title}" href="string_length.htm">string_length</a></li>
+    <li><a data-xref="{title}" href="string_pos.htm">string_pos</a></li>
+    <li><a data-xref="{title}" href="string_pos_ext.htm">string_pos_ext</a></li>
+    <li><a data-xref="{title}" href="string_last_pos.htm">string_last_pos</a></li>
+    <li><a data-xref="{title}" href="string_last_pos_ext.htm">string_last_pos_ext</a></li>
+    <li><a data-xref="{title}" href="string_starts_with.htm">string_starts_with</a></li>
+    <li><a data-xref="{title}" href="string_ends_with.htm">string_ends_with</a></li>
+    <li><a data-xref="{title}" href="string_count.htm">string_count</a></li>
+  </ul>
+  <h3>Manipulating Strings</h3>
+  <ul class="Disc">
+    <li><a data-xref="{title}" href="string_copy.htm">string_copy</a></li>
+    <li><a data-xref="{title}" href="string_delete.htm">string_delete</a></li>
+    <li><a data-xref="{title}" href="string_digits.htm">string_digits</a></li>
+    <li><a data-xref="{title}" href="string_format.htm">string_format</a></li>
+    <li><a data-xref="{title}" href="string_insert.htm">string_insert</a></li>
+    <li><a data-xref="{title}" href="string_letters.htm">string_letters</a></li>
+    <li><a data-xref="{title}" href="string_lettersdigits.htm">string_lettersdigits</a></li>
+    <li><a data-xref="{title}" href="string_lower.htm">string_lower</a></li>
+    <li><a data-xref="{title}" href="string_repeat.htm">string_repeat</a></li>
+    <li><a data-xref="{title}" href="string_replace.htm">string_replace</a></li>
+    <li><a data-xref="{title}" href="string_replace_all.htm">string_replace_all</a></li>
+    <li><a data-xref="{title}" href="string_upper.htm">string_upper</a></li>
+    <li><a data-xref="{title}" href="string_hash_to_newline.htm">string_hash_to_newline</a></li>
+    <li><a data-xref="{title}" href="string_trim.htm">string_trim</a></li>
+    <li><a data-xref="{title}" href="string_trim_start.htm">string_trim_start</a></li>
+    <li><a data-xref="{title}" href="string_trim_end.htm">string_trim_end</a></li>
+    <li><a data-xref="{title}" href="string_split.htm">string_split</a></li>
+    <li><a data-xref="{title}" href="string_split_ext.htm">string_split_ext</a></li>
+    <li><a data-xref="{title}" href="string_join.htm">string_join</a></li>
+    <li><a data-xref="{title}" href="string_join_ext.htm">string_join_ext</a></li>
+    <li><a data-xref="{title}" href="string_concat.htm">string_concat</a></li>
+    <li><a data-xref="{title}" href="string_concat_ext.htm">string_concat_ext</a></li>
+  </ul>
+  <h3>Drawing-Related</h3>
+  <ul class="Disc">
+    <li><a data-xref="{title}" href="string_width.htm">string_width</a></li>
+    <li><a data-xref="{title}" href="string_width_ext.htm">string_width_ext</a></li>
+    <li><a data-xref="{title}" href="string_height.htm">string_height</a></li>
+    <li><a data-xref="{title}" href="string_height_ext.htm">string_height_ext</a></li>
+  </ul>
+  <h3>Iteration</h3>
+  <ul class="Disc">
+    <li><a data-xref="{title}" href="string_foreach.htm">string_foreach</a></li>
+  </ul>
+  <h3>Data Type</h3>
+  <ul class="Disc">
+    <li><a data-xref="{title}" href="../Variable_Functions/is_string.htm">is_string</a></li>
+  </ul>
+  <h3>Methods</h3>
+  <ul class="Disc">
+    <li><a data-xref="{text}" href="Strings.htm#h3">toString() Method</a></li>
+  </ul>
+  <h3>Related functions</h3>
+  <ul class="Disc">
+    <li><a data-xref="{title}" href="../Drawing/Text/Text.htm">Text</a></li>
+    <li>Debugging: <span class="inline2"><a data-xref="{title}" href="../Debugging/show_debug_message.htm">show_debug_message</a></span> and <span class="inline2"><a data-xref="{title}" href="show_debug_message_ext.htm">show_debug_message_ext</a></span></li>
+    <li><a data-xref="{text}" href="../OS_And_Compiler/OS_And_Compiler.htm#h">Clipboard</a></li>
+  </ul>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Back: <a data-xref="{title}" href="../GML_Reference.htm">GML Code Reference</a></div>
+        <div style="float:right">Next: <a href="../Maths_And_Numbers/Maths_And_Numbers.htm">Maths And Numbers</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2023 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+Strings
+\n
+\r
+\b
+\f
+\t
+\v
+\\
+\a
+\u
+\x
+\
+-->
+  <!-- TAGS
+string_functions
+-->
+</body>
+</html>

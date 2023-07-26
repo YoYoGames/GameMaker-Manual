@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>http_request</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
+  <script src="../../../../assets/scripts/main_script.js" type="module"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Reference page for http_request" />
+  <meta name="rh-index-keywords" content="http_request" />
+  <meta name="search-keywords" content="http_request" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>http_request</h1>
+  <p>With this function, you can create an HTTP header request to define the operating parameters of an HTTP transaction, which can be used for many things like (for example) authentication via HTTP headers if you use RESTful APIs. The function requires the full IP address of the server to request from as well as the type of request to make (as a string, see the note below): &quot;GET&quot;, &quot;HEAD&quot;, &quot;POST&quot;, &quot;PUT&quot;, &quot;DELETE&quot;, &quot;TRACE&quot;, &quot;OPTIONS&quot;, or &quot;CONNECT&quot;. You will also need to supply a <span class="inline"><a href="../../Data_Structures/DS_Maps/DS_Maps.htm">DS map</a></span> of key/value pairs (as strings, where the key is the header field and the value is the required data for the header), and the final argument is an optional data string that you can add to the request, and if it&#39;s not needed then it can be either 0 or an empty string &quot;&quot;. Note that you can also send a buffer (see the section on <a href="../../Buffers/Buffers.htm">Buffers</a> for more details), in which case the last argument would be the index of the buffer to send.</p>
+  <p class="note"><b>NOTE</b>: HTTP headers normally follow the format &quot;key:value&quot;, but since <span data-keyref="GameMaker Name">GameMaker</span> creates these pairs for you from the ds_map, there is no need to include the colon &quot;:&quot; in your map key or value strings.</p>
+  <p class="note"><b>NOTE</b>: When using a buffer for the body argument, if the buffer seek position is at the start (0) then no body is sent and the buffer is filled with the response from the http call, but if the buffer seek position is non-zero, then the buffer string content is sent as the body.</p>
+  <p class="note"><b>NOTE</b>: You should be aware that due to XSS protection in browsers, requests to and attempts to load resources from across domains are blocked and may appear to return blank results. Please see the part on <a href="HTTP.htm">Cross Domain Issues</a> for further details.</p>
+  <p>This function returns an <span data-keyref="Type_ID_Async_Event"><a data-rhwidget="HyperlinkPopover" href="../../../../../GameMaker_Language/GML_Reference/Asynchronous_Functions/Asynchronous_Functions.htm">Async Request ID</a></span> which can be used to identify its callback, as described below.</p>
+  <h2>Async Callback</h2>
+  <p>This event will generate a &quot;callback&quot; which is picked up by any <a href="../../../../The_Asset_Editors/Object_Properties/Async_Events/HTTP.htm">Async HTTP Events</a>, in which case it will generate a <span class="inline">DS Map</span> that is exclusive to this event and is stored in the special variable <a href="../../../GML_Overview/Variables/Builtin_Global_Variables/async_load.htm"><b>async_load</b></a>. This DS map has the following two keys related to the request function:</p>
+  <ul class="colour">
+    <li><b>id: </b>The ID which was returned from the function. If you fire off a series of <span class="inline">http_</span> requests then you need to know which one you are getting the reply to, and so you would use this value to compare to the value you stored when you originally sent the request to find the right one.</li>
+    <li><b>response_headers:</b> If this has a value greater than or equal to 0, it holds a DS map that contains the HTTP headers returned with the response to the HTTP request.</li>
+  </ul>
+  <p> </p>
+  <h4>Syntax:</h4>
+  <p class="code">http_request(url, method, header_map, body);</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>Argument</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>url</td>
+        <td><span data-keyref="Type_String"><a data-rhwidget="HyperlinkPopover" href="../../../../../GameMaker_Language/GML_Overview/Data_Types.htm">String</a></span></td>
+        <td>The web address of the server that you wish to get information from</td>
+      </tr>
+      <tr>
+        <td>method</td>
+        <td><span data-keyref="Type_String"><a data-rhwidget="HyperlinkPopover" href="../../../../../GameMaker_Language/GML_Overview/Data_Types.htm">String</a></span></td>
+        <td>The request method (normally <span class="inline2">&quot;POST&quot;</span> or <span class="inline2">&quot;GET&quot;</span>, but all methods are supported)</td>
+      </tr>
+      <tr>
+        <td>header_map</td>
+        <td><span data-keyref="Type_ID_DS_Map"><a data-rhwidget="HyperlinkPopover" href="../../../../../GameMaker_Language/GML_Reference/Data_Structures/DS_Maps/ds_map_create.htm">DS Map ID</a></span></td>
+        <td>A ds_map with the required header fields</td>
+      </tr>
+      <tr>
+        <td>body</td>
+        <td><span data-keyref="Type_Real"><a data-rhwidget="HyperlinkPopover" href="../../../../../GameMaker_Language/GML_Overview/Data_Types.htm">Real</a></span>, <span data-keyref="Type_String"><a data-rhwidget="HyperlinkPopover" href="../../../../../GameMaker_Language/GML_Overview/Data_Types.htm">String</a></span>, or <span data-keyref="Type_ID_Buffer"><a data-rhwidget="HyperlinkPopover" href="../../../../../GameMaker_Language/GML_Reference/Buffers/buffer_create.htm">Buffer ID</a></span></td>
+        <td>The data to be transmitted following the headers (can be a binary buffer handle)</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>Returns:</h4>
+  <p class="code"><span data-keyref="Type_ID_Async_Event"><a data-rhwidget="HyperlinkPopover" href="../../../../../GameMaker_Language/GML_Reference/Asynchronous_Functions/Asynchronous_Functions.htm">Async Request ID</a></span></p>
+  <p> </p>
+  <h4>Example:</h4>
+  <p class="code">var map = ds_map_create();<br />
+    ds_map_add(map, &quot;Host&quot;, &quot;225.0.0.97:3000&quot;);<br />
+    ds_map_add(map, &quot;Connection&quot;, &quot;keep-alive&quot;);<br />
+    ds_map_add(map, &quot;Content-Length&quot;, &quot;169&quot;);<br />
+    ds_map_add(map, &quot;Cache-Control&quot;, &quot;max-age=0&quot;);<br />
+    ds_map_add(map, &quot;Authorization&quot;, &quot;Basic eW95b19hZG1pbjpjNG5lZmllbGQ=&quot;);<br />
+    ds_map_add(map, &quot;Accept&quot;, &quot;text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8&quot;);<br />
+    ds_map_add(map, &quot;User-Agent&quot;, &quot;Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.57 Safari/537.36&quot;);<br />
+    ds_map_add(map, &quot;Content-Type&quot;, &quot;application/x-www-form-urlencoded&quot;);<br />
+    ds_map_add(map, &quot;Accept-Encoding&quot;, &quot;gzip,deflate,sdch&quot;);<br />
+    ds_map_add(map, &quot;Accept-Language&quot;, &quot;en-GB,en-US;q=0.8,en;q=0.6&quot;);<br />
+    ds_map_add(map, &quot;Cookie&quot;, &quot;request_method=GET; _InAppPurchases_session=69bb6ef6eec2b&quot;);<br />
+    var data=&quot;utf8=%E2%9C%93&amp;authenticity_token=kPmS14DcYcuKgMFZUsN3XFfj3mhs%3D&amp;product%5Bname%5D=CatchTheHaggis&amp;product%5Bproduct_id%5D=http_test&amp;commit=Create+Product&quot;;<br />
+    request = http_request(&quot;http:225.0.0.97:3000/products&quot;, &quot;POST&quot;, map, data);</p>
+  <p>The above code creates a DS map with the relevant HTTP headers for the function, then creates a data string for use as this is a POST request. Finally the function is called, with it&#39;s ID value being stored in the variable &quot;request&quot; for checking in the HTTP asynchronous event.</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Back: <a href="HTTP.htm">HTTP</a></div>
+        <div style="float:right">Next: <a href="http_get.htm">http_get</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2022 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+http_request
+-->
+  <!-- TAGS
+http_request
+-->
+</body>
+</html>

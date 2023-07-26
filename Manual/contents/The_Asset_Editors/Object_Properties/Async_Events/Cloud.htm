@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Cloud</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Page detailing the Cloud async event." />
+  <meta name="rh-index-keywords" content="Objects - Async Cloud Event" />
+  <meta name="search-keywords" content="cloud,ev_async_web_cloud" />
+  <link rel="stylesheet" type="text/css" href="../../../assets/css/default.css" />
+  <script src="../../../assets/scripts/main_script.js" type="module"></script>
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1><span data-field="title" data-format="default">Cloud</span></h1>
+  <p><img alt="Cloud Event" class="center" src="../../../assets/Images/Asset_Editors/Async_Cloud.png" />The Cloud Event is one that is triggered by the call back from one of the <a href="../../../GameMaker_Language/GML_Reference/Asynchronous_Functions/Cloud_Saving/Cloud_Saving.htm"><span class="inline">cloud_*()</span></a> functions, like <a href="../../../GameMaker_Language/GML_Reference/Asynchronous_Functions/Cloud_Saving/cloud_synchronise.htm"><span class="inline">cloud_synchronise()</span></a>. It actually generates a DS map that is exclusive to this event and is stored in the special variable <a href="../../../GameMaker_Language/GML_Overview/Variables/Builtin_Global_Variables/async_load.htm"> <span class="inline">async_load</span> </a> (please see the individual functions for code examples that explain the use of this event in further detail). This DS map has the following structure:</p>
+  <ul class="dropspotlist">
+    <li class="dropspot">&quot;<span class="inline">status</span>&quot;: This holds the status code, where a negative value denotes an error, a description of which will be contained in the “errorString”. A value of 0 (or a positive value) indicates a success(see below for exact values), and the “resultString” will contain the returned data or a success message.</li>
+    <li class="dropspot">&quot;<span class="inline">id</span>&quot;: The id which was returned from the called function. If you fire off a series of cloud_ requests then you need to know which one you are getting the reply to, and so you would use this value to compare to the value you stored when you originally sent the request to find the right one.</li>
+    <li class="dropspot">&quot;<span class="inline">description</span>&quot;: The description of the last uploaded file.</li>
+    <li class="dropspot">&quot;<span class="inline">resultString</span>&quot;: This holds a string which is the data blob returned from the cloud.</li>
+    <li class="dropspot">&quot;<span class="inline">errorString</span>&quot;: returns an Error String for any error.</li>
+  </ul>
+  <p>The exact meaning of the returned &quot;status&quot; map entry is explained in the following table:</p>
+  <p> </p>
+  <table>
+    <tbody>
+      <tr>
+        <th>Status Value</th>
+        <th>errorString / resultString</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>-1</td>
+        <td>errorString = &quot;Not logged in to &lt;SERVICE&gt;&quot;</td>
+        <td>You have not successfully logged in to the given Cloud Service</td>
+      </tr>
+      <tr>
+        <td>0</td>
+        <td>resultString = recovered data</td>
+        <td>New game data downloaded from the cloud (following a <span class="inline">cloud_synchronise()</span> call)</td>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td>resultString = &quot;AlreadySynchronized&quot;</td>
+        <td>No new data since you last called cloud_synchronise</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>resultString = &quot;ConflictDeferral&quot;</td>
+        <td>A conflict was encountered, but the gamer chose to ignore it</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>resultString = &quot;GameUploadSuccess&quot;</td>
+        <td>data from <span class="inline">cloud_string_save()</span> or <span class="inline">cloud_file_save()</span> was successfully uploaded to the cloud</td>
+      </tr>
+      <tr>
+        <td>-n</td>
+        <td>errorString = Description of error</td>
+        <td>Any other negative number means a synchronisation failure</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Back: <a href="../Async_Events.htm">Async Events</a></div>
+        <div style="float:right">Next: <a href="Dialog.htm">Dialog</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2023 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+Asynchronous Cloud Event
+ev_web_cloud
+-->
+  <!-- TAGS
+ev_web_cloud
+-->
+</body>
+</html>

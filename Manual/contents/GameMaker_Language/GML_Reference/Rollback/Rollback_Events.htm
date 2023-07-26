@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <title>Rollback Events</title>
+  <meta name="topic-status" content="Draft" />
+  <link rel="stylesheet" type="text/css" href="../../../assets/css/default.css" />
+  <script src="../../../assets/scripts/main_script.js" type="module"></script>
+  <meta name="template" content="../../../assets/masterpages/Manual_Page.htt" />
+  <meta name="rh-authors" content="Gurpreet S. Matharoo" />
+  <meta name="condition-tags" content="Export:Beta" />
+</head>
+<body>
+  <h1>Rollback Events</h1>
+  <p>There are two Rollback-related events you can find in the &quot;Other&quot; category:</p>
+  <p><img class="center" src="../../../assets/Images/Scripting_Reference/GML/Reference/Rollback/rollback_events.png" /></p>
+  <h2 id="h">Rollback Start</h2>
+  <p>This event is triggered when all the players are connected and the multiplayer game has started. It&#39;s also triggered when the room is later changed.</p>
+  <p>Within this event, you get a struct called <span class="inline2">rollback_event_param</span> which contains all relevant values for the event:</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>Struct Member</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td><span class="inline">num_players</span></td>
+        <td>The total number of players in the game</td>
+      </tr>
+      <tr>
+        <td><span class="inline">player_id</span></td>
+        <td>The ID of your local player (starting at 0, which initially is the host itself)</td>
+      </tr>
+      <tr>
+        <td><span class="inline">first_start</span></td>
+        <td>This is <span class="inline2">true</span> if the multiplayer game just started, or <span class="inline2">false</span> if only the room was changed</td>
+      </tr>
+      <tr>
+        <td><span class="inline">late_join</span></td>
+        <td>This is <span class="inline2">true</span> if the player is a late joining player, or <span class="inline2">false</span> if not</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>You should only use this event in your game manager object rather than a player object, as <span class="inline2">rollback_event_param.player_id</span> will always be the ID of your main local player and NOT the ID of the player instance that the event may trigger in.</p>
+  <p>For example, if you are player 0, and you catch the <strong>Rollback Start</strong> event in the instance of player 1, the <span class="inline2">player_id</span> variable will still be 0 as it indicates the ID of the local player only.</p>
+  <h2 id="h1">Rollback Event</h2>
+  <p>The <strong>Rollback Event</strong> event is triggered at various points throughout the game, containing a <span class="inline2">rollback_event_id</span> variable. This variable indicates what type of event has been triggered.</p>
+  <p>A struct called <span class="inline2">rollback_event_param</span> is provided which contains all relevant values for the event.</p>
+  <p>Any one of the following constants may be stored in <span class="inline2">rollback_event_id</span>:</p>
+  <table>
+    <colgroup>
+      <col />
+      <col />
+    </colgroup>
+    <tbody>
+      <tr>
+        <th><span class="inline">rollback_event_id</span></th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <th colspan="2">In-Game</th>
+      </tr>
+      <tr>
+        <td><span class="inline">rollback_chat_message</span></td>
+        <td>Triggered when a message from <a href="Rollback_Functions/rollback_chat.htm"><span class="inline">rollback_chat()</span></a> / <a data-xref="{title}" href="../../../Drag_And_Drop/Drag_And_Drop_Reference/Rollback/Send_Message.htm">Send Message (Rollback)</a> is received. During this event, <span class="inline2">rollback_event_param</span> will contain the following variables:<br />
+          <br />
+          <span class="inline2">message</span>: The message string received<br />
+          <span class="inline2">from</span>: The ID of the player that sent the message<br />
+          <span class="inline2">to</span>: The ID of the player that the message was sent to; will be -1 if the message was sent to everyone
+        </td>
+      </tr>
+      <tr>
+        <td><span class="inline">rollback_player_prefs</span></td>
+        <td>Triggered when a player sets its <a href="Rollback_Preferences.htm">preferences</a>. During this event, <span class="inline2">rollback_event_param</span> will contain the following variables:<br />
+          <br />
+          <span class="inline2">player_id</span>: The ID of the player that set its preferences<br />
+          <span class="inline2">preferences</span>: The preferences set for that player
+        </td>
+      </tr>
+      <tr>
+        <th colspan="2">Game</th>
+      </tr>
+      <tr>
+        <td><span class="inline">rollback_game_interrupted</span></td>
+        <td>Triggered when the game is interrupted because of a player with an unstable connection. During this event, <span class="inline2">rollback_event_param</span> will contain the following variables:<br />
+          <br />
+          <span class="inline2">player_id</span>: ID of the player with connection issues<br />
+          <span class="inline2">timeout</span>: How much time is remaining for that player to time out and disconnect (in milliseconds). After this amount of time, the player will be kicked and the game will resume with the remaining players.
+        </td>
+      </tr>
+      <tr>
+        <td><span class="inline">rollback_game_resumed</span></td>
+        <td>Triggered when the game resumes after an interruption (as described above). The ID of the player that reconnected is stored in <span class="inline2">rollback_event_param.player_id</span>.</td>
+      </tr>
+      <tr>
+        <td><span class="inline">rollback_game_full</span></td>
+        <td>Triggered when the game/room you are connecting to is already full.</td>
+      </tr>
+      <tr>
+        <td><span class="inline">rollback_game_info</span></td>
+        <td>Triggered when information about a room is received, but before it is fully joined.<br />
+          During this event, <span class="inline2">rollback_event_param</span> will contain the following variables:<br />
+          <br />
+          <span class="inline2">num_players</span>: The total number of players in the game<br />
+          <span class="inline2">player_id</span>: The ID of the local player (starting at 0)
+        </td>
+      </tr>
+      <tr>
+        <th colspan="2">Connection</th>
+      </tr>
+      <tr>
+        <td><span class="inline">rollback_end_game</span></td>
+        <td><span>Triggered when the server wants clients to stop the game. Usually this event means that clients are in an inconsistent state. The multiplayer session is closed automatically before the event is fired.</span></td>
+      </tr>
+      <tr>
+        <td><span class="inline">rollback_connect_info</span></td>
+        <td>Triggered when a room has been created and is ready to be shared with other players. The shareable URL is stored in <span class="inline2">rollback_event_param.share_url</span>.<br />
+          <br />
+          You can copy this URL automatically when it becomes available by calling <span class="inline"><a href="../Strings/clipboard_set_text.htm">clipboard_set_text()</a></span>.
+        </td>
+      </tr>
+      <tr>
+        <td><span class="inline">rollback_connect_error</span></td>
+        <td>Triggered when there is a connection error. The <span class="inline2">rollback_event_param</span> <a href="../../GML_Overview/Structs.htm">struct</a> will contain the following variables:<br />
+          <br />
+          <span class="inline2">status</span> The HTTP status code of the response<br />
+          <span class="inline2">error</span> A string describing the error
+        </td>
+      </tr>
+      <tr>
+        <td><span class="inline">rollback_connection_rejected</span></td>
+        <td><span>Triggered when a connection attempt is rejected. The error can be caused by an invalid token, mismatch in client versions, or mismatch in protocol versions. The multiplayer session is closed automatically before the event is fired.</span></td>
+      </tr>
+      <tr>
+        <td><span class="inline">rollback_protocol_rejected</span></td>
+        <td><span>Triggered when a connection attempt is rejected. This means the client is using an obsolete version of the protocol. Before this event is fired, GameMaker will show an error message in-game (even if <a href="Rollback_Functions/rollback_display_events.htm">events are disabled</a>). The multiplayer session is closed automatically before the event is fired.</span></td>
+      </tr>
+      <tr>
+        <td><span class="inline">rollback_high_latency</span></td>
+        <td><span>Triggered when your latency to the server is too high. The multiplayer session is closed automatically before the event is fired.</span></td>
+      </tr>
+      <tr>
+        <th colspan="2">Peers</th>
+      </tr>
+      <tr>
+        <td><span class="inline">rollback_connected_to_peer</span></td>
+        <td>Triggered when a new player has connected. The ID of the connected player is stored in <span class="inline2">rollback_event_param.player_id</span>.</td>
+      </tr>
+      <tr>
+        <td><span class="inline">rollback_synchronizing_with_peer</span></td>
+        <td>Triggered while the game is synchronising with a new player. During this event, <span class="inline2">rollback_event_param</span> will contain the following variables:<br />
+          <br />
+          <span class="inline2">player_id</span>: ID of the player that you&#39;re synchronizing with<br />
+          <span class="inline2">count</span>: How many synchronisation steps have been completed<br />
+          <span class="inline2">total</span>: How many total synchronisation steps need to be completed
+        </td>
+      </tr>
+      <tr>
+        <td><span class="inline">rollback_synchronized_with_peer</span></td>
+        <td>Triggered when synchronisation with a player is complete. The ID of the synchronised player is stored in <span class="inline2">rollback_event_param.player_id</span>.</td>
+      </tr>
+      <tr>
+        <td><span class="inline">rollback_disconnected_from_peer</span></td>
+        <td>Triggered when a player disconnects. The ID of the disconnected player is stored in <span class="inline2">rollback_event_param.player_id</span>.</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div>Back: <a data-xref="{title}" href="Rollback_Multiplayer.htm">Rollback Multiplayer</a></div>
+        <div>Next: <a href="Rollback_Errors.htm">Rollback Errors</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2023 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+rollback_event_param
+rollback_event_id
+rollback_chat_message
+rollback_player_prefs
+rollback_game_interrupted
+rollback_game_resumed
+rollback_game_full
+rollback_game_info
+rollback_end_game
+rollback_connect_info
+rollback_connection_rejected
+rollback_protocol_rejected
+rollback_high_latency
+rollback_connected_to_peer
+rollback_synchronizing_with_peer
+rollback_synchronized_with_peer
+rollback_disconnected_from_peer
+-->
+  <!-- TAGS
+Rollback Events
+-->
+</body>
+</html>

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>array_reduce</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" type="text/css" href="../../../assets/css/default.css" />
+  <script src="../../../assets/scripts/main_script.js" type="module"></script>
+  <meta name="rh-authors" content="" />
+  <meta name="topic-comment" content="" />
+  <meta name="rh-index-keywords" content="array_reduce" />
+  <meta name="search-keywords" content="array_reduce" />
+  <meta name="template" content="assets/masterpages/Manual_Keyword_Page.htt" />
+</head>
+<body>
+  <h1><span data-field="title" data-format="default">array_reduce</span></h1>
+  <p>This function is used to obtain one value from an array, by processing all array elements one-by-one.</p>
+  <p>You supply a <a data-xref="{text}" href="Array_Functions.htm#h2">Callback Method</a> which runs for each element of the given array. The callback function must return a value, which is passed to the next element&#39;s callback, in its <span class="inline2">previous</span> argument.</p>
+  <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down1" href="#">Callback Function </a></p>
+  <div class="droptext" data-targetname="drop-down1">
+    <h4>Syntax:</h4>
+    <p class="code">function(previous, current, index);</p>
+    <table class=" cke_show_border">
+      <tbody>
+        <tr>
+          <th>Argument</th>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+        <tr>
+          <td>previous</td>
+          <td><span data-keyref="Type_Any"><a target="_blank" href="../../../../GameMaker_Language/GML_Overview/Data_Types.htm#variable">Any</a></span></td>
+          <td>The value returned by the previous iteration</td>
+        </tr>
+        <tr>
+          <td>current</td>
+          <td><span data-keyref="Type_Any"><a target="_blank" href="../../../../GameMaker_Language/GML_Overview/Data_Types.htm#variable">Any</a></span></td>
+          <td>The element value of the current iteration</td>
+        </tr>
+        <tr>
+          <td>index</td>
+          <td><span data-keyref="Type_Real"><a target="_blank" href="../../../../GameMaker_Language/GML_Overview/Data_Types.htm">Real</a></span></td>
+          <td>The index of the current iteration</td>
+        </tr>
+      </tbody>
+    </table>
+    <p> </p>
+  </div>
+  <p>The first time this callback function is called, its <span class="inline2">previous</span> argument is set to the value of the first array element (or the element at the given <span class="inline2">offset</span>), and the first iteration of the array range is skipped, meaning callbacks start from the second element in the given range.</p>
+  <p>If you supply the <span class="inline2">init</span> parameter to this function, the first iteration will not be skipped, and the <span class="inline2">previous</span> parameter for the first element&#39;s callback will be set to the <span class="inline2">init</span> value you passed.</p>
+  <p>When the callback function returns a value, it&#39;s carried over into the next iteration. This process is repeated, until the given array (or the provided range) has been fully iterated. The function returns the value obtained from the final element&#39;s callback.</p>
+  <p>Finally there are a couple of special cases, which are handled as follows: </p>
+  <ul class="colour">
+    <li>If the array has one element and no initial value is given, the function returns the first array element.</li>
+    <li>If the array is empty and an initial value is supplied, the function returns that initial value. If none is given, the function throws an error.</li>
+  </ul>
+  <p> </p>
+  <h4>Syntax:</h4>
+  <p class="code"><span data-field="title" data-format="default">array_reduce</span>(array, function, [init], [offset], [length]);</p>
+  <table>
+    <colgroup>
+      <col />
+      <col />
+      <col />
+    </colgroup>
+    <tbody>
+      <tr>
+        <th>Argument</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>array</td>
+        <td><span data-keyref="Type_Array"><a href="../../../../GameMaker_Language/GML_Overview/Arrays.htm" target="_blank">Array</a></span></td>
+        <td>The array to use</td>
+      </tr>
+      <tr>
+        <td>function</td>
+        <td><span data-keyref="Type_Function"><a href="../../../../GameMaker_Language/GML_Overview/Script_Functions.htm" target="_blank">Function</a></span></td>
+        <td>The function to use for each element</td>
+      </tr>
+      <tr>
+        <td>init</td>
+        <td><span data-keyref="Type_Any"><a href="../../../../GameMaker_Language/GML_Overview/Data_Types.htm#variable" target="_blank">Any</a></span></td>
+        <td><span data-conref="../../../assets/snippets/Tag_optional.hts"> </span> The initial value to use as the first carried value. If none is provided this defaults to <span class="inline2">array[offset]</span> and the first iteration is skipped.</td>
+      </tr>
+      <tr>
+        <td>offset</td>
+        <td><span data-keyref="Type_Real"><a href="../../../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td><span data-conref="../../../assets/snippets/Tag_optional.hts"> </span> The offset, or the starting index, in the array. Setting a negative value will count from the end of the array. The starting index will then be <span class="inline2">array_length(array) + offset</span>. See <a data-xref="{text}" href="Array_Functions.htm#h1">Offset And Length</a></td>
+      </tr>
+      <tr>
+        <td>length</td>
+        <td><span data-keyref="Type_Real"><a href="../../../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td><span data-conref="../../../assets/snippets/Tag_optional.hts"> </span> The number of elements to traverse. A negative value will traverse the array backwards (i.e. in descending order of indices, e.g. 2 &gt; 1 &gt; 0 instead of 0 &gt; 1 &gt; 2). See <a data-xref="{text}" href="Array_Functions.htm#h1">Offset And Length</a></td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>Returns:</h4>
+  <p class="code"><span data-keyref="Type_Any"><a href="../../../../GameMaker_Language/GML_Overview/Data_Types.htm#variable" target="_blank">Any</a></span></p>
+  <p> </p>
+  <h4>Example:</h4>
+  <p class="code">var _array = [2, 1, 3, 4, 5];<br />
+    <br />
+    var _min_value = function(_previous, _current, _index)<br />
+    {<br />
+        return min(_previous, _current);<br />
+    }<br />
+    <br />
+    var _value = <span data-field="title" data-format="default">array_reduce</span>(_array, _min_value);
+  </p>
+  <p>The above code tries to find the smallest value in an array. It first creates a temporary array <span class="inline2">array</span> and fills it with a set of numbers.</p>
+  <p>Then it creates a new function <span class="inline2">min_value</span> that returns either the <span class="inline2">previous</span> or <span class="inline2">current</span> argument, whichever is smaller.</p>
+  <p>Finally it calls <span class="inline2"><span data-field="title" data-format="default">array_reduce</span></span> on the array, using <span class="inline2">_min_value</span> as the callback function, and stores the final result in a temporary variable <span class="inline2">value</span>. This variable will contain <span class="inline2">1</span> as that is the smallest value in the array.</p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div>Back: <a data-xref="{title}" href="Array_Functions.htm">Array Functions</a></div>
+        <div>Next: <a data-xref="{title}" href="array_concat.htm">array_concat</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2023 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+array_reduce
+-->
+  <!-- TAGS
+array_reduce
+-->
+</body>
+</html>

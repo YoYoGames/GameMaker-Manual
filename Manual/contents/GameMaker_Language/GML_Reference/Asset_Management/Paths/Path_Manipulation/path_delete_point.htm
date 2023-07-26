@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>path_delete_point</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../../../assets/css/default.css" type="text/css" />
+  <script src="../../../../../assets/scripts/main_script.js" type="module"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Page explaining the function path_delete_point" />
+  <meta name="rh-index-keywords" content="path_delete_point" />
+  <meta name="search-keywords" content="path_delete_point" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>path_delete_point</h1>
+  <p>With this function you can remove a point from the specified path. Path points are numbered from 0 so the first point is always the 0th point and the last path point will be <a href="../path_get_number.htm"><span class="inline">path_get_number()</span></a> - 1. If you call this function on a path asset, <strong>then the removal of the point will be permanent</strong> and all instances assigned the path in the future will be missing the point that was removed. If this is not what you require, then you should use a function like <span class="inline"><a href="path_duplicate.htm">path_duplicate()</a></span> to create a copy of the path first, then call this function on the duplicated asset (don&#39;t forget to call <span class="inline"><a href="path_delete.htm">path_delete()</a></span> on the asset when it is no longer required).</p>
+  <p> </p>
+  <h4>Syntax:</h4>
+  <p class="code">path_delete_point(ind, n);</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>Argument</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>index</td>
+        <td><span data-keyref="Type_Asset_Path">Path Asset</span></td>
+        <td>The index of the path to delete a point from.</td>
+      </tr>
+      <tr>
+        <td>n</td>
+        <td><span data-keyref="Type_Real">Real</span></td>
+        <td>The defining point to delete.</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>Returns:</h4>
+  <p class="code"><span data-keyref="Type_Void">N/A</span></p>
+  <p> </p>
+  <h4>Example:</h4>
+  <p class="code">var _col = true;<br />
+    while (_col)<br />
+    {<br />
+        var _num = path_get_number(mypath) - 1;<br />
+        if (_num &gt; 2)<br />
+        {<br />
+            var _x1 = path_get_point_x(my_path, _num);<br />
+            var _y1 = path_get_point_y(my_path, _num);<br />
+            var _x2 = path_get_point_x(my_path, _num -1);<br />
+            var _y2 = path_get_point_y(my_path, _num -1);<br />
+            if collision_line(_x1, _y1, _x2, _y2, obj_Wall, true, false)<br />
+            {<br />
+                path_delete_point(mypath, _num);<br />
+                _num -= 1;<br />
+            }<br />
+            else _col = false;<br />
+        }<br />
+        else _col = false;<br />
+    }</p>
+  <p>The above code generates a loop that checks the points on a backwards from the end for a collision with the given object. If a collision is found, a path point is deleted, until there is no collision, or the path is only 2 points long.</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Back: <a href="Path_Manipulation.htm">Path Manipulation</a></div>
+        <div style="float:right">Next: <a href="path_clear_points.htm">path_clear_points</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2022 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+path_delete_point
+-->
+  <!-- TAGS
+path_delete_point
+-->
+</body>
+</html>

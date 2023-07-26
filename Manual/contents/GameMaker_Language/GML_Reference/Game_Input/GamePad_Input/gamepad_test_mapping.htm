@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>gamepad_test_mapping</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
+  <script src="../../../../assets/scripts/main_script.js" type="module"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Reference page for gamepad_test_mapping" />
+  <meta name="rh-index-keywords" content="gamepad_test_mapping" />
+  <meta name="search-keywords" content="gamepad_test_mapping" />
+  <meta name="is_pure" content="true" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>gamepad_test_mapping</h1>
+  <p>This function can be used to set the gamepad mapping on those targets that permit it. You supply the &quot;slot&quot; index for the gamepad to set, and then the map string, which should have been created using the SDL format with the following fields:</p>
+  <p class="code">&lt;guid&gt;,&lt;description&gt;,platform:&lt;platform-name&gt;,&lt;bindings&gt;</p>
+  <p>The details that should be included in each of these fields are:</p>
+  <ul class="colour">
+    <li><span class="inline">guid</span> - a string of digits and letters that uniquely identifies a device type (this can be retrieved using the <a href="gamepad_get_guid.htm"><span class="inline">gamepad_get_guid()</span></a> function)</li>
+    <li><span class="inline">description</span> - an Ascii description of the device (this can be retrieved using the <a href="gamepad_get_description.htm"><span class="inline">gamepad_get_description()</span></a> function)</li>
+    <li><span class="inline">platform-name</span> - will be either &quot;platform:android&quot;, &quot;platform:windows&quot;, &quot;linux&quot;, or &quot;mac&quot; (note that <b>this will be appended automatically onto the string when you call this function</b>, and so you do not need to supply it when constructing your own mapping strings)</li>
+    <li><span class="inline">bindings</span> - a set of entries separated by a &#39;,&#39; to bind actual input to specific GML constants</li>
+  </ul>
+  <p>The comma separated list of entries follows a specific format for each entry:</p>
+  <p class="code">&lt;abstract-gp-name&gt;:&lt;value-binding&gt;</p>
+  <p>Here <span class="inline">&lt;value-binding&gt;</span> (ie: the direct gamepad input) can be any one of the following:</p>
+  <ul class="colour">
+    <li><span class="inline">a&lt;N&gt;</span> - This represents an axis of the gamepad, where the &lt;N&gt; is one of the axis from 0 to <a href="gamepad_axis_count.htm"><span class="inline">gamepad_axis_count()</span></a> -1</li>
+    <li><span class="inline">b&lt;N&gt;</span> - This represents a button of the gamepad, where the &lt;N&gt; is one of the buttons from 0 to <a href="gamepad_button_count.htm"><span class="inline">gamepad_button_count()</span></a> -1</li>
+    <li><span class="inline">h&lt;N&gt;.&lt;mask&gt;</span> - This represents a hat of the gamepad, where the &lt;N&gt; represents a hat from 0 to <a href="gamepad_hat_count.htm"><span class="inline">gamepad_hat_count()</span></a> -1, and the <span class="inline">&lt;mask&gt;</span> will be either 1, 2, 4, or 8.</li>
+  </ul>
+  <p>Each input value should be bound to an SDL name, which is expressed as <span class="inline">&lt;&gt;abstract-gp-name&gt;</span>, which in turn is bound to a GML constant. The table below shows the equivalence between the SDL name and the <span data-keyref="GameMaker Name">GameMaker</span> constant:</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>SDL Name</th>
+        <th>GML Name</th>
+      </tr>
+      <tr>
+        <td><span class="inline">a</span></td>
+        <td>gp_face1</td>
+      </tr>
+      <tr>
+        <td><span class="inline">b</span></td>
+        <td>gp_face2</td>
+      </tr>
+      <tr>
+        <td><span class="inline">x</span></td>
+        <td>gp_face3</td>
+      </tr>
+      <tr>
+        <td><span class="inline">y</span></td>
+        <td>gp_face4</td>
+      </tr>
+      <tr>
+        <td><span class="inline">leftshoulder</span></td>
+        <td>gp_shoulderl</td>
+      </tr>
+      <tr>
+        <td><span class="inline">lefttrigger</span></td>
+        <td>gp_shoulderlb</td>
+      </tr>
+      <tr>
+        <td><span class="inline">rightshoulder</span></td>
+        <td>gp_shoulderr</td>
+      </tr>
+      <tr>
+        <td><span class="inline">righttrigger</span></td>
+        <td>gp_shoulderrb</td>
+      </tr>
+      <tr>
+        <td><span class="inline">guide</span></td>
+        <td>gp_select</td>
+      </tr>
+      <tr>
+        <td><span class="inline">start</span></td>
+        <td>gp_start</td>
+      </tr>
+      <tr>
+        <td><span class="inline">leftstick</span></td>
+        <td>gp_stickl</td>
+      </tr>
+      <tr>
+        <td><span class="inline">rightstick</span></td>
+        <td>gp_stickr</td>
+      </tr>
+      <tr>
+        <td><span class="inline">dpup</span></td>
+        <td>gp_padu</td>
+      </tr>
+      <tr>
+        <td><span class="inline">dpdown</span></td>
+        <td>gp_padl</td>
+      </tr>
+      <tr>
+        <td><span class="inline">dpleft</span></td>
+        <td>gp_padr</td>
+      </tr>
+      <tr>
+        <td><span class="inline">dpright</span></td>
+        <td>gp_padd</td>
+      </tr>
+      <tr>
+        <td><span class="inline">leftx</span></td>
+        <td>gp_axislh</td>
+      </tr>
+      <tr>
+        <td><span class="inline">lefty</span></td>
+        <td>gp_axislv</td>
+      </tr>
+      <tr>
+        <td><span class="inline">rightx</span></td>
+        <td>gp_axisrh</td>
+      </tr>
+      <tr>
+        <td><span class="inline">righty</span></td>
+        <td>gp_axisrv</td>
+      </tr>
+    </tbody>
+  </table>
+  <p><br />
+    When you have constructed your mapping string it should look something like this:</p>
+  <p class="code">&quot;050000005e040000fd020000ffff3f00,Xbox Wireless Controller,a:b0,b:b1,start:b4,dpdown:h0.4,dpleft:h0.8,dpright:h0.2,dpup:h0.1,guide:b6,leftshoulder:b9,leftstick:b7,lefttrigger:a4,leftx:a0,lefty:a1,rightshoulder:b10,rightstick:b8,righttrigger:a5,rightx:a2,righty:a3,x:b2,y:b3,platform:android&quot;</p>
+  <p> </p>
+  <h4>Syntax:</h4>
+  <p class="code">gamepad_test_mapping(index, mapping_string);</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>Argument</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>index</td>
+        <td><span data-keyref="Type_Real">Real</span></td>
+        <td>Which gamepad index &quot;slot&quot; to set.</td>
+      </tr>
+      <tr>
+        <td>mapping_string</td>
+        <td><span data-keyref="Type_String">String</span></td>
+        <td>The map string to use (see the description for more information).</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>Returns:</h4>
+  <p class="code"><span data-keyref="Type_Void">N/A</span></p>
+  <p> </p>
+  <h4>Example:</h4>
+  <p class="code">var mapping = gamepad_get_guid(global.padIndex) + &quot;,&quot; + gamepad_get_description(global.padIndex);<br />
+    var len = array_length(global.PadInstances);<br />
+    for (i = 0; i &lt; len; i += 2)<br />
+    {<br />
+        var left = global.PadInstances[i];<br />
+        var right = global.PadInstances[i+1];<br />
+        mapping += &quot;,&quot; + left.sdlLabel + &quot;:&quot; + right.binding;<br />
+    }<br />
+    gamepad_test_mapping(global.padIndex, mapping);</p>
+  <p>The above code will loop through a number of instances and use the values of different variables that they contain to create a mapping string, which is then set for use on the gamepad in the given slot index.</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Back: <a href="Gamepad_Input.htm">Gamepad Input</a></div>
+        <div style="float:right">Next: <a href="gamepad_remove_mapping.htm">gamepad_remove_mapping</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2022 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+gamepad_test_mapping
+-->
+  <!-- TAGS
+gamepad_test_mapping
+-->
+</body>
+</html>

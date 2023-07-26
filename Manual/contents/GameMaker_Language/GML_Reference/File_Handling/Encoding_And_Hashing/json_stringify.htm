@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>json_stringify</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
+  <script src="../../../../assets/scripts/main_script.js" type="module"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Reference page for json_stringify" />
+  <meta name="rh-index-keywords" content="json_stringify" />
+  <meta name="search-keywords" content="json_stringify" />
+  <meta name="is_pure" content="true" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1><span data-field="title" data-format="default">json_stringify</span></h1>
+  <p>With this function you can convert single or nested structs and arrays into a valid JSON string.</p>
+  <p>You supply the initial value to use (an array index or a struct reference) and then the function will &quot;stringify&quot; it, converting it into a JSON string (converting GameMaker arrays into JSON arrays, and GameMaker structs into JSON objects). You can optionally choose to &quot;pretty print&quot; it, meaning the final JSON will be formatted for easy readability.</p>
+  <p>When using this function there are some important things to note:</p>
+  <ul class="colour">
+    <li>The function will <em>not </em> convert DS maps, lists or any other data structure into JSON, and will simply store the internal index value for the structure (which is of little use as the index will change between runs of the game), and as such you should not try to stringify any value that may contain references to data structures (for that you have <a href="json_encode.htm"><span class="inline">json_encode()</span></a>).</li>
+    <li>The function will convert just about any value into a &quot;valid&quot; JSON string, however the actual values contained in the string may not be exactly what you expect due to the way that the JSON standard operates:<br />
+      <br />
+      &quot;JSON is agnostic about numbers. In any programming language, there can be a variety of number types of various capacities and complements, fixed or floating, binary or decimal. That can make interchange between different programming languages difficult. JSON instead offers only the representation of numbers that humans use: a sequence of digits. All programming languages know how to make sense of digit sequences even if they disagree on internal representations.&quot;<br />
+      <br />
+      For more information see the <a href="http://www.ecma-international.org/publications/standards/Ecma-404.htm">ECMA JSON Standard</a>.
+    </li>
+    <li>If the provided struct contains any circular references, such as references back to the main struct itself (forming an infinite loop) or references to structs within the main struct forming such infinite loops, such references will be converted to <span class="inline2">&quot;null&quot;</span> upon stringifying.</li>
+    <li>If you include an int64 in the values to convert to JSON it will write it as an <i>int</i> if it is in the valid range for an int32, as a <i>double</i> if it can do so without losing precision or (if neither of those cases is applicable) as a <i>string</i> with an identifier &quot;<span class="inline">@i64@</span>&quot; before it and &quot;<span class="inline">$i64$</span>&quot; after it. When you come to parse the JSON again <span data-keyref="GameMaker Name">GameMaker</span> will pick these identifiers up and re-convert the value back into an int64. This does mean that if the JSON is intended for a server or some other non-GameMaker target, these values will not be appropriate and so should be avoided.</li>
+    <li><a href="../../../GML_Overview/Data_Types.htm"><span class="inline2">infinity</span></a> and <a href="../../../GML_Overview/Data_Types.htm"><span class="inline2">NaN</span></a> will be written into the JSON as <span class="inline2">&quot;@@infinity$$&quot;</span> (<span class="inline2">&quot;@@-infinity$$&quot;</span> for negative) and <span class="inline2">&quot;@@nan$$&quot;</span> respectively. These values will be correctly loaded back into memory when the JSON is loaded with <span class="inline3_func"><a data-xref="{title}" href="json_parse.htm">json_parse</a></span>.</li>
+    <li>If you include <a href="../../../GML_Overview/Data_Types.htm"><span class="inline2">undefined</span></a> in the struct, it will be encoded as <span class="inline2">&quot;null&quot;</span>, and upon reading that back into GameMaker you will get <a href="../../../GML_Overview/Data_Types.htm"><span class="inline2">pointer_null</span></a>.</li>
+    <li>Care should be taken when writing any returned JSON string to an <span class="inline">ini</span> file, as the <span class="inline">ini</span> specifications can cause issues when using quotes and escape characters. See the function <a href="../Ini_Files/ini_write_string.htm"><span class="inline">ini_write_string()</span></a> for more information.</li>
+  </ul>
+  <p> </p>
+  <h4>Syntax:</h4>
+  <p class="code"><span data-field="title" data-format="default">json_stringify</span>(val, [pretty_print]);</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>Argument</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>val</td>
+        <td><span data-keyref="Type_Struct"><a href="../../../../../GameMaker_Language/GML_Overview/Structs.htm" target="_blank">Struct</a></span> or <span data-keyref="Type_Array"><a href="../../../../../GameMaker_Language/GML_Overview/Arrays.htm" target="_blank">Array</a></span></td>
+        <td>The reference value for a struct or array to convert into a JSON string</td>
+      </tr>
+      <tr>
+        <td>pretty_print</td>
+        <td><span data-keyref="Type_Bool"><a href="../../../../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">Boolean</a></span></td>
+        <td><span data-conref="../../../../assets/snippets/Tag_optional.hts"> </span> Whether to pretty print the string, i.e. insert indentation and line breaks for readability</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>Returns:</h4>
+  <p class="code"><span data-keyref="Type_String"><a href="../../../../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">String</a></span></p>
+  <p> </p>
+  <h4>Example 1:</h4>
+  <p class="code">var _contents =<br />
+    {<br />
+        version : &quot;1.0.0&quot;,<br />
+        data:<br />
+        {<br />
+            coins : 4,<br />
+            mana : 15,<br />
+            playername : &quot;Gurpreet&quot;,<br />
+            items :<br />
+            [<br />
+                ITEM.SWORD,<br />
+                ITEM.BOW,<br />
+                ITEM.GUITAR<br />
+            ]<br />
+        }<br />
+    };<br />
+    <br />
+    var _json_string = json_stringify(_contents);
+  </p>
+  <p>The above code will convert the <span class="inline2">_contents</span> struct into a JSON string and stores the string in a variable. The returned string would look like this:</p>
+  <p class="code">{ &quot;data&quot;: { &quot;items&quot;: [ 0.0, 1.0, 2.0 ], &quot;coins&quot;: 4.0, &quot;mana&quot;: 15.0, &quot;playername&quot;: &quot;Gurpreet&quot; }, &quot;version&quot;: &quot;1.0.0&quot; }</p>
+  <p> </p>
+  <h4>Example 2: Pretty Print</h4>
+  <p class="code">var _contents = <br />
+    {<br />
+        version: &quot;1.0.0&quot;,<br />
+        data:<br />
+        {<br />
+            coins : 5,<br />
+            mana : 0,<br />
+            playername : &quot;Bart&quot;,<br />
+            items :<br />
+            [<br />
+                ITEM.SWORD,<br />
+                ITEM.BOW,<br />
+                ITEM.PIANO<br />
+            ]<br />
+        }<br />
+    }<br />
+    var _json_string = json_stringify(_contents, true);</p>
+  <p>The above code converts the <span class="inline2">_contents</span> struct into a JSON string and stores it in a variable. With the <span class="inline2">pretty_print</span> parameter set to <span class="inline2">true</span>, the struct&#39;s contents are <em>pretty printed</em> to the string, i.e. indentation and line breaks are inserted to make the resulting string look &quot;pretty&quot; and more readable. The string then looks like this: </p>
+  <p class="code">{<br />
+      &quot;data&quot;:{<br />
+        &quot;mana&quot;:0.0,<br />
+        &quot;playername&quot;:&quot;Bart&quot;,<br />
+        &quot;items&quot;:[<br />
+          0,<br />
+          1,<br />
+          2<br />
+        ],<br />
+        &quot;coins&quot;:5.0<br />
+      },<br />
+      &quot;version&quot;:&quot;1.0.0&quot;<br />
+    }</p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Back: <a href="Encoding_And_Hashing.htm">File Encoding</a></div>
+        <div style="float:right">Next: <a href="json_parse.htm">json_parse</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2023 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+json_stringify
+-->
+  <!-- TAGS
+json_stringify
+-->
+</body>
+</html>

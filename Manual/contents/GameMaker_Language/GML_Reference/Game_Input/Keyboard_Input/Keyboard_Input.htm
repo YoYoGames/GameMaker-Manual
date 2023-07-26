@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Keyboard Input</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
+  <script src="../../../../assets/scripts/main_script.js" type="module"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Reference section for Keyboard Input" />
+  <meta name="rh-index-keywords" content="vk_nokey,vk_anykey,vk_left,vk_right,vk_up,vk_down,vk_enter,vk_escape,vk_space,vk_shift,vk_control,vk_alt,vk_backspace,vk_tab,vk_home,vk_end,vk_delete,vk_insert,vk_pageup,vk_pagedown,vk_pause,vk_printscreen,vk_f1,vk_f2,vk_f3,vk_f4,vk_f5,vk_f6,vk_f7,vk_f8,vk_f9,vk_f10,vk_f11,vk_f12,vk_numpad0,vk_numpad1,vk_numpad2,vk_numpad3,vk_numpad4,vk_numpad5,vk_numpad6,vk_numpad7,vk_numpad8,vk_numpad9,vk_multiply,vk_divide,vk_add,vk_subtract,vk_decimal,vk_lshift,vk_lcontrol,vk_lalt,vk_rshift,vk_rcontrol,vk_ralt" />
+  <meta name="search-keywords" content="Keyboard Input,vk_nokey,vk_anykey,vk_left,vk_right,vk_up,vk_down,vk_enter,vk_escape,vk_space,vk_shift,vk_control,vk_alt,vk_backspace,vk_tab,vk_home,vk_end,vk_delete,vk_insert,vk_pageup,vk_pagedown,vk_pause,vk_printscreen,vk_f1,vk_f2,vk_f3,vk_f4,vk_f5,vk_f6,vk_f7,vk_f8,vk_f9,vk_f10,vk_f11,vk_f12,vk_numpad0,vk_numpad1,vk_numpad2,vk_numpad3,vk_numpad4,vk_numpad5,vk_numpad6,vk_numpad7,vk_numpad8,vk_numpad9,vk_multiply,vk_divide,vk_add,vk_subtract,vk_decimal,vk_lshift,vk_lcontrol,vk_lalt,vk_rshift,vk_rcontrol,vk_ralt" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1><span data-field="title" data-format="default">Keyboard Input</span></h1>
+  <p>When dealing with the keyboard in <span data-keyref="GameMaker Name">GameMaker</span> you have a variety of functions that can be used to recognise different keyboard states like pressed or released. There are also some that store all the key presses as a string or that can tell you what the last key pressed was, as well as others that allow you to clear the keyboard state completely.</p>
+  <p class="note"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> These functions are designed for Windows/Mac/Ubuntu desktop platforms only. You may find some of the built-in variables and constants aren&#39;t valid on other platforms and many of the functions won&#39;t work on mobiles.</p>
+  <p>Each input character from a key (or multiple keys) is defined by its <a href="https://en.wikipedia.org/wiki/UTF-8" target="_blank">UTF8</a> code, which is a numerical value. This value can be retrieved for any character using the <span class="inline2"><a data-xref="{title}" href="../../Strings/ord.htm">ord</a></span> function but, <span data-keyref="GameMaker Name">GameMaker</span> also has a series of <span class="inline">constants</span> for the most used keyboard special keys and a special functions. Typically you&#39;d use a combination of <span class="inline">ord()</span> with the <span class="inline">keyboard_check*()</span> functions, something like this:</p>
+  <p class="code">if keyboard_check(ord(&quot;A&quot;))<br />
+    {<br />
+        hspeed = -5;<br />
+    }</p>
+  <p>So, the above will check the &quot;A&quot; key and if it&#39;s being pressed then it&#39;ll set the horizontal speed of the object to -5. Note, that using <span class="inline">ord()</span> in this way will only function correctly if the input string is only one character in length and is a number from 0 to 9 or a <i>capitalised</i> Roman character from A to Z. The function <span class="inline">ord()</span> will return a full UTF8 value, but the <span class="inline">keyboard_check*()</span> functions will <i>only detect A - Z and 0 - 9</i>. But what if you want to use the arrow keys? Or if you want to modify an action using the &quot;shift&quot; key? Well, for that <span data-keyref="GameMaker Name">GameMaker</span> has a series of <span class="inline">vk_</span> constants (<span class="inline">vk_</span> stands for <i>virtual key</i>) that you can use in place of <span class="inline">ord()</span>:</p>
+  <table id="table" style="caption-side: top">
+    <caption>Virtual Key Constant (vk_*)</caption>
+    <colgroup>
+      <col />
+      <col />
+    </colgroup>
+    <tbody>
+      <tr>
+        <th>Constant</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td><span class="inline"><a id="vk_nokey"></a>vk_nokey</span></td>
+        <td>keycode representing that no key is pressed</td>
+      </tr>
+      <tr>
+        <td><span class="inline">vk_anykey</span></td>
+        <td>keycode representing that any key is pressed</td>
+      </tr>
+      <tr>
+        <td><span class="inline">vk_left</span></td>
+        <td>keycode for the left arrow key</td>
+      </tr>
+      <tr>
+        <td><span class="inline">vk_right</span></td>
+        <td>keycode for the right arrow key</td>
+      </tr>
+      <tr>
+        <td><span class="inline">vk_up</span></td>
+        <td>keycode for the up arrow key</td>
+      </tr>
+      <tr>
+        <td><span class="inline">vk_down</span></td>
+        <td>keycode for the down arrow key</td>
+      </tr>
+      <tr>
+        <td><span class="inline">vk_enter</span></td>
+        <td>enter key</td>
+      </tr>
+      <tr>
+        <td><span class="inline">vk_escape</span></td>
+        <td>escape key</td>
+      </tr>
+      <tr>
+        <td><span class="inline">vk_space</span></td>
+        <td>space key</td>
+      </tr>
+      <tr>
+        <td><span class="inline">vk_shift</span></td>
+        <td>either of the shift keys</td>
+      </tr>
+      <tr>
+        <td><span class="inline">vk_control</span></td>
+        <td>either of the control keys</td>
+      </tr>
+      <tr>
+        <td><span class="inline">vk_alt</span></td>
+        <td>alt key</td>
+      </tr>
+      <tr>
+        <td><span class="inline">vk_backspace</span></td>
+        <td>backspace key</td>
+      </tr>
+      <tr>
+        <td><span class="inline">vk_tab</span></td>
+        <td>tab key</td>
+      </tr>
+      <tr>
+        <td><span class="inline">vk_home</span></td>
+        <td>home key</td>
+      </tr>
+      <tr>
+        <td><span class="inline">vk_end</span></td>
+        <td>end key</td>
+      </tr>
+      <tr>
+        <td><span class="inline">vk_delete</span></td>
+        <td>delete key</td>
+      </tr>
+      <tr>
+        <td><span class="inline">vk_insert</span></td>
+        <td>insert key</td>
+      </tr>
+      <tr>
+        <td><span class="inline">vk_pageup</span></td>
+        <td>pageup key</td>
+      </tr>
+      <tr>
+        <td><span class="inline">vk_pagedown</span></td>
+        <td>pagedown key</td>
+      </tr>
+      <tr>
+        <td><span class="inline">vk_pause</span></td>
+        <td>pause/break key</td>
+      </tr>
+      <tr>
+        <td><span class="inline">vk_printscreen</span></td>
+        <td>printscreen/sysrq key</td>
+      </tr>
+      <tr>
+        <td><span class="inline">vk_f1 ... vk_f12</span></td>
+        <td>keycode for the function keys F1 to F12</td>
+      </tr>
+      <tr>
+        <td><span class="inline">vk_numpad0 ... vk_numpad9</span></td>
+        <td>number keys on the numeric keypad</td>
+      </tr>
+      <tr>
+        <td><span class="inline">vk_multiply</span></td>
+        <td>multiply key on the numeric keypad</td>
+      </tr>
+      <tr>
+        <td><span class="inline">vk_divide</span></td>
+        <td>divide key on the numeric keypad</td>
+      </tr>
+      <tr>
+        <td><span class="inline">vk_add</span></td>
+        <td>add key on the numeric keypad</td>
+      </tr>
+      <tr>
+        <td><span class="inline">vk_subtract</span></td>
+        <td>subtract key on the numeric keypad</td>
+      </tr>
+      <tr>
+        <td><span class="inline">vk_decimal</span></td>
+        <td>decimal dot keys on the numeric keypad</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <p>The following constants can only be used with <span class="inline2"><a data-xref="{title}" href="keyboard_check_direct.htm">keyboard_check_direct</a></span>:</p>
+  <table style="caption-side: top">
+    <caption>Virtual Key Constant (vk_*) (keyboard_check_direct only)</caption>
+    <colgroup>
+      <col />
+      <col />
+    </colgroup>
+    <tbody>
+      <tr>
+        <th>Constant</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td><span class="inline">vk_lshift</span></td>
+        <td>left shift key</td>
+      </tr>
+      <tr>
+        <td><span class="inline">vk_lcontrol</span></td>
+        <td>left control key</td>
+      </tr>
+      <tr>
+        <td><span class="inline">vk_lalt</span></td>
+        <td>left alt key</td>
+      </tr>
+      <tr>
+        <td><span class="inline">vk_rshift</span></td>
+        <td>right shift key</td>
+      </tr>
+      <tr>
+        <td><span class="inline">vk_rcontrol</span></td>
+        <td>right control key</td>
+      </tr>
+      <tr>
+        <td><span class="inline">vk_ralt</span></td>
+        <td>right alt key</td>
+      </tr>
+    </tbody>
+  </table>
+  <p><span style="text-align: justify;">The following is a small example of how to use the</span><span style="text-align: justify;"> </span><span class="inline">vk_</span><span style="text-align: justify;"> </span><span style="text-align: justify;">constants:</span></p>
+  <p class="code">if keyboard_check_pressed(vk_tab)<br />
+    {<br />
+        instance_create_layer(x, y, &quot;Controllers&quot;, obj_Menu);<br />
+    }</p>
+  <p>The above code will detect if the &quot;Tab&quot; key is <i>pressed</i> and create an instance of object &quot;obj_Menu&quot; if it is.</p>
+  <p>If you need to check for a key character that is not 0 - 9, A - Z or one of the VK constants, then you should be checking one of the <span class="inline">keyboard_*</span> variables, like <span class="inline2"><a data-xref="{title}" href="keyboard_lastchar.htm">keyboard_lastchar</a></span> for example:</p>
+  <p class="code">var _key = keyboard_lastchar;<br />
+    if ord(_key) == ord(&quot;ç&quot;)<br />
+    {<br />
+        show_debug_message(&quot;ç key pressed&quot;);<br />
+    }</p>
+  <p>The following functions are available for use when working with a keyboard:</p>
+  <p class="note"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> These functions will <i>not</i> work when using an on-screen <a href="../Virtual_Keys_And_Keyboards/Virtual_Keys_And_Keyboards.htm">Virtual Keyboard</a>.</p>
+  <ul class="colour">
+    <li><a href="io_clear.htm">io_clear</a></li>
+    <li><a href="keyboard_check.htm">keyboard_check</a></li>
+    <li><a href="keyboard_check_pressed.htm">keyboard_check_pressed</a></li>
+    <li><a href="keyboard_check_released.htm">keyboard_check_released</a></li>
+    <li><a href="keyboard_check_direct.htm">keyboard_check_direct</a></li>
+    <li><a href="keyboard_clear.htm">keyboard_clear</a></li>
+    <li><a href="keyboard_set_map.htm">keyboard_set_map</a></li>
+    <li><a href="keyboard_get_map.htm">keyboard_get_map</a></li>
+    <li><a href="keyboard_unset_map.htm">keyboard_unset_map</a></li>
+    <li><a href="keyboard_set_numlock.htm">keyboard_set_numlock</a></li>
+    <li><a href="keyboard_get_numlock.htm">keyboard_get_numlock</a></li>
+  </ul>
+  <p> </p>
+  <p>There are also some functions that can be used to simulate keypresses:</p>
+  <ul class="colour">
+    <li><a href="keyboard_key_press.htm">keyboard_key_press</a></li>
+    <li><a href="keyboard_key_release.htm">keyboard_key_release</a></li>
+  </ul>
+  <p> </p>
+  <p>Finally, the following variables are built-in to <span data-keyref="GameMaker Name">GameMaker</span> and can be accessed to get information about the keyboard state and input:</p>
+  <p class="note"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> When using the <a href="../Virtual_Keys_And_Keyboards/Virtual_Keys_And_Keyboards.htm">Virtual Keyboard</a>, <i>only</i> the <span class="inline2"><a data-xref="{title}" href="keyboard_string.htm">keyboard_string</a></span> variable will be updated with the keyboard input.</p>
+  <ul class="colour">
+    <li><a href="keyboard_key.htm">keyboard_key</a></li>
+    <li><a href="keyboard_lastkey.htm">keyboard_lastkey</a></li>
+    <li><a href="keyboard_lastchar.htm">keyboard_lastchar</a></li>
+    <li><a href="keyboard_string.htm">keyboard_string</a></li>
+  </ul>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Back: <a data-xref="{title}" href="../Game_Input.htm">Game Input</a></div>
+        <div style="float:right">Next: <a data-xref="{title}" href="../Mouse_Input/Mouse_Input.htm">Mouse Input</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2022 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+Keyboard Input Functions
+vk_nokey
+vk_anykey
+vk_left
+vk_right
+vk_up
+vk_down
+vk_enter
+vk_escape
+vk_space
+vk_shift
+vk_control
+vk_alt
+vk_backspace
+vk_tab
+vk_home
+vk_end
+vk_delete
+vk_insert
+vk_pageup
+vk_pagedown
+vk_pause
+vk_printscreen
+vk_f1
+vk_f2
+vk_f3
+vk_f4
+vk_f5
+vk_f6
+vk_f7
+vk_f8
+vk_f9
+vk_f10
+vk_f11
+vk_f12
+vk_numpad0
+vk_numpad1
+vk_numpad2
+vk_numpad3
+vk_numpad4
+vk_numpad5
+vk_numpad6
+vk_numpad7
+vk_numpad8
+vk_numpad9
+vk_multiply
+vk_divide
+vk_add
+vk_subtract
+vk_decimal
+vk_lshift
+vk_lcontrol
+vk_lalt
+vk_rshift
+vk_rcontrol
+vk_ralt
+-->
+  <!-- TAGS
+keyboard_functions
+-->
+</body>
+</html>

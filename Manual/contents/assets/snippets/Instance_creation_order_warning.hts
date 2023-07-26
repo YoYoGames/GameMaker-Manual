@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <meta name="topic-comment" content="" />
+  <title>Instance_creation_order_warning</title>
+  <link rel="stylesheet" type="text/css" href="../css/default.css" />
+</head>
+<body>
+  <p class="note"><span class="note">NOTE</span> Instances in a room are created in a certain <a href="../../The_Asset_Editors/Room_Properties/Room_Properties.htm#creation_order">order</a>, and their Create events are also executed as they are created one-by-one. This means that you must be careful when reading variables from other instances in the Create event, as that other instance may not have run its Create event yet!<br />
+    <br />
+    For example: let&#39;s say <strong>ObjectA</strong> is created before <strong>ObjectB</strong>, and you have the following code in those objects&#39; Create events:<br />
+    <br />
+    <strong>ObjectA </strong>Create - <span class="inline2">myValue = objectB.myValue;</span><br />
+    <strong>ObjectB </strong>Create - <span class="inline2">myValue = 10;</span><br />
+    <br />
+    ObjectA is created first and its Create event runs, which then crashes the game:<br />
+    <br />
+    <em><strong>&quot;Variable objectB.myValue(100003, -2147483648) not set before reading it.&quot;</strong></em><br />
+    <br />
+    That&#39;s simply because ObjectB has not even been created yet, so any variables initialised in its Create event do not yet exist. This is why you must take caution when referencing other instances like this in the Create event, including any code run inside <span class="inline"><a href="../../GameMaker_Language/GML_Overview/Language_Features/with.htm">with()</a></span> blocks.
+  </p>
+</body>
+</html>

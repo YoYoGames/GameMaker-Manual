@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <title>Audio Playback Ended</title>
+  <meta name="topic-status" content="Draft" />
+  <link rel="stylesheet" type="text/css" href="../../../assets/css/default.css" />
+  <meta name="rh-authors" content="Bart Teunis" />
+  <meta name="topic-comment" content="Reference page for the async Audio Playback Ended event" />
+  <meta name="template" content="../../../assets/masterpages/Manual_Page.htt" />
+  <meta name="search-keywords" content="Audio Playback Ended,ev_async_audio_playback_ended" />
+  <meta name="rh-index-keywords" content="Objects - Async Audio Playback Ended Event" />
+</head>
+<body>
+  <h1><span data-field="title" data-format="default">Audio Playback Ended</span></h1>
+  <p><img class="center" src="../../../assets/Images/Asset_Editors/Async_AudioPlaybackEnded.png" style="cursor: nesw-resize;" />This event is triggered whenever playback ends for a sound instance played using the <span class="inline2">audio_play_sound_</span> functions.</p>
+  <p>Playback of a sound ends in the following situations: </p>
+  <ul class="colour">
+    <li>The sound <strong>reaches its end position</strong>. Pausing a sound using <span class="inline3_func"><a data-xref="{title}" href="../../../GameMaker_Language/GML_Reference/Asset_Management/Audio/audio_pause_sound.htm">audio_pause_sound</a></span>, changing its track position using <span class="inline3_func"><a data-xref="{title}" href="../../../GameMaker_Language/GML_Reference/Asset_Management/Audio/audio_sound_set_track_position.htm">audio_sound_set_track_position</a></span> or looping a section of it by changing the <a data-xref="{title}" href="../../../GameMaker_Language/GML_Reference/Asset_Management/Audio/Audio_Loop_Points/Audio_Loop_Points.htm">Audio Loop Points</a> postpones the end of playback as the sound doesn&#39;t reach the end position this way.</li>
+    <li>The sound is <strong>stopped</strong>, through a call to <span class="inline3_func"><a data-xref="{title}" href="../../../GameMaker_Language/GML_Reference/Asset_Management/Audio/audio_stop_sound.htm">audio_stop_sound</a></span> or <span class="inline3_func"><a data-xref="{title}" href="../../../GameMaker_Language/GML_Reference/Asset_Management/Audio/audio_stop_all.htm">audio_stop_all</a></span>. I.e. stopping a sound also <em>always</em> means it ends playback.</li>
+    <li>The sound is <strong>forced to stop</strong> due to <em>voice stealing</em>: when another sound is played using any of the <span class="inline2">audio_play_sound_</span> functions and all channels are used (see <span class="inline3_func"><a data-xref="{title}" href="../../../GameMaker_Language/GML_Reference/Asset_Management/Audio/audio_channel_num.htm">audio_channel_num</a></span>), a channel playing a sound with a lower priority than the new one will be used to play the new sound, i.e. the channel is <em>stolen</em> by the new sound. An <span data-field="title" data-format="default">Audio Playback Ended</span> event is triggered for the sound that was forced to stop playing.</li>
+  </ul>
+  <p>The event will trigger in all objects that have it, for any sound played in the game (even when it&#39;s not played by the same object).</p>
+  <p>The event returns information in the <span class="inline2"><a data-xref="{title}" href="../../../GameMaker_Language/GML_Overview/Variables/Builtin_Global_Variables/async_load.htm">async_load</a></span> ds_map. The map contains the following keys in case of an <span data-field="title" data-format="default">Audio Playback Ended</span> event: </p>
+  <ul class="colour">
+    <li><strong>&quot;sound_id&quot;</strong> - the <span data-keyref="Type_ID_Sound_Instance"><a href="../../../../GameMaker_Language/GML_Reference/Asset_Management/Audio/audio_play_sound.htm" target="_blank">Sound Instance ID</a></span> that ended playback.</li>
+    <li><strong>&quot;asset_id&quot;</strong> - the index of the <span data-keyref="Type_Asset_Sound"><a href="../../../../The_Asset_Editors/Sounds.htm" target="_blank">Sound Asset</a></span>.</li>
+    <li><strong>&quot;was_stopped&quot;</strong> - this is set to <span class="inline2">false</span>, unless the sound was stopped manually using the <span class="inline2">audio_stop_</span> functions or when it was forced to stop playing.</li>
+  </ul>
+  <p class="note"><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> <em>Pausing</em> a sound does <em>not</em> end playback, as playback can still be <em>resumed</em> afterwards.</p>
+  <h2>Example</h2>
+  <p>Suppose you play a sound using any of the <span class="inline2">audio_play_sound_</span> functions: </p>
+  <p class="code">ins_snd_bgm = audio_play_sound(snd_music, 100, false);</p>
+  <p>If you call no other sound functions on this sound, it will play until the end. At that point, the <span data-field="title" data-format="default">Audio Playback Ended</span> event is triggered for the sound. The <span class="inline2"><a data-xref="{title}" href="../../../GameMaker_Language/GML_Overview/Variables/Builtin_Global_Variables/async_load.htm">async_load</a></span> ds_map will contain the following values in that case: </p>
+  <ul class="colour">
+    <li><strong>&quot;sound_id&quot;</strong> - the sound ID returned by <span class="inline3_func"><a data-xref="{title}" href="../../../GameMaker_Language/GML_Reference/Asset_Management/Audio/audio_play_sound.htm">audio_play_sound</a></span> and stored in <span class="inline2">ins_snd_bgm</span></li>
+    <li><strong>&quot;asset_id&quot;</strong> - <span class="inline2">snd_music</span></li>
+    <li><strong>&quot;was_stopped&quot;</strong> - <span class="inline2">false</span> (the sound wasn&#39;t stopped <em>or</em> forced to stop)</li>
+  </ul>
+  <p>If you stop the sound before it reaches its end, the <span data-field="title" data-format="default">Audio Playback Ended</span> event is triggered as well. This can be done using any of the following lines of code: </p>
+  <p class="code">// Stop the sound instance<br />
+    audio_stop_sound(ins_snd_bgm);<br />
+    <br />
+    // Stop all instances of the sound asset<br />
+    audio_stop_sound(snd_relaxed);<br />
+    <br />
+    // Stop all sounds that are playing<br />
+    audio_stop_all();
+  </p>
+  <p>In this case, the sound was stopped through a call to one of the <span class="inline2">audio_stop_</span> functions, so instead of being <span class="inline2">false</span>, <span class="inline2">&quot;was_stopped&quot;</span> will be <span class="inline2">true</span> here.</p>
+  <p>Finally, if you start playing additional sounds with a higher priority while this sound is playing, these will also take up a channel (or a <em>voice</em>). If no free channels are left then <span class="inline2">ins_snd_bgm</span> may be forced to stop and the <span data-field="title" data-format="default">Audio Playback Ended</span> event is triggered. In this case, <span class="inline2">&quot;was_stopped&quot;</span> is also set to <span class="inline2">true</span>.</p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div>Back: <a data-xref="{title}" href="../Async_Events.htm">Async Events</a></div>
+        <div>Next: <a data-xref="{title}" href="Audio_Recording.htm">Audio Recording</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2023 All Rights Reserved</span></h5>
+  </div>
+</body>
+</html>

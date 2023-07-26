@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>surface_depth_disable</title>
+  <meta name="generator" content="Adobe RoboHelp 2019" />
+  <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
+  <script src="../../../../assets/scripts/main_script.js" type="module"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Reference for surface_depth_disable" />
+  <meta name="rh-index-keywords" content="surface_depth_disable" />
+  <meta name="search-keywords" content="surface_depth_disable" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>surface_depth_disable</h1>
+  <p>This function disables the automatic depth buffer generation for <i>all</i> surfaces that are created after it has been disabled. Normally all surfaces have depth buffers so if you draw 3D objects to them then it&#39;ll sort them properly by depth in
+    order to maintain functional parity between rendering to surfaces and rendering to the back buffer, however allocating depth buffers essentially doubles the amount of memory required for surfaces, which could be an excessive and unnecessary overhead
+    especially if your game is very memory intensive, and for 2D games they aren&#39;t generally required.</p>
+  <p>To use this function you would call it <i>before</i> creating a surface, and then you can enable it again after (if required). All surfaces created when the depth buffer is disabled will no longer use a depth buffer when being drawn to, this results
+    in the things being drawn to the surface having parity of depth. The images below illustrate this in practice:</p>
+  <p><img alt="Surface depth buffer example" class="center" src="../../../../assets/Images/Scripting_Reference/GML/Reference/Drawing/Surface_Depth_Buffer.png" />In the above image, we are drawing a rectangle and a triangle using a vertex buffer in 3D. The
+    coordinates for the red triangle places it behind the green rectangle, but the code for drawing the triangle is called <i>after</i> the code for the rectangle, and when the depth buffer is enabled, the triangle is still drawn behind the rectangle
+    as the 3D depth is being respected. However when we disable the depth buffer for the surface, only the code order is respected and so the triangle is drawn over the rectangle.</p>
+  <p class="note"><b>NOTE</b>: To properly preserve depth in 3D when using surfaces, not only should you have the depth buffer enabled, but you should also have z-writing and z-testing enabled. See the functions <a href="../GPU_Control/gpu_get_ztestenable.htm"><span class="inline"><span style="font-size:14px;">gpu_set_ztestenable()</span></span></a>    and <a href="../GPU_Control/gpu_get_zwriteenable.htm"><span class="inline"><span style="font-size:14px;">gpu_set_zwriteenable()</span></span></a> for more information.</p>
+  <p class="note"><b>NOTE</b>: If your game is 100% 2D or you know that you don&#39;t need a surface depth buffer, then it should be fine to simply call this function once at the start of the game to disable the buffer.</p>
+  <p> </p>
+  <h4>Syntax:</h4>
+  <p class="code">surface_depth_disable(disable);</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>Argument</th><th>Type</th>
+        <th>Description</th>
+     </tr>
+      <tr>
+        <td>disable</td><td><span data-keyref="Type_Bool"></span></td>
+        <td>If set to <span class="inline">true</span> the depth buffer will be disabled for created surfaces.</td>
+     </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>Returns:</h4>
+  <p class="code"><span data-keyref="Type_Void"></span></p>
+  <p> </p>
+  <h4>Example:</h4>
+  <p class="code">var _depth_setting = surface_get_depth_disable();<br/> surface_depth_disable(false);
+    <br/> surface_with_depth = surface_create(room_width, room_height);<br/> surface_depth_disable(true);
+    <br/> surface_without_depth = surface_create(room_width, room_height);<br/> surface_depth_disable(_depth_setting);
+  </p>
+  <p>The above code stores the current depth buffer setting in a variable and then creates two surfaces, one with depth buffering enabled and one without, before restoring the original setting again.</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Back: <a href="Surfaces.htm">Surfaces</a></div>
+        <div style="float:right">Next: <a href="surface_get_height.htm">surface_get_height</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2021 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+surface_depth_disable
+-->
+  <!-- TAGS
+surface_depth_disable
+-->
+</body>
+</html>

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>physics_particle_get_data_particle</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
+  <script src="../../../../assets/scripts/main_script.js" type="module"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Reference page for physics_particle_get_data_particle" />
+  <meta name="rh-index-keywords" content="physics_particle_get_data_particle,phy_particle_data_flag_typeflags,phy_particle_data_flag_position,phy_particle_data_flag_velocity,phy_particle_data_flag_colour,phy_particle_data_flag_category,phy_particle_data_flag_color" />
+  <meta name="search-keywords" content="physics_particle_get_data_particle,phy_particle_data_flag_typeflags,phy_particle_data_flag_position,phy_particle_data_flag_velocity,phy_particle_data_flag_colour,phy_particle_data_flag_category,phy_particle_data_flag_color" />
+  <meta name="is_pure" content="true" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>physics_particle_get_data_particle</h1>
+  <p>This function returns various pieces of information about a single particle in the physics simulation using the given flags checked. The particle index (its ID) is that which was returned by the function <a href="physics_particle_create.htm"><span class="inline">physics_particle_create()</span></a>, and the buffer used must have been created previously using the function <a href="../../Buffers/buffer_create.htm"><span class="inline">buffer_create()</span></a>. It should be of the &quot;grow&quot; type, with the size being approximately that of the expected return data. The flags themselves are set using the constants given below, and you would use the bitwise <i>or</i> &quot;|&quot; to create a single flag value to get the desired information.</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>Constant</th>
+        <th>Description</th>
+        <th>Data Type</th>
+      </tr>
+      <tr>
+        <td><span class="inline">phy_particle_data_flag_typeflags</span></td>
+        <td>The flags value for the particle.</td>
+        <td>buffer_u32</td>
+      </tr>
+      <tr>
+        <td><span class="inline">phy_particle_data_flag_position</span></td>
+        <td>The x and y position of the particle.</td>
+        <td>2 x buffer_f32</td>
+      </tr>
+      <tr>
+        <td><span class="inline">phy_particle_data_flag_velocity</span></td>
+        <td>The horizontal and vertical speed.</td>
+        <td>2 x buffer_f32</td>
+      </tr>
+      <tr>
+        <td><span class="inline">phy_particle_data_flag_colour</span></td>
+        <td>The colour and alpha value (hexadecimal).</td>
+        <td>buffer_f32</td>
+      </tr>
+      <tr>
+        <td><span class="inline">phy_particle_data_flag_category</span></td>
+        <td>The particle category (as defined when you created the particle).</td>
+        <td>buffer_u32</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>Syntax:</h4>
+  <p class="code">physics_particle_get_data_particle(ind, buffer, flags)</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>Argument</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>ind</td>
+        <td><span data-keyref="Type_ID_Phy_Particle">Physics Particle ID</span></td>
+        <td>The index (ID) of the particle to get the data from.</td>
+      </tr>
+      <tr>
+        <td>buffer</td>
+        <td><span data-keyref="Type_ID_Buffer">Buffer ID</span></td>
+        <td>The (previously created) buffer to use to store the data.</td>
+      </tr>
+      <tr>
+        <td>flags</td>
+        <td><span data-keyref="Type_Constant_Phy_Particle_Data_Flag">Physics Particle Data Flag Constant</span>(s)</td>
+        <td>The flags to use to extract data about specific particle types.</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>Returns:</h4>
+  <p class="code"><span data-keyref="Type_Void">N/A</span></p>
+  <p> </p>
+  <h4>Example:</h4>
+  <p class="code">var part = physics_particle_create(flags, x, y, x_vel, y_vel, c_white, 1, 1)<br />
+    var flags = phy_particle_data_flag_position | phy_particle_data_flag_velocity;<br />
+    var buffer = buffer_create(16, buffer_grow, 4);<br />
+    physics_particle_get_data_particle(part, buffer, flags);<br />
+    px = buffer_read(buffer, buffer_f32);<br />
+    py = buffer_read(buffer, buffer_f32);<br />
+    pvelx = buffer_read(buffer, buffer_f32);<br />
+    pvely = buffer_read(buffer, buffer_f32);<br />
+    buffer_delete(buffer);</p>
+  <p>The above code gets the position and velocity of the particle indexed by the variable &quot;part&quot; and stores the data in a number of variables.</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Back: <a href="Soft_Body_Particles.htm">Soft Body Particles</a></div>
+        <div style="float:right">Next: <a href="physics_particle_group_get_data.htm">physics_particle_group_get_data</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2022 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+physics_particle_get_data_particle
+phy_particle_data_flag_typeflags
+phy_particle_data_flag_position
+phy_particle_data_flag_velocity
+phy_particle_data_flag_colour
+phy_particle_data_flag_category
+-->
+  <!-- TAGS
+physics_particle_get_data_particle
+-->
+</body>
+</html>

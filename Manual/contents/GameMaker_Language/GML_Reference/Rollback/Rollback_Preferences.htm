@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <title>Player Preferences</title>
+  <meta name="topic-status" content="Draft" />
+  <link rel="stylesheet" type="text/css" href="../../../assets/css/default.css" />
+  <script src="../../../assets/scripts/main_script.js" type="module"></script>
+  <meta name="template" content="../../../assets/masterpages/Manual_Page.htt" />
+  <meta name="rh-authors" content="Gurpreet S. Matharoo" />
+  <meta name="condition-tags" content="Export:Beta" />
+</head>
+<body>
+  <h1>Rollback Preferences</h1>
+  <p>You might want to allow each player to select a character, or customise its properties. Such properties can be set up as &quot;player preferences&quot;.</p>
+  <h2>How To Use Preferences</h2>
+  <p>First, enable preferences by calling <a href="Rollback_Functions/rollback_use_player_prefs.htm"><span class="inline">rollback_use_player_prefs()</span></a> / <a data-xref="{title}" href="../../../Drag_And_Drop/Drag_And_Drop_Reference/Rollback/Use_Player_Prefs.htm">Use Player Prefs (Rollback)</a>. With this function you can optionally set the default preferences for all players.</p>
+  <p>Once you call that function, &quot;auto-start&quot; is disabled, meaning the game won&#39;t start even when all players have joined, and you&#39;ll have to start it manually with <a href="Rollback_Functions/rollback_start_game.htm"><span class="inline">rollback_start_game()</span></a> / <a data-xref="{title}" href="../../../Drag_And_Drop/Drag_And_Drop_Reference/Rollback/Start_Game.htm">Start Rollback Game</a>.</p>
+  <p>Before the game has started, you can set the preferences for a player by calling <a href="Rollback_Functions/rollback_set_player_prefs.htm"><span class="inline">rollback_set_player_prefs()</span></a> / <a data-xref="{title}" href="../../../Drag_And_Drop/Drag_And_Drop_Reference/Rollback/Set_Player_Prefs.htm">Set Player Prefs (Rollback)</a> on that player&#39;s client. These can later be read through <a href="Rollback_Functions/rollback_get_player_prefs.htm"><span class="inline">rollback_get_player_prefs()</span></a> / <a data-xref="{title}" href="../../../Drag_And_Drop/Drag_And_Drop_Reference/Rollback/Get_Player_Prefs.htm">Get Player Prefs (Rollback)</a>, or the <span class="inline">player_prefs</span> variable in a player instance.</p>
+  <h2>Rollback Event</h2>
+  <p>When a player changes its preferences, everyone in the game receives a <span class="inline2">rollback_player_prefs</span> <a data-xref="{text}" href="Rollback_Events.htm#h1">Rollback Event</a>. The player must be completely connected for the event to be sent.</p>
+  <p>If preferences were set before connecting, then on completing the connection, the last preferences set before connecting are sent to all players.</p>
+  <h2>Start Condition</h2>
+  <p>If you&#39;ve enabled preferences, and there are no default preferences set, then the game <strong>will not</strong> start unless the preferences for all players have been set.</p>
+  <p>In such a case, you can either call <a href="Rollback_Functions/rollback_start_game.htm"><span class="inline">rollback_start_game()</span></a> repeatedly in an alarm to try starting the game, or call it whenever the <span class="inline2">rollback_player_prefs</span> <a data-xref="{text}" href="Rollback_Events.htm#h1">Rollback Event</a> is received.</p>
+  <h2>Data Types and Limit</h2>
+  <p>A preference can be of any type, e.g. a number, string, array, etc., but it&#39;s recommended to use a <a href="../../GML_Overview/Structs.htm">struct</a>, which is the easiest way to store a collection of variables.</p>
+  <p>The maximum size of a preference payload is 800 bytes, meaning the data you can send as a preference must be 800 bytes or less. If you&#39;re sending a struct, you can <a href="../File_Handling/Encoding_And_Hashing/json_stringify.htm">convert it to a JSON string</a> and <a href="../Strings/string_byte_length.htm">get its byte size</a> to get an idea of its size. However, in most cases, structs sent directly (i.e. without being converted into JSON) will have a smaller size than their JSON equivalent, due to the way they are encoded internally.</p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div>Back: <a data-xref="{title}" href="Rollback_Multiplayer.htm">Rollback Multiplayer</a></div>
+        <div>Next: <a data-xref="{title}" href="Rollback_Functions/Rollback_Functions.htm">Rollback Functions</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2022 All Rights Reserved</span></h5>
+  </div>
+</body>
+</html>

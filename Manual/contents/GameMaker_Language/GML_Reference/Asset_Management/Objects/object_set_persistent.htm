@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>object_set_persistent</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
+  <script src="../../../../assets/scripts/main_script.js" type="module"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Page outlining the function object_set_persistent" />
+  <meta name="rh-index-keywords" content="object_set_persistent" />
+  <meta name="search-keywords" content="object_set_persistent" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>object_set_persistent</h1>
+  <p>With this function you can set the persistence of a specific object. A persistent object is &quot;carried over&quot; from room to room and maintains its properties at all times (for more information on persistence see the section on the <a href="../../../../The_Asset_Editors/Objects.htm">Object Editor</a>). Setting the persistence of the object means that all instances of this object that are created <i>after the persistence has been changed</i> will be created persistent, while instances that are already in the room may not be affected.</p>
+  <p>When you create an instance with persistence enabled in a room, it will be assigned a layer or a depth (depending on which function you used to create the instance of the object). When the room is changed, and if the following room does <i>not</i> have a layer with the same name or depth as the one assigned, then a new layer will be created for the instance that is persisting across the rooms. If you gave a named layer when the instance was created, then the new layer will also be named the same as original layer, while if you assigned a depth to the instance then the new layer will be named &quot;<span class="inline">_layer_XXX</span>&quot;, where &quot;XXX&quot; is a hex value used to give the layer a unique name. These layers will be removed from the room on Room End. Another thing to note about layers and persistent instances is that if you have assigned the instance a named layer on creation, and there is another layer in the following rooms with the same name, then the persisted instance will be assigned to the layer with the same name <i>regardless of the depth of the layer</i>. Finally, if a persisted instance moves to a room with a layer at the same depth as the instance was created on, it will <i>not</i> be assigned to this layer, but instead a new layer will be created at the same depth (following the naming convention explained previously).</p>
+  <p>Please note that this is not an instance function! You can set the persistent flag of individual instances using the <a href="../Instances/Instance_Variables/persistent.htm"><span class="inline">persistent</span></a> variable and so have ten instances all flagged as persistent even though the object in question has the flag set to false in the IDE, and even if you change the persistent flag of the object to true using this function, all instances that currently in the room will remain as they were, and only instances created after calling the function will start with persistent flagged as true.</p>
+  <p> </p>
+  <h4>Syntax:</h4>
+  <p class="code">object_set_persistent(index, pers);</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>Argument</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>index</td>
+        <td><span data-keyref="Type_Asset_Object">Object Asset</span></td>
+        <td>The index of the object to change.</td>
+      </tr>
+      <tr>
+        <td>pers</td>
+        <td><span data-keyref="Type_Bool">Boolean</span></td>
+        <td>Whether the object should be flagged as persistent (<span class="inline">true</span>) or not (<span class="inline">false</span>).</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>Returns:</h4>
+  <p class="code"><span data-keyref="Type_Void">N/A</span></p>
+  <p> </p>
+  <h4>Example:</h4>
+  <p class="code">if (room == rm_final)<br />
+    {<br />
+        object_set_persistent(obj_Player, false);<br />
+    }<br />
+    instance_create_layer(32, 32, &quot;Instances&quot;, obj_Player);</p>
+  <p>The above code checks to see in which room the instance is currently in and if it is in the specified &quot;rm_final&quot; then it sets the persistence of the object &quot;obj_Player&quot; to false and then creates the instance.</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Back: <a href="Objects.htm">Objects</a></div>
+        <div style="float:right">Next: <a href="object_set_solid.htm">object_set_solid</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2022 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+object_set_persistent
+-->
+  <!-- TAGS
+object_set_persistent
+-->
+</body>
+</html>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>instance_position_list</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
+  <script src="../../../../assets/scripts/main_script.js" type="module"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Page outlining the function instance_position_list" />
+  <meta name="rh-index-keywords" content="instance_position_list" />
+  <meta name="search-keywords" content="instance_position_list" />
+  <meta name="is_pure" content="true" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>instance_position_list</h1>
+  <p>With this function you can check a position for a collision with all instances of another object. When you use this you are checking a single point in the room for all instances of an object, and the check will be done against the bounding box of the instances or against the mask of the instances if that object has precise collisions checked.</p>
+  <p>You supply a <a href="../../Data_Structures/DS_Lists/DS_Lists.htm">DS list</a> too, so the <a href="Instance_Variables/id.htm"><span class="inline">id</span></a> values of any instances that are colliding with the calling instance will be added to the end of the given list. You can <a href="../../Data_Structures/DS_Lists/ds_list_clear.htm">clear</a> the list before calling this function so that it only contains results from this function call. You also have the option to order the list based on the distance from the position being checked to the origin of the instances found to be in collision.</p>
+  <p>Note that the function also accepts the special keyword <a href="../../../GML_Overview/Instance_Keywords.htm"><b><span class="inline">all</span></b></a>, in which case all instances found to be in collision will be listed. The function returns the number of instances found, or 0 if none are found.</p>
+  <p> </p>
+  <h4>Syntax:</h4>
+  <p class="code">instance_position_list(x, y, obj, list, ordered);</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>Argument</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>x</td>
+        <td><span data-keyref="Type_Real">Real</span></td>
+        <td>The x position to check for instances.</td>
+      </tr>
+      <tr>
+        <td>y</td>
+        <td><span data-keyref="Type_Real">Real</span></td>
+        <td>The y position to check for instances.</td>
+      </tr>
+      <tr>
+        <td>obj</td>
+        <td><span data-keyref="Type_Asset_Object">Object Asset</span> or <span data-keyref="Type_ID_Instance">Instance ID</span></td>
+        <td>The object to check for instances of.</td>
+      </tr>
+      <tr>
+        <td>list</td>
+        <td><span data-keyref="Type_ID_DS_List">DS List ID</span></td>
+        <td>The DS list to use to store the IDs of colliding instances.</td>
+      </tr>
+      <tr>
+        <td>ordered</td>
+        <td><span data-keyref="Type_Bool">Boolean</span></td>
+        <td>Whether the list should be ordered by distance (<span class="inline">true</span>) or not (<span class="inline">false</span>).</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>Returns:</h4>
+  <p class="code"><span data-keyref="Type_Real">Real</span> (The number of instances found to be in collision)</p>
+  <p> </p>
+  <h4>Example:</h4>
+  <p class="code">var _list = ds_list_create();<br />
+    var _num = instance_position_list(mouse_x, mouse_y, all, _list, false);<br />
+    if _num &gt; 0<br />
+    {<br />
+        for (var i = 0; i &lt; _num; ++i;)<br />
+        {<br />
+            instance_destroy(_list[| i]);<br />
+        }<br />
+    }<br />
+    ds_list_destroy(_list);</p>
+  <p>The above code will check for a collision with all instances found at the mouse position. These will be added to a DS list, which is then looped through to destroy each of the instances in collision.</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Back: <a href="Instances.htm">Instances</a></div>
+        <div style="float:right">Next: <a href="instance_id_get.htm">instance_id_get</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2022 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+instance_position_list
+-->
+  <!-- TAGS
+instance_position_list
+-->
+</body>
+</html>

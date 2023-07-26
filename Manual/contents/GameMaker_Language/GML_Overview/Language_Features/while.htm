@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>while</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../assets/css/default.css" type="text/css" />
+  <script src="../../../assets/scripts/main_script.js" type="module"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Page outlining the while function" />
+  <meta name="rh-index-keywords" content="while" />
+  <meta name="search-keywords" content="while" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>while</h1>
+  <p>The GameMaker Language has a number of ways that you can perform <i>loops</i>, one of the most important is the <span class="inline">while</span> loop. This loop function has the form:</p>
+  <p class="code">while (&lt;expression&gt;)<br />
+    {<br />
+        &lt;statement&gt;;<br />
+        &lt;statement&gt;;<br />
+        ...<br />
+    }</p>
+  <p>Here you have a <a class="glossterm" data-glossterm="statement" href="#">statement</a> that is iterated over again and again based on the results of the evaluation of an <a class="glossterm" data-glossterm="expression" href="#">expression</a>, ie: with a <span class="inline">while</span> loop, as long as the expression evaluates to <span class="inline">true</span>, the statement (which can also be a code block of multiple statements with curly brackets <span class="inline">{}</span>) is executed. Below you can find an example of a typical way to use &quot;while&quot;:</p>
+  <p class="code">while (place_meeting(x, y, obj_Wall))<br />
+    {<br />
+        x -= 1;<br />
+    }</p>
+  <p>The above code is checking for a collision between the calling instance and a &quot;wall&quot; instance, and it will perform multiple <a class="glossterm" data-glossterm="iteration" href="#">iteration</a><span class="glossextra">s</span> while one is occurring - moving the instance left by one pixel - until the instance is no longer in collision.</p>
+  <p><strong>When should you use a <span class="inline">while</span> loop?</strong> It should be used any time you want to repeat one or more statements, but don&#39;t actually know - or care - how many times it has to repeat, keeping in mind that if the initial evaluation is <span class="inline">false</span>, the statements may not even be run.</p>
+  <p>Please not that you should <strong>be very careful with your <span class="inline">while</span> loops</strong>! You can easily make <i>infinite</i> loops, in which case your game will hang and not react to any user input anymore and need to be force closed. For example:</p>
+  <p class="code">while (!place_free(x, y))<br />
+    {<br />
+        x = random(room_width);<br />
+        y = random(room_height);<br />
+    }</p>
+  <p>Now, the above code may work fine, but it may also cause an infinite loop if the instance is unable to find an empty position to move to, and this will cause the game to hang. If you find yourself in a position where this kind of thing is a possibility, then you should either use a different non-blocking loop kind, or use an additional variable check in the expression (you can use multiple expressions along with the <a href="../Expressions_And_Operators.htm"><span class="inline">and</span> (&amp;<span class="inline">&amp;</span>)</a>, <a href="../Expressions_And_Operators.htm"><span class="inline">or</span> (<span class="inline">||</span>)</a> and <a href="../Expressions_And_Operators.htm"><span class="inline">xor</span> (<span class="inline">^^</span>)</a> <a class="glossterm" data-glossterm="operator" href="#">operator</a><span class="glossextra">s</span> for the check):</p>
+  <p class="code">var _check = 0;<br />
+    while ((!place_free(x, y)) &amp;&amp; (_check &lt; 100))<br />
+    {<br />
+        x = random(room_width);<br />
+        y = random(room_height);<br />
+        _check += 1;<br />
+    }<br />
+    if _check &gt;= 100<br />
+    {<br />
+        // code failed, so deal with it<br />
+    }</p>
+  <p>Alternatively you can use the <span class="inline"><a href="break.htm">break</a></span> statement to break out of the loop, for example, the following code will generate 100 random numbers then continue, even though the <span class="inline">while</span> evaluation is <em>always</em> going to be <span class="inline">true</span>:</p>
+  <p class="code">var i = 0;<br />
+    while (true)<br />
+    {<br />
+        x[i] = random(room_width);<br />
+        y[i] = random(room_height);<br />
+        if ((i++) &gt;= 100)<br />
+        {<br />
+            break;<br />
+        }<br />
+    }</p>
+  <p>You may also use the <a href="continue.htm">continue</a> statement in a <span class="inline">while</span> loop. Using this will end the current loop iteration and restart the loop again on a new iteration, for example:</p>
+  <p class="code">var file = file_text_open_read(&quot;Game_Data.txt&quot;);<br />
+    var _num = 0;<br />
+    while (!file_text_eof(file))<br />
+    {<br />
+        var _s = file_text_readln(file);<br />
+    <br />
+        if (_s == &quot;&quot;)<br />
+        {<br />
+            continue;<br />
+        }<br />
+    <br />
+        str[num++] = _s;<br />
+    }<br />
+    <br />
+    file_text_close(file);
+  </p>
+  <p>This code above will open a file and read a line from it each loop iteration until the end of the file contents are reached. If the line being read is an empty string, the current loop iteration is ended using the <span class="inline">continue</span> statement and a new iteration will be started, otherwise the string is added into an <a href="../Arrays.htm">array</a> and the array position incremented.</p>
+  <p>For more examples of loop functions please see the sections on <a href="repeat.htm"><span class="inline">repeat</span></a>, <a href="do___until.htm"><span class="inline">do... until</span></a>, and <a href="for.htm"><span class="inline">for</span></a>.</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Back: <a href="../Language_Features.htm">Language Features</a></div>
+        <div style="float:right">Next: <a href="do___until.htm">do / until</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2021 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+while
+-->
+  <!-- TAGS
+while
+-->
+</body>
+</html>

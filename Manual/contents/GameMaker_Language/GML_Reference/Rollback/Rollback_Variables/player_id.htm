@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <title>player_id</title>
+  <meta name="topic-status" content="Draft" />
+  <link rel="stylesheet" type="text/css" href="../../../../assets/css/default.css" />
+  <script src="../../../../assets/scripts/main_script.js" type="module"></script>
+  <meta name="template" content="../../../../assets/masterpages/Manual_Keyword_Page.htt" />
+  <meta name="rh-authors" content="Gurpreet S. Matharoo" />
+  <meta name="condition-tags" content="Export:Beta" />
+  <meta name="rh-index-keywords" content="player_id" />
+  <meta name="search-keywords" content="player_id" />
+</head>
+<body>
+  <h1>player_id</h1>
+  <p>When you use <a href="../Rollback_Functions/rollback_define_player.htm"><span class="inline">rollback_define_player()</span></a> to define a player object, the system automatically creates an instance of that object for each player. Each instance of that object gets the <span class="inline">player_id</span> variable, which stores the ID of that player.</p>
+  <p>This ID starts at 0, which initially is the host itself. Any players from 1 and up are &quot;peers&quot; that have joined the game.</p>
+  <p>If you do not use <span class="inline">rollback_define_player()</span>, then this variable will not be created for any objects. In that case, player instances and their IDs must be managed manually, as explained in <a data-xref="{text}" href="../Rollback_System.htm#h1">Defining A Player Object</a>.</p>
+  <p> </p>
+  <h4>Syntax:</h4>
+  <p class="code">player_id;</p>
+  <p> </p>
+  <h4>Returns:</h4>
+  <p class="code"><span data-keyref="Type_Real"><a href="../../../../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">Real</a></span></p>
+  <p> </p>
+  <h4>Example:</h4>
+  <p class="code">// Create event<br />
+    if (player_id == 0)<br />
+    {<br />
+        x = 300;<br />
+    }<br />
+    else if (player_id == 1)<br />
+    {<br />
+        x = 500;<br />
+    }</p>
+  <p>The code above changes the X position of the player instance based on its ID.</p>
+  <p>You can also use this ID as an array index, for example, to store scores for all players:</p>
+  <p class="code">// Step event<br />
+    var _coin = instance_place(x, y, obj_coin);<br />
+    if (_coin != noone)<br />
+    {<br />
+        obj_game.scores[player_id]++;<br />
+        instance_destroy(_coin);<br />
+    }<br />
+    <br />
+    // Draw event<br />
+    var _my_score = obj_game.scores[player_id];<br />
+    draw_text(x, y, _my_score);
+  </p>
+  <p>The Step event code above increases the score of the player in an array in <span class="inline2">obj_game</span> when it collides with a coin. That coin instance is then destroyed.</p>
+  <p>The Draw event code above retrieves the player&#39;s score from the same array, and draws its value.</p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div>Back: <a data-xref="{title}" href="Rollback_Variables.htm">Rollback Variables</a></div>
+        <div>Next: <a data-xref="{title}" href="player_local.htm">player_local</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2022 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+player_id
+-->
+  <!-- TAGS
+player_id
+-->
+</body>
+</html>

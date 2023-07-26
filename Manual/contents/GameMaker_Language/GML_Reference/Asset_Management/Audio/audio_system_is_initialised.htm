@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>audio_system_is_initialised</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" type="text/css" href="../../../../assets/css/default.css" />
+  <script src="../../../../assets/scripts/main_script.js" type="module"></script>
+  <meta name="rh-authors" content="" />
+  <meta name="topic-comment" content="" />
+  <meta name="rh-index-keywords" content="" />
+  <meta name="search-keywords" content="" />
+  <meta name="template" content="assets/masterpages/Manual_Keyword_Page.htt" />
+</head>
+<body>
+  <h1><span data-field="title" data-format="default">audio_system_is_initialised</span></h1>
+  <p>This function returns whether the audio system (the main bus) is initialised on HTML5. For targets other than HTML5, this function will always return <span class="inline2">true</span>.</p>
+  <p>On the HTML5 platform it is possible for the audio engine to not have finished loading on game start. Until it has, you should not do any of the following: </p>
+  <ul>
+    <li>Reference <span class="inline2"><a data-xref="{title}" href="Audio_Effects/audio_bus_main.htm">audio_bus_main</a></span> directly (this will be <span class="inline2">undefined</span>)</li>
+    <li>Call <span class="inline3_func"><a data-xref="{title}" href="Audio_Effects/audio_bus_create.htm">audio_bus_create</a></span> (this will return <span class="inline2">undefined</span>)</li>
+    <li>Call <span class="inline3_func"><a data-xref="{title}" href="Audio_Emitters/audio_emitter_create.htm">audio_emitter_create</a></span> (this will also return <span class="inline2">undefined</span>)</li>
+  </ul>
+  <p class="note"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> This function differs from <span class="inline3_func"><a data-xref="{title}" href="audio_system_is_available.htm">audio_system_is_available</a></span>, which reflects the ability to play audio and depends on the state of the Web Audio context. The audio system has to be initialised first before it can be available.</p>
+  <h4>Syntax:</h4>
+  <p class="code"><span data-field="title" data-format="default">audio_system_is_initialised</span>();</p>
+  <p> </p>
+  <h4>Returns:</h4>
+  <p class="code"><span data-keyref="Type_Bool"><a href="../../../../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">Boolean</a></span></p>
+  <p> </p>
+  <h4>Example:</h4>
+  <p> </p>
+  <p class="code_heading">Create Event</p>
+  <p class="code">// Initially, the audio system is not initialised<br />
+    audio_initialised = false;<br />
+    <br />
+    em_emitter = -1;<br />
+    bus_special_effects = -1;
+  </p>
+  <p class="code_heading">Step Event</p>
+  <p class="code">// Check until the system is initialised<br />
+    if !audio_initialised &amp;&amp; <span data-field="title" data-format="default">audio_system_is_initialised</span>()<br />
+    {<br />
+        audio_initialised = true;<br />
+        <br />
+        // First-time initialization<br />
+        bus_special_effects = audio_bus_create();<br />
+        bus_special_effects[0] = audio_effect_create(AudioEffectType.Reverb1);<br />
+        em_emitter = audio_emitter_create();<br />
+        audio_emitter_bus(em_emitter, bus_special_effects);<br />
+    }<br />
+    <br />
+    if audio_initialised<br />
+    {<br />
+        // The audio system can be used here<br />
+        // ...<br />
+    }
+  </p>
+  <p>At the game&#39;s start, a variable <span class="inline2">audio_initialised</span> is set to <span class="inline2">false</span> in an object&#39;s Create event. In its Step event, the function <span class="inline3_func"><span data-field="title" data-format="default">audio_system_is_initialised</span></span> is called for as long as <span class="inline2">audio_initialised</span> remains <span class="inline2">false</span>. Once the function returns <span class="inline2">true</span>, the contents after the first if statement are executed: <span class="inline2">audio_initialised</span> is set to <span class="inline2">true</span>, which prevents further calls to the function, and a custom audio bus and emitter are set up. Once <span class="inline2">audio_initialised</span> is <span class="inline2">true</span>, the code of the second if statement is executed, which can be interaction with the audio system, e.g. changing effect parameters.</p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div>Back: <a data-xref="{title}" href="Audio.htm">Audio</a></div>
+        <div>Next: <a data-xref="{title}" href="audio_debug.htm">audio_debug</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2023 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+audio_system_is_initialised
+-->
+  <!-- TAGS
+audio_system_is_initialised
+-->
+</body>
+</html>

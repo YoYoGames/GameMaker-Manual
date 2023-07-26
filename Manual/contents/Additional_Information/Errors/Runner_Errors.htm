@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Runner Errors</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../assets/css/default.css" type="text/css" />
+  <script src="../../assets/scripts/main_script.js" type="module"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Page that explains the various runner errors" />
+  <meta name="rh-index-keywords" content="Runtime Errors,Runner Errors" />
+  <meta name="search-keywords" content="runner errors, runtime errors" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1><span data-field="title" data-format="default">Runner Errors</span></h1>
+  <p>Even after syntax checking in the code editor and then having the compiler check your code for <a href="Compiler_Errors.htm">compiler errors</a>, there are still occasions when something can go wrong. In most cases this will throw a <a class="glossterm" data-glossterm="Virtual Machine (VM)" href="#">Virtual Machine (VM)</a> runner error (also called a <strong>runtime exception</strong>) which looks like this:</p>
+  <figure><img alt="Runner Error Window" class="center" src="../../assets/Images/Scripting_Reference/Additional_Information/Error_Report.png" />
+    <figcaption>Caption</figcaption>
+  </figure>
+  <p>Runner errors are generally more serious than compile errors as it means that there is something seriously wrong with your code that neither the code editor nor the compiler have been able to detect, and as such you should pay attention to all such errors. When one occurs, you can use the <strong>Copy</strong> button on the pop-up to copy the error to the clipboard which you can then paste into a text file (or wherever) for future reference.</p>
+  <p>The structure of this error is as follows:</p>
+  <ul class="colour">
+    <li><img alt="Error Object And Event" class="icon" src="../../assets/Images/Scripting_Reference/Additional_Information/Error_Text_ObjectEvent.png" /><br />
+      This shows the Event that the error has occurred in as well as the Object (where applicable).</li>
+    <li><img alt="Error Text Information" class="icon" height="16" src="../../assets/Images/Scripting_Reference/Additional_Information/Error_Text_Information.png" width="436" /><br />
+      This shows the actual error.  So, it shows the <em>scope </em>of the error and the type of error it is. The first value in the brackets will be the instance ID of the instance that was running the code - or it could be one of the special values listed in the table below - and the second is an internal value that <span data-keyref="GameMaker Name">GameMaker</span> uses for identifying bugs and can be ignored. In the case of the image above, it&#39;s saying that the variable <span class="inline">_image</span> has not been set (ie: does not exist before being accessed) on the object <span class="inline">obj_EA_DEMO_Control</span>.</li>
+    <li><img alt="Error Line Number Position" class="icon" height="16" src="../../assets/Images/Scripting_Reference/Additional_Information/Error_LineNumber.png" width="354" /><br />
+      This shows the line number that the error occurs on as well as a snippet of code showing the position. Note that this is not always 100% accurate due to the way the game is compiled, but it should be enough to help you find exactly where the issue is.</li>
+  </ul>
+  <p>As mentioned above, certain error messages will be identify the scope not by an instance ID value, but rather by a <em>negative </em>value. These values can be used to pinpoint the exact nature of the error and what it refers to with the following values possible:</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>Prefix</th>
+        <th>Scope</th>
+      </tr>
+      <tr>
+        <td style="text-align: center">-1</td>
+        <td>Self</td>
+      </tr>
+      <tr>
+        <td style="text-align: center">-2</td>
+        <td>Other</td>
+      </tr>
+      <tr>
+        <td style="text-align: center">-3</td>
+        <td>All</td>
+      </tr>
+      <tr>
+        <td style="text-align: center">-4</td>
+        <td>Noone</td>
+      </tr>
+      <tr>
+        <td style="text-align: center">-5</td>
+        <td>Global</td>
+      </tr>
+      <tr>
+        <td style="text-align: center">-6</td>
+        <td>Not Specified</td>
+      </tr>
+      <tr>
+        <td style="text-align: center">-7</td>
+        <td>Local</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <p>The possible errors from the VM runner are as follows:</p>
+  <table>
+    <colgroup>
+      <col />
+      <col />
+      <col />
+      <col />
+    </colgroup>
+    <tbody>
+      <tr>
+        <th>Error</th>
+        <th>Message</th>
+        <th>Operation</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td style="text-align: center;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px"><span class="inline">DoSet</span></td>
+        <td style="border-width: 1px;border-style: #333333;border-color: 1px;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Invalid comparison type</td>
+        <td style="padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Data Types</td>
+        <td style="padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">This denotes that the runner has tried to compare two incompatible data types, like a real number with a string.</td>
+      </tr>
+      <tr>
+        <td style="text-align: center;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px"><span class="inline">DoConv</span></td>
+        <td style="border-width: 1px;border-style: #333333;border-color: 1px;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Execution Error</td>
+        <td style="padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Data Types</td>
+        <td style="padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">This denotes an error in the conversion of one data-type into another.</td>
+      </tr>
+      <tr>
+        <td style="text-align: center;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px"><span class="inline">Argument Type</span></td>
+        <td style="border-width: 1px;border-style: #333333;border-color: 1px;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">(function) argument (index) incorrect type (wrong_type) expecting a (expected_type)</td>
+        <td style="padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Data Types</td>
+        <td style="padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">A value with the wrong data type was passed as an argument to the function at (index) (where an index of 1 is the <i>first</i> argument). A value of wrong_type was given but it should be one of expected_type instead.</td>
+      </tr>
+      <tr>
+        <td colspan="4" style="text-align: center;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">
+          <hr />
+        </td>
+      </tr>
+      <tr>
+        <td style="text-align: center;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px"><span class="inline">DoAdd</span></td>
+        <td style="border-width: 1px;border-style: #333333;border-color: 1px;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Execution Error</td>
+        <td style="padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Maths</td>
+        <td style="padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Something has gone wrong when using the addition (<span class="inline">+</span>) expression.</td>
+      </tr>
+      <tr>
+        <td style="text-align: center;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px"><span class="inline">DoMul</span></td>
+        <td style="border-width: 1px;border-style: #333333;border-color: 1px;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Execution Error</td>
+        <td style="padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Maths</td>
+        <td style="padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Something has gone wrong when using the multiplication (<span class="inline">*</span>) expression.</td>
+      </tr>
+      <tr>
+        <td style="text-align: center;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px"><span class="inline">DoSub</span></td>
+        <td style="border-width: 1px;border-style: #333333;border-color: 1px;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Execution Error</td>
+        <td style="padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Maths</td>
+        <td style="padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Something has gone wrong when using the subtraction (<span class="inline">-</span>) expression.</td>
+      </tr>
+      <tr>
+        <td style="text-align: center;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px"><span class="inline">DoSub</span></td>
+        <td style="border-width: 1px;border-style: #333333;border-color: 1px;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Execution Engine - Cannot operate on string type</td>
+        <td style="padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Maths</td>
+        <td style="padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">You are trying to subtract the wrong type of variables (for example subtract a string from a real).</td>
+      </tr>
+      <tr>
+        <td style="text-align: center;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px"><span class="inline">DoDiv</span></td>
+        <td style="border-width: 1px;border-style: #333333;border-color: 1px;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Execution Error</td>
+        <td style="padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Maths</td>
+        <td style="padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Something has gone wrong when using the division (<span class="inline">/</span> or <span class="inline">div</span>) expression.</td>
+      </tr>
+      <tr>
+        <td style="text-align: center;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px"><span class="inline">DoDiv</span></td>
+        <td style="border-width: 1px;border-style: #333333;border-color: 1px;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Execution Engine - Cannot operate on string type</td>
+        <td style="padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Maths</td>
+        <td style="padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">You are trying to divide the wrong type of variables (for example divide a string by a real).</td>
+      </tr>
+      <tr>
+        <td style="text-align: center;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px"><span class="inline">DoDiv</span></td>
+        <td style="border-width: 1px;border-style: #333333;border-color: 1px;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Divide by zero</td>
+        <td style="padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Maths</td>
+        <td style="padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">You are attempting to divide by 0 (note this will only happen when using integer division, dividing a (non-zero) real by 0 will give infinity as an answer, dividing zero by zero will give NaN as an answer). You can check for these values with (<span class="inline">is_infinity</span>) and (<span class="inline">is_nan</span>)</td>
+      </tr>
+      <tr>
+        <td style="text-align: center;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px"><span class="inline">DoMod</span></td>
+        <td style="border-width: 1px;border-style: #333333;border-color: 1px;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Execution Error</td>
+        <td style="padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Maths</td>
+        <td style="padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Something has gone wrong when using the modulo (<span class="inline">mod</span>) expression.</td>
+      </tr>
+      <tr>
+        <td style="text-align: center;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px"><span class="inline">DoMod</span></td>
+        <td style="border-width: 1px;border-style: #333333;border-color: 1px;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Execution Engine - Cannot operate on string type</td>
+        <td style="padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Maths</td>
+        <td style="padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">You are trying to use modulo (<span class="inline">mod</span>) on the wrong type of variables (for example <span class="inline">mod</span> a string by a real).</td>
+      </tr>
+      <tr>
+        <td colspan="4" style="text-align: center;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">
+          <hr />
+        </td>
+      </tr>
+      <tr>
+        <td style="text-align: center;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px"><span class="inline">DoAnd</span></td>
+        <td style="border-width: 1px;border-style: #333333;border-color: 1px;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Execution Error</td>
+        <td style="padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Bitwise</td>
+        <td style="padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Something has gone wrong when using the bitwise &quot;and&quot; (<span class="inline">&amp;</span>) expression.</td>
+      </tr>
+      <tr>
+        <td style="text-align: center;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px"><span class="inline">DoAnd</span></td>
+        <td style="border-width: 1px;border-style: #333333;border-color: 1px;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Execution Engine - Cannot operate on string type</td>
+        <td style="padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Bitwise</td>
+        <td style="padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">You are trying to use bitwise &quot;and&quot; (<span class="inline">&amp;</span>) on the wrong type of variables (for example trying to &quot;and&quot; a string with a real).</td>
+      </tr>
+      <tr>
+        <td style="text-align: center;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px"><span class="inline">DoOr</span></td>
+        <td style="border-width: 1px;border-style: #333333;border-color: 1px;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Execution Error</td>
+        <td style="padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Bitwise</td>
+        <td style="padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Something has gone wrong when using the bitwise &quot;or&quot; (<span class="inline">|</span>) expression.</td>
+      </tr>
+      <tr>
+        <td style="text-align: center;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px"><span class="inline">DoOr</span></td>
+        <td style="border-width: 1px;border-style: #333333;border-color: 1px;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Execution Engine - Cannot operate on string type</td>
+        <td style="padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Bitwise</td>
+        <td style="padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">You are trying to use &quot;or&quot; (<span class="inline">|</span>) on the wrong type of variables (for example trying to &quot;or&quot; a string with a real).</td>
+      </tr>
+      <tr>
+        <td style="text-align: center;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px"><span class="inline">DoXor</span></td>
+        <td style="border-width: 1px;border-style: #333333;border-color: 1px;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Execution Error</td>
+        <td style="padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Bitwise</td>
+        <td style="padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Something has gone wrong when using the bitwise &quot;xor&quot; (<span class="inline">^</span>) expression.</td>
+      </tr>
+      <tr>
+        <td style="text-align: center;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px"><span class="inline">DoXor</span></td>
+        <td style="border-width: 1px;border-style: #333333;border-color: 1px;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Execution Engine - Cannot operate on string type</td>
+        <td style="padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Bitwise</td>
+        <td style="padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">You are trying to use &quot;xor&quot; (<span class="inline">^</span>) on the wrong type of variables (for example trying to &quot;xor&quot; a string with a real).</td>
+      </tr>
+      <tr>
+        <td style="text-align: center;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px"><span class="inline">DoShl</span></td>
+        <td style="border-width: 1px;border-style: #333333;border-color: 1px;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Execution Error</td>
+        <td style="padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Bitwise</td>
+        <td style="padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Something has gone wrong when bitshifting left (<span class="inline">&lt;&lt;</span>) a value.</td>
+      </tr>
+      <tr>
+        <td style="text-align: center;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px"><span class="inline">DoShl</span></td>
+        <td style="border-width: 1px;border-style: #333333;border-color: 1px;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Execution Engine - Cannot operate on string type</td>
+        <td style="padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Bitwise</td>
+        <td style="padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">You are trying to left bitshift (<span class="inline">&lt;&lt;</span>) the wrong type of variables (for example trying to bitshift a string).</td>
+      </tr>
+      <tr>
+        <td style="text-align: center;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px"><span class="inline">DoShr</span></td>
+        <td style="border-width: 1px;border-style: #333333;border-color: 1px;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Execution Error</td>
+        <td style="padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Bitwise</td>
+        <td style="padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Something has gone wrong when bitshifting right (<span class="inline">&gt;&gt;</span>) a value.</td>
+      </tr>
+      <tr>
+        <td style="text-align: center;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px"><span class="inline">DoShr</span></td>
+        <td style="border-width: 1px;border-style: #333333;border-color: 1px;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Execution Engine - Cannot operate on string type</td>
+        <td style="padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Bitwise</td>
+        <td style="padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">You are trying to right bitshift (<span class="inline">&gt;&gt;</span>) the wrong type of variables (for example trying to bitshift a string).</td>
+      </tr>
+      <tr>
+        <td colspan="4" style="text-align: center;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">
+          <hr />
+        </td>
+      </tr>
+      <tr>
+        <td style="text-align: center;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px"><span class="inline">DoNeg</span></td>
+        <td style="border-width: 1px;border-style: #333333;border-color: 1px;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Execution Error</td>
+        <td style="padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Negate</td>
+        <td style="padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">You are trying to turn a variable type into a negative when this type does not permit such an operation.</td>
+      </tr>
+      <tr>
+        <td style="text-align: center;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px"><span class="inline">DoNot</span></td>
+        <td style="border-width: 1px;border-style: #333333;border-color: 1px;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Execution Error</td>
+        <td style="padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Negate</td>
+        <td style="padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">You are trying to &quot;not&quot; a variable type when this type does not permit such an operation.</td>
+      </tr>
+      <tr>
+        <td colspan="4" style="text-align: center;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">
+          <hr />
+        </td>
+      </tr>
+      <tr>
+        <td style="text-align: center;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px"><span class="inline">Push</span></td>
+        <td style="border-width: 1px;border-style: #333333;border-color: 1px;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Execution Error - Variable Index out of range (var)</td>
+        <td style="padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Stack</td>
+        <td style="padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">The variable being accessed is out with the established range for the runner.</td>
+      </tr>
+      <tr>
+        <td style="text-align: center;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px"><span class="inline">Push</span></td>
+        <td style="border-width: 1px;border-style: #333333;border-color: 1px;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Variable Get (var)</td>
+        <td style="padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Stack</td>
+        <td style="padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">The given variable has not been defined or is unknown.</td>
+      </tr>
+      <tr>
+        <td style="text-align: center;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px"><span class="inline">Pop</span></td>
+        <td style="border-width: 1px;border-style: #333333;border-color: 1px;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Variable Index out of range (var)</td>
+        <td style="padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Stack</td>
+        <td style="padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">The variable being accessed is out with the established range for the runner.</td>
+      </tr>
+      <tr>
+        <td style="text-align: center;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px"><span class="inline">Pop</span></td>
+        <td style="border-width: 1px;border-style: #333333;border-color: 1px;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Variable Get (var)</td>
+        <td style="padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Stack</td>
+        <td style="padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">The given variable has not been defined or is unknown.</td>
+      </tr>
+      <tr>
+        <td colspan="4" style="text-align: center;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">
+          <hr />
+        </td>
+      </tr>
+      <tr>
+        <td style="text-align: center;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px"><span class="inline">With</span></td>
+        <td style="border-width: 1px;border-style: #333333;border-color: 1px;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Cannot use global in with statement</td>
+        <td style="padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">With</td>
+        <td style="padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">You have tried to use &quot;<span class="inline">global</span>&quot; as a variable within a &quot;<span class="inline">with</span>&quot; statement, ie:<br />
+          <span class="inline">with (global)<br />
+               {<br />
+               //do something;<br />
+               }</span>
+        </td>
+      </tr>
+      <tr>
+        <td style="text-align: center;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px"><span class="inline">With</span></td>
+        <td style="border-width: 1px;border-style: #333333;border-color: 1px;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Cannot use local in with statement</td>
+        <td style="padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">With</td>
+        <td style="padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">You have tried to use &quot;<span class="inline">local</span>&quot; as a variable within a &quot;<span class="inline">with</span>&quot; statement, ie:<br />
+          <span class="inline">with (local)<br />
+               {<br />
+               //do something;<br />
+               }</span>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="4" style="text-align: center;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">
+          <hr />
+        </td>
+      </tr>
+      <tr>
+        <td style="text-align: center;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px"><span class="inline">DoCall</span></td>
+        <td style="border-width: 1px;border-style: #333333;border-color: 1px;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Execution Engine type error</td>
+        <td style="padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Engine</td>
+        <td style="padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">This is an undefined error within the Virtual Machine. You should file a bug report should this happen (see: The Help Menu for details on how to do this.</td>
+      </tr>
+      <tr>
+        <td style="text-align: center;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px"><span class="inline">Stack Overflow</span></td>
+        <td style="border-width: 1px;border-style: #333333;border-color: 1px;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">-</td>
+        <td style="padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Engine</td>
+        <td style="padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">A stack overflow occurs when too much memory is used on the call stack and when your game attempts to use more space than is available on the call stack (that is, when it attempts to access memory beyond the call stack&#39;s bounds, which is essentially a buffer overflow), the stack is said to overflow, resulting in a program crash. Restart your computer and <span data-keyref="GameMaker Name">GameMaker</span> and if the error persists please get in touch with support and/or file a bug (as explained above).</td>
+      </tr>
+      <tr>
+        <td colspan="4" style="text-align: center;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">
+          <hr />
+        </td>
+      </tr>
+      <tr>
+        <td style="text-align: center;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px"><span class="inline">Read Variable</span></td>
+        <td style="border-width: 1px;border-style: #333333;border-color: 1px;padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Variable not set before reading it</td>
+        <td style="padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">Variable Initialisation</td>
+        <td style="padding-top: 5px;padding-right: 10px;padding-left: 10px;padding-bottom: 8px">You are trying to access a variable that hasn&#39;t been set (i.e. <i>initialised</i>) yet. Assign a value to it first before trying to read it, e.g. <span class="inline2">variable = 100;</span>. Only <i>declaring</i> a variable, using e.g. <span class="inline2">var variable;</span> will also throw this error.</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Back: <a href="../Error_Reporting.htm">Error Reporting</a></div>
+        <div style="float:right">Next: <a href="Syntax_Errors.htm">Syntax Errors</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2022 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+Runner Errors
+Runtime Errors
+-->
+  <!-- TAGS
+runner_errors
+-->
+</body>
+</html>

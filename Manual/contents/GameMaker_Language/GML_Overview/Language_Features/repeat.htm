@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>repeat</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../assets/css/default.css" type="text/css" />
+  <script src="../../../assets/scripts/main_script.js" type="module"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Page outlining the repeat function" />
+  <meta name="rh-index-keywords" content="repeat" />
+  <meta name="search-keywords" content="if,else,then,?,ternary,conditional" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>repeat</h1>
+  <p>The GameMaker Language has a number of ways that you can perform <i>loops</i>, ie: have a statement or statements iterate over itself a certain number of times. The simplest of these is the <span class="inline">repeat</span> statement, which has the form:</p>
+  <p class="code">repeat (&lt;expression&gt;)<br />
+    {<br />
+        &lt;statement&gt;;<br />
+        &lt;statement&gt;;<br />
+        ...<br />
+    }</p>
+  <p>With <span class="inline">repeat</span> the given <a class="glossterm" data-glossterm="statement" href="#">statement</a> is repeated the number of times indicated by the rounded value of the <a class="glossterm" data-glossterm="expression" href="#">expression</a>. For example, the following creates five balls at random positions:</p>
+  <p class="code">repeat (5)<br />
+    {<br />
+        instance_create_layer(random(400), random(400), &quot;Instances&quot;, obj_ball);<br />
+    }</p>
+  <p>This can be very useful to avoid typing out the same code multiple times, or for using arrays, or for counting through a number of operations etc... You are not limited to using a single statement either, and can repeat multiple statements by enclosing them within curly brackets <span class="inline">{}</span>. For example:</p>
+  <p class="code">var _x = 32;<br />
+    repeat (global.p_lives)<br />
+    {<br />
+        draw_sprite(spr_heart, 0, _x, 32);<br />
+        _x += sprite_get_width(spr_heart);<br />
+    }</p>
+  <p>The above example repeats the statements in the curly brackets for however many <a class="glossterm" data-glossterm="iteration" href="#">iteration</a><span class="glossextra">s</span> the &quot;lives&quot; global variable has, and each iteration draws the heart sprite at the <span class="inline">_x</span> position, then moves the position along a bit based on the heart sprite width.</p>
+  <p><strong>When should you use a <span class="inline">repeat</span> loop?</strong> Anytime that you want to repeat over one or more statements a fixed number of times without any specific need to maintain a count of the iterations.</p>
+  <p>It is worth noting that you can use the special <span class="inline"><a href="break.htm">break</a></span> and <span class="inline"><a href="continue.htm">continue</a></span> statements within a <font face="Lucida Console"><span style="font-size: 16px;"><b>repeat</b></span></font> loop too. Using <span class="inline">break</span> will immediately exit the loop and move on to any code that is in the event or function after the loop should have finished, eg:</p>
+  <p class="code">var i = 0;<br />
+    var temp = 0;<br />
+    repeat (10)<br />
+    {<br />
+        temp += array[i];<br />
+        if (temp &gt; max_total)<br />
+        {<br />
+            break;<br />
+        }<br />
+        else<br />
+        {<br />
+            i += 1;<br />
+        }<br />
+    }</p>
+  <p>The above code loops through 10 <a href="../Arrays.htm">array</a> values and adds them to a local variable. If the total of the local variable is greater than the given value for <span class="inline">max_total</span>, then the loop is terminated using break, otherwise the loop will continue. </p>
+  <p>An example of using <span class="inline">continue</span> in a <span class="inline">repeat</span> loop would be:</p>
+  <p class="code">repeat(10)<br />
+    {   <br />
+        var _x = random(room_width);<br />
+        var _y = random(room_height);<br />
+        if (instance_position(_x, y, obj_Enemy)<br />
+        {<br />
+            continue;<br />
+        }<br />
+        instance_create_layer(_x, _y, &quot;Instances&quot;, obj_Enemy);<br />
+    }</p>
+  <p>This code will repeat 10 times, generating a random room position then checking if an instance of the object <span class="inline">obj_Enemy</span> exists at that position. If it does, the current loop iteration is terminated using <span class="inline">continue</span> and a new iteration is started, and if it doesn&#39;t then an instance of the object <span class="inline">obj_Enemy</span> is created at the random position.</p>
+  <p>For more examples of loop functions please see the sections on <a href="while.htm"><span class="inline">while</span></a>, <a href="do___until.htm"><span class="inline">do... until</span></a>, and <a href="for.htm"><span class="inline">for</span></a>.</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Back: <a href="../Language_Features.htm">Language Features</a></div>
+        <div style="float:right">Next: <a href="while.htm">while</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2021 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+repeat
+-->
+  <!-- TAGS
+repeat
+-->
+</body>
+</html>

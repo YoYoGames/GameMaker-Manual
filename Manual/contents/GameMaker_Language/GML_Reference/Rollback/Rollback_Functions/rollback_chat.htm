@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <title>rollback_chat</title>
+  <meta name="topic-status" content="Draft" />
+  <link rel="stylesheet" type="text/css" href="../../../../assets/css/default.css" />
+  <script src="../../../../assets/scripts/main_script.js" type="module"></script>
+  <meta name="template" content="../../../../assets/masterpages/Manual_Keyword_Page.htt" />
+  <meta name="rh-authors" content="Gurpreet S. Matharoo" />
+  <meta name="topic-comment" content="Reference page for 
+rollback_chat" />
+  <meta name="condition-tags" content="Export:Beta" />
+  <meta name="rh-index-keywords" content="rollback_chat" />
+  <meta name="search-keywords" content="rollback_chat" />
+</head>
+<body>
+  <h1>rollback_chat</h1>
+  <p>This function is used to send a string message to other players.</p>
+  <p>You specify a string to send, with a maximum <a href="../../Strings/string_byte_length.htm">size</a> of 128 bytes.</p>
+  <p>When the second argument is not specified, the message is sent to all players, including the sender.</p>
+  <p>You can specify a player ID in the second argument which is the player who will receive the message.</p>
+  <h3>How to Use?</h3>
+  <p>This function is meant to be used &quot;locally&quot;, and so would result from <a href="../../Game_Input/Keyboard_Input/Keyboard_Input.htm">local input</a>, not <a href="rollback_get_input.htm">Rollback inputs</a>.</p>
+  <p>See the usage example at the bottom. Listen for received messages in the <a data-xref="{text}" href="../Rollback_Events.htm#h1">Rollback Event</a> event. </p>
+  <p> </p>
+  <h4>Syntax:</h4>
+  <p class="code">rollback_chat(message, [to]);</p>
+  <table>
+    <colgroup>
+      <col />
+      <col />
+      <col />
+    </colgroup>
+    <tbody>
+      <tr>
+        <th>Argument</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>message</td>
+        <td><span data-keyref="Type_String"><a href="../../../../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">String</a></span></td>
+        <td>The message to send, as a string.</td>
+      </tr>
+      <tr>
+        <td>to</td>
+        <td><span data-keyref="Type_Real"><a href="../../../../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td><span class="optional">OPTIONAL</span> The ID of the player to which the message will be sent. Not specifying this argument, or specifying <span class="inline2">-1</span>, sends the message to all players.</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>Returns:</h4>
+  <p class="code"><span data-keyref="Type_Void">N/A</span></p>
+  <p> </p>
+  <h4>Example:</h4>
+  <p class="code">if (keyboard_check_pressed(vk_enter))<br />
+    {<br />
+        rollback_chat(keyboard_string);<br />
+        keyboard_string = &quot;&quot;;<br />
+    }</p>
+  <p>If the enter key is pressed locally, the <a href="../../Game_Input/Keyboard_Input/keyboard_string.htm"><span class="inline">keyboard_string</span></a> value is sent to all players. That string is then cleared so a new message can be typed.</p>
+  <p>This will trigger the <a data-xref="{text}" href="../Rollback_Events.htm#h1">Rollback Event</a> event when the message is received by all clients (including the sender).</p>
+  <p class="code_heading">Rollback Event</p>
+  <p class="code">if (rollback_event_id == rollback_chat_message)<br />
+    {<br />
+        // Get received information<br />
+        var _message = rollback_event_param.message;<br />
+        var _from = rollback_event_param.from;<br />
+    <br />
+        // Find sender&#39;s name<br />
+        var _name = rollback_get_info(_from).player_name;<br />
+    <br />
+        // Print to output log<br />
+        show_debug_message(_name + &quot; says: &quot; + _message);<br />
+    }
+  </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div>Back: <a data-xref="{title}" href="Rollback_Functions.htm">Rollback Functions</a></div>
+        <div>Next: <a data-xref="{title}" href="rollback_use_player_prefs.htm">rollback_use_player_prefs</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2022 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+rollback_chat
+-->
+  <!-- TAGS
+rollback_chat
+-->
+</body>
+</html>

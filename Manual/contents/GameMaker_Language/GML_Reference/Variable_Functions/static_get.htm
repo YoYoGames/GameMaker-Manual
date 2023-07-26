@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>static_get</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" type="text/css" href="../../../assets/css/default.css" />
+  <script src="../../../assets/scripts/main_script.js" type="module"></script>
+  <meta name="rh-authors" content="Gurpreet S. Matharoo" />
+  <meta name="topic-comment" content="Reference page for the function static_get" />
+  <meta name="rh-index-keywords" content="static_get" />
+  <meta name="search-keywords" content="static_get" />
+  <meta name="template" content="assets/masterpages/Manual_Keyword_Page.htt" />
+</head>
+<body>
+  <h1><span data-field="title" data-format="default">static_get</span></h1>
+  <p>This function returns the static struct for the given function, or <span class="inline2">undefined</span> if it has no static. The static struct is where all static variables for a function are stored.</p>
+  <p>You can also supply a struct, in which case it will give you the static struct for the constructor that was used to create the struct (or it may be a different struct if it was changed using <span class="inline3_func"><a data-xref="{title}" href="static_set.htm">static_set</a></span>).</p>
+  <p>When using constructor inheritance, static structs are chained, i.e. you can get the static struct of a static struct, if the constructor has a parent constructor.</p>
+  <p>See: <a data-xref="{title}" href="../../GML_Overview/Structs/Static_Structs.htm">Static Struct</a></p>
+  <p> </p>
+  <h4>Syntax:</h4>
+  <p class="code"><span data-field="title" data-format="default">static_get</span>(struct_or_func_name);</p>
+  <table>
+    <colgroup>
+      <col />
+      <col />
+      <col />
+    </colgroup>
+    <tbody>
+      <tr>
+        <th>Argument</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>struct_or_func_name</td>
+        <td><span data-keyref="Type_Struct"><a href="../../../../GameMaker_Language/GML_Overview/Structs.htm" target="_blank">Struct</a></span> or <span data-keyref="Type_Function"><a href="../../../../GameMaker_Language/GML_Overview/Script_Functions.htm" target="_blank">Function</a></span></td>
+        <td>The struct or function for which to get the static struct</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>Returns:</h4>
+  <p class="code"><span data-keyref="Type_Struct"><a href="../../../../GameMaker_Language/GML_Overview/Structs.htm" target="_blank">Struct</a></span> or <span data-keyref="Type_Undefined"><a href="../../../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">undefined</a></span> if no static struct is set</p>
+  <p> </p>
+  <h4>Example:</h4>
+  <p class="code">function counter() {<br />
+        static count = 0;<br />
+        return count ++;<br />
+    }<br />
+    <br />
+    repeat (10) counter()<br />
+    <br />
+    // Get static struct of counter()<br />
+    var _static_counter = static_get(counter);<br />
+    <br />
+    // Both of these read the same variable<br />
+    show_debug_message(counter.count); // 10<br />
+    show_debug_message(_static_counter.count); // 10
+  </p>
+  <p>The above code creates a function <span class="inline2">counter()</span> with a static variable. The function is called repeatedly so its static variable&#39;s value is increased.</p>
+  <p>The static struct for that function is then returned, and stored in a variable (<span class="inline2">_static_counter</span>). Then it prints the static variable from the function, by first reading it from the function directly (<span class="inline2">counter.count</span>) and then reading it from the static struct (<span class="inline2">_static_counter.count</span>). Both print the same value, as they refer to the exact same variable.</p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div>Back: <a data-xref="{title}" href="Variable_Functions.htm">Variable Functions</a></div>
+        <div>Next: <a data-xref="{title}" href="static_set.htm">static_set</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2022 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+static_get
+-->
+  <!-- TAGS
+static_get
+-->
+</body>
+</html>

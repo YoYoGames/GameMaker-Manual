@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>sprite_set_alpha_from_sprite</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../../../assets/css/default.css" type="text/css" />
+  <script src="../../../../../assets/scripts/main_script.js" type="module"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Page explaining the function sprite_set_alpha_from_sprite" />
+  <meta name="rh-index-keywords" content="sprite_set_alpha_from_sprite" />
+  <meta name="search-keywords" content="sprite_set_alpha_from_sprite" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>sprite_set_alpha_from_sprite</h1>
+  <p>This function uses the value/saturation of one sprite and multiplies it with the alpha of the target sprite. Ideally the sprite being used to generate the new alpha map should be grey-scale, with the white areas having an equivalent alpha value of 1 (opaque), the black areas being equivalent to alpha 0 (transparent), and the grey areas being an alpha in between 0 and 1. The sprite that you are setting the alpha of <i>cannot be a permanent resource</i>, nor can the sprite you use to set the alpha, as this will give an error. This means that you must create two completely new sprites &quot;on the fly&quot; in some way for the function to work correctly. This can be achieved by using surfaces, or by creating a sprite from the screen (the code example below shows how the effect can be achieved with surfaces).</p>
+  <p class="note"><b>NOTE</b>: This function is only useful for <b>bitmap</b> sprites and will not work with SWF or JSON (Spine) sprites.</p>
+  <p>Below is an image that illustrates how this function works:</p>
+  <p><img alt="Sprite Set Alpha Example" class="center" src="../../../../../assets/Images/Scripting_Reference/GML/Reference/Sprites/spr_alpha.png" /></p>
+  <p> </p>
+  <h4>Syntax:</h4>
+  <p class="code">sprite_set_alpha_from_sprite(ind, spr);</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>Argument</th><th>Type</th>
+        <th>Description</th>
+     </tr>
+      <tr>
+        <td>ind</td><td><span data-keyref="Type_Asset_Sprite"></span></td>
+        <td>The index of the sprite to change the transparency map of.</td>
+     </tr>
+      <tr>
+        <td>spr</td><td><span data-keyref="Type_Asset_Sprite"></span></td>
+        <td>The index of the sprite to take the transparency map data from.</td>
+     </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>Returns</h4>
+  <p class="code"><span data-keyref="Type_Void"></span></p>
+  <p> </p>
+  <h4>Extended Example:</h4>
+  <p>In this extended example we show how you can create a special effect sprite from two sprite resources. To start with we need to have a controller variable in the <b>Create Event</b> of the instance. This variable is to ensure that the sprite is only created once:</p>
+  <p class="code">spr_create = true;</p>
+  <p>Once that is done we need to then go to the <b>Draw Event</b> and add in this code:</p>
+  <p class="code">if spr_create<br />
+    {<br />
+        spr_create = false;<br />
+        var _sw = sprite_get_width(spr_Explosion_Alpha);<br />
+        var _sh = sprite_get_height(spr_Explosion_Alpha);<br />
+        var _xo = sprite_get_xoffset(spr_Gradient);<br />
+        var _yo = sprite_get_yoffset(spr_Gradient);<br />
+        var _surf = surface_create(_sw, _sh);<br />
+        surface_set_target(_surf);<br />
+        draw_clear_alpha(c_black, 0);<br />
+        draw_sprite(spr_Gradient, 0, 0, 0);<br />
+        sprite_index = sprite_create_from_surface(_surf, 0, 0, _sw, _sh, false, false, _xo, _yo);<br />
+        draw_clear_alpha(c_black, 0);<br />
+        draw_sprite(spr_Explosion_Alpha, 0, _xo, _yo);<br />
+        var _spr = sprite_create_from_surface(_surf, 0, 0, _sw, _sh, false, false, _xo, _yo);<br />
+        surface_reset_target();<br />
+        surface_free(_surf);<br />
+        sprite_set_alpha_from_sprite(sprite_index, _spr);<br />
+        sprite_delete(_spr);<br />
+    }<br />
+    <br />
+    draw_sprite(sprite_index, 0, x, y);
+  </p>
+  <p>The above code first checks to see if the control variable is true or not, and if it is, it then runs the code to set the sprite alpha, setting the variable to false to prevent the code from running more than once. In this case, it creates a surface the size of the alpha mask that we wish to use, then draws the sprite that is to have its alpha changed onto the surface and creates a new sprite from it, assigning it as the <span class="inline">sprite_index</span> of the object. The code then clears the surface and draws the alpha map sprite to it and creates another new sprite, storing its index in a local variable. Finally, the new sprite assigned to the object gets its alpha set from this temporary sprite, the surface is freed and the temporary sprite is removed.</p>
+  <p>There is one final thing to do here, and that is remove the sprite that has been created for the object from memory when not in use. This would either be done in the <b>Destroy Event</b> or the <b>Room End Event</b> like this:</p>
+  <p class="code">sprite_delete(sprite_index);</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Back: <a href="Sprite_Manipulation.htm">Sprite Manipulation</a></div>
+        <div style="float:right">Next: <a href="sprite_set_cache_size.htm">sprite_set_cache_size</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2021 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+sprite_set_alpha_from_sprite
+-->
+  <!-- TAGS
+sprite_set_alpha_from_sprite
+-->
+</body>
+</html>
