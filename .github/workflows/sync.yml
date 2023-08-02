@@ -1,12 +1,15 @@
 name: 'Upstream Sync'
 
 on:
-  schedule:
-    - cron:  '0 7 * * *'
-    # scheduled at 07:00 every Monday and Thursday
 
   workflow_dispatch:  # click the button on Github repo!
-
+      inputs:
+        UPSTREAM_BRANCH:
+          description: "Upstream Branch"
+          required: true
+        DOWNSTREAM_BRANCH:
+          description: "Downstream Branch"
+          required: true
 
 jobs:
     sync_latest_from_upstream:
@@ -20,31 +23,14 @@ jobs:
           ref: main
           # REQUIRED if your upstream repo is private (see wiki)
           persist-credentials: false
-      - name: Sync upstream changes for develop
-        id: sync
-        uses: aormsby/Fork-Sync-With-Upstream-action@v3.4
+      - name: Sync and merge upstream repository with your current repository
+        uses: dabreadman/sync-upstream-repo@v1.0.0.b
         with:
-          target_sync_branch: develop
-          target_repo_token: ${{ secrets.GH_TOKEN }}
-          upstream_sync_branch: develop
-          upstream_sync_repo: ${{ secrets.REPO_NAME }}
-          upstream_repo_access_token: ${{ secrets.GH_TOKEN }}
-          test_mode: true        
-      - name: Sync upstream changes for lts
-        id: syn
-        uses: aormsby/Fork-Sync-With-Upstream-action@v3.4
-        with:
-            target_sync_branch: lts-2022-r1
-            target_repo_token: ${{ secrets.GH_TOKEN }}
-            upstream_sync_branch: lts-2022-r1
-            upstream_sync_repo: ${{ secrets.REPO_NAME }}
-            upstream_repo_access_token: ${{ secrets.GH_TOKEN }}
-            test_mode: true                  
-      - name: New commits found
-        if: steps.sync.outputs.has_new_commits == 'true'
-        run: echo "New commits were found to sync."      
-      - name: No new commits
-        if: steps.sync.outputs.has_new_commits == 'false'
-        run: echo "There were no new commits."       
-      - name: Show value of 'has_new_commits'
-        run: echo ${{ steps.sync.outputs.has_new_commits }}
+            # URL of gitHub public upstream repo
+            upstream_repo: "https://github.com/YoYoGames/GameMaker-Manual.git"
+            # Branch to merge from upstream (defaults to downstream branch)
+            upstream_branch: ${{ inputs.UPSTREAM_BRANCH }}
+            # Branch to merge into downstream
+            downstream_branch: ${{ inputs.DOWNSTREAM_BRANCH }}
+            # GitHub Bot token
+            token: ${{ secrets.GITHUB_TOKEN }}                  
