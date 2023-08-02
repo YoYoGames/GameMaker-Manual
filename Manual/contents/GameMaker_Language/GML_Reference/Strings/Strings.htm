@@ -6,7 +6,7 @@
   <title>Strings</title>
   <meta name="generator" content="Adobe RoboHelp 2020" />
   <link rel="stylesheet" href="../../../assets/css/default.css" type="text/css" />
-  <script src="../../../assets/scripts/main_script.js" type="module"></script>
+  <script src="../../../assets/scripts/main_script.js"></script>
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Reference section for string functions" />
   <meta name="rh-index-keywords" content="\r,\b,\f,\t,\v,\\,\a,\u,\x,\,\r,\b,\f,\t,\v,\\,\a,\u,\x,\" />
@@ -104,40 +104,16 @@
   <p>Multi-line string literals do not support escaped characters, e.g. <span class="inline">@&quot;Hello\World&quot;</span> will <em>not</em> try to escape the W on World and will be stored verbatim. Note though that when using string literals like this, you will need to break the string if you wish to include quotation marks as part of the string, e.g.:</p>
   <p class="code">var test = @&quot;Hello &quot; + &quot;\&quot;&quot; + @&quot;World&quot; + &quot;\&quot;&quot;;</p>
   <div data-conref="../../../assets/snippets/Note_Unicode_missing_glyph_replacement.hts"> </div>
-  <h3 id="h4">Template Strings</h3>
-  <p>Template strings give you a convenient syntax to create and format strings. You can create them by prefixing a string literal with the <span class="inline2"><a id="$"></a>$</span> character, and including expressions inside <span class="inline2">{}</span>: </p>
-  <p class="code">var _world = &quot;Earth&quot;;<br />
-    var _template = $&quot;Hello {_world}!&quot;;</p>
-  <p>Which produces the same string as: </p>
-  <p class="code">var _world = &quot;Earth&quot;;<br />
-    var _template = string(&quot;Hello {0}!&quot;, _world);</p>
-  <p>Everything written between curly braces <span class="inline2">{ }</span> inside a template string is executed as regular GML. The result of the GML expression between the braces is inserted into the string: </p>
-  <p class="code">var _template = $&quot;The result of a random complicated calculation is {5 * power(pi, 3) + 37.84094}&quot;;</p>
-  <p>To make it more clear that this is regular GML, <a data-xref="{title}" href="../../../The_Asset_Editors/Scripts.htm">The Script Editor</a> also highlights this code normally. <a data-xref="{title}" href="../../../Setting_Up_And_Version_Information/IDE_Preferences/Feather_Settings.htm">Feather</a> also checks these GML expressions for any errors, e.g.: </p>
-  <p class="code">var _arr = [ 1, 2, 3, 4 ];<br />
-    var _a = $&quot;The first value is {_arr[| 0]}&quot;; // GM1028 - Accessor is intended for type of &#39;Id.DsList&#39; but &#39;Array&lt;Real&gt;&#39; appears instead.</p>
-  <p>You can split a template string across multiple lines, however you can only do this in the expression parts of the templates. Any newline and other white-space characters that need to be added to the actual string have to be added using <a data-xref="{text}" href="Strings.htm#h1">Escape Characters</a>.</p>
-  <p>The following code shows a valid and an invalid way of splitting a template string across multiple lines: </p>
-  <p class="code">var _a = $&quot;This is the \n{<br />
-    valid<br />
-    }\nway to split a template across multiple lines&quot;;<br />
-    <br />
-    var _b = $&quot;This is the <br />
-    {invalid}<br />
-    way to split a template across multiple lines&quot;;
-  </p>
   <h2 id="h3">toString() Method</h2>
   <p>When a reference to a struct or an instance of an object is passed as an argument to any of <span class="inline2"><a data-xref="{title}" href="string.htm">string</a></span> / <span class="inline2"><a data-xref="{title}" href="string_ext.htm">string_ext</a></span> / <span class="inline2"><a data-xref="{title}" href="../Debugging/show_debug_message.htm">show_debug_message</a></span> / <span class="inline2"><a data-xref="{title}" href="show_debug_message_ext.htm">show_debug_message_ext</a></span>, it will have its <span class="inline2">toString</span> method called, if it has one set.</p>
   <p class="code">toString = function()<br />
     {<br />
         return string(&quot;I am the instance with ID {0}&quot;, id);<br />
     }</p>
-  <p>You can pass a struct reference to one of the above functions for its <span class="inline2">toString()</span> method to be used, however for instances you must use <span class="inline2">self</span> within its scope, as passing an instance ID will not call its <span class="inline2">toString()</span> method.</p>
-  <p class="code">// In an instance<br />
-    string(self); // Calls its toString() method, if it exists<br />
-    string(id); // Prints &quot;ref &lt;id&gt;&quot;, same goes for IDs returned from instance_create_*()</p>
+  <p>For both instances and structs, you must pass its reference to one of the above functions for its <span class="inline2">toString()</span> method to be used. For example, you could use <span class="inline2">self</span> inside an instance or struct to reference itself:</p>
+  <p class="code">string(self);</p>
   <p class="note"><span data-conref="../../../assets/snippets/Tag_tip.hts"> </span> Arrays are automatically converted to a string representation when they are passed to one of the above functions, without needing to assign a custom function to the array.</p>
-  <p>You&#39;re not required to convert a struct or instance to a string with <a href="string.htm"><span class="inline2">string()</span></a> if you want to draw it. Simply passing a valid reference to <span class="inline2"><a data-xref="{title}" href="../Drawing/Text/draw_text.htm">draw_text</a></span> or <a href="../Drawing/Text/Text.htm">any of the related <span class="inline2">draw_text_</span> functions</a> will automatically convert it to a string: </p>
+  <p>You&#39;re not required to convert a struct or instance to a string <em>explicitly</em> if you want to draw it. Simply passing an instance/struct reference to <span class="inline2"><a data-xref="{title}" href="../Drawing/Text/draw_text.htm">draw_text</a></span> or <a href="../Drawing/Text/Text.htm">any of the related <span class="inline2">draw_text_</span> functions</a> will automatically convert it to a string: </p>
   <p class="code">draw_text(0, 0, self);</p>
   <h2>Function Reference</h2>
   <p>Below is the list of functions for dealing with strings.</p>
@@ -229,7 +205,7 @@
         <div style="float:right">Next: <a href="../Maths_And_Numbers/Maths_And_Numbers.htm">Maths And Numbers</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2023 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2022 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 Strings

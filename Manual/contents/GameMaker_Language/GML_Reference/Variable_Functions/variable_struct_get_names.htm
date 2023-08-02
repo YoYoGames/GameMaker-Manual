@@ -3,85 +3,50 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>struct_get_names</title>
+  <title>variable_struct_get_names</title>
   <meta name="generator" content="Adobe RoboHelp 2020" />
   <link rel="stylesheet" href="../../../assets/css/default.css" type="text/css" />
-  <script src="../../../assets/scripts/main_script.js" type="module"></script>
+  <script src="../../../assets/scripts/main_script.js"></script>
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Page explaining the function variable_struct_get_names" />
-  <meta name="rh-index-keywords" content="variable_struct_get_names,struct_get_names" />
-  <meta name="search-keywords" content="variable_struct_get_names,struct_get_names" />
+  <meta name="rh-index-keywords" content="variable_struct_get_names" />
+  <meta name="search-keywords" content="variable_struct_get_names" />
   <meta name="is_pure" content="true" />
 </head>
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
-  <h1><span data-field="title" data-format="default">struct_get_names</span></h1>
-  <p>This function returns an array with the variable names from a struct.</p>
-  <p>You pass in the struct reference to check, and each entry in the array will be a <span data-keyref="Type_String"><a href="../../../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">String</a></span> of the variable names that the struct contains.</p>
-  <p class="note"><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> This function doesn&#39;t return the <em>static</em> variables of the struct. These belong to its <a data-xref="{title}" href="../../GML_Overview/Structs/Static_Structs.htm">Static Struct</a>, that you can get using <span class="inline3_func"><a data-xref="{title}" href="static_get.htm">static_get</a></span>.</p>
+  <h1>variable_struct_get_names</h1>
+  <p>With this function you can retrieve an array populated with the variable names from a struct. You pass in the struct reference to check, and each entry in the array will be a <b>string</b> of the variable names that the struct contains.</p>
   <p> </p>
   <h4>Syntax:</h4>
-  <p class="code"><span data-field="title" data-format="default">struct_get_names</span>(struct);</p>
+  <p class="code">variable_struct_get_names(struct);</p>
   <table>
     <tbody>
       <tr>
-        <th>Argument</th>
-        <th>Type</th>
+        <th>Argument</th><th>Type</th>
         <th>Description</th>
-      </tr>
+     </tr>
       <tr>
-        <td>struct</td>
-        <td><span data-keyref="Type_Struct"><a href="../../../../GameMaker_Language/GML_Overview/Structs.htm" target="_blank">Struct</a></span></td>
+        <td>struct</td><td><span data-keyref="Type_Struct"></span></td>
         <td>The struct reference to check.</td>
-      </tr>
+     </tr>
     </tbody>
   </table>
   <p> </p>
   <h4>Returns:</h4>
-  <p class="code"><span data-keyref="Type_Array"><a href="../../../../GameMaker_Language/GML_Overview/Arrays.htm" target="_blank">Array</a></span> (each entry is a <span data-keyref="Type_String"><a href="../../../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">String</a></span>)</p>
+  <p class="code"><span data-keyref="Type_Array"></span> (each entry is a string)</p>
   <p> </p>
-  <h4>Example 1: Basic Use</h4>
-  <p class="code">var _my_struct = {a: 7, str: &quot;a string&quot;};<br />
-    <br />
-    var _arr_names = <span data-field="title" data-format="default">struct_get_names</span>(_my_struct);<br />
-    show_debug_message(&quot;Variables for struct: &quot; + string(_arr_names));<br />
-    <br />
-    var _str = &quot;&quot;, _len = array_length(_arr_names);<br />
-    for (var i = 0; i &lt; _len; i++;)<br />
+  <h4>Example:</h4>
+  <p class="code">var str = &quot;&quot;;<br />
+    var array = variable_struct_get_names(mystruct);<br />
+    show_debug_message(&quot;Variables for struct: &quot; + string(array));<br />
+    for (var i = 0; i &lt; array_length(array); i++;)<br />
     {<br />
-        _str = _arr_names[i] + &quot;:&quot; + string(struct_get(_my_struct, _arr_names[i]));<br />
-        show_debug_message(_str);<br />
-    }
-  </p>
-  <p>The above code first creates a temporary struct variable <span class="inline2">_my_struct</span> with two variables in it: <span class="inline2">a</span> and <span class="inline2">str</span>. Next, <span class="inline3_func"><span data-field="title" data-format="default">struct_get_names</span></span> is called to get an array with the variable names for the given struct. These are displayed. Finally, a for loop is used to loop through all the variable names in the array and to look up the corresponding value in the struct <em>by name</em> using <span class="inline3_func"><a data-xref="{title}" href="variable_struct_get.htm">struct_get</a></span>. For each of these key-value pairs, a debug message is shown using <span class="inline3_func"><a data-xref="{title}" href="../Debugging/show_debug_message.htm">show_debug_message</a></span>.</p>
+        str = array[i] + &quot;:&quot; + string(variable_struct_get(mystruct, array[i]));<br />
+        show_debug_message(str);<br />
+    }</p>
+  <p>The above code will retrieve an array of the variable names for the given struct and then display these along with their values in the debug output.</p>
   <p> </p>
-  <h4>Example 2: Including Static Variables</h4>
-  <p class="code">function vec3(_x, _y, _z) constructor<br />
-    {<br />
-        x = _x;<br />
-        y = _y;<br />
-        z = _z;<br />
-        <br />
-        static add = function(_vec2)<br />
-        {<br />
-            x += _vec2.x;<br />
-            y += _vec2.y;<br />
-            z += _vec2.z;<br />
-        };<br />
-        static dot = function(_vec2)<br />
-        {<br />
-            return dot_product_3d(x, y, z, _vec2.x, _vec2.y, _vec2.z);<br />
-        };<br />
-    };<br />
-    var _v1 = new vec3(100, 20, 0);<br />
-    <br />
-    var _arr_names = struct_get_names(_v1), _arr_names_static = struct_get_names(static_get(_v1));<br />
-    var _arr_names_all = array_concat(_arr_names, _arr_names_static);<br />
-    show_debug_message($&quot;Variable names for struct (including static): {_arr_names_all}&quot;);
-  </p>
-  <p>The extended example above shows how to include static variable names by retrieving a struct&#39;s static struct and appending those variable names to the array of variable names.</p>
-  <p>First a simple <span class="inline2">vec3</span> struct is defined, which stores an <span class="inline2">x</span>, <span class="inline2">y</span> and <span class="inline2">z</span> variable, as well as two static methods <span class="inline2">add</span> and <span class="inline2">dot</span>. A new struct <span class="inline2">_v1</span> is created from this. Next, both <span class="inline2">_v1</span>&#39;s and its static struct&#39;s variable names are retrieved using <span class="inline3_func"><span data-field="title" data-format="default">struct_get_names</span></span>. The two arrays are then concatenated using a call to <span class="inline3_func"><a data-xref="{title}" href="array_concat.htm">array_concat</a></span>. Finally, a debug message shows the contents of this new array, that contains <em>all</em> of the struct&#39;s variable names.</p>
-  <p class="note"><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> In case the struct gets static variables from a chain or hierarchy of static structs you&#39;ll need to traverse the chain of static structs to get the names of <em>all</em> static variables.</p>
   <p> </p>
   <p> </p>
   <div class="footer">
@@ -91,7 +56,7 @@
         <div style="float:right">Next: <a href="variable_struct_names_count.htm">variable_struct_names_count</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2023 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2021 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 variable_struct_get_names

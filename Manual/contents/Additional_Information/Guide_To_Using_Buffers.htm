@@ -6,7 +6,7 @@
   <title>Guide To Using Buffers</title>
   <meta name="generator" content="Adobe RoboHelp 2020" />
   <link rel="stylesheet" href="../assets/css/default.css" type="text/css" />
-  <script src="../assets/scripts/main_script.js" type="module"></script>
+  <script src="../assets/scripts/main_script.js"></script>
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Page that explains how buffers work" />
   <meta name="rh-index-keywords" content="Guide To Using Buffers" />
@@ -14,10 +14,10 @@
 </head>
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
-  <h1><span data-field="title" data-format="default">Guide To Using Buffers</span></h1>
-  <p>A buffer (in programming) is basically a space within the system memory that is used to store small packets of data for just about anything (for example: data transfer, collisions, colour data, etc.). Since it is held in system memory it is very fast to access, and a buffer would generally be used for very short-term storage, like receiving network information before processing it, or for storing a checkpoint in your game (this is explained in the example given further down the page).</p>
+  <h1>Guide To Using Buffers</h1>
+  <p>A buffer (in programming) is basically a space within the system memory that is used to store small packets of data for just about anything (for example: data transfer, collisions, colour data etc...). Since it is held in system memory it is very fast to access, and a buffer would generally be used for very short-term storage, like receiving network information before processing it, or for storing a checkpoint in your game (this is explained in the example given further down the page).</p>
   <p><img alt="Buffer Memory" class="center" src="../assets/Images/Scripting_Reference/Additional_Information/Buffer_Memory.png" />Buffers are created by allocating a space in the system memory, calculated in <a class="glossterm" data-glossterm="byte" href="#">byte</a> <span class="glossextra">s</span>, which is then reserved for your game as long as your game is running or until you delete the buffer using the appropriate function (you can find all the GML buffer functions listed <a href="../GameMaker_Language/GML_Reference/Buffers/Buffers.htm">here</a>). This means that even when your game is not in focus (for example, on a mobile device when you take a call the game will be put into the background) the buffer will still exist, however if the game is closed or re-started the buffer will be lost.</p>
-  <p class="note"><span data-conref="../assets/snippets/Tag_note.hts"> </span> Restarting the game will not clear or delete the buffer! But it will prevent any further access to the previously created buffer as the ID handle will have been lost, causing a memory leak which will crash your game eventually. So, when re-starting a game, remember to delete any buffers first.</p>
+  <p class="note"><strong>NOTE</strong>: Restarting the game will not clear or delete the buffer! But it will prevent any further access to the previously created buffer as the ID handle will have been lost, causing a memory leak which will crash your game eventually. So, when re-starting a game, remember to delete any buffers first.</p>
   <p><span data-keyref="GameMaker Name">GameMaker</span> permits the creation of four different buffer types. The reason for this is that buffers are designed to be a highly optimised temporary storage medium, and as such you should create a buffer that is appropriate to the type of data that you wish it to store, otherwise you could get errors or cause a bottleneck in your code. Before explaining this further, let&#39;s look at the four available buffer types (defined as <strong>constants </strong>in GML):</p>
   <p> </p>
   <table>
@@ -79,7 +79,7 @@
   <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down" href="#">Buffer Checkpoint</a></p>
   <div class="droptext" data-targetname="drop-down">
     <p class="dropspot">A simple example of how a buffer can be used in any <span data-keyref="GameMaker Name">GameMaker</span> game for any platform, is the function <a href="../GameMaker_Language/GML_Reference/General_Game_Control/game_save_buffer.htm"><span class="inline">game_save_buffer()</span></a>. This function will take a &quot;snapshot&quot; of the current game state and save it to a pre-defined buffer, which can then be read from to load the game at that point again.</p>
-    <p class="note"><span data-conref="../assets/snippets/Tag_note.hts"> </span> This function is very limited and it is designed for the beginner to get a checkpoint system up and running quickly, but more advanced users may prefer to code their own system using the File functions, due to the fact that the game will not save any of the dynamic resources that you can create at run-time like data structures, surfaces, added sprites, etc...</p>
+    <p class="note"><strong>NOTE</strong>: This function is very limited and it is designed for the beginner to get a checkpoint system up and running quickly, but more advanced users may prefer to code their own system using the File functions, due to the fact that the game will not save any of the dynamic resources that you can create at run-time like data structures, surfaces, added sprites, etc...</p>
     <p class="dropspot">The first thing we need to do is create a new object to control the saving and loading, so you would make one and give it a <strong>Create Event</strong>. In this event, you could place the following code:</p>
     <p class="code">SaveBuffer = buffer_create(1024, buffer_grow, 1);<br />
       StateSaved = false;</p>
@@ -96,7 +96,7 @@
           game_load_buffer(SaveBuffer);<br />
       }</p>
     <p class="dropspot">The game will then be loaded at the end of the event in which you place the above code.</p>
-    <p class="note"><span data-conref="../assets/snippets/Tag_note.hts"> </span> This is only for use in the same room, and not for generating complete saved games for after your game has been closed or restarted!</p>
+    <p class="note"><strong>NOTE</strong>: This is only for use in the same room, and not for generating complete saved games for after your game has been closed or restarted!</p>
     <p class="dropspot">The final thing to add to the controller object is some &quot;clean up&quot; code. Buffers are stored in memory and as such if you do not clean up when you are finished with them, you can get memory leaks that will eventually lag and crash your game. So you would probably add a <strong>Room End Event</strong> (from the <strong>Other</strong> event category) with:</p>
     <p class="code">buffer_delete(SaveBuffer);</p>
     <p class="dropspot">This object can now be placed into a room and on a key press save and load the room state from a buffer.</p>
@@ -123,7 +123,7 @@
           key_state = buffer_read(buff, buffer_bool);<br />
       }</p>
     <p class="dropspot">The asynchronous event will contain a special temporary DS map <span class="inline">async_load</span> (it is removed from memory at the end of the event automatically) which contains different information depending on the type of incoming data from the network. In this case, we are assuming that the map has been checked and found to be a buffer data packet sent from a client. We now check the first piece of data that is in the buffer to see what kind of event has been sent - in this case the value &quot;1&quot; represents a key event, however when coding these things you should define constants to hold these values to simplify things - and then store the key being pressed and its state (<span class="inline">true</span> = pressed, <span class="inline">false</span> = released). This information would then be used to update all the clients with the new status of the sending client player.</p>
-    <p class="note"><span data-conref="../assets/snippets/Tag_note.hts"> </span> The buffer that is created from the DS map is automatically removed at the end of the Network Asynchronous Event so there is no need to use <span class="inline" style="font-size: 14px">buffer_delete()</span> here.</p>
+    <p class="note"><strong>NOTE</strong>: The buffer that is created from the DS map is automatically removed at the end of the Network Asynchronous Event so there is no need to use <span class="inline" style="font-size: 14px">buffer_delete()</span> here.</p>
     <p class="dropspot"> </p>
   </div>
   <p> </p>
@@ -136,7 +136,7 @@
         <div style="float:right">Next: <a href="Bitwise_Operators.htm">Bitwise Operators</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2023 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2022 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 Buffers

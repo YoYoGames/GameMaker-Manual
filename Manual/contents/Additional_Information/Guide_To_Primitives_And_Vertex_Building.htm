@@ -6,7 +6,7 @@
   <title>Guide To Primitives And Vertex Building</title>
   <meta name="generator" content="Adobe RoboHelp 2020" />
   <link rel="stylesheet" href="../assets/css/default.css" type="text/css" />
-  <script src="../assets/scripts/main_script.js" type="module"></script>
+  <script src="../assets/scripts/main_script.js"></script>
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Page that explains how to set up and use primitives and vertex buffers" />
   <meta name="rh-index-keywords" content="Guide To Primitives And Vertex Building" />
@@ -14,13 +14,13 @@
 </head>
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
-  <h1><span data-field="title" data-format="default">Guide To Primitives And Vertex Building</span></h1>
+  <h1>Guide To Primitives And Vertex Building</h1>
   <p>This guide briefly covers how to build and use <a href="../GameMaker_Language/GML_Reference/Drawing/Primitives/Primitives_And_Vertex_Formats.htm">primitives</a> using custom <strong>vertex formats</strong> and <strong>vertex buffers</strong>. </p>
-  <p>In general when you start working with 3D, special effects, complex drawing processes or shaders you don&#39;t need to worry too much about the vertex format being used, since <span data-keyref="GameMaker Name">GameMaker</span> will automatically set up and pass through the <a class="glossterm" data-glossterm="vertex" href="#">vertex</a> data for you. However, sometimes it is necessary to create your own vertex data and format it to suit, especially when you need to boost speed, or wish to pass in extra information. For example the standard vertex format includes an x, y, z 3D position, colour (with alpha), and UV texture coordinates, which, if you were creating it yourself, would look something like:</p>
+  <p>In general when you start working with 3D, special effects, complex drawing processes or shaders you don&#39;t need not worry too much about the vertex format being used, since <span data-keyref="GameMaker Name">GameMaker</span> will automatically set up and pass through the <a class="glossterm" data-glossterm="vertex" href="#">vertex</a> data for you. However, sometimes it is necessary to create your own vertex data and format it to suit, especially when you need to boost speed, or wish to pass in extra information. For example the standard vertex format includes an x, y, z 3D position, colour (with alpha), and UV texture coordinates, which, if you were creating it yourself, would look something like:</p>
   <p class="code">vertex_format_begin();<br />
     vertex_format_add_position_3d();<br />
     vertex_format_add_colour();<br />
-    vertex_format_add_texcoord();<br />
+    vertex_format_add_textcoord();<br />
     my_format = vertex_format_end();</p>
   <p>However, if you are only using (for example) a shader to manipulate the position of the vertex, then there would be no need to pass through colour or texture data. In this case you would create your own format as so:</p>
   <p class="code">vertex_format_begin();<br />
@@ -35,8 +35,8 @@
     <li>Texture coordinate</li>
   </ul>
   <p>In general you must <em>always</em> provide position or 3D position as part of the format, but all the others are optional.</p>
-  <p>You should note that once you have created your vertex format, the order in which you have defined the vertex attributes <i>must be honoured</i> when building your <strong>primitives</strong>. So, if you have defined a vertex format as position, colour, and texture coordinate, then <b>you <i>must</i> add these attributes to the primitive in the same order otherwise you will get an error</b>. Also note that like any other dynamic resource, a vertex format requires memory and therefore should be removed when not needed using the function <span class="inline3_func"><a data-xref="{title}" href="../GameMaker_Language/GML_Reference/Drawing/Primitives/vertex_format_delete.htm">vertex_format_delete</a></span>.</p>
-  <p>Any primitives that you build are held in a <b>vertex buffer</b>. This must be created beforehand and then referenced by the functions that are used to build your primitive. The vertex buffer can be reused as many times as necessary to create different primitives, or it can be &quot;frozen&quot; to maintain a specific primitive type for the duration of your game or level (which is the fastest approach, so if you know that a primitive you build will not change then you should always use this option).</p>
+  <p>You should note that once you have created your vertex format, the order in which you have defined the vertex attributes <i>must be honoured</i> when building your <strong>primitives</strong>. So, if you have defined a vertex format as position, colour, and texture coordinate, then <b>you <i>must</i> add these attributes to the primitive in the same order otherwise you will get an error</b>. Also note that like any other dynamic resource, a vertex format requires memory and therefore should be removed when not needed using the function <a href="../GameMaker_Language/GML_Reference/Drawing/Primitives/vertex_format_delete.htm"><span class="inline">vertex_format_delete()</span></a>.</p>
+  <p>Any primitives that you build are held in a <b>vertex buffer</b>. This must be created beforehand and then referenced by the functions that are used to build your primitive. The vertex buffer can be re-used as many times as necessary to create different primitives, or it can be &quot;frozen&quot; to maintain a specific primitive type for the duration of your game or level (which is the fastest approach, so if you know that a primitive you build will not change then you should always use this option).</p>
   <p>An example of a single triangle primitive being built is shown in the following code:</p>
   <p class="code">// CREATE EVENT<br />
     v_buff = vertex_create_buffer();<br />
@@ -58,9 +58,9 @@
     vertex_submit(v_buff, pr_trianglelist, tex);<br />
     shader_reset();
   </p>
-  <p>Here we have first created our vertex buffer in the Create Event of the instance, then we begin the definition of the different vertices that make up our triangle primitive, giving the position, the colour, and the texture UV coordinate for each of the three points that we want to use. We then end the vertex definition, and we know that the vertex buffer with this vertex data is stored in the variable &quot;v_buff&quot;.  </p>
-  <p class="note"><span data-conref="../assets/snippets/Tag_note.hts"> </span> If the contents of the buffer are going to be updated constantly, the buffer would be created, given the vertex data, and then be destroyed again - after it&#39;s been drawn - all in the same step.</p>
-  <p>We then draw the contents of the vertex buffer in the Draw Event using a shader. This is a very simple example, and is basically how <span data-keyref="GameMaker Name">GameMaker</span> works internally, ie: When you draw a sprite, <span data-keyref="GameMaker Name">GameMaker</span> creates a vertex buffer with four vertices creating two triangles (which make a square, also called a &quot;quad&quot;), and textures these two triangles with the sprite image. When we draw this sprite, we are submitting the vertex buffer and its contents are drawn to the screen.</p>
+  <p>Here we have first create our vertex buffer in the Create Event of the instance, then we begin the definition of the different vertices that make up our triangle primitive, giving the position, the colour, and the texture UV coordinate for each of the three points that we want to use. We then end the vertex definition, and we know that the vertex buffer with this vertex data is stored in the variable &quot;v_buff&quot;.  </p>
+  <p class="note"><strong>NOTE</strong>: If the contents of the buffer are going to be updated constantly, the buffer would be created, given the vertex data, and then be destroyed again - after it&#39;s been drawn - all in the same step.</p>
+  <p>We then draw the contents of the vertex buffer in the Draw Event using a shader. This is a very simple example, and is basically how <span data-keyref="GameMaker Name">GameMaker</span> works internally, ie: When you draw a sprite, GameMaker creates a vertex buffer with four vertices creating two triangles (which make a square, also called a &quot;quad&quot;), and textures these two triangles with the sprite image. When we draw this sprite, we are submitting the vertex buffer and its contents are drawn to the screen.</p>
   <p>You&#39;ll notice when we submit the vertex buffer for drawing, we supply a primitive type. The type of primitive you use can be a point, a line list or strip, or a triangle list or strip, but you are <i>not</i> permitted triangle fans since most mobile hardware will not accept that primitive type. Don&#39;t forget to format your vertex buffer correctly for the type of primitive that is going to be used to draw it. For example, drawing a two triangle primitive as a triangle list requires 6 points, but as a triangle strip it only requires 4 points. Which type you use is up to you and will depend on what you are wanting to draw and the effect that you want to achieve.</p>
   <p>One final important point to note when using your own vertex buffers in this way is how it affects the vertex batches that are sent to the GPU. When you create a vertex buffer you are creating the lowest level of graphics data, so when you draw all that happens is that <span data-keyref="GameMaker Name">GameMaker</span> sends your buffer directly to the graphics card. Because of this, if you want better batching, you must work it out yourself and store the things you want to batch inside the same buffer.</p>
   <p>As we have already mentioned above, vertex formats are built up by using together the following 5 attribute types (added via the appropriate <span class="inline">vertex_format_add_*</span> function):</p>
@@ -88,7 +88,7 @@
   <p class="code">vertex_format_begin();<br />
     vertex_format_add_position_3d();<br />
     vertex_format_add_colour();<br />
-    vertex_format_add_texcoord();<br />
+    vertex_format_add_textcoord();<br />
     my_format = vertex_format_end();</p>
   <p>Now, how does the shader attribute get matched to the vertex format type? It&#39;s just based on the naming convention:</p>
   <ul class="colour">
@@ -102,7 +102,7 @@
     vertex_format_add_position_3d();<br />
     vertex_format_add_colour();<br />
     vertex_format_add_colour();<br />
-    vertex_format_add_texcoord();<br />
+    vertex_format_add_textcoord();<br />
     my_format = vertex_format_end();</p>
   <p>And now the associated shader attributes:</p>
   <p class="code">attribute vec3 in_Position;      // (x,y,z)<br />
@@ -114,9 +114,9 @@
   <p class="code">vertex_format_begin();<br />
     vertex_format_add_position_3d();<br />
     vertex_format_add_colour();<br />
-    vertex_format_add_texcoord();<br />
-    vertex_format_add_texcoord();<br />
-    vertex_format_add_texcoord();<br />
+    vertex_format_add_textcoord();<br />
+    vertex_format_add_textcoord();<br />
+    vertex_format_add_textcoord();<br />
     my_format = vertex_format_end();</p>
   <p>And the shader code would look something like this:</p>
   <p class="code">attribute vec3 in_Position;      // (x,y,z)<br />
@@ -131,6 +131,7 @@
   </ul>
   <p> </p>
   <p> </p>
+  <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
@@ -138,7 +139,7 @@
         <div style="float:right">Next: <a href="Guide_To_Using_Blendmodes.htm">Guide To Using Blendmodes</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2023 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2021 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 Primitive Building

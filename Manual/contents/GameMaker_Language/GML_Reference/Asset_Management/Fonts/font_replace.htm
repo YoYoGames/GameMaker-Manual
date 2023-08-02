@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>font_replace</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
+  <script src="../../../../assets/scripts/main_script.js"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Page outlining the function font_replace" />
+  <meta name="rh-index-keywords" content="font_replace" />
+  <meta name="search-keywords" content="" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>font_replace</h1>
+  <p>This function can be used to replace a font in your game from those fonts that are installed on the system it is running on. Note that the font being replaces <em>cannot</em> be a font from the Asset Browser, and must be a font that was added previously using the function <a href="font_add.htm"><span class="inline">font_add()</span></a>.</p>
+  <p>When replacing a font in this way, you can define the size of the font (in points), as well as whether the font should be <b>bold</b> or <i>italic</i>, and you can also define the range of characters to include. If the function fails then it will fail silently and the given font will not be replaced.</p>
+  <p>For the HTML5 target module, this function <b>can only be used to replace <i>Web Fonts</i></b>, and will only work if WebGL is <b>not</b> enabled - if WebGL is enabled then you must use a general font resource (ie: using <a href="../../Drawing/Text/draw_set_font.htm"><span class="inline">draw_set_font()</span></a> along with a font from the Asset Browser) or bitmap fonts (see <a href="font_add_sprite.htm"><span class="inline">font_add_sprite()</span></a>).</p>
+  <p class="note"><span class="optional">IMPORTANT</span> When targeting HTML5, italics and bold text is only supported if the font asset or web font itself has these characters included. They will not be synthesised from the base font.</p>
+  <p>The following table shows the fonts that are standard across all browsers and that should be be available for use without problems. Any other font may or may not exist on the computer or device that is running your game, so the use of this function should be limited to these standard fonts:</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>Windows Font Name</th>
+        <th>Mac Font Name</th>
+        <th>Font Family</th>
+      </tr>
+      <tr>
+        <td>Arial</td>
+        <td>Arial / Helvetica</td>
+        <td>sans-serif</td>
+      </tr>
+      <tr>
+        <td>Arial Black</td>
+        <td>Arial Black / Gadget</td>
+        <td>sans-serif</td>
+      </tr>
+      <tr>
+        <td>Comic Sans MS</td>
+        <td>Comic Sans MS</td>
+        <td>cursive</td>
+      </tr>
+      <tr>
+        <td>Courier New</td>
+        <td>Courier New</td>
+        <td>monospaced</td>
+      </tr>
+      <tr>
+        <td>Georgia</td>
+        <td>Georgia</td>
+        <td>serif</td>
+      </tr>
+      <tr>
+        <td>Impact</td>
+        <td>Impact / Charcoal</td>
+        <td>sans-serif</td>
+      </tr>
+      <tr>
+        <td>Lucida Console</td>
+        <td>Monaco</td>
+        <td>monospaced</td>
+      </tr>
+      <tr>
+        <td>Lucida Sans Unicode</td>
+        <td>Lucida Grande</td>
+        <td>sans-serif</td>
+      </tr>
+      <tr>
+        <td>Palatino Linotype / Book Antiqua</td>
+        <td>Palatino</td>
+        <td>serif</td>
+      </tr>
+      <tr>
+        <td>Tahoma</td>
+        <td>Geneva</td>
+        <td>sans-serif</td>
+      </tr>
+      <tr>
+        <td>Times New Roman</td>
+        <td>Times New Roman / Times</td>
+        <td>serif</td>
+      </tr>
+      <tr>
+        <td>Trebuchet MS</td>
+        <td>Trebuchet MS</td>
+        <td>sans-serif</td>
+      </tr>
+      <tr>
+        <td>Verdana</td>
+        <td>Verdana / Geneva</td>
+        <td>sans-serif</td>
+      </tr>
+      <tr>
+        <td>Georgia</td>
+        <td>Georgia</td>
+        <td>serif</td>
+      </tr>
+      <tr>
+        <td>Symbol</td>
+        <td>Symbol</td>
+        <td>N/A</td>
+      </tr>
+      <tr>
+        <td>Webdings</td>
+        <td>Webdings</td>
+        <td>N/A</td>
+      </tr>
+      <tr>
+        <td>Wingdings</td>
+        <td>Zapf Dingbats</td>
+        <td>N/A</td>
+      </tr>
+      <tr>
+        <td>MS Sans Serif</td>
+        <td>Geneva</td>
+        <td>sans-serif</td>
+      </tr>
+      <tr>
+        <td>MS Serif</td>
+        <td>New York</td>
+        <td>sans-serif</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>On all other (non Web) targets, you can use this function to replace a font from a file. The file <b>must be included in the game bundle</b> using the <a href="../../../../Settings/Included_Files.htm">Included Files</a> functionality of <span data-keyref="GameMaker Name">GameMaker</span>, and must be either a <span class="inline">*.ttf</span> or <span class="inline">*.otf</span> format font file, useful for adding non-standard fonts like Asian or Arabic.</p>
+  <p class="note"><span class="tip">TIP</span><b> </b>If you include such a font file with a game, ensure that it is <b>properly licensed</b> for distribution with the game.</p>
+  <p>When loading a font from a file in this way the <i>size</i> of the font is in <b>pixels</b> and the <i>first</i> and <i>last</i> values are ignored, meaning all glyphs in the font will be added. Fonts added in this way are assigned to their own texture page, so care should be taken when using this function as it will increment the number of texture swaps when drawing. It is also worth noting that fonts may appear slightly larger when drawn, since glyphs may have parts that are drawn outside of the bounding box defined for the font. You should be aware too that there is a limitation of around 200 glyphs that can be rendered in a single frame for a particular font.</p>
+  <p class="note"><b><span class="note">NOTE</span> </b>When you load a font into <span data-keyref="GameMaker Name">GameMaker</span> you must remember to remove it again (with <span style="font-size:1px;"><a href="font_delete.htm"><span class="inline">font_delete()</span></a></span>) when no longer needed, otherwise there is risk of a memory leak which will slow down and eventually crash your game.</p>
+  <p> </p>
+  <h4>Syntax:</h4>
+  <p class="code">font_replace(ind, name, size, bold, italic, first, last);</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>Argument</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>ind</td>
+        <td><span data-keyref="Type_Asset_Font">Font Asset</span></td>
+        <td>The index of the (previously added) font to be replaced.</td>
+      </tr>
+      <tr>
+        <td>name</td>
+        <td><span data-keyref="Type_String">String</span></td>
+        <td>The name of the font to be used (eg &#39;Arial&#39;), or the file path if the font is an included <span class="inline"></span>*.<span class="inline">ttf</span> or <span class="inline">*.otf</span> file.</td>
+      </tr>
+      <tr>
+        <td>size</td>
+        <td><span data-keyref="Type_Real">Real</span></td>
+        <td>The size of the font - points for Web Fonts, pixels for file fonts.</td>
+      </tr>
+      <tr>
+        <td>bold</td>
+        <td><span data-keyref="Type_Bool">Boolean</span></td>
+        <td>Whether the font is bold (true) or not (false).</td>
+      </tr>
+      <tr>
+        <td>italics</td>
+        <td><span data-keyref="Type_Bool">Boolean</span></td>
+        <td>Whether the font is italic (true) or not (false).</td>
+      </tr>
+      <tr>
+        <td>first</td>
+        <td><span data-keyref="Type_Real">Real</span></td>
+        <td>The first character to include (if you&#39;re unsure, go for 32).</td>
+      </tr>
+      <tr>
+        <td>last</td>
+        <td><span data-keyref="Type_Real">Real</span></td>
+        <td>The last character to include (if you&#39;re unsure, go for 128).</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>Returns:</h4>
+  <p class="code"><span data-keyref="Type_Void">N/A</span></p>
+  <p> </p>
+  <h4>Example:</h4>
+  <p class="code">font_replace(myfont, &quot;Arial&quot;, 24, true, true, 32, 128);</p>
+  <p>This will replace the font indexed in the variable &quot;myfont&quot; with a new font that is 24pt in size, uses &quot;Arial&quot; and which is bold and italic. The font range includes capital and lower case letters, numbers and all common punctuation.</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Back: <a href="Fonts.htm">Fonts</a></div>
+        <div style="float:right">Next: <a href="font_replace_sprite.htm">font_replace_sprite</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2022 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+font_replace_sprite
+-->
+  <!-- TAGS
+font_replace_sprite
+-->
+</body>
+</html>

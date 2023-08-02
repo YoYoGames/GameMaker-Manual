@@ -6,7 +6,7 @@
   <title>Collisions</title>
   <meta name="generator" content="Adobe RoboHelp 2020" />
   <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
-  <script src="../../../../assets/scripts/main_script.js" type="module"></script>
+  <script src="../../../../assets/scripts/main_script.js"></script>
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Reference section for Collision functions and variables" />
   <meta name="rh-index-keywords" content="" />
@@ -16,11 +16,7 @@
   <!--<div class="body-scroll" style="top: 150px;">-->
   <h1>Collisions</h1>
   <p>When planning motions or deciding on certain actions, it is often important to see whether there are collisions with other objects at certain places within the game world, and often choosing the right collision for the job is the most important task of all. <span data-keyref="GameMaker Name">GameMaker</span> has a number of built in functions to help you deal with collisions correctly and in accordance with the needs of your project.</p>
-  <h2>Bounding Boxes</h2>
-  <p>Some instances will use a rectangular bounding box for checking collisions (unless a different mask shape is selected).</p>
-  <p>These bounding boxes use an inclusive system, i.e. they include the bottom-most and right-most edges. This means that the bounding box for a 16x16 collision mask is generated from <span class="inline2">(0.0, 0.0)</span> to <span class="inline2">(16.0, 16.0)</span> (relative).</p>
-  <p>For two instances to be in collision, their bounding boxes have to overlap. At a pixel level, an overlap is counted when the centre of that pixel is covered.</p>
-  <p>For example, if you&#39;re a rectangle trying to collide with a bounding box covering the area from <span class="inline2">(0.0, 0.0)</span> to <span class="inline2">(16.0, 16.0)</span>, the edge of your mask has to touch the area between  <span class="inline2">(0.5, 0.5)</span> and <span class="inline2">(15.5, 15.5)</span> for a collision to be counted.</p>
+  <p class="note"><span class="note"><b>NOTE</b></span> Collision functions used to use integer values in previous versions of GameMaker, however they now use floating point values meaning that collision functions will no longer round non-integer arguments. For more information, please read <a data-xref="{title}" href="Collision_Compatibility_Mode.htm">Collision Compatibility Mode</a>.</p>
   <h2><label for="one">Simple Collision Checking</label></h2>
   <p>The following functions deal with the various ways in which you can have an instance check for collisions with another instance:</p>
   <ul class="colour">
@@ -36,8 +32,9 @@
     <li><a href="../../Asset_Management/Instances/instance_position.htm">instance_position</a></li>
     <li><a href="../../Asset_Management/Instances/instance_position_list.htm">instance_position_list</a></li>
   </ul>
+  <p> </p>
   <h2>Advanced Collision Checking</h2>
-  <p>The following functions can be used for this (as well as other functions detailed in the sections relating to <a href="../Movement/Movement.htm"><b>Moving Around</b></a> and <a href="../../Asset_Management/Instances/Instances.htm"><b>Instances</b></a>). These collision functions all work slightly differently but they maintain three common arguments which we will explain here:</p>
+  <p>The following routines can be used for this (as well as other functions detailed in the sections relating to <b>Moving Around</b> and <b>Instances</b>). These collision functions all work slightly differently but they maintain three common arguments which we will explain here:</p>
   <ul class="colour">
     <li><b>obj</b>: This is where we specify the object that the function has to check for a collision with. It can be an instance id, an object type, or the special GM keyword <b>all</b>. It is also worth noting that if the object type chosen is the designated <b>parent</b> of other objects, then all <i>children</i> of that object will be included in this check too.<b></b></li>
     <li><b>prec</b>: This can be either <span class="inline">true</span> or <span class="inline">false</span> and relates to the precision of the collision checking. If set to <span class="inline">true</span>, then precise collisions are to be calculated (but only if the object being checked for has &quot;precise&quot; marked for its collision detection in its mask properties) which is a slightly more complex task for the CPU and so should be used with caution. If <span class="inline">false</span> then collisions will be calculated based on the bounding box of the object to be checked for.<b></b></li>
@@ -57,6 +54,7 @@
     <li><a href="collision_rectangle.htm">collision_rectangle</a></li>
     <li><a href="collision_rectangle_list.htm">collision_rectangle_list</a></li>
   </ul>
+  <p> </p>
   <h2>Collision Checking Without A Mask</h2>
   <p>All of the above functions are related to collision checking <i>instances</i>, and as such rely on the collision mask that is defined for the instance. However, there are many moments when you require to check for &quot;collisions&quot; with a point or an area, especially when your instance does not have a sprite assigned, or when you are working with the mouse etc... Therefore <span data-keyref="GameMaker Name">GameMaker</span> also provides the following functions to help you in these situations:</p>
   <ul class="colour">
@@ -67,6 +65,7 @@
     <li><a href="rectangle_in_triangle.htm">rectangle_in_triangle</a></li>
     <li><a href="rectangle_in_circle.htm">rectangle_in_circle</a></li>
   </ul>
+  <p> </p>
   <h2>Physics Collisions</h2>
   <p>When using the built-in physics, the above collision functions are not guaranteed to work for physics enabled instances. This is mainly due to the fact that these instances no longer use the majority of the regular built in variables (instead, physics enabled instances have their <a href="../../Physics/Physics_Variables/Physics_Variables.htm">own set of variables</a>) and neither do they use the collision mask or bounding box, as they use <a href="../../Physics/Fixtures/Fixtures.htm">fixtures</a> instead. However there is a special function for testing collisions with physics enabled that checks for overlapping fixtures:</p>
   <ul class="colour">
@@ -82,7 +81,7 @@
         <div style="float:right">Next: <a href="../Movement/Movement.htm">Movement</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2023 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2022 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 Collision Functions

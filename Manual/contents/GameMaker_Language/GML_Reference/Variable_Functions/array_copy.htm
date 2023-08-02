@@ -6,7 +6,7 @@
   <title>array_copy</title>
   <meta name="generator" content="Adobe RoboHelp 2020" />
   <link rel="stylesheet" href="../../../assets/css/default.css" type="text/css" />
-  <script src="../../../assets/scripts/main_script.js" type="module"></script>
+  <script src="../../../assets/scripts/main_script.js"></script>
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Page explaining the function array_copy" />
   <meta name="rh-index-keywords" content="array_copy" />
@@ -14,10 +14,9 @@
 </head>
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
-  <h1><span data-field="title" data-format="default">array_copy</span></h1>
-  <p>This function copies all or part of an array into another array at any position.</p>
-  <p>You supply both the source and the destination arrays (both created previously), as well as a position within the source array to copy from and a position within the destination array to copy to. Finally you need to specify the length of the array (or the length of the part that you want) to copy. If the data being copied exceeds the length of the destination array, the array will be extended to accept the data. The function supports specifying negative values for the index and number of elements, as described under <a data-xref="{text}" href="Array_Functions.htm#h1">Offset And Length</a>.</p>
-  <p>This function can also be used for multidimensional arrays, as long as you specify which dimension you want to copy when you supply the array index, following this pattern:</p>
+  <h1>array_copy</h1>
+  <p>With this function you can copy all or part of an array into another array at any position. You need to supply both the source and the destination arrays (both need to have been created previously), as well as a position within the source array to copy from and a position within the destination array to copy to. Finally you need to specify the length of the array (or the length of the part that you want) to copy. If the data being copied exceeds the length of the destination array, the array will be extended to accept the data.</p>
+  <p>This function can also be used for multi-dimension arrays, as long as you specify which dimension you want to copy when you supply the array index, following this pattern:</p>
   <p class="code">// Copy to the first dimension of an array<br />
     // from the second dimension of an array<br />
     array_copy(item_array, 0, inventory_array[0], 0, len);<br />
@@ -30,7 +29,7 @@
   </p>
   <p> </p>
   <h4>Syntax:</h4>
-  <p class="code"><span data-field="title" data-format="default">array_copy</span>(dest, dest_index, src, src_index, length);</p>
+  <p class="code">array_copy(dest, dest_index, src, src_index, length);</p>
   <table>
     <tbody>
       <tr>
@@ -40,28 +39,28 @@
       </tr>
       <tr>
         <td>dest</td>
-        <td><span data-keyref="Type_Array"><a href="../../../../GameMaker_Language/GML_Overview/Arrays.htm" target="_blank">Array</a></span></td>
-        <td>The reference to the array to copy to.</td>
+        <td><span data-keyref="Type_Array">Array</span></td>
+        <td>The ID of the array to copy to.</td>
       </tr>
       <tr>
         <td>dest_index</td>
-        <td><span data-keyref="Type_Real"><a href="../../../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
-        <td>The index within the array to copy to. Negative indices are supported and count from the end of the array. An offset of -1 refers to the last element of the array, an offset of -2 to the one before last element, etc. (see <a data-xref="{text}" href="Array_Functions.htm#h1">Offset And Length</a>)</td>
+        <td><span data-keyref="Type_Real">Real</span></td>
+        <td>The index within the array to copy to.</td>
       </tr>
       <tr>
         <td>src</td>
-        <td><span data-keyref="Type_Array"><a href="../../../../GameMaker_Language/GML_Overview/Arrays.htm" target="_blank">Array</a></span></td>
-        <td>The reference to the array to copy from.</td>
+        <td><span data-keyref="Type_Array">Array</span></td>
+        <td>The ID of the array to copy from.</td>
       </tr>
       <tr>
         <td>src_index</td>
-        <td><span data-keyref="Type_Real"><a href="../../../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
-        <td>The index within the array to start copying from. Negative indices are supported and count from the end of the array. An offset of -1 refers to the last element of the array, an offset of -2 to the one before last element, etc. (see <a data-xref="{text}" href="Array_Functions.htm#h1">Offset And Length</a>)</td>
+        <td><span data-keyref="Type_Real">Real</span></td>
+        <td>The index with the array to start copying from.</td>
       </tr>
       <tr>
         <td>length</td>
-        <td><span data-keyref="Type_Real"><a href="../../../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
-        <td>The length (number of array indices) to copy, starting with the value at src_index. A negative value can be provided for length; in this case copying also starts at index src_index, but the next elements that are copied are src_index-1, src_index-2, etc. I.e. elements are copied &quot;backwards&quot;. Note that the first value is always written at dest_index, the second value at dest_index+1, etc.</td>
+        <td><span data-keyref="Type_Real">Real</span></td>
+        <td>The length (number of array indices) to copy.</td>
       </tr>
     </tbody>
   </table>
@@ -69,33 +68,24 @@
   <h4>Returns:</h4>
   <p class="code"><span data-keyref="Type_Void">N/A</span></p>
   <p> </p>
-  <h4>Example 1: Basic Use</h4>
+  <h4>Example:</h4>
   <p class="code">if !array_equals(inventory_array, item_array)<br />
     {<br />
-        var _len = array_length(inventory_array);<br />
-        array_copy(item_array, 0, inventory_array, 0, _len);<br />
+        var len = array_length(inventory_array);<br />
+        array_copy(item_array, 0, inventory_array, 0, len);<br />
     }</p>
-  <p>The above code checks two arrays using <span class="inline3_func"><a data-xref="{title}" href="array_equals.htm">array_equals</a></span> to see if they hold equivalent values. If they don&#39;t, the code will copy the entire contents of the array <span class="inline2">inventory_array</span> into the array <span class="inline2">item_array</span>.</p>
+  <p>The above code will check two arrays to see if they hold equivalent values, and if they do not then the code will copy the entire contents of the array &quot;inventory_array&quot; into the array &quot;item_array&quot;.</p>
   <p> </p>
-  <h4>Example 2: Negative Length</h4>
-  <p class="code">var _a = [1, 2, 3, 4];<br />
-    var _b = [5, 6, 7, 8];<br />
-    <br />
-    array_copy(_a, 1, _b, -1, -2);<br />
-    show_debug_message(_a);
-  </p>
-  <p>In the above example, first two temporary arrays <span class="inline2">_a</span> and <span class="inline2">_b</span> are initialised. Next two elements are copied from <span class="inline2">_b</span> to <span class="inline2">_a</span>. The src_index and length parameter are set to -1 and -2, respectively. This means that the last (-1) and the one before last array element are copied (2 elements, counting backwards because of the minus sign, from the end of array <span class="inline2">_b</span>). This means the values of the last element and one before last element of <span class="inline2">_b</span> are copied to positions 1 (the value of the dest_index parameter) and 2 in <span class="inline2">_a</span> respectively.</p>
-  <p>A debug message shows the contents of array <span class="inline2">_a</span> after copying.</p>
   <p> </p>
   <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a data-xref="{title}" href="Array_Functions.htm">Array Functions</a></div>
+        <div style="float:left">Back: <a href="Variable_Functions.htm">Variable Functions</a></div>
         <div style="float:right">Next: <a href="array_equals.htm">array_equals</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2023 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2022 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 array_copy
