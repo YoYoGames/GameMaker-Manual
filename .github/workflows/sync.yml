@@ -24,12 +24,22 @@ jobs:
         id: sync
         uses: aormsby/Fork-Sync-With-Upstream-action@v3.4
         with:
-          target_sync_branch: main
+          target_sync_branch: develop
           target_repo_token: ${{ secrets.GH_TOKEN }}
-          upstream_sync_branch: main
+          upstream_sync_branch: develop
           upstream_sync_repo: ${{ secrets.REPO_NAME }}
           upstream_repo_access_token: ${{ secrets.GH_TOKEN }}
           test_mode: true        
+      - name: Sync upstream changes
+        id: sync
+        uses: aormsby/Fork-Sync-With-Upstream-action@v3.4
+        with:
+            target_sync_branch: lts-2022-r1
+            target_repo_token: ${{ secrets.GH_TOKEN }}
+            upstream_sync_branch: lts-2022-r1
+            upstream_sync_repo: ${{ secrets.REPO_NAME }}
+            upstream_repo_access_token: ${{ secrets.GH_TOKEN }}
+            test_mode: true                  
       - name: New commits found
         if: steps.sync.outputs.has_new_commits == 'true'
         run: echo "New commits were found to sync."      
