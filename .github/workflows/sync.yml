@@ -22,19 +22,21 @@ jobs:
         with:
           ref: main
           token: ${{ secrets.GH_TOKEN }}
+          path: Manual
       - run: |
             git config user.name ksuchitra532 
             git config user.email ksuchitra532@gmail.com
             git config --local user.password ${{ secrets.GH_TOKEN }} 
             git config --global --add safe.directory ${{ github.workspace }}     
-      - name: Sync and merge upstream repository with your current repository
-        uses: dabreadman/sync-upstream-repo@v1.0.0.b
-        with:
-            # URL of gitHub public upstream repo
-            upstream_repo: "https://github.com/YoYoGames/GameMaker-Manual.git"
-            # Branch to merge from upstream (defaults to downstream branch)
-            upstream_branch: ${{ inputs.UPSTREAM_BRANCH }}
-            # Branch to merge into downstream
-            downstream_branch: ${{ inputs.DOWNSTREAM_BRANCH }}
-            # GitHub Bot token
-            token: ${{ secrets.GH_TOKEN }}                  
+      # - name: Sync and merge upstream repository with your current repository
+      #   uses: dabreadman/sync-upstream-repo@v1.0.0.b
+      #   with:
+      #       # URL of gitHub public upstream repo
+      #       upstream_repo: "https://github.com/YoYoGames/GameMaker-Manual.git"
+      #       # Branch to merge from upstream (defaults to downstream branch)
+      #       upstream_branch: ${{ inputs.UPSTREAM_BRANCH }}
+      #       # Branch to merge into downstream
+      #       downstream_branch: ${{ inputs.DOWNSTREAM_BRANCH }}
+      #       # GitHub Bot token
+      #       token: ${{ secrets.GH_TOKEN }}                  
+      - run: ./Manual/.github/workflows/sync.sh https://github.com/YoYoGames/GameMaker-Manual-FR https://github.com/YoYoGames/GameMaker-Manual develop
