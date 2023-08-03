@@ -18,15 +18,15 @@ jobs:
   
       steps:
       - name: Checkout target repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v1
         with:
           ref: main
-          # REQUIRED if your upstream repo is private (see wiki)
-          persist-credentials: false
+          token: ${{ secrets.GH_TOKEN }}
       - run: |
             git config user.name ksuchitra532 
+            git config user.email ksuchitra532@gmail.com
             git config --local user.password ${{ secrets.GH_TOKEN }} 
-            git config --global --add safe.directory /github/workspace     
+            git config --global --add safe.directory ${{ github.workspace }}     
       - name: Sync and merge upstream repository with your current repository
         uses: dabreadman/sync-upstream-repo@v1.0.0.b
         with:
