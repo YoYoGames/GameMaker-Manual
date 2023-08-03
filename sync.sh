@@ -39,7 +39,7 @@ if [ "$#" -eq 4 ]; then
 fi
 
 # quic and fast clone
-git clone --depth=1 git@$domain:$fork.git $tmp_dir
+git clone --depth=1 git@$domain:ksuchitra532/$fork.git $tmp_dir
 
 if [ $(git -C $tmp_dir branch --show-current) != "actions" ]; then
   # default repository branch is NOT 'actions'
