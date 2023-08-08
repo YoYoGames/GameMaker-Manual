@@ -38,7 +38,7 @@ goto check_options
 if "%DESTDIR%" == "" set DESTDIR=%GITHUB_WORKSPACE%\output
 
 rem Pulling Adobe Zip from S3
-aws s3 cp %S3_BUCKET%/%S3_ZIP% %ZIP_FILE%
+aws s3 cp %S3_BUCKET%/%ZIP_FILE% %ZIP_FILE%
 7z x %ZIP_FILE% -o"%basedir%"
 aws s3 cp %S3_BUCKET%/RoboHelpTool.exe RoboHelpTool.exe
 copy RoboHelpTool.exe -o"%basedir%"
