@@ -65,6 +65,5 @@ type "%basedir%RoboHelpFiles\layout_fix_append.css" >> "%DESTDIR%\RoboHelp\templ
 
 rem ************************************************** ZIP up the output
 pushd %DESTDIR%\RoboHelp
-del YoYoStudioRoboHelp.zip
 7z a YoYoStudioRoboHelp.zip . -r
 popd
