@@ -40,7 +40,8 @@ if "%DESTDIR%" == "" set DESTDIR=%GITHUB_WORKSPACE%\output
 rem Pulling Adobe Zip from S3
 aws s3 cp s3://yoyo-zeus/Adobe_RoboHelp_2020.zip Adobe_RoboHelp_2020.zip
 7z x Adobe_RoboHelp_2020.zip -o"%basedir%"
-aws s3 cp s3://yoyo-zeus/RoboHelpTool.exe -o"%basedir%"
+aws s3 cp s3://yoyo-zeus/RoboHelpTool.exe RoboHelp.exe
+copy RoboHelp.exe -o"%basedir%"
 set roboHelpTool="%basedir%Adobe_RoboHelp_2020\RoboHelp.exe"
 set helpTagsTool="%basedir%RoboHelpTool.exe"
 
