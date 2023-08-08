@@ -19,11 +19,6 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.REGION }}
-      - run: aws s3 cp ${{ secrets.S3_COMMAND }} ${{ secrets.ZIP_FILE }}
-        shell: bash
-      - name: Extract archive
-        run: 7z x ${{ secrets.ZIP_FILE }}
-        shell: bash
       - name: Enable git long paths to bypass path limit on Windows
         run: git config --system core.longpaths true
       - name: Check out the GMS2_Documentation repo
@@ -33,10 +28,12 @@ jobs:
           token: ${{ secrets.GH_TOKEN }}
       - run: mkdir "%GITHUB_WORKSPACE%\YoYoStudioRoboHelp-${{ env.RUNTIME_VERSION }}"
         shell: cmd
-      - run: .\build_robohelp_zeus.bat -beta %WORKSPACE%\output
+      - run: build_robohelp_zeus.bat -beta %WORKSPACE%\output
         shell: cmd
+        working-directory: Manual
       - run: ren "%GITHUB_WORKSPACE%\YoYoStudioRoboHelp.zip" "%GITHUB_WORKSPACE%\YoYoStudioRoboHelp-${{ env.RUNTIME_VERSION }}"
         shell: cmd
+        working-directory: Manual
       - name: Upload robohelp zip file
         uses: actions/upload-artifact@v2
         with:
