@@ -63,7 +63,7 @@ rem output help tags files
 rem append css fix to layout.css
 type "%basedir%RoboHelpFiles\layout_fix_append.css" >> "%DESTDIR%\RoboHelp\template\Charcoal_Grey\layout.css"
 
-rem ************************************************** ZIP up the output
-pushd %DESTDIR%\RoboHelp
-7z a YoYoStudioRoboHelp.zip . -r
-popd
+@REM rem ************************************************** ZIP up the output
+@REM pushd %DESTDIR%\RoboHelp
+@REM 7z a YoYoStudioRoboHelp.zip . -r
+@REM popd
