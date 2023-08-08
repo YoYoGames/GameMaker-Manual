@@ -10,8 +10,8 @@ set BUILDTYPE=release
 set BUILDPLATFORM="Any CPU"
 set BUILDCLEAN=1
 set BUILDBETA=0
-
-
+set S3_BUCKET=%S3_BUCKET%
+set ZIP_FILE=%ZIP_FILE%
 echo on
 
 set basedir=%~dp0
@@ -38,9 +38,9 @@ goto check_options
 if "%DESTDIR%" == "" set DESTDIR=%GITHUB_WORKSPACE%\output
 
 rem Pulling Adobe Zip from S3
-aws s3 cp s3://yoyo-zeus/Adobe_RoboHelp_2020.zip Adobe_RoboHelp_2020.zip
-7z x Adobe_RoboHelp_2020.zip -o"%basedir%"
-aws s3 cp s3://yoyo-zeus/RoboHelpTool.exe RoboHelpTool.exe
+aws s3 cp %S3_BUCKET%/%S3_ZIP% %ZIP_FILE%
+7z x %ZIP_FILE% -o"%basedir%"
+aws s3 cp %S3_BUCKET%/RoboHelpTool.exe RoboHelpTool.exe
 copy RoboHelpTool.exe -o"%basedir%"
 set roboHelpTool="%basedir%Adobe_RoboHelp_2020\RoboHelp.exe"
 set helpTagsTool="%basedir%RoboHelpTool.exe"
