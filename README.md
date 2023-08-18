@@ -8,7 +8,7 @@ You can open the project file in RoboHelp, contained in [/Manual/GMS2_Manual.rhp
 
 You can also edit the HTML files directly, which are placed within [/Manual/contents](/Manual/contents).
 
-### Please be careful when editing HTML files directly.
+### Please be careful when editing the manual.
 
 :hand: Be aware of the writing and formatting styles used within the existing text, and make sure your additions/changes are consistent.
 
