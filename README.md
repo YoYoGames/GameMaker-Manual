@@ -1,6 +1,6 @@
 # GameMaker Manual
 
-Welcome to the GameMaker manual.
+Welcome to the source of the GameMaker manual.
 
 This manual is made using Adobe RoboHelp 2022. It is recommended to use RoboHelp to modify the manual.
 
