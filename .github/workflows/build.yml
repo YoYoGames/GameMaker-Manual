@@ -1,0 +1,38 @@
+on:
+    pull_request:
+        types: [ closed ]    
+    workflow_dispatch:     
+    schedule:
+     - cron: '0 4 * * 1-5'   
+
+env:
+ S3_BUCKET: ${{ secrets.S3_BUCKET }}
+ ZIP_FILE: ${{ secrets.ZIP_FILE }}
+
+jobs:
+
+   RoboHelp:
+     name: "RoboHelp"
+     runs-on: windows-2019
+     steps:
+      - uses: aws-actions/configure-aws-credentials@v1-node16
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.REGION }}
+      - name: Enable git long paths to bypass path limit on Windows
+        run: git config --system core.longpaths true
+      - name: Check out the GMS2_Documentation repo
+        uses: actions/checkout@v3
+        with:
+          path: Manual  
+          token: ${{ secrets.GH_TOKEN }}
+      - run: build_robohelp_gh.bat -beta %GITHUB_WORKSPACE%\output
+        shell: cmd
+        working-directory: Manual
+      - name: Upload robohelp zip file
+        uses: actions/upload-artifact@v2
+        with:
+           name: YoYoStudioRoboHelp
+           path: output\RoboHelp
+           if-no-files-found: error

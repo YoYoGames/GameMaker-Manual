@@ -10,8 +10,8 @@ set BUILDTYPE=release
 set BUILDPLATFORM="Any CPU"
 set BUILDCLEAN=1
 set BUILDBETA=0
-
-
+set S3_BUCKET=%S3_BUCKET%
+set ZIP_FILE=%ZIP_FILE%
 echo on
 
 set basedir=%~dp0
@@ -38,9 +38,11 @@ goto check_options
 if "%DESTDIR%" == "" set DESTDIR=%GITHUB_WORKSPACE%\output
 
 rem Pulling Adobe Zip from S3
-aws s3 cp s3://yoyo-zeus/Adobe_RoboHelp_2020.zip Adobe_RoboHelp_2020.zip
-7z x Adobe_RoboHelp_2020.zip -o"%basedir%"
-set roboHelpTool="%basedir%Adobe_RoboHelp_2020\RoboHelp.exe"
+aws s3 cp %S3_BUCKET%/%ZIP_FILE% %ZIP_FILE%
+7z x %ZIP_FILE% -o"%basedir%"
+
+copy RoboHelpTool.exe "%basedir%"
+set roboHelpTool="%basedir%Adobe_RoboHelp_2022\RoboHelp.exe"
 set helpTagsTool="%basedir%RoboHelpTool.exe"
 
 rmdir "%DESTDIR%\RoboHelp" /s /q
@@ -59,10 +61,9 @@ rem output help tags files
 %helpTagsTool% -s="%basedir%Manual\contents" -o="%DESTDIR%\RoboHelp"
 
 rem append css fix to layout.css
-type "%basedir%RoboHelpFiles\layout_fix_append.css" >> "%DESTDIR%\RoboHelp\template\Charcoal_Grey\layout.css"
+@REM type "%basedir%RoboHelpFiles\layout_fix_append.css" >> "%DESTDIR%\RoboHelp\template\Charcoal_Grey\layout.css"
 
-rem ************************************************** ZIP up the output
-pushd %DESTDIR%\RoboHelp
-del YoYoStudioRoboHelp.zip
-7z a YoYoStudioRoboHelp.zip . -r
-popd
+@REM rem ************************************************** ZIP up the output
+@REM pushd %DESTDIR%\RoboHelp
+@REM 7z a YoYoStudioRoboHelp.zip . -r
+@REM popd
