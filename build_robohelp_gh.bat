@@ -64,7 +64,7 @@ rem output help tags files
 %helpTagsTool% -s="%basedir%Manual\contents" -o="%DESTDIR%\RoboHelp"
 
 rem append css fix to layout.css
-type "%basedir%RoboHelpFiles\layout_fix_append.css" >> "%DESTDIR%\RoboHelp\template\Charcoal_Grey\layout.css"
+type "%basedir%SupportFiles\layout_fix_append.css" >> "%DESTDIR%\RoboHelp\template\Charcoal_Grey\layout.css"
 
 @REM rem ************************************************** ZIP up the output
 @REM pushd %DESTDIR%\RoboHelp
