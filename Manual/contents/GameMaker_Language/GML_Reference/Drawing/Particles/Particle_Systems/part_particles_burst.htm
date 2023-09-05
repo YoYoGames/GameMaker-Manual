@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>part_particles_burst</title>
+  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <link rel="stylesheet" type="text/css" href="../../../../../assets/css/default.css" />
+  <script src="../../../../../assets/scripts/main_script.js" type="module"></script>
+  <meta name="rh-authors" content="" />
+  <meta name="topic-comment" content="" />
+  <meta name="rh-index-keywords" content="part_particles_burst" />
+  <meta name="search-keywords" content="part_particles_burst" />
+  <meta name="template" content="assets/masterpages/Manual_Keyword_Page.htt" />
+</head>
+<body>
+  <h1><span data-field="title" data-format="default">part_particles_burst</span></h1>
+  <p>This function creates a single burst of all the particles contained in the given <span data-keyref="Type_Asset_ParticleSystem"><a href="The_Asset_Editors/Particle_Systems.htm" target="_blank">Particle System Asset</a></span>. The particles are created in the given particle system instance <span class="inline2">ind</span>.</p>
+  <p>The function gives you a quick way to add a particle effect that you made in <a data-xref="{title}" href="../../../../../The_Asset_Editors/Particle_Systems.htm">The Particle System Editor</a> to an existing particle system.</p>
+  <p>This is as if you&#39;d add the emitters inside that particle system asset to the given particle system and then call <span class="inline3_func"><a data-xref="{title}" href="../Particle_Emitters/part_emitter_burst.htm">part_emitter_burst</a></span> on all of them.</p>
+  <p class="note"><span data-conref="../../../../../assets/snippets/Tag_note.hts"> </span> Particles won&#39;t be created for any disabled emitters in the <span data-keyref="Type_Asset_ParticleSystem"><a href="The_Asset_Editors/Particle_Systems.htm" target="_blank">Particle System Asset</a></span> (which is <strong>Enabled</strong> unchecked).</p>
+  <p> </p>
+  <h4>Syntax:</h4>
+  <p class="code"><span data-field="title" data-format="default">part_particles_burst</span>(ind, x, y, partsys);</p>
+  <table>
+    <colgroup>
+      <col />
+      <col />
+      <col />
+    </colgroup>
+    <tbody>
+      <tr>
+        <th>Argument</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>ind</td>
+        <td><span data-keyref="Type_ID_PartSys"><a href="GameMaker_Language/GML_Reference/Drawing/Particles/Particle_Systems/part_system_create.htm" target="_blank">Particle System Instance</a></span></td>
+        <td>The index of the particle system in which to create the particles</td>
+      </tr>
+      <tr>
+        <td>x</td>
+        <td><span data-keyref="Type_Real"><a href="GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td>The x position to burst the particles</td>
+      </tr>
+      <tr>
+        <td>y</td>
+        <td><span data-keyref="Type_Real"><a href="GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td>The y position to burst the particles</td>
+      </tr>
+      <tr>
+        <td>partsys</td>
+        <td><span data-keyref="Type_Asset_ParticleSystem"><a href="The_Asset_Editors/Particle_Systems.htm" target="_blank">Particle System Asset</a></span></td>
+        <td>The particle system asset of which to burst particles</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>Returns:</h4>
+  <p class="code"><span data-keyref="Type_Void">N/A</span></p>
+  <p> </p>
+  <h4>Example 1:</h4>
+  <p class="code_heading">Create Event</p>
+  <p class="code">ps = part_system_create_layer(&quot;Effects&quot;, false);<br />
+    <br />
+    repeat(10)<br />
+    {<br />
+        var _x = random(room_width);<br />
+        var _Y = random(room_height);<br />
+        <span data-field="title" data-format="default">part_particles_burst</span>(ps, _x, _y, ps_Fireworks);<br />
+    }
+  </p>
+  <p>The code above first creates a new particle system on a room layer named <span class="inline2">&quot;Effects&quot;</span> and stores the index in an instance variable <span class="inline2">ps</span>. The <span class="inline3_func"><span data-field="title" data-format="default">part_particles_burst</span></span> function is then called 10 times in a <a data-xref="{title}" href="../../../../GML_Overview/Language_Features/repeat.htm">repeat</a> loop to add particles from a <span data-keyref="Type_Asset_ParticleSystem"><a href="The_Asset_Editors/Particle_Systems.htm" target="_blank">Particle System Asset</a></span> <span class="inline2">ps_Fireworks</span> to the particle system <span class="inline2">ps</span>.</p>
+  <p> </p>
+  <h4>Example 2:</h4>
+  <p class="code_heading">Create Event</p>
+  <p class="code">ps = part_system_create_layer(&quot;Effects&quot;, false);<br />
+    <br />
+    layer_script_begin(&quot;Effects&quot;, method({ps}, function()<br />
+    {<br />
+        part_particles_burst(ps, random(room_width), random(room_height), ps_Fireworks);<br />
+    }));
+  </p>
+  <p>The code above also creates a new particle system on a room layer named <span class="inline2">&quot;Effects&quot;</span>. It then sets a <a data-xref="{title}" href="../../../Variable_Functions/method.htm">method</a> as the layer begin script. The method gets the particle system ID <span class="inline2">ps</span> via the struct. Inside it, the function <span class="inline3_func"><span data-field="title" data-format="default">part_particles_burst</span></span> is used to create particles of the <span class="inline2">ps_Fireworks</span> <span data-keyref="Type_Asset_ParticleSystem"><a href="The_Asset_Editors/Particle_Systems.htm" target="_blank">Particle System Asset</a></span> at random positions in the room. This way, particles are created continuously, since the layer begin scripts run every step. The layer begin script can be removed to end the creation of particles from the asset.</p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div>Back: <a data-xref="{title}" href="Particle_Systems.htm">Particle Systems</a></div>
+        <div>Next: <a data-xref="{title}" href="part_system_exists.htm">part_system_exists</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2023 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+part_particles_burst
+-->
+  <!-- TAGS
+part_particles_burst
+-->
+</body>
+</html>

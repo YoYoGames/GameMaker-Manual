@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>part_system_global_space</title>
+  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <link rel="stylesheet" type="text/css" href="../../../../../assets/css/default.css" />
+  <script src="../../../../../assets/scripts/main_script.js" type="module"></script>
+  <meta name="rh-authors" content="" />
+  <meta name="topic-comment" content="" />
+  <meta name="rh-index-keywords" content="part_system_global_space" />
+  <meta name="search-keywords" content="part_system_global_space" />
+  <meta name="template" content="assets/masterpages/Manual_Keyword_Page.htt" />
+</head>
+<body>
+  <h1><span data-field="title" data-format="default">part_system_global_space</span></h1>
+  <p>This function enables global space particles for the given particle system.</p>
+  <p><span><span><span><span>When global<span><span><span><span> space particles are disabled<span><span><span><span> (the default), the positions<span><span><span><span><span><span><span><span><span><span> <span><span><span><span><span>of the </span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span>particles are <em>relative</em> to the particle system&#39;s position. When<span><span><span><span><span> you</span></span></span></span></span><span><span><span><span> move<span><span><span><span> such a particle system, its particles will move<span><span><span><span> with it.</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p>
+  <p>Enabling global<span> space allows<span> you to move<span><span><span> a particle system without moving<span><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span> the particles in it.</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span> This can be used<span> e.g. t<span><span><span><span><span><span><span><span><span><span>o create </span></span></span></span></span></span></span></span></span></span>a trail of particles</span></span></span>: </span></span></span></span></p>
+  <table>
+    <colgroup>
+      <col style="width:50%" />
+      <col style="width:50%" />
+    </colgroup>
+    <thead>
+      <tr>
+        <th>Disabled</th>
+        <th>Enabled</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><video src="../../../../../assets/Videos/Runner/part_system_global_space_disabled.mp4" width="480" height="320" controls="" class="center"></video></td>
+        <td><video src="../../../../../assets/Videos/Runner/part_system_global_space_enabled.mp4" width="480" height="320" controls="" class="center"></video></td>
+      </tr>
+    </tbody>
+  </table>
+  <p>In the example above, individual particles are being created in the particle system at the same position, and the particle system itself is being moved to the ship&#39;s location every frame.</p>
+  <p>The first video shows global space disabled, so all particles stick to its system, however in the second video particles stay in the room position where they were created.</p>
+  <p>Once enabled, you can move and rotate<span><span><span><span><span><span> </span></span></span></span></span></span><span><span><span><span>your particle systems<span><span> </span></span>with <span class="inline3_func"><a data-xref="{title}" href="part_system_position.htm">part_system_position</a></span> and <span class="inline3_func"><a data-xref="{title}" href="part_system_angle.htm">part_system_angle</a></span> respectively, without moving the individual particles inside them.</span></span></span></span><span></span></p>
+  <p class="note"><span data-conref="../../../../../assets/snippets/Tag_note.hts"> </span> If you enable<span><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span> global space on a particle system that already has particles inside it, you may see those existing particles jump to new positions on the screen as they switch from being relative to the particle system to being relative to the room origin.</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p>
+  <p> </p>
+  <h4>Syntax:</h4>
+  <p class="code"><span data-field="title" data-format="default">part_system_global_space</span>(ind, enable);</p>
+  <table>
+    <colgroup>
+      <col />
+      <col />
+      <col />
+    </colgroup>
+    <tbody>
+      <tr>
+        <th>Argument</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>ind</td>
+        <td><span data-keyref="Type_ID_PartSys"><a href="GameMaker_Language/GML_Reference/Drawing/Particles/Particle_Systems/part_system_create.htm" target="_blank">Particle System ID</a></span></td>
+        <td>The index of the particle system</td>
+      </tr>
+      <tr>
+        <td>enable</td>
+        <td><span data-keyref="Type_Bool"><a href="GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">Boolean</a></span></td>
+        <td>Whether to enable or disable global space particles</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>Returns:</h4>
+  <p class="code"><span data-keyref="Type_Void">N/A</span></p>
+  <p> </p>
+  <h4>Example: Particle System Following an Instance</h4>
+  <p class="code_heading">Create Event</p>
+  <p class="code">ps = part_system_create();<br />
+    part_system_global_space(ps, true);<br />
+    pe = part_emitter_create(ps);<br />
+    <br />
+    pt = part_type_create();<br />
+    part_type_shape(pt, pt_shape_flare);<br />
+    part_type_direction(pt, 0, 360, 0, 0.3);<br />
+    part_type_speed(pt, 0.1, 0.2, 0, 0.01);<br />
+    part_type_scale(pt, 0.3, 0.3);<br />
+    <br />
+    part_emitter_stream(ps, pe, pt, 2);
+  </p>
+  <p class="code_heading">Step Event</p>
+  <p class="code">part_system_position(ps, x, y);<br />
+    part_system_angle(ps, direction);</p>
+  <p class="code_heading">Clean Up Event</p>
+  <p class="code">part_emitter_destroy(pe);<br />
+    part_system_destroy(ps);<br />
+    part_type_destroy(pt);</p>
+  <p>The above<span><span><span><span><span> c<span><span><span><span><span>ode shows how to add a particle system to an instance, s<span><span><span><span><span><span><span><span><span><span>o that <span><span><span><span><span><span><span><span><span><span>it leaves a trail of particles behind </span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span>when the instance is moved<span><span><span><span><span><span><span><span><span><span> </span></span></span></span></span></span></span></span></span></span>around.</span></span></span></span></span></span></span></span></span></span></p>
+  <p>In the Create event a basic particle system is set up, with a single emitter added t<span><span><span><span><span><span><span><span><span><span>o</span></span></span></span></span></span></span></span></span></span> it. Using <span class="inline3_func"><span data-field="title" data-format="default">part_system_global_space</span></span>, it is configured<span><span><span><span><span><span><span><span><span><span> t<span><span><span><span><span><span><span><span><span><span>o have its particles in global<span><span><span><span><span><span><span><span><span><span> space.</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span> A basic particle type is also<span><span><span><span><span><span><span><span><span><span> added, which is configured<span><span><span><span><span><span><span><span><span><span> t<span><span><span><span><span><span><span><span><span><span>o have a flare shape (<span class="inline2">pt_shape_flare</span>), a starting direction<span><span><span><span><span><span><span><span><span><span> that can be any random<span><span><span><span><span><span><span><span><span><span> value</span></span></span></span></span></span></span></span></span></span> between 0 and 360, a starting speed anywhere<span><span><span><span><span><span><span><span><span><span> between 0.1 and 0.2 pixels per step and a scale fact<span><span><span><span><span><span><span><span><span><span>or <span><span><span><span><span><span><span><span><span><span>of 0.3.</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p>
+  <p>In the Step event the particle system&#39;s position<span><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span> and angle are set t<span><span><span><span><span><span><span><span><span><span>o the instance&#39;s (<span class="inline2"><a data-xref="{title}" href="../../../Asset_Management/Instances/Instance_Variables/x.htm">x</a></span>, <span class="inline2"><a data-xref="{title}" href="../../../Asset_Management/Instances/Instance_Variables/y.htm">y</a></span>) position<span><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span><span> and its <span class="inline2"><a data-xref="{title}" href="../../../Asset_Management/Instances/Instance_Variables/direction.htm">direction</a></span><span><span><span><span><span><span><span><span><span><span>, respectively.</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p>
+  <p>Finally, in the Clean Up event, the particle emitter, system and type are destroyed<span><span><span><span><span><span><span><span><span><span> in <span><span><span><span><span><span><span><span><span><span>order t<span><span><span><span><span><span><span><span><span><span>o prevent memory<span><span><span><span><span><span><span><span><span><span> leaks.</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div>Back: <a data-xref="{title}" href="Particle_Systems.htm">Particle Systems</a></div>
+        <div>Next: <a data-xref="{title}" href="part_system_colour.htm">part_system_colour</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2023 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+part_system_global_space
+-->
+  <!-- TAGS
+part_system_global_space
+-->
+</body>
+</html>
