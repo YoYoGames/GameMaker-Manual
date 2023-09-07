@@ -28,12 +28,12 @@ jobs:
           path: Manual  
           token: ${{ secrets.GH_TOKEN }}
       - name: Beta Builds
-        if: github.ref == 'refs/heads/develop'
+        if: github.event.pull_request.head.ref == 'develop'
         run: build_robohelp_gh.bat -beta %GITHUB_WORKSPACE%\output
         shell: cmd
         working-directory: Manual
       - name: Non-Beta Builds
-        if: github.ref == 'refs/heads/main'
+        if: github.event.pull_request.head.ref == 'main'
         run: build_robohelp_gh.bat %GITHUB_WORKSPACE%\output
         shell: cmd
         working-directory: Manual        
