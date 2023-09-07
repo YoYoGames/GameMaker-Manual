@@ -27,14 +27,13 @@ jobs:
         with:
           path: Manual  
           token: ${{ secrets.GH_TOKEN }}
-      - name: Beta Builds
-        if: github.event.pull_request.head.ref == 'develop'
-        run: build_robohelp_gh.bat -beta %GITHUB_WORKSPACE%\output
-        shell: cmd
-        working-directory: Manual
-      - name: Non-Beta Builds
-        if: github.event.pull_request.head.ref == 'main'
-        run: build_robohelp_gh.bat %GITHUB_WORKSPACE%\output
+      - name: Builds
+        run: |
+           if [ ${{ github.event.pull_request.head.ref }} == 'develop']; then
+              build_robohelp_gh.bat -beta %GITHUB_WORKSPACE%\output
+           else 
+              build_robohelp_gh.bat %GITHUB_WORKSPACE%\output
+           fi
         shell: cmd
         working-directory: Manual        
       - name: Upload robohelp zip file
