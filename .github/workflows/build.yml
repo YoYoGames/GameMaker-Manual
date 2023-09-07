@@ -27,9 +27,16 @@ jobs:
         with:
           path: Manual  
           token: ${{ secrets.GH_TOKEN }}
-      - run: build_robohelp_gh.bat -beta %GITHUB_WORKSPACE%\output
+      - name: Beta Builds
+        if: github.ref == 'refs/heads/develop'
+        run: build_robohelp_gh.bat -beta %GITHUB_WORKSPACE%\output
         shell: cmd
         working-directory: Manual
+      - name: Non-Beta Builds
+        if: github.ref == 'refs/heads/main'
+        run: build_robohelp_gh.bat %GITHUB_WORKSPACE%\output
+        shell: cmd
+        working-directory: Manual        
       - name: Upload robohelp zip file
         uses: actions/upload-artifact@v2
         with:

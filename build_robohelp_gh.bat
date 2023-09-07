@@ -25,6 +25,8 @@ if "%1"=="release" (
 	set BUILDCLEAN=0
 ) else if "%1"=="-beta" ( 
 	set BUILDBETA=1
+) else if "%1"=="" ( 
+	set BUILDBETA=0
 ) else ( 
 	set DESTDIR=%1
 	goto finish_options
