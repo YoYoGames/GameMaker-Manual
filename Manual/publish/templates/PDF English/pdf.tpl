@@ -2,8 +2,8 @@
 <settings>
   <type>pdf</type>
   <name>PDF English</name>
-  <version>2022.2.0</version>
-  <layout>pdf</layout>
+  <version>2022.0.0</version>
+  <layout>Common</layout>
   <tocLayout></tocLayout>
   <topicLayout></topicLayout>
   <gloLayout></gloLayout>
@@ -17,7 +17,7 @@
   <tableContinuation type="boolean">false</tableContinuation>
   <useUserToc type="boolean">true</useUserToc>
   <toclevel type="number">4</toclevel>
-  <startTopicsFromNewPage type="boolean">true</startTopicsFromNewPage>
+  <startTopicsFromNewPage type="boolean">false</startTopicsFromNewPage>
   <startChapterFromNewPage type="boolean">true</startChapterFromNewPage>
   <startChapterFromOddPage type="boolean">false</startChapterFromOddPage>
   <startChapterFromEvenPage type="boolean">false</startChapterFromEvenPage>

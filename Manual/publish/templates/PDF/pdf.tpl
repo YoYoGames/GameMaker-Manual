@@ -2,7 +2,7 @@
 <settings>
   <type>pdf</type>
   <name>PDF</name>
-  <version>2022.2.0</version>
+  <version>2022.0.0</version>
   <layout>pdf</layout>
   <tocLayout></tocLayout>
   <topicLayout></topicLayout>
