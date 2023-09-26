@@ -1,9 +1,7 @@
 on:
-    pull_request:
-        types: [ closed ]    
-    workflow_dispatch:     
-    schedule:
-     - cron: '0 4 * * 1-5'   
+  pull_request:
+    branches:
+      - develop
 
 env:
  S3_BUCKET: ${{ secrets.S3_BUCKET }}
@@ -15,7 +13,7 @@ jobs:
      name: "RoboHelp"
      runs-on: windows-2019
      steps:
-      - uses: aws-actions/configure-aws-credentials@v1-node16
+      - uses: aws-actions/configure-aws-credentials@v3
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -27,12 +25,14 @@ jobs:
         with:
           path: Manual  
           token: ${{ secrets.GH_TOKEN }}
-      - run: build_robohelp_gh.bat -beta %GITHUB_WORKSPACE%\output
+      - name: Beta Builds
+        if: github.event.pull_request.base.ref == 'develop'
+        run: build_robohelp_gh.bat -beta %GITHUB_WORKSPACE%\output
         shell: cmd
-        working-directory: Manual
+        working-directory: Manual       
       - name: Upload robohelp zip file
         uses: actions/upload-artifact@v2
         with:
            name: YoYoStudioRoboHelp
-           path: output\RoboHelp
+           path: output\RoboHelp\*.zip
            if-no-files-found: error
