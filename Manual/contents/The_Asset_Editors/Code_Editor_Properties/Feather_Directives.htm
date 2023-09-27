@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <title>Feather Directives</title>
+  <meta name="topic-status" content="Draft" />
+  <link rel="stylesheet" type="text/css" href="../../assets/css/default.css" />
+  <meta name="template" content="../../assets/masterpages/Manual_Page.htt" />
+  <meta name="rh-authors" content="Bart Teunis" />
+  <meta name="topic-comment" content="Reference page listing all Feather directives" />
+  <meta name="search-keywords" content="feather,directive,directives" />
+  <meta name="rh-index-keywords" content="directive,directives,feather" />
+</head>
+<body>
+  <h1><span data-field="title" data-format="default">Feather Directives</span></h1>
+  <p><span><span data-field="title" data-format="default">Feather Directives</span> are comments that affect how <a data-xref="{title}" href="../../Setting_Up_And_Version_Information/IDE_Preferences/Feather_Settings.htm">Feather</a> treats your <span data-keyref="GML_Code">GML Code</span>, including which Feather rules it applies, the <a data-xref="{text}" href="../../Setting_Up_And_Version_Information/IDE_Preferences/Feather_Settings.htm#message_severity_profile">Profile</a> it uses and whether strict type validation is applied<span>.</span></span></p>
+  <p>By default, Feather directives apply to the current script and to the functions declared inside of it, unless you supply a <a href="#path">target path</a>.</p>
+  <div class="seealso" data-type="seealso" style="">
+    <p class="seealso-caption" data-close-text="" data-expanded="true" data-open-text="See Also" data-type="seealso-caption" style="">See Also (placeholder)</p>
+    <ol class="seealso-list" data-keywords="" data-type="seealso-list" style="">
+      <li><a class="seealso-list-item" href="#">Topic List</a></li>
+    </ol>
+  </div>
+  <h2>General</h2>
+  <p>A Feather directive has the following syntax: </p>
+  <p class="code">// Feather command parameters [in PATH]</p>
+  <p>It is a regular script comment that starts with <span class="inline2">Feather</span>, followed by the command and its parameters. Optionally, it may take a path to a script, object or group in <a data-xref="{title}" href="../../Introduction/The_Asset_Browser.htm">The Asset Browser</a> to which the directive is applied.</p>
+  <h2>Ignoring Feather Rules</h2>
+  <p>Specific <a href="../../Setting_Up_And_Version_Information/IDE_Preferences/Feather_Settings.htm#s3">feather rules</a> can be ignored using the directive <span class="inline2">Feather ignore</span> or <span class="inline2">Feather disable</span>: </p>
+  <p class="code">// Feather ignore  GM1010<br />
+    // Feather disable GM1010</p>
+  <p>For example, consider the following piece of code: </p>
+  <p class="code">// Feather ignore GM1010<br />
+    result = 5 + &quot;5&quot;;</p>
+  <p>With <strong>Strict Type mode</strong> enabled, Feather normally shows a <span class="inline2">&quot;GM1010 - Cannot perform &#39;+&#39; operation between types &#39;real&#39; and &#39;string&#39;</span> message. With the directive above, Feather will ignore messages of this type, in that particular script.</p>
+  <p>The directive only affects lines after the comment itself, so any statements before the comment will still show warnings.</p>
+  <h3>Ignoring Once</h3>
+  <p>The GM message can be ignored only once by adding <span class="inline2">once</span>:</p>
+  <p class="code">// Feather ignore once GM1010</p>
+  <p>This c<span>ommand makes Feather ignore </span><span>the first <span>occurrence <span>of this type <span>o</span>f mess<span>age but not the ones that come after that<span>: </span></span></span></span></span></p>
+  <p class="code">// Feather ign<span>ore <span>once GM1010<br />
+        result = 5 + &quot;5&quot;;    // ignored<br />
+        result = 6 + &quot;6&quot;;    // err<span>or</span></span></span></p>
+  <h3>Restoring</h3>
+  <p>Finally, you can re-enable the GM message using <span class="inline2">restore</span> / <span class="inline2">enable</span>: </p>
+  <p class="code">// Feather restore GM1010<br />
+    // Feather enable  GM1010</p>
+  <h2>Profiles</h2>
+  <p>This directive sets the profile for the script: </p>
+  <p class="code"><code>// Feather use syntax-errors<br/>
+// Feather use type-errors<br/>
+// Feather use all<br/>
+// Feather use none</code></p>
+  <p class="note"><code><span data-conref="../../assets/snippets/Tag_note.hts"> </span> </code>This Feather directive corresponds to the <a data-xref="{text}" href="../../Setting_Up_And_Version_Information/IDE_Preferences/Feather_Settings.htm#message_severity_profile">Profile</a> preference in the <a href="../../Setting_Up_And_Version_Information/IDE_Preferences/Feather_Settings.htm">Feather Preferences</a>.</p>
+  <h2>Type Validation Mode</h2>
+  <p>This directive sets the type validation mode to use from either <em>strict</em> or <em>relaxed: </em></p>
+  <p class="code"><code>/// Feather use strict<br/>
+/// Feather use relaxed</code></p>
+  <p class="note"><span data-conref="../../assets/snippets/Tag_note.hts"> </span> This Feather directive corresponds to the <strong>Strict Type mode</strong> preference in the <a href="../../Setting_Up_And_Version_Information/IDE_Preferences/Feather_Settings.htm">Feather Preferences</a>.</p>
+  <h2>Combined Directives</h2>
+  <p>You can also set the profile and type validation mode in a single line: </p>
+  <p class="code">/// Feather <span>use all, strict</span></p>
+  <p>The above comment will make Feather look for <strong>All</strong> errors <em>and</em> use <strong>Strict Type mode</strong>.</p>
+  <h2 id="path">Path</h2>
+  <p>Optionally you can provide a path using the <span class="inline2">in</span> directive t<span>o apply a</span> Feather directive to a specific script, object or gr<span>oup </span>in <a data-xref="{title}" href="../../Introduction/The_Asset_Browser.htm">The Asset Browser</a><span><span>. This can be placed in<span><span> the main script <span><span>of an external library <span><span>of functi<span><span>ons, th<span><span>ough y<span><span>ou can place it in any <span><span>other script, e.g. a blank &quot;FeatherC<span><span>onfig&quot; script.</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p>
+  <p class="note"><span data-conref="../../assets/snippets/Tag_note.hts"> </span> Having numerous rules using paths may cause performance issues, the exception being paths set specifically to <span class="inline2">*</span> alone.</p>
+  <p><span><span><span><span>You can use the following special symbols in your paths: </span></span></span></span></p>
+  <ul class="colour">
+    <li><span class="inline2">/</span> - When used in the beginning of a path, points to the root <span>of the Asset Browser</span></li>
+    <li><span class="inline2">.</span> - When used in the beginning of a path, points to the current script&#39;s folder</li>
+    <li><span class="inline2">*</span> is a wildcard that matches everything inside the preceding directory</li>
+  </ul>
+  <p>This way <span>y<span>ou can<span> define paths t<span>o assets in the Asset Br<span>owser, for example<span><span>:</span></span></span></span></span></span></span></p>
+  <table border="1" cellpadding="1" cellspacing="1">
+    <thead>
+      <tr>
+        <th>Path</th>
+        <th>Applies To</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>/Scripts/*</td>
+        <td>All assets in /Scripts</td>
+      </tr>
+      <tr>
+        <td>/*</td>
+        <td>All assets</td>
+      </tr>
+      <tr>
+        <td>./*</td>
+        <td>All assets in the current folder and subfolders</td>
+      </tr>
+      <tr>
+        <td>/Foo/Bar/obj_manager</td>
+        <td>obj_manager in the /Foo/Bar folder</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>Examples: </p>
+  <table border="1" cellpadding="1" cellspacing="1">
+    <thead>
+      <tr>
+        <th>Directive</th>
+        <th>Effect</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="inline">// Feather ignore GM2017 in *</span></td>
+        <td>Ignores all Naming Rule violations in the whole project</td>
+      </tr>
+      <tr>
+        <td><span class="inline">// Feather ignore GM1064 in ./*</span></td>
+        <td>Ignores GM1064 in the current folder and all subfolders</td>
+      </tr>
+      <tr>
+        <td><span class="inline">// Feather use type-errors in /Objects/System/*</span></td>
+        <td>Sets the profile to type-errors in specifically the Objects/System folder</td>
+      </tr>
+      <tr>
+        <td><span class="inline">// Feather use all in /Objects/System/obj_controller</span></td>
+        <td>Sets the profile to all in obj_controller</td>
+      </tr>
+    </tbody>
+  </table>
+  <p class="note"><span data-conref="../../assets/snippets/Tag_warning.hts"> </span> No consistent result is guaranteed if you have two directives that enable and disable a Feather message on the same path.</p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div>Back: <a data-xref="{title}" href="../Scripts.htm">The Script Editor</a></div>
+        <div>Next: <a href="Code_Snippets.htm">Code Snippets</a></div>
+      </div>
+    </div>
+    <h5><span data-conref="../../assets/snippets/Copyright_Notice_AutoUpdate.hts"> </span></h5>
+  </div>
+</body>
+</html>

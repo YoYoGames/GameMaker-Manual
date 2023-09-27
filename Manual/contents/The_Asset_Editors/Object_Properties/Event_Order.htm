@@ -4,7 +4,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>Event Order</title>
-  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <meta name="generator" content="Adobe RoboHelp 2022" />
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Page detailing the async events." />
   <meta name="rh-index-keywords" content="Objects - Event Order" />
@@ -16,16 +16,20 @@
   <!--<div class="body-scroll" style="top: 150px;">-->
   <h1><span data-field="title" data-format="default">Event Order</span></h1>
   <p>When considering Events in <span data-keyref="GameMaker Name">GameMaker</span>, it should be noted that <strong>the exact order that ALL the events are going to occur in each step cannot be clearly stated</strong>, simply because it depends on the internal workings of <span data-keyref="GameMaker Name">GameMaker</span> and this is subject to change as the software develops. However there are certain events that will <em>always </em>run in the same order.</p>
+  <h2>Upon Entering a Room</h2>
   <p>The first set of events that will always happen the same way are those that occur when a room is first entered. The order that the different events will fire is:</p>
   <ul class="colour">
-    <li><strong>Object Variables / Instance Variables are initialised</strong> (these are the variables that you can define in the <a class="glossterm" data-glossterm="IDE" href="#">IDE</a> of the <a href="../Objects.htm">Object Editor</a> or the <a href="../Rooms.htm">Room Editor</a>). If you have an object with variables attached then they will be created before anything else and then any instances that have variables attached will be defined after so you can overwrite object variables with instance specific ones in the room editor.</li>
+    <li><strong>Object Variables / Instance Variables are initialised</strong> (these are the variables that you can define in the <a class="glossterm" data-glossterm="IDE" href="#">IDE</a> of <a data-xref="{title}" href="../Objects.htm">The Object Editor</a> or <a data-xref="{title}" href="../Rooms.htm">The Room Editor</a>). If you have an object with variables attached then they will be created before anything else and then any instances that have variables attached will be defined after so you can overwrite object variables with instance specific ones in <a data-xref="{title}" href="../Rooms.htm">The Room Editor</a>.</li>
     <li><strong>Cr</strong><strong><strong>eate</strong> Event </strong>followed by the<strong> Instance Creation Code </strong>of <em>each </em>instance - so as each instance is created, it will run first its Create event and then its Instance Creation Code before moving on to the next instance to be created</li>
-    <li><strong>Game Start Event</strong> - this event is triggered once in the very first room of the game for all instances placed in the room from the room editor (note that calling game_restart() will trigger this event again.</li>
-    <li><strong>Room Creation Code</strong> - this is the one-off code written in the Room Editor for when a room is first entered</li>
-    <li><strong>Room Start Event of all instances</strong> - one of the &quot;other&quot; category of events and will fire for all instances, persistent or otherwise</li>
+    <li><strong>Game Start Event</strong> - this event is triggered once in the very first room of the game for all instances placed in the room from <a data-xref="{title}" href="../Rooms.htm">The Room Editor</a> (note that calling <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/General_Game_Control/game_restart.htm">game_restart</a></span> will trigger this event again.</li>
+    <li><strong>Room Creation Code</strong> - this is the one-off code written in <a data-xref="{title}" href="../Rooms.htm">The Room Editor</a> for when a room is first entered</li>
+    <li><strong>Room Start Event of all instances</strong> - one of the &quot;other&quot; category of events and will fire for all instances, <a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Asset_Management/Instances/Instance_Variables/persistent.htm">persistent</a> or otherwise</li>
   </ul>
-  <p>It is also worth noting that you can also set the order in which specific instances are created within the room editor itself by moving them up or down the list of the <a href="../Room_Properties/Layer_Properties.htm">Instance Layer Properties</a> window.</p>
-  <p>Other than those specific events, the only known order that will always occur in the same way no matter what belongs to the three <strong>step </strong>events and the different <strong>draw </strong>events. These will always remain consistent, so if you have code that relies on specific timing during each step of your game, you should use:</p>
+  <p class="note"><span data-conref="../../assets/snippets/Tag_note.hts"> </span> You can also set the order in which specific instances are created within <a data-xref="{title}" href="../Rooms.htm">The Room Editor</a> itself by moving them up or down the list of the <a href="../Room_Properties/Layer_Properties.htm">Instance Layer Properties</a> window.</p>
+  <h2>Step and Draw Events</h2>
+  <p>Other than those specific events, the only events that will always occur in the same order no matter what are the three <strong>Step </strong>events and the different <strong>Draw </strong>events.</p>
+  <p class="note"><span data-conref="../../assets/snippets/Tag_note.hts"> </span> T<span>he Step events are always executed before the Draw events.</span></p>
+  <p>These will always remain consistent, so if you have code that relies on specific timing during each step of your game, you should use: </p>
   <ul class="colour">
     <li><strong>Begin Step Event</strong></li>
     <li><strong>Timelines</strong></li>
@@ -42,16 +46,16 @@
       </ul>
     </li>
     <li><strong>Alarms</strong></li>
-    <li><strong>Step Event</strong> (note that the step event is executed just before instances are put in their new positions)</li>
+    <li><strong>Step Event</strong> (note that the Step event is executed just before instances are put in their new positions)</li>
     <li><strong>End Step Event</strong></li>
   </ul>
   <p>All of the events for drawing are also always dealt with in the same order as follows (except for the <strong>Window Resize </strong>event, which is triggered differently):</p>
   <ul class="colour">
-    <li><strong>Pre Draw Event</strong></li>
+    <li><strong>Pre-Draw Event</strong></li>
     <li><strong>Draw Begin Event</strong></li>
     <li><strong>Draw Event</strong></li>
     <li><strong>Draw End Event</strong></li>
-    <li><strong>Post Draw Event</strong></li>
+    <li><strong>Post-Draw Event</strong></li>
     <li><strong>Draw GUI Begin Event</strong></li>
     <li><strong>Draw GUI Event</strong></li>
     <li><strong>Draw GUI End Event</strong></li>
@@ -66,7 +70,7 @@
         <div style="float:right">Next: <a data-xref="{title}" href="Other_Events.htm">Other Events</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2022 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2023 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 Event Order
