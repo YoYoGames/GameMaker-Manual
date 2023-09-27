@@ -14,17 +14,27 @@
 </head>
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
-  <h1>Fixtures</h1>
-  <p>Before an instance in <span data-keyref="GameMaker Name">GameMaker</span> can have physical properties it must have a fixture assigned to it. A fixture binds a shape or form to the instance and this adds material properties such as density, friction, and restitution. Fixtures can be boxes, circles, polygons or any other simple shape you wish as <span data-keyref="GameMaker Name">GameMaker</span> provides functions that enable you to define your own shape point by point, and then once you have your shape you can go ahead and define its physical properties too. These properties are what govern the way the instance with the fixture assigned to it will react with other instance in the physics world and are listed below:</p>
+  <h1><span data-field="title" data-format="default">Fixtures</span></h1>
+  <p>Before an instance in <span data-keyref="GameMaker Name">GameMaker</span> can have physical properties it must have a fixture assigned to it. A fixture binds a shape or form to the instance and this adds material properties such as density, friction, and restitution. Fixtures can be boxes, circles, polygons or any other simple shape you wish as <span data-keyref="GameMaker Name">GameMaker</span> provides functions that enable you to define your own shape point by point, and then once you have your shape you can go ahead and define its physical properties too. These properties are what govern the way the instance with the fixture assigned to it will react with other instances in the physics world.</p>
+  <h3>Properties</h3>
   <ul class="colour">
     <li><b>Density:</b> A material&#39;s density is defined as its mass per unit volume. It is, essentially, a measurement of how tightly matter is crammed together. If you wish your fixture to be <i>static</i> (ie: immovable) then the density should be set to 0, essentially making it infinitely dense. <i>Kinematic</i> objects that move with constant velocity and are not physically affected by collisions are also defined using a density of 0.</li>
     <li><b>Friction:</b> Friction is the force resisting the relative motion of solid surfaces, fluid layers, and material elements sliding against each other.</li>
     <li><b>Linear Damping:</b> This is the generalised force that causes a moving object to lose momentum. In the &quot;real world&quot; things don&#39;t generally happen forever. For example, A paper airplane will fly for a short while but eventually it will fall due to the air friction that acts upon it causing it to slow down. In the physics world that we create such things are difficult to model and so each fixture is given its own linear damping to simulate this type of &quot;generalised friction&quot;.</li>
     <li><b>Angular Damping:</b> As above, this is a generalised force that is applied to an object to stop it spinning eternally.</li>
-    <li><b>Restitution:</b> In physics, restitution is defined as &quot;the return of an object or system to its original state after elastic deformation&quot;, but as the fixtures in the <span data-keyref="GameMaker Name">GameMaker</span> are really rigid bodies and cannot be deformed, think of this as basically how &quot;bouncy&quot; the fixture is.</li>
+    <li><b>Restitution:</b> In physics, restitution is defined as &quot;the return of an object or system to its original state after elastic deformation&quot;, but as the fixtures in <span data-keyref="GameMaker Name">GameMaker</span> are really rigid bodies and cannot be deformed, think of this as basically how &quot;bouncy&quot; the fixture is.</li>
   </ul>
   <p>So as you can see, with just a few simple functions, <span data-keyref="GameMaker Name">GameMaker</span> can help you to create complex systems and interactions which will give your games an unprecedented sense of realism.</p>
-  <p class="note"><b><span class="note">NOTE</span> </b>You can define one fixture and have it bound to multiple instances (think of a pool table, where all the balls have the same physical properties, yet each one is a discreet entity). You can also bind multiple fixtures to a single instance and combine the physical properties (for example, using two triangular polygon fixtures to create a star)</p>
+  <p class="note"><b><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> </b>You can define one fixture and have it bound to multiple instances (think of a pool table, where all the balls have the same physical properties, yet each one is a discreet entity). You can also bind multiple fixtures to a single instance and combine the physical properties (for example, using two triangular polygon fixtures to create a star)</p>
+  <h3 id="h"><span></span>Updating Existing Contacts</h3>
+  <p>Two physics instances are &quot;in contact&quot; when their bounding boxes overlap (i.e. the rectangular regions surrounding their actual shapes). In this case, calling one of the <span class="inline3_func">physics_set_*</span> functions on a bound fixture <em>will change</em> the value of the property, but in order to force the physics engine to also <em>take this new value into account</em>, you&#39;ll need to deactivate and reactivate the physics instance using <span class="inline2"><a data-xref="{title}" href="../Physics_Variables/phy_active.htm">phy_active</a></span>: </p>
+  <p class="code"><span>var _new_friction = 100;<br />
+      phy_active = false;</span><br />
+    <span>physics_set_friction(fixture_id, _new_friction);</span><br />
+    <span>phy_active = true;</span>
+  </p>
+  <h2 id="func_ref">Function Reference</h2>
+  <h3 id="func_ref_general">General</h3>
   <p>The following functions are for creating, binding, setting collisions and then deleting fixtures:</p>
   <ul class="colour">
     <li><a href="physics_fixture_create.htm">physics_fixture_create</a></li>
@@ -34,7 +44,7 @@
     <li><a href="physics_fixture_delete.htm">physics_fixture_delete</a></li>
     <li><a href="physics_remove_fixture.htm">physics_remove_fixture</a></li>
   </ul>
-  <p> </p>
+  <h3 id="func_ref_shapes">Shapes</h3>
   <p>A fixture must be given a shape or else it will not be detected by the physics world, and this shape can be defined by the following functions:</p>
   <ul class="colour">
     <li><a href="physics_fixture_set_box_shape.htm">physics_fixture_set_box_shape</a></li>
@@ -44,8 +54,8 @@
     <li><a href="physics_fixture_set_polygon_shape.htm">physics_fixture_set_polygon_shape</a></li>
     <li><a href="physics_fixture_add_point.htm">physics_fixture_add_point</a></li>
   </ul>
-  <p> </p>
-  <p>In order for your physics enabled instance to react properly to the world around it, the fixtures you use must have specific properties defined that will give the fixture bounce, friction, mass etc... The following functions are used to set these properties of the fixture:</p>
+  <h3 id="func_ref_setters">Setting Properties</h3>
+  <p>In order for your physics enabled instance to react properly to the world around it, the fixtures you use must have specific properties defined that will give the fixture bounce, friction, mass, etc. The following functions are used to set these properties of the fixture:</p>
   <ul class="colour">
     <li><a href="physics_fixture_set_density.htm">physics_fixture_set_density</a></li>
     <li><a href="physics_fixture_set_friction.htm">physics_fixture_set_friction</a></li>
@@ -56,8 +66,8 @@
     <li><a href="physics_fixture_set_kinematic.htm">physics_fixture_set_kinematic</a></li>
     <li><a href="physics_fixture_set_awake.htm">physics_fixture_set_awake</a></li>
   </ul>
-  <p> </p>
-  <p>You can also set certain properties of the fixture <i>after</i> it has been bound to an instance. When binding the &quot;base&quot; fixture, you can choose to store the unique index for the bound physical properties in a variable. This can then be used in the following functions to change certain properties, or to get the current values for them:</p>
+  <h3 id="func_ref_modify">Modifying Bound Fixtures</h3>
+  <p>You can also set certain properties of the fixture <i>after</i> it has been bound to an instance. When binding the &quot;base&quot; fixture, you can choose to store the unique index for the bound physical properties in a variable. This can then be used in the following functions to change certain properties, or to get the current values for them: </p>
   <ul class="colour">
     <li><a href="physics_get_friction.htm">physics_get_friction</a></li>
     <li><a href="physics_get_density.htm">physics_get_density</a></li>
@@ -69,7 +79,6 @@
   </ul>
   <p> </p>
   <p> </p>
-  <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
@@ -77,7 +86,7 @@
         <div style="float:right">Next: <a href="../Joints/Joints.htm">Joints</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2022 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2023 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 Fixtures
