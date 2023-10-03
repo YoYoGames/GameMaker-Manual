@@ -180,6 +180,8 @@ export default function(hljs) {
     "dbg_view_delete", 
     "dbg_section_delete", 
     "show_debug_log", 
+    "asset_get_ids", 
+    "asset_get_ids", 
     "abs",
     "achievement_available",
     "achievement_event",
