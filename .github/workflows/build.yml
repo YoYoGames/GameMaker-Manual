@@ -30,7 +30,7 @@ jobs:
           path: Manual  
           token: ${{ secrets.GH_TOKEN }}
       - name: Beta Builds
-        if: github.event.pull_request.base.ref == 'develop'
+        if: github.event.pull_request.base.ref == 'develop' || github.event_name == 'workflow_dispatch'
         run: build_robohelp_gh.bat -beta %GITHUB_WORKSPACE%\output
         shell: cmd
         working-directory: Manual
