@@ -358,6 +358,7 @@ export default function(hljs) {
     "buffer_base64_decode_ext",
     "buffer_base64_encode",
     "buffer_copy",
+    "buffer_copy_stride",
     "buffer_copy_from_vertex_buffer",
     "buffer_create",
     "buffer_create_from_vertex_buffer",
