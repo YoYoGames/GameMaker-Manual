@@ -1,4 +1,4 @@
-@echo on
+@echo off
 rem experimental build
 if "%WORKSPACE%" == "" set WORKSPACE=%GITHUB_WORKSPACE%
 if "%BUILD_NUMBER%" == "" set BUILD_NUMBER=999
@@ -12,7 +12,6 @@ set BUILDCLEAN=1
 set BUILDBETA=0
 set S3_BUCKET=%S3_BUCKET%
 set ZIP_FILE=%ZIP_FILE%
-echo on
 
 set basedir=%~dp0
 
@@ -23,30 +22,10 @@ if "%1"=="release" (
 	set BUILDTYPE=debug
 ) else if "%1"=="noclean" ( 
 	set BUILDCLEAN=0
-) else if "%PRESET%"=="-beta" ( 
+) else if "%1"=="-beta" ( 
 	set BUILDBETA=1
-) else if "%PRESET%"=="-ES" ( 
-	set BUILDES=1
-) else if "%PRESET%"=="-FR" ( 
-	set BUILDFR=1
-) else if "%PRESET%"=="-DE" ( 
-	set BUILDDE=1
-) else if "%PRESET%"=="-RU" ( 
-	set BUILDRU=1
-) else if "%PRESET%"=="-PT-BR" ( 
-	set BUILDPT-BR=1
-) else if "%PRESET%"=="-ZH" ( 
-	set BUILDZH=1
-) else if "%PRESET%"=="-IT" ( 
-	set BUILDIT=1
-) else if "%%PRESET%"=="-JA" ( 
-	set BUILDJA=1
-) else if "%PRESET%"=="-PL" ( 
-	set BUILDPL=1
-) else if "%PRESET%"=="-KO" ( 
-	set BUILDKO=1
 ) else (
-	set DESTDIR=%1
+	set PRESET=%1
 	goto finish_options
 )
 
@@ -55,7 +34,12 @@ goto check_options
 
 :finish_options
 
-if "%DESTDIR%" == "" set DESTDIR=%GITHUB_WORKSPACE%\output
+if "%PRESET%" == "" (
+	echo "No PRESET specified."
+	exit /b 1
+)
+
+set DESTDIR=%GITHUB_WORKSPACE%\output
 
 rem Pulling Adobe Zip from S3
 aws s3 cp %S3_BUCKET%/%ZIP_FILE% %ZIP_FILE%
@@ -77,21 +61,21 @@ if %BUILDBETA% == 1 (
 ) else if %BUILDFR% == 1 (
 	set robohelpPreset="GMS2 Manual French"
 ) else if %BUILDDE% == 1 (
-	robohelpPreset="GMS2 Manual German"
+	set robohelpPreset="GMS2 Manual German"
 ) else if %BUILDRU% == 1 (
-	robohelpPreset="GMS2 Manual Russian"
+	set robohelpPreset="GMS2 Manual Russian"
 ) else if %BUILDPT-BR% == 1 (
-	robohelpPreset="GMS2 Manual Portugese (Brazil)"
+	set robohelpPreset="GMS2 Manual Portugese (Brazil)"
 ) else if %BUILDZH% == 1 (
-	robohelpPreset="GMS2 Manual Chinese (Simplified)"
+	set robohelpPreset="GMS2 Manual Chinese (Simplified)"
 ) else if %BUILDIT% == 1 (
-	robohelpPreset="GMS2 Manual Italian"
+	set robohelpPreset="GMS2 Manual Italian"
 ) else if %BUILDJA% == 1 (
-	robohelpPreset="GMS2 Manual Japanese"
+	set robohelpPreset="GMS2 Manual Japanese"
 ) else if %BUILDPL% == 1 (
-	robohelpPreset="GMS2 Manual Polish"
-) else %BUILDKO% == 1 (
-	robohelpPreset="GMS2 Manual Korean"
+	set robohelpPreset="GMS2 Manual Polish"
+) else if %BUILDKO% == 1 (
+	set robohelpPreset="GMS2 Manual Korean"
 )
 
 echo "%robohelpPreset%"
