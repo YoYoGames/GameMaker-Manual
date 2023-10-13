@@ -17,14 +17,15 @@
   <h1><span data-field="title" data-format="default">buffer_copy_stride</span></h1>
   <p>This function copies the given number of items from a source buffer to a destination buffer, where all items have the same size in bytes and are spaced apart evenly by a different number of bytes in the source and destination buffer.</p>
   <p>You can use this function with buffers that store items and their attributes in a structured way, e.g. game data, vertex data or any other data in a known format.</p>
-  <p class="note"><span data-conref="../../../assets/snippets/Tag_warning.hts"> </span> You cannot copy to the same buffer.</p>
+  <div data-conref="../../../assets/snippets/Note_Buffer_Copy_NoSame.hts"> </div>
   <p><img class="center" height="388" src="../../../assets/Images/Scripting_Reference/GML/Reference/Buffers/buffer_copy_stride_schematic.png" width="1231" /></p>
   <p>The function call belonging to the above diagram would look as follows: <span class="inline2"><span data-field="title" data-format="default">buffer_copy_stride</span>(src_buffer, 6, 2, 6, 3, dest_buffer, 8, 2);</span></p>
   <p>You can interpret the source offset as the sum of two offsets: an offset to the start of the item data and an offset within the item (i.e. which attribute of the item to copy).</p>
   <h3>Stride</h3>
   <p>The stride is the number of bytes to go from one item to the next. A positive value moves forward, a negative value moves backward.</p>
   <p>For example, in case of <span data-keyref="GameMaker Name">GameMaker</span>&#39;s <a href="../../../Additional_Information/Guide_To_Primitives_And_Vertex_Building.htm#passthrough_vertex_format">default vertex format</a> the stride value is <span data-keyref="Const_DefaultVertexFormat_Bytesize">24</span> (3*4+4*1+2*4). The number of bytes to move from one (x, y, z) position in the buffer to the next is <span data-keyref="Const_DefaultVertexFormat_Bytesize">24</span>, the number of bytes to move from one colour value to the next is also <span data-keyref="Const_DefaultVertexFormat_Bytesize">24</span>, as well as the number of bytes to move from one UV to the next.</p>
-  <p><img class="center" src="../../../assets/Images/Scripting_Reference/GML/Reference/Buffers/buffer_copy_stride_stride.png" /></p>
+  <p>You &quot;select&quot; the attribute you want to copy by changing the offset, meanwhile the stride remains unchanged: </p>
+  <p><img class="center" height="260" src="../../../assets/Images/Scripting_Reference/GML/Reference/Buffers/buffer_copy_stride_stride.png" width="1280" /></p>
   <h3>How It Works</h3>
   <ul class="Disc">
     <li>The function starts by moving <span class="inline2">src_offset</span> bytes from the start of the source buffer and <span class="inline2">dest_offset</span> bytes from the start of the destination buffer.</li>
