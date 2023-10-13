@@ -43,17 +43,10 @@ if "%1"=="release" (
 	set BUILDJA=1
 ) else if "%1"=="-PL" ( 
 	set BUILDPL=1
-) else if "%1"=="-KO" ( 
+) else "%1"=="-KO" ( 
 	set BUILDKO=1
-) else ( 
-	set DESTDIR=%1
-	goto finish_options
 )
 
-shift
-goto check_options
-
-:finish_options
 
 if "%DESTDIR%" == "" set DESTDIR=%GITHUB_WORKSPACE%\output
 
@@ -70,8 +63,6 @@ set helpTagsTool="%basedir%RoboHelpTool.exe"
 
 rmdir "%DESTDIR%\RoboHelp" /s /q
 
-
-set robohelpPreset="GMS2 Manual Responsive HTML5" 
 if %BUILDBETA% == 1 (
 	set robohelpPreset="GMS2 Manual Responsive HTML5 BETA"
 ) else if %BUILDES% == 1 (
