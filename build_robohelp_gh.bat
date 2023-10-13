@@ -25,6 +25,26 @@ if "%1"=="release" (
 	set BUILDCLEAN=0
 ) else if "%1"=="-beta" ( 
 	set BUILDBETA=1
+) else if "%1"=="-ES" ( 
+	set BUILDES=1
+)  else if "%1"=="-FR" ( 
+	set BUILDFR=1
+)  else if "%1"=="-DE" ( 
+	set BUILDDE=1
+)  else if "%1"=="-RU" ( 
+	set BUILDRU=1
+) else if "%1"=="-PT-BR" ( 
+	set BUILDPT-BR=1
+) else if "%1"=="-ZH" ( 
+	set BUILDZH=1
+) else if "%1"=="-IT" ( 
+	set BUILDIT=1
+) else if "%1"=="-JA" ( 
+	set BUILDJA=1
+) else if "%1"=="-PL" ( 
+	set BUILDPL=1
+) else if "%1"=="-KO" ( 
+	set BUILDKO=1
 ) else ( 
 	set DESTDIR=%1
 	goto finish_options
@@ -50,8 +70,31 @@ set helpTagsTool="%basedir%RoboHelpTool.exe"
 
 rmdir "%DESTDIR%\RoboHelp" /s /q
 
-set robohelpPreset="GMS2 Manual Responsive HTML5"
-if %BUILDBETA% == 1 set robohelpPreset="GMS2 Manual Responsive HTML5 BETA"
+if %BUILDBETA% == 1 (
+	set robohelpPreset="GMS2 Manual Responsive HTML5 BETA"
+) else if %BUILDES% == 1 (
+	set robohelpPreset="GMS2 Manual Spanish"
+) else if %BUILDFR% == 1 (
+	set robohelpPreset="GMS2 Manual French"
+) else if %BUILDDE% == 1 (
+	robohelpPreset="GMS2 Manual German"
+) else if %BUILDRU% == 1 (
+	robohelpPreset="GMS2 Manual Russian"
+) else if %BUILDPT-BR% == 1 (
+	robohelpPreset="GMS2 Manual Portugese (Brazil)"
+) else if %BUILDZH% == 1 (
+	robohelpPreset="GMS2 Manual Chinese (Simplified)"
+) else if %BUILDIT% == 1 (
+	robohelpPreset="GMS2 Manual Italian"
+) else if %BUILDJA% == 1 (
+	robohelpPreset="GMS2 Manual Japanese"
+) else if %BUILDPL% == 1 (
+	robohelpPreset="GMS2 Manual Polish"
+) else %BUILDKO% == 1 (
+	robohelpPreset="GMS2 Manual Korean"
+)
+
+echo "%robohelpPreset%"
 
 %roboHelpTool% --cl "%basedir%Manual\GMS2_Manual.rhpj" -o %robohelpPreset% -p "%DESTDIR%\RoboHelp" 
 
