@@ -23,27 +23,27 @@ if "%1"=="release" (
 	set BUILDTYPE=debug
 ) else if "%1"=="noclean" ( 
 	set BUILDCLEAN=0
-) else if "%1"=="-beta" ( 
+) else if "%PRESET%"=="-beta" ( 
 	set BUILDBETA=1
-) else if "%1"=="-ES" ( 
+) else if "%PRESET%"=="-ES" ( 
 	set BUILDES=1
-) else if "%1"=="-FR" ( 
+) else if "%PRESET%"=="-FR" ( 
 	set BUILDFR=1
-) else if "%1"=="-DE" ( 
+) else if "%PRESET%"=="-DE" ( 
 	set BUILDDE=1
-) else if "%1"=="-RU" ( 
+) else if "%PRESET%"=="-RU" ( 
 	set BUILDRU=1
-) else if "%1"=="-PT-BR" ( 
+) else if "%PRESET%"=="-PT-BR" ( 
 	set BUILDPT-BR=1
-) else if "%1"=="-ZH" ( 
+) else if "%PRESET%"=="-ZH" ( 
 	set BUILDZH=1
-) else if "%1"=="-IT" ( 
+) else if "%PRESET%"=="-IT" ( 
 	set BUILDIT=1
-) else if "%1"=="-JA" ( 
+) else if "%%PRESET%"=="-JA" ( 
 	set BUILDJA=1
-) else if "%1"=="-PL" ( 
+) else if "%PRESET%"=="-PL" ( 
 	set BUILDPL=1
-) else if "%1"=="-KO" ( 
+) else if "%PRESET%"=="-KO" ( 
 	set BUILDKO=1
 ) else (
 	set DESTDIR=%1
