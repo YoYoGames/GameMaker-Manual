@@ -16,7 +16,7 @@ jobs:
      name: "RoboHelp"
      runs-on: windows-2019
      env:
-       PRESET: ${{ vars.PRESET }}
+       LANGUAGE: ${{ vars.LANGUAGE }}
      steps:
       - uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -32,7 +32,7 @@ jobs:
           token: ${{ secrets.GH_TOKEN }}
       - name: Beta Builds
         if: github.event.pull_request.base.ref == 'develop' || github.event_name == 'workflow_dispatch'
-        run: build_robohelp_gh.bat ${{ vars.PRESET }} %GITHUB_WORKSPACE%\output
+        run: build_robohelp_gh.bat %GITHUB_WORKSPACE%\output
         shell: cmd
         working-directory: Manual       
       - name: Upload robohelp zip file
