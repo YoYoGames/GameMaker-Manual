@@ -1,4 +1,7 @@
+name: Beta
+
 on:
+  workflow_dispatch:
   pull_request:
     branches:
       - develop
@@ -13,7 +16,7 @@ jobs:
      name: "RoboHelp"
      runs-on: windows-2019
      steps:
-      - uses: aws-actions/configure-aws-credentials@v3
+      - uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -26,7 +29,7 @@ jobs:
           path: Manual  
           token: ${{ secrets.GH_TOKEN }}
       - name: Beta Builds
-        if: github.event.pull_request.base.ref == 'develop'
+        if: github.event.pull_request.base.ref == 'develop' || github.event_name == 'workflow_dispatch'
         run: build_robohelp_gh.bat -beta %GITHUB_WORKSPACE%\output
         shell: cmd
         working-directory: Manual       
