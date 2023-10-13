@@ -16,16 +16,41 @@ set ZIP_FILE=%ZIP_FILE%
 set basedir=%~dp0
 
 :check_options
-if "%1"=="release" ( 
-	set BUILDTYPE=release
-) else if "%1"=="debug" ( 
-	set BUILDTYPE=debug
-) else if "%1"=="noclean" ( 
-	set BUILDCLEAN=0
-) else if "%1"=="-beta" ( 
-	set BUILDBETA=1
-) else (
-	set PRESET=%1
+if %LANGUAGE%==EN (
+    set robohelpPreset="GMS2 Manual Responsive HTML5 BETA"
+	goto finish_options
+) else if %LANGUAGE%==ES ( 
+	set robohelpPreset="GMS2 Manual Spanish"
+	goto finish_options
+) else if %LANGUAGE%==FR ( 
+	set robohelpPreset="GMS2 Manual French"
+	goto finish_options
+) else if %LANGUAGE%==DE ( 
+	set robohelpPreset="GMS2 Manual German"
+	goto finish_options
+) else if %LANGUAGE%==RU ( 
+	set robohelpPreset="GMS2 Manual Russian"
+	goto finish_options
+) else if %LANGUAGE%==PT-BR ( 
+	set robohelpPreset="GMS2 Manual Portuguese (Brazil)"
+	goto finish_options
+) else if %LANGUAGE%==ZH ( 
+	set robohelpPreset="GMS2 Manual Chinese (Simplified)"
+	goto finish_options
+) else if %LANGUAGE%==IT ( 
+	set robohelpPreset="GMS2 Manual Italian"
+	goto finish_options
+) else if %LANGUAGE%==JA ( 
+	set robohelpPreset="GMS2 Manual Japanese"
+	goto finish_options
+) else if %LANGUAGE%==PL ( 
+	set robohelpPreset="GMS2 Manual Polish"
+	goto finish_options
+) else if %LANGUAGE%==KO ( 
+	set robohelpPreset="GMS2 Manual Korean"
+	goto finish_options
+)else ( 
+	set DESTDIR=%1
 	goto finish_options
 )
 
@@ -34,12 +59,7 @@ goto check_options
 
 :finish_options
 
-if "%PRESET%" == "" (
-	echo "No PRESET specified."
-	exit /b 1
-)
-
-set DESTDIR=%GITHUB_WORKSPACE%\output
+if "%DESTDIR%" == "" set DESTDIR=%GITHUB_WORKSPACE%\output
 
 rem Pulling Adobe Zip from S3
 aws s3 cp %S3_BUCKET%/%ZIP_FILE% %ZIP_FILE%
@@ -51,32 +71,6 @@ copy "RoboHelpTool.exe" "%basedir%"
 
 set roboHelpTool="%basedir%Adobe_RoboHelp_2022\RoboHelp.exe"
 set helpTagsTool="%basedir%RoboHelpTool.exe"
-
-rmdir "%DESTDIR%\RoboHelp" /s /q
-
-if %BUILDBETA% == 1 (
-	set robohelpPreset="GMS2 Manual Responsive HTML5 BETA"
-) else if %BUILDES% == 1 (
-	set robohelpPreset="GMS2 Manual Spanish"
-) else if %BUILDFR% == 1 (
-	set robohelpPreset="GMS2 Manual French"
-) else if %BUILDDE% == 1 (
-	set robohelpPreset="GMS2 Manual German"
-) else if %BUILDRU% == 1 (
-	set robohelpPreset="GMS2 Manual Russian"
-) else if %BUILDPT-BR% == 1 (
-	set robohelpPreset="GMS2 Manual Portugese (Brazil)"
-) else if %BUILDZH% == 1 (
-	set robohelpPreset="GMS2 Manual Chinese (Simplified)"
-) else if %BUILDIT% == 1 (
-	set robohelpPreset="GMS2 Manual Italian"
-) else if %BUILDJA% == 1 (
-	set robohelpPreset="GMS2 Manual Japanese"
-) else if %BUILDPL% == 1 (
-	set robohelpPreset="GMS2 Manual Polish"
-) else if %BUILDKO% == 1 (
-	set robohelpPreset="GMS2 Manual Korean"
-)
 
 echo "%robohelpPreset%"
 
