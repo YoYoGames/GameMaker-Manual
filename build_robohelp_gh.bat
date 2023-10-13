@@ -70,6 +70,8 @@ set helpTagsTool="%basedir%RoboHelpTool.exe"
 
 rmdir "%DESTDIR%\RoboHelp" /s /q
 
+
+set robohelpPreset="GMS2 Manual Responsive HTML5" 
 if %BUILDBETA% == 1 (
 	set robohelpPreset="GMS2 Manual Responsive HTML5 BETA"
 ) else if %BUILDES% == 1 (
