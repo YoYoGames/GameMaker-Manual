@@ -1,4 +1,4 @@
-@echo off
+@echo on
 rem experimental build
 if "%WORKSPACE%" == "" set WORKSPACE=%GITHUB_WORKSPACE%
 if "%BUILD_NUMBER%" == "" set BUILD_NUMBER=999
@@ -27,11 +27,11 @@ if "%1"=="release" (
 	set BUILDBETA=1
 ) else if "%1"=="-ES" ( 
 	set BUILDES=1
-)  else if "%1"=="-FR" ( 
+) else if "%1"=="-FR" ( 
 	set BUILDFR=1
-)  else if "%1"=="-DE" ( 
+) else if "%1"=="-DE" ( 
 	set BUILDDE=1
-)  else if "%1"=="-RU" ( 
+) else if "%1"=="-RU" ( 
 	set BUILDRU=1
 ) else if "%1"=="-PT-BR" ( 
 	set BUILDPT-BR=1
@@ -43,10 +43,17 @@ if "%1"=="release" (
 	set BUILDJA=1
 ) else if "%1"=="-PL" ( 
 	set BUILDPL=1
-) else "%1"=="-KO" ( 
+) else if "%1"=="-KO" ( 
 	set BUILDKO=1
+) else (
+	set DESTDIR=%1
+	goto finish_options
 )
 
+shift
+goto check_options
+
+:finish_options
 
 if "%DESTDIR%" == "" set DESTDIR=%GITHUB_WORKSPACE%\output
 
