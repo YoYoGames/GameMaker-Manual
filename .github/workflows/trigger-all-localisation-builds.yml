@@ -3,76 +3,16 @@ name: Trigger-Localisation-Builds
 on:
   workflow_dispatch:
      inputs:
-       BR:
-         description: "Select individual language to build"
+      Language:
+         description: "Select All languages to build"
          required: true
          type: choice
          options:
-          - BR
           - ALL
-       DE:
+      Preset:
          description: "Select individual language to build"
          required: true
-         type: choice
-         options:         
-          - DE
-          - ALL
-       ES:
-         description: "Select individual language to build"
-         required: true
-         type: choice
-         options:
-           - ES
-           - ALL
-       FR:
-         description: "Select individual language to build"
-         required: true
-         type: choice
-         options:
-           - FR
-           - AL
-       IT:
-         description: "Select individual language to build"
-         required: true
-         type: choice
-         options:
-           - IT
-           - ALL
-       JA:
-         description: "Select individual language to build"
-         required: true
-         type: choice
-         options:
-          - JA
-          - ALL
-       KO:
-         description: "Select individual language to build"
-         required: true
-         type: choice
-         options:
-           - KO
-           - ALL
-       PL:
-         description: "Select individual language to build"
-         required: true
-         type: choice
-         options:
-           - PL
-           - ALL
-       RU:
-         description: "Select individual language to build"
-         required: true
-         type: choice
-         options:
-           - RU
-           - ALL
-       ZH:
-         description: "Select individual language to build"
-         required: true
-         type: choice
-         options:
-           - ZH
-           - ALL
+         type: string
     
 
 jobs:
@@ -80,84 +20,26 @@ jobs:
   Trigger-Localisation-Builds:
      name:
      runs-on: ubuntu-22.04
+     strategy:
+      matrix:
+        language: [PT-BR, DE, ES, FR, IT, JA, KO, PL, RU, ZH]
      steps:
       - name: Invoke workflow Brazilian in repo
-        if: github.events.input.BR == 'BR' || github.events.input.BR == 'ALL'
+        if: ${{ github.event.inputs.Language }} == 'ALL' || matrix.lanuguage == 
         uses: benc-uk/workflow-dispatch@v1
         with:
           workflow: build.yml
-          repo: YoYoGames/GameMaker-Manual-PT-BR
+          repo: YoYoGames/GameMaker-Manual-${{ matrix.language }}
           token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }} 
         continue-on-error: false 
-      - name: Invoke workflow Chinese in repo
-        if: github.events.input.ZH == 'ZH' || github.events.input.ZH == 'ALL'      
+      - name: Invoke workflow Brazilian in repo
+        if: ${{ github.event.inputs.Preset }} == ''
         uses: benc-uk/workflow-dispatch@v1
         with:
           workflow: build.yml
-          repo: YoYoGames/GameMaker-Manual-ZH
+          repo: YoYoGames/GameMaker-Manual-${{ github.event.inputs.Preset }}
           token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }} 
         continue-on-error: false 
-      - name: Invoke workflow Spain in repo
-        if: github.events.input.ES == 'ES' || github.events.input.ES == 'ALL'      
-        uses: benc-uk/workflow-dispatch@v1
-        with:
-          workflow: build.yml
-          repo: YoYoGames/GameMaker-Manual-ES
-          token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }} 
-        continue-on-error: false 
-      - name: Invoke workflow German in repo
-        if: github.events.input.DE == 'DE' || github.events.input.DE == 'ALL'      
-        uses: benc-uk/workflow-dispatch@v1
-        with:
-          workflow: build.yml
-          repo: YoYoGames/GameMaker-Manual-DE
-          token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }} 
-        continue-on-error: false 
-      - name: Invoke workflow Italian in repo
-        if: github.events.input.IT == 'IT' || github.events.input.IT == 'ALL'      
-        uses: benc-uk/workflow-dispatch@v1
-        with:
-          workflow: build.yml
-          repo: YoYoGames/GameMaker-Manual-IT
-          token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }} 
-        continue-on-error: false 
-      - name: Invoke workflow French in repo
-        if: github.events.input.FR == 'FR' || github.events.input.FR == 'ALL'      
-        uses: benc-uk/workflow-dispatch@v1
-        with:
-          workflow: build.yml
-          repo: YoYoGames/GameMaker-Manual-FR
-          token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }} 
-        continue-on-error: false 
-      - name: Invoke workflow Japanese in repo
-        if: github.events.input.JA == 'JA' || github.events.input.JA == 'ALL'      
-        uses: benc-uk/workflow-dispatch@v1
-        with:
-          workflow: build.yml
-          repo: YoYoGames/GameMaker-Manual-JA
-          token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }} 
-        continue-on-error: false 
-      - name: Invoke workflow Russian in repo
-        if: github.events.input.RU == 'RU' || github.events.input.RU == 'ALL'      
-        uses: benc-uk/workflow-dispatch@v1
-        with:
-          workflow: build.yml
-          repo: YoYoGames/GameMaker-Manual-RU
-          token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }} 
-        continue-on-error: false 
-      - name: Invoke workflow Korean in repo
-        if: github.events.input.KO == 'KO' || github.events.input.KO == 'ALL'      
-        uses: benc-uk/workflow-dispatch@v1
-        with:
-          workflow: build.yml
-          repo: YoYoGames/GameMaker-Manual-KO
-          token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }} 
-        continue-on-error: false 
-      - name: Invoke workflow Polish in repo
-        if: github.events.input.PL == 'PL' || github.events.input.PL == 'ALL'      
-        uses: benc-uk/workflow-dispatch@v1
-        with:
-          workflow: build.yml
-          repo: YoYoGames/GameMaker-Manual-PL
-          token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }} 
-        continue-on-error: false                                                                         
+
+
+                                                                       
