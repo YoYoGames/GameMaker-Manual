@@ -186,6 +186,7 @@ export default function(hljs) {
     "vertex_update_buffer_from_vertex", 
     "vertex_format_get_info", 
     "dbg_add_font_glyphs", 
+    "dbg_slider_int", 
     "abs",
     "achievement_available",
     "achievement_event",
