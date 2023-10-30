@@ -36,6 +36,7 @@ export default function(hljs) {
     "xor",
   ];
   const BUILT_INS = [
+    "texturegroup_get_names", 
     "texturegroup_get_textures", 
     "texturegroup_get_sprites", 
     "texturegroup_get_fonts", 
