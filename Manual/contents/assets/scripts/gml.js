@@ -188,6 +188,7 @@ export default function(hljs) {
     "vertex_format_get_info", 
     "dbg_add_font_glyphs", 
     "dbg_slider_int", 
+    "room_get_info", 
     "abs",
     "achievement_available",
     "achievement_event",
