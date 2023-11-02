@@ -4,9 +4,9 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>show_debug_overlay</title>
-  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <meta name="generator" content="Adobe RoboHelp 2022" />
   <link rel="stylesheet" href="../../../assets/css/default.css" type="text/css" />
-  <script src="../../../assets/scripts/main_script.js"></script>
+  <script src="../../../assets/scripts/main_script.js" type="module"></script>
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Reference page for show_debug_overlay" />
   <meta name="rh-index-keywords" content="show_debug_overlay" />
@@ -14,62 +14,70 @@
 </head>
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
-  <h1>show_debug_overlay</h1>
-  <p>This function can be used to switch on and off the standard debug overlay when testing your game and is disabled by default. The debug overlay shows a graphic CPU/GPU usage bar in the actual game window itself along with the current real fps value, number of texture swaps and the number of vertex batches (note that texture swaps and vertex batches will never be zero and will normally show values of 2 or 3, since even with an empty room an no objects <span data-keyref="GameMaker Name">GameMaker</span> still has to draw and batch things).</p>
-  <p><img alt="Debug overlay graphic" class="center" src="../../../assets/Images/QS_Guide/QS_Debug_Bar.png" />This bar is split into sections, with each section being 1/60th of a second. As you can see from the image above, the bar is made up of various colours:</p>
-  <ul class="colour">
-    <li><b>Green</b> - Input / Output processing (ie: keyboard, mouse, gamepad, networking etc...)</li>
-    <li><b>Red</b> - The update speed of the step event</li>
-    <li><b>Yellow</b> - The time required for the draw event</li>
-    <li><b>Orange</b> -Debug update time, which is only normally visible when you use the debug module</li>
-    <li><b>White</b> - GPU left over time, which is the time spent waiting for the GPU to finish the rendering of the frame before the next one can start</li>
-    <li><b>Cyan</b> - The text rendering time</li>
-    <li><b>Grey</b> - The time required to clear screen each draw step</li>
-    <li><strong>Blue</strong> - The time required for the <a href="../Garbage_Collection/Garbage_Collection.htm">Garbage Collector</a> to run</li>
-    <li><b>Dark Red</b> - The GPU flush, which is how long the GPU takes to clear images from memory</li>
-  </ul>
-  <p>Using this function you can add the overlay whether in debug mode or not, and in this way, you can see how efficiently your game runs and get a visual cue as to how it is using the available resources, without the over-head of having the debugger running alongside.</p>
-  <p class="note"><b>NOTE</b>: This function will not work on the HTML5 target due to the different way it works compared to all the other targets.</p>
+  <h1><span data-field="title" data-format="default">show_debug_overlay</span></h1>
+  <p>This function toggles <a data-xref="{title}" href="The_Debug_Overlay.htm">The Debug Overlay</a>. This overlay is disabled by default.</p>
+  <p>The debug overlay enables a menu with three options: <strong>FPS</strong> (open by default), <strong>Log</strong>, and <strong>Audio</strong>. It displays the <span data-keyref="GameMaker Name">GameMaker</span> version in the top-right corner, along with the version and name of the project: </p>
+  <p><img class="center" src="../../../assets/Images/Scripting_Reference/GML/Reference/Debug/debug_overlay_1.png" style="cursor: nesw-resize;" />If the optional <span class="inline2">minimised</span> parameter is set to <span class="inline2">false</span>, the overlay is opened with the <strong>FPS</strong> window minimised, only showing basic info in the header.</p>
+  <p>To create custom debug views that will appear under the <strong>Views</strong> menu, see <a href="The_Debug_Overlay.htm#creating_debug_views">Creating Debug Views</a>.</p>
+  <p class="note"><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> This function will not work on the HTML5 target due to the different way it works compared to all the other targets.</p>
+  <p class="note"><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> To bring up <a data-xref="{title}" href="The_Debug_Overlay.htm">The Debug Overlay</a> with the <strong>Log</strong> window open, use <span class="inline3_func"><a data-xref="{title}" href="show_debug_log.htm">show_debug_log</a></span> instead.</p>
   <p> </p>
   <h4>Syntax:</h4>
-  <p class="code">show_debug_overlay(enable);</p>
+  <p class="code"><span data-field="title" data-format="default">show_debug_overlay</span>(enable[, minimised, scale, alpha]);</p>
   <table>
     <tbody>
       <tr>
-        <th>Argument</th><th>Type</th>
+        <th>Argument</th>
+        <th>Type</th>
         <th>Description</th>
-     </tr>
+      </tr>
       <tr>
-        <td>enable</td><td><span data-keyref="Type_Bool"></span></td>
-        <td>switch on (<span class="inline">true</span>) or off (<span class="inline">false<span class="inline">) the debug overlay.</span></span></td>
-     </tr>
+        <td>enable</td>
+        <td><span data-keyref="Type_Bool"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Boolean</a></span></td>
+        <td>Enable (<span class="inline2">true</span>) or disable (<span class="inline2">false</span>) the debug overlay</td>
+      </tr>
+      <tr>
+        <td>minimised</td>
+        <td><span data-keyref="Type_Bool"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Boolean</a></span></td>
+        <td><span data-conref="../../../assets/snippets/Tag_optional.hts"> </span> Whether to open the <strong>FPS</strong> window minimised (doesn&#39;t apply to any other windows or debug views)</td>
+      </tr>
+      <tr>
+        <td>scale</td>
+        <td><span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td><span data-conref="../../../assets/snippets/Tag_optional.hts"> </span> The scale factor to draw the overlay with (default is <span data-keyref="DebugOverlay_Scale_Default">1</span>)</td>
+      </tr>
+      <tr>
+        <td>alpha</td>
+        <td><span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td><span data-conref="../../../assets/snippets/Tag_optional.hts"> </span> The alpha value to draw the overlay with (default is <span data-keyref="DebugOverlay_Alpha_Default">0.8</span>)</td>
+      </tr>
     </tbody>
   </table>
   <p> </p>
   <h4>Returns:</h4>
-  <p class="code"><span data-keyref="Type_Void"></span></p>
+  <p class="code"><span data-keyref="Type_Void">N/A</span></p>
   <p> </p>
-  <h4><b>Example:</b></h4>
-  <p class="code">if global.debug<br />
+  <h4><b>Example 1: Basic Use</b></h4>
+  <p class="code">if keyboard_check_pressed(ord(&quot;O&quot;))<br />
     {<br />
-        show_debug_overlay(true);<br />
-    }<br />
-    else<br />
-    {<br />
-        show_debug_overlay(false);<br />
+        global.debug = !global.debug;<br />
+        <span data-field="title" data-format="default">show_debug_overlay</span>(global.debug);<br />
     }</p>
-  <p>The above code will toggle the debug on or off depending on the value of a global variable.</p>
+  <p>The above code toggles the debug on or off whenever the &quot;O&quot; key is pressed.</p>
   <p> </p>
+  <h4>Example 2: Additional Parameters</h4>
+  <p class="code"><span data-field="title" data-format="default">show_debug_overlay</span>(true, true, 2, 0.5);</p>
+  <p>The above code opens the debug overlay minimised and draws it with a scale factor of 2 and an alpha of 0.5.</p>
   <p> </p>
   <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a href="Debugging.htm">Debugging</a></div>
-        <div style="float:right">Next: <a href="code_is_compiled.htm">code_is_compiled</a></div>
+        <div style="float:left">Back: <a data-xref="{title}" href="The_Debug_Overlay.htm">The Debug Overlay</a></div>
+        <div style="float:right">Next: <a data-xref="{title}" href="show_debug_log.htm">show_debug_log</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2022 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2023 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 show_debug_overlay
