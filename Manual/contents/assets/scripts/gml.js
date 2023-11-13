@@ -36,6 +36,7 @@ export default function(hljs) {
     "xor",
   ];
   const BUILT_INS = [
+    "texturegroup_get_names", 
     "texturegroup_get_textures", 
     "texturegroup_get_sprites", 
     "texturegroup_get_fonts", 
@@ -185,6 +186,9 @@ export default function(hljs) {
     "vertex_update_buffer_from_buffer", 
     "vertex_update_buffer_from_vertex", 
     "vertex_format_get_info", 
+    "dbg_add_font_glyphs", 
+    "dbg_slider_int", 
+    "room_get_info", 
     "abs",
     "achievement_available",
     "achievement_event",
