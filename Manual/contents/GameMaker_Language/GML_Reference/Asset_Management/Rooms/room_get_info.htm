@@ -15,45 +15,40 @@
 </head>
 <body>
   <h1><span data-field="title" data-format="default">room_get_info</span></h1>
-  <p>This function gets all or specific information on a room from storage and returns it as a <a data-xref="{bookmarkText}" href="../../../GML_Overview/Structs.htm#struct">struct</a>.</p>
+  <p>This function gets information on a room from storage and returns it as a <a data-xref="{bookmarkText}" href="../../../GML_Overview/Structs.htm#struct">struct</a>. You can choose to exclude information through the given optional arguments.</p>
   <p class="note"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> The function cannot be used to get the current state of an active room (the current <a data-xref="{title}" href="room.htm">room</a> or an already visited <a href="room_persistent.htm">persistent</a> room). In this case it returns the original state of the room.</p>
-  <h3>Usage Notes</h3>
-  <ul class="colour">
-    <li>The room can be one that was added through the IDE using <a data-xref="{title}" href="../../../../The_Asset_Editors/Rooms.htm">The Room Editor</a> or added in-game using <span class="inline3_func"><a data-xref="{title}" href="room_add.htm">room_add</a></span>.</li>
-    <li>To get the elements on the layers you also have to get the layers.</li>
-    <li>To get the tile map data you also have to get the layer elements.</li>
-  </ul>
-  <p> </p>
-  <p>The contents of the returned struct are as follows: </p>
+  <p>The room must have been previously created using <a data-xref="{title}" href="../../../../Introduction/The_Asset_Browser.htm">The Asset Browser</a> or added in-game using <span class="inline3_func"><a data-xref="{title}" href="room_add.htm">room_add</a></span>.</p>
+  <p>The format of the returned struct is as follows:</p>
   <p class="code">room_info_struct = <br />
     {<br />
         instances: <br />
         [<br />
-            {/*Instance Info Struct*/},<br />
-            {/*Instance Info Struct*/}<br />
+            {/* Instance Info Struct */},<br />
+            {/* Instance Info Struct */},<br />
         ],<br />
         layers:<br />
         [<br />
             {<br />
                 elements:<br />
                 [<br />
-                    {/*Layer Element Info Struct*/},<br />
+                    {/* Layer Element Info Struct */},<br />
                     {<br />
-                        /**/<br />
+                        /* Example */<br />
                         type: layerelementtype_tilemap,<br />
-                        tiles: [/*Tile Map Data*/]<br />
+                        tiles: [/* Tile Map Data */]<br />
                     }<br />
                 ]<br />
-            }<br />
+            },<br />
         ],<br />
         views:<br />
         [<br />
-            {/*View Info Struct*/}<br />
+            {/* View Info Struct */},<br />
         ]<br />
     }</p>
-  <p>The tables below list all the possible structs that can be contained in the returned struct: </p>
+  <p>The tables below list all the possible structs that can be contained in the returned struct:</p>
   <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down1" href="#">Room Info</a></p>
   <div class="droptext" data-targetname="drop-down1">
+    <p class="dropspot">This is the main struct returned by the function. All variables listed below are present at the root of this returned struct:</p>
     <table style="caption-side: top">
       <caption>Room Info Struct</caption>
       <colgroup>
@@ -147,6 +142,8 @@
   </div>
   <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down2" href="#">Instance Info</a></p>
   <div class="droptext" data-targetname="drop-down2">
+    <p class="dropspot">This type of struct represents one instance in the room.</p>
+    <p class="dropspot">These structs are found in the <span class="inline2">instances</span> array, which is part of the main struct returned by the function.</p>
     <table style="caption-side: top">
       <caption>Instance Info Struct</caption>
       <colgroup>
@@ -215,6 +212,8 @@
   </div>
   <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down3" href="#">Layer Info</a></p>
   <div class="droptext" data-targetname="drop-down3">
+    <p class="dropspot">This type of struct represents one layer in the room.</p>
+    <p class="dropspot">These structs are found in the <span class="inline2">layers</span> array, which is part of the main struct returned by the function.</p>
     <table style="caption-side: top">
       <caption>Layer Info Struct</caption>
       <colgroup>
@@ -271,12 +270,12 @@
         <tr>
           <td><span class="inline">effectEnabled</span></td>
           <td><span data-keyref="Type_Bool"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Boolean</a></span></td>
-          <td>Whether the effect is currently enabled</td>
+          <td>Whether the layer filter/effect is currently enabled</td>
         </tr>
         <tr>
           <td><span class="inline">effectToBeEnabled</span></td>
           <td><span data-keyref="Type_Bool"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Boolean</a></span></td>
-          <td>Whether the layer effect should be enabled in the next frame (the next value of <span class="inline2">effectEnabled</span>)</td>
+          <td>Whether the layer filter/effect should be enabled/disabled in the next frame (the next value of <span class="inline2">effectEnabled</span>)</td>
         </tr>
         <tr>
           <td><span class="inline">effect</span></td>
@@ -298,6 +297,8 @@
   </div>
   <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down4" href="#">View Info</a></p>
   <div class="droptext" data-targetname="drop-down4">
+    <p class="dropspot">This type of struct represents one view in the room.</p>
+    <p class="dropspot">These structs are found in the <span class="inline2">views</span> array, which is part of the main struct returned by the function.</p>
     <table style="caption-side: top">
       <caption>View Info Struct</caption>
       <colgroup>
@@ -391,6 +392,8 @@
   </div>
   <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down5" href="#">Layer Element Info</a></p>
   <div class="droptext" data-targetname="drop-down5">
+    <p class="dropspot">This type of struct represents one element in a layer.</p>
+    <p class="dropspot">These structs are found in the <span class="inline2">elements</span> array, which is part of a layer struct.</p>
     <table style="caption-side: top">
       <caption>Layer Element Info Struct</caption>
       <colgroup>
@@ -802,27 +805,27 @@
       <tr>
         <td>views</td>
         <td><span data-keyref="Type_Bool"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Boolean</a></span></td>
-        <td><span data-conref="../../../../assets/snippets/Tag_optional.hts"> </span> Whether to add room view information to the struct (defaults to <span class="inline2">true</span>)</td>
+        <td><span data-conref="../../../../assets/snippets/Tag_optional.hts"> </span> Whether to include view information in the struct (defaults to <span class="inline2">true</span>)</td>
       </tr>
       <tr>
         <td>instances</td>
         <td><span data-keyref="Type_Bool"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Boolean</a></span></td>
-        <td><span data-conref="../../../../assets/snippets/Tag_optional.hts"> </span> Whether to add instance information to the struct (defaults to <span class="inline2">true</span>)</td>
+        <td><span data-conref="../../../../assets/snippets/Tag_optional.hts"> </span> Whether to include instance information in the struct (defaults to <span class="inline2">true</span>)</td>
       </tr>
       <tr>
         <td>layers</td>
         <td><span data-keyref="Type_Bool"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Boolean</a></span></td>
-        <td><span data-conref="../../../../assets/snippets/Tag_optional.hts"> </span> Whether to add room layer information to the struct (defaults to <span class="inline2">true</span>)</td>
+        <td><span data-conref="../../../../assets/snippets/Tag_optional.hts"> </span> Whether to include layer information in the struct (defaults to <span class="inline2">true</span>)</td>
       </tr>
       <tr>
         <td>layer_elements</td>
         <td><span data-keyref="Type_Bool"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Boolean</a></span></td>
-        <td><span data-conref="../../../../assets/snippets/Tag_optional.hts"> </span> Whether to add layer element information to the struct (defaults to <span class="inline2">true</span>, requires layers to be set to <span class="inline2">true</span>)</td>
+        <td><span data-conref="../../../../assets/snippets/Tag_optional.hts"> </span> Whether to include layer element information in the struct (defaults to <span class="inline2">true</span>, requires layers to be set to <span class="inline2">true</span>)</td>
       </tr>
       <tr>
         <td>tilemap_data</td>
         <td><span data-keyref="Type_Bool"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Boolean</a></span></td>
-        <td><span data-conref="../../../../assets/snippets/Tag_optional.hts"> </span> Whether to add tile map data to the struct (defaults to <span class="inline2">true</span>, requires <span class="inline2">layers</span> and <span class="inline2">layer_elements</span> to be set to <span class="inline2">true</span>)</td>
+        <td><span data-conref="../../../../assets/snippets/Tag_optional.hts"> </span> Whether to include tile map data in the struct (defaults to <span class="inline2">true</span>, requires <span class="inline2">layers</span> and <span class="inline2">layer_elements</span> to be set to <span class="inline2">true</span>)</td>
       </tr>
     </tbody>
   </table>
@@ -834,7 +837,7 @@
   <p class="code">var _info = <span data-field="title" data-format="default">room_get_info</span>(Room1);<br />
     var _info_json = json_stringify(_info, true);<br />
     show_debug_message(_info_json);</p>
-  <p>The above code gets the information of the room <span class="inline2">Room1</span>, converts the returned struct to string and formats it using <span class="inline3_func"><a data-xref="{title}" href="../../File_Handling/Encoding_And_Hashing/json_stringify.htm">json_stringify</a></span>, then outputs it in a debug message. All view, instance, layer, layer element and tile map information is included in the output.</p>
+  <p>The above code gets the information of the room <span class="inline2">Room1</span>, converts the returned struct to a JSON string using <span class="inline3_func"><a data-xref="{title}" href="../../File_Handling/Encoding_And_Hashing/json_stringify.htm">json_stringify</a></span>, then outputs it in a debug message. All view, instance, layer, layer element and tile map information is included in the output.</p>
   <p> </p>
   <p> </p>
   <div class="footer">
