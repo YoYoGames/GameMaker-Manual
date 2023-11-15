@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>steam_ugc_create_item</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
+  <script src="../../../../assets/scripts/main_script.js"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Reference page for steam_ugc_create_item" />
+  <meta name="rh-index-keywords" content="steam_ugc_create_item,ugc_filetype_community,ugc_filetype_microtrans" />
+  <meta name="search-keywords" content="steam_ugc_create_item,ugc_filetype_community,ugc_filetype_microtrans" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>steam_ugc_create_item</h1>
+  <p>Esta função é utilizada para preparar a API do Workshop e gerar um ID de arquivo publicado para o item a ser adicionado. A função <i>deve</i> ser chamada antes de fazer qualquer outra coisa com o item a ser carregado, pois será necessário usar o valor único de ID publicado que ele retorna no Evento Async <span class="notranslate">Steam</span> para atualização. Para usar esta função, você precisa fornecer o ID do aplicativo <span class="notranslate">Steam</span> para seu jogo, e usar uma das seguintes constantes para o argumento <tt>file_type</tt>:</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>Constante</th>
+        <th>Descrição</th>
+      </tr>
+      <tr>
+        <td><span class="notranslate">ugc_filetype_community</span></td>
+        <td>Isto é usado para criar arquivos que serão carregados e disponibilizados para qualquer pessoa da comunidade.</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">ugc_filetype_microtrans</span></td>
+        <td>Isto é usado para descrever arquivos que são carregados, mas destinados apenas para que o jogo considere a adição como conteúdo oficial.</td>
+      </tr>
+    </tbody>
+  </table>
+  <p><br>
+    Ao usar esta função, ele retornará um valor de identificação assimétrica que pode ser analisado quando o evento <a href="../../../../The_Asset_Editors/Object_Properties/Async_Events/Steam.htm">Assíncrono a Vapor</a> for acionado para relatar a criação do item. O evento conterá os seguintes valores chave/mapa no <a href="../../../GML_Overview/Variables/Builtin_Global_Variables/async_load.htm"><tt>async_load</tt></a> ds_map:</p>
+  <ul class="colour">
+    <li>&quot;<b>id</b>&quot; - O ID assimétrico retornado pela função de chamada</li>
+    <li>&quot;<b>resultado</b>&quot; - O resultado da operação (um valor real). Este será ou o <tt>sucesso</tt> constante <tt>do</tt> <span class="notranslate">GML</span> <tt>ugc_result_success</tt> ou algum outro número real. Portanto, deve-se verificar esta constante para garantir que a chamada foi bem sucedida e, caso contrário, alguma coisa não funcionou corretamente. O resto dos valores possíveis retornados são mostrados como resultado do valor <span class="notranslate">Steam</span> &quot;EResult&quot; e você deve ver o <tt>steamclientpublic.h</tt> nos cabeçalhos do SDK para todos os 89 valores possíveis.</li>
+    <li>&quot;<b>event_type</b>&quot; - Esta chave conterá o valor &quot;<b>ugc_create_item</b>&quot;.</li>
+    <li>&quot;<b>legal_required</b>&quot; - Será <tt>verdadeiro</tt> ou <tt>falso</tt> (veja os <a href="https://partner.steamgames.com/documentation/ugc#Legal" target="_blank">documentos Steam</a> para mais detalhes)</li>
+    <li>&quot;<b>published_file_id</b>&quot; - Esta chave contém o ID único publicado para o item, que é um int64 (e você pode precisar lançá-lo como tal quando usá-lo em funções subseqüentes usando o <a href="../../Variable_Functions/int64.htm"><tt>int64()</tt></a> função)</li>
+  </ul>
+  <p> </p>
+  <h4>Sintaxe:</h4>
+  <p class="code">steam_ugc_create_item(consumer_app_id, file_type);</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>Argumento</th>
+        <th>Descrição</th>
+      </tr>
+      <tr>
+        <td><span class="notranslate">consumer_app_id</span></td>
+        <td>O ID do aplicativo exclusivo para seu jogo em <span class="notranslate">Steam</span>.</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">file_type</span></td>
+        <td>Uma das constantes disponíveis do tipo de arquivo (listada abaixo).</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>Devoluções:</h4>
+  <p class="code">Async ID</p>
+  <p> </p>
+  <h4>Exemplo ampliado:</h4>
+  <p>Neste exemplo, primeiro chamamos a função e armazenamos o valor de identificação assimétrica em uma variável:</p>
+  <p class="code">var app_id = steam_get_app_id();<br />
+    new_item = steam_ugc_create_item(app_id, ugc_filetype_community);</p>
+  <p>Isto enviaria então um pedido à API <span class="notranslate">Steam</span> para criar o novo item Worksop, gerando um evento assimétrico com o qual trataríamos da seguinte forma:</p>
+  <p class="code">var event_id = async_load[? &quot;id&quot;];<br />
+    if event_id == new_item<br />
+    {<br />
+        var type = async_load[? &quot;event_type&quot;];<br />
+        if type == &quot;ugc_create_item&quot;<br />
+        {<br />
+            global.Publish_ID = async_load[? &quot;published_file_id&quot;];<br />
+        }<br />
+    }</p>
+  <p>O código acima verifica o tipo de evento e se é &quot;ugc_create_item&quot; então ele recupera o ID do arquivo publicado e o armazena em uma variável global para referência futura.</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Voltar: <a href="Steam_UGC.htm">UGC</a></div>
+        <div style="float:right">A seguir: <a href="steam_ugc_start_item_update.htm"><span class="notranslate">steam_ugc_start_item_update</span></a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright <span class="notranslate">YoYo Games Ltd.</span> 2022 Todos os direitos reservados</span></h5>
+  </div>
+  <!-- KEYWORDS
+steam_ugc_create_item
+ugc_filetype_community
+ugc_filetype_microtrans
+-->
+  <!-- TAGS
+steam_ugc_create_item
+-->
+</body>
+</html>

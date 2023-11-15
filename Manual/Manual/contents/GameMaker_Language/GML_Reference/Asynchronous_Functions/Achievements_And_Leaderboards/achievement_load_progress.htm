@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>achievement_load_progress</title>
+  <meta name="generator" content="Adobe RoboHelp 2019" />
+  <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
+  <script src="../../../../assets/scripts/main_script.js"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Reference page for achievement_load_progress" />
+  <meta name="rh-index-keywords" content="achievement_load_progress,achievement_achievement_info" />
+  <meta name="search-keywords" content="achievement_load_progress,achievement_achievement_info" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>achievement_load_progress</h1>
+  <p>Esta função enviará um pedido ao site <span class="notranslate">server</span> para obter informações sobre todas as realizações disponíveis. Ela desencadeará um <a href="../../../../The_Asset_Editors/Object_Properties/Async_Events/Social.htm">Evento Assíncrono Social</a> de retorno que conterá
+    o <a href="../../../GML_Overview/Variables/Builtin_Global_Variables/async_load.htm"><tt>async_load</tt></a> mapa povoado com os pares chave/valor relevantes. A chave de <i>identificação</i> deste <tt>mapa DS</tt> é usada para identificar o retorno de chamada correto (lá
+    pode ser mais de uma função de gatilho para qualquer evento assíncrono), e será emparelhado com a <b>constante</b> <tt>obtenção de resultados</tt>, bem como um número de outros pares de chaves/valores para cada jogador. O conteúdo exato do mapa
+    são mostrados abaixo:</p>
+  <p class="note"><b>NOTA: </b>Esta função é apenas para <b>iOS</b>.</p>
+  <ul class="colour">
+    <li>&quot;<b>id</b>&quot; - Para esta função, deve ser <tt>alcançada_a realização_info</tt>.</li>
+    <li>&quot;<b>numentries</b>&quot; - O número de realizações na lista.</li>
+    <li>&quot;<b>AchN</b>&quot; - O nome da realização, onde &quot;N&quot; é um valor inteiro correspondente a seu lugar na lista de entradas.</li>
+    <li>&quot;<b>AchCompN</b>&quot; - Como é completa a realização &quot;N&quot; como um valor percentual de 0 a 100 (a <span class="notranslate">string</span>).</li>
+  </ul>
+  <p> </p>
+  <h4><b>Sintaxe:</b></h4>
+  <p class="code">achievement_load_progress()</p>
+  <p> </p>
+  <h4>Devoluções:</h4>
+  <p class="code">N/A</p>
+  <p> </p>
+  <h4>Exemplo ampliado:</h4>
+  <p>O seguinte código exigiria progresso de realização quando o usuário estiver em um dispositivo <span class="notranslate">iOS</span>:</p>
+  <p class="code">if os_type == os_ios<br/>     {
+    <br/>     achievement_load_progress();
+    <br/>     }
+  </p>
+  <p>Isto enviará um pedido de informações sobre as realizações e gerará uma chamada de retorno assíncrona com o mapa DS especial de <tt>assimetria</tt> contendo os seguintes dados:</p>
+  <p class="code">var ident = ds_map_find_value(async_load, &quot;id&quot;);<br/> if ident == achievement_achievement_info<br/>     {
+    <br/>     var numentries = ds_map_find_value(async_load, &quot;numentries&quot;);<br/>     for(var i = 0; i &lt; numentries; i++;)<br/>         {
+    <br/>         ach_id[i] = ds_map_find_value(async_load, &quot;Ach&quot; + string(i));<br/>         comp[i] = ds_map_find_value(async_load, &quot;AchComp&quot; + string(i));<br/>         }
+    <br/>     }
+  </p>
+  <p>O código acima verifica o <tt>DS Map</tt> devolvido no <b>Evento Assíncrono Social</b> e se seu &quot;id&quot; corresponde à constante a ser verificada, então <span class="notranslate">loops</span> através das entradas no mapa para cada uma das realizações e armazena seu nome
+    e porcentagem de conclusão.</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Voltar: <a href="Achievements_And_Leaderboards.htm">Conquistas e Quadros de Líderes</a></div>
+        <div style="float:right">A seguir: <a href="achievement_send_challenge.htm"><span class="notranslate">achievement_send_challenge</span></a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright <span class="notranslate">YoYo Games Ltd.</span> 2021 Todos os direitos reservados</span></h5>
+  </div>
+  <!-- KEYWORDS
+achievement_load_progress
+achievement_achievement_info
+-->
+  <!-- TAGS
+achievement_load_progress
+-->
+</body>
+</html>

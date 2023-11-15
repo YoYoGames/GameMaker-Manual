@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>vapor_ugc_download</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
+  <script src="../../../../assets/scripts/main_script.js"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Reference page for steam_ugc_download" />
+  <meta name="rh-index-keywords" content="steam_ugc_download" />
+  <meta name="search-keywords" content="steam_ugc_download" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>vapor_ugc_download</h1>
+  <p>Com esta função, você pode baixar uma imagem prévia para qualquer item UGC. O <tt>ugc_handle</tt> é o valor de identificação único para a imagem (que você pode obter usando a função <a href="steam_ugc_send_query.htm"><tt>steam_ugc_send_query()</tt></a>), e o nome do arquivo de destino é o nome (e local <span class="notranslate">path</span> dentro da caixa de areia <span class="notranslate">Steam</span> ) que você deseja dar o arquivo de imagem quando o download estiver completo.</p>
+  <p>Ao utilizar esta função, desencadeará um evento <a href="../../../../The_Asset_Editors/Object_Properties/Async_Events/Steam.htm">assíncrono a vapor</a> para relatar os detalhes do arquivo de imagem solicitado, contendo os seguintes pares de chaves/valores no <a href="../../../GML_Overview/Variables/Builtin_Global_Variables/async_load.htm"><tt>async_load</tt></a> ds_map:</p>
+  <ul class="colour">
+    <li>&quot;<b>id</b>&quot; - O ID assimétrico retornado pela função de chamada</li>
+    <li>&quot;<b>resultado</b>&quot; - O resultado da operação (um valor real). Este será ou o <tt>sucesso</tt> constante <tt>do</tt> <span class="notranslate">GML</span> <tt>ugc_result_success</tt> ou algum outro número real. Portanto, você deve verificar esta constante para assegurar que a chamada foi bem sucedida e, caso contrário, alguma coisa não funcionou corretamente. O resto dos valores possíveis retornados são mostrados como resultado do valor <span class="notranslate">Steam</span> &quot;EResult&quot; e você deve ver o <tt>steamclientpublic.h</tt> nos cabeçalhos do SDK para todos os 89 valores possíveis.</li>
+    <li>&quot;<b>event_type</b>&quot; - Esta chave conterá o valor &quot;<b>ugc_download</b>&quot;.</li>
+    <li>&quot;<b>original_filename</b>&quot; - Esta chave contém o nome original do arquivo de imagem <i>no servidor</i> (a <span class="notranslate">string</span>)</li>
+    <li>&quot;<b>dest_filename</b>&quot; - Esta chave contém o nome do arquivo de imagem em que você passou (a <span class="notranslate">string</span>)</li>
+    <li>&quot;<b>ugc_handle</b>&quot; - Esta chave contém o valor da <tt>ugc_handle</tt> que você passou para a função de chamada</li>
+  </ul>
+  <p> </p>
+  <h4>Sintaxe:</h4>
+  <p class="code">steam_ugc_download(ugc_handle, dest_filename);</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>Argumento</th>
+        <th>Descrição</th>
+      </tr>
+      <tr>
+        <td><span class="notranslate">ugc_handle</span></td>
+        <td>O cabo exclusivo para a visualização a ser baixada.</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">dest_filename</span></td>
+        <td>O nome do arquivo para salvar a visualização.</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>Devoluções:</h4>
+  <p class="code">Async ID</p>
+  <p> </p>
+  <h4>Exemplo ampliado:</h4>
+  <p>Neste exemplo, primeiro chamamos a função e armazenamos o valor de identificação assimétrica em uma variável:</p>
+  <p class="code">steam_get = steam_ugc_download(steam_handle, &quot;\UGC\Preview_file.png&quot;);</p>
+  <p>Isto enviaria então um pedido de arquivo para a API <span class="notranslate">Steam</span>, gerando um evento assimétrico com o qual trataríamos da seguinte forma:</p>
+  <p class="code">var event_id = async_load[? &quot;id&quot;];<br />
+    if event_id == steam_get<br />
+    {<br />
+        var type = async_load[? &quot;event_type&quot;];<br />
+        if type == &quot;ugc_download&quot;<br />
+        {<br />
+            sprite_delete(preview_sprite);<br />
+            preview_sprite = sprite_add(async_load[? &quot;dest_filename&quot;], 0, false, false, 0, 0);<br />
+        }<br />
+    }</p>
+  <p>O código acima verifica o tipo de evento e depois cria um <span class="notranslate">sprite</span> a partir da imagem baixada.</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Voltar: <a href="Steam_UGC.htm">UGC</a></div>
+        <div style="float:right">A seguir: <a href="steam_is_screenshot_requested.htm"><span class="notranslate">steam_is_screenshot_requested</span></a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright <span class="notranslate">YoYo Games Ltd.</span> 2022 Todos os direitos reservados</span></h5>
+  </div>
+  <!-- KEYWORDS
+steam_ugc_download
+-->
+  <!-- TAGS
+steam_ugc_download
+-->
+</body>
+</html>

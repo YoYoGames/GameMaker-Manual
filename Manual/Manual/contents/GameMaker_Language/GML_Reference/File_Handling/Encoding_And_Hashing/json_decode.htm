@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>json_decode</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
+  <script src="../../../../assets/scripts/main_script.js"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Reference page for json_decode" />
+  <meta name="rh-index-keywords" content="json_decode" />
+  <meta name="search-keywords" content="json_decode" />
+  <meta name="is_pure" content="true" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>json_decode</h1>
+  <h3><strong>IMPORTANTE!</strong> Esta função - embora ainda seja válida - foi substituída pela função <span class="inline"><a href="json_parse.htm">json_parse()</a></span>, e recomendamos que você use esta função apenas para apoio ao legado.</h3>
+  <p>JSON (JavaScript <span class="notranslate">Object</span> Notation) é um formato leve de troca de dados que é fácil de ler e escrever, tanto para pessoas quanto para máquinas. Ele é construído sobre duas estruturas básicas:</p>
+  <ul class="colour">
+    <li>Uma coleção de pares de nomes/valores, chamados de <a href="../../Data_Structures/DS_Maps/DS_Maps.htm"><span class="inline">DS Map</span></a> no <span data-keyref="GameMaker Name">GameMaker</span>, mas também conhecido como um &quot;dicionário&quot; ou &quot;objeto&quot;.</li>
+    <li>Uma lista ordenada de valores, chamada de <a href="../../Data_Structures/DS_Lists/DS_Lists.htm"><span class="inline">DS List</span></a> no <span data-keyref="GameMaker Name">GameMaker</span>, mas isto também pode ser chamado de &quot;array&quot; ou &quot;seqüência&quot;.</li>
+  </ul>
+  <p>Com esta função, você pode decodificar um pedaço de JSON e convertê-lo em um <span class="inline">DS Map</span>, pronto para uso no <span data-keyref="GameMaker Name">GameMaker</span>. Se o JSON a ser decodificado requer uma hierarquia de listas e mapas dentro do mapa DS central, estes também são decodificados e também criados para você, usando as seguintes regras (note que estas regras se aplicam somente à estrutura de nível superior):</p>
+  <ul class="colour">
+    <li><strong><i>JSON é um valor único</i></strong> - retorna um mapa DS com uma única entrada &quot;padrão&quot; que é o valor</li>
+    <li><strong><i>JSON é um conjunto de <span class="notranslate">objects</span> ou valores</i></strong> - retorna um mapa DS com uma única entrada &quot;padrão&quot; que é uma lista DS do <span class="notranslate">objects</span> ou valores</li>
+    <li><strong><i>JSON é um objeto</i></strong> - devolve um mapa DS que tem as entradas <span class="notranslate">object</span> nele</li>
+  </ul>
+  <p class="note"><b>NOTA</b>: Ao decodificar arrays JSON, há um mapa com a chave &quot;padrão&quot; APENAS quando uma matriz é a estrutura de nível superior, e APENAS para essa matriz de nível superior. As listas internas decodificam diretamente para o mapa DS sem serem incluídas em um mapa DS.</p>
+  <p class="note"><strong>NOTA</strong>: Se você escreveu <span class="notranslate">GameMaker</span> arrays no nível superior, ou como o conteúdo de um mapa DS ou lista DS, estes serão decodificados como listas DS, <strong>não</strong> como arrays.</p>
+  <p>Normalmente você saberia a que chaves o JSON decodifica, mas se não, então você pode usar o <a href="../../Data_Structures/DS_Maps/ds_map_size.htm"><span class="inline">ds_map_size()</span></a>, <a href="../../Data_Structures/DS_Maps/ds_map_find_first.htm"><span class="inline">ds_map_find_first()</span></a> e <a href="../../Data_Structures/DS_Maps/ds_map_find_next.htm"><span class="inline">ds_map_find_next()</span></a> funções para analisar o mapa e obter as informações necessárias.</p>
+  <p class="note"><b>NOTA</b>: O <span data-keyref="GameMaker Name">GameMaker</span> cria os mapas e listas DS necessários a partir do JSON, e para a limpeza você só precisa apagar o mapa ou lista de <b>nível superior</b> e o <span data-keyref="GameMaker Name">GameMaker</span> apagará automaticamente da memória todos os mapas e listas abaixo.</p>
+  <p class="note"><strong>NOTA</strong>: Esta função permite carregar arquivos JSON com um limite máximo de 128 ninhos.</p>
+  <p class="note"><b>IMPORTANTE</b>: Você não pode ter números de 64 bits em seu JSON, pois eles não funcionarão corretamente devido ao fato de não serem tratados pelo formato JSON.</p>
+  <p> </p>
+  <h4>Sintaxe:</h4>
+  <p class="code">json_decode(string)</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>Argumento</th><th>Tipo</th>
+        <th>Descrição</th>
+     </tr>
+      <tr>
+        <td><span class="notranslate">string</span></td><td><span data-keyref="Type_String"></span></td>
+        <td><span class="notranslate">The JSON format string that you are passing to the function for decoding</span></td>
+     </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>Devoluções:</h4>
+  <p class="code"><span data-keyref="Type_ID_DS_Map">DS Map ID</span> or -1 (if it fails)</p>
+  <p> </p>
+  <h4>Exemplo:</h4>
+  <p class="code">var resultMap = json_decode(requestResult);<br />
+    var list = ds_map_find_value(resultMap, &quot;default&quot;);<br />
+    var size = ds_list_size(list);<br />
+    for (var n = 0; n &lt; ds_list_size(list); n++;)<br />
+    {<br />
+        var map = ds_list_find_value(list, n);<br />
+        var curr = ds_map_find_first(map);<br />
+        while (is_string(curr))<br />
+        {<br />
+            global.Name[n] = ds_map_find_value(map, &quot;name&quot;);<br />
+            curr = ds_map_find_next(map, curr);<br />
+        }<br />
+    }<br />
+    ds_map_destroy(resultMap);</p>
+  <p>O código acima decodificará um JSON <span class="notranslate">string</span> e o analisará para gerar uma matriz global.</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Voltar: <a href="Encoding_And_Hashing.htm">Codificação de arquivos</a></div>
+        <div style="float:right">A seguir: <a href="json_stringify.htm"><span class="notranslate">json_stringify</span></a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright <span class="notranslate">YoYo Games Ltd.</span> 2022 Todos os direitos reservados</span></h5>
+  </div>
+  <!-- KEYWORDS
+json_decode
+-->
+  <!-- TAGS
+json_decode
+-->
+</body>
+</html>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>audio_get_listener_info</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../../../assets/css/default.css" type="text/css" />
+  <script src="../../../../../assets/scripts/main_script.js"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Page explaining the function audio_get_listener_info" />
+  <meta name="rh-index-keywords" content="audio_get_listener_info" />
+  <meta name="search-keywords" content="audio_get_listener_info" />
+  <meta name="is_pure" content="true" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>audio_get_listener_info</h1>
+  <p>Esta função criará um <a href="../../../Data_Structures/DS_Maps/DS_Maps.htm">mapa DS</a> e o preencherá com informações para o ouvinte em questão.</p>
+  <p class="note"><b><span class="note">NOTA</span> </b>Você é responsável pela destruição do retorno <span class="inline">DS Map</span> usando a função apropriada.</p>
+  <p>O mapa DS conterá as seguintes chaves:</p>
+  <ul class="colour">
+    <li>&quot;<strong>name</strong>&quot; - O nome do ouvinte, como um <span class="notranslate">string</span>, sendo &quot;default&quot; o nome padrão do ouvinte na maioria das plataformas alvo</li>
+    <li>&quot;<strong>máscara</strong>&quot; - A máscara de bits para o ouvinte</li>
+    <li>&quot;<strong>index</strong>&quot; - O valor único do índice do ouvinte</li>
+  </ul>
+  <p>O valor da máscara pode ser usado para definir um som ou emissor para tocar de múltiplos ouvintes ao mesmo tempo, simplesmente usando o bitwise <span class="inline">or</span> &quot;|&quot; para gerar uma máscara para o som (veja o código de exemplo abaixo), enquanto o índice é usado para definir as propriedades como posição ou velocidade para um determinado ouvinte usando funções como <a href="audio_listener_set_position.htm"><span class="inline">audio_listener_set_position()</span></a>.</p>
+  <p> </p>
+  <h4>Sintaxe:</h4>
+  <p class="code">audio_get_listener_info(num);</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>Argumento</th>
+        <th>Tipo</th>
+        <th>Descrição</th>
+      </tr>
+      <tr>
+        <td><span class="notranslate">num</span></td>
+        <td> <span data-keyref="Type_ID_Audio_Listener">ID do ouvinte</span><span data-keyref="Type_Real">real</span> ou <span data-keyref="Type_ID_Audio_Listener">de áudio</span></td>
+        <td><span class="notranslate">The listener number to get the data for.</span></td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>Devoluções:</h4>
+  <p class="code"><span data-keyref="Type_ID_DS_Map">DS Map ID</span></p>
+  <p> </p>
+  <h4>Exemplo:</h4>
+  <p class="code">var num = audio_get_listener_count();<br />
+    var mask = 0; for(var i = 0; i &lt; num; ++i;)<br />
+    {<br />
+        var info = audio_get_listener_info(i);<br />
+        var m = audio_listener_get_data(info[? &quot;mask&quot;]);<br />
+        mask = mask | m;<br />
+        ds_map_destroy(info);<br />
+    }<br />
+    audio_set_listener_mask(mask);</p>
+  <p>O código acima verifica o número de ouvintes disponíveis e então <span class="notranslate">loops</span> através deles recebe seus bits de máscara, que são então combinados para criar uma única máscara de bit que é aplicada ao ouvinte global.</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Voltar: <a href="Audio_Listeners.htm">Ouvintes de áudio</a></div>
+        <div style="float:right">A seguir: <a href="audio_get_listener_mask.htm"><span class="notranslate">audio_get_listener_mask</span></a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright <span class="notranslate">YoYo Games Ltd.</span> 2022 Todos os direitos reservados</span></h5>
+  </div>
+  <!-- KEYWORDS
+audio_get_listener_info
+-->
+  <!-- TAGS
+audio_get_listener_info
+-->
+</body>
+</html>

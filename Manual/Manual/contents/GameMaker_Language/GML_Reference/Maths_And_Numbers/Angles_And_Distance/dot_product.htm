@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>dot_product</title>
+  <meta name="generator" content="Adobe RoboHelp 2019" />
+  <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
+  <script src="../../../../assets/scripts/main_script.js"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Reference page for dot_product" />
+  <meta name="rh-index-keywords" content="dot_product" />
+  <meta name="search-keywords" content="dot_product" />
+  <meta name="is_pure" content="true" />
+</head>
+
+<body>
+
+
+
+
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>dot_product</h1>
+  <p>O produto ponto é um valor que expressa a relação angular entre dois vetores e é encontrado pegando dois vetores, multiplicando-os juntos e depois adicionando os resultados. O nome &quot;produto de ponto&quot; é derivado do ponto centralizado &quot;-&quot;.
+    que é freqüentemente usado para designar esta operação (o nome alternativo &quot;produto escalar&quot; enfatiza a natureza escalar e não vetorial do resultado).</p>
+  <p>A fórmula matemática real pode ser escrita desta forma:</p>
+  <p><img alt="Dot Product formula" class="center" src="../../../../assets/Images/Scripting_Reference/GML/Reference/Maths/dot_product_image.png"/></p>
+  <p>Assim, em 2D o produto dot de vetores <span class="inline">a[x1,y1]</span> e <span class="inline">b[x2,2]</span> é <span class="inline">x1x2 + y1y2</span>, o que significa que o produto dot_product no <span data-keyref="GameMaker Name">GameMaker</span> é calculado como:</p>
+  <p class="code">a · b = (x1*x2)+(y1*y2);</p>
+  <p>O curioso sobre o produto ponto é a relação que ele tem com o ângulo formado pelos vetores de entrada que podem ser expressos como:</p>
+  <p class="code">a · b = (length of a) * (length of b) * cos(angle)</p>
+  <p>Ou seja, o produto pontilhado de dois vetores será igual ao cosseno do ângulo entre esses vetores, multiplicado pelo comprimento de cada um deles. Aqui está uma imagem para ilustrar:</p>
+  <p><img alt="Dot Product ilustration" class="center" height="143" src="../../../../assets/Images/Scripting_Reference/GML/Reference/Maths/dot_product_image_2.png" width="406"/></p>
+  <p class="note"><strong>NOTA</strong>: Para mais informações sobre vetores, veja <a href="../../../../Additional_Information/Vectors.htm">aqui</a>.</p>
+  <p>Há algumas coisas que agora podemos afirmar a partir de quaisquer dois vetores em relação ao resultado de seu produto ponto:</p>
+  <ul class="colour">
+    <li>Se a e b forem perpendiculares (a 90 graus um ao outro), o resultado do produto ponto será zero, porque <span class="inline">cos(ang)</span> será zero</li>
+    <li>Se o ângulo entre a e b for inferior a 90 graus, o produto ponto será positivo (maior que zero), já que <span class="inline">cos(ang)</span> será positivo</li>
+    <li>Se o ângulo entre a e b for maior que 90 graus, o produto ponto será negativo (menos que zero), já que <span class="inline">cos(ang)</span> será negativo</li>
+  </ul>
+  <p>Então o que isso significa para aqueles de nós que fazem jogos? Bem, esta relação matemática pode ser usada em várias circunstâncias, mas a melhor maneira de vê-la é construir um cenário real e ver por si mesmo o que está acontecendo. Um dos mais simples
+    A maneira de fazer isso é gerar uma simples &quot;linha de visão&quot; de um inimigo em, digamos, um jogo de plataforma, para que o inimigo &quot;veja&quot; o jogador se ele estiver a 90° de cada lado de seu vetor <i>normal</i>.</p>
+  <p><img>Basicamente, temos que obter o vetor normal do inimigo (ou seja: composto de uma direção e distância de visão)
+    e depois precisamos levar o vetor do jogador até o inimigo. Então obteremos o ponto_produto destes vetores, e se o resultado for positivo o jogador foi visto, e se for negativo ele não foi visto. O código real para que isto funcione é fornecido
+    no exemplo abaixo.</p>
+  <p> </p>
+  <h4><b>Sintaxe:</b></h4>
+  <p class="code">dot_product(x1, y1, x2, y2)</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>Argumento</th><th>Tipo</th>
+        <th>Descrição</th>
+     </tr>
+      <tr>
+        <td><span class="notranslate">x1</span></td><td><span data-keyref="Type_Real"></span></td>
+        <td><span class="notranslate">The x coordinate of the first vector.</span></td>
+     </tr>
+      <tr>
+        <td><span class="notranslate">y1</span></td><td><span data-keyref="Type_Real"></span></td>
+        <td><span class="notranslate">The y coordinate of the first vector.</span></td>
+     </tr>
+      <tr>
+        <td><span class="notranslate">x2</span></td><td><span data-keyref="Type_Real"></span></td>
+        <td><span class="notranslate">The x coordinate of the second vector.</span></td>
+     </tr>
+      <tr>
+        <td><span class="notranslate">y2</span></td><td><span data-keyref="Type_Real"></span></td>
+        <td><span class="notranslate">The y coordinate of the second vector.</span></td>
+     </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>Devoluções:</h4>
+  <p class="code"><span data-keyref="Type_Real"></span></p>
+  <p> </p>
+  <h4>Exemplo:</h4>
+  <p class="code">var x1, y1, x2, y2;<br/> x1 = lengthdir_x(1, image_angle);<br/> y1 = lengthdir_y(1, image_angle);<br/> x2 = o_Player.x - x;<br/> y2 = o_Player.y - y;<br/> if dot_product(x1, y1, x2, y2) &gt; 0 seen=true else seen=false;</p>
+  <p>O código acima cria um vetor utilizando o ângulo de imagem das instâncias, e então obtém o vetor do jogador <span class="notranslate">object</span> &quot;o_Player&quot; para si mesmo. Finalmente, ele calcula o produto de pontos destes dois vetores e, se for maior que 0, define a variável
+    &quot;visto&quot; para verdadeiro, e se for igual ou inferior a 0, o define como &quot;falso&quot;.</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Voltar: <a href="Angles_And_Distance.htm">Ângulos e distância</a></div>
+        <div style="float:right">A seguir: <a href="dot_product_3d.htm"><span class="notranslate">dot_product_3d</span></a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright <span class="notranslate">YoYo Games Ltd.</span> 2021 Todos os direitos reservados</span></h5>
+  </div>
+  <!-- KEYWORDS
+dot_product
+-->
+  <!-- TAGS
+dot_product
+-->
+
+</body></html>

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>com</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../assets/css/default.css" type="text/css" />
+  <script src="../../../assets/scripts/main_script.js"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Page outlining the with function" />
+  <meta name="rh-index-keywords" content="with" />
+  <meta name="search-keywords" content="with" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>com</h1>
+  <p>Como indicado na seção <a href="../Addressing_Variables_In_Other_Instances.htm">Endereçando Variáveis em Outras Instâncias</a>, é possível ler e alterar o valor das variáveis em instâncias e <a href="../Structs.htm">estruturas</a> diferentes daquela que está executando um determinado código. Entretanto, em vários casos você quer fazer muito mais do que apenas alterar uma única variável dentro dessas outras instâncias, e pode querer executar ações de código mais complexas que requerem múltiplas funções e linhas de código. Por exemplo, imagine que você queira mover todas as instâncias de uma bola <span class="notranslate">object</span> em seu jogo 8 pixels para baixo. Você pode pensar que isso é conseguido simplesmente pelo seguinte código:</p>
+  <p class="code">obj_ball.y = obj_ball.y + 8;</p>
+  <p>Mas isto não é correto, pois o lado direito da atribuição recebe o valor da coordenada y da primeira bola e acrescenta 8 a ela. Em seguida este novo valor é definido como a coordenada y de <em>todas as </em>bolas, então o resultado é que todas as bolas recebem a mesma coordenada y, e mesmo que você use o seguinte:</p>
+  <p class="code">obj_ball.y += 8;</p>
+  <p>terá exatamente o mesmo efeito porque é simplesmente uma abreviação da primeira afirmação. Então, como <i>podemos</i> conseguir algo assim? É por isso que a declaração <span class="inline">with</span> existe em <span class="notranslate">GML</span>. A declaração em <span class="inline">with</span> tem a seguinte sintaxe:</p>
+  <p class="code">with (&lt;expression&gt;)<br />
+    {<br />
+        &lt;statement&gt;;<br />
+        &lt;statement&gt;;<br />
+        ...<br />
+    }</p>
+  <p>Para a <a class="glossterm" data-glossterm="expressão" href="#">expressão</a>, você pode indicar uma ou mais instâncias (ou um <span class="notranslate">struct</span>) para executar o código, usando um ID de instância, o ID <span class="notranslate">object</span> (que indica que <i>todas as instâncias</i> no <span class="notranslate">room</span> deste <span class="notranslate">object</span> devem executar o bloco de código), o ID <span class="notranslate">struct</span>, ou uma das <a href="../Instance_Keywords.htm">palavras-chave</a> especiais (<span class="inline">all</span> ou <span class="inline">other</span>). Isto mudará então o <strong>escopo</strong> do código dentro dos colchetes <span class="inline">{}</span> da instância, <span class="notranslate">struct</span> ou função que realmente detém o código para a instância (ou instâncias ou <span class="notranslate">struct</span>) dada na expressão.</p>
+  <p>Uma vez que a expressão tenha estabelecido o escopo do <span class="inline">with</span>, a <a class="glossterm" data-glossterm="declaração" href="#">declaração</a> será então executada para cada uma das instâncias indicadas, como se essa instância fosse a instância atual ( <span class="inline">self</span>). Assim, voltando ao nosso problema original, para mover todas as instâncias da bola <span class="notranslate">object</span> 8 pixels para baixo, você digitaria:</p>
+  <p class="code">with (obj_ball)<br />
+    {<br />
+        y += 8;<br />
+    }</p>
+  <p>Essencialmente este é um <span class="notranslate">loop</span>, e cada <a class="glossterm" data-glossterm="iteração" href="#">iteração</a> do <span class="notranslate">loop</span>, o código será executado em uma instância do <span class="notranslate">object</span> <span class="inline">obj_ball</span>.</p>
+  <p>Se você quiser executar várias declarações, basta incluí-las nos colchetes, o mesmo que você faria em torno de qualquer outro bloco de código. Assim, por exemplo, para mover todas as bolas em nosso exemplo para uma posição aleatória e dar-lhes uma velocidade e direção aleatórias, você usaria:</p>
+  <p class="code">with (obj_ball)<br />
+    {<br />
+        x = random(room_width);<br />
+        y = random(room_height);<br />
+        speed = 1 + random(2);<br />
+        direction = random(360);<br />
+    }</p>
+  <p>Como mencionado acima, dentro da(s) declaração(ões), a instância ou estrutura indicada tornou-se a instância alvo (<span class="inline">self</span>) que executa o bloco de código, o que significa que a instância original (que contém o <span class="inline">with</span> e todo o bloco de código) tornou-se a <a href="../Instance_Keywords.htm"><span class="inline">other</span></a> instância. Assim - por exemplo - para mover todas as bolas para a posição da instância atual que realmente contém o código, você pode digitar isto:</p>
+  <p class="code">with (obj_ball)<br />
+    {<br />
+        x = other.x;<br />
+        y = other.y;<br />
+    }</p>
+  <p>A declaração <span class="inline">with</span> é uma ferramenta extremamente poderosa e útil em muitas, muitas circunstâncias, portanto é importante que você entenda totalmente como ela pode ser usada. Para ajudar, há mais alguns exemplos de uso abaixo:</p>
+  <p class="code">with (instance_create_layer(x, y, &quot;Instances&quot;, obj_Ball))<br />
+    {<br />
+        speed = other.speed;<br />
+        direction = other.direction;<br />
+    }</p>
+  <p>O código acima criará uma instância de <span class="inline">obj_Ball</span> e lhe atribuirá a velocidade e a direção da instância que executa todo o bloco de código.</p>
+  <p class="code">with (instance_nearest(x, y, obj_Ball))<br />
+    {<br />
+        instance_destroy();<br />
+    }</p>
+  <p>O código acima destruirá a instância de <span class="inline">obj_Ball</span> mais próxima à instância que estiver executando o código.</p>
+  <p class="code">with(clone_struct)<br />
+    {<br />
+        xx = other.x;<br />
+        yy = other.y;<br />
+        spd = other.speed;<br />
+        dir = other.direction;<br />
+    }</p>
+  <p>O código acima usa <span class="inline">with</span> para direcionar um <span class="notranslate">struct</span> e definir as variáveis de membro dado <span class="notranslate">struct</span> para os valores armazenados na instância variáveis da instância que chama o código.</p>
+  <p class="code">var _inst = noone;<br />
+    with (obj_ball)<br />
+    {<br />
+        if (str &gt; other.str)<br />
+        {<br />
+            _inst = id;<br />
+        }<br />
+    }<br />
+    if (_inst != noone)<br />
+    {<br />
+        target = _inst;<br />
+    }</p>
+  <p>O código acima é um pouco mais complexo do que os anteriores devido a ele utilizar uma <a href="../Variables_And_Variable_Scope.htm">variável local</a>. Esta variável é <strong>local </strong>para o <em>evento</em> ou para a<em>função de</em> <em>script </em>e não para a instância ou <span class="notranslate">struct</span> e, portanto, pode ser usada e acessada por todas as instâncias que são referenciadas dentro do bloco de código. Assim, no código acima definimos uma variável local para a palavra-chave especial <span class="inline">noone</span> e depois usamos a construção <span class="inline">with</span> para que cada instância de <span class="inline">obj_Ball</span> verifique sua variável <span class="inline">str</span> em relação à da instância que está executando o bloco de código. Se o valor da variável for maior, então eles armazenarão sua identificação única na variável local <span class="inline">inst</span>, significando que no final do código, somente a instância com um valor maior que a instância que está chamando (ou a palavra-chave <span class="inline">noone</span> se nenhuma for maior) será armazenada na variável local <span class="inline">_inst</span>.</p>
+  <p>Vale notar que você pode usar as declarações especiais <span class="inline"><a href="break.htm">break</a></span> e <span class="inline"><a href="continue.htm">continue</a></span> dentro de um <font face="Lucida Console"><span style="font-size: 16px;"><b>com</b></span></font> chamada também. Usando <span class="inline">break</span> sairá imediatamente do bloco de códigos <span class="inline">with</span> e passará para qualquer código que esteja no evento ou função após o <span class="inline">with</span> ter terminado, por exemplo:</p>
+  <p class="code">var count = 0;<br />
+    with (obj_Enemy)<br />
+    {<br />
+        if (++count &gt; 10)<br />
+        {<br />
+            break;<br />
+        }<br />
+        hp = 100;<br />
+    }</p>
+  <p>O código acima <span class="notranslate">loops</span> através das instâncias no <span class="notranslate">room</span> do <span class="notranslate">object</span> <span class="inline">obj_Enemy</span> e define a variável <span class="inline">hp</span> como 100 para os 10 primeiros que encontra. Se houver mais de 10 instâncias, o com código chamará <span class="inline">break</span> e terminará.</p>
+  <p>Um exemplo de utilização do <span class="inline">continue</span> em um laço <span class="inline">with</span> seria:</p>
+  <p class="code">with (obj_Enemy_Parent)<br />
+    {<br />
+        if (invulnerable == true)<br />
+        {<br />
+            continue;<br />
+        }<br />
+        hp -= 25;<br />
+    }</p>
+  <p>Este código irá <span class="notranslate">loop</span> através de todas as instâncias com o pai <span class="inline">obj_Enemy_Parent</span>, então verifica cada instância para ver se a variável de instância <span class="inline">invulnerable</span> é <span class="inline">true</span> ou não. Se for, a palavra-chave <span class="inline">continue</span> termina a iteração atual do <span class="notranslate">loop</span> e passa para a próxima instância disponível, caso contrário, remove 25 da variável <span class="inline">hp</span>. Isto se repetirá até que todas as instâncias com aquele pai tenham sido verificadas.</p>
+  <div data-conref="../../../assets/snippets/Instance_creation_order_warning.hts"> </div>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Voltar: <a href="../Language_Features.htm">Características lingüísticas</a></div>
+        <div style="float:right">A seguir: <a href="return.htm"><span class="notranslate">return</span></a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright <span class="notranslate">YoYo Games Ltd.</span> 2022 Todos os direitos reservados</span></h5>
+  </div>
+  <!-- KEYWORDS
+with
+-->
+  <!-- TAGS
+with
+-->
+</body>
+</html>

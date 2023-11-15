@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>draw_tile</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
+  <script src="../../../../assets/scripts/main_script.js"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Reference page for draw_tile" />
+  <meta name="rh-index-keywords" content="draw_tile,tile_rotate,tile_mirror,tile_flip,tile_index_mask" />
+  <meta name="search-keywords" content="draw_tile,tile_rotate,tile_mirror,tile_flip,tile_index_mask" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>draw_tile</h1>
+  <p>Com esta função você pode extrair qualquer dado <span class="notranslate">tile</span> de um <span class="notranslate">tile set</span> - competir com rotações, inversões e espelhos - definindo o quadro (se animado) e a posição dentro do <span class="notranslate">room</span>. O valor <span class="notranslate">tile set</span> ID é o índice <span class="notranslate">tile set</span> como definido no <span class="notranslate">IDE</span> e os dados <span class="notranslate">tile</span> são os dados &quot;blob&quot; que contém todas as informações sobre o índice <span class="notranslate">tile</span> e as transformações que foram aplicadas. Você pode usar a função <a href="../../Asset_Management/Rooms/Tile_Map_Layers/tilemap_get.htm"><span class="inline">tilemap_get()</span></a> para obter os dados <span class="notranslate">tile</span> que podem então ser manipulados usando as <a href="../../Asset_Management/Rooms/Tile_Map_Layers/Tile_Map_Layers.htm">funções de azulejo</a>, ou você mesmo pode construí-los usando as constantes <span class="notranslate">tile</span> a seguir, juntamente com o valor do índice do <span class="notranslate">tile</span> para criar:</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>Constante</th>
+        <th>Descrição</th>
+      </tr>
+      <tr>
+        <td><span class="notranslate"><span class="inline">tile_rotate</span></td>
+        <td>Usado para definir/escondicionar o bit de rotação de uma bolha de dados <span class="notranslate">tile</span>.</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate"><span class="inline">tile_mirror</span></td>
+        <td>Usado para definir/esconder o bocado de espelho de uma bolha de dados <span class="notranslate">tile</span>.</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate"><span class="inline">tile_flip</span></td>
+        <td>Usado para definir/escondicionar o flip bit de uma bolha de dados <span class="notranslate">tile</span>.</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate"><span class="inline">tile_index_mask</span></td>
+        <td>Uma constante especial que é para &quot;e&quot; -ing com o <span class="notranslate">tile</span> data blob para extrair o índice <span class="notranslate">tile</span>.</td>
+      </tr>
+    </tbody>
+  </table>
+  <p><br>
+    Você &quot;ou&quot; estas constantes com o valor do índice <span class="notranslate">tile</span> obteria os tileados finais:</p>
+  <p class="code">var tiledata = 8 | tile_rotate | tile_flip;</p>
+  <p>O código acima simplesmente cria uma variável local para armazenar os mosaicos para o <span class="notranslate">tile</span> com o índice 8 no <span class="notranslate">tile set</span>, e é girado e invertido. Isto pode então ser usado para desenhar o <span class="notranslate">tile</span> naquele índice do <span class="notranslate">tile set</span> que você especificar. isto não está ligado a nenhuma camada do mapa de azulejos e o <span class="notranslate">tile</span> será desenhado na profundidade da camada da instância que faz o desenho, na posição x/y que você especificar no <span class="notranslate">room</span>. Note que você também pode definir o quadro para desenhar. Se o indexado <span class="notranslate">tile</span> fizer parte de um conjunto de animação, então você pode definir aqui o número do quadro (de 0 ao número de quadros - 1) e o indexado <span class="notranslate">tile</span> será simplesmente o indicador para o qual o <span class="notranslate">tile set</span> animado está sendo usado enquanto será o quadro dado que será desenhado. Se o <span class="notranslate">tile</span> não faz parte de um conjunto animado, então o frame deve ser ajustado para 0.</p>
+  <p> </p>
+  <h4>Sintaxe:</h4>
+  <p class="code">draw_tile(tileset, tiledata, frame, x, y)</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>Argumento</th>
+        <th>Tipo</th>
+        <th>Descrição</th>
+      </tr>
+      <tr>
+        <td><span class="notranslate">tileset</span></td>
+        <td><span data-keyref="Type_Asset_Tile_Set">Conjunto de azulejos Ativo</span></td>
+        <td><span class="notranslate">The ID of the tile set to use</span></td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">tiledata</span></td>
+        <td><span data-keyref="Type_Real_Tile_Data">Dados sobre os azulejos</span></td>
+        <td><span class="notranslate">The tile data to use</span></td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">frame</span></td>
+        <td><span data-keyref="Type_Real">Real</span></td>
+        <td><span class="notranslate">The frame number for the animated tile to use (default 0 for non-animated tiles)</span></td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">x</span></td>
+        <td><span data-keyref="Type_Real">Real</span></td>
+        <td><span class="notranslate">The x position within the room to draw at</span></td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">y</span></td>
+        <td><span data-keyref="Type_Real">Real</span></td>
+        <td><span class="notranslate">The y position within the room to draw at</span></td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>Devoluções:</h4>
+  <p class="code"><span data-keyref="Type_Real">Real</span></p>
+  <p> </p>
+  <h4>Exemplo:</h4>
+  <p class="code">var lay_id = layer_get_id(&quot;Tiles_sky&quot;);<br />
+    var map_id = layer_tilemap_get_id(lay_id);<br />
+    var data = tilemap_get(map_id, 0, 0);<br />
+    tile_set_flip(data, true);<br />
+    draw_tile(set_Wall, data, 0, x, y);</p>
+  <p>O código acima obterá os dados em um <span class="notranslate">tile</span> a partir do mapa de azulejos dado, depois definir o &quot;flip&quot; <span class="notranslate">flag</span> e usar esses dados para desenhar o <span class="notranslate">tile</span> virado na posição da instância.</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Voltar: <a href="Sprites_And_Tiles.htm">Sprites e Azulejos</a></div>
+        <div style="float:right">A seguir: <a href="draw_tilemap.htm"><span class="notranslate">draw_tilemap</span></a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright <span class="notranslate">YoYo Games Ltd.</span> 2022 Todos os direitos reservados</span></h5>
+  </div>
+  <!-- KEYWORDS
+draw_tile
+tile_rotate
+tile_mirror
+tile_flip
+tile_index_mask
+-->
+  <!-- TAGS
+draw_tile
+-->
+</body>
+</html>

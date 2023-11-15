@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>sprite_set_alpha_from_sprite</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../../../assets/css/default.css" type="text/css" />
+  <script src="../../../../../assets/scripts/main_script.js"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Page explaining the function sprite_set_alpha_from_sprite" />
+  <meta name="rh-index-keywords" content="sprite_set_alpha_from_sprite" />
+  <meta name="search-keywords" content="sprite_set_alpha_from_sprite" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>sprite_set_alpha_from_sprite</h1>
+  <p>Esta função utiliza o valor/saturação de um <span class="notranslate">sprite</span> e o multiplica com o alfa do alvo <span class="notranslate">sprite</span>. O ideal é que o <span class="notranslate">sprite</span> seja usado para gerar o novo mapa alfa seja em escala cinza, com as áreas brancas tendo um valor alfa equivalente a 1 (opaco), as áreas pretas sendo equivalentes ao alfa 0 (transparente), e as áreas cinzas sendo um alfa entre 0 e 1. O <span class="notranslate">sprite</span> que você está definindo o alfa <i>não pode ser um recurso permanente</i>, nem o <span class="notranslate">sprite</span> que você usa para definir o alfa, pois isso dará um erro. Isto significa que você deve criar dois novos <span class="notranslate">sprites</span> &quot;on the fly&quot; de alguma forma para que a função funcione corretamente. Isto pode ser conseguido usando superfícies, ou criando um <span class="notranslate">sprite</span> a partir da tela (o exemplo de código abaixo mostra como o efeito pode ser obtido com superfícies).</p>
+  <p class="note"><b>NOTA</b>: Esta função só é útil para o <b>bitmap</b> <span class="notranslate">sprites</span> e não funcionará com SWF ou JSON (<span class="notranslate">Spine</span>) <span class="notranslate">sprites</span>.</p>
+  <p>Abaixo está uma imagem que ilustra como esta função funciona:</p>
+  <p><img alt="Sprite Set Alpha Example" class="center" src="../../../../../assets/Images/Scripting_Reference/GML/Reference/Sprites/spr_alpha.png" /></p>
+  <p> </p>
+  <h4>Sintaxe:</h4>
+  <p class="code">sprite_set_alpha_from_sprite(ind, spr);</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>Argumento</th><th>Tipo</th>
+        <th>Descrição</th>
+     </tr>
+      <tr>
+        <td><span class="notranslate">ind</span></td><td><span data-keyref="Type_Asset_Sprite"></span></td>
+        <td><span class="notranslate">The index of the sprite to change the transparency map of.</span></td>
+     </tr>
+      <tr>
+        <td><span class="notranslate">spr</span></td><td><span data-keyref="Type_Asset_Sprite"></span></td>
+        <td><span class="notranslate">The index of the sprite to take the transparency map data from.</span></td>
+     </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>Devoluções</h4>
+  <p class="code"><span data-keyref="Type_Void"></span></p>
+  <p> </p>
+  <h4>Exemplo ampliado:</h4>
+  <p>Neste exemplo ampliado mostramos como você pode criar um efeito especial <span class="notranslate">sprite</span> a partir de dois recursos <span class="notranslate">sprite</span>. Para começar, precisamos ter uma variável controladora no <b>Create Event</b> of the instance. Esta variável é para garantir que o <span class="notranslate">sprite</span> seja criado apenas uma vez:</p>
+  <p class="code">spr_create = true;</p>
+  <p>Uma vez feito isso, precisamos então ir ao <b>Evento de Sorteio</b> e adicionar este código:</p>
+  <p class="code">if spr_create<br />
+    {<br />
+        spr_create = false;<br />
+        var _sw = sprite_get_width(spr_Explosion_Alpha);<br />
+        var _sh = sprite_get_height(spr_Explosion_Alpha);<br />
+        var _xo = sprite_get_xoffset(spr_Gradient);<br />
+        var _yo = sprite_get_yoffset(spr_Gradient);<br />
+        var _surf = surface_create(_sw, _sh);<br />
+        surface_set_target(_surf);<br />
+        draw_clear_alpha(c_black, 0);<br />
+        draw_sprite(spr_Gradient, 0, 0, 0);<br />
+        sprite_index = sprite_create_from_surface(_surf, 0, 0, _sw, _sh, false, false, _xo, _yo);<br />
+        draw_clear_alpha(c_black, 0);<br />
+        draw_sprite(spr_Explosion_Alpha, 0, _xo, _yo);<br />
+        var _spr = sprite_create_from_surface(_surf, 0, 0, _sw, _sh, false, false, _xo, _yo);<br />
+        surface_reset_target();<br />
+        surface_free(_surf);<br />
+        sprite_set_alpha_from_sprite(sprite_index, _spr);<br />
+        sprite_delete(_spr);<br />
+    }<br />
+    <br />
+    draw_sprite(sprite_index, 0, x, y);
+  </p>
+  <p>O código acima verifica primeiro se a variável de controle é verdadeira ou não, e se for, então executa o código para definir o alfa <span class="notranslate">sprite</span>, definindo a variável como falsa para evitar que o código funcione mais de uma vez. Neste caso, ele cria uma superfície do tamanho da máscara alfa que desejamos usar, depois desenha o <span class="notranslate">sprite</span> que deverá ter seu alfa modificado na superfície e cria um novo <span class="notranslate">sprite</span> a partir dele, atribuindo-o como o <span class="inline">sprite_index</span> do <span class="notranslate">object</span>. O código então limpa a superfície e desenha o mapa alfa <span class="notranslate">sprite</span> para ele e cria outro novo <span class="notranslate">sprite</span>, armazenando seu índice em uma variável local. Finalmente, o novo <span class="notranslate">sprite</span> atribuído ao <span class="notranslate">object</span> obtém seu conjunto alfa desta <span class="notranslate">sprite</span> temporária, a superfície é liberada e o <span class="notranslate">sprite</span> temporário é removido.</p>
+  <p>Há uma última coisa a fazer aqui, e que é remover da memória o <span class="notranslate">sprite</span> que foi criado para o <span class="notranslate">object</span> quando não estiver em uso. Isto seria feito ou no <b>Evento Destroy</b> ou no <b>Evento Room End</b> como este:</p>
+  <p class="code">sprite_delete(sprite_index);</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Voltar: <a href="Sprite_Manipulation.htm">Manipulação de Sprite</a></div>
+        <div style="float:right">A seguir: <a href="sprite_set_cache_size.htm"><span class="notranslate">sprite_set_cache_size</span></a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright <span class="notranslate">YoYo Games Ltd.</span> 2021 Todos os direitos reservados</span></h5>
+  </div>
+  <!-- KEYWORDS
+sprite_set_alpha_from_sprite
+-->
+  <!-- TAGS
+sprite_set_alpha_from_sprite
+-->
+</body>
+</html>

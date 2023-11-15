@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <title>Compilador de Arquivos em Lote / Scripts</title>
+  <meta name="topic-status" content="Draft" />
+  <link rel="stylesheet" type="text/css" href="../../assets/css/default.css" />
+  <meta name="template" content="../../assets/masterpages/Manual_Page.htt" />
+  <meta name="rh-authors" content="Gurpreet S. Matharoo" />
+  <meta name="topic-comment" content="Page explaining the batch files that can be used with the compiler" />
+  <meta name="rh-index-keywords" content="Compiler Batch Files Scripts" />
+  <meta name="search-keywords" content="compiler, batch, files, shell, scripts, asset compiler, run, build" />
+</head>
+<body>
+  <h1>Compilador de Arquivos em Lote / Scripts</h1>
+  <p>O compilador <span data-keyref="GameMaker Name">GameMaker</span> permite que você coloque arquivos Batch (<span class="notranslate">Windows</span>) ou Shell <span class="notranslate">scripts</span> (em <span class="notranslate">macOS</span> e <span class="notranslate">Linux</span>) no diretório de seu projeto, e no diretório para cada <span class="notranslate">extension</span> em seu projeto.</p>
+  <h2>Colocação</h2>
+  <p>Um arquivo <span class="notranslate">script</span> pode ser colocado na raiz do diretório de seu projeto, junto com o arquivo <span class="inline2">.yyp</span> do projeto.</p>
+  <p>Um arquivo <span class="notranslate">script</span> também pode ser colocado no diretório de um <span class="notranslate">extension</span>, que pode parecer assim: <span class="inline2">&lt;project_directory&gt;/extensions/&lt;extension_folder&gt;/</span>.</p>
+  <p>As versões <span class="notranslate">extension</span> de um arquivo <span class="notranslate">script</span> serão executadas primeiro, e sua versão raiz será executada por último. A ordem na qual <span class="notranslate">extensions</span> é executada não pode ser controlada, portanto um desenvolvedor <span class="notranslate">extension</span> deve garantir que uma extensão <span class="notranslate">scripts</span> não confie em outra <span class="notranslate">scripts</span>.</p>
+  <h2>Execução</h2>
+  <p>Arquivos de script com nomes específicos, colocados em qualquer um dos diretórios descritos acima, são executados em vários pontos durante o processo de compilação:</p>
+  <table border="1" cellpadding="1" cellspacing="1">
+    <colgroup>
+      <col style="width:33.33%" />
+      <col style="width:33.33%" />
+      <col style="width:33.33%" />
+    </colgroup>
+    <tbody>
+      <tr>
+        <th>Nome do arquivo do Windows Batch</th>
+        <th>macOS/Linux Shell <span class="notranslate">Script</span> Nome</th>
+        <th>Descrição</th>
+      </tr>
+      <tr>
+        <td><strong>pre_run_step.bat</strong></td>
+        <td><strong>pre_run_step.sh</strong></td>
+        <td>Isto é executado antes que o jogo esteja prestes a começar.</td>
+      </tr>
+      <tr>
+        <td><strong>post_run_run_step.bat</strong></td>
+        <td><strong>post_run_step.sh</strong></td>
+        <td>Isto é executado quando o jogo está preparado e pronto para ser executado; após a execução do roteiro, o jogo é iniciado</td>
+      </tr>
+      <tr>
+        <td><strong>pre_build_step.bat</strong></td>
+        <td><strong>pre_build_step.sh</strong></td>
+        <td>Isto é executado antes que o compilador <span class="notranslate">asset</span> seja iniciado para a construção do jogo.</td>
+      </tr>
+      <tr>
+        <td><strong>post_build_step.bat</strong></td>
+        <td><strong>post_build_step.sh</strong></td>
+        <td>Isto é executado após o compilador <span class="notranslate">asset</span> ter sido iniciado para a construção do jogo</td>
+      </tr>
+      <tr>
+        <td><strong>pre_package_step.bat</strong></td>
+        <td><strong>pre_package_step.sh</strong></td>
+        <td>Isso é executado antes da etapa final de embalagem, que é quando todos os arquivos estão prontos, mas o arquivo ZIP final ou a embalagem da loja está prestes a ser criada.</td>
+      </tr>
+      <tr>
+        <td><strong>post_package_step.bat</strong></td>
+        <td><strong>post_package_step.sh</strong></td>
+        <td>Isto é executado após a etapa final de embalagem ter sido concluída e o arquivo ZIP final ou a embalagem da loja ter sido preparada</td>
+      </tr>
+      <tr>
+        <td><strong>post_textures.bat</strong></td>
+        <td><strong>post_textures.sh</strong></td>
+        <td>Isto é executado após o <span class="notranslate">textures</span> para seu jogo ter sido gerado. Você pode usar esta etapa para otimizar seu jogo <span class="notranslate">textures</span> manualmente.<br>
+          <br>
+          Este <span class="notranslate">script</span> recebe uma variável de ambiente chamada <span class="inline2">TexturesDir</span>, que armazena o <span class="notranslate">path</span> para o gerado <span class="notranslate">textures</span>.
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <p>Estes arquivos <span class="notranslate">script</span> são suportados ao construir em todas as plataformas alvo.</p>
+  <h2>Desabilitando <span class="notranslate">Scripts</span> para uma extensão</h2>
+  <p>Se você utiliza múltiplos <span class="notranslate">extensions</span> que rodam <span class="notranslate">scripts</span>, por exemplo, Steamworks e GDK, então você vai querer desativar a Steamworks ao exportar para a GDK, e vice-versa.</p>
+  <p>Para isso, veja: <a data-xref="{title}" href="../../The_Asset_Editors/Extension_Creation/Disabling_Extensions.htm">Como desativar <span class="notranslate">Extensions</span>?</a></p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div>Voltar: <a data-xref="{title}" href="Runner_Details.htm">Corredor &amp; Compilador</a></div>
+        <div>A seguir: <a data-xref="{title}" href="../Command_Line_Parameters.htm">Parâmetros de Linha de Comando</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright <span class="notranslate">YoYo Games Ltd.</span> 2022 Todos os direitos reservados</span></h5>
+  </div>
+</body>
+</html>

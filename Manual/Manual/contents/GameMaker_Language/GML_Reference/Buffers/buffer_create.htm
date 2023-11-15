@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>buffer_create</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../assets/css/default.css" type="text/css" />
+  <script src="../../../assets/scripts/main_script.js"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Reference page for buffer_create" />
+  <meta name="rh-index-keywords" content="buffer_create,buffer_fixed,buffer_grow,buffer_wrap,buffer_fast,buffer_vbuffer" />
+  <meta name="search-keywords" content="buffer_create,buffer_fixed,buffer_grow,buffer_wrap,buffer_fast,buffer_vbuffer" />
+  <meta name="is_pure" content="true" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>buffer_create</h1>
+  <p>Você usa esta função para alocar uma porção de memória como um <span class="notranslate">buffer</span> em seu jogo, com a função retornando o <i>buffer id</i> único que deve ser armazenado em uma variável e usado para todas as outras chamadas de função ao <span class="notranslate">buffer</span>. O <span class="notranslate">buffer</span> pode então ser usado para armazenar diferentes tipos de dados (especificado quando você escreve para o <span class="notranslate">buffer</span> usando o <a href="buffer_write.htm"><span class="inline">buffer_write()</span></a> com as seguintes constantes sendo usadas para definir o tipo <span class="notranslate">buffer</span>:</p>
+  <table>
+    <colgroup>
+      <col />
+      <col />
+    </colgroup>
+    <tbody>
+      <tr>
+        <th colspan="2"><span data-keyref="Type_Constant_Buffer_Type"><a data-rhwidget="HyperlinkPopover" href="../../../../GameMaker_Language/GML_Reference/Buffers/buffer_create.htm">Constante tipo tampão</a></span></th>
+      </tr>
+      <tr>
+        <th>Constante</th>
+        <th>Descrição</th>
+      </tr>
+      <tr>
+        <td><span class="notranslate"><span class="inline">buffer_fixed</span></td>
+        <td>Um <span class="notranslate">buffer</span> de tamanho fixo.</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate"><span class="inline">buffer_grow</span></td>
+        <td>Um <span class="notranslate">buffer</span> que irá &quot;crescer&quot; dinamicamente à medida que os dados forem sendo adicionados</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate"><span class="inline">buffer_wrap</span></td>
+        <td>A <span class="notranslate">buffer</span> onde os dados serão &quot;embrulhados&quot;. Quando os dados a serem adicionados atingirem o limite do tamanho <span class="notranslate">buffer</span>, o sobrescrito será colocado de volta no início do <span class="notranslate">buffer</span>, e a partir desse ponto continuará a ser escrito.</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate"><span class="inline">buffer_fast</span></td>
+        <td>Especial &quot;despojado&quot; <span class="notranslate">buffer</span> que é extremamente rápido de ler/escrever. Só pode ser usado com os <a href="buffer_read.htm">tipos de dados</a> <span class="inline">buffer_u8</span>, e <i>deve</i> estar alinhado a 1 byte.</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate"><span class="inline">buffer_vbuffer</span></td>
+        <td>Este tipo de <span class="notranslate">buffer</span> deve ser usado apenas como um <span class="notranslate">vertex</span> <span class="notranslate">buffer</span>.</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>Além do tipo <span class="notranslate">buffer</span>, você também terá que definir o <i>alinhamento de bytes</i> para o <span class="notranslate">buffer</span>. Este valor variará dependendo dos dados que você deseja armazenar no <span class="notranslate">buffer</span>, e na maioria dos casos um valor de 1 é perfeitamente bom. Entretanto, esteja ciente de que para algumas operações um alinhamento específico é <i>essencial</i>, e um alinhamento incorreto pode causar erros (para mais detalhes sobre alinhamento, veja <a href="../../../Additional_Information/Guide_To_Using_Buffers.htm">Buffers</a>). A seguir, um guia geral para mostrar quais valores são mais apropriados para cada tipo de dado (quando em dúvida, use um alinhamento de 1):</p>
+  <ul class="colour">
+    <li>As cordas devem ser alinhadas a 1 byte.</li>
+    <li>Inteiros de 8 bits assinados ou não podem ser alinhados a qualquer valor, mas note que para um rápido <span class="notranslate">buffer</span> (veja <a href="buffer_write.htm"><span class="inline">buffer_write()</span></a>) <i>deve</i> ser alinhado a 1.</li>
+    <li>Inteiros de 16 bits assinados ou não assinados devem ser alinhados a 2 bytes.</li>
+    <li>Os inteiros de 32 bits assinados ou não devem ser alinhados a 4 bytes</li>
+    <li>Flutuadores de até 16bits devem ser alinhados a 2 bytes. <i>(Não suportado atualmente!)</i></li>
+    <li>Flutuadores de até 32bits devem ser alinhados a 4 bytes.</li>
+    <li>Flutuadores de até 64bits devem ser alinhados a 8 bytes.</li>
+  </ul>
+  <p class="note"><b>NOTA</b>: O alinhamento dos bytes pode ser muito importante, pois a escolha errada pode afetar negativamente o desempenho.</p>
+  <p class="note"><b>NOTA</b>: É importante que você remova da memória qualquer recurso criado dinamicamente como este quando não precisar mais deles para evitar vazamentos de memória, então quando você terminar de usar o <span class="notranslate">buffer</span> que você criou você deve liberá-lo novamente usando <span style="font-size:1px;"><a href="buffer_delete.htm"><span class="inline">buffer_delete()</span></a></span>.</p>
+  <p> </p>
+  <h4>Sintaxe:</h4>
+  <p class="code">buffer_create(size, type, alignment)</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>Argumento</th>
+        <th>Tipo</th>
+        <th>Descrição</th>
+      </tr>
+      <tr>
+        <td><span class="notranslate">size</span></td>
+        <td><span data-keyref="Type_Real"><a data-rhwidget="HyperlinkPopover" href="../../../../LINKGOESHERE">Real</a></span></td>
+        <td><span class="notranslate">The size (in bytes) of the buffer.</span></td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">type</span></td>
+        <td><span data-keyref="Type_Constant_Buffer_Type"><a data-rhwidget="HyperlinkPopover" href="../../../../GameMaker_Language/GML_Reference/Buffers/buffer_create.htm">Constante tipo tampão</a></span></td>
+        <td><span class="notranslate">The type of buffer to create (see the constants list above).</span></td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">alignment</span></td>
+        <td><span data-keyref="Type_Real"><a data-rhwidget="HyperlinkPopover" href="../../../../LINKGOESHERE">Real</a></span></td>
+        <td><span class="notranslate">The byte alignment for the buffer</span></td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>Devoluções:</h4>
+  <p class="code"><span data-keyref="Type_ID_Buffer"><a data-rhwidget="HyperlinkPopover" href="../../../../LINKGOESHERE">Buffer ID</a></span></p>
+  <p> </p>
+  <h4>Exemplo:</h4>
+  <p class="code">player_buffer = buffer_create(16384, buffer_fixed, 2);</p>
+  <p>O código acima aloca 16384 bytes de memória para um <span class="notranslate">buffer</span> e retorna o índice desse <span class="notranslate">buffer</span>, que é armazenado na variável &quot;player_buffer&quot;, para uso futuro. O <span class="notranslate">buffer</span> está alinhado a um limite de dois bytes.</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Voltar: <a href="Buffers.htm">Tampões</a></div>
+        <div style="float:right">A seguir: <a href="buffer_create_from_vertex_buffer.htm"><span class="notranslate">buffer_create_from_vertex_buffer</span></a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright <span class="notranslate">YoYo Games Ltd.</span> 2022 Todos os direitos reservados</span></h5>
+  </div>
+  <!-- KEYWORDS
+buffer_create
+buffer_fixed
+buffer_grow
+buffer_wrap
+buffer_fast
+buffer_vbuffer
+-->
+  <!-- TAGS
+buffer_create
+-->
+</body>
+</html>

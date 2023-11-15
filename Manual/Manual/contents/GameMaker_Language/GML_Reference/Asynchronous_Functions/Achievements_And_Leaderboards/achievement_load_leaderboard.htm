@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>achievement_load_leaderboard</title>
+  <meta name="generator" content="Adobe RoboHelp 2019" />
+  <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
+  <script src="../../../../assets/scripts/main_script.js"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Reference page for achievement_load_leaderboard" />
+  <meta name="rh-index-keywords" content="achievement_load_leaderboard,achievement_leaderboard_info,achievement_filter_friends_only,achievement_filter_all_players" />
+  <meta name="search-keywords" content="achievement_load_leaderboard,achievement_leaderboard_info,achievement_filter_friends_only,achievement_filter_all_players" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>achievement_load_leaderboard</h1>
+  <p>Esta função enviará um pedido ao <span class="notranslate">server</span> para obter informações sobre o quadro de líderes em questão. O quadro de líderes deve ter sido criado anteriormente no painel de desenvolvedores para seu jogo e o ID dado é o que você deve fornecer como o primeiro argumento
+    da função. Ele desencadeará um <a href="../../../../The_Asset_Editors/Object_Properties/Async_Events/Social.htm">Evento Assíncrono Social</a> de retorno que contém o <a href="../../../GML_Overview/Variables/Builtin_Global_Variables/async_load.htm"><tt>async_load</tt></a>    mapa povoado com os pares chave/valor relevantes. A chave de <i>id</i> deste <tt>Mapa DS</tt> é usada para identificar a chamada de retorno correta (pode haver mais de uma função de acionamento para qualquer evento assíncrono), e será emparelhada com a <b>constante</b> <tt>informação de achievement_leaderboard_info</tt>, bem como um número de outros pares de chaves/valores para cada jogador. O conteúdo exato do mapa é mostrado abaixo:</p>
+  <p class="note"><b>NOTA</b>: esta função é apenas para <b>iOS</b>.</p>
+  <ul class="colour">
+    <li>&quot;<b>id</b>&quot; - Para esta função deve ser <tt>feito_leaderboard_info</tt></li>
+    <li>&quot;<b>leaderboardid</b>&quot; - A identificação única para o leaderboard, conforme definido no painel do fornecedor.</li>
+    <li>&quot;<b>numentries</b>&quot; - O número de entradas no quadro de líderes que você recebeu.</li>
+    <li>&quot;<b>PlayerN</b>&quot; - O nome do jogador, onde &quot;N&quot; é um valor inteiro correspondente à sua posição dentro da lista de entradas do quadro de líderes.</li>
+    <li>&quot;<b>PlayeridN</b>&quot; - A identificação única do usuário do jogador, &quot;N&quot;.</li>
+    <li>&quot;<b>RankN</b>&quot; - A classificação do jogador &quot;N&quot; dentro da tabela de liderança.</li>
+    <li><b>Pontuação &quot;N&quot;</b>- A pontuação do jogador &quot;N&quot;.</li>
+  </ul>
+  <p>Você pode especificar a porção exata do quadro de líderes a mostrar dando um valor de índice mínimo e máximo, bem como solicitar que os resultados sejam filtrados para recuperar apenas as pontuações de seus amigos ou as divulgadas por todos os jogadores usando o seguinte
+   <b>constantes do</b> filtro:</p>
+  <p> </p>
+  <table>
+    <tbody>
+      <tr>
+        <th>Constante</th>
+        <th>Descrição</th>
+      </tr>
+      <tr>
+        <td><span class="notranslate">achievement_filter_friends_only </span></td>
+        <td>Obtenha apenas as pontuações dos amigos jogadores.</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">achievement_filter_all_players </span></td>
+        <td>Obtenha todas as pontuações para todos os jogadores.</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <p> </p>
+  <h4><b>Sintaxe:</b></h4>
+  <p class="code">achievement_load_leaderboard(ident, minindex, maxindex, filter)</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>Argumento</th>
+        <th>Descrição</th>
+      </tr>
+      <tr>
+        <td><span class="notranslate">ident</span></td>
+        <td>A identificação única do painel de líderes, conforme mostrado no painel do desenvolvedor.</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">minindex</span></td>
+        <td>O valor inicial do índice para obter os dados do quadro de líderes.</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">maxindex</span></td>
+        <td>O valor máximo de índice para obter os dados do quadro de líderes.</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">filter</span></td>
+        <td>Seja para filtrar os resultados para aqueles que estão em sua lista de amigos ou para todos os jogadores (veja a <b>Descrição</b> abaixo)</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>Devoluções:</h4>
+  <p class="code">N/A</p>
+  <p> </p>
+  <h4>Exemplo ampliado:</h4>
+  <p>O seguinte código seria provavelmente chamado depois que o jogador entrasse em sua conta de jogo usando <a href="achievement_login.htm"><tt>achievement_login()</tt></a> para obter uma lista de todas as posições de liderança de amigos para o jogo, em qualquer um dos dois Android
+    ou iOS:</p>
+  <p class="code">if os_type == os_ios<br/>     {
+    <br/>     achievement_load_leaderboard(&quot;CgkIs9_51u0PEAIQBw&quot;, 1, 100, achievement_filter_friends_only);<br/>     }
+  </p>
+  <p>Isto enviará um pedido de informações sobre a tabela de liderança e gerará uma chamada assíncrona de retorno com o mapa especial de DS de <tt>carga assimétrica</tt> contendo os seguintes dados:</p>
+  <p class="code">var ident = ds_map_find_value(async_load, &quot;id&quot;);<br/> if ident == achievement_leaderboard_info<br/>     {
+    <br/>     var lbid = ds_map_find_value(async_load,&quot;leaderboardid&quot;);<br/>     if lbid == &quot;CgkIs9_51u0PEAIQBw&quot; || lbid == &quot;leaderboard1id&quot;<br/>         {
+    <br/>         global.numentries = ds_map_find_value(async_load,&quot;numentries&quot;);<br/>         for(var i = 0; i &lt; numentries; i++;)<br/>             {
+    <br/>             global.playername[i] = ds_map_find_value(async_load, &quot;Player&quot; + string(i));<br/>             global.playerid[i] = ds_map_find_value(async_load, &quot;Playerid&quot; + string(i));<br/>             global.playerrank[i] =
+    ds_map_find_value(async_load, &quot;Rank&quot; + string(i));<br/>             global.playerscore[i] = ds_map_find_value(async_load, &quot;Score&quot; + string(i));<br/>             achievement_get_pic(global.playerid[i]);
+    <br/>             }
+    <br/>         }
+    <br/>     }
+  </p>
+  <p>O código acima verifica o <tt>Mapa DS</tt> retornado no <b>Evento Assíncrono Social</b> e se seu &quot;id&quot; corresponde à constante a ser verificada, então verifica se o quadro de líderes a ser enviado corresponde à chamada de função original antes
+    looping através do mapa e armazenando todos os diferentes valores em uma série de arrays. Ele também solicita uma imagem para cada uma das entradas no mapa (veja <a href="achievement_get_pic.htm"><tt>achievement_get_pic()</tt></a>).</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Voltar: <a href="Achievements_And_Leaderboards.htm">Conquistas e Quadros de Líderes</a></div>
+        <div style="float:right">A seguir: <a href="achievement_load_progress.htm"><span class="notranslate">achievement_load_progress</span></a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright <span class="notranslate">YoYo Games Ltd.</span> 2021 Todos os direitos reservados</span></h5>
+  </div>
+  <!-- KEYWORDS
+achievement_load_leaderboard
+achievement_leaderboard_info
+achievement_filter_friends_only 
+achievement_filter_all_players 
+-->
+  <!-- TAGS
+achievement_load_leaderboard
+-->
+</body>
+</html>

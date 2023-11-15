@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>file_find_first</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
+  <script src="../../../../assets/scripts/main_script.js"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Reference page for file_find_first" />
+  <meta name="rh-index-keywords" content="file_find_first,fa_readonly,fa_hidden,fa_sysfile,fa_volumeid,fa_directory,fa_archive" />
+  <meta name="search-keywords" content="file_find_first,fa_readonly,fa_hidden,fa_sysfile,fa_volumeid,fa_directory,fa_archive" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>file_find_first</h1>
+  <p>Esta função devolverá o nome do primeiro arquivo que satisfaça a máscara e os atributos. Se tal arquivo não existir, então um <span class="notranslate">string</span> vazio será devolvido.</p>
+  <p>A máscara pode conter um <span class="notranslate">path</span> com wildcards, por exemplo <span class="inline2">C:\temp*.doc.</span></p>
+  <p>Os atributos dão os arquivos adicionais que você deseja ver, portanto os arquivos normais são sempre devolvidos quando satisfazem a máscara. Você pode somar as seguintes constantes para ver o tipo de arquivos que você deseja (usando <span class="inline2">|</span>). Se você não desejar adicionar nenhum atributo, use 0.</p>
+  <table>
+    <colgroup>
+      <col />
+      <col />
+    </colgroup>
+    <tbody>
+      <tr>
+        <th colspan="2"><span data-keyref="Type_Constant_File_Attribute"><a data-rhwidget="HyperlinkPopover" href="../../../../../GameMaker_Language/GML_Reference/File_Handling/File_System/file_find_first.htm">Arquivo Atributo Constante</a></span></th>
+      </tr>
+      <tr>
+        <th>Constante</th>
+        <th>Descrição</th>
+      </tr>
+      <tr>
+        <td><span class="notranslate"><span class="inline">fa_readonly</span></td>
+        <td>Arquivos somente leitura</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate"><span class="inline">fa_hidden</span></td>
+        <td>Arquivos ocultos</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate"><span class="inline">fa_sysfile</span></td>
+        <td>Arquivos do sistema</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate"><span class="inline">fa_volumeid</span></td>
+        <td>Arquivos volumétricos</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate"><span class="inline">fa_directory</span></td>
+        <td>Diretórios</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate"><span class="inline">fa_archive</span></td>
+        <td>Arquivos arquivados</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>Os atributos só podem ser utilizados em <span class="notranslate">Windows</span>. Para todas as outras plataformas, use 0.</p>
+  <p class="note"><b></b><span class="warning">AVISO</span> Esta função pode não funcionar como você espera devido ao <span data-keyref="GameMaker Name">GameMaker</span> ser lixado! Consulte a seção sobre o <a href="../../../../Additional_Information/The_File_System.htm">Sistema de Arquivos</a> para maiores informações.</p>
+  <p class="note"><span class="note">NOTA</span>: Esta função não funcionará de forma alguma no alvo HTML5.</p>
+  <p> </p>
+  <h4>Sintaxe:</h4>
+  <p class="code">file_find_first(mask, attr);</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>Argumento</th>
+        <th>Tipo</th>
+        <th>Descrição</th>
+      </tr>
+      <tr>
+        <td><span class="notranslate">mask</span></td>
+        <td><span data-keyref="Type_String"><a data-rhwidget="HyperlinkPopover" href="../../../../../LINKGOESHERE">Cordão</a></span></td>
+        <td><span class="notranslate">The mask to use for searching.</span></td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">attr</span></td>
+        <td><span data-keyref="Type_Constant_File_Attribute"><a data-rhwidget="HyperlinkPopover" href="../../../../../GameMaker_Language/GML_Reference/File_Handling/File_System/file_find_first.htm">Arquivo Atributo Constante</a></span>(s)</td>
+        <td><span class="notranslate">The specific file attribute to look for.</span></td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>Devoluções:</h4>
+  <p class="code"><span data-keyref="Type_String"><a data-rhwidget="HyperlinkPopover" href="../../../../../LINKGOESHERE">String</a></span></p>
+  <p> </p>
+  <h4>Exemplo:</h4>
+  <p class="code">if directory_exists(&quot;\User Content&quot;)<br />
+    {<br />
+        fileA = file_find_first(&quot;/User Content/*.doc&quot;, fa_readonly);<br />
+        fileB = file_find_next();<br />
+        fileC = file_find_next();<br />
+        file_find_close();<br />
+    }</p>
+  <p>Este código verifica se o diretório especificado existe e, se existir, vai lá e retorna o primeiro arquivo &quot;somente leitura&quot; <span class="inline">.doc</span> encontrado. Em seguida, ele procura por mais dois arquivos e fecha o localizador de arquivos.</p>
+  <p>Você pode procurar por qualquer número de arquivos usando um <a href="../../../GML_Overview/Language_Features/while.htm"><span class="notranslate">while</span></a> loop:</p>
+  <p class="code">var files = [];<br />
+    var file_name = file_find_first(&quot;/User Content/*.doc&quot;, fa_readonly);<br />
+    <br />
+    while (file_name != &quot;&quot;)<br />
+    {<br />
+        array_push(files, file_name);<br />
+    <br />
+        file_name = file_find_next();<br />
+    }<br />
+    <br />
+    file_find_close();
+  </p>
+  <p>O código acima cria uma matriz vazia para armazenar todos os nomes de arquivos que foram encontrados, e começa a procurar somente os arquivos <span class="inline">.doc</span> lidos. Se esse nome de arquivo não for um <span class="notranslate">string</span> vazio, ele o empurra para a matriz <span class="inline">files</span>, e então tenta encontrar o próximo arquivo. O <span class="notranslate">loop</span> continuará repetindo até encontrar um <span class="notranslate">string</span> vazio (o que significa que não há mais arquivos correspondentes), que é quando ele termina o <span class="notranslate">loop</span> e fecha o localizador de arquivos no final.</p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Voltar: <a href="File_System.htm">Sistema de arquivo</a></div>
+        <div style="float:right">A seguir: <a href="file_find_next.htm"><span class="notranslate">file_find_next</span></a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright <span class="notranslate">YoYo Games Ltd.</span> 2022 Todos os direitos reservados</span></h5>
+  </div>
+  <!-- KEYWORDS
+file_find_first
+fa_readonly
+fa_hidden
+fa_sysfile
+fa_volumeid
+fa_directory
+fa_archive
+-->
+  <!-- TAGS
+file_find_first
+-->
+</body>
+</html>

@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Ações do Gamepad</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../assets/css/default.css" type="text/css" />
+  <script src="../../../assets/scripts/main_script.js"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Section detailing all the Gamepad actions" />
+  <meta name="rh-index-keywords" content="GML Visual Overview - Gamepad Actions Library" />
+  <meta name="search-keywords" content="Gamepad Actions" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>Biblioteca de ação Gamepad</h1>
+  <p><img><span data-keyref="GameMaker Name">O GameMaker</span> tem uma série de ações dedicadas que podem ser usadas para detectar tanto controles analógicos quanto digitais de múltiplos blocos de jogos conectados. Estas ações exigem que você especifique um valor de <i>índice</i> gamepad, que é um número (contando a partir de 0) que representa o gamepad a ser selecionado. Observe que quando um controle de jogo é conectado ao seu dispositivo (ou é removido), então um <a href="../../../The_Asset_Editors/Object_Properties/Async_Events.htm">evento</a> assíncrono <a href="../../../The_Asset_Editors/Object_Properties/Async_Events.htm">do sistema</a> é acionado (entretanto, para lidar com isso, você pode precisar usar código).</p>
+  <p>Os &quot;slots&quot; do gamepad são indexados de 0 com slots 0 - 3 inclusive sendo <i>apenas para os gamepads <strong>Xinput</strong></i>, ou seja: controladores Xbox360 e compatíveis. Entretanto, você também pode verificar os slots 4 - 11 inclusive para os gamepads <strong>DirectInput</strong>, o que significa que você pode detectar muitos outros modelos de controladores quando conectado através destes slots.</p>
+  <h2>Constantes de entrada</h2>
+  <p>Ao trabalhar com as ações do gamepad, a entrada pode vir de <b>eixos</b>, <b>botões</b> ou <b>chapéus</b>, que <span data-keyref="GameMaker Name">o GameMaker</span> atribuirá às seguintes constantes embutidas (note que &quot;chapéus&quot; geralmente são detectados apenas em controladores não padrão):</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>Constante</th>
+        <th>Descrição</th>
+      </tr>
+      <tr>
+        <td><span class="notranslate">gp_face1</span></td>
+        <td>Botão de cima 1 (este mapa para o <i>&quot;A&quot;</i> em um controlador Xbox 360 e a <i>cruz</i> em um controlador PS)</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">gp_face2</span></td>
+        <td>Botão de cima 2 (este mapa para o <i>&quot;B</i> &quot; em um controlador Xbox 360 e o <i>círculo</i> em um controlador PS)</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">gp_face3</span></td>
+        <td>Botão de cima 3 (este mapa para o <i>&quot;X</i> &quot; em um controlador Xbox 360 e o <i>quadrado</i> em um controlador PS)</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">gp_face4</span></td>
+        <td>Botão superior 4 (este mapa mostra o <i>&quot;Y&quot;</i> em um controlador Xbox 360 e o <i>triângulo</i> em um controlador PS)</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">gp_shoulderl</span></td>
+        <td>Botão de ombro esquerdo</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">gp_shoulderlb</span></td>
+        <td>Gatilho do ombro esquerdo</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">gp_shoulderr</span></td>
+        <td>Botão de ombro direito</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">gp_shoulderrb</span></td>
+        <td>Gatilho de ombro direito</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">gp_select</span></td>
+        <td>O botão select (em um controlador DS4, isto aciona quando você pressiona o touchpad para baixo)</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">gp_start</span></td>
+        <td>O botão start (este é o botão &quot;opções&quot; em um controlador PS4)</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">gp_stickl</span></td>
+        <td>O bastão esquerdo pressionado (como um botão)</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">gp_stickr</span></td>
+        <td>O bastão direito pressionado (como um botão)</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">gp_padu</span></td>
+        <td>D-pad up</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">gp_padd</span></td>
+        <td>D-pad down</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">gp_padl</span></td>
+        <td>D-pad esquerda</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">gp_padr</span></td>
+        <td>Direito D-pad</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">gp_axislh</span></td>
+        <td>Vara esquerda eixo horizontal (analógico)</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">gp_axislv</span></td>
+        <td>Eixo vertical da vara esquerda (analógico)</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">gp_axisrh</span></td>
+        <td>Eixo horizontal do bastão direito (analógico)</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">gp_axisrv</span></td>
+        <td>Eixo vertical do bastão direito (analógico)</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>Para entender melhor exatamente que parte do controlador cada constante representa, você pode se referir à seguinte imagem de um gamepad padrão Xinput:</p>
+  <p><img alt="Gamepad Action Library" class="center" src="../../../assets/Images/Scripting_Reference/Drag_And_Drop/Reference/Gamepad/Lib_GamePad.png" /></p>
+  <h2>Ações</h2>
+  <p>As ações de gamepad disponíveis estão todas listadas abaixo:</p>
+  <table class="dnd" style="text-align: left;margin-left:">
+    <tbody>
+      <tr style="height: 1px;">
+        <td class="icons" style="margin-left: 16px;"><img alt="XInput Gamepad Configuration" class="center" src="../../../assets/Images/Scripting_Reference/Drag_And_Drop/Reference/Gamepad/GamePad.png" /></td>
+        <td class="dnd" style=""><a href="Get_Gamepad_Axis.htm">Obtenha o Eixo Gamepad</a></td>
+      </tr>
+      <tr>
+        <td class="dnd_icons" style="margin-left: 16px;"><img alt="Gamepad Get Axis Icon" class="icon" height="32" src="../../../assets/Images/Scripting_Reference/Drag_And_Drop/Reference/Gamepad/i_GamePad_Get_Axis.png" width="32" /></td>
+        <td class="dnd" style=""><a href="Get_Gamepad_Trigger.htm">Obter o gatilho Gamepad</a></td>
+      </tr>
+      <tr>
+        <td class="dnd_icons" style="margin-left: 16px;"><img alt="Gamepad Get Trigger Icon" class="icon" src="../../../assets/Images/Scripting_Reference/Drag_And_Drop/Reference/Gamepad/i_GamePad_Get_Trigger.png" /></td>
+        <td class="dnd" style=""><a href="Get_Gamepad_Count.htm">Obter Gamepad Count</a></td>
+      </tr>
+      <tr>
+        <td class="dnd_icons" style="margin-left: 16px;"><img alt="Gamepad Get Count Icon" class="icon" src="../../../assets/Images/Scripting_Reference/Drag_And_Drop/Reference/Gamepad/i_GamePad_Get_Count.png" /></td>
+        <td class="dnd" style=""><a href="Get_Gamepad_Connected.htm">Conecte o Gamepad</a></td>
+      </tr>
+      <tr>
+        <td class="dnd_icons" style="margin-left: 16px;"><img alt="Gamepad Get Connected Icon" class="icon" height="32" src="../../../assets/Images/Scripting_Reference/Drag_And_Drop/Reference/Gamepad/i_GamePad_Get_Connected.png" style="cursor: nesw-resize;" width="32" /></td>
+        <td class="dnd" style=""><a href="Set_Gamepad_Axis_Deadzone.htm">Conjunto Gamepad Axis Deadzone</a></td>
+      </tr>
+      <tr>
+        <td class="dnd_icons" style="margin-left: 16px;"><img alt="Gamepad Set Axis Deadzone Icon" class="icon" src="../../../assets/Images/Scripting_Reference/Drag_And_Drop/Reference/Gamepad/i_GamePad_Set_Axis_Deadzone.png" /></td>
+        <td class="dnd" style=""><a href="Set_Gamepad_Button_Threshold.htm">Botão Gamepad Threshold</a></td>
+      </tr>
+      <tr>
+        <td class="dnd_icons" style="margin-left: 16px;"><img alt="Set Gamepad Button Threshold Icon" class="icon" src="../../../assets/Images/Scripting_Reference/Drag_And_Drop/Reference/Gamepad/i_GamePad_Set_Button_Threshold.png" /></td>
+        <td class="dnd" style=""><a href="If_Gamepad_Button_Pressed.htm">Se o botão Gamepad fosse pressionado</a></td>
+      </tr>
+      <tr>
+        <td class="dnd_icons" style="margin-left: 16px;"><img alt="If Gamepad Button Pressed Icon" class="icon" src="../../../assets/Images/Scripting_Reference/Drag_And_Drop/Reference/Gamepad/i_GamePad_If_Button_Pressed.png" /></td>
+        <td class="dnd" style=""><a href="If_Gamepad_Button_Down.htm">Se o Gamepad Botão Down</a></td>
+      </tr>
+      <tr>
+        <td class="dnd_icons" style="margin-left: 16px;"><img alt="If Gamepad Button Down Icon" class="icon" src="../../../assets/Images/Scripting_Reference/Drag_And_Drop/Reference/Gamepad/i_GamePad_If_Button_Down.png" /></td>
+        <td class="dnd" style=""><a href="If_Gamepad_Button_Released.htm">Se o botão Gamepad for liberado</a></td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <p>A lista a seguir mostra a compatibilidade atual entre as plataformas (note que isto mudará com futuras atualizações):</p>
+  <ul class="colour">
+    <li>O<strong>Windows</strong> é totalmente suportado com até um máximo de 11 dispositivos conectados permitidos de uma só vez. Note que em <span class="notranslate">Windows</span>, os primeiros 4 slots do gamepad (0 - 3) são tratados usando a dll XInput, o que significa que somente os controladores XBox podem ser 100% compatíveis e que para outros tipos de controladores você deve verificar o resto dos slots do gamepad (4 - 11).</li>
+    <li><strong>macOS </strong>é suportado com até um máximo de 4 dispositivos conectados permitidos de uma vez, e estes dispositivos podem ser do tipo Playstation3 ou Xbox 360. Observe que a opção &quot;<b>Build for Mac AppStore</b>&quot; em Opções de Jogos Mac precisa estar DESLIGADA para que o suporte a pad funcione.</li>
+    <li><strong>O Ubuntu </strong>também suporta a entrada do GamePad, mas você pode precisar instalar bibliotecas adicionais a partir do repositório <span class="notranslate">Ubuntu</span>. Você pode fazer isso facilmente abrindo um terminal de linha de comando e digitando o seguinte, que instalará o suporte GUI para o joystick, bem como o próprio joystick:</li>
+  </ul>
+  <p class="code">sudo apt-get install jstest-gtk<br />
+    sudo apt-get install joystick.</p>
+  <ul class="colour">
+    <li>Os jogos<strong>HTML5 </strong>suportam gamepads na maioria dos principais navegadores, exceto <i>Safari</i>.</li>
+    <li>O suporte Gamepad também se estende ao <strong>iOS </strong>com o gabinete <b>iCade</b>. O eixo esquerdo mapeia para o controlador do bastão (embora a entrada seja digital, não analógica), os quatro botões &quot;face&quot; mapeiam para os botões dianteiros do gabinete, e os quatro botões de ombro mapeiam para aqueles na parte de trás do gabinete.</li>
+    <li>A exportação<strong>do Android </strong>suporta controladores NYKO e controladores genéricos Bluetooth, mas somente quando eles estiverem habilitados, o que significa que você terá que marcar a opção iCade/Bluetooth na seção <a href="../../../Settings/Game_Options/Android.htm">Geral</a> das <b>Opções de Jogo do Android</b>. Eles requerem API nível 12 para que funcionem plenamente e deve ser notado que <span data-keyref="GameMaker Name">o GameMaker</span> registrará como conectado qualquer dispositivo Bluetooth com o qual seu dispositivo esteja emparelhado, esteja ou não conectado de fato. Portanto, isto deve ser levado em consideração ao atribuir e verificar os &quot;slots&quot;.</li>
+    <li>No <strong>PS4</strong>, se você quiser usar o rastreamento por toque, você precisa usar as funções para o <a href="../../../GameMaker_Language/GML_Reference/Game_Input/Device_Input/Device_Input.htm"><span class="inline">device_mouse_*</span></a><span> </span>(não há <span class="notranslate">GML</span> Ações visuais para isso).</li>
+  </ul>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Voltar: <a href="../DnD_Reference.htm">Índice</a></div>
+        <div style="float:right">A seguir: <a href="../Movement/Movement_Actions.htm">Ações de Movimento</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright <span class="notranslate">YoYo Games Ltd.</span> 2021 Todos os direitos reservados</span></h5>
+  </div>
+  <!-- KEYWORDS
+GML Visual Gamepad Actions
+Gamepad Actions
+-->
+  <!-- TAGS
+dnd_gamepads
+-->
+</body>
+</html>

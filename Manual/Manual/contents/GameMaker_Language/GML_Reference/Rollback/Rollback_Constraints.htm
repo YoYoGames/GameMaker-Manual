@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <title>Restrições de Rollback</title>
+  <meta name="topic-status" content="Draft" />
+  <link rel="stylesheet" type="text/css" href="../../../assets/css/default.css" />
+  <script src="../../../assets/scripts/main_script.js"></script>
+  <meta name="template" content="../../../assets/masterpages/Manual_Page.htt" />
+  <meta name="rh-authors" content="Gurpreet S. Matharoo" />
+  <meta name="condition-tags" content="Export:Beta" />
+</head>
+<body>
+  <h1>Restrições de Rollback</h1>
+  <p>O sistema Rollback tem algumas restrições que você deve estar ciente. Quebrar qualquer uma destas restrições resultará em <a data-xref="{text}" href="Rollback_System.htm#h">Sync Test</a> com um erro para que você saiba o que está errado.</p>
+  <h2>Quartos</h2>
+  <p>Você pode mudar <span class="notranslate">rooms</span> enquanto um jogo multiplayer estiver ativo, desde que todos os jogadores estejam conectados.</p>
+  <p>A mudança do <span class="notranslate">room</span> fará com que o jogo execute novamente seu processo de sincronização.</p>
+  <p>Os dados para <span class="notranslate">objects</span> gerenciados <strong>não </strong>serão transitados automaticamente quando um <span class="notranslate">room</span> for alterado. Você pode transportá-los manualmente usando variáveis globais, um <span class="notranslate">object</span> persistente, ou salvando as informações do jogador local em um arquivo.</p>
+  <p>Usando estas opções, você pode salvar as informações do jogador antes que um <span class="notranslate">room</span> termine, e aplicá-las de volta quando a instância do jogador for criada em um novo <span class="notranslate">room</span>.</p>
+  <h2>Ordem do evento</h2>
+  <p>Quando um jogo multiplayer começa, os seguintes eventos serão executados na ordem determinada:</p>
+  <ul class="colour">
+    <li><a data-xref="{text}" href="../../../The_Asset_Editors/Object_Properties/Other_Events.htm#p">Início do quarto</a></li>
+    <li><strong>Criar</strong> eventos para <a href="Rollback_Functions/rollback_define_player.htm">jogadores definidos</a></li>
+    <li><a data-xref="{text}" href="Rollback_Events.htm#h">Rollback Start</a>
+      <ul>
+        <li><span class="inline2">rollback_event_param.first_start</span> será <span class="inline2">verdadeiro</span></li>
+      </ul>
+    </li>
+  </ul>
+  <p>Quando você muda o <span class="notranslate">room</span> no meio de um jogo multiplayer, os seguintes eventos serão realizados na ordem determinada:</p>
+  <ul class="colour">
+    <li><a data-xref="{text}" href="../../../The_Asset_Editors/Object_Properties/Other_Events.htm#p1">Fim do quarto</a></li>
+    <li>Eventos de<strong>limpeza</strong> para <a href="Rollback_Functions/rollback_define_player.htm">jogadores definidos </a></li>
+    <li><a data-xref="{text}" href="../../../The_Asset_Editors/Object_Properties/Other_Events.htm#p">Início do quarto</a></li>
+    <li><strong>Criar</strong> eventos para <a href="Rollback_Functions/rollback_define_player.htm">jogadores definidos</a></li>
+    <li><a data-xref="{text}" href="Rollback_Events.htm#h">Rollback Start</a>
+      <ul>
+        <li><span class="inline2">rollback_event_param.first_start</span> será <span class="inline2">falso</span></li>
+      </ul>
+    </li>
+  </ul>
+  <h2>Destruir evento</h2>
+  <p>O evento <strong>Destroy</strong> de uma instância normalmente acontece assim que ela é destruída, por exemplo, depois que <span class="inline"><a href="../Asset_Management/Instances/instance_destroy.htm">instance_destroy()</a></span> é chamado. Entretanto, o evento pode não correr imediatamente em um jogo multiplayer.</p>
+  <p>Uma chamada <span class="inline">instance_destroy()</span> pode ser facilmente executada por uma previsão errada, o que significa que a destruição da instância será logo revertida quando os dados corretos do jogador responsável forem recebidos.</p>
+  <p>Devido a isso, o evento Destroy de uma instância só é chamado quando se confirma que deveria ter sido destruído. Isto significa que pode haver um pequeno atraso na instância sendo destruída na tela de um jogador, e seu evento Destroy sendo chamado.</p>
+  <p>Se você quiser que algo aconteça na tela de um cliente no mesmo quadro que uma instância sendo destruída, é recomendável criar uma função personalizada e chamá-la junto com <span class="inline">instance_destroy()</span>.</p>
+  <p>Isto também se aplica ao evento de <strong>Limpeza</strong> em andamento em uma instância sendo destruída.</p>
+  <h2>Administração do Estado</h2>
+  <p>Rollback Multiplayer gerencia o &quot;estado&quot; de seu jogo entre clientes, o que inclui instâncias gerenciadas e suas variáveis. Tais partes gerenciadas de seu jogo podem ser revertidas no caso de uma previsão errada pelo sistema Rollback.</p>
+  <p>Quando você cria ou destrói uma instância administrada, ou modifica qualquer propriedade/variável em uma instância administrada, você está atualizando o estado de seu jogo. Este estado <strong>não</strong> é enviado a outros jogadores, pois somente as <a href="Rollback_Functions/rollback_define_input.htm">entradas</a> são compartilhadas para todos os clientes.</p>
+  <p>Há algumas restrições com a administração do estado de seu jogo que você deve seguir para garantir a sincronização adequada entre os jogadores.</p>
+  <h3 id="h1">Estado antes do início do Rollback</h3>
+  <p>Você deve garantir que cada jogador comece no mesmo estado de jogo. Isto significa que tudo sobre seu jogo e suas instâncias gerenciadas deve ser o mesmo para todos os jogadores quando o evento <a href="Rollback_Events.htm">Rollback Start</a> é acionado, que é quando o jogo realmente começa.</p>
+  <p>Você pode executar qualquer código de criação ou configuração para suas instâncias gerenciadas antes desse ponto, desde que seja feito exatamente da mesma maneira para todos os clientes. Para saber se o jogo já começou, use <span class="inline"><a data-xref="{title}" href="Rollback_Variables/rollback_game_running.htm">rollback_game_running</a></span>.</p>
+  <p>Você pode usar o tempo entre sua chamada inicial/entrada e o evento <a href="Rollback_Events.htm">Rollback Start</a> para exibir uma tela de carregamento para os jogadores esperando.</p>
+  <p>O jogador retorna ao mesmo estado ao <a href="Rollback_Functions/rollback_leave_game.htm">sair de um jogo</a>, o que significa que o uso de <span class="inline"><a data-xref="{title}" href="Rollback_Variables/rollback_game_running.htm">rollback_game_running</a></span> é necessário para garantir que qualquer lógica de jogo só funcione enquanto o jogo estiver conectado.</p>
+  <h3>Estado global</h3>
+  <p>Você não pode ter variáveis globais que afetam seu estado de jogo, pois elas não estão sincronizadas entre os jogadores. Todas as variáveis requeridas devem estar dentro da administração <span class="notranslate">objects</span>.</p>
+  <h3>Estado do evento de sorteio</h3>
+  <p>Não se pode mudar o estado em um evento de sorteio, e seu propósito deve permanecer apenas o de desenhar gráficos baseados no estado estabelecido em eventos anteriores. Todos os eventos gerenciados <span class="notranslate">objects</span> tornam-se somente leitura durante um evento de Sorteio, portanto, não é possível alterar nenhuma variável neles e não é possível criar ou destruir instâncias de eventos gerenciados <span class="notranslate">objects</span>.</p>
+  <h3 id="h">Variáveis de tempo</h3>
+  <p>Não utilize variáveis/funções como <span class="inline"><a href="../Maths_And_Numbers/Date_And_Time/current_time.htm">current_time</a></span> ou <span class="inline"><a href="../Maths_And_Numbers/Date_And_Time/get_timer.htm">get_timer()</a></span> para afetar a lógica do jogo. Foi fornecida uma variável gerenciada chamada <span class="inline"><a data-xref="{title}" href="Rollback_Variables/rollback_current_frame.htm">rollback_current_frame</a></span> que pode ser usada em seu lugar. Ela retorna o número de quadros que passaram desde que o jogo multiplayer começou.</p>
+  <p>Os<a href="../Asset_Management/Instances/Instance_Variables/alarm.htm">eventos de alarme</a> são seguros para uso em gerenciados <span class="notranslate">objects</span>.</p>
+  <p>Certifique-se também de não usar <span class="inline"><a href="../Maths_And_Numbers/Date_And_Time/delta_time.htm">delta_time</a></span>, pois depende muito do sistema que executa o jogo e não pode ser sincronizado entre os jogadores.</p>
+  <h3>Referências de instância</h3>
+  <p>Uma identificação de instância armazenada em uma instância administrada deve apontar para uma instância administrada.</p>
+  <p>Se uma instância administrada tiver uma referência a uma instância não administrada, isso resultará em inconsistências entre os estados clientes, uma vez que as mudanças àquela instância não administrada não podem ser administradas e revertidas para trás.</p>
+  <p>Por exemplo, se sua instância administrada <span class="inline2">obj_workstation</span> tem uma referência a uma instância <span class="inline2">obj_anvil</span>, <span class="inline2">obj_anvil</span> deve ser uma instância administrada <span class="notranslate">object</span>.</p>
+  <h3>Referências de instâncias perdidas</h3>
+  <p>Uma variável dentro de uma instância administrada, contendo uma referência a outra instância administrada, será definida como <span class="inline2">não definida</span> se a instância referenciada for destruída.</p>
+  <p>Isto significa que se uma variável em uma instância administrada <strong>persistentemente</strong> contiver uma referência a uma instância administrada <strong>não persist</strong> ente, essa variável será definida como <span class="inline2">indefinida</span> quando a <span class="notranslate">room</span> mudar, pois a instância não persistente deixaria de existir.</p>
+  <h2>Números aleatórios</h2>
+  <p>O estado de geração de números aleatórios (RNG) é gerenciado entre jogadores, portanto é completamente seguro usar funções aleatórias (por exemplo, <span class="inline">random()</span>, <span class="inline">choose()</span>, etc.) para a lógica do jogo. O sistema Rollback garantirá que cada jogador receba o mesmo número aleatório no mesmo ponto do jogo.</p>
+  <p>Os eventos de sorteio utilizam um estado RNG separado. Isto significa que as funções aleatórias chamadas em um evento de sorteio não afetarão o estado regular do RNG para outros eventos, e podem não ser as mesmas entre jogadores diferentes.</p>
+  <h3>Sementes</h3>
+  <p>Você não pode usar <span class="inline"><a href="../Maths_And_Numbers/Number_Functions/randomise.htm">randomise()</a></span> ou <a href="../Maths_And_Numbers/Number_Functions/random_set_seed.htm"><span class="inline">random_set_seed()</span></a> para mudar a semente do RNG, uma vez que é gerenciada pelo sistema Rollback.</p>
+  <p>O estado gerenciado do RNG só começa quando o <a data-xref="{text}" href="Rollback_Events.htm#h">Rollback Start</a> é chamado, que é quando o jogo multiplayer começa. Você pode mudar a semente antes desse ponto, o que não terá nenhum efeito além do ponto de partida.</p>
+  <h2>Leitura adicional</h2>
+  <p>Leia as seguintes páginas para obter mais informações sobre o sistema Rollback:</p>
+  <ul class="colour">
+    <li><a data-xref="{title}" href="Rollback_Events.htm">Eventos de Rollback</a></li>
+    <li><a data-xref="{title}" href="Creating_Multiplayer.htm">Criar um jogo multiplayer</a></li>
+    <li><a data-xref="{title}" href="Rollback_System.htm">Sistema Rollback</a></li>
+    <li><a data-xref="{title}" href="Defining_Inputs.htm">Definição de entradas</a></li>
+  </ul>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div>Voltar: <a data-xref="{title}" href="Rollback_Multiplayer.htm">Rollback Multiplayer</a></div>
+        <div>A seguir: <a data-xref="{title}" href="Rollback_Events.htm">Eventos de Rollback</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright <span class="notranslate">YoYo Games Ltd.</span> 2022 Todos os direitos reservados</span></h5>
+  </div>
+</body>
+</html>

@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Desenho</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../assets/css/default.css" type="text/css" />
+  <script src="../assets/scripts/main_script.js"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Some basic code to show people how things are drawn." />
+  <meta name="rh-index-keywords" content="Quick Start - Drawing" />
+  <meta name="search-keywords" content="drawing,draw event,GUI layer" />
+  <meta name="robots" content="NOODP" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>Desenho</h1>
+  <p>Esta seção (e a seção seguinte sobre <a href="Movement_And_Controls.htm">Movimento e Controles</a>) tem como objetivo dar-lhe exemplos práticos de <span class="notranslate">GML</span> ou <span class="notranslate">GML</span> Visual para que você possa começar o mais rápido possível a fazer seus primeiros projetos de jogo. Não vamos explicar as coisas com muita profundidade, pois queremos que você comece a fazer as coisas o mais rápido possível, por isso encorajamos você a explorar quaisquer links à medida que for avançando e a usar a função de &quot;busca&quot; do manual para procurar informações adicionais sobre qualquer coisa que você não esteja certo.</p>
+  <p>Nesta seção vamos nos concentrar em simplesmente desenhar informações na tela, tanto como texto quanto como imagens, e também explicar um pouco mais sobre os diferentes <strong>Eventos de Sorteio</strong>, especificamente, o evento principal do <strong>Sorteio</strong> e o evento do <strong>Sorteio GUI </strong>(note que em alguns dos exemplos você será obrigado a acrescentar outros eventos, mas vamos explicá-los à medida que chegarmos a eles).</p>
+  <p><img alt="The Draw Events" class="center" src="../assets/Images/QS_Guide/QS_DrawEvents.png" /></p>
+  <p>Antes de continuar, você pode querer fazer um novo projeto (seja <span class="notranslate">GML</span> ou <span class="notranslate">GML</span> Visual) a partir da <a href="../Introduction/The_Start_Page.htm">Página Inicial</a>, e adicionar (ou criar) alguns <span class="notranslate">sprites</span>, bem como um <span class="notranslate">object</span> ou dois, pois lhe daremos algum código que você pode testar usando estes. Mesmo um quadrado branco funcionará por enquanto como o <span class="notranslate">sprite</span> para nosso <span class="notranslate">object</span>!</p>
+  <p>Agora, como mencionado na seção sobre <a href="Objects_And_Instances.htm">Objetos e Instâncias</a>, se você não adicionar um Evento de Sorteio ao <span class="notranslate">object</span>, então <span data-keyref="GameMaker Name">o GameMaker</span> irá sortear por padrão, significando que se o <span class="notranslate">object</span> tiver um <span class="notranslate">sprite</span> atribuído a ele, este <span class="notranslate">sprite</span> será sorteado, completo com quaisquer transformações que tenham sido adicionadas. O que queremos dizer com "transforms"? Bem, cada <span class="notranslate">object</span> tem um número de<span class="glossextra">variáveis</span> embutidas que controlarão como uma instância do <span class="notranslate">object</span> desenha seu <span class="notranslate">sprite</span> quando o sorteio padrão, e você pode mudar estas variáveis conforme o jogo for rodando para mudar a forma como o <span class="notranslate">sprite</span> é desenhado.</p>
+  <p class="note"><strong>NOTA</strong>: Você pode encontrar uma lista de todas as variáveis incorporadas que podem ser usadas para transformar a instância <span class="notranslate">sprites</span> <a href="../GameMaker_Language/GML_Reference/Asset_Management/Sprites/Sprite_Instance_Variables/Sprite_Instance_Variables.htm">aqui</a>. <span class="notranslate">GML</span> Os usuários visuais têm algumas ações dedicadas que afetam estas variáveis, que você pode encontrar <a href="../Drag_And_Drop/Drag_And_Drop_Reference/Drawing/Drawing_Actions.htm">aqui</a>, e você também pode usar as próprias variáveis reais junto com as ações <a href="../Drag_And_Drop/Drag_And_Drop_Reference/Instance/Get_Instance_Variable.htm">Get Instance Variable</a> e <a href="../Drag_And_Drop/Drag_And_Drop_Reference/Instance/Set_Instance_Variable.htm">Set Instance Variable</a>.</p>
+  <p>Vejamos alguns exemplos:</p>
+  <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop_down" href="#">Mudança Alfa (Transparência)</a></p>
+  <div class="droptext" data-targetname="drop_down">
+    <p class="dropspot">O valor <strong>alfa </strong>é o que controla a transparência do que está sendo desenhado, e no <span data-keyref="GameMaker Name">GameMaker</span>, você pode usar a variável incorporada <span class="inline">image_alpha</span> para mudar o quão transparente é o <span class="notranslate">sprite</span> atribuído. Para ver como isto funciona, abra (ou crie) um <span class="notranslate">object</span>, atribua-lhe um <span class="notranslate">sprite</span>, e depois dê ao <span class="notranslate">object</span> um <strong>Evento de Criação</strong>. No Create Event, simplesmente adicione o seguinte <span class="notranslate">GML</span> Visual ou GML:</p>
+    <p class="dropspot"><img alt="GML VisualDraw Example For Transparency" class="center" src="../assets/Images/QS_Guide/QS_DrawExample_DnD_1.png" /></p>
+    <p class="code">var _val = random(1);
+      <br />
+      image_alpha = _val;
+    </p>
+    <p class="dropspot">A imagem alfa é calculada como um valor de 0 a 1, onde 0 é totalmente transparente e 1 é totalmente opaco (por padrão é definido como 1). Portanto, neste exemplo, tudo o que estamos fazendo é definir a imagem alfa como um valor decimal aleatório de 0 a 1. Coloque algumas instâncias deste <span class="notranslate">object</span> em um <span class="notranslate">room</span>, e depois clique no botão <strong>Play </strong> <img> na parte superior do <span class="notranslate">IDE</span>.</p>
+    <p class="dropspot">Você deve ver que cada instância do <span class="notranslate">object</span> desenha seu <span class="notranslate">sprite</span> com uma transparência diferente, por exemplo:</p>
+    <p class="dropspot"><img alt="Play Icon" class="icon" src="../assets/Images/Icons/Icon_PlayGame.png" /></p>
+    <p class="dropspot"> </p>
+  </div>
+  <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop_down1" href="#">Mudança da mistura de cores (Tinting)</a></p>
+  <div class="droptext" data-targetname="drop_down1">
+    <p class="dropspot">Quando seu <span class="notranslate">object</span> é o desenho padrão <span class="notranslate">sprite</span>, este <span class="notranslate">sprite</span> está sendo desenhado de fato <strong>misturado </strong>(ou <strong>colorido</strong>) com uma cor, e este valor de cor é armazenado na variável embutida <span class="inline">image_blend</span>. Por padrão esta cor é branca, o que essencialmente significa que nenhuma cor será adicionada ao <span class="notranslate">sprite</span> quando ele for mostrado na tela. Entretanto, é possível usar outras cores para obter efeitos especiais, por exemplo, usar vermelho para mostrar que a instância recebeu algum dano.</p>
+    <p class="dropspot">Neste exemplo, vamos misturar diferentes cores com o <span class="notranslate">sprite</span> enquanto uma chave é pressionada e mantida pressionada, e assim você precisará abrir (ou criar) um <span class="notranslate">object</span>, atribuir-lhe um <span class="notranslate">sprite</span>, e então dar ao <span class="notranslate">object</span> uma <strong>Key Down &lt;Space&gt; Event</strong>.</p>
+    <p class="dropspot"><img alt="Example Of Sprites Drawn With Different Alpha Values" class="center" src="../assets/Images/QS_Guide/QS_DrawExample_1.png" /></p>
+    <p class="dropspot">Neste evento Key Down, adicione o seguinte <span class="notranslate">GML</span> Visual ou GML:</p>
+    <p class="dropspot"><img alt="Add Key Down Event" class="center" src="../assets/Images/QS_Guide/QS_Add_SpaceKeyPressEvent.png" /></p>
+    <p class="code">var _col = choose(c_red, c_green, c_blue, c_yellow, c_fuchsia, c_orange);
+      <br />
+      image_blend = _col;
+    </p>
+    <p class="dropspot">Coloque algumas instâncias deste <span class="notranslate">object</span> em um <span class="notranslate">room</span>, e depois clique no botão Play <img> na parte superior do <span class="notranslate">IDE</span>, e teste segurando e soltando a chave de <em>espaço </em>. Você deve ver que cada instância mudará sua cor rapidamente enquanto a chave é mantida para baixo, e parar de mudar quando for liberada:</p>
+    <p class="dropspot"><img alt="GML VisualExample Using Key Down Event" class="center" src="../assets/Images/QS_Guide/QS_DrawExample_DnD_2.png" /></p>
+    <p class="dropspot"> </p>
+  </div>
+  <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop_down2" href="#">Escala de mudança</a></p>
+  <div class="droptext" data-targetname="drop_down2">
+    <p class="dropspot">Outra das propriedades que podemos mudar para nosso <span class="notranslate">sprite</span> é o valor <strong>da escala </strong>, permitindo-nos desenhá-la maior ou menor quando quisermos. A escala é calculada independentemente ao longo dos eixos X e Y por duas variáveis separadas, a variável <span class="inline">image_xscale</span> e a variável <span class="inline">image_yscale</span>. Por padrão estas são definidas como 1, e atuam como <strong>multiplicadores</strong>, portanto um valor de 0,5 seria metade da escala e um valor de 2 seria o dobro da escala.</p>
+    <p class="note"><strong>IMPORTANTE! </strong>A mudança da escala atribuída <span class="notranslate">sprite</span> usando estas variáveis <strong>também mudará o tamanho da caixa de delimitação para corresponder</strong>, o que significa que a área de detecção de colisão para o <span class="notranslate">sprite</span> também será escalada.</p>
+    <p class="dropspot">Neste exemplo, vamos usar algumas matemáticas simples para fazer uma escala de instância o <span class="notranslate">sprite</span> para cima e para baixo em um <span class="notranslate">loop</span>. Para começar, abrir (ou criar) um <span class="notranslate">object</span>, atribuir-lhe um <span class="notranslate">sprite</span>, e depois dar ao <span class="notranslate">object</span> um <strong>Create Event</strong>. Neste evento, acrescente o seguinte:</p>
+    <p class="dropspot"><img alt="Play Icon" class="icon" src="../assets/Images/Icons/Icon_PlayGame.png" /></p>
+    <p class="code">timer = 0;</p>
+    <p class="dropspot">Agora adicione um <strong>Evento de Etapa</strong> ao <span class="notranslate">object</span> com isto:</p>
+    <p class="dropspot"><img alt="Example Showing Colour Blending" class="center" src="../assets/Images/QS_Guide/QS_DrawExample_2.png" /></p>
+    <p class="code">timer = timer + 1;
+      <br />
+      var _val = dsin(timer);
+      <br />
+      image_xscale = 1 + _val;
+      <br />
+      image_yscale = 1 + _val;
+    </p>
+    <p class="dropspot">Aqui estamos usando a função matemática <a href="../GameMaker_Language/GML_Reference/Maths_And_Numbers/Angles_And_Distance/dsin.htm"><span class="inline">dsin()</span></a> para gerar um valor entre -1 e 1 usando a variável temporizada, e depois aplicando-a às variáveis de escala. Depois de colocar algumas instâncias em um <span class="notranslate">room</span> e pressionar o botão <strong>Play </strong> <img>, você deve ver como as instâncias escalam para cima e para baixo de uma escala de 0 a uma escala de 2 e, em seguida, voltar novamente.</p>
+    <p class="dropspot"><img alt="GML VisualSet Variable Example" class="center" src="../assets/Images/QS_Guide/QS_DrawExample_DnD_3_1.png" /></p>
+    <p class="dropspot">Uma última coisa... mude a seção &quot; <span class="inline">image_yscale</span>&quot; para &quot; <span class="inline">1 - _val</span>&quot; e veja o que acontece!</p>
+    <p class="dropspot"> </p>
+  </div>
+  <p> </p>
+  <p>Os exemplos acima ilustram apenas algumas das muitas maneiras que você pode manipular o <span class="notranslate">object</span> <span class="notranslate">sprite</span> quando o <span data-keyref="GameMaker Name">GameMaker</span> é o desenho padrão, mas e se você quiser desenhar mais de uma coisa para um <span class="notranslate">object</span>? nesses casos você precisa usar o <strong>Evento de Sorteio</strong> para dizer explicitamente ao <span data-keyref="GameMaker Name">GameMaker</span> o que desenhar, que é o que faremos nos exemplos a seguir.</p>
+  <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop_down3" href="#">Desenho Dois (ou mais) <span class="notranslate">Sprites</span> Juntos</a></p>
+  <div class="droptext" data-targetname="drop_down3">
+    <p class="dropspot">Para este exemplo, você precisará de dois <span class="notranslate">sprites</span> e um <span class="notranslate">object</span>. Ligue para <span class="notranslate">sprites</span> &quot; <span class="inline">spr_One</span>&quot; e &quot; <span class="inline">spr_Two</span>&quot;, e então defina a origem &quot; <span class="inline">spr_One</span>&quot; para o centro e para &quot; <span class="inline">spr_Two</span>&quot; defina sua origem para o centro-esquerda:</p>
+    <p class="dropspot"><img>Atribua o primeiro <span class="notranslate">sprite</span> (&quot; <span class="inline">spr_One</span>&quot; com a origem do centro) ao <span class="notranslate">object</span> que você criou e depois adicione um <strong>Evento Create</strong>. No Create Event, adicione o seguinte <span class="notranslate">GML</span> Visual ou GML:</p>
+    <p class="dropspot"><img alt="GML VisualActions To Change Sprite Scale" class="center" src="../assets/Images/QS_Guide/QS_DrawExample_DnD_3_2.png" /></p>
+    <p class="code">draw_angle = 0;</p>
+    <p class="dropspot">Vamos usar esta variável para girar &quot; <span class="inline">spr_Two</span>&quot; com o tempo, e desenhá-la sobreposta no <span class="notranslate">sprite</span> atribuído ao <span class="notranslate">object</span> (&quot; <span class="inline">spr_One</span>&quot;). Para fazer isso, precisamos adicionar um <strong>evento de sorteio </strong>ao <span class="notranslate">object</span>. Ao fazer isso, estamos dizendo ao <span data-keyref="GameMaker Name">GameMaker</span> que queremos assumir o que a instância sorteia, o que significa que nosso código incluirá uma chamada para o <a href="../GameMaker_Language/GML_Reference/Drawing/Sprites_And_Tiles/draw_self.htm"><span class="inline">draw_self()</span></a> função ou <a href="../Drag_And_Drop/Drag_And_Drop_Reference/Drawing/Draw_Self.htm"><strong>Autodesenhar</strong></a> ação. Esta ação simplesmente reproduz o que o <span class="notranslate">object</span> faz quando nenhum Evento de Sorteio está presente e é o desenho padrão atribuído <span class="notranslate">sprite</span>. Desenharemos então o segundo <span class="notranslate">sprite</span> que queremos usar como o overlay <span class="notranslate">sprite</span> que está girando. O <span class="notranslate">GML</span> Visual e <span class="notranslate">GML</span> tem este aspecto:</p>
+    <p class="dropspot"><img alt="Play Icon" class="icon" src="../assets/Images/Icons/Icon_PlayGame.png" /></p>
+    <p class="code">draw_self();
+      <br />
+      draw_angle = draw_angle + 0.5;
+      <br />
+      draw_sprite_ext(spr_Two, 0, x, y, 1, 1, draw_angle, c_red, 1);
+    </p>
+    <p class="dropspot">Adicione várias instâncias do <span class="notranslate">object</span> no editor <span class="notranslate">room</span> e pressione o botão <strong>Play </strong> <img> na parte superior da <a class="glossterm" data-glossterm="IDE" href="#">IDE</a>. Se tudo tiver corrido corretamente, você deve ver algo assim agora:</p>
+    <p class="dropspot"><img class="center" src="../assets/Images/QS_Guide/QS_DrawExample_3.gif" title="Animation Showing Sprite Scaling" /></p>
+    <p class="dropspot">Antes de deixarmos este exemplo, vamos apenas ajustá-lo um pouco e, em vez de ter &quot; <span class="inline">spr_Two</span>&quot; simplesmente girar, vamos fazer com que aponte para a posição do mouse. Para isso, precisamos mudar o evento de sorteio <span class="notranslate">GML</span> Visual ou <span class="notranslate">GML</span> para ter este aspecto:</p>
+    <p class="dropspot"><img alt="Show Origins For Sprites" class="center" src="../assets/Images/QS_Guide/QS_DrawExample_4_1.png" /></p>
+    <p class="code">draw_self();
+      <br />
+      draw_angle = point_direction(x, y, mouse_x, mouse_y);
+      <br />
+      draw_sprite_ext(spr_Two, 0, x, y, 1, 1, draw_angle, c_red, 1);
+    </p>
+    <p class="dropspot">Execute o projeto novamente e desta vez você verá algo muito diferente!</p>
+    <p class="dropspot"><img>O <span class="notranslate">sprite</span> agora aponta para o mouse, independentemente de para onde você o mova! Como você pode ver, a disposição do <span class="notranslate">sprites</span> é uma ótima maneira de adicionar detalhes a um <span class="notranslate">object</span> ou de ter algo movido independentemente da &quot;base&quot; <span class="notranslate">sprite</span> atribuída ao <span class="notranslate">object</span>, e é uma ferramenta poderosa que você provavelmente usará muito em seus próprios projetos.</p>
+    <p class="dropspot"> </p>
+  </div>
+  <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop_down4" href="#">Desenho de outras coisas que não Sprites</a></p>
+  <div class="droptext" data-targetname="drop_down4">
+    <p class="dropspot">Você também pode desenhar coisas no Evento de Desenho que não sejam <span class="notranslate">sprites</span>, como texto, ou formas. Neste exemplo, usaremos a função <span class="notranslate">GML</span> Visual ou <span class="notranslate">GML</span> <span class="inline">draw_self()</span> para desenhar o <span class="notranslate">object</span> <span class="notranslate">sprite</span>, mas também desenharemos algumas outras coisas, começando com algum <strong>texto</strong>. Para este exemplo, você precisará de um <span class="notranslate">sprite</span> e um <span class="notranslate">object</span> (com o <span class="notranslate">sprite</span> atribuído a ele). No <span class="notranslate">object</span>, primeiro adicione um <strong>Create Event</strong> com este <span class="notranslate">GML</span> Visual ou GML:</p>
+    <p class="dropspot"><img alt="Set Draw Angle Variable In DnD" class="center" src="../assets/Images/QS_Guide/QS_DrawExample_DnD_4_1.png" /></p>
+    <p class="code">name = choose(&quot;Fred&quot;, &quot;Jonas&quot;, &quot;Sharon&quot;, &quot;Kate&quot;, &quot;Frank&quot;, &quot;John&quot;, &quot;Monica&quot;, &quot;Amanda&quot;);
+      <br />
+      number = irandom(100);
+    </p>
+    <p class="dropspot">Tudo o que isso faz é dizer ao <span data-keyref="GameMaker Name">GameMaker</span> para escolher um dos nomes listados e atribuí-lo a uma variável, bem como gerar um número aleatório de 0 a 100 para cada instância do <span class="notranslate">object</span>. Queremos desenhar estes valores na tela, e para isso você precisa agora adicionar um <strong>Evento de Sorteio</strong> e nele adicionar o seguinte <span class="notranslate">GML</span> Visual ou GML:</p>
+    <p class="dropspot"><img alt="Draw Two Sprites With DnD" class="center" src="../assets/Images/QS_Guide/QS_DrawExample_DnD_4_2.png" /></p>
+    <p class="code">draw_self();
+      <br />
+      draw_set_halign(fa_center);
+      <br />
+      draw_text(x, y + 32, &quot;My name is &quot; + name);
+      <br />
+      draw_text(x, y + 48, &quot;My number is &quot; + string(number));
+    </p>
+    <p class="dropspot">Você notará no código acima que nós usamos o <a href="../GameMaker_Language/GML_Reference/Strings/string.htm"><span class="inline">string()</span></a> função ou <a href="../Drag_And_Drop/Drag_And_Drop_Reference/Data_Types/Number_To_String.htm"><strong>Número para String</strong></a> ação sobre a variável &quot;número&quot; que queremos desenhar. Isto porque todo texto tem que ser composto de <em>caracteres</em>, não de valores, e por isso precisamos usar esta função/ação para converter o valor numérico naqueles caracteres que queremos desenhar. Neste caso, estamos pegando o número aleatório que geramos e transformando-o em uma &quot;cadeia&quot; de caracteres que podem ser desenhados. Observe também que definimos o <strong>alinhamento do</strong> texto. Isto simplesmente diz ao <span data-keyref="GameMaker Name">GameMaker</span> onde começar a desenhar o texto em relação à posição dada, e neste caso queremos que o texto seja centralizado ao longo do eixo x.</p>
+    <p class="dropspot">Adicione algumas instâncias do <span class="notranslate">object</span> no editor <span class="notranslate">room</span> e depois pressione o botão Play <img> na parte superior do <span class="notranslate">IDE</span>. Você deve ver algo como isto:</p>
+    <p class="dropspot"><img alt="Play Icon" class="icon" src="../assets/Images/Icons/Icon_PlayGame.png" /></p>
+    <p class="dropspot">Em todos os exemplos até agora temos desenhado o <span class="notranslate">sprite</span> atribuído à instância, mas isso nem sempre tem que ser o caso. <strong>Você pode desenhar o que quiser</strong> no evento do sorteio, independentemente do <span class="notranslate">sprite</span> designado. Para ilustrar este ponto, mudaremos o código que temos atualmente removendo a chamada <span class="inline">draw_self()</span> e substituindo por uma função para desenhar uma elipse colorida, como esta:</p>
+    <p class="dropspot"><img alt="Animation Drawing Two Sprites Together" class="center" src="../assets/Images/QS_Guide/QS_DrawExample_4_2.gif" /></p>
+    <p class="code">draw_ellipse_colour(x - 50, y - 32, x + 50, y + 32, c_fuchsia, c_lime, false);
+      <br />
+      draw_set_halign(fa_center);
+      <br />
+      draw_text(x, y + 32, &quot;My name is &quot; + name);
+      <br />
+      draw_text(x, y + 48, &quot;My number is &quot; + string(number));
+    </p>
+    <p class="dropspot">Execute o projeto novamente e você deve ver isto:</p>
+    <p class="dropspot"><img alt="Edited Draw Code For Drawing Two Sprites With DnD" class="center" src="../assets/Images/QS_Guide/QS_DrawExample_DnD_4_3.png" /></p>
+    <p class="dropspot">Uma coisa importante a se notar sobre isto, é que mesmo que não estejamos desenhando o designado <span class="notranslate">sprite</span>, <strong>ele ainda será usado para a detecção de colisões</strong>. Assim, enquanto você pode estar desenhando uma coisa, as colisões ainda serão calculadas com base no <span class="notranslate">sprite</span> atribuído, como se fosse colocado no <span class="notranslate">room</span> junto com a instância, mesmo que não seja visível. Isto é bastante útil na verdade, pois significa que você pode desenhar diferentes <span class="notranslate">sprites</span>, mas manter uma única <strong>máscara de colisão</strong> com base no <span class="notranslate">sprite</span> atribuído. Observe também que você ainda pode aplicar as diferentes transformações como a escala X/Y, e as colisões serão baseadas no tamanho alterado, mesmo que não haja nada sendo desenhado para mostrar isto.</p>
+  </div>
+  <p> </p>
+  <p> </p>
+  <h1>A camada GUI</h1>
+  <p>Mencionamos no topo da página que estaríamos falando sobre o <strong>Evento de Sorteio GUI</strong> assim como sobre o Evento de Sorteio, então vamos olhar para isso agora. O Draw GUI Event funciona em algo chamado <strong> <a class="glossterm" data-glossterm="GUI" href="#">GUI</a></strong> Layer, que é uma camada especial de desenho de largura e altura fixas que é desenhada sobre as instâncias no <span class="notranslate">room</span>. O ótimo sobre a camada GUI é que <em> ela não se move com a câmera <span class="notranslate">room</span> </em>, então é o lugar ideal para adicionar itens de GUI estáticos, como pontuação, barras de saúde e outras informações que seu jogo requer para comunicar ao usuário. Você pode encontrar mais informações sobre a camada GUI na seção <a href="../The_Asset_Editors/Object_Properties/Draw_Events.htm">Eventos de Sorteio</a> do manual.</p>
+  <p class="note"><strong>NOTA</strong>: <span class="notranslate">Rooms</span> pode ser maior do que o tamanho da tela, assim você pode ter grandes níveis para que o jogador se movimente para dentro. Isto significa que no editor <span class="notranslate">Room</span> (ou em código) você precisa definir uma <strong>câmera </strong>que acompanhe a ação de seu jogo. Esta é basicamente uma forma de configurar uma área fixa da tela para exibir diferentes partes da tela maior <span class="notranslate">room</span> com base - por exemplo - na posição do jogador no <span class="notranslate">room</span>, e é usada em muitos jogos. Pense na maneira como a visão sempre segue o personagem principal em jogos clássicos como Mario ou Zelda. Isso é feito com câmeras. Para mais informações, consulte a seção <a href="../The_Asset_Editors/Room_Properties/Room_Properties.htm">Propriedades da sala</a> na seção <span class="notranslate">Room</span> Editor do manual.</p>
+  <p>Os exemplos a seguir serão todos usando o evento <strong>Draw GUI</strong>, então você precisará criar um <span class="notranslate">object</span> e adicionar esse evento a ele. Note que o <span class="notranslate">object</span> não precisa de um <span class="notranslate">sprite</span> designado, já que não estamos querendo desenhar nada por padrão, nem precisamos dele para detectar colisões. <span class="notranslate">Objects</span> como este, que são projetados apenas para desenhar coisas ou controlar certos aspectos do jogo são freqüentemente chamados <strong>Controller Objects (Objetos Controladores</strong>). Note também que estaremos usando o mesmo <span class="notranslate">object</span> para todos os exemplos, portanto recomendamos que você os examine um após o outro (embora isto não seja estritamente necessário).</p>
+  <p><img> <a class="dropspot" data-rhwidget="DropSpot" data-target="drop_down5" href="#">Texto do desenho</a></p>
+  <div class="droptext" data-targetname="drop_down5">
+    <p class="dropspot">Ao desenhar para a camada GUI, o canto superior esquerdo é a posição de origem, e à direita é +X e para baixo é +Y. Isto torna o posicionamento de texto e gráficos muito fácil, como você verá neste exemplo. Tudo o que vamos fazer aqui é desenhar um valor que represente a pontuação do jogador, portanto, em nosso <span class="notranslate">object</span> precisaremos adicionar um <strong>Create Event </strong>para rubricar uma variável para manter este valor, como este:</p>
+    <p class="dropspot"><img alt="Animation Drawing Two Sprites Pointing At Mouse" class="center" src="../assets/Images/QS_Guide/QS_DrawExample_4_3.gif" /></p>
+    <p class="code">player_score = 0;</p>
+    <p class="dropspot">Também queremos adicionar um <strong>Keyboard Down &lt;Space&gt; Event</strong> ao <span class="notranslate">object</span>, pois usaremos isso para incrementar a pontuação toda vez que você pressionar a tecla Space.</p>
+    <p class="dropspot"><img alt="Setting Variables Using DnD" class="center" height="506" src="../assets/Images/QS_Guide/QS_DrawExample_DnD_5_1_1.png" width="317" /></p>
+    <p class="dropspot">Neste caso, acrescente o seguinte:</p>
+    <p class="dropspot"><img alt="Drawing Text Using DnD" class="center" src="../assets/Images/QS_Guide/QS_DrawExample_DnD_5_1.png" /></p>
+    <p class="code">var _val = irandom(100);
+      <br />
+      player_score = player_score + _val;
+    </p>
+    <p class="dropspot">Finalmente, vamos sortear o valor da pontuação no evento do Sorteio GUI, como este:</p>
+    <p class="dropspot">Neste caso, acrescente o seguinte:</p>
+    <p class="dropspot"><img alt="Play Icon" class="icon" src="../assets/Images/Icons/Icon_PlayGame.png" /></p>
+    <p class="code">draw_set_halign(fa_left);
+      <br />
+      draw_set_colour(c_yellow);
+      <br />
+      draw_text(32, 32, &quot;SCORE:&quot;);
+      <br />
+      draw_set_colour(c_white);
+      <br />
+      var _str = string(player_score);
+      <br />
+      draw_text_transformed(32, 48, _str, 2, 2, 0);
+    </p>
+    <p class="dropspot">Você notará como usamos valores <a class="glossterm" data-glossterm="codificado em código duro" href="#">codificados</a> (ou fixos) para a posição x/y do texto a ser desenhado, já que não precisamos que seja relativo a nenhuma instância já que estamos desenhando para a camada GUI. Também utilizamos a função &quot;definir cor&quot; para mudar a cor do texto, bem como a fração &quot;transformada&quot; para aumentar o valor real da pontuação, o que ilustra como você pode personalizar os elementos de texto em seus próprios jogos.</p>
+    <p class="dropspot">Adicione uma única instância deste <span class="notranslate">object</span> ao seu <span class="notranslate">room</span> agora e depois pressione o botão <strong>Play </strong> <img>. Quando o jogo for executado, pressione e solte a tecla <span class="inline">&lt;Space&gt;</span> e você deverá ver o valor da pontuação aumentar.</p>
+    <p class="dropspot"><img alt="Sprites Being Drawn Along With Text" class="center" src="../assets/Images/QS_Guide/QS_DrawExample_5_1.png" /></p>
+    <p class="dropspot"> </p>
+  </div>
+  <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop_down6" href="#">Sprites de Desenho</a></p>
+  <div class="droptext" data-targetname="drop_down6">
+    <p class="dropspot">Neste exemplo, vamos utilizar a camada de GUI para desenhar cerca de <span class="notranslate">sprites</span>. O uso mais óbvio para isso é desenhar a vida dos jogadores, então vamos em frente e fazer exatamente isso! Você precisará de um <span class="notranslate">sprite</span> para este exemplo - que deve ter cerca de 64x64 pixels - mas não deve ser atribuído ao <span class="notranslate">object</span>, pois seremos nós mesmos a desenhá-lo.</p>
+    <p class="dropspot">Para começar, precisamos adicionar algumas variáveis novas ao <span class="notranslate">object</span> no <strong>Create Event</strong> (se você fez o exemplo anterior, adicione o seguinte abaixo o que já está lá):</p>
+    <p class="dropspot"><img alt="Drawing Shapes Along With Text Using DnD" class="center" src="../assets/Images/QS_Guide/QS_DrawExample_DnD_5_2.png" /></p>
+    <p class="code">player_lives = 3;
+      <br />
+      gui_w = display_get_gui_width();
+    </p>
+    <p class="dropspot">Neste código inicializamos uma variável para a vida do jogador, mas também criamos uma variável para segurar a largura da camada GUI, para que possamos posicionar as coisas corretamente em relação à direita da tela. Poderíamos apenas codificar um valor no código e usá-lo, mas isso significaria que se fizéssemos qualquer mudança no tamanho do <span class="notranslate">room</span>, ou se acrescentássemos câmeras etc... mais tarde, precisaríamos passar pelo código e mudar o valor em todos os lugares. Usando o <a href="../GameMaker_Language/GML_Reference/Cameras_And_Display/display_get_gui_width.htm"><span class="inline">display_get_gui_width()</span></a> Em vez disso, significa que não precisamos nos preocupar com nenhuma mudança futura como essa, pois o código se adaptará automaticamente ao tamanho que a camada GUI acabar.</p>
+    <p class="dropspot">A seguir queremos adicionar um <strong>Teclado pressionado &lt;Enter&gt; Evento</strong> ao <span class="notranslate">object</span>, já que usaremos isso para mudar o número de vidas toda vez que a tecla Enter for pressionada:</p>
+    <p class="dropspot"><img alt="Example Of Drawing Shapes And Text Together" class="center" src="../assets/Images/QS_Guide/QS_DrawExample_5_2.png" /></p>
+    <p class="dropspot">Neste caso, acrescente o seguinte:</p>
+    <p class="dropspot"><img alt="Draw GUI Event In An Object" class="center" src="../assets/Images/QS_Guide/QS_DrawGUIObject.png" /></p>
+    <p class="code">player_lives = player_lives - 1;
+      <br />
+      <br />
+      if player_lives &lt; 0
+      <br />
+      {
+      <br />
+      player_lives = 3;
+      <br />
+      }
+    </p>
+    <p class="dropspot">Finalmente, precisamos atrair o <span class="notranslate">sprites</span> para a tela. Para isto estaremos usando um &quot; <span class="inline">for</span>&quot; <span class="notranslate">loop</span> (informações usando <span class="notranslate">GML</span> <a href="../GameMaker_Language/GML_Overview/Language_Features/for.htm">aqui</a> e para <span class="notranslate">GML</span> Visual <a href="../Drag_And_Drop/Drag_And_Drop_Reference/Loops/For.htm">aqui</a>), junto com a variável de largura GUI para posicionar tudo no canto superior direito da tela. Portanto, acrescente isto ao evento Draw Gui (depois de quaisquer outras ações que possa ter a partir de exemplos anteriores):</p>
+    <p class="dropspot"><img alt="Defining A Variable Using DnD" class="center" src="../assets/Images/QS_Guide/QS_DrawExample_DnD_6_1.png" /></p>
+    <p class="code">for (var i = 0; i &lt; player_lives; i += 1)
+      <br />
+      {
+      <br />
+      var _xx = gui_w - 48 - (i * 70);
+      <br />
+      draw_sprite(spr_Heart, 0, _xx, 48);
+      <br />
+      }
+    </p>
+    <p class="dropspot">Se você ainda não adicionou uma instância deste <span class="notranslate">object</span> a um <span class="notranslate">room</span>, vá em frente e adicione-o agora (apenas um!), então pressione o botão <strong>Play </strong> <img>. Uma vez que o jogo estiver funcionando, pressione a tecla <span class="inline">&lt;Enter&gt;</span> várias vezes para ver as vidas mudarem.</p>
+    <p class="dropspot"><img alt="Adding A Space Key Pressed Event" class="center" src="../assets/Images/QS_Guide/QS_Add_SpaceKeyPressEvent.png" /></p>
+    <p class="dropspot">Antes de deixar este exemplo, você deve experimentar com o número de vidas e ver o que acontece. No momento está definido para 3, mas mude o evento Create Event e o evento Key Pressed para definir o valor para 5, ou 10... se você fez tudo certo, então o código deve adaptá-los e desenhá-los todos corretamente!</p>
+    <p class="dropspot"> </p>
+  </div>
+  <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop_down7" href="#">Desenho de uma barra de saúde</a></p>
+  <div class="droptext" data-targetname="drop_down7">
+    <p class="dropspot">Este último exemplo cobre o desenho de uma barra de saúde para a camada GUI. Há várias maneiras de fazer isso, mas <span data-keyref="GameMaker Name">o GameMaker</span> tem uma função construída especificamente para fazer barras de saúde, então é isso que estaremos usando aqui, embora você possa criar a sua própria usando <span class="notranslate">sprites</span> ou formas também. Para começar, como antes, precisamos rubricar um varaible para manter o valor de saúde, então adicione o seguinte <span class="notranslate">GML</span> Visual ou <span class="notranslate">GML</span> no <strong>Create Event</strong> of the <span class="notranslate">object</span> (depois de qualquer outro código que já possa estar lá):</p>
+    <p class="dropspot"><img alt="GML VisualActions In The Space Key Event" class="center" src="../assets/Images/QS_Guide/QS_DrawExample_DnD_6_2.png" /></p>
+    <p class="code">player_health = 100;</p>
+    <p class="dropspot">Queremos usar as teclas de seta para mudar o valor de saúde para cima ou para baixo dependendo de qual tecla de seta é pressionada, e poderíamos fazer isso adicionando em dois <strong>Teclado pressionado &lt;Seta&gt;</strong> eventos, porém provavelmente é mais fácil usar um <strong>Evento Passo</strong> e algum código para verificar as teclas, então vá em frente e adicione agora um <strong>Evento Passo</strong> com o seguinte <span class="notranslate">GML</span> Visual ou GML:</p>
+    <p class="dropspot"><img alt="Drawing Text To The GUI Layer Using DnD" class="center" src="../assets/Images/QS_Guide/QS_DrawExample_DnD_6_3.png" /></p>
+    <p class="code">if keyboard_check(vk_up)<br />
+      {<br />
+          if player_health &lt; 100<br />
+          {<br />
+              player_health = player_health + 1;<br />
+          }<br />
+      }<br />
+      <br />
+      if keyboard_check(vk_down)<br />
+      {<br />
+          if player_health &gt; 0<br />
+          {<br />
+              player_health = player_health - 1;<br />
+          }<br />
+      }
+    </p>
+    <p class="dropspot">Com isso feito, podemos de fato chegar ao desenho da barra de saúde, que é feito no evento Draw GUI, acrescentando o seguinte (depois de qualquer outra coisa que já esteja lá):</p>
+    <p class="dropspot"><img alt="Play Icon" class="icon" src="../assets/Images/Icons/Icon_PlayGame.png" /></p>
+    <p class="code">var _xx = display_get_gui_width() / 2;<br />
+      <br />
+      draw_healthbar(_xx - 50, 24, _xx + 50, 40, player_health, c_black, c_red, c_lime, 0, true, true);
+    </p>
+    <p class="dropspot">Adicione uma instância deste <span class="notranslate">object</span> a um <span class="notranslate">room</span> se você ainda não o tiver feito (apenas um, no entanto!), e depois pressione o botão <strong>Play </strong> <img>. Uma vez que o jogo esteja funcionando, pressione as teclas <span class="inline">&lt;Up Arrow&gt;</span> e <span class="inline">&lt;Down Arrow&gt;</span> várias vezes para ver a mudança de saúde.</p>
+    <p class="dropspot"><img alt="Animation Showing Text Being Drawn To The GUI Layer" class="center" src="../assets/Images/QS_Guide/QS_DrawExample_6.gif" /></p>
+  </div>
+  <p> </p>
+  <p>Esperamos que depois de fazer estes exemplos você tenha um pouco mais de confiança ao usar <span data-keyref="GameMaker Name">o GameMaker</span> e um pouco mais de compreensão de como tudo isso funciona. A próxima seção explorará como conseguir que estas coisas que você vem desenhando se movimentem no <span class="notranslate">room</span>, bem como aceitar - e responder - as sugestões dos usuários.</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Voltar: <a href="../Content.htm">Índice</a></div>
+        <div style="float:right">A seguir: <a href="Movement_And_Controls.htm">Movimento e Controles</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright <span class="notranslate">YoYo Games Ltd.</span> 2022 Todos os direitos reservados</span></h5>
+  </div>
+  <!-- KEYWORDS
+Drawing
+Drawing Examples
+Quick Start Drawing
+-->
+  <!-- TAGS
+qs_drawing
+-->
+</body>
+</html>

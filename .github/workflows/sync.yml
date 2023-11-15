@@ -12,15 +12,15 @@ jobs:
       name: Sync latest commits from upstream repo  
       steps:
       - name: Checkout target repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
-          ref: main
+          ref: develop
           token: ${{ secrets.GH_TOKEN }}
           persist-credentials: false
       - name: repo-sync-develop
         uses: repo-sync/github-sync@v2
         with:
-            source_repo: "https://${{ secrets.GH_TOKEN }}@github.com//YoYoGames/GameMaker-Manual.git"
+            source_repo: "https://${{ secrets.GH_TOKEN }}@github.com/YoYoGames/GameMaker-Manual.git"
             source_branch: "develop"
             destination_branch: "develop"
             github_token: ${{ secrets.GH_TOKEN }}
@@ -28,7 +28,7 @@ jobs:
       - name: repo-sync-lts-2022-r1
         uses: repo-sync/github-sync@v2
         with:
-            source_repo: "https://${{ secrets.GH_TOKEN }}@github.com//YoYoGames/GameMaker-Manual.git"
+            source_repo: "https://${{ secrets.GH_TOKEN }}@github.com/YoYoGames/GameMaker-Manual.git"
             source_branch: "main-lts"
             destination_branch: "main-lts"
             github_token: ${{ secrets.GH_TOKEN }}

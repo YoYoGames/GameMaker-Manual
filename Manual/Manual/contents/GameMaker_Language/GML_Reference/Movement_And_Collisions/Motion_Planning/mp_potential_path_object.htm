@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>mp_potencial_objeto_do_caminho</title>
+  <meta name="generator" content="Adobe RoboHelp 2019" />
+  <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
+  <script src="../../../../assets/scripts/main_script.js"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="This page outlines the function mp_potential_path_object" />
+  <meta name="rh-index-keywords" content="mp_potential_path_object" />
+  <meta name="search-keywords" content="mp_potential_path_object" />
+  <meta name="is_pure" content="true" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>mp_potencial_objeto_do_caminho</h1>
+  <p>Esta função computa um <span class="notranslate">path</span> por exemplo de sua posição atual <i>e orientação</i> para a posição especificada pelos argumentos xgoal, ygoal. Ela usa o tamanho do passo indicado enquanto tenta evitar a colisão com instâncias do <span class="notranslate">object</span> especificado.
+    pelo argumento &quot;obj&quot;. Como na função <a href="mp_potential_step.htm"><span class="inline">mp_potential_step()</span></a> utiliza etapas potenciais de campo para realizar isso e a maneira pela qual o faz pode ser modificada através da função <a href="mp_potential_settings.htm"><span class="inline">mp_potential_settings()</span></a>.
+    O indicado <span class="notranslate">path</span> já deve existir e será sobrescrito pelo novo <span class="notranslate">path</span>. A função retornará se um <span class="notranslate">path</span> foi encontrado (verdadeiro) ou não (falso).</p>
+  <p>Para evitar que a função continue a ser calculada para sempre, é necessário fornecer um fator maior que 1 - a função irá parar e relatar falha se não encontrar um <span class="notranslate">path</span> menor que este fator vezes a distância entre o início e a meta. Um fator de 4
+    é normalmente bom o suficiente, mas se você espera desvios longos, você pode torná-lo mais longo. Se falhar, ainda é criado um <span class="notranslate">path</span> que corre na direção aproximada do objetivo, mas não o alcançará.</p>
+  <p class="note"><b>NOTA</b>: Esta função não move a instância. Ela define apenas um <span class="notranslate">path</span>, e você deve usar as funções de <a href="../../Asset_Management/Paths/Paths.htm">Caminho</a> para se movimentar.</p>
+  <p> </p>
+  <h4>Sintaxe:</h4>
+  <p class="code">mp_potential_path_object(path, xgoal, ygoal, stepsize, factor, obj)</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>Argumento</th><th>Tipo</th>
+        <th>Descrição</th>
+     </tr>
+      <tr>
+        <td><span class="notranslate">path</span></td><td><span data-keyref="Type_Asset_Path"></span></td>
+        <td><span class="notranslate">index of the path that is to be used by the function</span></td>
+     </tr>
+      <tr>
+        <td><span class="notranslate">xgoal</span></td><td><span data-keyref="Type_Real"></span></td>
+        <td><span class="notranslate">The target x position.</span></td>
+     </tr>
+      <tr>
+        <td><span class="notranslate">ygoal</span></td><td><span data-keyref="Type_Real"></span></td>
+        <td><span class="notranslate">The target y position.</span></td>
+     </tr>
+      <tr>
+        <td><span class="notranslate">stepsize</span></td><td><span data-keyref="Type_Real"></span></td>
+        <td><span class="notranslate">The speed the instance moves in pixels per step.</span></td>
+     </tr>
+      <tr>
+        <td><span class="notranslate">factor</span></td><td><span data-keyref="Type_Real"></span></td>
+        <td><span class="notranslate">This number is used to prevent an infinite loop. It should be larger than 1. See the function description for more information.</span></td>
+     </tr>
+      <tr>
+        <td><span class="notranslate">obj</span></td><td><span data-keyref="Type_Asset_Object"></span></td>
+        <td><span class="notranslate">The object that is to block the path. Can be an object index, an instance id or the special keyword ,<b>all</b></span></td>
+     </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>Devoluções:</h4>
+  <p class="code"><span data-keyref="Type_Bool"></span></p>
+  <p> </p>
+  <h4>Exemplo:</h4>
+  <p class="code">path = path_add();<br/> mp_potential_path_object(path, obj_Player.x, obj_Player.y, 3, 4, obj_Wall);<br/> path_start(path, 3, 0, 0);</p>
+  <p>O código acima cria um novo recurso <span class="notranslate">path</span> e armazena seu índice na variável &quot;caminho&quot;. Ele então gera um <span class="notranslate">path</span> usando <span class="inline">mp_potential_path</span> entre o <span class="notranslate">object</span> com este código e o <span class="notranslate">object</span> &quot;obj_Player&quot;, verificando se há colisões
+    com a &quot;obj_Wall&quot; <span class="notranslate">object</span>. Finalmente, inicia o <span class="notranslate">object</span> ao longo desse <span class="notranslate">path</span>, mesmo que a função não tenha conseguido devolver uma rota completa para o &quot;obj_Player&quot;.</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Voltar: <a href="Motion_Planning.htm">Planejamento de Movimento</a></div>
+        <div style="float:right">A seguir: <a href="mp_grid_create.htm"><span class="notranslate">mp_grid_create</span></a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright <span class="notranslate">YoYo Games Ltd.</span> 2021 Todos os direitos reservados</span></h5>
+  </div>
+  <!-- KEYWORDS
+mp_potential_path_object
+-->
+  <!-- TAGS
+mp_potential_path_object
+-->
+</body>
+</html>

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Eventos de sorteio</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Page detailing the draw event." />
+  <meta name="rh-index-keywords" content="Objects - Draw Events" />
+  <meta name="search-keywords" content="draw event,draw begin,draw end,pre-draw,post draw,draw GUI,draw order" />
+  <link rel="stylesheet" type="text/css" href="../../assets/css/default.css" />
+  <script src="../../assets/scripts/main_script.js"></script>
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>Os eventos do sorteio</h1>
+  <p><img>A categoria de evento de sorteio é aquela que tem todos os eventos que governam o que você vê na tela quando você dirige seu jogo. Ela é dividida em vários
+    separe os eventos para melhor lidar com os diferentes requisitos de desenho para seu jogo, e a imagem abaixo ilustra a ordem em que cada evento é realizado:</p>
+  <p><img>O evento de sorteio normal se divide em três subtipos: O <strong>Draw Begin</strong>, o <strong>Draw</strong> padrão e o
+    Eventos do <strong>Draw End</strong>. Em geral, você só precisará usar o evento de sorteio padrão e deve estar ciente de que todas as instâncias em um <span class="notranslate">room</span> terão este evento acionado cada etapa do jogo, portanto, este evento será sempre chamado de
+    já que a instância tem a bandeira <strong>visível </strong>posta em prática. É importante entender que mesmo que você não tenha definido nada para este subevento nas propriedades <span class="notranslate">object</span> (ou seja: sem código nem ações), <em>se o <span class="notranslate">object</span> tiver um <span class="notranslate">sprite</span> atribuído, ele ainda terá um evento de sorteio que será acionado</em>.
+    Isto porque <span data-keyref="GameMaker Name">o GameMaker</span> tem duas maneiras de desenhar as coisas no evento do sorteio:</p>
+  <ul class="colour">
+    <li>o <strong>sorteio padrão</strong>, que é quando você define o <span class="notranslate">sprite</span> nas propriedades <span class="notranslate">object</span> e não coloca nenhuma ação ou código no evento normal do sorteio, e neste caso o <span data-keyref="GameMaker Name">GameMaker</span> sorteará automaticamente o <span class="notranslate">sprite</span> atribuído. Note que qualquer transformação
+      você realiza em outros eventos para mudar a escala da imagem, índice, mistura, etc... será refletido também enquanto o evento de sorteio estiver vazio.</li>
+    <li>o <strong>sorteio personalizado</strong>, que é quando você coloca o código ou ações no evento do sorteio. Isto é dizer ao <span data-keyref="GameMaker Name">GameMaker</span> &quot; <em>Eu quero controlar o que você desenha para as instâncias deste objeto</em>&quot; e isso anula completamente o padrão
+      desenho. Isto significa que, por exemplo, você pode ter um <span class="notranslate">object</span> com um <span class="notranslate">sprite</span> designado, depois definir o evento do sorteio para desenhar o texto e o texto será desenhado na tela, mas o <span class="notranslate">sprite</span> <em>não </em>será desenhado, pois você não disse ao <span data-keyref="GameMaker Name">GameMaker</span> para
+      desenhá-lo junto com o texto.</li>
+  </ul>
+  <p>O restante dos eventos do sorteio são explicados nas seções listadas abaixo:</p>
+  <p> </p>
+  <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down" href="#">Início e Fim do Sorteio</a></p>
+  <div class="droptext" data-targetname="drop-down">
+    <p class="dropspot">Além do evento de sorteio principal, você também tem um evento de <strong> início de sorteio</strong> e um evento de <strong>fim de sorteio</strong>. Estes agem exatamente como um evento de Sorteio padrão (ou seja: eles desenharão o que você colocar neles a cada etapa do jogo e para
+      todos os viewports), mas eles não &quot;sorteiam por padrão&quot; nada se não tiverem sido explicitamente adicionados a um <span class="notranslate">object</span>, e sempre correrão antes/depois do evento de sorteio padrão. Assim, quando o jogo estiver em andamento, você <em>sempre</em> terá o
+      Sorteio Evento inicial para todas as instâncias, depois o evento de sorteio para todas as instâncias, depois finalmente o evento de fim de sorteio para todas as instâncias.</p>
+    <p class="dropspot">Desta forma, você pode desenhar coisas ou definir propriedades do sorteio na etapa de início do sorteio em uma instância e ter certeza de que todas as instâncias com um evento de sorteio padrão ou evento de fim do sorteio utilizarão estas propriedades ou sortearão sobre o que a primeira instância tiver desenhado. Basicamente
+      é uma maneira segura de garantir que certas coisas sejam desenhadas em certos momentos, muito parecido com os eventos da <strong>Etapa Inicial</strong> e da <strong>Etapa Final </strong>.</p>
+    <p class="dropspot">Há algumas coisas a serem observadas ao desenhar coisas no <span data-keyref="GameMaker Name">GameMaker</span>, seja um <span class="notranslate">sprite</span> você está desenhando ou um <span class="notranslate">shader</span>, ou um buffer 3D:</p>
+    <ul class="colour">
+      <li class="dropspot">O evento de sorteio é um evento muito intensivo, pois é um dos eventos que consome mais tempo e recursos... para isso nunca é uma boa idéia fazer nada no evento de sorteio a não ser desenhar. Portanto, salve seu grande código ou ações complexas
+        para o evento Step ou Alarmes ou qualquer outro evento que se encaixe, mas deixe o evento de sorteio livre para o desenho, pois é o que ele faz melhor.</li>
+      <li class="dropspot">Se o seu <span class="notranslate">object</span> teve o parâmetro visível definido para <em>ativado </em>(para que as instâncias do <span class="notranslate">object</span> não sejam sorteadas) então <strong>todos os eventos de sorteio são pulados </strong>(exceto o evento de <strong>Redimensionamento </strong>). Isto significa que fazer uma instância
+        invisível impedirá que todos os códigos colocados em qualquer um desses eventos corram, portanto, não coloque códigos essenciais nos eventos de sorteio se eles não forem visíveis.</li>
+      <li class="dropspot">O que você desenha não tem nada a ver com o motor de colisão que você escolhe (tradicional ou físico) como é definido pelas propriedades <span class="notranslate">object</span> e pelo <span class="notranslate">sprite</span> (ou máscara) que o <span class="notranslate">object</span> foi dado.</li>
+    </ul>
+    <p class="dropspot"> </p>
+  </div>
+  <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down1" href="#">Desenho GUI</a></p>
+  <div class="droptext" data-targetname="drop-down1">
+    <p class="dropspot">O tipo de evento de desenho GUI se enquadra na categoria de evento de desenho e é projetado especificamente para desenhar elementos <a class="glossterm" data-glossterm="GUI" href="#">GUI</a> que não são afetados pela escala ou rotação da câmera de visão. Isto significa que você
+      pode ter uma instância desenhar todos os elementos para seu <a class="glossterm" data-glossterm="HUD" href="#">HUD</a> ou interface de usuário sem ter que basear todo o posicionamento dos elementos na posição da instância dentro do <span class="notranslate">room</span> ou na posição
+      da visão atual da câmera.</p>
+    <p class="dropspot">Ao desenhar nestes eventos, é importante que você entenda que as coordenadas do desenho não mudam mesmo quando as vistas da câmera estão ativas e (0,0) é <em>sempre </em>o canto superior esquerdo da superfície da aplicação ou do visor (veja o
+      nota na parte inferior desta seção), e a largura e altura padrão são 1:1 com a superfície de aplicação. A ordenação de profundidade ainda é mantida entre diferentes instâncias em diferentes camadas (assim, uma instância em uma camada mais alta será desenhada sob
+      uma em uma camada inferior) e também dentro dos próprios eventos, já que o evento <strong>Draw GUI Begin</strong> desenhará primeiro para todas as instâncias, depois o <strong>GUI</strong> padrão <strong>Draw GUI</strong> desenhará para todas as instâncias sobre isso, e finalmente o evento <strong>Draw Gui End </strong>
+      é acionado.</p>
+    <p class="dropspot">Desta forma, você pode desenhar coisas ou definir propriedades de desenho na GUI de Desenho Começa em uma instância e ter certeza de que todas as instâncias com uma GUI padrão de Desenho ou evento Draw GUI End utilizarão estas propriedades ou desenharão sobre o que a primeira instância tiver desenhado. Basicamente
+      é uma maneira segura de garantir que certas coisas sejam desenhadas em certos momentos, muito parecido com os eventos do <strong>Passo Inicial</strong> e do <strong>Passo Final</strong>.</p>
+    <p class="dropspot">Estes eventos também podem ser usados em conjunto com os eventos de Desenho normal (que serão afetados pela posição de visão da câmera, escala e rotação como normal). Se você não tiver nenhum Evento de Sorteio mas tiver um Evento de Sorteio GUI, então <span data-keyref="GameMaker Name">o GameMaker</span> ainda
+      por padrão, desenhe o <span class="notranslate">sprite</span> por exemplo (se tiver um) como normal.</p>
+    <p class="dropspot">Em relação aos outros eventos de sorteio, os eventos de GUI de sorteio sempre desenharão sobre qualquer coisa sorteada nos eventos de sorteio normais. Assim, se você tiver uma instância em uma camada inferior com um evento de desenho GUI, ela desenhará sobre a instância que está em uma camada superior
+      com um evento de sorteio regular. Se ambas as instâncias tiverem um evento de sorteio GUI, então a ordem de camadas será respeitada.</p>
+    <p class="note"><strong>NOTA</strong>: Este evento irá, por padrão, desenhar 1:1 com o tamanho da superfície de aplicação, que normalmente é o tamanho do <span class="notranslate">room</span> ou da porta de visualização. Isto significa que quando você tiver a <strong>Correção da Relação de Aspecto</strong> nas Opções de Jogo
+      o GUI não vai ser desenhado sobre as barras pretas que &quot;caixa de correio&quot; do jogo. Este comportamento pode ser desativado usando o <a href="../../GameMaker_Language/GML_Reference/Cameras_And_Display/display_set_gui_maximise.htm"><span style="font-size:14px;"> <span class="inline" style="font-size: 14px">display_set_gui_maximise()</span></span></a> função,
+      e você também pode bloquear o evento GUI a um tamanho específico que será então dimensionado para se ajustar automaticamente ao display ou às dimensões da superfície da aplicação, usando a função <a href="../../GameMaker_Language/GML_Reference/Cameras_And_Display/display_set_gui_size.htm"><span class="inline" style="font-size: 14px">display_set_gui_size()</span></a>.</p>
+    <p class="dropspot"> </p>
+  </div>
+  <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down2" href="#">Pré e Pós-Sorteio</a></p>
+  <div class="droptext" data-targetname="drop-down2">
+    <p class="dropspot">Os eventos de Pré-Sorteio e Pós-Sorteio fazem parte da categoria de Eventos de Sorteio. No entanto, ao contrário dos outros eventos de sorteio, estes sorteiam <em>diretamente </em>para o <a class="glossterm" data-glossterm="buffer de exibição" href="#">buffer de exibição</a>, que será o tamanho
+      do espaço da tela combinada para todos os viewports atualmente visíveis, <em>ou </em>do tamanho da janela se apenas um viewport ou nenhum. A imagem abaixo ilustra isto:</p>
+    <p class="dropspot"><img>Portanto, se você estiver usando os eventos de Pré ou Pós-sorteio, você está desenhando para o alvo de renderização em tela cheia (exibir <span class="notranslate">buffer</span>), que terá
+      do mesmo tamanho da janela à qual todos os viewports são feitos para caber. Se você não tiver nenhum viewports ativo, este é definido para o tamanho da própria janela.</p>
+    <p class="dropspot">O evento de Pré-Sorteio é acionado antes de qualquer outro evento de sorteio, e nele você pode definir valores, definir propriedades de sorteio e até mesmo desenhar coisas sem se preocupar com os viewports ou com o tamanho da camada GUI (o tamanho da camada GUI pode ser o mesmo que a tela
+     <span class="notranslate">buffer</span> mas pode não ser, uma vez que você pode definir a resolução GUI em código).</p>
+    <p class="dropspot">Vale ressaltar que este evento acontece <em>antes da </em>exibição <span class="notranslate">buffer</span> ser liberada para o sorteio regular, o que significa que se você não <span class="notranslate">switch</span> off view clearing no editor <span class="notranslate">room</span>, então nada do que for sorteado no evento de Pré-Sorteio será visto, pois o
+      O primeiro sorteio do viewport o esclarecerá. Se você quiser ser capaz de ver através dos próprios viewports ou não estiver usando viewports, então você também deveria ter definido a cor de fundo para ter um alfa de 0 no <strong><a href="../Rooms.htm">Editor de sala</a></strong>.</p>
+    <p class="note"><strong>OBSERVAÇÃO</strong>: Se você <span class="notranslate">switch</span> estiver fora destas opções, você poderá notar artefatos indesejados sendo desenhados na tela quando o jogo for testado (como &quot;trilhas&quot; de instâncias). Isto é porque você está desenhando diretamente sobre o quadro anterior
+      da tela <span class="notranslate">buffer</span> sem que ela tenha sido limpa. Entretanto, você pode usar <span class="inline" style="font-size: 14px"><a href="../../GameMaker_Language/GML_Reference/Drawing/Colour_And_Alpha/draw_clear_alpha.htm">draw_clear_alpha()</a> </span>para fazer isso
+      você mesmo.</p>
+    <p class="dropspot">O evento do Sorteio é acionado <em>após </em>todos os eventos de sorteio padrão, mas <em>antes </em>dos eventos de GUI do sorteio. Como o evento de Pré-Sorteio, ele é baseado no tamanho do display <span class="notranslate">buffer</span>, e é colocado antes dos eventos da GUI do Sorteio para permitir que você
+      realizar efeitos de pós-processamento e outras coisas em tela cheia de forma simples e fácil, sem interferir em nenhum elemento <a class="glossterm" data-glossterm="HUD" href="#">HUD/</a> <a class="glossterm" data-glossterm="GUI" href="#">GUI</a> 
+      que você possa ter em seu jogo.</p>
+    <p class="dropspot"> </p>
+  </div>
+  <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down3" href="#">Redimensionamento da janela</a></p>
+  <div class="droptext" data-targetname="drop-down3">
+    <p class="dropspot">Este tipo de evento se enquadra na categoria de evento de sorteio e, embora não desenhe realmente nada, ele reage a mudanças no display <span class="notranslate">buffer</span> - especificamente, ele foi projetado para reagir à mudança no display UWP <span class="notranslate">buffer</span> tamanho quando o
+      A janela do jogo está &quot;quebrada&quot;.</p>
+    <p class="dropspot">Na plataforma alvo UWP, é importante que você pegue qualquer redimensionamento da tela <span class="notranslate">buffer</span> do &quot;snapping&quot; da janela do jogo (quando o usuário arrasta a janela para o lado da tela, por exemplo). Este evento fará exatamente isso e
+      é acionado toda vez que a janela é alterada, permitindo que você adicione aqui um código personalizado que redimensionará a visualização ou reposicionará elementos <a class="glossterm" data-glossterm="HUD" href="#">HUD</a> conforme necessário. Esta função é fornecida como uma função conveniente
+      maneira de evitar ter um código de evento por etapas que verifica estas coisas o tempo todo.</p>
+    <p class="note"><strong>NOTA</strong>: Você não pode desenhar neste evento! Ele é acionado pelo redimensionamento da janela e é apenas para pegar esta mudança... qualquer desenho que deva ser feito ainda deve estar em um dos outros eventos de sorteio.</p>
+    <p class="dropspot"> </p>
+  </div>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Voltar: <a href="Object_Events.htm">Eventos Objeto</a></div>
+        <div style="float:right">A seguir: <a href="Async_Events.htm">Eventos Async</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright <span class="notranslate">YoYo Games Ltd.</span> 2021 Todos os direitos reservados</span></h5>
+  </div>
+  <!-- KEYWORDS
+Draw Events
+Pre Draw Event
+Post Draw Event
+Draw Begin Event
+Draw End Events
+Draw GUI Events
+Draw GUI Begin Event
+Draw GUI End Event
+Pre Draw Event
+Post Draw Event
+Window Resize Event
+-->
+  <!-- TAGS
+draw_events
+-->
+
+</body></html>

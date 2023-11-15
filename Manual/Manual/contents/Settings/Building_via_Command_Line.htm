@@ -1,0 +1,474 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Construção via Linha de Comando</title>
+    <meta name="generator" content="Adobe RoboHelp 2020" />
+    <link rel="stylesheet" href="../assets/css/default.css" type="text/css" />
+    <script src="../assets/scripts/main_script.js"></script>
+    <meta name="rh-authors" content="Gurpreet S. Matharoo" />
+    <meta name="topic-comment" content="Page that explains how your project can be compiled and tested through a CLI
+" />
+    <meta name="rh-index-keywords" content="Building via Command Line" />
+    <meta name="search-keywords" content="build, command line, cli, ci, igor, continuous integration" />
+  </head>
+  <body><!--<div class="body-scroll" style="top: 150px;">-->
+    <h1 id="h">Construção via Linha de Comando</h1>
+    <p class="note"><span class="note"><strong>NOTA</strong></span> A construção de pacotes executáveis via linha de comando só está disponível em licenças específicas, portanto, consulte <a href="https://help.yoyogames.com/hc/en-us/articles/115002637011" title="Which Licence Is Right For Me?">esta página</a> para saber se sua licença suporta isso. Para todas as outras licenças, você pode executar e depurar seu projeto através de uma linha de comando sem nenhuma restrição.</p>
+    <p>Além de construir seu projeto através do <span class="notranslate">IDE</span>, <span data-keyref="GameMaker Name"><span data-keyref="GameMaker Name">GameMaker</span></span> permite construir seus projetos através de uma interface de linha de comando usando as muitas opções e comandos descritos abaixo. Você pode usar isto para construir seu projeto, testá-lo e implantá-lo em múltiplas plataformas executando um arquivo de lote e configurar a integração contínua através de uma automação <span class="notranslate">server</span> como a <a href="https://www.jenkins.io/" title="Jenkins">Jenkins</a>.</p>
+    <p>Isto é feito executando o executável <span class="inline">Igor.exe</span> presente em sua pasta <span class="notranslate">runtime</span> e passando nas opções e comandos listados nesta página. Em <span class="notranslate">Windows</span> isto estará presente na pasta <span class="inline">C:\ProgramData\GameMaker\Cache\runtimes\runtime-[version]\bin</span> e em Mac sob <span class="inline">/Users/Shared/GameMaker/Cache/runtimes/runtime-[version]/bin</span>.</p>
+    <p> </p>
+    <h1>Edifício Igor CI</h1>
+    <h2>Instalação</h2>
+    <p>Para montar o prédio da CI em uma máquina, você precisará fazer o seguinte:</p>
+    <ul class="colour">
+      <li>Instale o <span data-keyref="GameMaker Name">GameMaker</span> e o <span class="notranslate">runtimes</span> necessário</li>
+      <li>Construir os projetos através do <span class="notranslate">IDE</span> para os objetivos necessários, para garantir que eles funcionem bem</li>
+      <li>Edifício de teste a partir da linha de comando (ver exemplos abaixo)</li>
+      <li>Criar um arquivo de lote que fará a construção que você precisa dentro da tarefa (teste isto a partir da linha de comando)</li>
+      <li>Monte um ambiente CI (isso depende de como você vai construir seus jogos); sugerimos o uso de <a href="https://www.jenkins.io/" title="Jenkins">Jenkins</a></li>
+      <li>Configure sua tarefa de IC e assegure-se de que todos os pré-requisitos sejam estabelecidos (ou seja, <span class="notranslate">source control</span> sync to your project)</li>
+      <li>Inserir o arquivo de lote na tarefa CI e testar dentro do ambiente Jenkins</li>
+    </ul>
+    <h2>Notas</h2>
+    <ul class="colour">
+      <li>Algumas plataformas podem ter problemas com o tamanho de seu arquivo <span class="notranslate">paths</span>, neste caso você precisará <span class="inline"><a href="https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/subst" title="subst documentation">subst</a></span> drives virtuais em seu PC (como o <span class="notranslate">IDE</span> faz) antes de passá-los para seus comandos</li>
+      <li>Algumas plataformas (notadamente <span class="notranslate">Android</span>) irão automaticamente <span class="inline">subst</span> um drive durante a construção, então você pode precisar limpar isto manualmente em caso de um erro</li>
+    </ul>
+    <h2>Opções</h2>
+    <p>Aqui estão as opções que você pode usar enquanto executa o executável <strong>Igor </strong>:</p>
+    <table>
+      <colgroup>
+        <col style="width: 316px;" />
+        <col />
+      </colgroup>
+      <tbody>
+        <tr>
+          <th style="">Opção</th>
+          <th style="">Descrição</th>
+        </tr>
+        <tr>
+          <td style=""><span class="inline">/uf=[user_folder]<strong></strong></span></td>
+          <td style="">A pasta do usuário utilizada para recuperar informações sobre a licença
+            <br>
+            <br>
+            Em <span class="notranslate">Windows</span>, isto será: <span class="inline"><span>%appdata%\GameMaker\&lt;user_name&gt;_&lt;number&gt;</span>
+            <br>
+            Em <span class="notranslate">macOS</span>, este será: : <span class="inline"><span>~/.config/GameMaker/&lt;user_name&gt;_&lt;number&gt;</span> </td>
+        </tr>
+        <tr>
+          <td style=""><span class="inline">/rp=[runtime_root]</span></td>
+          <td style="">A pasta raiz do tempo de execução</td>
+        </tr>
+        <tr>
+          <td style=""><span class="inline">/project=[project_YYP_file]</span></td>
+          <td style="">O arquivo completo <span class="notranslate">path</span> para o arquivo <span class="inline">.yyp</span> do projeto</td>
+        </tr>
+        <tr>
+          <td style=""><span class="inline">/cache=[cache_dir_path]</span></td>
+          <td style="">O diretório <span class="notranslate">cache</span> a ser usado (o padrão é <span class="inline">\cache</span> no diretório atual)</td>
+        </tr>
+        <tr>
+          <td style=""><span class="inline">/temp=[temp_dir_path]</span></td>
+          <td style="">O diretório temporário a ser usado (o padrão é <span class="inline">c:\temp</span>)</td>
+        </tr>
+        <tr>
+          <td style=""><span class="inline">/of=[output_folder_filename]</span></td>
+          <td style="">O diretório de saída onde a construção será extraída; não especifique apenas um diretório, pois a entrada móvel é sempre removida (por exemplo: especificar <span class="inline">d:\game\output</span> colocará os arquivos do jogo em <span class="inline">d:\game</span>)
+            <br>
+            <br>
+            Se isso não for especificado, um diretório chamado <span class="inline">output</span> será criado no mesmo diretório que o arquivo <span class="inline">.bat</span> (ou de onde o comando está sendo executado), contendo os arquivos de construção extraídos </td>
+        </tr>
+        <tr>
+          <td style=""><span class="inline">/tf=[target_file]</span></td>
+          <td style="">O nome real do arquivo ZIP ou instalador NSIS que é criado</td>
+        </tr>
+        <tr>
+          <td style=""><span class="inline">/config=[configName]</span></td>
+          <td style="">O nome da configuração a ser utilizada (o padrão é <span class="inline">Default</span>)</td>
+        </tr>
+        <tr>
+          <td style=""><span class="inline">/runtime=YYC|VM</span></td>
+          <td style="">O tipo de saída (YYC ou VM), por padrão para VM</td>
+        </tr>
+        <tr>
+          <td style=""><span class="inline">/j=[NumCPUs]</span></td>
+          <td style="">O número de CPUs a usar durante o processo de construção</td>
+        </tr>
+        <tr>
+          <td style=""><span class="inline">/device=[device_name_from_IDE]</span></td>
+          <td style="">O nome do dispositivo alvo, conforme configurado na IDE</td>
+        </tr>
+      </tbody>
+    </table>
+    <h2>Exemplos</h2>
+    <p>Abaixo você pode encontrar exemplos de comandos de construção para todas as plataformas:</p>
+    <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down12" href="#">Ópera GX</a></p>
+    <div class="droptext" data-targetname="drop-down12">
+      <p>Projeto Ópera de Limpeza GX:</p>
+      <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] -- OperaGX Clean</p>
+      <p>Rodando Ópera GX:</p>
+      <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] -- OperaGX Run</p>
+    </div>
+    <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down" href="#">Windows</a></p>
+    <div class="droptext" data-targetname="drop-down">
+      <p>Projeto de limpeza <span class="notranslate">Windows</span>:</p>
+      <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] -- Windows Clean</p>
+      <p>Construção de VM para <span class="notranslate">Windows</span> -- <span class="inline">Run</span>, <span class="inline">PackageZip </span>e <span class="inline">PackageNsis</span>:</p>
+      <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] -- Windows Run</p>
+      <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_folder_filename] /tf=[target_file] -- Windows PackageZip</p>
+      <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_folder_filename] /tf=[target_file] -- Windows PackageNsis</p>
+      <p>Construção do YYC para Windows-- <span class="inline">Run</span>, <span class="inline">PackageZip </span>e <span class="inline">PackageNsis</span>:</p>
+      <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /platform=YYC -- Windows Run</p>
+      <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_folder_filename] /tf=[target_file] /platform=YYC -- Windows PackageZip</p>
+      <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_folder_filename] /tf=[target_file] /platform=YYC -- Windows PackageNsis</p>
+    </div>
+    <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down1" href="#">macOS</a></p>
+    <div class="droptext" data-targetname="drop-down1">
+      <p>Projeto de limpeza <span class="notranslate">macOS</span>:</p>
+      <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] -- Mac Clean</p>
+      <p>Construindo o VM para <span class="notranslate">macOS</span> enquanto estiver em um Mac:</p>
+      <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_folder_filename] /tf=[target_file] -- Mac Package</p>
+      <p><strong>Note</strong> que no Mac você precisará usar mono para executar o Igor, então você precisará escrever <span class="inline"><strong>mono</strong></span> antes de todos os seus comandos, por exemplo: <span class="inline">mono Igor.exe [options]</span></p>
+      <p>Construindo o VM para <span class="notranslate">macOS</span> enquanto estiver em um PC:</p>
+      <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_folder_filename] /tf=[target_file] /device=[device_IDE_Name] -- Mac Package</p>
+      <p>Construindo YYC para <span class="notranslate">macOS</span> enquanto em um Mac:</p>
+      <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_folder_filename] /tf=[target_file] /platform=YYC -- Mac Package</p>
+      <p>Construindo YYC para <span class="notranslate">macOS</span> enquanto estiver em um PC:</p>
+      <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_folder_filename] /tf=[target_file] /platform=YYC /device=[device_IDE_Name] -- Mac Package</p>
+    </div>
+    <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down2" href="#">Linux / Ubuntu</a></p>
+    <div class="droptext" data-targetname="drop-down2">
+      <p>Projeto de limpeza <span class="notranslate">Linux</span>:</p>
+      <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] -- Linux Clean</p>
+      <p>Construindo o VM para <span class="notranslate">Linux</span> enquanto estiver em um PC:</p>
+      <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_folder_filename] /tf=[target_file] /device=[device_IDE_Name] -- Linux Package</p>
+      <p>Construindo YYC para <span class="notranslate">Linux</span> enquanto estiver em um PC:</p>
+      <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_folder_filename] /tf=[target_file] /platform=YYC /device=[device_IDE_Name] -- Linux Package</p>
+    </div>
+    <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down3" href="#">HTML5</a></p>
+    <div class="droptext" data-targetname="drop-down3">
+      <p>Projeto de limpeza HTML5:</p>
+      <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] -- HTML5 Clean</p>
+      <p>Construção da pasta HTML5 (certifique-se de especificar uma pasta de destino com <span class="inline">/tf)</span>:</p>
+      <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_folder_filename] /tf=[target_folder] -- HTML5 folder</p>
+    </div>
+    <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down4" href="#">iOS</a></p>
+    <div class="droptext" data-targetname="drop-down4">
+      <p>Construindo o VM para <span class="notranslate">iOS</span> enquanto estiver em um Mac:</p>
+      <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_folder_filename] /tf=[target_file] -- ios Package</p>
+      <p>Construindo o VM para <span class="notranslate">iOS</span> enquanto estiver em um PC:</p>
+      <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_folder_filename] /tf=[target_file] /device=[device_IDE_Name] -- ios Package</p>
+      <p>Construindo YYC para <span class="notranslate">iOS</span> enquanto em um Mac:</p>
+      <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_folder_filename] /tf=[target_file] /platform=YYC -- ios Package</p>
+      <p>Construindo YYC para <span class="notranslate">iOS</span> enquanto estiver em um PC:</p>
+      <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_folder_filename] /tf=[target_file] /platform=YYC /device=[device_IDE_Name] -- ios Package</p>
+    </div>
+    <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down5" href="#">Android</a></p>
+    <div class="droptext" data-targetname="drop-down5">
+      <p>Projeto de limpeza <span class="notranslate">Android</span>:</p>
+      <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] -- Windows Clean</p>
+      <p>Construindo uma APK <span class="notranslate">Android</span> usando VM:</p>
+      <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_folder_filename] /tf=[target_file] -- Android Package</p>
+      <p>Construindo uma APK <span class="notranslate">Android</span> usando a YYC:</p>
+      <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_folder_filename] /tf=[target_file] /platform=YYC -- Android Package</p>
+    </div>
+    <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down6" href="#">tvOS</a></p>
+    <div class="droptext" data-targetname="drop-down6">
+      <p>Projeto de limpeza <span class="notranslate">tvOS</span>:</p>
+      <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] -- tvos Clean</p>
+      <p>Construindo o VM para <span class="notranslate">tvOS</span> enquanto estiver em um Mac:</p>
+      <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_folder_filename] /tf=[target_file] -- tvos Package</p>
+      <p>Construindo o VM para <span class="notranslate">tvOS</span> enquanto estiver em um PC:</p>
+      <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_folder_filename] /tf=[target_file] /device=[device_IDE_Name] -- tvos Package</p>
+      <p>Construindo YYC para <span class="notranslate">tvOS</span> enquanto em um Mac:</p>
+      <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_folder_filename] /tf=[target_file] /platform=YYC -- tvos Package</p>
+      <p>Construindo YYC para <span class="notranslate">tvOS</span> enquanto estiver em um PC:</p>
+      <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_folder_filename] /tf=[target_file] /platform=YYC /device=[device_IDE_Name] -- tvos Package</p>
+    </div>
+    <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down7" href="#">PS4</a></p>
+    <div class="droptext" data-targetname="drop-down7">
+      <p>Projeto de limpeza PS4:</p>
+      <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] -- ps4 Clean</p>
+      <p>Construindo VM para PS4 enquanto estiver em um PC:</p>
+      <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_folder_filename] /tf=[target_file] /device=[device_IDE_Name] -- ps4 Package</p>
+      <p>Construindo YYC para PS4 enquanto em um PC:</p>
+      <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_folder_filename] /tf=[target_file] /platform=YYC /device=[device_IDE_Name] -- ps4 Package</p>
+    </div>
+    <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down10" href="#">PS5</a></p>
+    <div class="droptext" data-targetname="drop-down10">
+      <p>Projeto de limpeza PS5:</p>
+      <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] -- ps5 Clean</p>
+      <p>Construindo VM para PS5 enquanto estiver em um PC:</p>
+      <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_folder_filename] /tf=[target_file] /device=[device_IDE_Name] -- ps5 Package</p>
+      <p>Construindo YYC para PS5 enquanto em um PC:</p>
+      <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_folder_filename] /tf=[target_file] /platform=YYC /device=[device_IDE_Name] -- ps5 Package</p>
+    </div>
+    <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down8" href="#">Xbox One</a></p>
+    <div class="droptext" data-targetname="drop-down8">
+      <p>Projeto de limpeza do Xbox One:</p>
+      <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] -- XBoxOne Clean</p>
+      <p>Construindo VM para Xbox One enquanto estiver em um PC:</p>
+      <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_folder_filename] /tf=[target_file] /device=[device_IDE_Name] -- XBoxOne Package</p>
+      <p>Construindo o YYC para o Xbox One enquanto estiver em um PC:</p>
+      <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_folder_filename] /tf=[target_file] /platform=YYC /device=[device_IDE_Name] -- XBoxOne Package</p>
+    </div>
+    <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down11" href="#">Série Xbox X/S</a></p>
+    <div class="droptext" data-targetname="drop-down11">
+      <p>Projeto de limpeza do Xbox Series X/S:</p>
+      <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] -- XBoxOneSeriesXS Clean</p>
+      <p>Construindo VM para Xbox Series X/S:</p>
+      <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_folder_filename] /tf=[target_file] /device=[device_IDE_Name] -- XBoxOneSeriesXS Package</p>
+      <p>Construindo YYC para Xbox Series X/S:</p>
+      <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_folder_filename] /tf=[target_file] /platform=YYC /device=[device_IDE_Name] -- XBoxOneSeriesXS Package</p>
+    </div>
+    <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down9" href="#">Troca</a></p>
+    <div class="droptext" data-targetname="drop-down9">
+      <p>Projeto de limpeza <span class="notranslate">Switch</span>:</p>
+      <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] -- Switch Clean</p>
+      <p>Construindo o VM para <span class="notranslate">Switch</span> enquanto estiver em um PC:</p>
+      <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_folder_filename] /tf=[target_file] /device=[device_IDE_Name] -- Switch Package</p>
+      <p>Construindo VM para YYC enquanto em um PC:</p>
+      <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_folder_filename] /tf=[target_file] /platform=YYC /device=[device_IDE_Name] -- Switch Package</p>
+    </div>
+    <p> </p>
+    <h1>Tempo de execução do Igor</h1>
+    <p>Aqui estão as opções que podem ser usadas com o tempo de execução do Igor:</p>
+    <table>
+      <tbody>
+        <tr>
+          <th style="">Opção</th>
+          <th style="">Descrição</th>
+        </tr>
+        <tr>
+          <td style=""><span class="inline">/uf=[user_folder]<strong></strong></span></td>
+          <td style="">Defina a pasta do usuário utilizada para recuperar informações de licença para que <span data-keyref="GameMaker Name">o GameMaker</span> saiba quais módulos podem ser instalados</td>
+        </tr>
+        <tr>
+          <td style=""><span class="inline">/lf=[license_file]</span></td>
+          <td style="">Configurar o direto <span class="notranslate">path</span> em um arquivo de licença, pode ser usado como uma alternativa para configurar uma pasta de usuário (<span class="inline">/uf</span>)</td>
+        </tr>
+        <tr>
+          <td style=""><span class="inline">/ru=[runtime_url]</span></td>
+          <td style="">Defina a URL para ir buscar informações de <span class="notranslate">runtime</span> (padrão para a versão estável)</td>
+        </tr>
+        <tr>
+          <td style=""><span class="inline">/rp=[runtime_root]</span></td>
+          <td style="">Configure a pasta de instalação local <span class="notranslate">runtime</span> para listar o <span class="notranslate">runtimes</span> instalado ou instalar novos tempos de execução</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>Aqui estão os comandos que podem ser usados com o tempo de execução do Igor:</p>
+    <h4>Sintaxe:</h4>
+    <p class="code">Igor.exe [command]</p>
+    <table>
+      <colgroup>
+        <col style="width: 237px;" />
+        <col style="width: 537px;" />
+      </colgroup>
+      <tbody>
+        <tr>
+          <th style="">Comando</th>
+          <th style="">Descrição</th>
+        </tr>
+        <tr>
+          <td style=""><span class="inline">Runtime List</span></td>
+          <td style="">Lista o <span class="notranslate">runtimes</span> disponível em um feed (número da versão, data/hora de construção)</td>
+        </tr>
+        <tr>
+          <td style=""><span class="inline">Runtime ListInstalled [directory]</span></td>
+          <td style="">Lista o <span class="notranslate">runtimes</span> disponível na pasta atual (<span class="inline">directory</span>=full <span class="notranslate">path</span> para a pasta)
+            <br>
+            <br>
+            Você pode especificar um diretório para procurar, mas se ele não for especificado, ele será o padrão para o diretório atual
+            <br>
+            <br>
+            Isto também verifica se há um arquivo <span class="inline">receipt.json</span> e uma pasta <span class="inline">manifest</span> dentro do diretório (certificando-se de que é realmente um <span class="notranslate">runtime</span>) </td>
+        </tr>
+        <tr>
+          <td style=""><span class="inline">Runtime Info [version]</span></td>
+          <td style="">Imprime informações sobre o mais recente <span class="notranslate">runtime</span> no feed dado; também precisa de um arquivo de licença para mostrar informações sobre os módulos disponíveis para o usuário
+            <br>
+            <br>
+            <span class="inline">version</span> pode ser por um <span class="notranslate">string</span> usado para pesquisar os títulos dos feeds (por exemplo: <span class="inline">&quot;739&quot;</span> mostraria informações para todos os builds contendo 739 em seus números de versão), ou pode ser <span class="inline">all</span> para mostrar informações para todos os feeds
+            <br>
+            <br>
+            Ele listará os módulos com os nomes dos arquivos <span class="inline">.zip</span> para cada módulo </td>
+        </tr>
+        <tr>
+          <td style=""><span class="inline">Runtime Install [version]</span></td>
+          <td style="">Instala o último <span class="notranslate">runtime</span> do feed dado usando o <span class="inline">version</span> dado como um filtro de busca; se isso não for especificado, o padrão é a versão mais recente. Ele obterá todos os módulos que o usuário tem em sua licença.</td>
+        </tr>
+        <tr>
+          <td style=""><span class="inline">Runtime Verify [folder=.]</span></td>
+          <td style="">Calcula os checksums para todos os arquivos instalados e os compara com os checksums escritos no manifesto <span class="inline">folder</span>. Você pode especificar uma pasta a ser verificada, porém, se não for especificada, a pasta será enviada por padrão para o diretório atual.
+            <br>
+            <br>
+            Isto irá <span class="notranslate">flag</span> quaisquer arquivos onde os checksums não correspondam, arquivos que estejam faltando e arquivos que não deveriam estar lá.
+            <br>
+            <br>
+            Observe que os arquivos de manifesto em si não são verificados e um usuário pode alterar os arquivos de manifesto para corresponder aos arquivos instalados. </td>
+        </tr>
+      </tbody>
+    </table>
+    <p> </p>
+    <h1>Teste de Igor</h1>
+    <p>Aqui estão as opções que podem ser usadas para testar suas construções com Igor:</p>
+    <table>
+      <tbody>
+        <tr>
+          <th style="">Opção</th>
+          <th style="">Descrição</th>
+        </tr>
+        <tr>
+          <td style=""><span class="inline">/uf=[user_folder]<strong></strong></span></td>
+          <td style="">Defina a pasta do usuário utilizada para recuperar informações de licença para que <span data-keyref="GameMaker Name">o GameMaker</span> saiba quais módulos podem ser instalados</td>
+        </tr>
+        <tr>
+          <td style=""><span class="inline">/lf=[license_file]</span></td>
+          <td style="">Definir um <span class="notranslate">path</span> direto para um arquivo de licença, pode ser usado como uma alternativa para definir uma pasta de usuário (<span class="inline">/uf</span>)</td>
+        </tr>
+        <tr>
+          <td style=""><span class="inline">/df=[device_file]</span></td>
+          <td style="">Definir um arquivo direto <span class="notranslate">path</span> para um arquivo <span class="inline">devices.json</span>, pode ser usado como uma alternativa para definir uma pasta de usuário (<span class="inline">/uf</span>)</td>
+        </tr>
+        <tr>
+          <td style=""><span class="inline">/timeout=[number_of_seconds_to_wait]</span></td>
+          <td style="">O tempo limite a ser usado para o teste em segundos, por defeito, é de 120 segundos; o teste será interrompido após este tempo limite ter terminado e será marcado como reprovado.</td>
+        </tr>
+        <tr>
+          <td style=""><span class="inline">/waittime=[number_of_seconds_to_wait]</span></td>
+          <td style="">Número de segundos para esperar no principal <span class="notranslate">loop</span> antes de declarar o teste como aprovado, o valor padrão é de 30 segundos</td>
+        </tr>
+        <tr>
+          <td style=""><span class="inline">/device=[device_name]</span></td>
+          <td style="">Usado para procurar o nome do dispositivo no arquivo <span class="inline">devices.json</span> da pasta do usuário</td>
+        </tr>
+        <tr>
+          <td style=""><span class="inline">/target=[list_of_targets]</span></td>
+          <td style="">Lista de alvos separada por vírgula no formato <span class="inline">PLATFORM|DEVICE</span>, por exemplo: <span class="inline">/target=&quot;Windows|Local,HTML|Firefox&quot;</span>
+            <br>
+            <br>
+            Se você especificar <strong>tudo</strong>, os testes tentarão ser executados para cada dispositivo no arquivo <span class="inline">devices.json</span>. </td>
+        </tr>
+      </tbody>
+    </table>
+    <p>Há um comando que você pode usar para executar testes com Igor:</p>
+    <p class="code">Igor.exe Tests RunTests [test_directory/test_filename]</p>
+    <p>Você deve especificar ou um diretório de testes ou um nome de arquivo de testes.</p>
+    <ul class="colour">
+      <li>Se for um diretório, Igor procurará um arquivo chamado <span class="inline">tests.json</span> no diretório
+        <ul>
+          <li>Se o arquivo <strong>não for encontrado</strong>, Igor procurará novamente por <span class="inline">.yyz</span> e <span class="inline">.yyp</span> arquivos no diretório
+            <ul>
+              <li>Cada projeto encontrado será construído e executado em Windows</li>
+              <li>Esperará até que o corredor alcance o laço principal
+                <ul>
+                  <li>O teste passa se o corredor ainda estiver correndo após o tempo de espera</li>
+                  <li>O teste falha se o projeto não for compilado dentro do período de tempo esgotado, ou se cair antes de o tempo de espera ter terminado</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li>Se <strong>for encontrado</strong> um arquivo <span class="inline">tests.json</span>, Igor executará os testes descritos no arquivo (veja exemplo abaixo)</li>
+        </ul>
+      </li>
+      <li>Alternativamente, você pode fornecer um <span class="notranslate">path</span> direto para um arquivo <span class="inline">tests.json</span> ao invés de um diretório</li>
+    </ul>
+    <p> </p>
+    <h1>Testes.json File</h1>
+    <h2>Formato</h2>
+    <p>O arquivo <span class="inline">tests.json</span> deve ter o seguinte formato:</p>
+    <ul class="colour">
+      <li>O arquivo JSON deve conter um conjunto de objetos</li>
+      <li>Cada <span class="notranslate">object</span> deve descrever um teste
+        <ul>
+          <li>O teste <span class="notranslate">object</span> deve conter estas chaves:
+            <ul>
+              <li><span class="inline">name</span>: Um nome usado para informar se o teste passou ou não</li>
+              <li><span class="inline">path</span>: A <span class="notranslate">path</span> a <span class="inline">.yyp</span>, <span class="inline">.yyz</span>, <span class="inline">.gml</span>, <span class="inline">.js</span> arquivo ou pasta para o teste</li>
+              <li><span class="inline">command</span>: O comando Igor para o teste (<span class="inline">Run</span>, <span class="inline">CreatePackage</span>, etc., como descrito acima)</li>
+            </ul>
+          </li>
+          <li>O teste <span class="notranslate">object</span> também pode conter estas chaves:
+            <ul>
+              <li><span class="inline">platform</span>: Passou diretamente para Igor para fazer o teste</li>
+              <li><span class="inline">device</span>: O nome do dispositivo a partir do arquivo <span class="inline">devices.json</span> </li>
+              <li><span class="inline">target</span>: O alvo em um formato &quot;<span class="inline">PLATFORM|TARGET&quot;</span>, por exemplo: &quot;<span class="inline">Windows|Local&quot;</span></li>
+              <li><span class="inline">timeout</span>: Um tempo limite para o teste total, incluindo compilação e execução; se excedido, o teste será interrompido e marcado como reprovado.</li>
+              <li><span class="inline">waittime</span>: O tempo de espera após a entrada no principal <span class="notranslate">loop</span> antes de decidir se o teste foi aprovado</li>
+              <li><span class="inline">owner</span>: o endereço de e-mail do usuário que será enviado por e-mail se este teste falhar</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+    <h2>Exemplo</h2>
+    <p>Aqui está um exemplo de um arquivo <span class="inline">tests.json</span>:</p>
+    <p class="code">[
+      <br/>
+      {
+      <br/>
+      &quot;name&quot; : &quot;Game Idea Windows&quot;,
+      <br/>
+      &quot;path&quot; : &quot;C:/scratch/GameIdea.yyz&quot;,
+      <br/>
+      &quot;platform&quot; : &quot;Windows&quot;,
+      <br/>
+      &quot;command&quot; : &quot;Run&quot;,
+      <br/>
+      &quot;timeout&quot; : &quot;500&quot;,
+      <br/>
+      &quot;waittime&quot; : &quot;30&quot;
+      <br/>
+      },
+      <br/>
+      {
+      <br/>
+      &quot;name&quot; : &quot;Platformer Game Windows&quot;,
+      <br/>
+      &quot;path&quot; : &quot;C:/Users/&lt;MY USERNAME&gt;/Documents/GameMaker/Platformer Game/PlatformerGame.yyp&quot;,
+      <br/>
+      &quot;target&quot; : &quot;Windows|Local,HTML5|selenium:firefox,PS4|Default&quot;,
+      <br/>
+      &quot;command&quot; : &quot;Run&quot;
+      <br/>
+      },
+      <br/>
+      {
+      <br/>
+      &quot;name&quot; : &quot;Puzzle Game Windows&quot;,
+      <br/>
+      &quot;path&quot; : &quot;C:/Users/&lt;MY USERNAME&gt;/Documents/GameMaker/Puzzle Game/PuzzleGame.yyp&quot;,
+      <br/>
+      &quot;platform&quot; : &quot;HTML5&quot;,
+      <br/>
+      &quot;command&quot; : &quot;Run&quot;,
+      <br/>
+      &quot;device&quot; : &quot;selenium:chrome&quot;
+      <br/>
+      }
+      <br/>
+      ]</p>
+    <p> </p>
+    <p> </p>
+    <div class="footer">
+      <div class="buttons">
+        <div class="clear">
+          <div style="float:left">Voltar: <a data-xref="{title}" href="Runner_Details/Runner_Details.htm">Corredor &amp; Compilador</a></div>
+          <div style="float:right">A seguir: <a data-xref="{title}" href="Runner_Details/Compiler_Batch_Files.htm">Compilador de Arquivos em Lote / Scripts</a></div>
+        </div>
+      </div>
+      <h5><span data-keyref="Copyright Notice">© Copyright <span class="notranslate">YoYo Games Ltd.</span> 2022 Todos os direitos reservados</span></h5>
+    </div>
+    <!-- KEYWORDS
+Building via Command Line
+CLI
+Command Line Interface
+CI
+Continuous Integration
+--><!-- TAGS
+building_via_command_line
+--></body>
+</html>

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Guia de Primitivos e Construção de Vértices</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../assets/css/default.css" type="text/css" />
+  <script src="../assets/scripts/main_script.js"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Page that explains how to set up and use primitives and vertex buffers" />
+  <meta name="rh-index-keywords" content="Guide To Primitives And Vertex Building" />
+  <meta name="search-keywords" content="primitive building,primitives,vertex,vertex buffers,vertex formats" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>Guia para Primitivos e <span class="notranslate">Vertex</span> Edifício</h1>
+  <p>Este guia aborda brevemente como construir e usar <a href="../GameMaker_Language/GML_Reference/Drawing/Primitives/Primitives_And_Vertex_Formats.htm">primitivos</a> usando <strong>formatos de vértices</strong> e <strong>amortecedores de vértices</strong> personalizados. </p>
+  <p>Em geral, quando você começa a trabalhar com 3D, efeitos especiais, processos de desenho complexos ou <span class="notranslate">shaders</span> você não precisa se preocupar muito com o formato <span class="notranslate">vertex</span> que está sendo usado, uma vez que o <span data-keyref="GameMaker Name">GameMaker</span> irá automaticamente configurar e passar pelos dados do <a class="glossterm" data-glossterm="vértice" href="#">vértice</a> para você. Entretanto, às vezes é necessário criar seus próprios dados <span class="notranslate">vertex</span> e formatá-los para adequá-los, especialmente quando você precisa aumentar a velocidade, ou deseja passar informações extras. Por exemplo, o formato padrão <span class="notranslate">vertex</span> inclui uma posição x, y, z 3D, cor (com alfa) e coordenadas UV <span class="notranslate">texture</span>, que, se fosse você mesmo a criá-lo, seria algo parecido:</p>
+  <p class="code">vertex_format_begin();<br />
+    vertex_format_add_position_3d();<br />
+    vertex_format_add_colour();<br />
+    vertex_format_add_textcoord();<br />
+    my_format = vertex_format_end();</p>
+  <p>Entretanto, se você estiver usando apenas (por exemplo) um <span class="notranslate">shader</span> para manipular a posição do <span class="notranslate">vertex</span>, então não haveria necessidade de passar pelos dados de cor ou <span class="notranslate">texture</span>. Neste caso, você criaria seu próprio formato como tal:</p>
+  <p class="code">vertex_format_begin();<br />
+    vertex_format_add_position_3d();<br />
+    my_format = vertex_format_end();</p>
+  <p>No total, há cinco atributos diferentes <span class="notranslate">vertex</span> que você pode usar ao definir um formato <span class="notranslate">vertex</span>:</p>
+  <ul class="colour">
+    <li>Cor</li>
+    <li>Normal</li>
+    <li>Posição</li>
+    <li>Posição 3D</li>
+    <li>Coordenação da textura</li>
+  </ul>
+  <p>Em geral, você deve <em>sempre</em> fornecer posição ou posição 3D como parte do formato, mas todas as outras são opcionais.</p>
+  <p>Você deve observar que uma vez criado seu formato <span class="notranslate">vertex</span>, a ordem na qual você definiu os atributos <span class="notranslate">vertex</span> <i>deve ser honrada</i> ao construir seus <strong>primitivos</strong>. Portanto, se você definiu um formato <span class="notranslate">vertex</span> como posição, cor e coordenada <span class="notranslate">texture</span>, então <b>você <i>deve</i></b> adicionar estes atributos ao primitivo na mesma ordem, caso contrário, você receberá um erro. Observe também que, como qualquer outro recurso dinâmico, um formato <span class="notranslate">vertex</span> requer memória e, portanto, deve ser removido quando não for necessário utilizar a função <a href="../GameMaker_Language/GML_Reference/Drawing/Primitives/vertex_format_delete.htm"><span class="inline">vertex_format_delete()</span></a>.</p>
+  <p>Quaisquer primitivos que você constrói são mantidos em um <b>tampão de vértice</b>. Este deve ser criado de antemão e depois referenciado pelas funções que são usadas para construir seu primitivo. O <span class="notranslate">vertex</span> <span class="notranslate">buffer</span> pode ser reutilizado quantas vezes for necessário para criar diferentes primitivos, ou pode ser &quot;congelado&quot; para manter um tipo primitivo específico durante a duração de seu jogo ou nível (que é a abordagem mais rápida, portanto, se você sabe que um primitivo que você constrói não mudará, então você deve sempre usar esta opção).</p>
+  <p>Um exemplo de um único triângulo primitivo sendo construído é mostrado no seguinte código:</p>
+  <p class="code">// CREATE EVENT<br />
+    v_buff = vertex_create_buffer();<br />
+    vertex_begin(v_buff, global.my_format);<br />
+    vertex_position(v_buff, 10, 10);<br />
+    vertex_colour(v_buff, c_white, 1);<br />
+    vertex_texcoord(v_buff, 0, 0);<br />
+    vertex_position(v_buff, 110, 10);<br />
+    vertex_colour(v_buff, c_white, 1);<br />
+    vertex_texcoord(v_buff, 1, 0);<br />
+    vertex_position(v_buff, 110, 110);<br />
+    vertex_colour(v_buff, c_white, 1);<br />
+    vertex_texcoord(v_buff, 1, 1);<br />
+    vertex_end(v_buff);<br />
+    <br />
+    // DRAW EVENT<br />
+    var tex = sprite_get_texture(spr_Background, 0);<br />
+    shader_set(shd_shimmer);<br />
+    vertex_submit(v_buff, pr_trianglelist, tex);<br />
+    shader_reset();
+  </p>
+  <p>Aqui temos primeiro criado nosso vértice <span class="notranslate">buffer</span> no Create Event of the instance, depois começamos a definição dos diferentes vértices que compõem nosso triângulo primitivo, dando a posição, a cor e a coordenada UV <span class="notranslate">texture</span> para cada um dos três pontos que queremos usar. Terminamos então a definição de <span class="notranslate">vertex</span>, e sabemos que o <span class="notranslate">vertex</span> <span class="notranslate">buffer</span> com estes dados <span class="notranslate">vertex</span> é armazenado na variável &quot;v_buff&quot;.  </p>
+  <p class="note"><strong>NOTA</strong>: Se o conteúdo do <span class="notranslate">buffer</span> fosse atualizado constantemente, o <span class="notranslate">buffer</span> seria criado, dados os dados do <span class="notranslate">vertex</span>, e depois seria destruído novamente - após ter sido desenhado - tudo na mesma etapa.</p>
+  <p>Em seguida, desenhamos o conteúdo do <span class="notranslate">vertex</span> <span class="notranslate">buffer</span> no evento de sorteio usando um <span class="notranslate">shader</span>. Este é um exemplo muito simples, e é basicamente como o <span data-keyref="GameMaker Name">GameMaker</span> funciona internamente, ou seja: quando você desenha um <span class="notranslate">sprite</span>, <span class="notranslate">GameMaker</span> cria um <span class="notranslate">vertex</span> <span class="notranslate">buffer</span> com quatro vértices criando dois triângulos (que fazem um quadrado, também chamado de &quot;quad&quot;), e <span class="notranslate">textures</span> estes dois triângulos com a imagem <span class="notranslate">sprite</span>. Quando desenhamos este <span class="notranslate">sprite</span>, estamos submetendo o <span class="notranslate">vertex</span> <span class="notranslate">buffer</span> e seu conteúdo é desenhado para a tela.</p>
+  <p>Você notará quando enviarmos o <span class="notranslate">vertex</span> <span class="notranslate">buffer</span> para desenho, nós fornecemos um tipo primitivo. O tipo de primitivo que você usa pode ser um ponto, uma lista de linhas ou faixa, ou uma lista ou faixa triangular, mas <i>não</i> são permitidos ventiladores triangulares, uma vez que a maioria dos equipamentos móveis não aceitará esse tipo primitivo. Não esqueça de formatar seu <span class="notranslate">vertex</span> <span class="notranslate">buffer</span> corretamente para o tipo de primitivo que será usado para desenhá-lo. Por exemplo, desenhar um triângulo primitivo como uma lista de triângulos requer 6 pontos, mas como uma tira triangular requer apenas 4 pontos. O tipo que você usa depende de você e dependerá do que você está querendo desenhar e do efeito que você quer alcançar.</p>
+  <p>Um último ponto importante a ser observado ao utilizar seu próprio <span class="notranslate">vertex</span> <span class="notranslate">buffers</span> desta forma é como ele afeta os lotes de vértices que são enviados para a GPU. Quando você cria um <span class="notranslate">vertex</span> <span class="notranslate">buffer</span> você está criando o nível mais baixo de dados gráficos, então quando você desenha tudo o que acontece é que <span data-keyref="GameMaker Name">o GameMaker</span> envia seu <span class="notranslate">buffer</span> diretamente para a placa gráfica. Por causa disso, se você quiser um melhor lote, você mesmo deve resolver isso e armazenar as coisas que você quer lotear dentro do mesmo <span class="notranslate">buffer</span>.</p>
+  <p>Como já mencionamos acima, <span class="notranslate">vertex</span> formatos são construídos usando juntos os 5 tipos de atributos seguintes (adicionados através da função apropriada <span class="inline">vertex_format_add_*</span> ):</p>
+  <ul class="colour">
+    <li>Cor</li>
+    <li>Normal</li>
+    <li>Posição</li>
+    <li>Posição 3D</li>
+    <li>Coordenação da textura</li>
+  </ul>
+  <p>Dentro da GLSL ES <span class="notranslate">shader</span>, estes tipos são reconhecidos utilizando os 4 atributos a seguir:</p>
+  <ul class="colour">
+    <li>Cor</li>
+    <li>Normal</li>
+    <li>Posição</li>
+    <li>Coordenação da textura</li>
+  </ul>
+  <p>Agora, isto pode parecer estranho, pois parece que podemos especificar mais tipos de atributos em nosso formato <span class="notranslate">vertex</span> do que podemos no <span class="notranslate">vertex</span> <span class="notranslate">shader</span>. Entretanto, na <i>Posição</i> <span class="notranslate">shader</span> e na <i>Posição 3D</i> são tratados como o <em>mesmo </em>atributo, exceto que a <i>Posição</i> deve ter apenas as coordenadas &quot;x&quot; e &quot;y&quot;, enquanto a <i>Posição 3D</i> tem as coordenadas &quot;x&quot;, &quot;y&quot; e &quot;z&quot;. Então, como você mapeia o que está em seu formato <span class="notranslate">vertex</span> para como você define atributos em seu <span class="notranslate">shader</span>? Vamos começar olhando para um conjunto típico de atributos a partir do sombreador padrão:</p>
+  <p> </p>
+  <p class="code">attribute vec3 in_Position;        // (x,y,z)<br />
+    //attribute vec3 in_Normal;        // (x,y,z) unused in this shader.<br />
+    attribute vec4 in_Colour;          // (r,g,b,a)<br />
+    attribute vec2 in_TextureCoord;    // (u,v)</p>
+  <p>E aqui está um pedaço de código que estabelece um formato <span class="notranslate">vertex</span> compatível com este shader:</p>
+  <p class="code">vertex_format_begin();<br />
+    vertex_format_add_position_3d();<br />
+    vertex_format_add_colour();<br />
+    vertex_format_add_textcoord();<br />
+    my_format = vertex_format_end();</p>
+  <p>Agora, como o atributo <span class="notranslate">shader</span> se iguala ao tipo de formato <span class="notranslate">vertex</span>? É apenas baseado na convenção de nomenclatura:</p>
+  <ul class="colour">
+    <li><span class="inline">&quot;in_Position&quot;</span> mapas para <span class="inline"><a href="../GameMaker_Language/GML_Reference/Drawing/Primitives/vertex_format_add_position.htm">vertex_format_add_position</a>/<a href="../GameMaker_Language/GML_Reference/Drawing/Primitives/vertex_format_add_position_3d.htm">_3d()</a></span></li>
+    <li><span class="inline">&quot;in_Colour&quot;</span> mapas para <a href="../GameMaker_Language/GML_Reference/Drawing/Primitives/vertex_format_add_colour.htm"><span class="inline">vertex_format_add_colour()</span></a></li>
+    <li><span class="inline">&quot;in_TextureCoord&quot;</span> mapas para <a href="../GameMaker_Language/GML_Reference/Drawing/Primitives/vertex_format_add_texcoord.htm"><span class="inline">vertex_format_add_texcoord()</span></a></li>
+  </ul>
+  <p><span class="inline"><span class="inline"><span class="inline"></span> Agora, as coisas ficam mais complicadas quando você tem vários atributos do mesmo tipo, mas as coisas ainda se baseiam na mesma convenção de nomenclatura. Agora vamos procurar fornecer <b>coordenadas</b> adicionais <b>de</b> <b>cor</b> e <b>textura</b>, pois só pode haver <b>uma</b> Posição e <b>um</b> atributo Normal no formato <span class="notranslate">shader</span> ou <span class="notranslate">vertex</span>, mas <em>pode</em> haver múltiplos atributos de cor ou <span class="notranslate">texture</span>.</p>
+  <p>Ao adicionar atributos de cor adicionais ao seu <span class="notranslate">shader</span>, um número precisa ser adicionado ao final do atributo <span class="notranslate">shader</span> para indicar a qual entrada em particular no formato <span class="notranslate">vertex</span> o atributo mapeia. Aqui está um exemplo - primeiro o formato <span class="notranslate">vertex</span>:</p>
+  <p class="code">vertex_format_begin();<br />
+    vertex_format_add_position_3d();<br />
+    vertex_format_add_colour();<br />
+    vertex_format_add_colour();<br />
+    vertex_format_add_textcoord();<br />
+    my_format = vertex_format_end();</p>
+  <p>E agora os atributos <span class="notranslate">shader</span> associados:</p>
+  <p class="code">attribute vec3 in_Position;      // (x,y,z)<br />
+    attribute vec4 in_Colour0;       // (r,g,b,a)<br />
+    attribute vec4 in_Colour1;       // (r,g,b,a)<br />
+    attribute vec2 in_TextureCoord;  // (u,v)</p>
+  <p>Neste caso <span class="inline">in_Colour0</span> mapeia para o primeiro <span class="inline">vertex_format_add_colour()</span> e <span class="inline">in_Colour1</span> mapeia para o segundo.</p>
+  <p>As coordenadas da textura são tratadas de forma ligeiramente diferente da cor. Basicamente, qualquer coisa que não seja chamada <span class="inline">in_Position</span>, <span class="inline">in_Normal</span> ou um dos atributos <span class="inline">in_Colour[0 ... ]</span> é tratada como uma coordenada <span class="notranslate">texture</span>. A ordem em que eles são definidos, na lista de atributos do <span class="notranslate">shader</span>, é o que denota qual atributo no formato <span class="notranslate">vertex</span> que eles mapeiam. Veja o exemplo <span class="notranslate">GML</span> a seguir:</p>
+  <p class="code">vertex_format_begin();<br />
+    vertex_format_add_position_3d();<br />
+    vertex_format_add_colour();<br />
+    vertex_format_add_textcoord();<br />
+    vertex_format_add_textcoord();<br />
+    vertex_format_add_textcoord();<br />
+    my_format = vertex_format_end();</p>
+  <p>E o código <span class="notranslate">shader</span> seria algo parecido com isto:</p>
+  <p class="code">attribute vec3 in_Position;      // (x,y,z)<br />
+    attribute vec4 in_Colour;        // (r,g,b,a)<br />
+    attribute vec2 in_myTexcoord;    // (u,v)<br />
+    attribute vec2 in_TextureCoord;  // (u,v)<br />
+    attribute vec2 in_Something;     // (u,v)</p>
+  <p>Neste exemplo, <span class="inline">in_myTexcoord</span>, <span class="inline">in_TextureCoord</span> e <span class="inline">in_Something</span> mapeiam os três atributos de coordenadas sucessivas <span class="notranslate">texture</span> definidos no formato <span class="notranslate">vertex</span>.</p>
+  <p>Você pode encontrar uma lista completa de todas as funções necessárias para criar formatos <span class="notranslate">vertex</span>, <span class="notranslate">vertex</span> <span class="notranslate">buffers</span> e primitivas na página seguinte:</p>
+  <ul class="colour">
+    <li><a href="../GameMaker_Language/GML_Reference/Drawing/Primitives/Primitives_And_Vertex_Formats.htm">Primitivos e <span class="notranslate">Vertex</span> Formatos</a></li>
+  </ul>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Voltar: <a href="Additional_Information.htm">Informações adicionais</a></div>
+        <div style="float:right">A seguir: <a href="Guide_To_Using_Blendmodes.htm">Guia para a utilização de emendas</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright <span class="notranslate">YoYo Games Ltd.</span> 2021 Todos os direitos reservados</span></h5>
+  </div>
+  <!-- KEYWORDS
+Primitive Building
+Vertex Formats
+Vertex Buffers
+-->
+  <!-- TAGS
+using_primitives_vertex_buffers
+-->
+</body>
+</html>

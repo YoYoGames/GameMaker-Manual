@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Cordas</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../assets/css/default.css" type="text/css" />
+  <script src="../../../assets/scripts/main_script.js"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Reference section for string functions" />
+  <meta name="rh-index-keywords" content="\r,\b,\f,\t,\v,\\,\a,\u,\x,\,\r,\b,\f,\t,\v,\\,\a,\u,\x,\" />
+  <meta name="search-keywords" content="Strings,\n,\r,\b,\f,\t,\v,\\,\a,\u,\x,\,string literal,@" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>Cordas</h1>
+  <p>Em algum momento, ao fazer seu jogo, você precisará usar texto. O texto nos jogos é tratado usando as funções de <b>string</b> (um <span class="notranslate">string</span> é apenas outra forma de dizer uma linha de texto) e o <span data-keyref="GameMaker Name">GameMaker</span> tem um conjunto completo de funções que permitem manipular <span class="notranslate">strings</span> de muitas maneiras, incluindo a inserção de um <span class="notranslate">string</span> em outro, a cópia de <span class="notranslate">strings</span> e a capacidade de analisar <span class="notranslate">strings</span> para os dígitos ou as letras que eles contêm. Em geral, um <span class="notranslate">string</span> <i>só</i> pode ser criado adicionando texto dentro de aspas duplas &quot; &quot; e <em>citação única <span class="notranslate">strings</span> não são aceitos</em>, nem se pode dividir o <span class="notranslate">string</span> em várias linhas e esperar que o <span data-keyref="GameMaker Name">GameMaker</span> o torne como se as quebras de linha fossem novas linhas (a menos que um identificador <strong>literal</strong> <span class="inline">@</span> seja usado, como explicado abaixo).</p>
+  <p>Vale notar que existem certas convenções que você pode usar ao criar <span class="notranslate">strings</span>, a maioria preocupada com o uso de <i>caracteres de escape</i>. Estes são caracteres que são precedidos por um símbolo &quot;<span class="inline">\</span>&quot;. Assim, por exemplo, se você quisesse colocar aspas dentro de um <span class="notranslate">string</span> você teria algo parecido com isto:</p>
+  <p class="code">str = &quot;Hello\&quot;World\&quot;&quot;;</p>
+  <p><span data-keyref="GameMaker Name">O GameMaker</span> também tem suporte completo para caracteres Unicode de quatro bytes de largura, permitindo que você decodifique e codifique caracteres Unicode nos limites superiores do padrão (incluindo - mas não limitado a - emoji). Para lidar com caracteres Unicode, você pode usar o &quot;<span class="inline">\</span>&quot; para preceder qualquer Unicode literal - dígitos de hexadecimais precedendo um &quot;<span class="inline">u</span>&quot;, por exemplo &quot;<span class="inline"><span class="inline">\u00e2</span>&quot; para &quot;á&quot;- onde os dígitos são o número do caracter Unicode. Ao trabalhar com Unicode desta forma, você precisa estar ciente do fato de que <span data-keyref="GameMaker Name">o GameMaker</span> interpretará <i>todos os</i> dígitos seguindo o &quot;<span class="inline">u</span>&quot;, portanto, se você quisesse escrever &quot;áa&quot;, por exemplo, você deveria usar:</p>
+  <p class="code">&quot;\u00e2\a&quot;</p>
+  <p>ou</p>
+  <p class="code">&quot;\u00e2\u61&quot;</p>
+  <p>ou</p>
+  <p class="code">&quot;\u00e2&quot; + &quot;a&quot;</p>
+  <p>já que o simples uso de &quot;<span class="inline">\u00e2a</span>&quot; resultaria na realidade no personagem Unicode &quot;<span class="inline">ส</span>&quot; (tornando-se essencialmente &quot;<span class="inline">\ue2a</span>&quot;).<i></i></p>
+  <p><span data-keyref="GameMaker Name">O GameMaker</span> também pode lidar com qualquer literal hexadecimal - normalmente escrito como dígitos hexadecimais seguindo &quot;<span class="inline">0x</span>&quot;, por exemplo &quot;<span class="inline">0xff</span>&quot;, onde os dígitos são o número do personagem a ser utilizado. No <span data-keyref="GameMaker Name">GameMaker</span>, estes são escritos usando &quot;<span class="inline">\x</span>&quot; e depois o valor hexadecimal. Estes e outros caracteres de escape pré-definidos estão listados na tabela abaixo:</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>Constante</th>
+        <th>Descrição</th>
+      </tr>
+      <tr>
+        <td><span class="notranslate">\n</span></td>
+        <td>Newline</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">\r</span></td>
+        <td>Retorno do transporte</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">\b</span></td>
+        <td>Backspace (0x08)</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">\f</span></td>
+        <td>Alimentação de formulário (0x0c)</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">\t</span></td>
+        <td>Aba Horizontal (0x09)</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">\v</span></td>
+        <td>Aba vertical (0x0b)</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">\\</span></td>
+        <td>Contrabarra em si (0x5c)</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">\a</span></td>
+        <td>Alerta (0x07)</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">\u[Hex Digits]</span></td>
+        <td>Inserir caractere Unicode</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">\x[Hex Digits]</span></td>
+        <td>Inserir caráter literal hexadecimal</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">\[Octal Digits]</span></td>
+        <td>Inserir octal Unicode caractere</td>
+      </tr>
+    </tbody>
+  </table>
+  <p class="note"><b>OBSERVAÇÃO</b>: <span class="notranslate">Strings</span> suporta alimentação de formulário, aba vertical etc... mas isso não significa que <b>a renderização</b> sim, e ao desenhar <span class="notranslate">strings</span> esses caracteres podem ser ignorados.</p>
+  <p>Você também pode criar <i>literais de corda</i> literalmente precedendo o conjunto <span class="notranslate">string</span> com o caracter <span class="inline">@</span>:</p>
+  <p class="code">var test = @&quot;<br />
+    Line breaks<br />
+    over multiple<br />
+    lines<br />
+    &quot;;</p>
+  <p>O código acima renderá o <span class="notranslate">string</span> em várias linhas como se houvesse um caractere de fuga de linha incluído. Um literal literal <span class="notranslate">string</span> é semelhante ao literal anterior <span class="notranslate">GameMaker</span> versão <span class="notranslate">string</span>, mas eles também usam aspas duplas ou simples e devem ser prefixados por um símbolo <span class="inline">@</span>, podem ser quebrados sobre várias linhas no arquivo de código e NÃO suportam caracteres de escape, ou seja, <span class="inline">@&quot;Hello\World&quot;</span> <em>não</em> tentará escapar do W on World e será armazenado literalmente. Observe que ao usar <span class="notranslate">string</span> literalmente como este, você precisará quebrar o <span class="notranslate">string</span> se desejar incluir aspas como parte do <span class="notranslate">string</span>, ou seja:</p>
+  <p class="code">var test = @&quot;Hello &quot; + &quot;\&quot;&quot; + @&quot;World&quot; + &quot;\&quot;&quot;</p>
+  <p>Outra coisa a se notar é que o caractere Unicode 9647 (▯) é usado para substituir quaisquer glifos que você possa ter no seu designado <span class="notranslate">font</span> ao renderizá-lo no evento do sorteio. Portanto, se seu <span class="notranslate">font</span> não tiver, por exemplo, o símbolo °, então escrever 90° produzirá de fato 90▯.</p>
+  <p>A seguinte lista de funções é toda para lidar com cordas:</p>
+  <ul class="colour">
+    <li><a href="ansi_char.htm"><span class="notranslate">ansi_char</span></a></li>
+    <li><a href="chr.htm"><span class="notranslate">chr</span></a></li>
+    <li><a href="ord.htm"><span class="notranslate">ord</span></a></li>
+    <li><a href="real.htm"><span class="notranslate">real</span></a></li>
+    <li><a href="string.htm"><span class="notranslate">string</span></a></li>
+    <li><a href="string_byte_at.htm"><span class="notranslate">string_byte_at</span></a></li>
+    <li><a href="string_byte_length.htm"><span class="notranslate">string_byte_length</span></a></li>
+    <li><a href="string_set_byte_at.htm"><span class="notranslate">string_set_byte_at</span></a></li>
+    <li><a href="string_char_at.htm"><span class="notranslate">string_char_at</span></a></li>
+    <li><a href="string_ord_at.htm"><span class="notranslate">string_ord_at</span></a></li>
+    <li><a href="string_copy.htm"><span class="notranslate">string_copy</span></a></li>
+    <li><a href="string_count.htm"><span class="notranslate">string_count</span></a></li>
+    <li><a href="string_delete.htm"><span class="notranslate">string_delete</span></a></li>
+    <li><a href="string_digits.htm"><span class="notranslate">string_digits</span></a></li>
+    <li><a href="string_format.htm"><span class="notranslate">string_format</span></a></li>
+    <li><a href="string_insert.htm"><span class="notranslate">string_insert</span></a></li>
+    <li><a href="string_length.htm"><span class="notranslate">string_length</span></a></li>
+    <li><a href="string_letters.htm"><span class="notranslate">string_letters</span></a></li>
+    <li><a href="string_lettersdigits.htm"><span class="notranslate">string_lettersdigits</span></a></li>
+    <li><a href="string_lower.htm"><span class="notranslate">string_lower</span></a></li>
+    <li><a href="string_pos.htm"><span class="notranslate">string_pos</span></a></li>
+    <li><a href="string_pos_ext.htm"><span class="notranslate">string_pos_ext</span></a></li>
+    <li><a href="string_last_pos.htm"><span class="notranslate">string_last_pos</span></a></li>
+    <li><a href="string_last_pos_ext.htm"><span class="notranslate">string_last_pos_ext</span></a></li>
+    <li><a href="string_repeat.htm"><span class="notranslate">string_repeat</span></a></li>
+    <li><a href="string_replace.htm"><span class="notranslate">string_replace</span></a></li>
+    <li><a href="string_replace_all.htm"><span class="notranslate">string_replace_all</span></a></li>
+    <li><a href="string_upper.htm"><span class="notranslate">string_upper</span></a></li>
+    <li><a href="string_height.htm"><span class="notranslate">string_height</span></a></li>
+    <li><a href="string_height_ext.htm"><span class="notranslate">string_height_ext</span></a></li>
+    <li><a href="string_width.htm"><span class="notranslate">string_width</span></a></li>
+    <li><a href="string_width_ext.htm"><span class="notranslate">string_width_ext</span></a></li>
+    <li><a href="string_hash_to_newline.htm"><span class="notranslate">string_hash_to_newline</span></a></li>
+    <li><a href="../Variable_Functions/is_string.htm"><span class="notranslate">is_string</span></a></li>
+  </ul>
+  <p> </p>
+  <p>Além daquelas funções relacionadas especificamente a <span class="notranslate">strings</span>, algumas metas também lhe dão acesso à prancheta para obter e definir informações de texto:</p>
+  <ul class="colour">
+    <li><a href="clipboard_has_text.htm"><span class="notranslate">clipboard_has_text</span></a></li>
+    <li><a href="clipboard_get_text.htm"><span class="notranslate">clipboard_get_text</span></a></li>
+    <li><a href="clipboard_set_text.htm"><span class="notranslate">clipboard_set_text</span></a></li>
+  </ul>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Voltar: <a href="../GML_Reference.htm">Referência GML</a></div>
+        <div style="float:right">A seguir: <a href="../Maths_And_Numbers/Maths_And_Numbers.htm">Matemática e Números</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright <span class="notranslate">YoYo Games Ltd.</span> 2022 Todos os direitos reservados</span></h5>
+  </div>
+  <!-- KEYWORDS
+Strings
+\n
+\r
+\b
+\f
+\t
+\v
+\\
+\a
+\u
+\x
+\
+-->
+  <!-- TAGS
+string_functions
+-->
+</body>
+</html>

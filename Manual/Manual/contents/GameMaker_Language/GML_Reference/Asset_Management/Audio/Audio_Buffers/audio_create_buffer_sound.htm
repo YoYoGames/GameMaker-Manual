@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>audio_criate_buffer_sound</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../../../assets/css/default.css" type="text/css" />
+  <script src="../../../../../assets/scripts/main_script.js"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Page explaining the function audio_create_buffer_sound" />
+  <meta name="rh-index-keywords" content="audio_create_buffer_sound" />
+  <meta name="search-keywords" content="audio_create_buffer_sound,audio_mono,audio_stereo,audio_3D" />
+  <meta name="is_pure" content="true" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>audio_criate_buffer_sound</h1>
+  <p>Com esta função você pode criar um novo som a partir do conteúdo de um <span class="notranslate">buffer</span>. O <span class="notranslate">buffer</span> terá sido criado anteriormente (veja as <a href="../../../Buffers/Buffers.htm">funções de buffer</a> para detalhes sobre como fazer isso), e teve dados adicionados ou carregados nele. Em seguida, você os passa para esta função com o formato de dados (apenas <span class="inline">buffer_u8</span> ou <span class="inline">buffer_s16</span> são suportados atualmente), a taxa de amostragem (que pode ser entre 1000hz e 48000hz), e um offset no <span class="notranslate">buffer</span> para obter os dados. Você também precisa fornecer o número de amostras no <span class="notranslate">buffer</span> e os canais que o som requer. Estes canais são definidos por uma das constantes a seguir:</p>
+  <table>
+    <colgroup>
+      <col />
+      <col />
+    </colgroup>
+    <tbody>
+      <tr>
+        <th colspan="2"><span data-keyref="Type_Constant_Audio_Channel_Type"><a data-rhwidget="HyperlinkPopover" href="../../../../../../LINKGOESHERE">Tipo de canal de áudio</a></span></th>
+      </tr>
+      <tr>
+        <th>Constante</th>
+        <th>Descrição</th>
+      </tr>
+      <tr>
+        <td><span class="notranslate"><span class="inline">audio_mono</span></td>
+        <td>Áudio mono (canal único).</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate"><span class="inline">audio_stereo</span></td>
+        <td>Áudio estéreo (canal duplo).</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate"><span class="inline">audio_3D</span></td>
+        <td>áudio 3D (5.1).</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>Observe que depois de ter criado um som, você deve liberar o índice do ponteiro associado a ele quando ele não for mais necessário usando a função <a href="audio_free_buffer_sound.htm"><span class="inline">audio_free_buffer_sound()</span></a>. Se você não fizer isso e depois reatribuir a variável ou mudar <span class="notranslate">rooms</span> etc... a identificação sonora será perdida e você terá um vazamento de memória. Observe também que você não pode apagar o <span class="notranslate">buffer</span> se algum som tiver sido criado a partir dele e o som não tiver sido liberado primeiro. Portanto, você liberaria o som (ou sons) primeiro, <i>depois</i> apagaria o <span class="notranslate">buffer</span>. Também vale a pena notar que adicionar qualquer coisa ao <span class="notranslate">buffer</span>, ou mudar o tamanho do <span class="notranslate">buffer</span>, depois de ter tido um som criado a partir dele dará resultados inesperados e não é recomendado - uma vez que você tenha começado a criar sons a partir de qualquer <span class="notranslate">buffer</span> você não deve manipulá-lo de nenhuma outra forma depois.</p>
+  <p> </p>
+  <h4>Sintaxe:</h4>
+  <p class="code">audio_create_buffer_sound(bufferId, bufferFormat, bufferRate, bufferOffset, bufferLength, bufferChannels);</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>Argumento</th>
+        <th>Tipo</th>
+        <th>Descrição</th>
+      </tr>
+      <tr>
+        <td><span class="notranslate">bufferId</span></td>
+        <td><span data-keyref="Type_ID_Buffer"><a data-rhwidget="HyperlinkPopover" href="../../../../../../LINKGOESHERE">Identificação do tampão</a></span></td>
+        <td><span class="notranslate">The ID of the buffer to use.</span></td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">bufferFormat</span></td>
+        <td><span data-keyref="Type_Constant_Buffer_Data_Type"><a data-rhwidget="HyperlinkPopover" href="../../../../../../LINKGOESHERE">Constante do tipo de dados tampão</a></span></td>
+        <td><span class="notranslate">The format of the data in the buffer (<span class="inline">buffer_u8</span> ou <span class="inline">buffer_s16</span>).</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">bufferRate</span></td>
+        <td><span data-keyref="Type_Real"><a data-rhwidget="HyperlinkPopover" href="../../../../../../LINKGOESHERE">Real</a></span></td>
+        <td><span class="notranslate">The sample rate of the data in the buffer.</span></td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">bufferOffset</span></td>
+        <td><span data-keyref="Type_Real"><a data-rhwidget="HyperlinkPopover" href="../../../../../../LINKGOESHERE">Real</a></span></td>
+        <td><span class="notranslate">The offset into the buffer to read the sample data from (in bytes).</span></td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">bufferLength</span></td>
+        <td><span data-keyref="Type_Real"><a data-rhwidget="HyperlinkPopover" href="../../../../../../LINKGOESHERE">Real</a></span></td>
+        <td><span class="notranslate">The length of the buffer (the number of bytes of audio data, excluding the header).</span></td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">bufferChannels</span></td>
+        <td><span data-keyref="Type_Constant_Audio_Channel_Type"><a data-rhwidget="HyperlinkPopover" href="../../../../../../LINKGOESHERE">Tipo de canal de áudio</a></span></td>
+        <td><span class="notranslate">The channels to use from one of the constants listed above.</span></td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>Devoluções:</h4>
+  <p class="code"><span data-keyref="Type_Asset_Sound"><a data-rhwidget="HyperlinkPopover" href="../../../../../../The_Asset_Editors/Sounds.htm">Sound Asset</a></span></p>
+  <p> </p>
+  <h4>Exemplo:</h4>
+  <p class="code">var rate = 44100;<br />
+    var hertz = irandom_range(220, 880);<br />
+    var samples = 44100;<br />
+    <br />
+    var bufferId = buffer_create(rate, buffer_fast, 1);<br />
+    buffer_seek(bufferId, buffer_seek_start, 0);<br />
+    <br />
+    var num_to_write = rate / hertz;<br />
+    var length = buffer_get_size(bufferId);<br />
+    var val_to_write = 1;<br />
+    <br />
+    for (var i = 0; i &lt; (samples / num_to_write) + 1; i++)<br />
+    {<br />
+        for (var j = 0; j &lt; num_to_write; j++)<br />
+        {<br />
+            buffer_write(bufferId, buffer_u8, val_to_write * 255);<br />
+        }<br />
+        val_to_write = (1 - val_to_write);<br />
+    }<br />
+    <br />
+    soundId = audio_create_buffer_sound(bufferId, buffer_u8, rate, 0, length, audio_stereo);
+  </p>
+  <p>O acima exposto cria um <span class="notranslate">buffer</span> e, em seguida, processa-o com dados. Estes dados são então usados para criar um novo som, que é armazenado na variável &quot;soundId&quot;.</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Voltar: <a href="../Audio.htm">Buffers de áudio</a></div>
+        <div style="float:right">A seguir: <a href="audio_free_buffer_sound.htm"><span class="notranslate">audio_free_buffer_sound</span></a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright <span class="notranslate">YoYo Games Ltd.</span> 2022 Todos os direitos reservados</span></h5>
+  </div>
+  <!-- KEYWORDS
+audio_create_buffer_sound
+audio_mono
+audio_stereo
+audio_3D
+-->
+  <!-- TAGS
+audio_create_buffer_sound
+-->
+</body>
+</html>

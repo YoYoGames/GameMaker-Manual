@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>xboxlive_matchmaking_session_get_users</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
+  <script src="../../../../assets/scripts/main_script.js"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Reference page for xboxlive_matchmaking_session_get_users" />
+  <meta name="rh-index-keywords" content="xboxlive_matchmaking_session_get_users" />
+  <meta name="search-keywords" content="xboxlive_matchmaking_session_get_users" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>xboxlive_matchmaking_session_get_users</h1>
+  <p>Esta função criará e preencherá um mapa DS com os detalhes dos usuários na sessão especificada, ou -1 se houver um erro. Você pode obter o ponteiro de identificação da sessão a partir do <a href="../../../GML_Overview/Variables/Builtin_Global_Variables/async_load.htm"><span class="inline">async_load</span></a> Mapa DS que é retornado no <a href="../../../../The_Asset_Editors/Object_Properties/Async_Events/Social.htm">Evento Social Assíncrono</a> quando você criou ou encontrou uma sessão (veja <a href="xboxlive_matchmaking_create.htm"><span class="inline">xboxlive_matchmaking_create()</span></a> para mais detalhes). O mapa DS devolvido terá os seguintes pares chave/valor:</p>
+  <ul class="colour">
+    <li>&quot;<b>num_resultados</b>&quot; - contém o número de usuários na sessão</li>
+    <li>&quot;<b>userId&lt;<i>index&gt;</i></b>&quot; - contém o ID do usuário (&lt;<i>index&gt;</i> é um valor de 0 a &quot;num_resultados&quot; - 1)</li>
+    <li>&quot;<b>userIsOwner&lt;<i>index&gt;</i></b>&quot; - contém 1 se o usuário for o host, caso contrário 0 (&lt;<i>index&gt;</i> é um valor de 0 a &quot;num_resultados&quot; - 1)</li>
+  </ul>
+  <p> </p>
+  <h4>Sintaxe:</h4>
+  <p class="code">xboxlive_matchmaking_session_get_users(session_id);</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>Argumento</th><th>Tipo</th>
+        <th>Descrição</th>
+     </tr>
+      <tr>
+        <td><span class="notranslate">session_id</span></td><td><span data-keyref="Type_Real"></span></td>
+        <td><span class="notranslate">The session ID pointer to use</span></td>
+     </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>Devoluções:</h4>
+  <p class="code"><span data-keyref="Type_ID_Async_Event">Async Request ID</span></p>
+  <p> </p>
+  <h4>Exemplo:</h4>
+  <p class="code">var session_map = xboxlive_matchmaking_session_get_users(global.SessionID);<br />
+    if (session_map != -1)<br />
+    {<br />
+        for (var i = 0; i &lt; session_map[? &quot;num_results&quot;]; i++)<br />
+        {<br />
+            if (session_map[? &quot;userIsOwner&quot; + string(i)] == 1)<br />
+            {<br />
+                global.OwnerID = session_map[? &quot;userId&quot; + string(i)];<br />
+            }<br />
+        }<br />
+    }</p>
+  <p>O acima mencionado recuperará os dados do usuário para todos os usuários participantes da sessão de matchmaking e definirá uma variável global para a identificação do proprietário da sessão.</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Voltar: <a href="Match_Making.htm">Fósforos</a></div>
+        <div style="float:right">A seguir: <a href="xboxlive_matchmaking_join_session.htm"><span class="notranslate">xboxlive_matchmaking_join_session</span></a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright <span class="notranslate">YoYo Games Ltd.</span> 2022 Todos os direitos reservados</span></h5>
+  </div>
+  <!-- KEYWORDS
+xboxlive_matchmaking_session_get_users
+-->
+  <!-- TAGS
+xboxlive_matchmaking_session_get_users
+-->
+</body>
+</html>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>opção_de_tampão_async_group_option</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../assets/css/default.css" type="text/css" />
+  <script src="../../../assets/scripts/main_script.js"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Reference page for buffer_async_group_option" />
+  <meta name="rh-index-keywords" content="buffer_async_group_option" />
+  <meta name="search-keywords" content="buffer_async_group_option" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>opção_de_tampão_async_group_option</h1>
+  <p>Com esta função você pode definir algumas opções específicas de plataforma para o grupo <span class="notranslate">buffer</span> que está sendo salvo/carregado. As opções disponíveis são as seguintes:</p>
+  <ul class="colour">
+    <li>&quot;<b>subtítulo</b>&quot; ou &quot;<b>slottitle</b>&quot; - O valor para esta opção seria um <span class="notranslate">string</span>, que será mostrado ao usuário ao gerenciar seus dados salvos no sistema operacional. Isto só é importante quando se salvam dados, não quando se carregam novamente.</li>
+    <li>&quot;<b>showdialog</b>&quot; - O valor para esta opção é um booleano <span class="inline">true</span> ou <span class="inline">false</span>. Se ajustado para <span class="inline">true</span>, quando você salvar <i>ou</i> carregar o <span data-keyref="GameMaker Name">GameMaker</span> mostrará a interface do sistema, caso contrário ele fará um quicksave/quickload sem a interface mostrada. Você normalmente só precisa disto se você estiver suportando vários slots salvos para permitir que o usuário escolha um slot, mas se você suportar apenas um slot por usuário, defina isto para <span class="inline">false</span>.</li>
+    <li>&quot;<b>savepadindex</b>&quot; - Para esta opção você especificaria o <i>índice do pad</i> do jogador que está salvando <i>ou</i> carregando e o sistema irá escrever e ler os dados da pasta de salvamento deste jogador.</li>
+    <li>&quot;Esta opção requer que você especifique o tamanho real em bytes que deseja salvar (para que você possa fazer um <a href="buffer_seek.htm"><span class="inline">buffer_seek()</span></a> e <a href="buffer_tell.htm"><span class="inline">buffer_tell()</span></a> para conseguir isso, por exemplo). Note que não é obrigatório fornecer este valor, pois todas as economias são pré-atribuídas com um espaço mínimo, que geralmente varia de acordo com a plataforma alvo.</li>
+    <li>&quot;<strong>ps_create_backup</strong>&quot; - <em>(somente PlayStation)</em> - Definindo isto em <span class="inline">true</span> assegura que os dados salvos sejam copiados quando o diretório de salvamento não for montado (ou seja, quando a função <span class="inline"><a href="buffer_async_group_end.htm">buffer_async_group_end()</a></span> for chamada). Consulte a documentação do console para obter mais informações.</li>
+  </ul>
+  <p class="note"><b>IMPORTANTE!</b> Esta função é válida atualmente apenas para os módulos alvo PSVita, PS4 e <span class="notranslate">XBox One</span>. Em todos os outros alvos, ela não fará nada.</p>
+  <p> </p>
+  <h4>Sintaxe:</h4>
+  <p class="code">buffer_async_group_option(option, value);</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>Argumento</th>
+        <th>Tipo</th>
+        <th>Descrição</th>
+      </tr>
+      <tr>
+        <td><span class="notranslate">option</span></td>
+        <td><span data-keyref="Type_String"><a data-rhwidget="HyperlinkPopover" href="../../../../GameMaker_Language/GML_Overview/Data_Types.htm">Cordão</a></span></td>
+        <td><span class="notranslate">The option to set.</span></td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">value</span></td>
+        <td><span data-keyref="Type_Real"><a data-rhwidget="HyperlinkPopover" href="../../../../GameMaker_Language/GML_Overview/Data_Types.htm">Real</a></span> ou <span data-keyref="Type_String"><a data-rhwidget="HyperlinkPopover" href="../../../../GameMaker_Language/GML_Overview/Data_Types.htm">Cordão</a></span></td>
+        <td><span class="notranslate">The value to set (can be a real or string, depending on the option).</span></td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>Devoluções:</h4>
+  <p class="code"><span data-keyref="Type_Void">N/A</span></p>
+  <p> </p>
+  <h4>Exemplo:</h4>
+  <p class="code">buffer_async_group_begin(&quot;save_folder_name&quot;);<br />
+    buffer_async_group_option(&quot;showdialog&quot;, false);<br />
+    buffer_async_group_option(&quot;slottitle&quot;, &quot;Catch The Haggis Save&quot;);<br />
+    buffer_async_group_option(&quot;subtitle&quot;, &quot;All your haggis are saved here!&quot;);<br />
+    save = buffer_save_async(buff, &quot;Player_Save.sav&quot;, 0, 16384);<br />
+    buffer_async_group_end();</p>
+  <p>O código acima inicia um grupo <span class="notranslate">buffer</span> e então define as opções do grupo antes de definir 4 arquivos para salvar de forma assíncrona. A definição do grupo é então terminada (momento em que a gravação começará).</p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Voltar: <a href="Buffers.htm">Tampões</a></div>
+        <div style="float:right">A seguir: <a href="buffer_async_group_end.htm"><span class="notranslate">buffer_async_group_end</span></a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright <span class="notranslate">YoYo Games Ltd.</span> 2022 Todos os direitos reservados</span></h5>
+  </div>
+  <!-- KEYWORDS
+buffer_async_group_option
+-->
+  <!-- TAGS
+buffer_async_group_option
+-->
+</body>
+</html>

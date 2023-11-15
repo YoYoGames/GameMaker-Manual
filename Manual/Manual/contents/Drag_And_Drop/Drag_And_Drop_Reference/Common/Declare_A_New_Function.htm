@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Declare uma nova função</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../assets/css/default.css" type="text/css" />
+  <script src="../../../assets/scripts/main_script.js"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Section detailing Declare A New Function" />
+  <meta name="rh-index-keywords" content="GML Visual Action - Declare A New Function" />
+  <meta name="search-keywords" content="Declare A New Function" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1><img> Declare uma nova função</h1>
+  <p>Esta ação pode ser usada para criar uma nova função definida pelo usuário, que pode ser chamada posteriormente em qualquer momento em seu código. Uma função definida pelo usuário é aquela que você define para fazer uma tarefa que não é coberta pelas ações visuais incorporadas <span class="notranslate">GML</span> ou pelas funções de corredor <span class="notranslate">GML</span>, e pode ser global, por exemplo ou local no escopo (veja <a href="../../../GameMaker_Language/GML_Overview/Variables_And_Variable_Scope.htm">aqui</a> para mais informações sobre escopo); elas também podem ser usadas como <b>construtoras</b> para criar <a href="../../../GameMaker_Language/GML_Overview/Structs.htm">estruturas</a>. Para saber mais sobre o uso desta ação para criar funções globais, consulte a seção sobre <a href="../../Drag_And_Drop_Overview/Action_Block_Functions.htm">Criação de funções de ação</a>.</p>
+  <p>Para usar esta ação, você pode adicioná-la a um evento ou a um roteiro e dar um nome à nova função. Em seguida, você fornece os argumentos/parâmetros necessários que a função terá, e os valores padrão para quaisquer argumentos opcionais.</p>
+  <p>Se a função deve ser usada como construtor (que é usada para criar um <span class="notranslate">struct</span>), então você precisa verificar a opção <strong>Construtor </strong>e posteriormente usar a <a href="New.htm">Nova</a> ação para criar um <span class="notranslate">struct</span> a partir da função. Você também pode <span class="notranslate">flag</span> a função como sendo <b>estática</b>, o que significa que ela só será definida uma vez, não importa quantas vezes esta ação for executada. Finalmente, se a função só vai ser usada localmente no mesmo evento e em nenhum outro lugar, então você pode habilitar a opção <strong>Temp </strong>.</p>
+  <p>Uma vez definido o nome e os parâmetros, você pode anexar as ações que deseja que a função seja executada quando for chamada em seu código, deixando-as cair para o lado da ação, como mostrado na imagem abaixo:</p>
+  <p><img>Você pode ver exemplos de utilização desta ação como uma função regular e como uma função construtora na seção &quot;Exemplos Ampliados&quot; dada abaixo.</p>
+  <p> </p>
+  <h4>Sintaxe de ação:</h4>
+  <p><img alt="Declare A New Function Icon" class="icon" src="../../../assets/Images/Scripting_Reference/Drag_And_Drop/Reference/Common/i_Common_Declare_Function.png" /></p>
+  <h4>Argumentos:</h4>
+  <table>
+    <tbody>
+      <tr>
+        <th>Argumento</th>
+        <th>Descrição</th>
+      </tr>
+      <tr>
+        <td><span class="notranslate">Name</span></td>
+        <td>O nome da nova função.</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">Argument [+]</span></td>
+        <td>Os diferentes argumentos que podem ser passados para a função, e seus valores padrão, se opcional.</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">Constructor</span></td>
+        <td>Se esta função é um construtor.</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">Static</span></td>
+        <td>Se esta função é estática.</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">Temp</span></td>
+        <td>Se a função é temporária (o que significa que só é utilizada dentro do evento atual).</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h1>Exemplos ampliados</h1>
+  <h4>Exemplo ampliado 1</h4>
+  <p><img>O bloco de ação acima iria no <b>Create Event</b> of an instance ou <span class="notranslate">script</span>, e declara uma nova função chamada <span class="inline">set_vec</span> com três argumentos: <span class="inline">_x</span>, <span class="inline">_y</span> e <span class="inline">spd</span>. Estes argumentos são então utilizados nas ações que a função contém para definir a direção e velocidade da instância, o que acontece quando a função é chamada. Mais tarde, a função seria chamada usando a ação de <a href="Function_Call.htm">Chamada de Função</a> em qualquer evento subseqüente, como este:</p>
+  <p><img>Na imagem acima, é chamada a função <span class="inline">set_vec</span> que muda a direção da instância para apontar para a posição X/Y do mouse e define a velocidade para 5.</p>
+  <p> </p>
+  <h4 id="h">Exemplo ampliado 2</h4>
+  <p><img>O bloco de ação acima iria no <b>Create Event</b> of an instance ou um <span class="notranslate">script</span>, e declara uma nova função <strong>construtora</strong> chamada <span class="inline">init_char_struct</span> com quatro argumentos: <span class="inline">_name</span>, <span class="inline">_location</span>, <span class="inline">_hp</span> e <span class="inline">_mana</span>, sendo os dois últimos opcionais com um valor padrão de 100 (isto significa que se esses argumentos não forem especificados quando a função for chamada, seus valores padrão serão usados em seu lugar). Estes argumentos são então usados para criar algumas variáveis dentro do <span class="notranslate">struct</span> que a função está criando.</p>
+  <p>Mais tarde você chamaria esta função usando a <a href="New.htm">Nova</a> Ação para criar um <span class="notranslate">struct</span>, como este:</p>
+  <p><img>A função é chamada e retornará um novo <span class="notranslate">struct</span> que está armazenado no array <span class="inline">char</span>, e o <span class="notranslate">struct</span> será preenchido com as variáveis <span class="inline">name</span>, <span class="inline">location</span>, <span class="inline">hp</span> e <span class="inline">mana</span>, definidas com os valores que foram passados para os argumentos correspondentes na chamada de função.</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Voltar: <a href="Common_Actions_Library.htm">Ações Comuns</a></div>
+        <div style="float:right">A seguir: <a href="Assign_Variable.htm">Atribuir variável</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright <span class="notranslate">YoYo Games Ltd.</span> 2022 Todos os direitos reservados</span></h5>
+  </div>
+  <!-- KEYWORDS
+Action - Declare A New Function
+-->
+  <!-- TAGS
+action_declare_function
+-->
+</body>
+</html>

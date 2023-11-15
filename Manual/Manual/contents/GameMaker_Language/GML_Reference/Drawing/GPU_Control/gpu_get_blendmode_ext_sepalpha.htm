@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>gpu_get_blendmode_ext_sepalpha</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
+  <script src="../../../../assets/scripts/main_script.js"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Reference for the function gpu_get_blendmode_ext_sepalpha" />
+  <meta name="rh-index-keywords" content="gpu_get_blendmode_ext_sepalpha,bm_zero,bm_one,bm_src_colour,bm_inv_src_colour,bm_src_alpha,bm_inv_src_alpha,bm_dest_alpha,bm_inv_dest_alpha,bm_dest_colour,bm_inv_dest_colour,bm_src_alpha_sat,bm_src_color,bm_inv_src_color,bm_dest_color,bm_inv_dest_colour" />
+  <meta name="search-keywords" content="gpu_get_blendmode_ext_sepalpha,bm_zero,bm_one,bm_src_colour,bm_inv_src_colour,bm_src_alpha,bm_inv_src_alpha,bm_dest_alpha,bm_inv_dest_alpha,bm_dest_colour,bm_inv_dest_colour,bm_src_alpha_sat,bm_src_color,bm_inv_src_color,bm_dest_color,bm_inv_dest_colour" />
+  <meta name="is_pure" content="true" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>gpu_get_blendmode_ext_sepalpha</h1>
+  <p>Esta função pode ser usada para recuperar o atual modo de mistura estendida que está sendo usado para desenho, separando os modos de mistura em duas partes - o componente RGB e o componente Alfa. A função retorna uma matriz de 4 elementos 1D com os seguintes elementos:</p>
+  <ul class="colour">
+    <li>[0] = Modo de mistura da fonte menos o componente alfa (o padrão é <span class="inline">bm_src_alpha</span> (As, As, As))</li>
+    <li>[1] = Modo de mistura de destino menos o componente alfa (o padrão é <span class="inline">bm_inv_src_alpha</span> (1-As, 1-As, 1-As))</li>
+    <li>[2] = Componente alfa da fonte (o padrão é <span class="inline">bm_src_alpha</span> (As))</li>
+    <li>[3] = Componente alfa de destino (o padrão é <span class="inline">bm_inv_src_alpha</span> (1-As))</li>
+  </ul>
+  <p>Os valores da matriz serão uma das seguintes constantes (&quot;s&quot; denota um valor retirado da fonte enquanto um &quot;d&quot; denota um valor do destino):</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>Constante</th>
+        <th>Fator de mistura (Vermelho, Verde, Azul, Alfa)</th>
+      </tr>
+      <tr>
+        <td><span class="notranslate"><span class="inline">bm_zero</span></td>
+        <td>(0, 0, 0, 0)</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate"><span class="inline">bm_one</span></td>
+        <td>(1, 1, 1, 1)</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate"><span class="inline">bm_src_colour</span></td>
+        <td>(Rs, Gs, Bs, As)</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate"><span class="inline">bm_inv_src_colour</span></td>
+        <td>(1-Rs, 1-Gs, 1-Bs, 1-As)</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate"><span class="inline">bm_src_alpha</span></td>
+        <td>(As, As, As, As, As)</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate"><span class="inline">bm_inv_src_alpha</span></td>
+        <td>(1-As, 1-As, 1-As, 1-As, 1-As)</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate"><span class="inline">bm_dest_alpha</span></td>
+        <td>(Anúncio, Anúncio, Anúncio, Anúncio)</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate"><span class="inline">bm_inv_dest_alpha</span></td>
+        <td>(1-Ad, 1-Ad, 1-Ad, 1-Ad, 1-Ad)</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate"><span class="inline">bm_dest_colour</span></td>
+        <td>(Rd, Gd, Bd, Ad)</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate"><span class="inline">bm_inv_dest_colour</span></td>
+        <td>(1-Rd, 1-Gd, 1-Bd, 1-Ad)</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate"><span class="inline">bm_src_alpha_sat</span></td>
+        <td>(f, f, f, 1) onde f = min(As, 1-Ad)</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>Ao criar os modos de mistura estendida desta forma, os componentes RGB serão retirados de um modo de mistura e o componente Alfa será retirado de outro, de modo que - por exemplo - se você usar <span class="inline">bm_zero</span> (0, 0, 0, 0, 0) como modo de mistura RGB e <span class="inline">bm_one</span> como modo de mistura alfa, você obterá uma mistura composta de (0,0,0,1).</p>
+  <p>Observe que você pode alterar estes valores diretamente dentro da matriz e passar a matriz completa para a função como um único argumento (como mostrado no exemplo abaixo).</p>
+  <p> </p>
+  <h4>Sintaxe:</h4>
+  <p class="code">gpu_get_blendmode_ext_sepalpha();</p>
+  <p> </p>
+  <h4>Devoluções:</h4>
+  <p class="code"><span data-keyref="Type_Array"></span> (4 elements only; see above for constants)</p>
+  <p> </p>
+  <h4>Exemplo:</h4>
+  <p class="code">var bm = gpu_get_blendmode_ext_sepalpha();<br />
+    bm[0] = bm_src_alpha;<br />
+    bm[1] = bm_inv_src_alpha;<br />
+    gpu_set_blendmode_ext_sepalpha(bm);</p>
+  <p>O código acima cria uma matriz local e obtém o modo de mistura estendida atual com valores alfa separados. Esta matriz é então manipulada e retornada para definir o modo de mistura.</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Voltar: <a href="GPU_Control.htm">Controle de GPU</a></div>
+        <div style="float:right">A seguir: <a href="gpu_get_blendmode_src.htm"><span class="notranslate">gpu_get_blendmode_src</span></a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright <span class="notranslate">YoYo Games Ltd.</span> 2022 Todos os direitos reservados</span></h5>
+  </div>
+  <!-- KEYWORDS
+gpu_get_blendmode_ext_sepalpha
+bm_zero
+bm_one
+bm_src_colour
+bm_inv_src_colour
+bm_src_alpha
+bm_inv_src_alpha
+bm_dest_alpha
+bm_inv_dest_alpha
+bm_dest_colour
+bm_inv_dest_colour
+bm_src_alpha_sat
+-->
+  <!-- TAGS
+gpu_get_blendmode_ext_sepalpha
+-->
+</body>
+</html>

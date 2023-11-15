@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>fazer / até</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../assets/css/default.css" type="text/css" />
+  <script src="../../../assets/scripts/main_script.js"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Page outlining the do / until functions" />
+  <meta name="rh-index-keywords" content="do,until" />
+  <meta name="search-keywords" content="do,until" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>fazer / até</h1>
+  <p>Uma função <span class="inline">do</span> é outra forma de iterar sobre uma ou mais<span class="glossextra">declarações</span> múltiplas, e é realmente uma declaração &quot;<span class="inline">do... until</span>&quot;, já que você não pode ter uma sem a outra, já que você está dizendo ao <span data-keyref="GameMaker Name">GameMaker</span> para fazer algo até que uma <a class="glossterm" data-glossterm="expressão" href="#">expressão</a> específica retorne <span class="inline">true</span>. Ela tem esta forma:</p>
+  <p class="code">do<br />
+    {<br />
+        &lt;statement&gt;;<br />
+        &lt;statement&gt;;<br />
+        ...<br />
+    }<br />
+    until (&lt;expression&gt;);</p>
+  <p>A declaração (que pode ser um bloco de código de múltiplas declarações dentro de colchetes <span class="inline">{}</span>) é executada até que a expressão seja encontrada em <span class="inline">true</span>, e a declaração inicial é <strong>sempre executada pelo menos uma vez</strong>. Abaixo você pode encontrar um exemplo de uma maneira típica de usar <span class="inline">do... until</span>:</p>
+  <p class="code">do<br />
+    {<br />
+        x = random(room_width);<br />
+        y = random(room_height);<br />
+    }<br />
+    until (place_free(x, y));</p>
+  <p>O código acima tenta colocar o atual <span class="notranslate">object</span> em uma posição livre e irá definir as variáveis x/y pelo menos uma vez, e então realizar tantas <a class="glossterm" data-glossterm="iteração" href="#">iterações</a>quantas forem necessárias até que a expressão <span class="inline">place_free()</span> retorne <span class="inline">true</span>.</p>
+  <p><strong>Quando você deve usar um <span class="inline">do</span> / <span class="inline">until</span> <span class="notranslate">loop</span>?</strong> Deve ser usado sempre que você quiser repetir uma ou mais declarações, mas não sabe quantas vezes tem que repetir, e quer garantir que as declarações sejam executadas pelo <em>menos uma vez</em> antes que o <span class="notranslate">loop</span> termine.</p>
+  <p>Você também pode usar o <a href="break.htm"><span class="inline">break</span></a> e <a href="continue.htm"><span class="inline">continue</span></a> declarações dentro de seu <span class="inline">do</span> <span class="notranslate">loops</span>. Usando <span class="inline">break</span> sairá imediatamente do <span class="notranslate">loop</span> e passará para qualquer código que esteja no evento ou função após o <span class="notranslate">loop</span> ter terminado, por exemplo:</p>
+  <p class="code">var _id = noone;<br />
+    do<br />
+    {<br />
+        _id = list[| 0];<br />
+        if instance_exists(_id)<br />
+        {<br />
+            _break;<br />
+        }<br />
+        ds_list_delete(list, 0);<br />
+    }<br />
+    until (ds_list_empty(list));<br />
+    <br />
+    target = _id;
+  </p>
+  <p>No código acima, criamos uma variável local e a definimos para conter a palavra-chave <a href="../Instance_Keywords.htm"><span class="notranslate">noone</span></a>. Em seguida, realizamos um <span class="inline">do / until</span> <span class="notranslate">loop</span> verificando a primeira posição de uma lista DS para ver se ela possui uma identificação de instância válida, e se ela possuir, então <span class="inline">break</span> o <span class="notranslate">loop</span>, caso contrário, o valor da posição da lista é excluído. Após o <span class="notranslate">loop</span> ser encerrado (seja pelo <span class="inline">break</span> ou porque a lista está vazia), o valor da variável local é então atribuído à variável de instância <span class="inline">target</span>.</p>
+  <p>Um exemplo de utilização continuada em um <span class="inline">do / until</span> <span class="notranslate">loop</span> seria:</p>
+  <p class="code">do<br />
+    {<br />
+        var _x = random(room_width);<br />
+        var _y = random(room_height);<br />
+        if (instance_position(_x, y, obj_Enemy)<br />
+        {<br />
+            continue;<br />
+        }<br />
+        instance_create_layer(_x, _y, &quot;Instances&quot;, obj_Enemy);<br />
+    }<br />
+    until (instance_count(obj_Enemy) &gt;= 10);</p>
+  <p>Este código irá gerar uma posição aleatória <span class="notranslate">room</span> e, em seguida, verificar se existe uma instância do <span class="notranslate">object</span> <span class="inline">obj_Enemy</span> nessa posição. Se existir, a atual iteração <span class="notranslate">loop</span> é terminada usando <span class="inline">continue</span> e uma nova iteração é iniciada, e se não existir, então uma instância do <span class="notranslate">object</span> <span class="inline">obj_Enemy</span> é criada na posição aleatória. O <span class="notranslate">loop</span> só terminará quando houver 10 ou mais instâncias do <span class="notranslate">object</span> no <span class="notranslate">room</span>.</p>
+  <p>Uma nota final: tenha cuidado com seu <span class="inline">do</span> <span class="notranslate">loops</span>, pois você pode facilmente torná-los <span class="notranslate">loop</span> para sempre, neste caso seu jogo ficará pendurado e não reagirá mais a nenhuma entrada do usuário e eles terão que forçar o fechamento do jogo.</p>
+  <p>Para mais exemplos de palavras-chave <span class="notranslate">loop</span>, por favor veja as seções sobre <a href="repeat.htm"><span class="inline">repeat</span></a>, <a href="while.htm"><span class="inline">while</span></a>e <a href="for.htm"><span class="inline">for</span></a>.</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Voltar: <a href="../Language_Features.htm">Características lingüísticas</a></div>
+        <div style="float:right">A seguir: <a href="for.htm"><span class="notranslate">for</span></a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright <span class="notranslate">YoYo Games Ltd.</span> 2021 Todos os direitos reservados</span></h5>
+  </div>
+  <!-- KEYWORDS
+do
+until
+-->
+  <!-- TAGS
+do
+until
+-->
+</body>
+</html>

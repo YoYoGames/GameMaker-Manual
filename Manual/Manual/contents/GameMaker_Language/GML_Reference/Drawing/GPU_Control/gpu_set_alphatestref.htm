@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>gpu_set_alphatestref</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
+  <script src="../../../../assets/scripts/main_script.js"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Reference for the function gpu_set_alphatestref" />
+  <meta name="rh-index-keywords" content="gpu_set_alphatestref" />
+  <meta name="search-keywords" content="gpu_set_alphatestref" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>gpu_set_alphatestref</h1>
+  <p>Esta função definirá o valor de referência para o teste alfa (quando tiver sido habilitado usando o <a href="gpu_set_alphatestenable.htm"><span class="inline">gpu_set_alphatestenable()</span></a>). Este é o limiar de &quot;corte&quot; no qual os pixels com alfa não serão desenhados.</p>
+  <p>Basicamente, se você tiver este valor ajustado para 0 e tiver a interpolação linear ativada (seja nas Opções de Jogo ou usando <a href="gpu_set_texfilter.htm"><span class="inline">gpu_set_texfilter()</span></a>), você ainda pode obter erros visuais nas bordas da sobreposição <span class="notranslate">objects</span>. Isto porque você pode ter áreas <i>quase</i> completamente transparentes que bloqueiam coisas desenhadas atrás delas, mas se você definir este valor de referência para, por exemplo, 254 (ou seja, um abaixo do máximo), isto garante que apenas 100% dos pixels opacos serão desenhados. Você também pode desligar a interpolação <span class="notranslate">texture</span>, o que normalmente lhe permitiria usar os valores padrão sem problemas e sem necessidade de usar esta função, porém muito depende do trabalho artístico da fonte.</p>
+  <p class="note"><b>NOTA</b>: Este é um recurso avançado de desenho, portanto se você não tem certeza se precisa ou não, ou não sabe exatamente o que ele faz, provavelmente é melhor não usá-lo, pois pode corromper seriamente a forma como seu jogo é desenhado.</p>
+  <p> </p>
+  <h4>Sintaxe:</h4>
+  <p class="code">gpu_set_alphatestref(val);</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>Argumento</th><th>Tipo</th>
+        <th>Descrição</th>
+     </tr>
+      <tr>
+        <td><span class="notranslate">val</span></td><td><span data-keyref="Type_Real"></span></td>
+        <td><span class="notranslate">Sets the reference value for alpha testing from 0 to 255 (default value is 0)</span></td>
+     </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>Devoluções:</h4>
+  <p class="code"><span data-keyref="Type_Void"></span></p>
+  <p> </p>
+  <h4>Exemplo:</h4>
+  <p class="code">if !gpu_get_alphatestenable()<br />
+    {<br />
+        gpu_set_alphatestenable(true);<br />
+        gpu_set_alphatestref(128);<br />
+    }</p>
+  <p>O código acima verificará se o teste alfa está habilitado e, caso contrário, <span class="notranslate">switch</span> no teste alfa e definirá o limite de teste para 128 (apenas pixels com um alfa acima de 0,5 serão desenhados).</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Voltar: <a href="GPU_Control.htm">Controle de GPU</a></div>
+        <div style="float:right">A seguir: <a href="gpu_set_texfilter.htm"><span class="notranslate">gpu_set_texfilter</span></a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright <span class="notranslate">YoYo Games Ltd.</span> 2021 Todos os direitos reservados</span></h5>
+  </div>
+  <!-- KEYWORDS
+gpu_set_alphatestref
+-->
+  <!-- TAGS
+gpu_set_alphatestref
+-->
+</body>
+</html>

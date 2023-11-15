@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <title>rollback_sync_on_frame</title>
+  <meta name="topic-status" content="Draft" />
+  <link rel="stylesheet" type="text/css" href="../../../../assets/css/default.css" />
+  <script src="../../../../assets/scripts/main_script.js"></script>
+  <meta name="template" content="../../../../assets/masterpages/Manual_Keyword_Page.htt" />
+  <meta name="rh-authors" content="Gurpreet S. Matharoo" />
+  <meta name="topic-comment" content="Reference page for rollback_sync_on_frame" />
+  <meta name="condition-tags" content="Export:Beta" />
+  <meta name="rh-index-keywords" content="rollback_sync_on_frame" />
+  <meta name="search-keywords" content="rollback_sync_on_frame" />
+</head>
+<body>
+  <h1>rollback_sync_on_frame</h1>
+  <p>Esta função verifica se todos os jogadores estão sincronizados no quadro atual, o que significa que seus estados não se baseiam em previsões, mas nos dados reais recebidos deles. Em tal caso, ela retorna <span class="inline2">verdadeiro</span>.</p>
+  <p>Se os jogadores não estiverem sincronizados no quadro atual, ele retorna <span class="inline2">falso</span>, e tenta sincronizar todos os jogadores.</p>
+  <p>A tentativa de sincronizar os jogadores com esta função pode causar um congelamento. Você deve garantir que esta função não seja chamada continuamente em um evento Step.</p>
+  <p>Em vez disso, use-o como uma chave múltipla. Veja o exemplo no final da página.</p>
+  <p>A variável <span class="inline"><a data-xref="{title}" href="../Rollback_Variables/rollback_confirmed_frame.htm">rollback_confirmed_frame</a></span> é atualizada automaticamente quando todos os jogadores estão sincronizados.</p>
+  <p> </p>
+  <h4>Sintaxe:</h4>
+  <p class="code">rollback_sync_on_frame();</p>
+  <p> </p>
+  <h4>Devoluções:</h4>
+  <p class="code"><span data-keyref="Type_Bool"><a href="../../../../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">Boolean</a></span></p>
+  <p> </p>
+  <h4>Exemplo:</h4>
+  <p class="code">if (obj_game.winning_player == -1 &amp;&amp; points &gt;= obj_game.points_required_for_win)<br />
+    {<br />
+        if (rollback_sync_on_frame())<br />
+        {<br />
+            obj_game.winning_player = player_id;<br />
+        }<br />
+    }</p>
+  <p>Este código é executado no evento Step de um objeto jogador.</p>
+  <p>Ele verifica se não há nenhum jogador vencedor, e se o jogador atual tem os pontos necessários para vencer.</p>
+  <p>Se ambos forem verdadeiros, isso significa que o jogador deve vencer. Entretanto, antes de fazer isso, ele verifica se todos os jogadores estão sincronizados, para garantir que o estado esteja correto.</p>
+  <p>Se todos os jogadores estiverem sincronizados, ele define a variável <span class="inline2">winning_player</span>. Isto faz com que a primeira condição se torne <span class="inline2">falsa</span>, garantindo que o <span class="inline2">rollback_sync_on_frame()</span> não seja chamado novamente.</p>
+  <p>Isto significa que a função é usada como um alternador, em vez de correr continuamente cada quadro.</p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div>Voltar: <a data-xref="{title}" href="Rollback_Functions.htm">Funções de Rollback</a></div>
+        <div>Próximo: <a data-xref="{title}" href="rollback_use_random_input.htm">rollback_use_random_input</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright <span class="notranslate">YoYo Games Ltd.</span> 2022 Todos os direitos reservados</span></h5>
+  </div>
+  <!-- KEYWORDS
+rollback_sync_on_frame
+-->
+  <!-- TAGS
+rollback_sync_on_frame
+-->
+</body>
+</html>

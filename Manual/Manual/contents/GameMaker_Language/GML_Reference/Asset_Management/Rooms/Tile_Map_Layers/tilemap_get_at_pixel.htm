@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>tilemap_get_at_pixel</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../../../assets/css/default.css" type="text/css" />
+  <script src="../../../../../assets/scripts/main_script.js"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Page outlining the function tilemap_get_at_pixel" />
+  <meta name="rh-index-keywords" content="tilemap_get_at_pixel" />
+  <meta name="search-keywords" content="tilemap_get_at_pixel" />
+  <meta name="is_pure" content="true" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>tilemap_get_at_pixel</h1>
+  <p>Usando esta função, você pode recuperar os dados <span class="notranslate">tile</span> de uma posição (dentro do <span class="notranslate">room</span>) do elemento do mapa <span class="notranslate">tile</span>. Você dá o ID do elemento do mapa <span class="notranslate">tile</span> (que você obtém quando cria um elemento do mapa <span class="notranslate">tile</span> usando <a href="layer_tilemap_create.htm"><span class="inline">layer_tilemap_create()</span></a> ou quando você usa a função <a href="layer_tilemap_get_id.htm"><span class="inline">layer_tilemap_get_id()</span></a>) assim como a posição x e y <i>na sala</i> para obter os dados <span class="notranslate">tile</span> e a função devolverá o &quot;blob&quot; de dados <span class="notranslate">tile</span>. Estes dados são essencialmente uma máscara de bit que contém o índice <span class="notranslate">tile</span>, as booleanas flip/rotate/mirror e quaisquer dados de máscara que tenham sido aplicados (veja <a href="tilemap_set_mask.htm"><span class="inline">tilemap_set_mask()</span></a> para detalhes), e o valor dos dados resultantes pode então ser usado nas funções <span class="inline">tile_*</span> para alterar uma propriedade <span class="notranslate">tiles</span>. Se você precisar obter os dados <span class="notranslate">tile</span> de uma célula específica do <span class="notranslate">tile</span>, você deve estar usando a função <a href="tilemap_get.htm"><span class="inline">tilemap_get()</span></a> ao invés disso.</p>
+  <p class="note"><b>IMPORTANTE!</b> Se o <span class="notranslate">tiles</span> no mapa <span class="notranslate">tile</span> não tiver sido alterado (ou seja: eles <b>não</b> estão girados ou invertidos etc...), então o valor de retorno dos dados do <span class="notranslate">tile set</span> será exatamente igual ao índice do <span class="notranslate">tile</span> no <span class="notranslate">tile set</span>. Assim você pode criar &quot;mapas de colisão&quot; de <span class="notranslate">tiles</span> usando um <span class="notranslate">tile</span> no índice 1 no <span class="notranslate">tile set</span> - por exemplo - então use esta função para verificar 1 ou 0 (um <span class="notranslate">tile</span> vazio) para calcular as colisões.</p>
+  <p> </p>
+  <h4>Sintaxe:</h4>
+  <p class="code">tilemap_get_at_pixel(tilemap_element_id, x, y);</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>Argumento</th>
+        <th>Tipo</th>
+        <th>Descrição</th>
+      </tr>
+      <tr>
+        <td><span class="notranslate">tilemap_element_id</span></td>
+        <td><span data-keyref="Type_ID_Element_Tilemap"><a data-rhwidget="HyperlinkPopover" href="../../../../../../GameMaker_Language/GML_Reference/Asset_Management/Rooms/Tile_Map_Layers/layer_tilemap_get_id.htm">Identificação do Elemento do Mapa de Telha</a></span></td>
+        <td><span class="notranslate">The unique ID value of the tile map element to get the tile-data of</span></td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">x</span></td>
+        <td><span data-keyref="Type_Real"><a data-rhwidget="HyperlinkPopover" href="../../../../../../GameMaker_Language/GML_Overview/Data_Types.htm">Real</a></span></td>
+        <td><span class="notranslate">The position along the x-axis to get the tile data from (in room pixels)</span></td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">y</span></td>
+        <td><span data-keyref="Type_Real"><a data-rhwidget="HyperlinkPopover" href="../../../../../../GameMaker_Language/GML_Overview/Data_Types.htm">Real</a></span></td>
+        <td><span class="notranslate">The position along the y-axis to get the tile data from (in room pixels)</span></td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>Devoluções:</h4>
+  <p class="code"><span data-keyref="Type_Real_Tile_Data"><a data-rhwidget="HyperlinkPopover" href="../../../../../../LINKGOESHERE">Tile Data</a></span> (-1 if there is an error)</p>
+  <p> </p>
+  <h4>Exemplo:</h4>
+  <p class="code">var lay_id = layer_get_id(&quot;Tiles_sky&quot;);<br />
+    var map_id = layer_tilemap_get_id(lay_id);<br />
+    var data = tilemap_get_at_pixel(map_id, 64, 128);<br />
+    data = tile_set_flip(data, true);<br />
+    tilemap_set_at_pixel(map_id, data, 64, 128);</p>
+  <p>O código acima obtém a identificação para o mapa <span class="notranslate">tile</span> &quot;Clouds&quot; na camada &quot;Tiles_Sky&quot; e depois usa isso para obter os dados do <span class="notranslate">tile</span> na posição (64, 128). Estes dados do <span class="notranslate">tile</span> são então virados antes de serem usados para definir novamente o <span class="notranslate">tile</span> no mapa <span class="notranslate">tile</span>.</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Voltar: <a href="Tile_Map_Layers.htm">Camadas do mapa de azulejos</a></div>
+        <div style="float:right">A seguir: <a href="tilemap_get_cell_x_at_pixel.htm"><span class="notranslate">tilemap_get_cell_x_at_pixel</span></a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright <span class="notranslate">YoYo Games Ltd.</span> 2022 Todos os direitos reservados</span></h5>
+  </div>
+  <!-- KEYWORDS
+tilemap_get_at_pixel
+-->
+  <!-- TAGS
+tilemap_get_at_pixel
+-->
+</body>
+</html>

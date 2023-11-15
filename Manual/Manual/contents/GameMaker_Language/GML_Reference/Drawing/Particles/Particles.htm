@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Partículas</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
+  <script src="../../../../assets/scripts/main_script.js"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Reference section for the Particle functions and variables" />
+  <meta name="rh-index-keywords" content="" />
+  <meta name="search-keywords" content="Particles" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>Partículas</h1>
+  <p>Para coisas complexas no <span data-keyref="GameMaker Name">GameMaker</span> você normalmente teria um <a href="../../../../The_Asset_Editors/Objects.htm">objeto</a> e criaria <a href="../../Asset_Management/Instances/Instances.htm">instâncias</a> deste <span class="notranslate">object</span> em torno do <span class="notranslate">room</span>. No entanto, para efeitos gráficos, isto pode ser caro, pois cada instância vem com um &quot;custo&quot; no processamento devido às variáveis que contém e aos códigos que possui nos diferentes eventos. Você pode reduzir este custo recorrendo a <a href="../../../../The_Asset_Editors/Room_Properties/Layer_Properties.htm">camadas de mapas de azulejos</a> e <a href="../../../../The_Asset_Editors/Room_Properties/Layer_Properties.htm">camadas de ativos</a> para desenhar suas necessidades gráficas, mas estas são geralmente estáticas e não podem ser alteradas ou movidas muito. Entretanto, existe uma outra opção para desenhar efeitos gráficos rápidos e versáteis em seus jogos, e que é usar <i>partículas</i>.</p>
+  <p><strong>As partículas </strong>são recursos gráficos que possuem certas propriedades definidas dentro de um <i>sistema de partículas</i>. Estas propriedades não podem ser manipuladas diretamente para partículas individuais, mas são alteradas através do código que é usado para definir a partícula individual e o sistema ao qual ela pertence. Elas são muito úteis para criar efeitos bonitos e cintilantes (ou sutis e discretos!) como explosões, decalques, chuva, neve, campos de estrelas e detritos em um jogo sem a sobrecarga de CPU que o uso de instâncias tem.</p>
+  <p>A configuração básica para um sistema de partículas segue três passos, sendo o terceiro passo opcional, dependendo de como você deseja criar seus efeitos de partícula dentro da sala:</p>
+  <ul class="colour">
+    <li><b>Criar um sistema de partícula</b>: O sistema de partículas é como um recipiente que usaremos para manter nossos diferentes tipos de partículas prontos para uso. Usamos código para definir uma série de aspectos visuais e comportamentos para nossas partículas, e depois as colocamos no &quot;container&quot; para que possamos retirá-las e usá-las quando e onde precisarmos mais tarde.</li>
+    <li><b>Criar tipos de partículas</b>: Os tipos de partícula são o próprio efeito gráfico. Você pode ter muitos tipos diferentes, cada um com sua própria gama de cores, alfas, tamanhos e movimentos, mas é importante notar que você <i>não tem controle sobre as partículas individuais</i>. Você define uma série de parâmetros e a partícula será criada para ter uma distribuição aleatória de comportamentos escolhidos a partir deles.</li>
+    <li><b>Criar emissores</b>: Os emissores são uma opção que pode ser usada para explodir ou emitir partículas a partir de limites muito claramente definidos. Eles são opcionais porque você pode criar partículas a partir de qualquer instância usando o <a href="Particle_Systems/part_particles_create.htm"><span class="inline">part_particles_create()</span></a> e <a href="Particle_Systems/part_particles_create_colour.htm"><span class="inline">part_particles_create_colour()</span></a> mas nem sempre são adequadas para todas as situações.</li>
+  </ul>
+  <p>Embora as partículas sejam uma excelente ferramenta para criar efeitos, elas vêm com certas restrições e boas práticas que precisam ser seguidas, a menos que você queira que seu jogo sofra de mau desempenho ou até mesmo de um possível colapso:</p>
+  <ul class="colour">
+    <li>Os sistemas de partículas, partículas e emissores ocupam a memória e como tal você deve ser muito cuidadoso na forma de usá-los, pois é muito fácil causar um vazamento de memória que irá diminuir a velocidade e, eventualmente, quebrar seu jogo. Uma maneira de lidar com isto é ter um sistema <i>global</i> com tudo definido no início do jogo e removido no final, mas se você quiser um sistema dinâmico então cada partícula e emissor (e o próprio sistema) deve ser destruído no momento em que não for necessário.</li>
+    <li>As partículas podem ser rápidas e leves na CPU, mas ainda requerem <i>algum</i> processamento e, portanto, não se deve ter 40.000 delas estourando pela tela de cada vez. Limite-as àquelas que são necessárias para obter um efeito específico e não mais.</li>
+    <li>Se você definir sua própria partícula <span class="notranslate">sprite</span> em vez de usar uma das 14 incluídas <span class="notranslate">sprites</span>, você deve tentar mantê-las tão pequenas quanto possível para alcançar o efeito desejado.</li>
+    <li>As partículas <i>não</i> interagem com nada. Se você precisar delas para ter qualquer tipo de interação com o usuário ou qualquer outra instância em seu jogo, você deve estar olhando para o uso de instâncias em vez disso, pois as partículas são puramente gráficas.</li>
+    <li>Mesmo que não haja limite técnico para a quantidade de sistemas, emissores e partículas que você pode criar em um jogo, você deve tentar limitar tudo ao mínimo possível para manter o uso da memória o mais baixo possível.</li>
+    <li>Em dispositivos móveis, tome cuidado com as partículas, pois o <i>desenho</i> pode ser lento se cobrir uma grande área da tela (o desenho excessivo em dispositivos móveis é uma das principais causas de desaceleração).</li>
+    <li>Com HTML5 não há mistura aditiva, e a menos que você tenha WebGL habilitado, você também não pode ter mistura de cores.</li>
+  </ul>
+  <p>A maneira mais fácil de criar partículas em seu jogo com o <span data-keyref="GameMaker Name">GameMaker</span> é usar o mecanismo de efeitos embutido. Estes efeitos são criados usando um sistema de partículas interno que é basicamente um método muito rápido para desenhar efeitos gráficos apenas e como tal você não precisa se preocupar com todos os detalhes (como gerenciamento de memória) ao usar estas funções. Você simplesmente especifica o tipo de efeito, a posição onde ele deve ser criado, o tamanho que você quer que ele seja e, finalmente, sua cor e, em seguida, deixa o <span data-keyref="GameMaker Name">GameMaker</span> fazer todo o trabalho.</p>
+  <p>As seguintes funções existem para criar os efeitos de partículas incorporadas:</p>
+  <ul class="colour">
+    <li><a href="effect_create_below.htm"><span class="notranslate">effect_create_below</span></a></li>
+    <li><a href="effect_create_above.htm"><span class="notranslate">effect_create_above</span></a></li>
+    <li><a href="effect_clear.htm"><span class="notranslate">effect_clear</span></a></li>
+  </ul>
+  <p> </p>
+  <p>Embora estes efeitos sejam de escopo e personalização limitados, eles ainda podem ser usados para criar alguns efeitos simples e grandes com muito pouco esforço. Por exemplo, ao criar uma pequena nuvem de fumaça cinza abaixo de um míssil em movimento em cada passo, cria-se um rastro de fumaça bastante convincente, portanto, mesmo quando você é um especialista em partículas, vale a pena lembrar que estes efeitos existem, pois ainda podem lhe poupar algum tempo.</p>
+  <p>Entretanto, o verdadeiro potencial das partículas está em projetar e criar seus próprios efeitos usando as poderosas funções que o <span class="notranslate">GameMaker Language</span> fornece a você. Você pode saber mais em cada uma das seções seguintes:</p>
+  <ul class="colour">
+    <li><a href="Particle_Systems/Particle_Systems.htm"><label for="two">Sistemas de Partículas</label></a></li>
+    <li><a href="Particle_Types/Particle_Types.htm"><label for="three">Tipos de Partículas</label></a></li>
+    <li><a href="Particle_Emitters/Particle_Emitters.htm"><label for="four">Emissores de Partículas</label></a></li>
+  </ul>
+  <p> </p>
+  <p><label for="four">Há também uma seção que lhe dá um guia básico sobre como projetar e criar partículas para seus jogos na página seguinte:</label></p>
+  <ul class="colour">
+    <li><a href="../../../../Additional_Information/Guide_To_Using_Particles.htm">Guia para o uso de partículas</a></li>
+  </ul>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Voltar: <a href="../Drawing.htm">Desenho</a></div>
+        <div style="float:right">A seguir: <a href="../Textures/Textures.htm">Texturas</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright <span class="notranslate">YoYo Games Ltd.</span> 2022 Todos os direitos reservados</span></h5>
+  </div>
+  <!-- KEYWORDS
+Particles
+-->
+  <!-- TAGS
+particle_functions
+-->
+</body>
+</html>

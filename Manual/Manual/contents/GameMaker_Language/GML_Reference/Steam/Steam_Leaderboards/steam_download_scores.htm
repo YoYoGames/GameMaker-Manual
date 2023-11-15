@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>vapor_download_scores</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
+  <script src="../../../../assets/scripts/main_script.js"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Reference page for steam_download_scores" />
+  <meta name="rh-index-keywords" content="steam_download_scores" />
+  <meta name="search-keywords" content="steam_download_scores" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>vapor_download_scores</h1>
+  <p>Esta função é utilizada para recuperar uma gama seqüencial de entradas por ranking de leaderboard. Os parâmetros <tt>start_idx</tt> e <tt>end_idx</tt> controlam o intervalo de classificações solicitado, por exemplo, você pode exibir os 10 primeiros colocados em um quadro de classificação para seu jogo definindo o valor inicial como 1 e o valor final como 10. O nome do quadro de líderes é um <span class="notranslate">string</span> que foi definido quando você criou o quadro de líderes usando a função <a href="steam_create_leaderboard.htm"><tt>steam_create_leaderboard()</tt></a>e a função retornará um valor que pode ser usado para identificar a chamada de retorno no <a href="../../../../The_Asset_Editors/Object_Properties/Async_Events/Steam.htm">Evento Steam Async</a>, ou retornará -1 se tiver falhado. Observe que ao baixar um quadro de líderes, a tecla &quot;entradas&quot; do <a href="../../../GML_Overview/Variables/Builtin_Global_Variables/async_load.htm"><tt>async_load</tt></a> mapa pode ter uma chave de &quot;dados&quot; adicional se algum dado adicional <span class="notranslate">buffer</span> foi carregado junto com a pontuação (ver <a href="steam_upload_score_buffer.htm"><tt>steam_upload_buffer_score_buffer()</tt></a>). Estes dados <span class="notranslate">buffer</span> serão <b>codificados na Base 64</b> e, portanto, você precisará usar a função <a href="../../Buffers/buffer_base64_decode.htm"><tt>buffer_base64_decode()</tt></a> no site <span class="notranslate">buffer</span> antes de ler os dados.</p>
+  <p> </p>
+  <h4>Sintaxe:</h4>
+  <p class="code">steam_download_scores(lb_name, start_idx, end_idx);</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>Argumento</th>
+        <th>Descrição</th>
+      </tr>
+      <tr>
+        <td><span class="notranslate">lb_name</span></td>
+        <td>O nome do quadro de líderes do qual você está baixando as pontuações (a <span class="notranslate">string</span>).</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">start_idx</span></td>
+        <td>A posição inicial dentro da tabela de liderança.</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">end_idx</span></td>
+        <td>A posição final dentro da tabela de liderança.</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>Devoluções:</h4>
+  <p class="code">Real</p>
+  <p> </p>
+  <h4>Exemplo ampliado:</h4>
+  <p>Neste exemplo ampliado, solicitaremos a classificação dos dez primeiros colocados para o ranking e analisaremos seus resultados no <b>Evento Steam Async</b>. para começar, precisamos solicitar as pontuações com o seguinte código:</p>
+  <p class="code">score_get = steam_download_scores(&quot;Game Scores&quot;, 1, 10);</p>
+  <p>Isto enviará uma solicitação ao <span class="notranslate">Steam</span> <span class="notranslate">Server</span> para as pontuações do quadro de líderes &quot;Game Scores&quot;, armazenando a <b>identificação assimétrica</b> da solicitação na variável &quot;score_get&quot;. isto será então tratado no <b>Evento Steam Async</b> da seguinte maneira:</p>
+  <p class="code">var async_id = ds_map_find_value(async_load, &quot;id&quot;);<br />
+    if async_id == score_get<br />
+    {<br />
+        var entries = ds_map_find_value(async_load, &quot;entries&quot;);<br />
+        var map = json_decode(entries);<br />
+        if ds_map_exists(map, &quot;default&quot;)<br />
+        {<br />
+            ds_map_destroy(map);<br />
+            exit;<br />
+        }<br />
+        else<br />
+        {<br />
+            var list = ds_map_find_value(map, &quot;entries&quot;);<br />
+            var len = ds_list_size(list);<br />
+            var entry;<br />
+            for(var i = 0; i &lt; len; i++;)<br />
+            {<br />
+                entry = ds_list_find_value(list, i );<br />
+                steam_name[i] = ds_map_find_value(entry, &quot;name&quot;);<br />
+                steam_score[i] = ds_map_find_value(entry, &quot;score&quot;);<br />
+                steam_rank[i] = ds_map_find_value(entry, &quot;rank&quot;);<br />
+            }<br />
+        }<br />
+        ds_map_destroy(map)<br />
+    }</p>
+  <p>O que fazemos aqui é verificar primeiro a chave &quot;id&quot; do mapa DS especial de <tt>assim-chamada</tt>. Se este valor for o mesmo que o valor da função call-back original (armazenado na variável &quot;score_get&quot;), então continuamos a processar os dados. A primeira coisa que fazemos é analisar o mapa <tt>ds_load assimétrico</tt> para a chave &quot;entradas&quot; que conterá um JSON <span class="notranslate">object</span> contendo os dados do quadro de líderes. Este JSON <span class="notranslate">object</span> é então decodificado (ver <a href="../../File_Handling/Encoding_And_Hashing/json_decode.htm"><tt>json_decode()</tt></a>) como outro mapa DS, e esta nova identificação de mapa é armazenada na variável &quot;mapa&quot;.</p>
+  <p>Este mapa é verificado quanto à chave &quot;padrão&quot; e se esta for encontrada, então o mapa é destruído e o evento é encerrado. Se nenhuma chave &quot;padrão&quot; for encontrada, o código então analisará o mapa para extrair as informações necessárias sobre o quadro de líderes, primeiro extraindo uma lista DS da chave &quot;entradas&quot; do mapa DS, e depois fazendo um looping por cada entrada da lista para obter <i>outro</i> mapa DS com o nome, pontuação e classificação de cada entrada. Estes valores são então armazenados em arrays.</p>
+  <p>Uma vez terminado o <span class="notranslate">loop</span>, o mapa do JSON DS é destruído (que por sua vez destrói todos os mapas e listas internas). Não há necessidade de destruir o mapa DS <tt>async_load</tt>, pois este é tratado para você por <span class="notranslate">GameMaker Studio 2</span>.</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Voltar: <a href="Steam_Leaderboards.htm">Painéis de Liderança</a></div>
+        <div style="float:right">A seguir: <a href="steam_download_scores_around_user.htm"><span class="notranslate">steam_download_scores_around_user</span></a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright <span class="notranslate">YoYo Games Ltd.</span> 2022 Todos os direitos reservados</span></h5>
+  </div>
+  <!-- KEYWORDS
+steam_download_scores
+-->
+  <!-- TAGS
+steam_download_scores
+-->
+</body>
+</html>

@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Arrays</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../assets/css/default.css" type="text/css" />
+  <script src="../../assets/scripts/main_script.js"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Page outlining Arrays" />
+  <meta name="rh-index-keywords" content="Arrays" />
+  <meta name="search-keywords" content="Arrays" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>Arrays</h1>
+  <p>As matrizes podem ser extremamente úteis e são uma parte essencial da criação de jogos. É essencialmente um tipo de variável que pode conter múltiplos valores como uma &quot;lista&quot; -- considere o seguinte código:</p>
+  <p class="code">numbers = [ 0, 1, 2, 3, 4, 5 ];<br />
+    <br />
+    fruits = [ &quot;Apples&quot;, &quot;Oranges&quot;, &quot;Mangoes&quot; ];
+  </p>
+  <p>Usando a sintaxe <span class="inline2">[item, item, item]</span> estamos criando uma matriz que é armazenada em uma variável. Os itens armazenados em um array podem ser acessados posteriormente através dessa variável usando um número inteiro, começando em <span class="inline">0</span>, que é colocado dentro de <span class="inline2">[]</span> colchetes:</p>
+  <p class="code">first_fruit = fruits[ 0 ];<br />
+    second_fruit = fruits[ 1 ];<br />
+    // ...and so on.</p>
+  <p><label for="aone">Uma matriz básica é classificada como tendo uma <strong>dimensão</strong>, mas você pode ter matrizes com mais de uma dimensão também. As seções abaixo explicam os dois tipos de arrays:</label></p>
+  <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down1" href="#">Matrizes 1-Dimensionais</a></p>
+  <div class="droptext" data-targetname="drop-down1">
+    <p class="dropspot">Antes de ir mais longe, vamos esclarecer o que é realmente uma matriz e como está estruturada. Um array é simplesmente um <a href="Data_Types.htm">tipo de dado</a> que é atribuído a uma variável, e pode conter não apenas um valor, mas vários valores. A imagem abaixo mostra um esquema para um array básico:</p>
+    <p class="dropspot"><img class="center" src="../../assets/Images/Scripting_Reference/GML/Overview/1DArrayExample.png" /></p>
+    <p class="dropspot">Isto é chamado de matriz <strong>1D</strong> (unidimensional), e como você pode ver a matriz é armazenada na variável &quot;<span class="inline">a</span>&quot; e contém vários valores. Para acessar o array, você faria algo como o seguinte:</p>
+    <p class="code">var _val = a[0];<br />
+      show_debug_message(_val);</p>
+    <p class="dropspot">O código acima obtém o valor da posição 0 da matriz &quot;<span class="inline">a</span>&quot; e então o envia para o console, que - com base no conteúdo da matriz mostrada na imagem acima - sairia 125. Se você fizesse o seguinte:</p>
+    <p class="code">var _val = a[3];<br />
+      show_debug_message(_val);</p>
+    <p class="dropspot">A saída mostraria &quot;Olá!&quot;.</p>
+    <p class="dropspot">Como você pode ver, você dá à matriz um nome de variável e depois um valor entre colchetes <span class="inline">[]</span>, onde o valor é a posição na matriz para obter os dados. Portanto, essencialmente, um array é um container com um número de slots para armazenar valores, e cada posição no container tem um número específico para identificá-lo, que é o que colocamos no <span class="inline">[]</span>. Vale notar que o conteúdo de um array <b>sempre começa em 0</b> e <i>nunca</i>pode <i>ser negativo</i><em>!</em></p>
+    <h3 class="dropspot">       Criando matrizes</h3>
+    <p class="dropspot">Mostramos como verificar uma matriz de dados, mas como criar a matriz para começar? Primeiro é preciso <i>inicializá-lo</i> antes de podermos usá-lo ou o <span data-keyref="GameMaker Name">GameMaker</span> nos dará um erro. Inicializar um array significa apenas que damos a cada slot do array um valor inicial em preparação para que ele seja usado em outro lugar no código do projeto. Isto é importante lembrar, pois significa que você tem que fazer uma certa quantidade de planejamento antes de usar arrays, mas é suficientemente fácil inicializar um usando uma repetição <span class="notranslate">loop</span> como esta:</p>
+    <p class="code">var i = 9;<br /><br />
+      repeat(10)<br />
+      {<br />
+          array[i] = 0;<br />
+          i -= 1;<br />
+      }</p>
+    <p class="dropspot">Este código simples inicializará uma matriz de dez ranhuras (de 0 a 9) para manter 0, ou seja: cada ranhura na matriz contém o valor 0. Você notará que o array foi inicializado <i>ao contrário</i>, com o último valor sendo definido primeiro. Isto não é estritamente necessário, mas é a forma ideal de fazê-lo, pois reservará um espaço na memória que é o tamanho exato do array, enquanto que se você inicializar um array de 0 <em>para cima</em>, a memória terá que ser realocada para cada valor adicional adicionado (assim, para um array de dez slots, inicializando-o em um <span class="notranslate">loop</span> mudaria a alocação da memória dez vezes). A diferença de velocidade é insignificante para arrays menores, mas os maiores devem ser otimizados o máximo possível desta forma.</p>
+    <p class="note"><b>NOTA</b>: A exportação HTML5 é a exceção à regra acima, e quando o alvo deve ser a inicialização de matrizes em ordem consecutiva de 0 para cima.</p>
+    <p class="dropspot">Você também pode usar a função <span class="notranslate">GML</span> <a href="../GML_Reference/Variable_Functions/array_create.htm"><span class="inline">array_create()</span></a> para inicializar uma matriz com um tamanho fixo, e você pode até criar matrizes &quot;vazias&quot; <em>sem</em> valores, por exemplo:</p>
+    <p class="code">my_array = [];</p>
+    <p class="dropspot">Isto diz a <span class="notranslate">GameMaker</span> que a variável &quot;<span class="inline">my_array</span>&quot; é um array, e você pode então <a href="../GML_Reference/Variable_Functions/array_push.htm">adicionar valores</a> a ela a qualquer momento no futuro. Entretanto, se você tentar acessar um valor em um array vazio, então você receberá um erro.<br></p>
+    <p class="dropspot">Se você já sabe quais itens deseja colocar na matriz, você pode adicionar valores separados por vírgulas entre os parênteses ao declarar a matriz:</p>
+    <p class="code">my_array = [&quot;Steve&quot;, 36, &quot;ST-3V3 - Steve Street&quot;];</p>
+    <h3 class="dropspot">       Limites da matriz</h3>
+    <p class="dropspot">Você deve sempre tomar cuidado para acessar apenas posições válidas de matriz, pois tentar acessar um valor fora de uma matriz também dará um erro. Por exemplo, isto causará o colapso do projeto quando executado:</p>
+    <p class="code">my_array = array_create(5, 0);<br />
+      var _val = my_array[6];</p>
+    <p class="dropspot">A matriz foi iniciada apenas com 5 posições, mas tentamos obter a posição 7 - já que as matrizes são numeradas a partir de 0, <span class="inline">array[6]</span> é a posição 7 - portanto o jogo gera um erro e cai.</p>
+    <h3 class="dropspot">       Usando Arrays</h3>
+    <p class="dropspot">Agora, como usamos uma matriz praticamente? Exatamente o mesmo que usaríamos uma variável normal, como mostrado nos exemplos a seguir:</p>
+    <p class="code">// Add two array values together<br />
+      total = array[0] + array[5];<br />
+      <br />
+      // Check an array value<br />
+      if array[9] == 10<br />
+      {<br />
+          // Do something<br />
+      }<br />
+      <br />
+      // Draw an array value<br />
+      draw_text(32, 32, array[3]);
+    </p>
+    <p class="dropspot">Como as arrays são numeradas sequencialmente, isto significa que você pode <span class="notranslate">loop</span> através delas para realizar ações extras também, assim como fizemos para inicializá-las:</p>
+    <p class="code">var total = 0;<br />
+      <br />
+      for (var i = 0; i &lt; 10; ++i)<br />
+      {<br />
+          total += array[i];<br />
+          draw_text(32, 32 + (i * 32), array[i]);<br />
+      }<br />
+      <br />
+      draw_text(32, 32 + (i * 32), total);
+    </p>
+    <p class="dropspot">O código acima somará todos os valores em nossa matriz, desenhará cada um deles e então desenhará o valor total no final.</p>
+    <h3 class="dropspot">       Eliminação de matrizes</h3>
+    <p class="dropspot">A última coisa a mencionar sobre arrays é que você pode apagar um array simplesmente &quot;reatribuindo&quot; a variável que o define a um único valor. Isto liberará a memória associada a todas as posições e valores para aquela matriz. Por exemplo:</p>
+    <p class="code">// Create an array<br />for (var i = 9; i &gt; -1; --i)<br />
+      {<br />
+          a[i] = i;<br />
+      }<br />
+      <br />
+      // Delete the array<br />
+      a = -1;
+    </p>
+    <p class="dropspot">Se a matriz tiver várias dimensões (veja abaixo), todas elas serão limpas também, e note que quando você cria matrizes em instâncias, estas não precisam ser limpas quando a instância é removida do jogo, pois serão removidas automaticamente pelo <a class="glossterm" data-glossterm="catador de lixo" href="#">coletor de lixo</a> no Destroy ou <span class="notranslate">Room</span> End. Entretanto, se qualquer uma das posições da array possuir referências a ativos <em>dinâmicos</em>, como sistemas de partículas, <span class="notranslate">buffers</span>, ou estruturas de dados <em>,</em> então estas precisarão ser destruídas antes que a array seja apagada, a instância seja destruída ou o <span class="notranslate">room</span> termine.</p>
+    <p class="dropspot"> </p>
+  </div>
+  <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down2" href="#">Matrizes Multi-Dimensionais</a></p>
+  <div class="droptext" data-targetname="drop-down2">
+    <p class="dropspot"><span style="text-align: justify;">Agora sabemos o que é uma matriz unidimensional, mas no <span data-keyref="GameMaker Name">GameMaker</span> você pode ter matrizes com múltiplas dimensões, que são essencialmente estruturadas como uma matriz dentro de uma matriz dentro de uma matriz... Por exemplo, o que se segue é uma matriz <strong>2D</strong> (bidimensional):</span></p>
+    <p class="code">array[0][0] = 5;</p>
+    <p class="dropspot">Isto é essencialmente revelador <span class="notranslate">GameMaker</span> que a matriz é na verdade composta de várias matrizes 1D. Aqui está um exemplo estendido:</p>
+    <p class="code">array<strong>[0]</strong>[0] = 0;<br />
+      array<strong>[0]</strong>[1] = 1;<br />
+      array<strong>[0]</strong>[2] = 2;<br />
+      <br />
+      array<strong>[1]</strong>[0] = 3;<br />
+      array<strong>[1]</strong>[1] = 4;<br />
+      <strong></strong>array<strong>[1]</strong>[2] = 5;
+    </p>
+    <p class="dropspot">No código acima, <span class="inline">array[0]</span> contém outra matriz, assim como <span class="inline">array[1]</span>.</p>
+    <p class="dropspot">Um array multidimensional precisa ser inicializado antes do uso, o mesmo que um array 1D, e pode conter números reais, <span class="notranslate">strings</span>, e qualquer outro <a href="Data_Types.htm">tipo de dados</a>, como qualquer variável, tornando-os candidatos ideais para qualquer jogo que precisa armazenar grandes quantidades de dados de forma facilmente acessível (lembre-se, você pode <span class="notranslate">loop</span> através de um array facilmente).</p>
+    <p class="dropspot">Você também pode inicializar uma matriz multidimensional dentro de uma declaração, aninhando matrizes uni-dimensionais:</p>
+    <p class="code">two_dimensional_array = <br />
+      [<br />
+          [&quot;Apple&quot;, 10, 2],<br />
+          [&quot;Orange&quot;, 5, 2],<br />
+          [&quot;Mango&quot;, 15, 4],<br />
+          // ...and so on.<br />
+      ]</p>
+    <p class="dropspot">As matrizes multidimensionais também não estão limitadas a <em>apenas </em>duas dimensões, e você pode ter 3, 4 ou mais dimensões para uma matriz, como exigido em seu código, apenas adicionando <span class="inline">[n]</span> argumentos adicionais, por exemplo:</p>
+    <p class="code">array[0][0][0] = 1;     // A three dimensional array<br />
+      array[0][0][0][0] = 1;  // A four dimensional array<br />
+      // etc...</p>
+    <p class="dropspot">Deve-se notar também que o comprimento de cada dimensão em uma matriz pode ser diferente, de modo que você pode ter a dimensão inicial da matriz com um comprimento de 3, mas a segunda dimensão pode ter um comprimento diferente para cada fenda na primeira dimensão; por exemplo:</p>
+    <p class="code">array[2][2] = &quot;3&quot;;<br />
+      array[2][1] = &quot;2&quot;;<br />
+      array[2][0] = &quot;1&quot;;<br />
+      <br />
+      array[1][3] = &quot;four&quot;;<br />
+      array[1][2] = &quot;three&quot;;<br />
+      array[1][1] = &quot;two&quot;;<br />
+      array[1][0] = &quot;one&quot;;<br />
+      <br />
+      array[0][1] = 2;<br />
+      array[0][0] = 1;
+    </p>
+    <p class="dropspot">No código acima, <span class="inline">array[0]</span> tem 2 slots, <span class="inline">array[1]</span> tem 4 slots e <span class="inline">array[2]</span> tem 3 slots.</p>
+    <h3 class="dropspot">       Exemplo ampliado</h3>
+    <p class="dropspot">Aqui está um último exemplo de como isto pode ser usado em um jogo real: Digamos que você queira desovar quatro inimigos diferentes em quatro pontos diferentes do seu jogo, dependendo de um valor aleatório. Bem, podemos usar uma matriz com 2 dimensões para fazer isso e economizar a escrita de um monte de código.</p>
+    <p class="dropspot">Primeiro devemos inicializar o array que vamos usar no evento Create do nosso &quot;controlador&quot; <span class="notranslate">object</span> (observe o uso de comentários para lembrá-lo do que cada entrada de array faz):</p>
+    <p class="code">enemy[3][2] = 448;       //y position<br />
+      enemy[3][1] = 32;        //x position<br />
+      enemy[3][0] = obj_Slime; //Object<br />
+      enemy[2][2] = 448;<br />
+      enemy[2][1] = 608;<br />
+      enemy[2][0] = obj_Skeleton;<br />
+      enemy[1][2] = 32;<br />
+      enemy[1][1] = 608;<br />
+      enemy[1][0] = obj_Knight;<br />
+      enemy[0][2] = 32;<br />
+      enemy[0][1] = 32;<br />
+      enemy[0][0] = obj_Ogre;</p>
+    <p class="dropspot">Agora temos o <span class="notranslate">objects</span> para desovar instâncias e suas correspondentes coordenadas x e y dentro do <span class="notranslate">room</span>, todas armazenadas em nossa matriz. Isto agora pode ser usado da seguinte forma em outro evento do controlador <span class="notranslate">object</span> (um alarme, por exemplo, ou um evento de imprensa de tecla):</p>
+    <p class="code">//get a random number from 0 to 3, inclusive<br />
+      var i = irandom(3);<br />
+      <br />
+      //Use the array to create the object<br />
+      instance_create_layer(enemy[i][1], enemy[i][2], &quot;Enemy_Layer&quot;, enemy[i][0]);
+    </p>
+    <p class="dropspot">Esse código curto agora vai gerar um inimigo aleatório no jogo <span class="notranslate">room</span>, e usa muito menos código do que uma estrutura &quot;<span class="inline">if / then / else</span>&quot; ou mesmo uma &quot;<span class="inline">switch</span>&quot;, e como o array é inicializado todo junto no evento de criação é MUITO mais fácil de editar e alterar qualquer um desses valores, já que eles não são <a class="glossterm" data-glossterm="codificado em código duro" href="#">codificados</a> no resto do código do projeto.</p>
+  </div>
+  <p> </p>
+  <h2>Arrays como Argumentos Funcionais</h2>
+  <p>Você pode passar arrays em <a href="Script_Functions.htm">funções de script</a> e <a href="Method_Variables.htm">variáveis de método</a> como argumentos, e modificar esses arrays em qualquer lugar dentro da função. Fazendo isso, as matrizes originais também serão modificadas.</p>
+  <p>Por exemplo, esta função simplesmente muda os três primeiros elementos da matriz passados para ela:</p>
+  <p class="code">modify_array = function (array)<br />
+    {<br />
+        array[0] = 2;<br />
+        array[1] = 4;<br />
+        array[2] = 6;<br />
+    }</p>
+  <p>Agora você pode criar uma matriz e passá-la para esta função, que modificará a matriz:</p>
+  <p class="code">my_array = [100, 4, 214];<br />
+    <br />
+    modify_array(my_array);<br />
+    <br />
+    show_debug_message(my_array); // Prints [2, 4, 6];
+  </p>
+  <p>Nas versões anteriores <span class="notranslate">GameMaker</span>, este não era o caso, pois modificar uma matriz dentro de uma função criaria uma cópia em seu lugar. Este comportamento <em>depreciado</em> ainda pode ser ativado se desejado: leia a seção &quot;<strong>Copy on Write</strong>&quot; abaixo para mais informações.</p>
+  <h2 id="h">Cópia em Write</h2>
+  <p>O comportamento de Cópia na Escrita é depreciado, e só é usado quando &quot;<strong>Habilitar o comportamento de Cópia na Escrita para Arrays</strong>&quot; está habilitado nas <a href="../../Settings/Game_Options.htm">Opções Gerais de Jogo</a>. Esta seção descreve o comportamento dos arrays quando esta opção é ativada.</p>
+  <p>Como descrito na seção anterior, as arrays podem ser passadas para funções como argumentos. Para fazer isso, basta especificar a variável de matriz (não é necessário para cada uma das posições individuais, nem os colchetes <span class="inline">[]</span> ) e toda a matriz será <b>passada por referência</b> para a função:</p>
+  <p class="code">my_array = [1, 2, 4, 8, 16];<br />
+    <br />
+    do_something(my_array);
+  </p>
+  <p>Entretanto, quando a função <strong>Copy on Write</strong> é ativada, a alteração de qualquer valor da matriz dentro da função cria uma cópia temporária com suas modificações. A matriz original não é modificada. Este comportamento é chamado de Copy on Write (Cópia por escrito).</p>
+  <p>Para modificar realmente a matriz original que foi passada para a função, você deve devolvê-la, ou usar o acessor <span class="inline">@</span>.</p>
+  <p>Por exemplo, a função chamada acima, <span class="inline2">do_something()</span>, pode fazer algo simples como isto:</p>
+  <p class="code">do_something = function(array)<br />
+    {<br />
+        array[1] = 200;<br />
+    }</p>
+  <p>Agora você esperaria que <span class="inline2">meu_array</span> mantenha os valores <span class="inline2">1, 200, 4</span>, etc., o que normalmente seria correto -- mas quando <strong>Copy on Write</strong> está habilitado, o array original permanece inalterado.</p>
+  <p>Para contornar isso, você pode fazer a função <strong>retornar</strong> a cópia da matriz modificada e, em seguida, aplicá-la de volta à variável original:</p>
+  <p class="code">my_array = [1, 2, 4, 8, 16];<br />
+    <br />
+    my_array = do_something(my_array);
+  </p>
+  <p>A própria função devolveria a matriz modificada de volta:</p>
+  <p class="code">do_something = function(array)<br />
+    {<br />
+        array[1] = 200;<br />
+    <br />
+        return array;<br />
+    }
+  </p>
+  <p class="note"><span class="note">NOTA</span><b> </b>O código acima não é necessário se você não estiver alterando nenhum dos valores da matriz, mas sim fazendo referência a eles. A referência a um array não irá copiá-lo e será mais rápida para analisá-lo.</p>
+  <p>A segunda solução é usar o acessor <span class="inline">@</span> para alterar diretamente os valores da matriz, o que poupa a sobrecarga da CPU de ter que fazer uma cópia temporária. Isto significa que você não precisa devolver o array da função e pode editá-lo diretamente:</p>
+  <p class="code">do_something = function(array)<br />
+    {<br />
+        array[@ 1] = 200;<br />
+    }</p>
+  <p>O uso deste acessor evita o comportamento do Copy on Write e modifica diretamente a matriz referenciada. Isto pode ser usado para desativar seletivamente a opção Copy on Write para declarações específicas, mantendo a opção ativada.</p>
+  <p>Mais uma vez, tudo isso não é necessário se a opção <strong>Copiar na Gravação</strong> estiver <strong>desativada</strong> (que é a opção padrão e recomendada).</p>
+  <p>Descubra mais informações sobre acessores e como eles funcionam, juntamente com um exemplo de arrays, na página seguinte:</p>
+  <ul class="colour">
+    <li><a href="Accessors.htm">Accessors</a></li>
+  </ul>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Voltar: <a href="GML_Overview.htm">Visão geral da GML</a></div>
+        <div style="float:right">A seguir: <a data-xref="{title}" href="Structs.htm">Estruturas e Construtores</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright <span class="notranslate">YoYo Games Ltd.</span> 2022 Todos os direitos reservados</span></h5>
+  </div>
+  <!-- KEYWORDS
+Arrays
+passing arrays to scripts
+deleting arrays
+-->
+  <!-- TAGS
+arrays
+-->
+</body>
+</html>

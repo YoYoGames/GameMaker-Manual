@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Chaves virtuais e teclados virtuais</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
+  <script src="../../../../assets/scripts/main_script.js"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Reference section for Virtual Keys And Virtual Keyboards" />
+  <meta name="rh-index-keywords" content="" />
+  <meta name="search-keywords" content="Virtual Keys And Virtual Keyboards,Virtual Keyboard,Virtual Key" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>Chaves virtuais e teclados virtuais</h1>
+  <p><b></b>Ao desenvolver jogos para dispositivos touchscreen, muitas vezes é importante obter a entrada do teclado por parte do usuário. Ao utilizar <span data-keyref="GameMaker Name">o GameMaker</span>, isto pode ser feito de uma de duas maneiras:</p>
+  <ul class="colour">
+    <li>Crie suas próprias <b>chaves virtuais</b> na tela para receber entrada</li>
+    <li>Abrir o <b>teclado virtual</b> do sistema operacional e obter informações a partir dele.</li>
+  </ul>
+  <p>O que você usa dependerá muito do jogo e do que você precisa, mas em geral você usaria teclas virtuais quando quiser ter botões na tela para controle do jogador ou para menus, enquanto você usaria o teclado virtual quando precisar da entrada do jogador, como obter um nome ou definir um valor.</p>
+  <p>Para que seus jogos funcionem corretamente em dispositivos móveis com tela sensível ao toque, talvez seja necessário atribuir áreas da tela para responder a certas coisas quando elas são tocadas pelo usuário. Isto é feito atribuindo uma &quot;chave virtual&quot; a uma chave de teclado padrão mapeada internamente e depois usando os eventos de teclado que eles geram para controlar sua aplicação. Vale notar que estas &quot;teclas virtuais&quot; são mapeadas para a posição da <i>tela</i> em vez da posição <span class="notranslate">room</span> e, portanto, os valores x/y são absolutos, com base no tamanho da tela. Isto significa que você não precisa se preocupar com o uso das vistas ou das coordenadas relativas <span class="notranslate">room</span>, e pode simplesmente definir as teclas no Create Event of an <span class="notranslate">object</span> (você só precisa definir uma tecla virtual uma vez por sala), depois desenhe sua tecla <span class="notranslate">sprites</span> no <a href="../../../../The_Asset_Editors/Object_Properties/Draw_Events.htm">Draw GUI Event</a>, dimensionando a camada GUI para ser a mesma que a tela.</p>
+  <p class="note"><b><span class="note">NOTA</span> </b>Estas funções não funcionarão no <span class="notranslate">Windows</span>, <span class="notranslate">Ubuntu</span> (<span class="notranslate">Linux</span>), nem no MacOS, plataformas alvo usando uma tela sensível ao toque, embora recebam cliques de mouse como &quot;toques&quot;.</p>
+  <p class="note"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> Estas funções são suportadas nos alvos HTML5 e Opera GX.</p>
+  <p>As funções-chave virtuais disponíveis são:</p>
+  <ul class="colour">
+    <li><a href="virtual_key_add.htm"><span class="notranslate">virtual_key_add</span></a></li>
+    <li><a href="virtual_key_show.htm"><span class="notranslate">virtual_key_show</span></a></li>
+    <li><a href="virtual_key_hide.htm"><span class="notranslate">virtual_key_hide</span></a></li>
+    <li><a href="virtual_key_delete.htm"><span class="notranslate">virtual_key_delete</span></a></li>
+  </ul>
+  <p> </p>
+  <p>Se você precisar de texto ou entrada numérica em seu jogo em um dispositivo touchscreen, então você pode usar as funções de <b>teclado virtual</b> fornecidas para usar o teclado do SO do dispositivo. Estas funções chamarão ou ocultarão o teclado do SO e aceitarão a entrada dele, porém ele <i>não</i> acionará os eventos regulares do teclado, mas atualizará a variável <span class="inline"><a href="../Keyboard_Input/keyboard_string.htm">keyboard_string</a></span> com a entrada do usuário (isto se deve ao fato de que o teclado virtual pode inserir palavras inteiras e não apenas caracteres individuais).</p>
+  <p>A abertura ou fechamento do teclado virtual irá gerar <a href="../../../../The_Asset_Editors/Object_Properties/Async_Events.htm">Eventos Assíncronos do Sistema</a>, nos quais o <a href="../../../GML_Overview/Variables/Builtin_Global_Variables/async_load.htm"><span class="inline">async_load</span></a> O mapa DS será preenchido com os seguintes pares chave/valor:</p>
+  <ul class="colour">
+    <li>&quot;<b>event_type</b>&quot; - o tipo de evento do sistema recebido, que será o &quot;<b>status do teclado virtual</b>&quot; para teclados virtuais.</li>
+    <li>&quot;<b>screen_height</b>&quot; - a altura do teclado virtual (em pixels). Esta será 0 se o teclado for invisível.</li>
+    <li>&quot;<b>keyboard_status</b>&quot; - o status atual do teclado, retornado como uma das seguintes seqüências:
+      <ul class="colour">
+        <li>&quot;escondido&quot;.</li>
+        <li>&quot;oculto&quot;.</li>
+        <li>&quot;mostrando&quot;</li>
+        <li>&quot;visível&quot;.</li>
+      </ul>
+    </li>
+  </ul>
+  <p>As funções de teclado virtual disponíveis são:</p>
+  <p class="note"><b><span class="note">NOTA</span> </b>Estas funções são válidas apenas para as plataformas alvo <strong>Android</strong> (incluindo <strong>AndroidTV</strong>), <strong>iOS </strong>(incluindo <strong>tvOS</strong>), e <strong>UWP </strong>.</p>
+  <ul class="colour">
+    <li><a href="keyboard_virtual_show.htm"><span class="notranslate">keyboard_virtual_show</span></a></li>
+    <li><a href="keyboard_virtual_hide.htm"><span class="notranslate">keyboard_virtual_hide</span></a></li>
+    <li><a href="keyboard_virtual_status.htm"><span class="notranslate">keyboard_virtual_status</span></a></li>
+    <li><a href="keyboard_virtual_height.htm"><span class="notranslate">keyboard_virtual_height</span></a></li>
+  </ul>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Voltar: <a href="../Game_Input.htm">Entrada de jogo</a></div>
+        <div style="float:right">A seguir: <a href="../Keyboard_Input/Keyboard_Input.htm">Entrada de Teclado</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright <span class="notranslate">YoYo Games Ltd.</span> 2022 Todos os direitos reservados</span></h5>
+  </div>
+  <!-- KEYWORDS
+Virtual Keys
+Virtual Keyboards
+Virtual Keys And Keyboards
+-->
+  <!-- TAGS
+virtual_key_functions
+-->
+</body>
+</html>

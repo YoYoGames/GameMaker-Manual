@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <title>Criar um jogo multiplayer</title>
+  <meta name="topic-status" content="Draft" />
+  <link rel="stylesheet" type="text/css" href="../../../assets/css/default.css" />
+  <script src="../../../assets/scripts/main_script.js"></script>
+  <meta name="rh-authors" content="Gurpreet S. Matharoo" />
+  <meta name="topic-comment" content="Follow this tutorial to make your first multiplayer game" />
+  <meta name="template" content="../../../assets/masterpages/Manual_Page.htt" />
+  <meta name="condition-tags" content="Export:Beta" />
+</head>
+<body>
+  <h1>Criar um jogo multiplayer</h1>
+  <p class="note">Esta página o levará através dos passos detalhados para criar seu primeiro jogo multiplayer.<br>
+    <br>
+    Para obter informações sobre o sistema Rollback, leia <a data-xref="{title}" href="Rollback_System.htm">Sistema Rollback</a>.<br>
+    <br>
+    Para obter detalhes sobre todas as funções Rollback, leia <a data-xref="{title}" href="Rollback_Functions/Rollback_Functions.htm">Funções Rollback</a>.
+  </p>
+  <h2>Montagem do projeto</h2>
+  <p>Inicie um novo projeto, e crie um <span class="notranslate">sprite</span> para seu jogador <span class="notranslate">object</span>. Você pode importar uma imagem ou simplesmente criar um quadrado preenchido.</p>
+  <p>Criar dois objetos:</p>
+  <ul class="colour">
+    <li><strong>obj_game</strong>: Isto irá administrar seu jogo multiplayer.</li>
+    <li><strong>obj_player</strong>: Este será seu verdadeiro jogador <span class="notranslate">object</span>. Cada jogador conectado terá sua própria instância deste <span class="notranslate">object</span> que ele pode controlar.<br>
+      <br>
+      Atribua seu jogador <span class="notranslate">sprite</span> ao jogador <span class="notranslate">object</span>.
+    </li>
+  </ul>
+  <p><img class="center_shadow" height="220" src="../../../assets/Images/Scripting_Reference/GML/Reference/Rollback/rollback_assets.png" width="196" /></p>
+  <p>Vá em frente e coloque <strong>obj_game</strong> em um <span class="notranslate">room</span>. <strong>Não</strong> coloque <strong>obj_player</strong>, pois ele será criado automaticamente.</p>
+  <h2>Começando o jogo</h2>
+  <p>Adicione o evento Create ao <strong>obj_game</strong>, e escreva o seguinte código no mesmo:</p>
+  <p class="note"><span class="note">OBSERVAÇÃO</span> Se você estiver usando <span class="notranslate">GML</span> Visual, use as <a href="../../../Drag_And_Drop/Drag_And_Drop_Reference/Rollback/Rollback_Actions.htm">ações Rollback</a> correspondentes.</p>
+  <p class="code">rollback_define_player(obj_player);<br />
+    <br />
+    var _joined = rollback_join_game();<br />
+    <br />
+    if (!_joined)<br />
+    {<br />
+        rollback_create_game(2);<br />
+    }
+  </p>
+  <p>Primeiro define o jogador <span class="notranslate">object</span> a usar, e tenta se juntar a um jogo usando <a href="Rollback_Functions/rollback_join_game.htm"><span class="inline">rollback_join_game()</span></a>. Esta função retorna <span class="inline">true</span> se o sistema encontrou um jogo para entrar (o que significa que você está na URL correta).</p>
+  <p>Se o jogo não pôde ser juntado, ele retorna <span class="inline">false</span>. Quando o valor retornado é <span class="inline">false</span>, chamamos <a href="Rollback_Functions/rollback_create_game.htm"><span class="inline">rollback_create_game()</span></a> para hospedar nosso próprio jogo. Aí especificamos que o jogo deve permitir um máximo de 2 jogadores.</p>
+  <p class="note"><span class="note">OBSERVAÇÃO</span> No momento, você só pode criar jogos para até 4 jogadores.</p>
+  <p>O código acima criará duas instâncias de <strong>obj_player</strong> no canto superior esquerdo do <span class="notranslate">room</span>, mas elas ainda não serão controláveis.</p>
+  <p><img class="center_shadow" height="335" src="../../../assets/Images/Scripting_Reference/GML/Reference/Rollback/rollback_player_spawned.png" width="447" /></p>
+  <h2>Jogadores em movimento</h2>
+  <p>A entrada é gerenciada pelo sistema Rollback e sincronizada automaticamente entre os jogadores.</p>
+  <p>Em seu player <span class="notranslate">object</span>, ligue para <span class="inline"><a href="Rollback_Functions/rollback_get_input.htm">rollback_get_input()</a></span> para obter um <span class="notranslate">struct</span> contendo todas as entradas padrão, que são as seguintes:</p>
+  <p class="note"><span class="inline"><strong>left</strong>, <strong>right</strong>, <strong>up</strong>, <strong>down</strong>, <strong>Z</strong>, <strong>X</strong>, <strong>C</strong>, <strong>space</strong></span><br>
+    <br>
+    <em>Estes indicam se a chave é mantida.</em> <span class="inline">*<strong>_pressed</strong></span> <em>e </em><span class="inline">*<strong>_released</strong></span> <em>variantes também são fornecidas.</em>
+  </p>
+  <p>Para definir seus próprios inputs, consulte <a data-xref="{title}" href="Defining_Inputs.htm">Definindo os Inputs</a>.</p>
+  <p>Agora, configure o jogador com o seguinte código em seus eventos Create e Step:</p>
+  <p class="code">// Create Event<br />
+    move_speed = 5;<br />
+    <br />
+    // Step Event<br />
+    var _input = rollback_get_input();<br />
+    <br />
+    if (_input.left) x -= move_speed;<br />
+    if (_input.right) x += move_speed;<br />
+    if (_input.up) y -= move_speed;<br />
+    if (_input.down) y += move_speed;
+  </p>
+  <p>Isto configura uma variável com a velocidade do jogador, e no evento Step, recebe a entrada <span class="notranslate">struct</span>.</p>
+  <p>Com base em cada tecla de seta pressionada, ele move a instância no eixo correspondente, por exemplo, pressionando à esquerda reduz o X, pressionando para cima reduz o Y, e assim por diante.</p>
+  <h2>Localizações dos jogadores</h2>
+  <p>Antes de testarmos, vamos garantir que os jogadores sejam criados em locais específicos, em vez de desovar no canto superior esquerdo do <span class="notranslate">room</span>.</p>
+  <p>No evento Create of your player <span class="notranslate">object</span>, escreva isto:</p>
+  <p class="code">if (player_id == 0)<br />
+    {<br />
+        x = 300;<br />
+    }<br />
+    else if (player_id == 1)<br />
+    {<br />
+        x = room_width - 300;<br />
+    }<br />
+    <br />
+    y = room_height / 2;
+  </p>
+  <p><span class="inline"><a data-xref="{title}" href="Rollback_Variables/player_id.htm">player_id</a></span> é uma variável de instância embutida que armazena a identificação da instância do jogador.</p>
+  <p>Como nosso jogo tem dois jogadores, nosso primeiro jogador terá o ID <strong>0</strong>, e o segundo jogador terá o ID <strong>1</strong>.</p>
+  <p>Com base nisso, estamos mudando a posição inicial X do jogador. A posição Y é a mesma para ambos.</p>
+  <p>Agora, dirija o jogo, e você verá os dois jogadores, onde poderá controlar o primeiro:</p>
+  <p><video class="center" src="../../../assets/Images/Scripting_Reference/GML/Reference/Rollback/rollback_two_players_synctest.mp4" width="856" height="420" controls="" align="center"></video></p>
+  <p>O segundo jogador está se movendo erraticamente por si só, o que é uma característica do sistema Rollback. Ele fornece automaticamente valores aleatórios a cada frame para todas as entradas definidas, como uma forma básica de teste para seu jogo.</p>
+  <p>Você pode desativar o movimento aleatório automático, chamando <a href="Rollback_Functions/rollback_use_random_input.htm"><span class="inline">rollback_use_random_input(false)</span></a>ou <a href="Defining_Inputs.htm#h1">criar sua própria entrada de &quot;mock&quot;</a> para o outro jogador.</p>
+  <h2>Conexão on-line</h2>
+  <p>Seu exemplo básico multiplayer está completo, e está pronto para ser levado para a internet.</p>
+  <p>Por padrão, o sistema começa no modo <strong>Sync Test</strong>, que é como você testa seu jogo offline. Para ativar a funcionalidade online, o segundo argumento de <span class="inline"><a href="Rollback_Functions/rollback_create_game.htm">rollback_create_game()</a></span> precisa ser definido para <span class="inline">false</span> (que desativa o Sync Test).</p>
+  <p>Uma região padrão também precisa ser definida, o que é o terceiro argumento. Veja: <a data-xref="{text}" href="Rollback_Functions/rollback_create_game.htm#h">Obtenção de nomes de regiões</a></p>
+  <p class="code">// obj_game: Create event<br />
+    rollback_define_player(obj_player);<br />
+    <br />
+    var _joined = rollback_join_game();<br />
+    <br />
+    if (!_joined)<br />
+    {<br />
+        rollback_create_game(2, false, &quot;Europe&quot;); // &lt;- disable Sync Test, set default region<br />
+    }
+  </p>
+  <p>Em seu navegador Opera GX, faça login no <a href="https://gx.games">GX.games.</a></p>
+  <p>Passar o jogo pelo alvo da <strong>Ópera GX</strong>. Quando o sistema Rollback começa, ele cria uma nova &quot;sala&quot;: não uma <span class="notranslate">GameMaker</span> <span class="notranslate">room</span> <span class="notranslate">asset</span> , mas uma <strong>sala virtual</strong> na qual os jogadores irão jogar juntos.</p>
+  <h2>Convidando Jogadores</h2>
+  <p>Quando seu jogo começar, você não verá as instâncias do jogador imediatamente. Em vez disso, o sistema aguardará a adesão de todos os jogadores antes de iniciar o jogo.</p>
+  <p class="note"><span class="tip">DICA</span> Você pode começar o jogo antes que os jogadores tenham se juntado, chamando <a href="Rollback_Functions/rollback_start_game.htm"><span class="inline">rollback_start_game()</span></a>. Se você ligar para <a href="Rollback_Functions/rollback_use_manual_start.htm"><span class="inline">rollback_use_manual_start()</span></a> então o jogo esperará que você o inicie manualmente, mesmo depois que todos os jogadores tenham aderido.</p>
+  <p>Enquanto espera, você verá um botão &quot;<strong>Copy Share Url</strong>&quot; abaixo de seu jogo. Role para baixo se você não vir o botão.</p>
+  <p><img>Isto copiará um link para seu jogo, que você pode colar em outra janela do navegador para entrar como o segundo jogador.</p>
+  <p>Você precisa ter ambas as janelas do navegador visíveis ao mesmo tempo, caso contrário, o jogador cuja janela está oculta vai se ausentar e seu jogo terminará.</p>
+  <p>Uma vez que ambas as instâncias do jogo estejam conectadas e sincronizadas, você será capaz de controlar cada jogador através de sua janela do navegador:</p>
+  <p><img>Você pode abrir ambas as janelas lado a lado, arrastando e redimensionando-as.</p>
+  <p>Durante seu teste você verá mensagens de debug no canto superior esquerdo de seu jogo, dando-lhe informações sobre o estado de seu jogo. Você pode desativar isso ligando para <span class="inline"><a href="Rollback_Functions/rollback_display_events.htm">rollback_display_events(false)</a></span>.</p>
+  <h2 id="h">Saindo de uma sala</h2>
+  <p>Ligue para <a href="Rollback_Functions/rollback_leave_game.htm"><span class="inline">rollback_leave_game()</span></a> para fazer um jogador deixar o <span class="notranslate">room</span>. Leia a <a href="Rollback_Functions/rollback_leave_game.htm">página de funções</a> para obter informações detalhadas sobre seu uso.</p>
+  <h2>Lógica do jogo</h2>
+  <p>O sistema Rollback criará automaticamente instâncias de jogadores quando todos os jogadores tiverem aderido, desde que você esteja usando <a href="Rollback_Functions/rollback_define_player.htm"><span class="inline">rollback_define_player()</span></a>.</p>
+  <p>Entretanto, ele ainda permite que você execute qualquer outro código antes do início do jogo, o que significa que você deve tomar cuidado para iniciar sua lógica de jogo principal somente uma vez que todos os jogadores tenham aderido.</p>
+  <p>Por exemplo, se você estiver desovando instâncias inimigas usando um alarme, só acione esse alarme quando o evento <a data-xref="{text}" href="Rollback_Events.htm#h">Rollback Start</a> disparar.</p>
+  <h2>Principais eventos</h2>
+  <p>Grandes eventos em seu jogo, tais como um jogador ganhando e terminando o nível, devem ser feitos quando todos os jogadores estiverem sincronizados. Caso contrário, uma previsão errada poderia fazer um jogador ganhar, o que pareceria estranho quando ele acabasse voltando atrás.</p>
+  <p>Veja o exemplo em <span class="inline"><a href="Rollback_Functions/rollback_sync_on_frame.htm">rollback_sync_on_frame()</a></span> para fazer isso corretamente.</p>
+  <h2>Leitura adicional</h2>
+  <p>Seu primeiro jogo multiplayer agora está completo!</p>
+  <p>Leia as seguintes páginas para saber tudo sobre o sistema Rollback:</p>
+  <ul class="colour">
+    <li><a data-xref="{title}" href="Rollback_System.htm">Sistema Rollback</a></li>
+    <li><a data-xref="{title}" href="Defining_Inputs.htm">Definição de entradas</a></li>
+    <li><a data-xref="{title}" href="Rollback_Constraints.htm">Restrições de Rollback</a></li>
+    <li><a data-xref="{title}" href="Rollback_Events.htm">Eventos de Rollback</a></li>
+    <li><a data-xref="{title}" href="Rollback_Preferences.htm">Preferências do jogador</a></li>
+  </ul>
+  <p>Você pode adicionar chat ao seu jogo usando <a href="Rollback_Functions/rollback_chat.htm"><span class="inline">rollback_chat()</span></a>.</p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div>Voltar: <a data-xref="{title}" href="Rollback_Multiplayer.htm">Rollback Multiplayer</a></div>
+        <div>A seguir: <a data-xref="{title}" href="Rollback_System.htm">Sistema Rollback</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright <span class="notranslate">YoYo Games Ltd.</span> 2022 Todos os direitos reservados</span></h5>
+  </div>
+</body>
+</html>

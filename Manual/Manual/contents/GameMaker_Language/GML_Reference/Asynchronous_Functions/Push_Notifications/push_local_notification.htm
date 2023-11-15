@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>push_local_notification</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
+  <script src="../../../../assets/scripts/main_script.js"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Reference page for push_local_notification" />
+  <meta name="rh-index-keywords" content="" />
+  <meta name="search-keywords" content="push_local_notification" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>push_local_notification</h1>
+  <p>Esta função pode ser usada para definir uma notificação local a ser exibida em uma determinada data e em um determinado horário. O &quot;fire_time&quot; é a data/hora em que a notificação deve ser empurrada para o dispositivo do usuário (você pode usar as <a href="../../Maths_And_Numbers/Date_And_Time/Date_And_Time.htm">funções de data e hora</a> do <span data-keyref="GameMaker Name">GameMaker</span> para obter isto), e você pode dar à notificação um título e um texto de mensagem, assim como uma carga útil <span class="notranslate">string</span> que será passada para o seu jogo quando os usuários tocarem a notificação.</p>
+  <p class="note"><b>NOTA</b>: O argumento do &quot;título&quot; é ignorado em <span class="notranslate">iOS</span> e o nome do jogo é mostrado em seu lugar.</p>
+  <p>Ao tocar na notificação, o jogo começará no dispositivo e acionará um evento <a href="../../../../The_Asset_Editors/Object_Properties/Async_Events/Push_Notifications.htm">Assíncrono de Notificação de Push</a> onde o <a href="../../../GML_Overview/Variables/Builtin_Global_Variables/async_load.htm"><span class="inline">async_load</span></a> O mapa DS pode então ser analisado para verificar a carga útil <span class="notranslate">string</span> e executar qualquer ação que seja necessária.</p>
+  <p class="note"><b>NOTA</b>: Esta funcionalidade é limitada aos módulos alvo <b>iOS</b> e <b>Android</b>.</p>
+  <p> </p>
+  <h4>Sintaxe:</h4>
+  <p class="code">push_local_notification(fire_time, title, message, data);</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>Argumento</th>
+        <th>Tipo</th>
+        <th>Descrição</th>
+      </tr>
+      <tr>
+        <td><span class="notranslate">fire_time</span></td>
+        <td><span data-keyref="Type_Real_Datetime">Data/hora</span></td>
+        <td><span class="notranslate">The date/time to fire the off the notification</span></td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">title</span></td>
+        <td><span data-keyref="Type_String">Cordão</span></td>
+        <td><span class="notranslate">The notification title (a string)</span></td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">message</span></td>
+        <td><span data-keyref="Type_String">Cordão</span></td>
+        <td><span class="notranslate">The notification message text (a string)</span></td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">data</span></td>
+        <td><span data-keyref="Type_String">Cordão</span></td>
+        <td><span class="notranslate">The data package to send to your game (a string)</span></td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>Devoluções:</h4>
+  <p class="code"><span data-keyref="Type_Void">N/A</span></p>
+  <p> </p>
+  <h4>Exemplo ampliado</h4>
+  <p>Neste exemplo, enviaremos uma notificação local usando o seguinte código:</p>
+  <p class="code">var fireTime = date_inc_day(date_current_datetime(), 1);<br />
+    var data = &quot;daily_reward&quot;;<br />
+    push_local_notification(fireTime, &quot;Ahoy!&quot;, &quot;Catch The Haggis Has A Present&quot;, data);</p>
+  <p>Isto definirá um timer para &quot;empurrar&quot; uma notificação para o dispositivo quando um dia tiver passado. Quando o dia terminar, se o jogo estiver em segundo plano ou não estiver em execução, uma notificação será mostrada ao usuário com o título e a mensagem dados (em <span class="notranslate">iOS</span>, o nome do jogo é mostrado e o título é ignorado), e então será chamado um Evento de Notificação Push assíncrono. Note que se o jogo estiver em primeiro plano quando chegar a hora da notificação, ele <i>não</i> será mostrado, mas o evento assíncrono <b>ainda será acionado</b>. No próprio evento, você lidaria com a chamada de retorno algo como isto: Evento Async da seguinte maneira:</p>
+  <p class="code">var type = ds_map_find_value(async_load, &quot;type&quot;);<br />
+    var status = ds_map_find_value(async_load, &quot;status&quot;);<br />
+    if status == 0<br />
+    {<br />
+        //error of some kind<br />
+        var error = ds_map_find_value(async_load, &quot;error&quot;);<br />
+        show_debug_message(&quot;error=&quot; + string(error));<br />
+    }<br />
+    else<br />
+    {<br />
+        if type == &quot;register&quot;<br />
+        {<br />
+            global.reg_id = ds_map_find_value(async_load, &quot;reg_id&quot;);<br />
+        }<br />
+        else<br />
+        {<br />
+            var data = ds_map_find_value(async_load, &quot;data&quot;);<br />
+            if data == &quot;daily_reward&quot;<br />
+            {<br />
+                global.Gold += 1000;<br />
+            }<br />
+        }<br />
+    }</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Voltar: <a href="Push_Notifications.htm">Notificações Push</a></div>
+        <div style="float:right">A seguir: <a href="push_get_first_local_notification.htm"><span class="notranslate">push_get_first_local_notification</span></a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright <span class="notranslate">YoYo Games Ltd.</span> 2022 Todos os direitos reservados</span></h5>
+  </div>
+  <!-- KEYWORDS
+push_local_notification
+-->
+  <!-- TAGS
+push_local_notification
+-->
+</body>
+</html>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Shaders</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../assets/css/default.css" type="text/css" />
+  <script src="../assets/scripts/main_script.js"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Page detailing how the shader editor works" />
+  <meta name="rh-index-keywords" content="Shader Editor" />
+  <meta name="search-keywords" content="shaders,shader,open GL,open GL ES" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>O Editor <span class="notranslate">Shader</span> </h1>
+  <p><img>Os shaders são uma ferramenta muito poderosa que pode ser usada para manipular os gráficos que seu jogo apresenta na tela, permitindo efeitos incrivelmente rápidos que podem variar desde, por exemplo, adicionar uma nuance de cor sutil a um <span class="notranslate">sprite</span>, até efeitos de distorção de tela inteira. Mas o que é um <span class="notranslate">shader</span>?</p>
+  <p>Um <span class="notranslate">shader</span> é basicamente um programa em duas partes que roda diretamente na própria placa gráfica, tornando-o muito rápido já que a GPU está fazendo todo o trabalho e liberando ciclos de CPU para seu código de jogo. O <span class="notranslate">shader</span> completo é composto de um programa <span class="notranslate">vertex</span> <span class="notranslate">shader</span>, e um programa <span class="notranslate">shader</span> fragmentado (também conhecido como um pixel <span class="notranslate">shader</span>). Estes dois minúsculos programas trabalham em conjunto para manipular o que a placa gráfica renderiza à tela. Isto então permite manipular em tempo real, a posição, a cor e os valores alfa que são realmente <a class="glossterm" data-glossterm="apresentada em" href="#">renderizados</a> no <a class="glossterm" data-glossterm="buffer de exibição" href="#">buffer da tela</a>.</p>
+  <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down" href="#">Shader de vértice</a></p>
+  <div class="droptext" data-targetname="drop-down">
+    <p class="dropspot">O <span class="notranslate">Vertex</span> <span class="notranslate">Shader</span> é o estágio programável <span class="notranslate">shader</span> no pipeline de renderização que trata do processamento de vértices individuais (os pontos dos triângulos usados para renderizar qualquer imagem), e quando você está renderizando uma geometria - como um <span class="notranslate">sprite</span> ou uma superfície
+      - <span data-keyref="GameMaker Name">O GameMaker</span> cria um fluxo de vértices - chamado de <strong>Vertex Buffer - </strong> que define a geometria desses triângulos. Um <span class="notranslate">sprite</span> por exemplo, teria uma geometria de dois triângulos (normalmente chamados de <em>polígonos</em>) renderizados
+      juntos para formar um &quot;quad&quot;. Este fluxo <span class="notranslate">vertex</span> do <span class="notranslate">Vertex</span> <span class="notranslate">Buffer</span> é alimentado como uma entrada para o <span class="notranslate">Vertex</span> <span class="notranslate">Shader</span>, que pode processar os dados dos vértices de uma forma programável. A saída <span class="notranslate">Vertex</span> <span class="notranslate">Shader</span> é utilizada pela GPU para montar os triângulos,
+      que são então devidamente cortados e abatidos na porta de visualização e na câmera de visualização, e então enviados para o bloco rasterizador da GPU que gera um novo fluxo de saída, constituído por algo chamado <strong>Fragmentos</strong>. Estes são dados minúsculos
+      Cada uma delas é relativa a um único pixel que aparece na tela.</p>
+  </div>
+  <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down1" href="#">Fragment Shader</a></p>
+  <div class="droptext" data-targetname="drop-down1">
+    <p class="dropspot">O Fragmento <span class="notranslate">Shader</span> é o estágio programável <span class="notranslate">shader</span> no pipeline de renderização que lida com &quot;fragmentos&quot; - os pixels interpolados usados para <span class="notranslate">texture</span> qualquer polígono - e eles são responsáveis pela saída da cor final dos pixels de cada
+      renderizado em triângulo pixel. Basicamente funciona assim: o Fragmento <span class="notranslate">Shader</span> recebe como entrada todos aqueles fragmentos (os pixels individuais do triângulo a ser renderizado) que foram passados ao longo do gasoduto pelo <span class="notranslate">Vertex</span> <span class="notranslate">Shader</span>. Pode então
+      processar estes fragmentos para mudar a cor e o alfa do pixel de destino final que será atraído para a tela.</p>
+  </div>
+  <p> </p>
+  <p>Uma visão completa de como <span class="notranslate">shaders</span> realmente funciona e que lugar eles têm no pipeline gráfico está fora do escopo disto, mas você pode encontrar um breve guia aqui:</p>
+  <ul class="colour">
+    <li><a href="../Additional_Information/Guide_To_Using_Shaders.htm">Guia para o uso de Shaders</a></li>
+  </ul>
+  <p> </p>
+  <h2>Apoio linguístico</h2>
+  <p><span data-keyref="GameMaker Name">O GameMaker</span> suporta os seguintes idiomas <span class="notranslate">shader</span>:</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>Linguagem Shader</th>
+        <th>Plataforma Alvo</th>
+      </tr>
+      <tr>
+        <td><strong>GLSL ES 1.0</strong></td>
+        <td>Todas as plataformas alvo</td>
+      </tr>
+      <tr>
+        <td><strong>GLSL</strong></td>
+        <td>Mac e <span class="notranslate">Ubuntu</span> (<span class="notranslate">Linux</span>)</td>
+      </tr>
+      <tr>
+        <td><strong>HLSL 11</strong></td>
+        <td>Windows, UWP, Xbox One &amp; Série S/X</td>
+      </tr>
+      <tr>
+        <td><strong>PSSL</strong></td>
+        <td>PlayStation 4 &amp; 5</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>Ao escrever GLSL ES <span class="notranslate">shaders</span>, recomenda-se seguir a <a href="https://www.khronos.org/registry/OpenGL/specs/es/2.0/GLSL_ES_Specification_1.00.pdf" title="GLSL ES 1.0 Specification">especificação do idioma oficial</a> o mais próximo possível para evitar erros, pois algumas plataformas alvo podem ser mais rígidas do que outras (como os alvos HTML5 e Opera GX, que podem ser mais restritivos do que outras plataformas como <span class="notranslate">Windows</span>, <span class="notranslate">macOS</span>, etc. quando se trata de limitações do idioma).</p>
+  <p> </p>
+  <h2>Criando um Shader</h2>
+  <p>Para criar um recurso <span class="notranslate">shader</span>, basta clicar com o botão direito do mouse <img> dentro do <a href="../Introduction/The_Asset_Browser.htm">Navegador de Ativos</a> e selecionar <em>Create -&gt; Shader</em>. Uma vez criada a base <span class="notranslate">shader</span>, você pode então usar o menu direito do mouse <img> no novo recurso para selecionar o tipo <span class="notranslate">shader</span> antes de continuar a editar o código:</p>
+  <p><img>O próprio editor de código é dividido em dois &quot;programas&quot; - <span class="notranslate">Vertex</span> e Fragment - quando você cria um novo <span class="notranslate">shader</span>, com cada um deles disponível em abas na parte superior do editor. Ambos são criados de uma só vez porque <em>não</em> se <em>pode criar um <span class="notranslate">shader</span> sem as duas partes</em>. Mesmo que você deseje usar apenas o fragmento <span class="notranslate">shader</span> você terá que ter criado um &quot;pass through&quot; <span class="notranslate">vertex</span> <span class="notranslate">shader</span> primeiro, e é por isso que, por padrão, qualquer novo <span class="notranslate">shader</span> sendo criado terá um <span class="notranslate">vertex</span> e o fragmento passará por <span class="notranslate">shader</span> já codificado para você (na tela capturada no topo da página, você pode ver que usamos a visualização do painel do editor de código para mostrar os dois lado a lado... útil quando se trabalha nos dois programas <span class="notranslate">shader</span> juntos).</p>
+  <p>Vale notar que você pode usar GLSL ES <span class="notranslate">shaders</span> em <em>todas as </em>plataformas alvo, mas para que elas funcionem na plataforma alvo <strong>HTML5 </strong>você deve ter habilitado a WebGL nas <a href="../Settings/Game_Options/HTML5.htm">Opções de Jogo HTML5</a>, caso contrário elas não funcionarão.</p>
+  <p>Para mais detalhes relacionados às funções <span class="notranslate">shader</span> e como elas podem ser usadas no <span data-keyref="GameMaker Name">GameMaker</span>, consulte as seguintes páginas:</p>
+  <ul class="colour">
+    <li><a href="../GameMaker_Language/GML_Reference/Asset_Management/Shaders/Shaders.htm">Shader Functions</a> - A seção de referência <span class="notranslate">GML</span> para <span class="notranslate">shaders</span>.</li>
+    <li><a href="../GameMaker_Language/GML_Reference/Asset_Management/Shaders/Shader_Constants.htm">Constantes de Shader</a> - As constantes incorporadas ao <span data-keyref="GameMaker Name">GameMaker</span> que podem ser usadas ao escrever <span class="notranslate">shaders</span>.</li>
+    <li><a href="https://www.khronos.org/registry/OpenGL/specs/es/2.0/GLSL_ES_Specification_1.00.pdf">Especificações GLSL ES 1.0</a> - arquivo PDF para o OpenGL ES 1.0 <span class="notranslate">Shader</span> Idioma que o <span data-keyref="GameMaker Name">GameMaker</span> utiliza.</li>
+    <li><a href="https://docs.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-reference">HLSL Language Reference</a> - As páginas de referência da Microsoft para o uso do HLSL.</li>
+    <li><a href="http://twvideo01.ubm-us.net/o1/vault/gdceurope2013/Presentations/825424RichardStenson.pdf">Apresentação do idioma PSSL</a> - Visão geral do idioma PSSL em formato de apresentação.</li>
+  </ul>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Voltar: <a href="The_Asset_Editors.htm">Os Editores de Ativos</a></div>
+        <div style="float:right">A seguir: <a href="Sounds.htm">Sons</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright <span class="notranslate">YoYo Games Ltd.</span> 2021 Todos os direitos reservados</span></h5>
+  </div>
+  <!-- KEYWORDS
+The <span class="notranslate">Shader</span> Editor
+Shaders
+OpenGL ES
+HLSL
+PSSL
+-->
+  <!-- TAGS
+shader_editor
+-->
+</body>
+</html>

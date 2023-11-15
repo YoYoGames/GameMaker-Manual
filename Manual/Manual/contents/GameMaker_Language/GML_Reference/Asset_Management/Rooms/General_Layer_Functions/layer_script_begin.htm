@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>layer_script_begin</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../../../assets/css/default.css" type="text/css" />
+  <script src="../../../../../assets/scripts/main_script.js"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Page outlining the function layer_script_begin" />
+  <meta name="rh-index-keywords" content="layer_script_begin" />
+  <meta name="search-keywords" content="layer_script_begin" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>layer_script_begin</h1>
+  <p>Com esta função você pode atribuir uma <a href="../../../../GML_Overview/Script_Functions.htm">função de roteiro</a> a uma camada e ela será chamada antes que a camada seja renderizada. Ao adicionar uma função a uma camada, desta forma ela será executada no início de <i>cada um dos diferentes eventos de sorteio</i> para que você possa verificar na função atribuída qual evento está atualmente renderizando e adaptar o código para se adequar. Isto pode ser feito verificando a função <a href="../../Objects/Object_Events/event_type.htm"><span class="inline">event_type</span></a> e/ou o <a href="../../Objects/Object_Events/event_number.htm"><span class="inline">event_number</span></a> (ver o exemplo ampliado abaixo). Observe que a função <i>não</i> se destina a ser chamada em nenhum evento de sorteio ou evento de etapa, mas somente no início do <span class="notranslate">room</span> no <strong>Código de Criação de Salas</strong> ou no <strong>Criar Evento / </strong> <strong>Evento de Início de Sala</strong> de uma instância.</p>
+  <p> </p>
+  <h4>Sintaxe:</h4>
+  <p class="code">layer_script_begin(layer_id, script);</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>Argumento</th>
+        <th>Tipo</th>
+        <th>Descrição</th>
+      </tr>
+      <tr>
+        <td><span class="notranslate">layer_id</span></td>
+        <td> <span data-keyref="Type_ID_Layer">Identificação</span>por<span data-keyref="Type_String">corda</span> ou <span data-keyref="Type_ID_Layer">camada</span></td>
+        <td><span class="notranslate">The unique ID value of the layer to target (or the layer name as a string)</span></td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">script</span></td>
+        <td><span data-keyref="Type_Function_Script">Função Script</span></td>
+        <td><span class="notranslate">The script function index to assign to the layer</span></td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>Devoluções:</h4>
+  <p class="code"><span data-keyref="Type_Void">N/A</span></p>
+  <p> </p>
+  <h4>Exemplo ampliado:</h4>
+  <p>Neste exemplo estendido, mostraremos primeiro como uma simples função <span class="notranslate">script</span> é estruturada para definir alguns dados uniformes <span class="notranslate">shader</span> de modo que quando a camada dada for desenhada, esta função será executada e o <span class="notranslate">shader</span> funcionará corretamente. No exemplo, vale notar como verificamos qual evento está sendo chamado para que o resto da função seja executado apenas no evento específico que exigimos que funcione - neste caso, apenas no evento de sorteio principal:</p>
+  <p class="code">/// @function layer_shader_start();<br />
+    function layer_shader_start()<br />
+    {<br />
+        if event_type == ev_draw<br />
+        {<br />
+            if event_number == 0<br />
+            {<br />
+                colour_to_find = shader_get_uniform(sShaderDemo5, &quot;f_Colour1&quot;);<br />
+                colour_to_set = shader_get_uniform(sShaderDemo5, &quot;f_Colour2&quot;);<br />
+                shader_set(s_ColourChanger);<br />
+                shader_set_uniform_f(colour_to_find, 1,1,1 );<br />
+                shader_set_uniform_f(colour_to_set, 1,0,0 );<br />
+            }<br />
+        }<br />
+    }</p>
+  <p>Teríamos então uma função complementar para reiniciar o <span class="notranslate">shader</span> depois de todo o desenho estar feito:</p>
+  <p class="code">/// @function layer_shader_end();<br />
+    function layer_shader_end()<br />
+    {<br />
+        if event_type == ev_draw<br />
+        {<br />
+            if event_number == 0<br />
+            {<br />
+                shader_reset();<br />
+            }<br />
+        }<br />
+    }</p>
+  <p>Agora que definimos nossas funções <span class="notranslate">script</span> para definir o <span class="notranslate">shader</span>, temos então que atribuí-las a uma camada específica para que a camada saiba chamá-las. Isto seria feito no código de criação <span class="notranslate">room</span>, ou no evento de criação ou <span class="notranslate">room</span> evento de início de algum controlador <span class="notranslate">object</span> (eles não precisam ser definidos a cada passo, mas sim uma vez no início do <span class="notranslate">room</span>, ou quando a camada é inicialmente criada):</p>
+  <p class="code">var lay_id = layer_get_id(&quot;Instances&quot;);<br />
+    layer_script_begin(lay_id, layer_shader_start);<br />
+    layer_script_end(lay_id, layer_shader_end);</p>
+  <p>Este bloco de código final atribui o <span class="notranslate">scripts</span> à camada.</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Voltar: <a href="General_Layer_Functions.htm">Funções gerais da camada</a></div>
+        <div style="float:right">A seguir: <a href="layer_script_end.htm"><span class="notranslate">layer_script_end</span></a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright <span class="notranslate">YoYo Games Ltd.</span> 2022 Todos os direitos reservados</span></h5>
+  </div>
+  <!-- KEYWORDS
+layer_script_begin
+-->
+  <!-- TAGS
+layer_script_begin
+-->
+</body>
+</html>

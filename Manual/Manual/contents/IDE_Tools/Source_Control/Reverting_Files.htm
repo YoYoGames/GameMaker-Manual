@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Arquivos de reversão</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../assets/css/default.css" type="text/css" />
+  <script src="../../assets/scripts/main_script.js"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Section that covers Source Control reverting files" />
+  <meta name="rh-index-keywords" content="Source Control - Reverting Files" />
+  <meta name="search-keywords" content="revert files" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>Arquivos de reversão</h1>
+  <p>Nas seções anteriores você viu como <a href="Repository_Options.htm">criar um repositório</a> e <a href="Standard_Workflow.htm">comprometer-se com ele</a>, mas o que acontece se você cometer um erro e quiser &quot;recuar&quot; para um compromisso anterior? Vamos cometer um erro deliberado e ver como podemos lidar com ele então...</p>
+  <p>Antes de tudo, crie um novo recurso - neste exemplo faremos um recurso <span class="notranslate">Script</span> - e inicialmente você não verá nenhum ícone de status, já que, no que diz respeito a <span class="notranslate">source control</span>, ele ainda não existe. No recurso <span class="notranslate">script</span> acrescente uma linha de código simples, como por exemplo:</p>
+  <p class="code">show_debug_message(&quot;Hello World&quot;);</p>
+  <p>Se você agora fechar o editor de código, o <span class="notranslate">script</span> irá salvar e o ícone do arquivo modificado <img> aparecerá ao lado dele no <a href="../../Introduction/The_Asset_Browser.htm">Navegador de Ativos</a>. Agora, abra a janela <strong>Comprometer </strong>e você verá que há quatro mudanças encenadas, à medida que novos recursos são automaticamente adicionados:</p>
+  <p><img>As mudanças serão encenadas:</p>
+  <ul class="colour">
+    <li>o arquivo do projeto <span class="inline">.yyp</span> </li>
+    <li>um arquivo view</li>
+    <li>o próprio <span class="notranslate">GML</span> <span class="notranslate">script</span> </li>
+    <li>o arquivo <span class="inline">.yy</span> que faz referência a ele</li>
+  </ul>
+  <p>Você deve digitar uma mensagem de compromisso e depois clicar no botão <strong>Comprometer </strong>, exatamente como explicamos anteriormente. Agora, voltamos ao nosso <span class="notranslate">script</span> e alteramos a linha de código para (por exemplo):</p>
+  <p class="code">show_debug_message(&quot;Hello World, how are you?&quot;);</p>
+  <p>Quando fechamos o editor de código, novamente um ícone vermelho <img> será mostrado ao lado do <span class="notranslate">script</span>, mas percebemos que cometemos um erro com nosso código e queremos voltar a uma versão anterior para corrigi-lo (obviamente, você poderia simplesmente abrir o <span class="notranslate">script</span> e corrigi-lo facilmente, já que o exemplo é tão simples, mas em grandes projetos que normalmente não é uma abordagem viável). O que precisamos fazer é <strong>reverter </strong>nossas mudanças.</p>
+  <p>Para reverter uma mudança, precisamos primeiro abrir novamente a janela de compromisso, então vamos para <strong>Controle de Fonte</strong> &gt; <strong>Cometer Mudanças</strong> mais uma vez. Nosso arquivo modificado estará novamente pronto para ser submetido, mas isto não é o que queremos, então clicamos no botão <strong>Unstage All</strong> para retirá-lo da área de preparação.</p>
+  <p>Se clicarmos agora com o botão direito <strong><img></strong> no arquivo que mudamos, teremos um menu de contexto com uma opção para <strong>Reverter o caminho</strong>:</p>
+  <p><img>Quando você selecionar esta opção, você reverterá os arquivos de volta ao estado anterior em que se encontravam.</p>
+  <p class="note"><strong>IMPORTANTE!</strong> Ao reverter, você receberá uma mensagem pedindo para recarregar ou salvar o projeto atual devido ao verificador de arquivos que detecta mudanças no disco:<br>
+    <img>. Você deve clicar em Recarregar e não salvar, pois salvar salvará o que é memória em vez de recarregar os arquivos revertidos.
+  </p>
+  <p>Tudo isso é ótimo para quando você edita algo e quer mudar de volta sem já ter feito um compromisso, mas e quando você cometeu uma ou mais mudanças e quer voltar a um compromisso <em>anterior </em>? Bem, vamos editar nosso <span class="notranslate">script</span> novamente para dizer:</p>
+  <p class="code">show_debug_message(&quot;This is a bad idea&quot;);</p>
+  <p>Agora nós nos comprometemos, como antes, a obtê-lo em <span class="notranslate">source control</span>. Portanto, esta foi uma má idéia e queremos retroceder, o que significa que para começar precisamos abrir a janela <strong>Controle de Fonte</strong> &gt; <strong>Ver Histórico</strong>. Aqui veremos uma lista de todos os commits anteriores agora nesta janela, começando com o commit inicial, o commit para o <span class="notranslate">script</span>, e depois o commit para o <span class="notranslate">script</span> que editamos como uma &quot;má idéia&quot;:</p>
+  <p><img>Agora temos duas opções. Podemos reverter uma revisão inteira - que reverterá todos os arquivos que foram alterados para aqueles do compromisso escolhido - ou podemos optar por reverter um <span class="notranslate">path</span> - que simplesmente reverterá um único arquivo. Vamos fazer a primeira opção para começar:</p>
+  <ul class="colour">
+    <li>Clique direito <strong><img></strong> nosso segundo compromisso no painel &quot; <strong>Commit History&quot;</strong> (o compromisso &quot;Olá Mundo&quot;).</li>
+    <li>Selecione <strong>Reverter para esta revisão</strong> e, em seguida, escolha <strong>Carregar novamente</strong> na mensagem de aviso.</li>
+  </ul>
+  <p>Você deve ver que o <span class="notranslate">script</span> agora tem um ícone de status vermelho <img>, e se o abrirmos, teremos o seguinte:</p>
+  <p><img>Podemos então fazer um compromisso sobre o projeto e voltaremos ao ponto onde estávamos mais uma vez. No entanto, também podemos desfazer essa ação para o arquivo e ter nossa &quot;má idéia&quot; de compromisso de volta, fazendo o seguinte:</p>
+  <ul class="colour">
+    <li>Abra a janela de <strong>mudanças de compromisso</strong>.</li>
+    <li>Desfaça o <span class="notranslate">script</span> com o código &quot;Hello World&quot; nele.</li>
+    <li>Clique direito <strong><img></strong> e <strong>Revert Path</strong>.</li>
+  </ul>
+  <p>Agora estamos de volta a ter o arquivo errado no projeto novamente! Bem, podemos aproveitar esta oportunidade para reverter apenas esse arquivo <span class="notranslate">path</span> em vez de reverter tudo a uma revisão anterior. Para isso, temos que fazer o seguinte:</p>
+  <ul class="colour">
+    <li>Abra a janela <strong>Ver Histórico</strong>.</li>
+    <li>Clique sobre o segundo compromisso (o compromisso &quot;Olá Mundo&quot;).</li>
+    <li>Clique direito <strong><img></strong> em nosso <span class="notranslate">script</span> <span class="notranslate">GML</span> no painel de Arquivos e selecione <strong>Revert Path</strong>.</li>
+  </ul>
+  <p>Devemos voltar a ter nosso código &quot;Hello World&quot; e podemos então fazer um novo compromisso para atualizar o <span class="notranslate">source control</span> novamente com o arquivo corrigido.</p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Voltar: <a href="../Source_Control.htm">Controle da fonte</a></div>
+        <div style="float:right">A seguir: <a href="Cloning_A_Repository.htm">Clonando um Repositório</a> </div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright <span class="notranslate">YoYo Games Ltd.</span> 2021 Todos os direitos reservados</span></h5>
+  </div>
+  <!-- KEYWORDS
+Source Control Reverting Files
+reverting files
+-->
+  <!-- TAGS
+source_control_revert
+-->
+</body>
+</html>

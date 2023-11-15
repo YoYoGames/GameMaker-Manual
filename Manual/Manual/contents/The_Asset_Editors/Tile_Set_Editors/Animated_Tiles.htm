@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Ladrilhos Animados</title>
+  <meta name="generator" content="Adobe RoboHelp 2019" />
+  <link rel="stylesheet" href="../../assets/css/default.css" type="text/css" />
+  <script src="../../assets/scripts/main_script.js"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Page detailing how the tile set editor animated tiles works" />
+  <meta name="rh-index-keywords" content="Tile Sets - Animated Tiles" />
+  <meta name="search-keywords" content="animated tiles,tile animation" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>Ladrilhos Animados</h1>
+  <p>Os ladrilhos são geralmente considerados células estáticas dentro do jogo <span class="notranslate">room</span>, porém com o <span data-keyref="GameMaker Name">GameMaker</span> é possível animá-los, assim como você faria com um <span class="notranslate">sprite</span>. Por que não usar apenas <span class="notranslate">sprites</span>, você pergunta? Bem, <span class="notranslate">sprites</span> tem uma certa sobrecarga de processamento devido
+    a eles estarem associados a uma caixa de delimitação e à forma como são renderizados, mas <span class="notranslate">tiles</span> têm uma sobrecarga de processamento muito menor e, portanto, são mais rápidos de renderizar. No entanto, isto tem um preço, já que com <span class="notranslate">tile set</span> animações você está limitado a
+    criando animações que devem ser uma potência de dois comprimentos - ou seja: de 2, 4, 8, 16, etc... quadros - e obviamente devem ser criadas dentro da grade <span class="notranslate">tile</span>, <em>e </em>todas elas devem animar à mesma velocidade (na base de um conjunto por telha). Entretanto, mesmo
+    Com estas limitações, <span class="notranslate">tiles</span> animado é uma característica poderosa que pode ser usada para acrescentar vida e cor a ambientes e fundos estáticos de outra forma.</p>
+  <p>Para criar uma animação <span class="notranslate">tile</span> você deve primeiro ter um <span class="notranslate">tile set</span> que tenha o necessário <span class="notranslate">tiles</span> tudo dentro da imagem <span class="notranslate">sprite</span> (mas não como <span class="notranslate">sprite</span> frames, então um único grande <span class="notranslate">sprite</span> frame com todas as imagens de animação dentro dele), e então no <a href="../Tile_Sets.htm">Editor de Tile Set</a> você clica no botão <strong>Animação de Tile</strong> para trazer o Editor de Animação:</p>
+  <p><img>A imagem de exemplo acima é uma imagem única com todos os quadros de animação contidos nela, mas deve ser notado que a imagem poderia
+    também contém outras não animações <span class="notranslate">tiles</span> também, já que você pode usar um único massivo <span class="notranslate">tile set</span> e depois &quot;escolher a cereja&quot; as partes da animação a partir das quais você quer criar a animação. Por exemplo, você poderia ter uma grande paisagem <span class="notranslate">tile set</span> com árvores,
+    terra e água, e dentro do <span class="notranslate">tile set</span> têm múltiplos <span class="notranslate">tiles</span> a serem animados para fazer a ondulação da água.</p>
+  <p>Para criar uma animação <span class="notranslate">tile</span> você precisa primeiro adicionar uma animação à biblioteca de animação clicando no botão <strong>Add Animation </strong> <img>, que irá
+    adicionar uma tira de animação vazia à biblioteca e solicitar que você selecione um número de quadros a serem usados:</p>
+  <p><img>Você será então apresentado com uma visão de cada frame de animação vazio, com o frame inicial destacado para você:</p>
+  <p><img>Se você voltar para a imagem <span class="notranslate">tile set</span> à esquerda do editor, você pode clicar <img> em qualquer <span class="notranslate">tile</span> para adicioná-la à animação e o frame avançará para o próximo. Clicando em <img> em sucessivos <span class="notranslate">tiles</span> você preencherá o
+    animação, que você pode então visualizar clicando no botão &quot;play&quot; ao lado dos quadros:</p>
+  <p><img>Uma vez que você tenha feito isso, sua animação se tornará parte da biblioteca de animação e quando você entrar no <a href="../Rooms.htm">Editor de Sala</a> você poderá selecioná-la e colocá-la dentro do <span class="notranslate">room</span>. Note que se você selecionar qualquer um dos <span class="notranslate">tiles</span> de uma animação para colocar em um <span class="notranslate">room</span>, que <span class="notranslate">tile</span> irá animar a partir do <span class="notranslate">tile</span> selecionado, assim você pode &quot;dessincronizar&quot; uma animação colocando separadamente
+    dentro do <span class="notranslate">room</span> e todos eles irão animar. A única ressalva é que a velocidade de animação será sempre a mesma, já que é definida para todo o <span class="notranslate">tile set</span> e não para animações individuais dentro da biblioteca.</p>
+  <p>Algumas observações sobre <span class="notranslate">tiles</span> que estão sendo usadas em animações:</p>
+  <ul class="colour">
+    <li>Se o <span class="notranslate">tile</span> tem sua própria animação especificada (então há uma animação onde ela é definida como a primeira <span class="notranslate">tile</span>), então ele usará essa animação.</li>
+    <li>Se o <span class="notranslate">tile</span> não tem sua própria animação, mas é usado em apenas uma outra animação, então ele usará essa animação começando na primeira posição que <span class="notranslate">tile</span> está presente na animação.</li>
+    <li>Se o <span class="notranslate">tile</span> não tem sua própria animação e é usado em várias outras animações, então ele não animará de forma alguma. Você precisará especificar explicitamente uma animação com ela como a primeira <span class="notranslate">tile</span>.</li>
+  </ul>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Voltar: <a href="../Tile_Sets.htm">Conjuntos de azulejos</a></div>
+        <div style="float:right">A seguir: <a href="Auto_Tiles.htm">Pisos para automóveis</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright <span class="notranslate">YoYo Games Ltd.</span> 2021 Todos os direitos reservados</span></h5>
+  </div>
+  <!-- KEYWORDS
+Animated Tiles
+-->
+  <!-- TAGS
+tile_set_editor_animated_tiles
+-->
+</body>
+</html>

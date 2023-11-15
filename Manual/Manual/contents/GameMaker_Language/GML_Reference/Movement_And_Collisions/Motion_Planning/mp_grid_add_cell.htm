@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>mp_grid_add_cell</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
+  <script src="../../../../assets/scripts/main_script.js"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="This page outlines the function mp_grid_add_cell" />
+  <meta name="rh-index-keywords" content="mp_grid_add_cell" />
+  <meta name="search-keywords" content="mp_grid_add_cell" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>mp_grid_add_cell</h1>
+  <p>Com esta função podemos marcar células individuais dentro da grade MP como sendo &quot;proibidas&quot;, o que significa que a <span class="notranslate">path</span> encontrar funções nunca as cruzará. Agora, normalmente se trabalha em coordenadas x/y <i>da sala</i>, e não em coordenadas de <i>células</i> da grade MP. Portanto, vamos considerar a seguinte imagem que mostra como os dois podem se correlacionar:</p>
+  <p><img>Como você pode ver, a grade mp_grid é numerada como uma série de células (começando em 0,0 no canto superior esquerdo), e quando você coloca esta grade sobre o <span class="notranslate">room</span> há uma correlação direta entre as coordenadas <span class="notranslate">room</span> (que também começam em 0,0 no canto superior esquerdo) e as células dentro da grade. Na imagem, você pode ver que uma instância na posição 260.130 cai sobre a célula 8,4 da grade. Você pode calcular matematicamente a célula exata na qual uma posição cai facilmente dividindo o número pela resolução da grade e depois arredondando para baixo <i>ou</i>, se você estiver usando a energia de 2 resoluções da grade (como 8, 16, 32 etc...) você pode usar os <a href="../../../../Additional_Information/Bitwise_Operators.htm">operadores bitwise</a>. Deve-se notar que a operação bitwise é mais rápida e o exemplo abaixo mostra os dois métodos.</p>
+  <p> </p>
+  <h4>Sintaxe:</h4>
+  <p class="code">mp_grid_add_cell(id, h, v);</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>Argumento</th>
+        <th>Tipo</th>
+        <th>Descrição</th>
+      </tr>
+      <tr>
+        <td><span class="notranslate">id</span></td>
+        <td><span data-keyref="Type_ID_MP_Grid">ID da grade MP</span></td>
+        <td><span class="notranslate">Index of the mp_grid that is to be used</span></td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">h</span></td>
+        <td><span data-keyref="Type_Real">Real</span></td>
+        <td><span class="notranslate">Horizontal position of the cell in the grid</span></td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">v</span></td>
+        <td><span data-keyref="Type_Real">Real</span></td>
+        <td><span class="notranslate">Vertical position of the cell in the grid</span></td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>Devoluções:</h4>
+  <p class="code"><span data-keyref="Type_Void">N/A</span></p>
+  <p> </p>
+  <h4>Exemplo:</h4>
+  <p class="code">with (obj_Wall)<br />
+    {<br />
+        mp_grid_add_cell(grid, floor(x / 32), floor(y / 32));<br />
+    }<br />
+    with (obj_Door)<br />
+    {<br />
+        mp_grid_add_cell(grid, x&gt;&gt;5, y&gt;&gt;5);<br />
+    }</p>
+  <p>O código acima fará com que toda &quot;obj_Wall&quot; e toda obj_Door adicionem suas posições de célula equivalentes na mp_grid indexada na variável &quot;grid&quot;. Na primeira parte do exemplo, isto é feito tomando as coordenadas x/y do <span class="notranslate">object</span> e dividindo-as pela resolução da grade (usando <span class="inline">floor</span> para manter os valores como inteiros), e na segunda parte (já que a resolução da grade é uma potência de 2) é feito deslocando as coordenadas x,y 5 lugares para a direita.</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Voltar: <a href="Motion_Planning.htm">Planejamento de Movimento</a></div>
+        <div style="float:right">A seguir: <a href="mp_grid_add_instances.htm"><span class="notranslate">mp_grid_add_instances</span></a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright <span class="notranslate">YoYo Games Ltd.</span> 2022 Todos os direitos reservados</span></h5>
+  </div>
+  <!-- KEYWORDS
+mp_grid_add_cell
+-->
+  <!-- TAGS
+mp_grid_add_cell
+-->
+</body>
+</html>

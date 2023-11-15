@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>alarme</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../../../assets/css/default.css" type="text/css" />
+  <script src="../../../../../assets/scripts/main_script.js"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Page outlining the variable alarm" />
+  <meta name="rh-index-keywords" content="alarm" />
+  <meta name="search-keywords" content="alarm" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>alarme</h1>
+  <p>Esta <a href="../../../../GML_Overview/Arrays.htm">matriz de</a> 1 dimensão é usada para obter o valor atual para quaisquer alarmes que a instância possa ter, ou pode ser usada para definir esses alarmes. Há doze alarmes embutidos em cada instância de um <span class="notranslate">object</span>, e cada um tem seu próprio <a href="../../../../../The_Asset_Editors/Object_Properties/Object_Events.htm"><span class="notranslate">event</span></a> que será executado quando esta variável chegar a 0.</p>
+  <p>Os alarmes são contados no início de cada etapa, <strong>após</strong> o evento da etapa inicial, mas <strong>antes</strong> do evento da etapa principal, e antes que qualquer coisa seja entregue para o quadro. Isto significa que se você definir um alarme para <span class="inline2">1</span> no evento Begin Step, seu evento será executado nesse mesmo quadro (pois o alarme será contado até 0 após o término do Begin Step), mas se você definir um alarme para <span class="inline2">1</span> no evento Step, ele será executado no próximo quadro.</p>
+  <p>Deve-se observar que o alarme não está terminado quando chega a 0 (embora o evento tenha sido acionado), pois o próximo passo será descer para -1, portanto, se você precisar parar um alarme por qualquer motivo, você deve definir seu valor de matriz para -1 <i>e não</i> 0. Os tempos de alarme são calculados em <i>etapas de jogo</i>, com um valor de 30 sendo 30 passos, 60 sendo 60 passos, etc...</p>
+  <p class="note"><span class="note">OBSERVAÇÃO</span> Um alarme sem ações ou código nele não será executado. Entretanto, mesmo com apenas um comentário e sem código, o alarme será contado para baixo.</p>
+  <p>Você pode definir a matriz de alarmes diretamente (e recuperar o valor atual do alarme diretamente usando a matriz também), mas sob algumas circunstâncias este não é o método mais apropriado, então você também pode usar a função <span class="inline"><a href="../alarm_set.htm">alarm_set()</a></span> para definir um alarme, e a função <a href="../alarm_get.htm"><span class="inline">alarm_get()</span></a> para obter o valor de um alarme.</p>
+  <p> </p>
+  <h4>Sintaxe:</h4>
+  <p class="code">alarm[val];</p>
+  <p> </p>
+  <h4>Devoluções:</h4>
+  <p class="code"><span data-keyref="Type_Real"></span> (-1 if the alarm isn&#39;t running)</p>
+  <p> </p>
+  <h4>Exemplo:</h4>
+  <p class="code">if canshoot<br />
+    {<br />
+        if keyboard_check_pressed(vk_space)<br />
+        {<br />
+            canshoot = false;<br />
+            alarm[0] = room_speed;<br />
+            instance_create_layer(x, y, &quot;Bullets&quot;, obj_Bullet);<br />
+        }<br />
+    }</p>
+  <p>O código acima verifica uma variável e então, se for verdadeira, verifica se há uma tecla pressionada e se for verdadeira, finalmente define a variável como falsa, define um alarme (onde ela será definida como verdadeira novamente) e cria uma instância.</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Voltar: <a href="Instance_Variables.htm">Variáveis de instância</a></div>
+        <div style="float:right">A seguir: <a href="direction.htm"><span class="notranslate">direction</span></a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright <span class="notranslate">YoYo Games Ltd.</span> 2022 Todos os direitos reservados</span></h5>
+  </div>
+  <!-- KEYWORDS
+alarm
+-->
+  <!-- TAGS
+alarm
+-->
+</body>
+</html>

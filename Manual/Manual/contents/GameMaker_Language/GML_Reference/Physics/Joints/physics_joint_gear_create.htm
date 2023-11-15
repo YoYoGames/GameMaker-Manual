@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>physics_joint_gear_create</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
+  <script src="../../../../assets/scripts/main_script.js"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Reference page for physics_joint_gear_create" />
+  <meta name="rh-index-keywords" content="physics_joint_gear_create" />
+  <meta name="search-keywords" content="physics_joint_gear_create" />
+  <meta name="is_pure" content="true" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1><span data-field="title" data-format="default">physics_joint_gear_create</span></h1>
+  <p>Se você quiser criar uma engenhoca mecânica sofisticada, você pode querer usar engrenagens. Em princípio, você pode criar engrenagens no <span data-keyref="GameMaker Name">GameMaker</span> usando instâncias compostas para modelar dentes de engrenagens, mas isto não é muito eficiente e pode ser entediante para o autor! Felizmente, existe um método mais simples, que é o uso de uma <i>junta de engrenagens</i>. Para fazer uma você precisa ter previamente definido suas engrenagens e criado as duas juntas básicas que irão compor sua engrenagem - estas <b>devem</b> ser compostas de uma <a href="physics_joint_revolute_create.htm">junta rotativa</a> e uma <a href="physics_joint_prismatic_create.htm">junta prismática</a> ou outra <i>junta rotativa</i>. A imagem abaixo mostra como uma engrenagem normalmente seria criada em um jogo:</p>
+  <p><img>Então, o que acontece? Bem, uma vez que as duas juntas são adicionadas à engrenagem, a interação com uma terá um efeito sobre a outra, então na imagem de exemplo acima, se você girar inst2, inst3 se moverá para cima e para baixo, ou se você mover inst3 para cima e para baixo, então inst2 se girará. Você também pode mudar a relação de engrenagem, significando que você precisa mover uma instância a mais (ou a menos) para obter o efeito desejado. O código no exemplo ao fundo mostra como algo como a imagem acima pode ser criado.</p>
+  <p class="note"><b>OBSERVAÇÃO</b>: Se você precisar excluir qualquer uma das duas instâncias envolvidas na junta de engrenagem (ou apenas excluir suas juntas), então você <b>deve</b> excluir a junta de engrenagem primeiro usando <span style="font-size:1px;"><a href="physics_joint_delete.htm"><span class="inline">physics_joint_delete()</span></a></span> ou então você receberá um erro!</p>
+  <p> </p>
+  <h4>Sintaxe:</h4>
+  <p class="code"><span data-field="title" data-format="default">physics_joint_gear_create</span>(inst1, inst2, joint_1, joint_2, ratio)</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>Argumento</th>
+        <th>Tipo</th>
+        <th>Descrição</th>
+      </tr>
+      <tr>
+        <td><span class="notranslate">inst1</span></td>
+        <td><span data-keyref="Type_ID_Instance"><a href="../../../../../GameMaker_Language/GML_Reference/Asset_Management/Instances/Instance_Variables/id.htm" target="_blank">Identificação da instância</a></span></td>
+        <td><span class="notranslate">The first instance to connect with the joint</span></td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">inst2</span></td>
+        <td><span data-keyref="Type_ID_Instance"><a href="../../../../../GameMaker_Language/GML_Reference/Asset_Management/Instances/Instance_Variables/id.htm" target="_blank">Identificação da instância</a></span></td>
+        <td><span class="notranslate">The second instance to connect with the joint</span></td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">joint_1</span></td>
+        <td><span data-keyref="Type_Real"><a href="../../../../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td><span class="notranslate">A previously defined revolute joint</span></td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">joint_2</span></td>
+        <td><span data-keyref="Type_Real"><a href="../../../../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td><span class="notranslate">A previously defined revolute <i>or</i> prismatic joint</span></td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">ratio</span></td>
+        <td><span data-keyref="Type_Real"><a href="../../../../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td><span class="notranslate">Set the velocity ratio between the two joints</span></td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>Devoluções:</h4>
+  <p class="code"><span data-keyref="Type_ID_Physics_Joint"><a href="../../../../../GameMaker_Language/GML_Reference/Physics/Joints/Joints.htm" target="_blank">Physics Joint ID</a></span></p>
+  <p> </p>
+  <h4>Exemplo:</h4>
+  <p class="code">var t_fix, g_fix, inst1, inst2, inst3, r_joint, p_joint;<br />
+    g_fix = physics_fixture_create();<br />
+    physics_fixture_set_box_shape(g_fix, 40, 10);<br />
+    t_fix = physics_fixture_create();<br />
+    physics_fixture_set_circle_shape(t_fix, 10);<br />
+    physics_fixture_set_density(t_fix, 0.5);<br />
+    inst1 = instance_create_layer(60, room_height - 30, &quot;Background&quot;, obj_Ground);<br />
+    inst2 = instance_create_layer(40, room_height - 300, &quot;Instances&quot;, obj_Cog);<br />
+    inst3 = instance_create_layer(150, room_height - 300, &quot;Instances&quot;, obj_Barrel);<br />
+    physics_fixture_bind(g_fix, inst1);<br />
+    physics_fixture_bind(t_fix, inst2);<br />
+    physics_fixture_bind(t_fix, inst3);<br />
+    r_joint = physics_revolute_joint_create(inst1, inst2, 40, room_height - 300, -80, 80, 1, 10, 0.5, 1, 0);<br />
+    p_joint = physics_prismatic_joint_create(inst1, inst3, 150, room_height - 300, 0, 1, -10, 10, true, 0, 0, 0, 0);<br />
+    <span data-field="title" data-format="default">physics_joint_gear_create</span>(inst2, inst3, r_joint, p_joint, 0.5);
+  </p>
+  <p>O código acima cria e define duas fixações e depois cria três instâncias, uma &quot;obj_Ground&quot; e duas outras, &quot;obj_Cog&quot; e &quot;obj_Barrel&quot;. As fixações são então vinculadas a estas instâncias e duas juntas são criadas. Uma junta revoluta entre o solo e a engrenagem, e uma junta prismática entre o solo e o barril. Finalmente, uma junta de engrenagem é criada entre as instâncias da engrenagem e do cano, usando as juntas rotativas e prismáticas previamente definidas.</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Voltar: <a href="Joints.htm">Juntas</a></div>
+        <div style="float:right">A seguir: <a href="physics_joint_rope_create.htm"><span class="notranslate">physics_joint_rope_create</span></a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright <span class="notranslate">YoYo Games Ltd.</span> 2022 Todos os direitos reservados</span></h5>
+  </div>
+  <!-- KEYWORDS
+physics_joint_gear_create
+-->
+  <!-- TAGS
+physics_joint_gear_create
+-->
+</body>
+</html>

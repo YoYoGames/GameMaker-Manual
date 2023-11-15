@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Trabalho em rede</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Page detailing the Networking async event." />
+  <meta name="rh-index-keywords" content="Objects - Async Networking Event" />
+  <meta name="search-keywords" content="networking,network_type_connect,network_type_disconnect,network_type_data,network_type_non_blocking_connect,ev_web_networking" />
+  <link rel="stylesheet" type="text/css" href="../../../assets/css/default.css" />
+  <script src="../../../assets/scripts/main_script.js"></script>
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>Trabalho em rede</h1>
+  <p><img alt="Networking Event" class="center" src="../../../assets/Images/Asset_Editors/Async_Networking.png" /></p>
+  <p>O evento de rede é um evento que será acionado por qualquer tráfego de entrada na rede, e está ligado às <a href="../../../GameMaker_Language/GML_Reference/Networking/Networking.htm">funções de rede</a>. Este evento gera um <a href="../../../GameMaker_Language/GML_Reference/Data_Structures/DS_Maps/DS_Maps.htm">DS Map</a> especial exclusivo para este evento e é armazenado na variável especial <a href="../../../GameMaker_Language/GML_Overview/Variables/Builtin_Global_Variables/async_load.htm"><span class="notranslate">async_load</span></a>. Este mapa DS conterá informações diferentes, dependendo do tipo de evento da rede que o gerou.</p>
+  <h2>Eventos comuns de trabalho em rede</h2>
+  <p>As seguintes chaves são comuns a todas as funções de rede recebidas e estarão sempre presentes no mapa <span class="inline">async_load</span>:</p>
+  <ul class="colour">
+    <li>&quot;<strong>tipo</strong>&quot;: Esta terá uma das constantes listadas na tabela abaixo como seu valor de retorno, e designa o tipo de evento de rede.</li>
+    <li>&quot;<strong>id</strong>&quot;: O id do soquete (um número real, como retornado pela função network_create_server ou network_create_socket) que está recebendo o evento. Na maioria dos casos, o ID do socket retornado é o ID do TCP ou do socket UDP que acionou o evento, porém se o evento for acionado em um <span class="notranslate">server</span> e for um evento de dados (veja abaixo), então o ID do socket é o do cliente que enviou os dados.</li>
+    <li>&quot;<strong>ip</strong>&quot;: O endereço IP do soquete (como um <span class="notranslate">string</span>).</li>
+    <li>&quot;<strong>porto</strong>&quot;: A porta associada com o endereço IP (útil quando se trabalha com UDP).</li>
+  </ul>
+  <p>Os possíveis valores de retorno para a chave &quot;tipo&quot; podem ser qualquer uma das quatro constantes listadas abaixo:</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>Constante</th>
+        <th>Descrição</th>
+      </tr>
+      <tr>
+        <td><span class="notranslate"><span class="inline">network_type_connect</span></td>
+        <td>O evento foi acionado por uma conexão.</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate"><span class="inline">network_type_disconnect</span></td>
+        <td>O evento foi acionado por uma desconexão.</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate"><span class="inline">network_type_data</span></td>
+        <td>O evento foi acionado pelos dados recebidos.</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate"><span class="inline">network_type_non_blocking_connect</span></td>
+        <td>O evento foi acionado por uma conexão configurada como não-bloqueio (você pode usar a função <a href="../../../GameMaker_Language/GML_Reference/Networking/network_set_config.htm"><span class="inline">network_set_config()</span></a> para isso, ou conectar usando <a href="../../../GameMaker_Language/GML_Reference/Networking/network_connect_async.htm"><span class="inline">network_connect_async()</span></a> ou <a href="../../../GameMaker_Language/GML_Reference/Networking/network_connect_raw_async.htm"><span class="inline">network_connect_async_raw()</span></a>).</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h2>Conectando / Desconectando</h2>
+  <p>Quando você tiver um evento do tipo <span class="inline">network_type_connect</span> ou <span class="inline">network_type_disconnect</span>, o mapa <span class="inline">async_load </span>terá a seguinte chave adicional:</p>
+  <ul class="colour">
+    <li>&quot;<strong>soquete</strong>&quot;: Esta chave manterá a identificação do soquete de conexão/desconexão.</li>
+  </ul>
+  <p>Se o evento for do tipo <span class="inline">network_type_non_blocking_connect</span>, então, além disso, haverá a seguinte chave:</p>
+  <ul class="colour">
+    <li>&quot;<strong>bem-sucedido</strong>&quot;: Esta chave será 0 ou 1, onde 0 significa que a conexão foi temporizada e 1 significa que foi bem sucedida e o soquete está pronto para uso.</li>
+  </ul>
+  <p>Vale notar que o Evento de Rede não é acionado nos clientes quando o <span class="notranslate">server</span> se desconecta, e que nenhum dos eventos <span class="inline">network_type_*</span> será acionado nos clientes quando o <span class="notranslate">server</span> estiver conectado a desconexões, mesmo que a conexão seja baseada em TCP.</p>
+  <h2>Recebimento de dados</h2>
+  <p>Quando você tiver um evento do tipo <span class="inline">network_type_data</span>, o que significa que sua rede recebeu dados, o mapa criado terá as seguintes chaves:</p>
+  <ul class="colour">
+    <li>&quot;<strong>tampão</strong>&quot;: Esta é a &quot;identificação de buffer&quot; única que é gerada pelo evento. Um &quot;crescer&quot; tipo <span class="notranslate">buffer</span>, byte alinhado a 1, é criado para manter o ID deve ser armazenado em uma variável e usado para todas as chamadas adicionais de função para o <span class="notranslate">buffer</span> neste evento. Assim como o mapa <span class="inline">async_load</span>, o <span class="notranslate">buffer</span> criado é automaticamente removido da memória no final deste evento. Para mais informações sobre <span class="notranslate">buffers</span>, consulte <a href="../../../GameMaker_Language/GML_Reference/Buffers/Buffers.htm">Referência - Buffers</a>.</li>
+    <li>&quot;<strong>tamanho</strong>&quot;: Este é o tamanho (em bytes) dos dados <span class="notranslate">buffer</span> que estão sendo recebidos.</li>
+    <li>&quot;<strong>message_type</strong>&quot;:<em> (Somente WebSockets)</em> - Será <span class="inline2">network_send_binary</span> se a mensagem recebida foi em formato binário, ou <span class="inline2">network_send_text</span> se foi recebida em formato de texto.</li>
+  </ul>
+  <p class="note"><span class="note">OBSERVAÇÃO</span> O <span class="notranslate">buffer</span> criado só é válido nestes eventos e será automaticamente liberado quando o evento terminar.</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Voltar: <a href="../Async_Events.htm">Eventos Async</a></div>
+        <div style="float:right">A seguir: <a href="Push_Notifications.htm">Notificações Push</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright <span class="notranslate">YoYo Games Ltd.</span> 2022 Todos os direitos reservados</span></h5>
+  </div>
+  <!-- KEYWORDS
+Asynchronous Networking Event
+network_type_connect
+network_type_disconnect
+network_type_data
+network_type_non_blocking_connect
+ev_web_networking
+-->
+  <!-- TAGS
+ev_web_networking
+-->
+</body>
+</html>

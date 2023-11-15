@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>achievement_login</title>
+  <meta name="generator" content="Adobe RoboHelp 2019" />
+  <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
+  <script src="../../../../assets/scripts/main_script.js"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Reference page for achievement_login" />
+  <meta name="rh-index-keywords" content="achievement_login,achievement_our_info" />
+  <meta name="search-keywords" content="achievement_login,achievement_our_info" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>achievement_login</h1>
+  <p>Esta função registra o usuário na tabela de liderança apropriada e no serviço de realizações. Se o serviço <i>não</i> estiver disponível, o usuário é logado em um centro de jogos &quot;fingido&quot; e todas as conquistas e pontuações são armazenadas no dispositivo para que quando
+    o serviço real está disponível, estes detalhes podem ser carregados. A função desencadeará um <a href="../../../../The_Asset_Editors/Object_Properties/Async_Events/Social.htm">Evento Assíncrono Social</a> de retorno que contém o <a href="../../../GML_Overview/Variables/Builtin_Global_Variables/async_load.htm"><tt>async_load</tt></a>    mapa povoado com os pares chave/valor relevantes. A chave de <i>id</i> deste <tt>Mapa DS</tt> é usada para identificar a chamada de retorno correta (pode haver mais de uma função de acionamento para qualquer evento assíncrono), e será emparelhada com a <b>constante</b> <tt>realização_nossa_info</tt>, bem como um número de outros pares de chaves/valores para cada desafio. O conteúdo exato do mapa é mostrado abaixo:</p>
+  <ul class="colour">
+    <li>&quot;<b>id</b>&quot; - Para esta função deve ser <tt>realizado_nossa_info</tt></li>
+    <li>&quot;<b>name</b>&quot; - O nome do usuário que está atualmente logado.</li>
+    <li>&quot;<b>playerid</b>&quot; - A identificação única para o usuário que está atualmente conectado.</li>
+  </ul>
+  <p> </p>
+  <h4><b>Sintaxe:</b></h4>
+  <p class="code">achievement_login()</p>
+  <p> </p>
+  <h4>Devoluções:</h4>
+  <p class="code">N/A</p>
+  <p> </p>
+  <h4>Exemplo ampliado:</h4>
+  <p>O seguinte código provavelmente seria chamado logo no início de seu jogo, ou a partir de um botão especial <span class="notranslate">object</span> que você colocou em um <span class="notranslate">room</span>, e solicitará que o jogador faça login em sua conta do Google Game Services ou da Apple Game center:</p>
+  <p class="code">achievement_login();</p>
+  <p>Isto enviará uma solicitação para as informações atuais do jogador e gerará uma chamada de retorno assíncrona com o mapa especial de DS <tt>assimétrico</tt> contendo os seguintes dados:</p>
+  <p class="code">var ident = ds_map_find_value(async_load, &quot;id&quot;);<br/> if ident == achievement_our_info<br/>     {
+    <br/>     var name = ds_map_find_value(async_load, &quot;name&quot; );<br/>     var playerid = ds_map_find_value(async_load, &quot;playerid&quot; );<br/>     global.OurName = name;<br/>     global.OurId = playerid;<br/>     if os_type == os_android<br/>            {
+    <br/>         achievement_load_leaderboard(&quot;CgkIs9_51u0PEAIQBw&quot;, 1, 100, achievement_filter_friends_only);<br/>         }
+    <br/>     else
+    <br/>         {
+    <br/>         achievement_load_leaderboard(&quot;leaderboard1id&quot;, 1, 100, achievement_filter_friends_only);<br/>         }
+    <br/>     achievement_get_challenges();
+    <br/>     achievement_load_friends();
+    <br/>     achievement_load_progress();
+    <br/>     }
+  </p>
+  <p>O código acima verifica o <tt>Mapa DS</tt> retornado no <b>Evento Assíncrono Social</b> e se seu &quot;id&quot; corresponde à constante a ser verificada, então <span class="notranslate">loops</span> através do mapa armazenando todos os diferentes valores em variáveis antes de chamar o resto
+    das funções para preparar as tabelas de liderança, desafios e listas de amigos.</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Voltar: <a href="Achievements_And_Leaderboards.htm">Conquistas e Quadros de Líderes</a></div>
+        <div style="float:right">A seguir: <a href="achievement_logout.htm"><span class="notranslate">achievement_logout</span></a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright <span class="notranslate">YoYo Games Ltd.</span> 2021 Todos os direitos reservados</span></h5>
+  </div>
+  <!-- KEYWORDS
+achievement_login
+achievement_our_info
+-->
+  <!-- TAGS
+achievement_login
+-->
+</body>
+</html>
