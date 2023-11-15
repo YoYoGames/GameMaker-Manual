@@ -40,11 +40,13 @@ jobs:
       #         upstream_sync_branch: main-lts
       #         upstream_sync_repo: YoYoGames/GameMaker-Manual
       #         upstream_repo_access_token: ${{ secrets.GH_TOKEN }}    
-      - uses: AbdulmelikKalkan/sync-fork-upstream@v1.3
-        env:
-          ACCESS_TOKEN: ${{ secrets.GH_TOKEN }}
+      - uses: TobKed/github-forks-sync-action@master
         with:
-          owner: YoYoGames
-          repo: GameMaker-Manual
-          branch: develop              
+          github_token: ${{ secrets.GH_TOKEN }}
+          upstream_repository: YoYoGames/GameMaker-Manual
+          target_repository: ${{ github.repository}}
+          upstream_branch: develop
+          target_branch: develop
+          force: false
+          tags: false
 
