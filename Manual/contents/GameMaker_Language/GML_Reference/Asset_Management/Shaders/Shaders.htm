@@ -6,7 +6,7 @@
   <title>Shaders</title>
   <meta name="generator" content="Adobe RoboHelp 2020" />
   <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
-  <script src="../../../../assets/scripts/main_script.js" type="module"></script>
+  <script src="../../../../assets/scripts/main_script.js"></script>
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Page outlining the different functions and variables associated with Shaders" />
   <meta name="rh-index-keywords" content="" />
@@ -14,27 +14,27 @@
 </head>
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
-  <h1><span data-field="title" data-format="default">Shaders</span></h1>
-  <p>Shaders are an incredibly powerful tool for manipulating what and how things are <a class="glossterm" data-glossterm="rendered" href="#">rendered</a> to the screen by the graphics card. Since these tiny programs are actually run on the graphics card itself, this means that they are extremely fast to process, freeing up valuable CPU cycles for more game logic.</p>
-  <p>To create a shader you will need to have written both a <b>Vertex Shader</b> and a <b>Fragment Shader</b> (also know as a <b>Pixel Shader</b>) using the <a href="../../../../The_Asset_Editors/Shaders.htm">Shader Editor</a>, and even if (for example) you only wish to change the vertex positions for an instance being drawn, or if you only want to change the colour values for the pixels, you will still need <b>both</b> programs for a complete shader to work.</p>
-  <p class="note"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> Shaders do <b>not</b> permit you to change the value of any variables that you pass into them, and so these will be called <b>shader constants</b> in all the documentation that refers to them.</p>
-  <p>For a complete overview of the language specification of GLSL ES that <span data-keyref="GameMaker Name">GameMaker</span> currently uses, including the functions and variables that you can use to program the shaders themselves, please refer to the <a href="https://registry.khronos.org/OpenGL/specs/es/2.0/GLSL_ES_Specification_1.00.pdf">GLSL ES Specification 1.00</a>. If you&#39;re looking for a quick overview of these functions and variables, the following link is useful as well as it contains some quick reference cards for the OpenGL ES API on the last two cards: <a href="https://www.khronos.org/opengles/sdk/docs/reference_cards/OpenGL-ES-2_0-Reference-card.pdf">OpenGL ES Reference Cards</a>.</p>
-  <p>Using a shader in your projects is very simple, and only requires a couple of lines of code to get the most basic of use from it:</p>
+  <h1>Shaders</h1>
+  <p>Os shaders são uma ferramenta incrivelmente poderosa para manipular o que e como as coisas são <a class="glossterm" data-glossterm="apresentada em" href="#">renderizadas</a> à tela pela placa gráfica. Uma vez que estes minúsculos programas são realmente executados na própria placa gráfica, isto significa que eles são extremamente rápidos de processar, liberando valiosos ciclos de CPU para mais lógica de jogo.</p>
+  <p>Para criar um <span class="notranslate">shader</span> você precisará ter escrito tanto um <b>Shader Vertex</b> quanto um <b>Fragment Shader</b> (também conhecido como <b>Pixel Shader</b>) usando o <a href="../../../../The_Asset_Editors/Shaders.htm">Editor Shader</a>, e mesmo que (por exemplo) você deseje apenas mudar as posições do <span class="notranslate">vertex</span> por exemplo, ou se você quiser apenas mudar os valores de cor dos pixels, você ainda precisará de <b>ambos os</b> programas para um <span class="notranslate">shader</span> completo para trabalhar.</p>
+  <p class="note"><span class="note">NOTA</span> Os Shaders <b>não</b> permitem que você altere o valor de nenhuma variável que você transfira para eles, e assim estes serão chamados de <b>constantes shader</b> em toda a documentação que se refere a eles.</p>
+  <p>Para uma visão geral completa das funções e variáveis GLSL ES disponíveis que você pode usar para programar as próprias <span class="notranslate">shaders</span>, consulte as <a href="https://www.khronos.org/registry/OpenGL/specs/es/2.0/es_cm_spec_2.0.pdf" target="_blank">Páginas de Referência OpenGL ES Shading Language (GLSL ES)</a>. O link a seguir também é útil pois contém algumas fichas de referência rápida para a API OpenGL ES (note que apenas as duas últimas fichas mostradas são aplicáveis ao <span data-keyref="GameMaker Name">GameMaker</span>): <a href="https://www.khronos.org/opengles/sdk/docs/reference_cards/OpenGL-ES-2_0-Reference-card.pdf">Cartões de Referência OpenGL ES</a>.</p>
+  <p>Usar um <span class="notranslate">shader</span> em seus projetos é muito simples e requer apenas algumas linhas de código para obter o uso mais básico do mesmo:</p>
   <p class="code">shader_set(myShader);<br />
     draw_self();<br />
     shader_reset();</p>
-  <p>As you can see, they are used in a similar manner to blend modes and surfaces, where you first select (set) the shader, draw what you want using it, then reset the draw target again afterwards. If you wish to render the full screen through a shader, and not just a single sprite or background, you will need to set up a surface to catch the current view, and then pass that through to the shader (see <a href="../../Drawing/Surfaces/Surfaces.htm">Surfaces</a> for more information).</p>
-  <p class="note"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> Shaders, like anything related to drawing, can <b>only be used in the draw event</b>. It is also worth noting that if you are trying to use a colour value in a shader and the object has no texture, the results will turn out black.</p>
-  <p>If the shader you are using has input values, these are set using the <i>uniform</i> functions. You would first get the uniform <i>handle</i> (which is essentially an ID value for the uniform to be set) using the function <a href="shader_get_uniform.htm"><span class="inline">shader_get_uniform()</span></a> in the <b>Create Event</b> of the instance using the shader, and then store these handles in variables, something like this:</p>
+  <p>Como você pode ver, eles são usados de maneira semelhante para misturar modos e superfícies, onde você primeiro seleciona (define) o <span class="notranslate">shader</span>, desenha o que você quer usando-o, depois reinicia o alvo de sorteio novamente depois. Se você desejar renderizar a tela completa através de um <span class="notranslate">shader</span>, e não apenas um único <span class="notranslate">sprite</span> ou fundo, você precisará configurar uma superfície para capturar a visão atual, e então passar isso para o <span class="notranslate">shader</span> (veja <a href="../../Drawing/Surfaces/Surfaces.htm">Superfícies</a> para mais informações).</p>
+  <p class="note"><b>NOTA</b>: <span class="notranslate">Shaders</span>, como qualquer coisa relacionada ao desenho, <b>só</b> pode <b>ser usada no evento de sorteio</b>. Vale notar também que se você estiver tentando usar um valor de cor em um <span class="notranslate">shader</span> e o <span class="notranslate">object</span> não tem <span class="notranslate">texture</span>, os resultados ficarão pretos.</p>
+  <p>Se o <span class="notranslate">shader</span> que você está usando tem valores de entrada, estes são definidos usando as funções <i>uniformes</i>. Você obteria primeiro o <i>cabo</i> uniforme (que é essencialmente um valor de identificação para o uniforme a ser definido) usando a função <a href="shader_get_uniform.htm"><span class="inline">shader_get_uniform()</span></a> no <b>Create Event</b> of the instance usando o <span class="notranslate">shader</span>, e depois armazenar estas alças em variáveis, algo como isto:</p>
   <p class="code">colour_to_find = shader_get_uniform(sShaderDemo5, &quot;f_Colour1&quot;);<br />
     colour_to_set = shader_get_uniform(sShaderDemo5, &quot;f_Colour2&quot;);</p>
-  <p>Once you have the uniform handles, they can then be set in the shader code for the <b>Draw Event</b> like this:</p>
+  <p>Uma vez que você tenha as alças uniformes, elas podem então ser definidas no código <span class="notranslate">shader</span> para o <b>evento de sorteio</b> como este:</p>
   <p class="code">shader_set(sShaderDemo5);<br />
     shader_set_uniform_f(colour_to_find, 1,1,1 );<br />
     shader_set_uniform_f(colour_to_set, 1,0,0 );<br />
     draw_sprite(sprite_index,image_index,x+24, y);<br />
     shader_reset();</p>
-  <p>One final thing to note is that although shaders are accepted across all platforms, they are still device specific and if the hardware or software of the device cannot use shaders then you will get an error. Therefore you are recommended to check that the shader has been compiled before setting uniforms or using the shader itself, like this:</p>
+  <p>Uma última coisa a notar é que embora <span class="notranslate">shaders</span> seja aceito em todas as plataformas, eles ainda são específicos do dispositivo e se o hardware ou software do dispositivo não puder usar <span class="notranslate">shaders</span> então você receberá um erro. Portanto, recomenda-se que você verifique se o <span class="notranslate">shader</span> foi compilado antes de colocar os uniformes ou usar o próprio <span class="notranslate">shader</span>, desta forma:</p>
   <p class="code">if (shader_is_compiled(myShader))<br />
     {<br />
         shader_set(myShader);<br />
@@ -42,111 +42,110 @@
         shader_reset();<br />
     }<br />
     else show_debug_message(&quot;Shader failed&quot;);</p>
-  <p>As an extra check you can also call the function <a href="shaders_are_supported.htm"><span class="inline">shaders_are_supported()</span></a> to see if the hardware even supports shaders. In general you&#39;d do these checks on game start and store the results as a <a href="../../../GML_Overview/Variables/Global_Variables.htm">global variable</a> to then check later.</p>
-  <p>It is important to note that <span data-keyref="GameMaker Name">GameMaker</span> also supports some conditional compile <b>Macros</b> which can be used within GLSL ES shaders so they can perform alternative code on specific supported platforms. The macros and the platforms they will be generated on are shown in the table below:</p>
-  <p> </p>
+  <p>Como um cheque extra você também pode chamar a função <a href="shaders_are_supported.htm"><span class="inline">shaders_are_supported()</span></a> para ver se o hardware até suporta <span class="notranslate">shaders</span>. Em geral, você faria essas verificações no início do jogo e armazenaria os resultados como uma <a href="../../../GML_Overview/Variables/Global_Variables.htm">variável global</a> para depois verificar mais tarde.</p>
+  <p>É importante notar que o <span data-keyref="GameMaker Name">GameMaker</span> também suporta algumas <b>Macros de</b> compilação condicional que podem ser usadas dentro da GLSL ES <span class="notranslate">shaders</span> para que possam executar código alternativo em plataformas específicas suportadas. As macros e as plataformas nas quais elas serão geradas são mostradas na tabela abaixo:</p>
+  <p> </p>
   <table>
     <tbody>
       <tr>
-        <th>Shader Macro</th>
-        <th>Value</th>
-        <th>Target Platform</th>
+        <th>Macro Shader</th>
+        <th>Valor</th>
+        <th>Plataforma Alvo</th>
       </tr>
       <tr>
-        <td>_YY_GLSLES_</td>
+        <td>SIM_GLSLES_</td>
         <td>1</td>
-        <td>All target platforms</td>
+        <td>Todas as plataformas alvo</td>
       </tr>
       <tr>
-        <td>_YY_GLSL_</td>
+        <td>YYY_GLSL_</td>
         <td>2</td>
-        <td>Mac and Ubuntu (Linux)</td>
+        <td>Mac e <span class="notranslate">Ubuntu</span> (<span class="notranslate">Linux</span>)</td>
       </tr>
       <tr>
-        <td>_YY_HLSL11_</td>
+        <td>YYY_HLSL11_</td>
         <td>3</td>
-        <td>Windows, XboxOne</td>
+        <td>Windows, UWP, XboxOne</td>
       </tr>
       <tr>
-        <td>_YY_PSSL_</td>
+        <td>YYY_PSSL_</td>
         <td>4</td>
         <td>PS4</td>
       </tr>
     </tbody>
   </table>
-  <p> </p>
-  <p>When you compile your <span data-keyref="GameMaker Name">GameMaker</span> project on any one of the listed platforms using a GLSL ES format shader, <i>one</i> of the above macros will be generated which can then be used checked in the shader code like this:</p>
+  <p> </p>
+  <p>Quando você compila seu projeto <span data-keyref="GameMaker Name">GameMaker</span> em qualquer uma das plataformas listadas usando um formato GLSL ES <span class="notranslate">shader</span>, <i>uma</i> das macros acima será gerada e poderá ser usada, então, verificada no código <span class="notranslate">shader</span> desta forma:</p>
   <p class="code">#ifdef _YY_HLSL11_<br />
     // HLSL shader code here<br />
     #else<br />
     // GLSL shader code here<br />
     #endif</p>
-  <p>If you are new to shaders or want a more complete guide to creating and use them using <span data-keyref="GameMaker Name">GameMaker</span>, then please see the following page of the manual:</p>
+  <p>Se você é novo no <span class="notranslate">shaders</span> ou deseja um guia mais completo para criá-los e usá-los usando o <span data-keyref="GameMaker Name">GameMaker</span>, por favor veja a seguinte página do manual:</p>
   <ul class="colour">
-    <li><a data-xref="{title}" href="../../../../Additional_Information/Guide_To_Using_Shaders.htm">Guide To Using Shaders</a></li>
+    <li><a href="../../../../Additional_Information/Guide_To_Using_Shaders.htm">Guia para o uso de Shaders</a></li>
   </ul>
-  <p> </p>
-  <p>The following functions are available for drawing and setting shaders:</p>
+  <p> </p>
+  <p>As seguintes funções estão disponíveis para desenho e ajuste de shaders:</p>
+  <p> </p>
   <ul class="colour">
-    <li><a data-xref="{title}" href="shader_get_name.htm">shader_get_name</a></li>
-    <li><a data-xref="{title}" href="shader_get_uniform.htm">shader_get_uniform</a></li>
-    <li><a data-xref="{title}" href="shader_get_sampler_index.htm">shader_get_sampler_index</a></li>
-    <li><a data-xref="{title}" href="shader_set.htm">shader_set</a></li>
-    <li><a data-xref="{title}" href="shader_set_uniform_f.htm">shader_set_uniform_f</a></li>
-    <li><a data-xref="{title}" href="shader_set_uniform_f_array.htm">shader_set_uniform_f_array</a></li>
-    <li><a data-xref="{title}" href="shader_set_uniform_f_buffer.htm">shader_set_uniform_f_buffer</a></li>
-    <li><a data-xref="{title}" href="shader_set_uniform_i.htm">shader_set_uniform_i</a></li>
-    <li><a data-xref="{title}" href="shader_set_uniform_i_array.htm">shader_set_uniform_i_array</a></li>
-    <li><a data-xref="{title}" href="shader_set_uniform_matrix.htm">shader_set_uniform_matrix</a></li>
-    <li><a data-xref="{title}" href="shader_set_uniform_matrix_array.htm">shader_set_uniform_matrix_array</a></li>
-    <li><a data-xref="{title}" href="shader_reset.htm">shader_reset</a></li>
-    <li><a data-xref="{title}" href="shader_is_compiled.htm">shader_is_compiled</a></li>
-    <li><a data-xref="{title}" href="shaders_are_supported.htm">shaders_are_supported</a></li>
-    <li><a data-xref="{title}" href="shader_current.htm">shader_current</a></li>
+    <li><a href="shader_get_name.htm"><span class="notranslate">shader_get_name</span></a></li>
+    <li><a href="shader_get_uniform.htm"><span class="notranslate">shader_get_uniform</span></a></li>
+    <li><a href="shader_get_sampler_index.htm"><span class="notranslate">shader_get_sampler_index</span></a></li>
+    <li><a href="shader_set.htm"><span class="notranslate">shader_set</span></a></li>
+    <li><a href="shader_set_uniform_f.htm"><span class="notranslate">shader_set_uniform_f</span></a></li>
+    <li><a href="shader_set_uniform_f_array.htm"><span class="notranslate">shader_set_uniform_f_array</span></a></li>
+    <li><a href="shader_set_uniform_i.htm"><span class="notranslate">shader_set_uniform_i</span></a></li>
+    <li><a href="shader_set_uniform_i_array.htm"><span class="notranslate">shader_set_uniform_i_array</span></a></li>
+    <li><a href="shader_set_uniform_matrix.htm"><span class="notranslate">shader_set_uniform_matrix</span></a></li>
+    <li><a href="shader_set_uniform_matrix_array.htm"><span class="notranslate">shader_set_uniform_matrix_array</span></a></li>
+    <li><a href="shader_reset.htm"><span class="notranslate">shader_reset</span></a></li>
+    <li><a href="shader_is_compiled.htm"><span class="notranslate">shader_is_compiled</span></a></li>
+    <li><a href="shaders_are_supported.htm"><span class="notranslate">shaders_are_supported</span></a></li>
+    <li><a href="shader_current.htm"><span class="notranslate">shader_current</span></a></li>
   </ul>
-  <p> </p>
-  <p>We also have a special function which defines a global state for all shaders:</p>
+  <p> </p>
+  <p>Temos também uma função especial que define um estado global para todos os shaders:</p>
   <ul>
-    <li><a data-xref="{title}" href="shader_enable_corner_id.htm">shader_enable_corner_id</a></li>
+    <li><a href="shader_enable_corner_id.htm"><span class="notranslate">shader_enable_corner_id</span></a></li>
   </ul>
-  <p> </p>
-  <p>When working with texture samplers in shaders you will need information about the texture being used, in which case you can use the following functions: </p>
+  <p> </p>
+  <p>Ao trabalhar com o <span class="notranslate">texture</span> samplers em <span class="notranslate">shaders</span> você precisará de informações sobre o <span class="notranslate">texture</span> que está sendo usado, neste caso você pode usar as seguintes funções:</p>
+  <p> </p>
   <ul class="colour">
-    <li><a data-xref="{title}" href="../Sprites/Sprite_Information/sprite_get_texture.htm">sprite_get_texture</a></li>
-    <li><a data-xref="{title}" href="../Sprites/Sprite_Information/sprite_get_uvs.htm">sprite_get_uvs</a></li>
-    <li><a data-xref="{title}" href="../Fonts/font_get_texture.htm">font_get_texture</a></li>
-    <li><a data-xref="{title}" href="../Fonts/font_get_uvs.htm">font_get_uvs</a></li>
-    <li><a data-xref="{title}" href="../../Drawing/Textures/texture_get_width.htm">texture_get_width</a></li>
-    <li><a data-xref="{title}" href="../../Drawing/Textures/texture_get_height.htm">texture_get_height</a></li>
-    <li><a data-xref="{title}" href="../../Drawing/Textures/texture_get_texel_width.htm">texture_get_texel_width</a></li>
-    <li><a data-xref="{title}" href="../../Drawing/Textures/texture_get_texel_height.htm">texture_get_texel_height</a></li>
-    <li><a data-xref="{title}" href="../../Drawing/Textures/texture_set_stage.htm">texture_set_stage</a></li>
-    <li><a data-xref="{title}" href="../../Drawing/GPU_Control/gpu_set_texfilter.htm">gpu_set_texfilter</a></li>
-    <li><a data-xref="{title}" href="../../Drawing/GPU_Control/gpu_set_texfilter_ext.htm">gpu_set_texfilter_ext</a></li>
-    <li><a data-xref="{title}" href="../../Drawing/GPU_Control/gpu_set_texrepeat.htm">gpu_set_texrepeat</a></li>
-    <li><a data-xref="{title}" href="../../Drawing/GPU_Control/gpu_set_texrepeat_ext.htm">gpu_set_texrepeat_ext</a></li>
+    <li><a href="../Sprites/Sprite_Information/sprite_get_texture.htm"><span class="notranslate">sprite_get_texture</span></a></li>
+    <li><a href="../Sprites/Sprite_Information/sprite_get_uvs.htm"><span class="notranslate">sprite_get_uvs</span></a></li>
+    <li><a href="../Fonts/font_get_texture.htm"><span class="notranslate">font_get_texture</span></a></li>
+    <li><a href="../Fonts/font_get_uvs.htm"><span class="notranslate">font_get_uvs</span></a></li>
+    <li><a href="../../Drawing/Textures/texture_get_width.htm"><span class="notranslate">texture_get_width</span></a></li>
+    <li><a href="../../Drawing/Textures/texture_get_height.htm"><span class="notranslate">texture_get_height</span></a></li>
+    <li><a href="../../Drawing/Textures/texture_get_texel_width.htm"><span class="notranslate">texture_get_texel_width</span></a></li>
+    <li><a href="../../Drawing/Textures/texture_get_texel_height.htm"><span class="notranslate">texture_get_texel_height</span></a></li>
+    <li><a href="../../Drawing/Textures/texture_set_stage.htm"><span class="notranslate">texture_set_stage</span></a></li>
+    <li><a href="../../Drawing/GPU_Control/gpu_set_texfilter_ext.htm"><span class="notranslate">gpu_set_texfilter_ext</span></a></li>
+    <li><a href="../../Drawing/GPU_Control/gpu_set_texrepeat.htm"><span class="notranslate">gpu_set_texrepeat</span></a></li>
   </ul>
-  <p> </p>
-  <p>While this manual will <b>not</b> cover any of the OpenGL shader functions and variables, it does contain a list of the ones that are unique to <span data-keyref="GameMaker Name">GameMaker</span>. These constants are not part of the OpenGL specification for shaders and are supplied to simplify the integration of shaders within your projects.</p>
+  <p> </p>
+  <p>Embora este manual <b>não</b> abranja nenhuma das funções e variáveis da Open GL <span class="notranslate">shader</span>, ele contém uma lista das que são exclusivas do <span data-keyref="GameMaker Name">GameMaker</span>. Estas constantes não fazem parte da especificação Open GL para <span class="notranslate">shaders</span> e são fornecidas para simplificar a integração do <span class="notranslate">shaders</span> em seus projetos.</p>
   <ul class="colour">
-    <li><a data-xref="{title}" href="Shader_Constants.htm">Shader Uniforms</a></li>
+    <li><a href="Shader_Constants.htm">Constantes de sombreamento</a></li>
   </ul>
-  <p> </p>
-  <p>Finally, <span data-keyref="GameMaker Name">GameMaker</span> permits you to define your own <b>Vertex Formats</b> from which you can create your own custom primitives. This can greatly speed up shader operations or can be used to extend their capabilities and create surprising effects. You can find information on this in the following sections:</p>
+  <p> </p>
+  <p>Finalmente, o <span data-keyref="GameMaker Name">GameMaker</span> permite que você defina seus próprios <b>formatos de vértices</b> a partir dos quais você pode criar seus próprios primitivos personalizados. Isto pode acelerar muito as operações <span class="notranslate">shader</span> ou pode ser usado para ampliar suas capacidades e criar efeitos surpreendentes. Você pode encontrar informações sobre isto nas seções seguintes:</p>
   <ul class="colour">
-    <li><a data-xref="{title}" href="../../Drawing/Primitives/Primitives_And_Vertex_Formats.htm">Primitives And Vertex Formats</a></li>
+    <li><a href="../../Drawing/Primitives/Primitives_And_Vertex_Formats.htm">Primitivos e <span class="notranslate">Vertex</span> Formatos</a></li>
   </ul>
-  <p> </p>
-  <p> </p>
-  <p> </p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a href="../Asset_Management.htm">Asset Management</a></div>
-        <div style="float:right">Next: <a href="../Sequences/Sequences.htm">Sequences</a></div>
+        <div style="float:left">Voltar: <a href="../Asset_Management.htm">Gestão de ativos</a></div>
+        <div style="float:right">A seguir: <a href="../Sequences/Sequences.htm">Sequências</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2022 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright <span class="notranslate">YoYo Games Ltd.</span> 2022 Todos os direitos reservados</span></h5>
   </div>
   <!-- KEYWORDS
 Shaders

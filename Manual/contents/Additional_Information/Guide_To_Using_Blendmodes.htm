@@ -3,10 +3,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>Guide To Using Blendmodes</title>
+  <title>Guia para a utilização de emendas</title>
   <meta name="generator" content="Adobe RoboHelp 2020" />
   <link rel="stylesheet" href="../assets/css/default.css" type="text/css" />
-  <script src="../assets/scripts/main_script.js" type="module"></script>
+  <script src="../assets/scripts/main_script.js"></script>
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Page that explains how blendmodes work." />
   <meta name="rh-index-keywords" content="blendmodes,Guide To Using Blendmodes" />
@@ -14,89 +14,89 @@
 </head>
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
-  <h1>Guide To Using Blendmodes</h1>
-  <p>If you&#39;ve been using <span data-keyref="GameMaker Name">GameMaker</span> for any length of time, you will almost certainly have come across <a href="../GameMaker_Language/GML_Reference/Drawing/GPU_Control/GPU_Control.htm">blend modes</a>, and probably even used them in your games. Blend modes are a great way to change how something is drawn to give interesting and specific graphical effects, but do you know how they work and how do you use them? This is a subject that can confuse people and so in this section we hope to dispel some of the mystery surrounding blend modes and enable you to use them to their fullest extent in your games.</p>
-  <p> </p>
-  <h2>OVERVIEW</h2>
-  <p>Blend modes basically tell your game to draw certain things blended with whatever else is already drawn beforehand. Everything you draw to the screen is made up of four component parts - red, green, blue and alpha - and by default they are drawn to the screen using the blend mode <span class="inline">bm_normal</span>. This blend mode draws all pixels with their colour and alpha values essentially unchanged (although, later in this section you&#39;ll see that this isn&#39;t <em>quite</em> true...), but <span data-keyref="GameMaker Name">GameMaker</span> has a number of built in blend modes that can be set to change this behaviour.</p>
-  <p>When <span data-keyref="GameMaker Name">GameMaker</span> goes to draw a pixel there&#39;s a <strong>source colour</strong> (the colour of the pixel you are going to draw) and a <strong>destination colour</strong> (the colour that&#39;s already in the pixel we&#39;re drawing to). When determining the new colour of the pixel, GameMaker will combine the source and destination colours according to the <strong>blend mode</strong>, as mentioned above. Each component of the colours is stored as a floating point value between 0 and 1, and the new colour is calculated by multiply each component of the source colour by some factor and by multiplying each component of destination colour by some other factor and then adding the results together component by component.</p>
-  <p> </p>
-  <h2>BASIC BLEND MODES</h2>
-  <p><span data-keyref="GameMaker Name">GameMaker</span> uses the function <a href="../GameMaker_Language/GML_Reference/Drawing/GPU_Control/gpu_set_blendmode.htm">gpu_set_blendmode()</a> to change the blending that your game uses for drawing. You would call this before (for example) drawing a sprite, then set it back again afterwards, something like this:</p>
+  <h1>Guia para a utilização de emendas</h1>
+  <p>Se você tem usado o <span data-keyref="GameMaker Name">GameMaker</span> por algum tempo, você quase certamente terá encontrado <a href="../GameMaker_Language/GML_Reference/Drawing/GPU_Control/GPU_Control.htm">modos de mistura</a>, e provavelmente até os usou em seus jogos. Os modos de mistura são uma ótima maneira de mudar como algo é desenhado para dar efeitos gráficos interessantes e específicos, mas você sabe como eles funcionam e como você os usa? Este é um assunto que pode confundir as pessoas e por isso, nesta seção esperamos dissipar alguns dos mistérios que envolvem os modos de mistura e permitir que você os use em toda a sua extensão em seus jogos.</p>
+  <p> </p>
+  <h2>CONSULTA GERAL</h2>
+  <p>Os modos de mistura basicamente dizem a seu jogo para desenhar certas coisas misturadas com o que quer que já esteja desenhado de antemão. Tudo que você desenha para a tela é composto de quatro partes componentes - vermelho, verde, azul e alfa - e por padrão são desenhadas para a tela usando o modo de mistura <span class="inline">bm_normal</span>. Este modo de mistura desenha todos os pixels com suas cores e valores alfa essencialmente inalterados (embora, mais tarde nesta seção você verá que isto não é <em>bem</em> verdade...), mas <span data-keyref="GameMaker Name">o GameMaker</span> tem uma série de modos de mistura que podem ser configurados para mudar este comportamento.</p>
+  <p>Quando o <span data-keyref="GameMaker Name">GameMaker</span> vai desenhar um pixel, há uma <strong>cor de origem</strong> (a cor do pixel que você vai desenhar) e uma <strong>cor de destino</strong> (a cor que já está no pixel para o qual estamos desenhando). Ao determinar a nova cor do pixel, <span class="notranslate">GameMaker</span> combinará as cores de origem e destino de acordo com o <strong>modo de mistura</strong>, como mencionado acima. Cada componente das cores é armazenado como um valor de ponto flutuante entre 0 e 1, e a nova cor é calculada multiplicando cada componente da cor de origem por algum fator e multiplicando cada componente da cor de destino por algum outro fator e depois adicionando os resultados juntos, componente por componente.</p>
+  <p> </p>
+  <h2>MODOS DE MISTURA BÁSICOS</h2>
+  <p><span data-keyref="GameMaker Name">GameMaker</span> usa a função <a href="../GameMaker_Language/GML_Reference/Drawing/GPU_Control/gpu_set_blendmode.htm">gpu_set_blendmode()</a> para mudar a mistura que seu jogo usa para desenhar. Você chamaria isto antes (por exemplo) de desenhar um <span class="notranslate">sprite</span>, e depois o reajustaria, algo como isto:</p>
   <p class="code">gpu_set_blendmode(bm_add);<br />
     draw_self();<br />
     gpu_set_blendmode(bm_normal);</p>
-  <p>That code draws the instance sprite using an <strong>additive </strong>blend mode. The additive blend mode is set using one of the available GML constants, of which there are four for basic modes:</p>
+  <p>Esse código desenha a instância <span class="notranslate">sprite</span> usando um modo de mistura <strong>aditiva </strong>. O modo de mistura aditiva é definido usando uma das constantes disponíveis <span class="notranslate">GML</span>, das quais há quatro para modos básicos:</p>
   <p class="code">bm_normal<br />
     bm_add<br />
     bm_subtract<br />
     bm_max</p>
-  <p>We have seen already how <span class="inline">bm_normal</span> looks - since that&#39;s what everything defaults to! - so let&#39;s continue on to look at the other three in a bit more detail...</p>
+  <p>Já vimos como fica <span class="inline">bm_normal</span> - já que é a isso que tudo está por defeito! - então vamos continuar a olhar os outros três com um pouco mais de detalhe...</p>
   <p><img alt="bm_normal example" class="center" src="../assets/Images/Scripting_Reference/Additional_Information/BlendModes1_BmNormal.png" /></p>
-  <p> </p>
+  <p> </p>
   <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down" href="#">bm_add</a></p>
   <div class="droptext" data-targetname="drop-down">
-    <p class="dropspot">This blend mode adds the colours of the source and destination pixels together (but does not affect the alpha values). For example, if your background image is a solid colour with an RGB value of (100,15,70), and then you draw a rectangle with an RGB of (120,25,30), then (using bm_add) the fina RGB values for each pixel of the rectangle would be (220,40,100). Note that colour values can&#39;t go over 255 (or under 0), so anything that adds up to more than that will be clamped to 255.</p>
-    <p class="dropspot"><img alt="bm_add example" class="center" src="../assets/Images/Scripting_Reference/Additional_Information/BlendModes1_BmAdd.png" />Using this blend mode is a great way to get that &quot;neon glow&quot; look, and is most often used for lighting effects, or lasers or just about anything that you want to appear to glow or have luminescence.</p>
-    <p class="dropspot"> </p>
+    <p class="dropspot">Este modo de mistura adiciona as cores dos pixels de origem e destino juntos (mas não afeta os valores alfa). Por exemplo, se sua imagem de fundo for uma cor sólida com um valor RGB de (100,15,70), e então você desenha um retângulo com um RGB de (120,25,30), então (usando bm_add) os valores finais RGB para cada pixel do retângulo seriam (220,40,100). Observe que os valores de cor não podem ultrapassar 255 (ou abaixo de 0), portanto, qualquer coisa que somar mais do que isso será fixada em 255.</p>
+    <p class="dropspot"><img>Usar este modo de mistura é uma ótima maneira de obter aquele aspecto de &quot;néon glow&quot;, e é mais freqüentemente usado para efeitos de iluminação, ou lasers ou praticamente qualquer coisa que você queira parecer brilhar ou ter luminescência.</p>
+    <p class="dropspot"> </p>
   </div>
   <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down1" href="#">bm_subtract</a></p>
   <div class="droptext" data-targetname="drop-down1">
-    <p class="dropspot">This blend mode is a bit different to the previous one, as it it works on a percentage basis rather than a direct value. This percentage is what will be subtracted from the destination colour (the colour of the pixel being drawn to). To explain this better, let&#39;s look at an example.</p>
-    <p class="dropspot"><img alt="bm_subtract example" class="center" src="../assets/Images/Scripting_Reference/Additional_Information/BlendModes1_BmSubtract.png" />Imagine you want to reduce the red value of all pixels drawn in an area of the room by 25%. You would first need to get 25% of 255, then convert that into an RGB colour value, and then finally use that along with bm_subtract to draw over the area. Something like this:</p>
+    <p class="dropspot">Este modo de mistura é um pouco diferente do anterior, pois funciona em uma base percentual e não em um valor direto. Esta porcentagem é o que será subtraído da cor de destino (a cor do pixel a ser atraído). Para explicar isto melhor, vejamos um exemplo.</p>
+    <p class="dropspot"><img>Imagine que você quer reduzir o valor vermelho de todos os pixels desenhados em uma área do <span class="notranslate">room</span> em 25%. Primeiro você precisaria obter 25% de 255, depois converter isso em um valor de cor RGB, e finalmente usar isso junto com bm_subtract para desenhar sobre a área. Algo parecido com isto:</p>
     <p class="code">var red = (25 / 100) * 255;<br />
       var col = make_colour_rgb(red, 0, 0);<br />
       gpu_set_blendmode(bm_subtract);<br />
       draw_rectangle_colour(0, 0, 128, 256, col, col, col, col, false);<br />
       gpu_set_blendmode(bm_normal);</p>
-    <p class="dropspot">Following the same rule, if you wanted to simply reduce the brightness of a background by 50% then you would have a colour that is 50% red, 50% green and 50% blue, ie: RGB (128, 128, 128). This blend mode is mainly used for drawing shadows, or creating interesting fade out effects.</p>
-    <p class="dropspot"> </p>
+    <p class="dropspot">Seguindo a mesma regra, se você quisesse simplesmente reduzir o brilho de um fundo em 50%, então você teria uma cor que é 50% vermelho, 50% verde e 50% azul, ou seja: RGB (128, 128, 128). Este modo de mistura é usado principalmente para desenhar sombras, ou criar efeitos interessantes de desbotamento.</p>
+    <p class="dropspot"> </p>
   </div>
   <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down2" href="#">bm_max</a></p>
   <div class="droptext" data-targetname="drop-down2">
-    <p class="dropspot">This blend mode is more complex to explain, but it basically multiplies the source colours by the source alpha, then adds them to the destination colour values multiplied by the inverse source colour values. The actual maths behind bm_max (and the other blend modes) we&#39;ll cover in part two of our article, but all you need to know is that the result will be a more &quot;saturated&quot; and brighter colour, without leading to the same pure white brilliance that using <span class="inline">bm_add</span> will cause.</p>
-    <p class="dropspot"><img class="center" src="../assets/Images/Scripting_Reference/Additional_Information/BlendModes1_BmMax.png" />This blend mode can be useful when you need to draw overlapping images without them becoming so bright that they can&#39;t be seen. The bright parts will become brighter, but they should still maintain a level of colour and hue. Note though that the alpha value of the source image will also influence in the final effect when using this blend mode.</p>
+    <p class="dropspot">Este modo de mistura é mais complexo de explicar, mas basicamente multiplica as cores de origem pelo alfa de origem, depois as adiciona aos valores de cor de destino multiplicados pelos valores de cor de origem inversa. A matemática real por trás do bm_max (e os outros modos de mistura) que cobriremos na parte dois de nosso artigo, mas tudo o que você precisa saber é que o resultado será uma cor mais &quot;saturada&quot; e mais brilhante, sem levar ao mesmo brilho branco puro que o uso de <span class="inline">bm_add</span> causará.</p>
+    <p class="dropspot"><img>Este modo de mistura pode ser útil quando você precisa desenhar imagens sobrepostas sem que elas se tornem tão brilhantes que não possam ser vistas. As partes brilhantes se tornarão mais brilhantes, mas ainda assim devem manter um nível de cor e tonalidade. Observe que o valor alfa da imagem de origem também influenciará no efeito final ao usar este modo de mistura.</p>
   </div>
-  <p> </p>
-  <p>Now you know the very basics behind using a blend mode in <span data-keyref="GameMaker Name">GameMaker</span>. It takes the RGB and alpha values for the source image (what is being drawn) and it then blends these with the RGB and alpha values of the destination (what is being drawn too). This blending is done by multiplying the individual components for each pixel colour and alpha by different amounts, depending on the effects that we wish to achieve. With this knowledge, you can start to use blend modes in your games to get glowing lasers, realistic shadows, or saturated transition effects, but there is still more to be learned here! Below we look at the <strong>extended blend modes</strong>, as well as explore a bit of the maths behind them, so that you can create your own blending effects like multiply or overlay.</p>
-  <p> </p>
-  <h2>Extended Blend Modes</h2>
-  <p>Above we have talked about the function <a href="../GameMaker_Language/GML_Reference/Drawing/GPU_Control/gpu_set_blendmode.htm"><span class="inline">gpu_set_blendmode()</span></a>, but now we are going to look at <a href="../GameMaker_Language/GML_Reference/Drawing/GPU_Control/gpu_set_blendmode_ext.htm"><span class="inline">gpu_set_blendmode_ext()</span></a>. This is (as the name implies) an extended function to set <em>custom </em>blend modes, but how does this work? Let&#39;s just have a look at the dry technical answer first before we go any further:</p>
+  <p> </p>
+  <p>Agora você sabe o básico por trás do uso de um modo de mistura no <span data-keyref="GameMaker Name">GameMaker</span>. Ele toma os valores RGB e alfa para a imagem de origem (o que está sendo desenhado) e depois os mistura com os valores RGB e alfa do destino (o que está sendo desenhado também). Esta mistura é feita multiplicando os componentes individuais para cada cor de pixel e alfa por quantidades diferentes, dependendo dos efeitos que desejamos alcançar. Com este conhecimento, você pode começar a usar modos de mistura em seus jogos para obter lasers brilhantes, sombras realistas ou efeitos de transição saturados, mas ainda há mais a ser aprendido aqui! Abaixo, analisamos os <strong>modos de mistura estendida</strong>, bem como exploramos um pouco da matemática por trás deles, para que você possa criar seus próprios efeitos de mistura como multiplicar ou sobrepor.</p>
+  <p> </p>
+  <h2>Modos de mistura estendida</h2>
+  <p>Acima falamos sobre a função <a href="../GameMaker_Language/GML_Reference/Drawing/GPU_Control/gpu_set_blendmode.htm"><span class="inline">gpu_set_blendmode()</span></a>mas agora vamos olhar para <a href="../GameMaker_Language/GML_Reference/Drawing/GPU_Control/gpu_set_blendmode_ext.htm"><span class="inline">gpu_set_blendmode_ext()</span></a>. Esta é (como o nome indica) uma função ampliada para definir modos de mistura <em>personalizados </em>, mas como isso funciona? Vamos apenas dar uma olhada na resposta técnica seca antes de irmos mais longe:</p>
   <ul class="colour">
-    <li>The function <span class="inline">gpu_set_blendmode_ext</span><span class="inline">(src, dest)</span> indicates what blend mode to use for both the source and destination colour. The new colour is some factor times the source and another factor times the destination. These factors are set with this function. To understand this, the source and destination both have a red, green, blue, and alpha component. So the <strong>source </strong>is (<span class="inline">Rs, Gs, Bs, As</span>) and the <strong>destination </strong>is (<span class="inline">Rd, Gd, Bd, Ad</span>). All values are considered to lie between 0 and 1.</li>
+    <li>A função <span class="inline">gpu_set_blendmode_ext</span><span class="inline">(src, dest)</span> indica o modo de mistura a ser usado tanto para a cor de origem quanto para a cor de destino. A nova cor é alguns fatores vezes a fonte e outro fator vezes o destino. Estes fatores são definidos com esta função. Para entender isto, tanto a fonte quanto o destino têm um componente vermelho, verde, azul e alfa. Portanto, a <strong>fonte </strong>é (<span class="inline">Rs, Gs, Bs, As</span>) e o <strong>destino </strong>é (<span class="inline">Rd, Gd, Bd, Ad</span>). Todos os valores são considerados como estando entre 0 e 1.</li>
   </ul>
-  <p>Now, while that text is correct and explains what blend modes do, it&#39;s not really intuitive... so let&#39;s go into a bit more detail and explain what this is all about.</p>
-  <p>When we talk about the <strong>source </strong>we are talking about the colour and alpha values of the pixel that is being drawn, and when we talk about the <strong>destination </strong>we are talking about the colour and alpha values of the pixel that it is being drawn over. To keep things easier we can write out the source colour as it&#39;s components, like this:</p>
+  <p>Agora, embora esse texto esteja correto e explique o que os modos de mistura fazem, ele não é realmente intuitivo... então vamos entrar um pouco mais em detalhes e explicar do que se trata.</p>
+  <p>Quando falamos da <strong>fonte </strong>, estamos falando da cor e dos valores alfa do pixel que está sendo desenhado, e quando falamos do <strong>destino </strong>, estamos falando da cor e dos valores alfa do pixel que está sendo desenhado. Para manter as coisas mais fáceis, podemos escrever a cor da fonte como seus componentes, desta forma:</p>
   <ul class="colour">
-    <li><span class="inline">(Rs, Gs, Bs, As)</span> = the RGB and Alpha of the colour you are going to draw.</li>
+    <li><span class="inline">(Rs, Gs, Bs, As)</span> = o RGB e o Alfa da cor que você vai desenhar.</li>
   </ul>
-  <p>And the destination would be like this:</p>
+  <p>E o destino seria assim:</p>
   <ul class="colour">
-    <li><span class="inline">(Rd, Gd, Bd, Ad)</span> = the RGB and Alpha of the colour you are going to draw on.</li>
+    <li><span class="inline">(Rd, Gd, Bd, Ad)</span> = o RGB e o Alfa da cor que você vai desenhar.</li>
   </ul>
-  <p>So when we draw something on the screen, our graphics processor is actually doing the following for every single pixel:</p>
+  <p>Assim, quando desenhamos algo na tela, nosso processador gráfico está realmente fazendo o seguinte para cada pixel:</p>
   <p class="code">final_pixel_colour =  (Rs,Gs,Bs,As) * source_blend_factor + (Rd,Gd,Bd,Ad) * destination_blend_factor</p>
-  <p>The <strong>blend factors</strong> mentioned above are defined in <span data-keyref="GameMaker Name">GameMaker</span> by a number of GML constants, and each one represents a factor by which the source or destination R, G, B and A values should be multiplied by. The factors available are:</p>
+  <p>Os <strong>fatores de mistura</strong> mencionados acima são definidos no <span data-keyref="GameMaker Name">GameMaker</span> por um número de constantes <span class="notranslate">GML</span>, e cada uma representa um fator pelo qual os valores R, G, B e A da fonte ou destino devem ser multiplicados por. Os fatores disponíveis são:</p>
   <ul class="colour">
-    <li><span class="inline">bm_zero</span>: Blend factor is (0, 0, 0, 0)</li>
-    <li><span class="inline">bm_one</span>: Blend factor is (1, 1, 1, 1)</li>
-    <li><span class="inline">bm_src_colour</span>: Blend factor is (Rs, Gs, Bs, As)</li>
-    <li><span class="inline">bm_inv_src_colour</span>: Blend factor is (1-Rs, 1-Gs, 1-Bs, 1-As)</li>
-    <li><span class="inline">bm_src_alpha</span>: Blend factor is (As, As, As, As)</li>
-    <li><span class="inline">bm_inv_src_alpha</span>: Blend factor is (1-As, 1-As, 1-As, 1-As)</li>
-    <li><span class="inline">bm_dest_alpha</span>: Blend factor is (Ad, Ad, Ad, Ad)</li>
-    <li><span class="inline">bm_inv_dest_alpha</span>: Blend factor is (1-Ad, 1-Ad, 1-Ad, 1-Ad)</li>
-    <li><span class="inline">bm_dest_colour</span>: Blend factor is (Rd, Gd, Bd, Ad)</li>
-    <li><span class="inline">bm_inv_dest_colour</span>: Blend factor is (1-Rd, 1-Gd, 1-Bd, 1-Ad)</li>
-    <li><span class="inline">bm_src_alpha_sat</span>: Blend factor is (f, f, f, 1); f = min(As, 1-Ad)</li>
+    <li><span class="inline">bm_zero</span>: O fator de mistura é (0, 0, 0, 0, 0)</li>
+    <li><span class="inline">bm_one</span>: O fator de mistura é (1, 1, 1, 1, 1)</li>
+    <li><span class="inline">bm_src_colour</span>: O fator de mistura é (Rs, Gs, Bs, As)</li>
+    <li><span class="inline">bm_inv_src_colour</span>: O fator de mistura é (1-Rs, 1-Gs, 1-Bs, 1-As)</li>
+    <li><span class="inline">bm_src_alpha</span>: O fator de mistura é (As, As, As, As)</li>
+    <li><span class="inline">bm_inv_src_alpha</span>: O fator de mistura é (1-As, 1-As, 1-As, 1-As, 1-As)</li>
+    <li><span class="inline">bm_dest_alpha</span>: O fator de mistura é (Anúncio, Anúncio, Anúncio, Anúncio)</li>
+    <li><span class="inline">bm_inv_dest_alpha</span>: O fator de mistura é (1-Ad, 1-Ad, 1-Ad, 1-Ad, 1-Ad)</li>
+    <li><span class="inline">bm_dest_colour</span>: O fator de mistura é (Rd, Gd, Bd, Ad)</li>
+    <li><span class="inline">bm_inv_dest_colour</span>: O fator de mistura é (1-Rd, 1-Gd, 1-Bd, 1-Ad)</li>
+    <li><span class="inline">bm_src_alpha_sat</span>: O fator de mistura é (f, f, f, 1); f = min(As, 1-Ad)</li>
   </ul>
-  <p>The four &quot;basic&quot; blend modes that <span data-keyref="GameMaker Name">GameMaker</span> has are actually composites of two of these blend factors.</p>
-  <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down4" href="#">Example of how bm_normal Works</a></p>
+  <p>Os quatro modos de mistura &quot;básicos&quot; que o <span data-keyref="GameMaker Name">GameMaker</span> tem são na verdade compostos de dois desses fatores de mistura.</p>
+  <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down4" href="#">Exemplo de como o bm_normal funciona</a></p>
   <div class="droptext" data-targetname="drop-down4">
-    <p class="dropspot">Time to look at a practical example of how this comes together for drawing in <span data-keyref="GameMaker Name">GameMaker</span>. For this, we are going to look at bm_normal, which is really:</p>
+    <p class="dropspot">É hora de olhar para um exemplo prático de como isto se une para desenhar no <span data-keyref="GameMaker Name">GameMaker</span>. Para isto, vamos olhar para bm_normal, que é realmente:</p>
     <p class="code">gpu_set_blendmode_ext(bm_src_alpha, bm_inv_src_alpha);</p>
-    <p class="dropspot">One of the problems people have with blend modes is visualising the results, so to show the maths behind them, we&#39;ll use this blend mode as our test subject since it&#39;s the blend mode that everyone uses the most and we know exactly what to expect from it. Imagine we are drawing a rectangle with the colour (128, 255, 64, 255) over a background with the colour (64, 128, 255, 255):</p>
-    <p class="dropspot"><img alt="Example of bm_normal" class="center" src="../assets/Images/Scripting_Reference/Additional_Information/BlendModes2_Example1.png" />So, our blend mode looks like this:</p>
+    <p class="dropspot">Um dos problemas que as pessoas têm com os modos de mistura é visualizar os resultados, então para mostrar as matemáticas por trás deles, usaremos este modo de mistura como nosso tema de teste, já que é o modo de mistura que todos usam mais e sabemos exatamente o que esperar dele. Imagine que estamos desenhando um retângulo com a cor (128, 255, 64, 255) sobre um fundo com a cor (64, 128, 255, 255, 255):</p>
+    <p class="dropspot"><img>Portanto, nosso modo de mistura se parece com este:</p>
     <p class="code">Source: (128, 255, 64, 255) = (0.5, 1, 0.25, 1)<br />
       Destination: (64, 128, 255, 255) = (0.25, 0.5, 1, 1)<br />
       bm_src_alpha (As, As, As, As) = (255, 255, 255, 255) = (1, 1, 1, 1)<br />
@@ -104,7 +104,7 @@
       (Rs,Gs,Bs,As) * bm_src_alpha + (Rd,Gd,Bd,Ad) * bm_inv_src_alpha<br />
       (0.5, 1, 0.25, 1) * (1, 1, 1, 1) + (0.25, 0.5, 1, 1) * (0, 0, 0, 0)<br />
       (0.5, 1, 0.25, 1) + (0, 0, 0, 0) = (0.5, 1, 0.25, 1) = (128, 255, 64, 255)</p>
-    <p class="dropspot">As you can see, we multiply the destination values by 0, which gives them a value of 0 too, meaning that the source colours are unchanged, so our final colour value is <strong>(128, 255, 64, 255)</strong>. You can see how the inclusion of alpha affects this value too:</p>
+    <p class="dropspot">Como você pode ver, multiplicamos os valores de destino por 0, o que lhes dá um valor de 0 também, o que significa que as cores de origem permanecem inalteradas, portanto nosso valor final de cor é <strong>(128, 255, 64, 255)</strong>. Você pode ver como a inclusão do alfa também afeta este valor:</p>
     <p class="code">Source (128, 255, 64, 128) = (0.5, 1, 0.25, 0.5)<br />
       Destination: (64, 128, 255, 255) = (0.25, 0.5, 1, 1)<br />
       bm_src_alpha (As, As, As, As) = (128, 128, 128, 128) = (0.5, 0.5, 0.5, 0.5)<br />
@@ -112,51 +112,51 @@
       (Rs,Gs,Bs,As) * bm_src_alpha + (Rd,Gd,Bd,Ad) * bm_inv_src_alpha<br />
       (0.5, 1, 0.25, 0.5) * (0.5, 0.5, 0.5, 0.5) + (0.25, 0.5, 1, 1) * (0.5, 0.5, 0.5, 0.5)<br />
       (0.25, 0.5, 0.125, 0.25) + (0.125, 0.25, 0.5, 0.5) = (0.375, 0.75, 0.625, 0.75) = (96, 192, 159, 192)</p>
-    <p class="dropspot">This gives a final pixel colour (96, 192, 159, 192), and will give an image like that shown below:</p>
-    <p class="dropspot"><img alt="Example Of bm_normal With Alpha" src="../assets/Images/Scripting_Reference/Additional_Information/BlendModes2_Example2.png" /></p>
-    <p class="dropspot">Hopefully you can see clearly now what the blend mode factors do, and how combining them can change what is drawn to create some interesting effects. We will now look at a practical example of how to combine these factors to create your own custom blend modes.</p>
-    <p class="dropspot"> </p>
-    <p class="dropspot"> </p>
+    <p class="dropspot">Isto dá uma cor final de pixel (96, 192, 159, 192), e dará uma imagem como a mostrada abaixo:</p>
+    <p class="dropspot"><img alt="bm_add example" class="center" src="../assets/Images/Scripting_Reference/Additional_Information/BlendModes1_BmAdd.png" /></p>
+    <p class="dropspot">Esperamos que agora você possa ver claramente o que os fatores do modo de mistura fazem, e como combiná-los pode mudar o que é desenhado para criar alguns efeitos interessantes. Agora veremos um exemplo prático de como combinar estes fatores para criar seus próprios modos de mistura personalizados.</p>
+    <p class="dropspot"> </p>
+    <p class="dropspot"> </p>
   </div>
-  <p>Now you know how setting blend modes works and have seen an example of it being used for everyday drawing, let&#39;s look at something abit more complex...</p>
-  <p> </p>
-  <h2>CREATING YOUR OWN BLEND MODES</h2>
-  <p>Using the different factors available, you can create your own blend modes to achieve blending options that are not available to you normally. In this example, we are going to create a <strong>multiply </strong>effect like that used in Photoshop. We can simulate this blend mode using two of our above mentioned blend mode factor constants like this:</p>
+  <p>Agora você sabe como funciona o modo de mistura e já viu um exemplo de como ele é usado para o desenho cotidiano, vamos olhar para algo mais complexo...</p>
+  <p> </p>
+  <h2>CRIANDO SEUS PRÓPRIOS MODOS DE MISTURA</h2>
+  <p>Usando os diferentes fatores disponíveis, você pode criar seus próprios modos de mistura para conseguir opções de mistura que não estão disponíveis normalmente. Neste exemplo, vamos criar um efeito <strong>multiplicador </strong>como o utilizado no Photoshop. Podemos simular este modo de mistura usando duas de nossas constantes de fatores de modo de mistura acima mencionadas como esta:</p>
   <p class="code">gpu_set_blendmode_ext(bm_dest_colour, bm_zero);</p>
-  <p>Before we actually draw something using this blend mode, let&#39;s have a look at how it should look in Photoshop:</p>
-  <p><img alt="The &quot;Multiply&quot; Blend Mode In Photoshop" class="center" src="../assets/Images/Scripting_Reference/Additional_Information/BlendModes2_Multiply.png" />Using our extended blend mode we get the following:</p>
+  <p>Antes de realmente desenharmos algo usando este modo de mistura, vamos dar uma olhada em como ele deve ficar no Photoshop:</p>
+  <p><img>Usando nosso modo de mistura estendida, obtemos o seguinte:</p>
   <p class="code">(Rs, Gs, Bs, As) * (Rd, Gd, Bd, Ad) + (Rd, Gd, Bd, Ad) * (0,0,0,0) = (Rs, Gs, Bs, As) * (Rd, Gd, Bd, Ad)<br />
     Source colour * dest colour + dest colour * zero = source colour * dest colour</p>
-  <p>The blend factor <span class="inline">bm_zero</span> effectively removes the destination colour from the equation (as zero times anything is zero), so we are left with the source colour multiplied by the blend factor of the destination colour, hence the name &quot;multiply&quot; for the mode. To use this in <span data-keyref="GameMaker Name">GameMaker</span>, you would simply have something like this in your <strong>Draw Event</strong>:</p>
+  <p>O fator de mistura <span class="inline">bm_zero</span> remove efetivamente a cor de destino da equação (como zero vezes qualquer coisa é zero), então ficamos com a cor de origem multiplicada pelo fator de mistura da cor de destino, daí o nome &quot;multiplicar&quot; para a modalidade. Para usar isto no <span data-keyref="GameMaker Name">GameMaker</span>, você simplesmente teria algo assim em seu <strong>Evento de Sorteio</strong>:</p>
   <p class="code">gpu_set_blendmode_ext(bm_dest_colour, bm_zero);<br />
     draw_self();<br />
     gpu_set_blendmode(bm_normal);</p>
-  <p>The next image was taken from a test project in GameMaker using this exact code:</p>
-  <p><img alt="The &quot;Multiply&quot; Blend Mode In GameMaker" class="center" src="../assets/Images/Scripting_Reference/Additional_Information/BlendModes2_MultiplyGMS.png" />Can you spot the difference? Probably not! There will, however, be some deviation between the two due to differences between the render tools used, but it&#39;s almost exactly as you would expect. Note though that not all the blend modes used by art programs are available to you within <span data-keyref="GameMaker Name">GameMaker</span> due to the fact some of them can actually force the colour values to go over 255 and so create special effects, but that doesn&#39;t mean you can&#39;t create passable imitations of these effects, or even brand new effects, using them.</p>
-  <p>It&#39;s worth mentioning that with <span data-keyref="GameMaker Name">GameMaker</span> you can take this one step further using the function <span class="inline"><a href="../GameMaker_Language/GML_Reference/Drawing/GPU_Control/gpu_set_blendmode_ext_sepalpha.htm">gpu_set_blendmode_ext_sepalpha()</a></span>. This permits you to separate out the alpha component of the different blend mode factors and use them individually to create even more possible combinations. We won&#39;t cover this function here as it&#39;s explained in depth already in the manual, but it&#39;s worth mentioning just so you know it&#39;s available for use.</p>
-  <p> </p>
-  <h2>SURFACES AND ALPHA</h2>
-  <p>One final thing is worth noting about blend modes, and that is how they affect the <strong>alpha </strong>component of a colour. When simply drawing to the <a class="glossterm" data-glossterm="application surface" href="#">application surface</a> or the <a class="glossterm" data-glossterm="display buffer" href="#">display buffer</a>, you don&#39;t really need to take into consideration the destination alpha value as it will <em>always </em>be one. However surfaces that you make yourself are different, since you can clear a surface to have any alpha value from zero to one that you wish. This leads to some interesting effects that are contrary to what most people would expect.</p>
-  <p>To illustrate this, we are going to look at drawing using the basic default <span class="inline">bm_normal</span>. Most people think that having a surface cleared to alpha 0, and then drawing something with an alpha of 0.5 will give a resulting alpha value 0.5 too... <strong>but this is not the case</strong> and is something that many people think is a &quot;bug&quot; in how <span data-keyref="GameMaker Name">GameMaker</span> renders things. However, as you will see, it&#39;s not a bug at all!</p>
-  <p>Say you have surface with every pixel at alpha 0, then you draw a circle on it with alpha 0.5 using the <span class="inline">bm_normal</span> blend mode. The entire surface is still going to be alpha 0, but in the circle the alpha will actually be 0.25, since:</p>
+  <p>A imagem seguinte foi tirada de um projeto de teste em <span class="notranslate">GameMaker</span> usando este código exato:</p>
+  <p><img>Você consegue perceber a diferença? Provavelmente não! Haverá, entretanto, algum desvio entre os dois devido às diferenças entre as ferramentas de renderização utilizadas, mas é quase exatamente como você esperaria. Note que nem todos os modos de mistura usados pelos programas de arte estão disponíveis para você dentro do <span data-keyref="GameMaker Name">GameMaker</span> devido ao fato de que alguns deles podem realmente forçar os valores de cor a ultrapassar 255 e assim criar efeitos especiais, mas isso não significa que você não possa criar imitações transitáveis desses efeitos, ou mesmo efeitos novinhos em folha, usando-os.</p>
+  <p>Vale a pena mencionar que com o <span data-keyref="GameMaker Name">GameMaker</span> você pode dar este passo adiante usando a função <span class="inline"><a href="../GameMaker_Language/GML_Reference/Drawing/GPU_Control/gpu_set_blendmode_ext_sepalpha.htm">gpu_set_blendmode_ext_sepalpha()</a></span>. Isto permite separar o componente alfa dos diferentes fatores do modo de mistura e usá-los individualmente para criar ainda mais combinações possíveis. Não vamos cobrir esta função aqui, como já está explicado em profundidade no manual, mas vale a pena mencionar apenas para que você saiba que ela está disponível para uso.</p>
+  <p> </p>
+  <h2>SUPERFÍCIES E ALFA</h2>
+  <p>Uma última coisa é digna de nota sobre os modos de mistura, e é como eles afetam o componente <strong>alfa </strong>de uma cor. Ao simplesmente desenhar na <a class="glossterm" data-glossterm="superfície de aplicação" href="#">superfície da aplicação</a> ou no <a class="glossterm" data-glossterm="buffer de exibição" href="#">buffer do visor</a>, você não precisa realmente levar em consideração o valor alfa de destino, pois ele será <em>sempre </em>um. Entretanto, as superfícies que você mesmo faz são diferentes, já que você pode limpar uma superfície para ter qualquer valor alfa de zero a um que você desejar. Isto leva a alguns efeitos interessantes que são contrários ao que a maioria das pessoas esperaria.</p>
+  <p>Para ilustrar isto, vamos analisar o desenho utilizando o padrão básico <span class="inline">bm_normal</span>. A maioria das pessoas pensa que ter uma superfície livre para alfa 0, e depois desenhar algo com um alfa de 0,5 dará um valor alfa resultante de 0,5 também... <strong>mas este não é o caso</strong> e é algo que muitas pessoas pensam ser um &quot;bug&quot; na forma como <span data-keyref="GameMaker Name">o GameMaker</span> faz as coisas. Entretanto, como você verá, não é um "bug" de jeito nenhum!</p>
+  <p>Digamos que você tenha superfície com cada pixel em alfa 0, então você desenha um círculo com alfa 0,5 usando o modo de mistura <span class="inline">bm_normal</span>. Toda a superfície ainda será alfa 0, mas no círculo o alfa será na verdade 0,25, desde então:</p>
   <p class="code">0.5 * 0.5 + 0 * 0.5 = 0.5 * 0.5 = 0.25</p>
-  <p>If you then proceed to draw another circle in the existing circle, also with an alpha of 0.5, then the alpha outside the circles would be 0, in between the circles 0.25, and in the smaller circle it would be 0.375:</p>
+  <p>Se, em seguida, proceder para desenhar outro círculo no círculo existente, também com um alfa de 0,5, então o alfa fora dos círculos seria 0, entre os círculos 0,25, e no círculo menor seria 0,375:</p>
   <p class="code">0.5 * 0.5 + 0.25 * 0.5 = 0.25 + 0.125 = 0.375</p>
-  <p>If you were to continue to draw a number of 0.5 alpha circles to a surface with 0 alpha, and then draw this surface to the room, you would be able to clearly see this:</p>
-  <p><img alt="Surface Alpha Illustration" class="center" src="../assets/Images/Scripting_Reference/Additional_Information/BlendModes2_Surface.png" />If you are still a bit confused about the alpha, try to picture it as just another colour. It behaves like a colour and all calculations on it are done in a similar manner. It&#39;s just not really visible, although the effect it has on other colours is. Which brings us to the final thing to note when using surfaces and blend modes (even <span class="inline">bm_normal</span>)...</p>
-  <p>Even if the alpha of the surface is 0, <em><strong>the colour components are still there and exist and will influence in all blending operations</strong></em>. So drawing to a zero alpha cleared surface that has been cleared using the colour red (for example) will blend the source colours with the destination colours and give different effects to that which you may think. The above image was created on a surface cleared to black over a black background, but if we clear the surface to red, we get this instead:</p>
-  <p><img class="center" src="../assets/Images/Scripting_Reference/Additional_Information/BlendModes2_SurfaceRed.png" />Hopefully you can now work out why this happens for yourself using the formulas I&#39;ve outlined above and applying the appropriate figures for <span class="inline">bm_normal</span>.</p>
-  <p> </p>
-  <p> </p>
-  <p> </p>
+  <p>Se você continuasse a desenhar um número de 0,5 alfa para uma superfície com 0 alfa, e depois desenhar esta superfície para o <span class="notranslate">room</span>, você seria capaz de ver isto claramente:</p>
+  <p><img>Se você ainda estiver um pouco confuso sobre o alfa, tente imaginá-lo como apenas outra cor. Ele se comporta como uma cor e todos os cálculos sobre ele são feitos de maneira semelhante. Não é realmente visível, embora o efeito que tem sobre outras cores seja. O que nos leva à última coisa a notar quando usamos superfícies e modos de mistura (até mesmo <span class="inline">bm_normal</span>)...</p>
+  <p>Mesmo se o alfa da superfície for 0, <em><strong>os componentes de cor ainda estão lá e existem e influenciarão em todas as operações de mistura</strong></em>. Assim, o desenho até uma superfície livre de alfa zero que foi limpa usando a cor vermelha (por exemplo) irá misturar as cores de origem com as cores de destino e dar diferentes efeitos ao que você possa pensar. A imagem acima foi criada em uma superfície desobstruída a preto sobre um fundo preto, mas se desobstruirmos a superfície a vermelho, obtemos isto em seu lugar:</p>
+  <p><img>Espero que agora você possa descobrir por que isso acontece por si mesmo usando as fórmulas que descrevi acima e aplicando os números apropriados para <span class="inline">bm_normal</span>.</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a href="Additional_Information.htm">Additional Information</a></div>
-        <div style="float:right">Next: <a data-xref="{title}" href="Project_Format.htm">Project Format</a></div>
+        <div style="float:left">Voltar: <a href="Additional_Information.htm">Informações adicionais</a></div>
+        <div style="float:right">A seguir: <a href="Error_Reporting.htm">Relatório de erros</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2023 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright <span class="notranslate">YoYo Games Ltd.</span> 2022 Todos os direitos reservados</span></h5>
   </div>
   <!-- KEYWORDS
 Blendmodes

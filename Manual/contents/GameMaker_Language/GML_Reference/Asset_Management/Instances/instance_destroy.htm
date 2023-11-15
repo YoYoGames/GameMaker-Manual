@@ -3,10 +3,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>instance_destroy</title>
+  <title>exemplo_destroy</title>
   <meta name="generator" content="Adobe RoboHelp 2020" />
   <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
-  <script src="../../../../assets/scripts/main_script.js" type="module"></script>
+  <script src="../../../../assets/scripts/main_script.js"></script>
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Page outlining the function instance_destroy" />
   <meta name="rh-index-keywords" content="instance_destroy" />
@@ -15,60 +15,60 @@
 </head>
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
-  <h1>instance_destroy</h1>
-  <p>You call this function whenever you wish to &quot;destroy&quot; an instance, normally triggering a <a href="../../../../The_Asset_Editors/Object_Properties/Object_Events.htm">Destroy Event</a> and also a <a href="../../../../The_Asset_Editors/Object_Properties/Object_Events.htm">Clean Up Event</a>. This will remove it from the room until the room is restarted (unless the room is persistent). Calling the function with no arguments will simply destroy the instance that is currently in scope and running the code, but you can provide an optional &quot;id&quot; argument and target a specific instance by using the instance <span class="inline"><a href="Instance_Variables/id.htm">id</a></span> value, or you can target all instances of a particular object by using an <a href="../Objects/object_index.htm"><span class="inline">object_index</span></a>. For example:</p>
+  <h1>exemplo_destroy</h1>
+  <p>Você chama esta função sempre que desejar &quot;destruir&quot; uma instância, normalmente desencadeando um <a href="../../../../The_Asset_Editors/Object_Properties/Object_Events.htm">Evento de Destruição</a> e também um <a href="../../../../The_Asset_Editors/Object_Properties/Object_Events.htm">Evento de Limpeza</a>. Isto o removerá do <span class="notranslate">room</span> até que o <span class="notranslate">room</span> seja reiniciado (a menos que o <span class="notranslate">room</span> seja persistente). Chamar a função sem argumentos simplesmente destruirá a instância que está atualmente em escopo e executando o código, mas você pode fornecer um argumento opcional &quot;id&quot; e direcionar uma instância específica usando o valor da instância <span class="inline"><a href="Instance_Variables/id.htm">id</a></span>, ou você pode direcionar todas as instâncias de um determinado <span class="notranslate">object</span> usando um <a href="../Objects/object_index.htm"><span class="inline">object_index</span></a>. Por exemplo:</p>
   <p class="code">instance_destroy(other);      // destroy the &quot;other&quot; instance in a Collision Event<br />
     instance_destroy(obj_Bullet); // destroy ALL instances of the object &quot;obj_Bullet&quot;</p>
-  <p>The second <i>optional</i> flag permits you to &quot;switch off&quot; the Destroy Event for the instance being destroyed. By default the Destroy Event will <i>always</i> be performed, but if you set this flag to <span class="inline">false</span> then you can make the instance destroy itself and skip performing that event.</p>
-  <p class="note"><b>IMPORTANT!</b> This will skip the Destroy Event, but the Clean Up event will still be called.</p>
-  <p>It is worth noting that when you destroy an instance, its destroy event is called <i>immediately</i> after the code or action that calls the destroy function. Also, although the destroy event is performed, the instance <i>is not immediately removed from the game</i>, and it will continue to perform the code contained in the current event. Only when the current event is over will it be removed from the game.</p>
-  <p>So, if you have, for example, this code:</p>
+  <p>O segundo <i>opcional</i> <span class="notranslate">flag</span> permite que você &quot;desligue&quot; o Evento Destrutivo, por exemplo, sendo destruído. Por padrão o Evento Destroy será <i>sempre</i> realizado, mas se você definir este <span class="notranslate">flag</span> para <span class="inline">false</span>, então você pode fazer com que a instância se destrua e pular a realização desse evento.</p>
+  <p class="note"><b>IMPORTANTE!</b> Isto irá pular o Evento Destroy, mas o evento Clean Up ainda será chamado.</p>
+  <p>Vale notar que quando se destrói uma instância, seu evento de destruição é chamado <i>imediatamente</i> após o código ou ação que chama a função de destruição. Além disso, embora o evento de destruição seja realizado, a instância <i>não é imediatamente retirada do jogo</i>, e continuará a executar o código contido no evento atual. Somente quando o evento atual terminar, ela será removida do jogo.</p>
+  <p>Portanto, se você tem, por exemplo, este código:</p>
   <p class="code">if (hp &lt;= 0) instance_destroy();<br />
     score += 10;</p>
-  <p>The variable &quot;score&quot; will be incremented <i>even though the <span class="inline">instance_destroy</span> function has been called</i>, and the instance will finally be removed from your game at the end of the event. Be careful of this, as if you have (for example) created a dynamic resource for the instance, like a data structure, and then have destroyed that resource in the destroy event, if there are any references to it after the destroy function or action has been performed then you will get an &quot;unknown resource&quot; error, as the destroy event removed it from the game.</p>
-  <p> </p>
-  <h4>Syntax:</h4>
+  <p>A variável &quot;pontuação&quot; será incrementada <i>mesmo que a função <span class="inline">instance_destroy</span> tenha sido chamada</i>, e a instância será finalmente removida de seu jogo no final do evento. Tenha cuidado com isso, como se você tivesse (por exemplo) criado um recurso dinâmico para a instância, como uma estrutura de dados, e depois tivesse destruído esse recurso no evento de destruição, se houver alguma referência a ele após a função ou ação de destruição ter sido realizada, então você receberá um erro de &quot;recurso desconhecido&quot;, pois o evento de destruição o removeu do jogo.</p>
+  <p> </p>
+  <h4>Sintaxe:</h4>
   <p class="code">instance_destroy([id, execute_event_flag]);</p>
   <table>
     <tbody>
       <tr>
-        <th>Argument</th>
-        <th>Type</th>
-        <th>Description</th>
+        <th>Argumento</th>
+        <th>Tipo</th>
+        <th>Descrição</th>
       </tr>
       <tr>
-        <td>id</td>
-        <td><span data-keyref="Type_ID_Instance">Instance ID</span> or <span data-keyref="Type_Asset_Object">Object Asset</span></td>
-        <td><span class="optional">OPTIONAL</span> The instance ID to destroy, or the object asset to destroy instances of (optional, default is the calling instance)</td>
+        <td><span class="notranslate">id</span></td>
+        <td><span data-keyref="Type_ID_Instance">Identificação da instância</span> ou do <span data-keyref="Type_Asset_Object">bem objeto</span></td>
+        <td><span class="notranslate"><span class="optional">OPTIONAL</span> A instância ID para destruir, ou o <span class="notranslate">object</span> <span class="notranslate">asset</span> para destruir instâncias de (opcional, padrão é a instância de chamada)</td>
       </tr>
       <tr>
-        <td>execute_event_flag</td>
-        <td><span data-keyref="Type_Bool">Boolean</span></td>
-        <td><span class="optional">OPTIONAL</span> Set to <span class="inline">true</span> or <span class="inline">false</span> to perform the Destroy event or not (optional, default is <span class="inline">true</span>)</td>
+        <td><span class="notranslate">execute_event_flag</span></td>
+        <td><span data-keyref="Type_Bool">Booleano</span></td>
+        <td><span class="notranslate"><span class="optional">OPTIONAL</span> Configurar para <span class="inline">true</span> ou <span class="inline">false</span> para realizar ou não o evento Destroy (opcional, o padrão é <span class="inline">true</span>)</td>
       </tr>
     </tbody>
   </table>
-  <p> </p>
-  <h4>Returns:</h4>
+  <p> </p>
+  <h4>Devoluções:</h4>
   <p class="code"><span data-keyref="Type_Void">N/A</span></p>
-  <p> </p>
-  <h4>Example:</h4>
+  <p> </p>
+  <h4>Exemplo:</h4>
   <p class="code">if (bbox_right &lt; 0 || bbox_left &gt; room_width || bbox_bottom &lt; 0 || bbox_top &gt; room_height)<br />
     {<br />
         instance_destroy(id, false);<br />
     }</p>
-  <p>The above code will destroy the instance running the code without calling the Destroy Event if the instance is outside the room bounds.</p>
-  <p> </p>
-  <p> </p>
-  <p> </p>
+  <p>O código acima destruirá a instância executando o código sem chamar o Evento de Destruição se a instância estiver fora dos limites do <span class="notranslate">room</span>.</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a href="Instances.htm">Instances</a></div>
-        <div style="float:right">Next: <a href="instance_exists.htm">instance_exists</a></div>
+        <div style="float:left">Voltar: <a href="Instances.htm">Instâncias</a></div>
+        <div style="float:right">A seguir: <a href="instance_exists.htm"><span class="notranslate">instance_exists</span></a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2022 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright <span class="notranslate">YoYo Games Ltd.</span> 2022 Todos os direitos reservados</span></h5>
   </div>
   <!-- KEYWORDS
 instance_destroy

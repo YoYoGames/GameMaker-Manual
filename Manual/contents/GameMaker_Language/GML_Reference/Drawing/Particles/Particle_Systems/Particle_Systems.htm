@@ -3,10 +3,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>Particle Systems</title>
-  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <title>Sistemas de Partículas</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
   <link rel="stylesheet" href="../../../../../assets/css/default.css" type="text/css" />
-  <script src="../../../../../assets/scripts/main_script.js" type="module"></script>
+  <script src="../../../../../assets/scripts/main_script.js"></script>
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Reference section for the Particle System functions and variables" />
   <meta name="rh-index-keywords" content="" />
@@ -14,81 +14,49 @@
 </head>
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
-  <h1><span data-field="title" data-format="default">Particle Systems</span></h1>
-  <p>Before you can create particles you need to create a particle system. This is a &quot;container&quot; where you place your particles and emitters (if you need them) ready for use, and you can put as many or as few particles into any one system as you think necessary, and you can have as many systems as you think necessary too. However, it is always better to keep this number as small as possible due to the fact that each system, emitter and particle takes up memory and having too many of them may slow your game down or cause problems. For example, if you need some effects to appear above instances, and other effects to appear beneath instances, you would create two systems and set their depths to get the desired effect, with all particles that are added to each system being drawn at the depth you specify.</p>
-  <p>Since a particle system is a dynamically created resource, you must create it and store the returned index in a variable to reference the system in all further function calls, and it is very important that you also destroy the system when it is no longer needed or else you will have a memory leak that will slow down and eventually crash your game. It is also worth noting that particle systems will live on forever after they are created, even if the index is no longer stored. So even if you change room or restart the game, the systems and the particles will remain, and be visible, in all further rooms so you better make sure you destroy them once you no longer need them.</p>
-  <div data-conref="../../../../../assets/snippets/Note_tip_use_particle_system_editor.hts"> </div>
-  <h2 id="h">Copy GML to Clipboard</h2>
-  <p>Using <a data-xref="{title}" href="../../../../../The_Asset_Editors/Particle_Systems.htm">The Particle System Editor</a>&#39;s <strong>Copy GML to Clipboard</strong> button <img class="icon" src="../../../../../assets/Images/Icons/Icon_GML_To_Clipboard.png" /> you can generate the <span data-keyref="GML_Code">GML Code</span> needed to create a particle system that&#39;s identical to the one you created. The code could, for example, go in an object&#39;s Create event: </p>
-  <p class="code_heading">Create Event</p>
-  <p class="code">var _ps = part_system_create();<br />
-    part_system_draw_order( _ps, true);<br />
-    <br />
-    var _ptype1 = part_type_create();<br />
-    part_type_shape( _ptype1, pt_shape_sphere );<br />
-    part_type_size( _ptype1, 1, 1, 0, 0 );<br />
-    part_type_scale( _ptype1, 1, 1);<br />
-    part_type_speed( _ptype1, 2, 2, 0, 0);<br />
-    part_type_direction( _ptype1, 0, 0, 4, 0);<br />
-    part_type_gravity( _ptype1, 0, 270);<br />
-    part_type_orientation( _ptype1, 0, 0, 0, 0, false);<br />
-    part_type_colour3( _ptype1, $7F7FFF, $FFFFFF, $FFEFBC );<br />
-    part_type_alpha3( _ptype1, 1, 1, 0.169);<br />
-    part_type_blend( _ptype1, true);<br />
-    part_type_life( _ptype1, 80, 80);<br />
-    <br />
-    var _pemit1 = part_emitter_create( _ps );<br />
-    part_emitter_region( _ps, _pemit1, -64, 64, -64, 64, ps_shape_rectangle, ps_distr_linear );<br />
-    part_emitter_stream(_ps, _pemit1, _ptype1, 1);<br />
-    <br />
-    part_system_position(_ps, room_width/2, room_height/2);
-  </p>
-  <p>As the above code shows, emitters start streaming particles if you&#39;ve configured them to be in <strong>Stream</strong> mode. By default, the particle system&#39;s position is set to the center of the room.</p>
-  <p class="note"><span data-conref="../../../../../assets/snippets/Tag_important.hts"> </span> The particle system, emitters and types have to be destroyed manually (e.g. in the Clean Up event) to prevent memory leaks.</p>
-  <h2 id="func_ref">Function Reference</h2>
-  <h3 id="func_ref_general">Setting Up</h3>
+  <h1>Sistemas de Partículas</h1>
+  <p>Antes de poder criar partículas, você precisa criar um sistema de partículas. Este é um &quot;recipiente&quot; onde você coloca suas partículas e emissores (se precisar deles) prontos para uso, e você pode colocar tantas ou tão poucas partículas em qualquer sistema quanto achar necessário, e você pode ter tantos sistemas quantos você achar necessário também. Entretanto, é sempre melhor manter este número tão pequeno quanto possível devido ao fato de que cada sistema, emissor e partícula ocupa memória e ter muitos deles pode retardar seu jogo ou causar problemas. Por exemplo, se você precisar que alguns efeitos apareçam acima das instâncias, e outros efeitos apareçam abaixo das instâncias, você criaria dois sistemas e definiria suas profundidades para obter o efeito desejado, com todas as partículas que são adicionadas a cada sistema sendo desenhadas na profundidade que você especificar.</p>
+  <p>Como um sistema de partículas é um recurso criado dinamicamente, você deve criá-lo e armazenar o índice retornado em uma variável para referenciar o sistema em todas as outras chamadas de função, e é muito importante que você também destrua o sistema quando ele não for mais necessário ou então você terá um vazamento de memória que irá desacelerar e eventualmente quebrar seu jogo. Também vale a pena notar que os sistemas de partículas viverão para sempre após a sua criação, mesmo que o índice não seja mais armazenado. Portanto, mesmo se você mudar <span class="notranslate">room</span> ou reiniciar o jogo, os sistemas e as partículas permanecerão, e serão visíveis, em todos os outros <span class="notranslate">rooms</span>, então é melhor certificar-se de destruí-los assim que não precisar mais deles.</p>
+  <p>As funções básicas para a criação de um sistema de partículas estão listadas abaixo:</p>
   <ul class="colour">
-    <li><a href="part_system_exists.htm">part_system_exists</a></li>
-    <li><a href="part_system_create.htm">part_system_create</a></li>
-    <li><a href="part_system_create_layer.htm">part_system_create_layer</a></li>
-    <li><a href="part_system_get_layer.htm">part_system_get_layer</a></li>
-    <li><a href="part_system_layer.htm">part_system_layer</a></li>
-    <li><a href="part_system_depth.htm">part_system_depth</a></li>
-    <li><a href="part_system_position.htm">part_system_position</a></li>
-    <li><a data-xref="{title}" href="part_system_angle.htm">part_system_angle</a></li>
-    <li><a data-xref="{title}" href="part_system_global_space.htm">part_system_global_space</a></li>
-    <li><a data-xref="{title}" href="part_system_colour.htm">part_system_colour</a></li>
-    <li><a href="part_system_clear.htm">part_system_clear</a></li>
-    <li><a href="part_system_destroy.htm">part_system_destroy</a></li>
-    <li><a href="part_particles_clear.htm">part_particles_clear</a></li>
-    <li><a href="part_particles_count.htm">part_particles_count</a></li>
+    <li><a href="part_system_exists.htm"><span class="notranslate">part_system_exists</span></a></li>
+    <li><a href="part_system_create.htm"><span class="notranslate">part_system_create</span></a></li>
+    <li><a href="part_system_create_layer.htm"><span class="notranslate">part_system_create_layer</span></a></li>
+    <li><a href="part_system_get_layer.htm"><span class="notranslate">part_system_get_layer</span></a></li>
+    <li><a href="part_system_layer.htm"><span class="notranslate">part_system_layer</span></a></li>
+    <li><a href="part_system_depth.htm"><span class="notranslate">part_system_depth</span></a></li>
+    <li><a href="part_system_position.htm"><span class="notranslate">part_system_position</span></a></li>
+    <li><a href="part_system_clear.htm"><span class="notranslate">part_system_clear</span></a></li>
+    <li><a href="part_system_destroy.htm"><span class="notranslate">part_system_destroy</span></a></li>
+    <li><a href="part_particles_clear.htm"><span class="notranslate">part_particles_clear</span></a></li>
+    <li><a href="part_particles_count.htm"><span class="notranslate">part_particles_count</span></a></li>
   </ul>
-  <h3 id="func_ref_updating_drawing">Updating and Drawing</h3>
-  <p>Once particles are added to a particle system and then burst or streamed into the room, they are normally automatically updated each step and drawn based on the parameters that you have used to define them. However it can sometimes be necessary to control when and how the system is updated as well as how the system should be drawn, and for that <span data-keyref="GameMaker Name">GameMaker</span> provides the following functions:</p>
+  <p> </p>
+  <p>Uma vez que as partículas são adicionadas a um sistema de partículas e depois estouram ou fluem para o <span class="notranslate">room</span>, elas são normalmente atualizadas automaticamente a cada etapa e desenhadas com base nos parâmetros que você utilizou para defini-las. Entretanto, às vezes pode ser necessário controlar quando e como o sistema é atualizado, bem como como o sistema deve ser desenhado, e para isso <span data-keyref="GameMaker Name">o GameMaker</span> fornece as seguintes funções:</p>
   <ul class="colour">
-    <li><a href="part_system_automatic_update.htm">part_system_automatic_update</a></li>
-    <li><a href="part_system_automatic_draw.htm">part_system_automatic_draw</a></li>
-    <li><a href="part_system_update.htm">part_system_update</a></li>
-    <li><a href="part_system_drawit.htm">part_system_drawit</a></li>
-    <li><a href="part_system_draw_order.htm">part_system_draw_order</a></li>
+    <li><a href="part_system_automatic_update.htm"><span class="notranslate">part_system_automatic_update</span></a></li>
+    <li><a href="part_system_automatic_draw.htm"><span class="notranslate">part_system_automatic_draw</span></a></li>
+    <li><a href="part_system_update.htm"><span class="notranslate">part_system_update</span></a></li>
+    <li><a href="part_system_drawit.htm"><span class="notranslate">part_system_drawit</span></a></li>
+    <li><a href="part_system_draw_order.htm"><span class="notranslate">part_system_draw_order</span></a></li>
   </ul>
-  <h3 id="func_ref_creating_particles">Creating Particles</h3>
-  <p>You can use <a href="../Particle_Emitters/Particle_Emitters.htm">particle emitters</a> to burst or stream particles from an area, but in many cases these are not necessary and it is actually better to just create the particles directly using the following functions:</p>
+  <p> </p>
+  <p>Você pode usar <a href="../Particle_Emitters/Particle_Emitters.htm">emissores de partículas</a> para estourar ou espalhar partículas de uma área, mas em muitos casos estas não são necessárias e é melhor simplesmente criar as partículas diretamente usando as seguintes funções:</p>
   <ul class="colour">
-    <li><a href="part_particles_create.htm">part_particles_create</a></li>
-    <li><a href="part_particles_create_colour.htm">part_particles_create_colour</a></li>
-    <li><a data-xref="{title}" href="part_particles_burst.htm">part_particles_burst</a></li>
+    <li><a href="part_particles_create.htm"><span class="notranslate">part_particles_create</span></a></li>
+    <li><a href="part_particles_create_colour.htm"><span class="notranslate">part_particles_create_colour</span></a></li>
   </ul>
-  <p> </p>
-  <p> </p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a href="../Particles.htm">Particles</a></div>
-        <div style="float:right">Next: <a href="../Particle_Types/Particle_Types.htm">Particle Types</a></div>
+        <div style="float:left">Voltar: <a href="../Particles.htm">Partículas</a></div>
+        <div style="float:right">A seguir: <a href="../Particle_Types/Particle_Types.htm">Tipos de Partículas</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2023 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright <span class="notranslate">YoYo Games Ltd.</span> 2021 Todos os direitos reservados</span></h5>
   </div>
   <!-- KEYWORDS
 Particle Systems

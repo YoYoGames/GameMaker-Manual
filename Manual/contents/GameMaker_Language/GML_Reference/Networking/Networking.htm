@@ -3,10 +3,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>Networking</title>
-  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <title>Trabalho em rede</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
   <link rel="stylesheet" href="../../../assets/css/default.css" type="text/css" />
-  <script src="../../../assets/scripts/main_script.js" type="module"></script>
+  <script src="../../../assets/scripts/main_script.js"></script>
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Reference section for the Networking  functions" />
   <meta name="rh-index-keywords" content="" />
@@ -14,48 +14,43 @@
 </head>
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
-  <h1><span data-field="title" data-format="default">Networking</span></h1>
-  <p>The <span data-keyref="GameMaker Name">GameMaker</span> networking functions are based on <i>sockets</i>, which is an industry standard on all platforms. With sockets, you have the ability to create both clients and servers using simple GML which allows you to create even a single player game using the client/server model (something which will allow multiplayer to be added easily later).</p>
-  <p>Basically, a socket is an object which can send, receive, connect and listen to <i>ports</i> on the network. These functions deal with just TCP/IP connections, which is what the internet is based on. In essence this lets you connect one socket using an IP address (let&#39;s say 192.168.1.10) to another socket on another IP address (say 192.168.1.11). Once connected, these two sockets can send data back and forth using the <span class="inline2">network_send_*</span> functions (like <span class="inline3_func"><a data-xref="{title}" href="network_send_packet.htm">network_send_packet</a></span>) and the dedicated asynchronous event that is triggered by them. This async event will generate a <a href="../Data_Structures/DS_Maps/DS_Maps.htm">DS map</a> containing the data received as well as other details, and you can find the complete details in the section on the <a href="../../../The_Asset_Editors/Object_Properties/Async_Events/Networking.htm">Network Async Event</a>.</p>
-  <p class="note"><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> GameMaker supports IPv4 and IPv6 addresses on all platforms excluding the Nintendo Switch, PlayStation 4 and PlayStation 5.</p>
-  <p>Instead of programs having to read and deal with every bit of network traffic coming into a machine, IP addresses also deal with ports, which are numbered from 0 to 65535. This allows each program to get only the packets of data that it&#39;s interested in, and not everything that has been sent by every program. This also saves considerable CPU time, as it seriously cuts down on data processing, so with <span data-keyref="GameMaker Name">GameMaker</span> you can also “listen” to ports. So, a server will create a socket, and then bind it to a specific port to listen to. It will then get notified of connections, disconnections and data transfers from that socket.</p>
-  <p>The data &quot;packets&quot; themselves are made up of binary data taken from a buffer. This buffer can be created and manipulated using the <span data-keyref="GameMaker Name">GameMaker</span> <a href="../Buffers/Buffers.htm">Buffer functions</a>.</p>
-  <p>It is worth noting that if you are creating a project for the HTML5 target, then you will not be able to use the server create functions due to browser restrictions and will have to write your own server for this platform using something like <strong>Electron </strong>or <strong>NodeJS</strong>. Also note that if your game is cross-platform and you anticipate connecting to an HTML5 instance of the game from a server running on a mobile or desktop device, then your server can only communicate to the HTML5 instance using the Web Socket protocol (this is done using the constant <span class="inline">network_socket_ws</span> or <span class="inline">network_socket_wss</span> - see <span class="inline3_func"><a data-xref="{title}" href="network_create_server.htm">network_create_server</a></span> for more information). This means that your server may have to create two sockets on different ports, one to connect to non HTML5 targets (Android, Windows, etc.) and one to connect to the HTML5 target.</p>
-  <h2>Raw Functions</h2>
-  <p>Functions used for creating sockets, connecting to servers and sending data have raw alternatives, which you can see in the list below.</p>
-  <p>Packets/requests sent through regular networking functions (e.g. <span class="inline3_func"><a href="network_connect.htm">network_connect</a></span>) include additional data inserted by GameMaker, so only GameMaker games can talk to each other.</p>
-  <p>The raw functions (e.g. <span class="inline3_func"><a href="network_connect_raw.htm">network_connect_raw</a></span>) are used to connect with non-GameMaker servers/clients, e.g. if you want to connect to a server written in JavaScript, PHP, etc.</p>
-  <p><span data-conref="../../../assets/snippets/Networking_dont_mix_raw_reg.hts"> </span></p>
-  <h2 id="func_ref">Function Reference</h2>
+  <h1>Trabalho em rede</h1>
+  <p>As funções de rede <span data-keyref="GameMaker Name">GameMaker</span> são baseadas em <i>soquetes</i>, que é um padrão da indústria em todas as plataformas. Com os soquetes, você tem a capacidade de criar tanto clientes como <span class="notranslate">servers</span> usando o simples <span class="notranslate">GML</span> que permite criar até mesmo um jogo de um único jogador usando o modelo cliente/servidor (algo que permitirá que o multiplayer seja adicionado facilmente mais tarde).</p>
+  <p>Basicamente, uma tomada é um <span class="notranslate">object</span> que pode enviar, receber, conectar e escutar as <i>portas</i> da rede. Estas funções tratam apenas de conexões TCP/IP, que é no que a Internet se baseia (IPv4, para ser mais preciso). Em essência, isto permite conectar um socket usando um endereço IP (digamos 192.168.1.10) a outro socket em outro endereço IP (digamos 192.168.1.11). Uma vez conectados, estes dois soquetes podem enviar dados para frente e para trás usando as funções <span class="inline">network_send_*</span> (como <a href="network_send_packet.htm"><span class="inline">network_send_packet()</span></a>) e o evento assíncrono dedicado que é desencadeado por eles. Este evento assíncrono gerará um <a href="../Data_Structures/DS_Maps/DS_Maps.htm">mapa DS</a> contendo os dados recebidos, bem como outros detalhes, e você pode encontrar os detalhes completos na seção sobre o <a href="../../../The_Asset_Editors/Object_Properties/Async_Events/Networking.htm">Evento Async da Rede</a>.</p>
+  <p>Em vez de programas que precisam ler e lidar com cada pedaço de tráfego de rede que entra em uma máquina, os endereços IP também lidam com portas, que são numeradas de 0 a 65535. Isto permite que cada programa receba apenas os pacotes de dados em que está interessado, e não tudo o que foi enviado por cada programa. Isto também economiza tempo considerável da CPU, pois reduz seriamente o processamento de dados, de modo que com o <span data-keyref="GameMaker Name">GameMaker</span> você também pode "ouvir" as portas. Assim, um <span class="notranslate">server</span> criará um soquete, e depois o ligará a uma porta específica para ouvir. Ele será então notificado das conexões, desconexões e transferências de dados a partir desse soquete.</p>
+  <p>Os próprios &quot;pacotes&quot; de dados são compostos de dados binários retirados de um <span class="notranslate">buffer</span>. Este <span class="notranslate">buffer</span> pode ser criado e manipulado usando as <a href="../Buffers/Buffers.htm">funções</a> do <span data-keyref="GameMaker Name">GameMaker</span> <a href="../Buffers/Buffers.htm">Buffer</a>.</p>
+  <p>Vale notar que se você estiver criando um projeto para o alvo HTML5, então você não poderá usar o <span class="notranslate">server</span> criar funções devido a restrições do navegador e terá que escrever seu próprio <span class="notranslate">server</span> para esta plataforma usando algo como <strong>Electron </strong>ou <strong>NodeJS</strong>. Observe também que se seu jogo for uma plataforma cruzada e você antecipar a conexão a uma instância HTML5 do jogo a partir de um <span class="notranslate">server</span> rodando em um dispositivo móvel ou desktop, então seu <span class="notranslate">server</span> só poderá se comunicar com a instância HTML5 usando o protocolo Web Socket (isto é feito usando a constante <span class="inline">network_socket_ws</span> ou <span class="inline">network_socket_wss</span> - veja <a href="network_create_server.htm"><span class="inline">network_create_server()</span></a> para mais informações). Isto significa que seu <span class="notranslate">server</span> pode ter que criar dois soquetes em portas diferentes, um para conectar a alvos não HTML5 (<span class="notranslate">Android</span>, <span class="notranslate">Windows</span>, etc...) e outro para conectar ao alvo HTML5.</p>
+  <p>As seguintes funções existem para que você possa utilizar em rede:</p>
   <ul class="colour">
-    <li><a href="network_create_server.htm">network_create_server</a></li>
-    <li><a href="network_create_server_raw.htm">network_create_server_raw </a></li>
-    <li><a href="network_create_socket.htm">network_create_socket</a></li>
-    <li><a href="network_create_socket_ext.htm">network_create_socket_ext</a></li>
-    <li><a href="network_connect.htm">network_connect</a></li>
-    <li><a href="network_connect_async.htm">network_connect_async</a></li>
-    <li><a href="network_connect_raw.htm">network_connect_raw</a></li>
-    <li><a data-xref="{title}" href="network_connect_raw_async.htm">network_connect_raw_async</a></li>
-    <li><a href="network_resolve.htm">network_resolve</a></li>
-    <li><a href="network_set_config.htm">network_set_config</a></li>
-    <li><a href="network_set_timeout.htm">network_set_timeout</a></li>
-    <li><a href="network_send_broadcast.htm">network_send_broadcast</a></li>
-    <li><a href="network_send_packet.htm">network_send_packet</a></li>
-    <li><a href="network_send_raw.htm">network_send_raw</a></li>
-    <li><a href="network_send_udp.htm">network_send_udp</a></li>
-    <li><a href="network_send_udp_raw.htm">network_send_udp_raw</a></li>
-    <li><a href="network_destroy.htm">network_destroy</a></li>
+    <li><a href="network_create_server.htm"><span class="notranslate">network_create_server</span></a></li>
+    <li><a href="network_create_server_raw.htm">rede_criar_servidor_servidor_desenhar </a></li>
+    <li><a href="network_create_socket.htm"><span class="notranslate">network_create_socket</span></a></li>
+    <li><a href="network_create_socket_ext.htm"><span class="notranslate">network_create_socket_ext</span></a></li>
+    <li><a href="network_connect.htm"><span class="notranslate">network_connect</span></a></li>
+    <li><a href="network_connect_async.htm"><span class="notranslate">network_connect_async</span></a></li>
+    <li><a href="network_connect_raw.htm"><span class="notranslate">network_connect_raw</span></a></li>
+    <li><a href="network_connect_raw_async.htm">network_connect_async_raw</a></li>
+    <li><a href="network_resolve.htm"><span class="notranslate">network_resolve</span></a></li>
+    <li><a href="network_set_config.htm"><span class="notranslate">network_set_config</span></a></li>
+    <li><a href="network_set_timeout.htm"><span class="notranslate">network_set_timeout</span></a></li>
+    <li><a href="network_send_broadcast.htm"><span class="notranslate">network_send_broadcast</span></a></li>
+    <li><a href="network_send_packet.htm"><span class="notranslate">network_send_packet</span></a></li>
+    <li><a href="network_send_raw.htm"><span class="notranslate">network_send_raw</span></a></li>
+    <li><a href="network_send_udp.htm"><span class="notranslate">network_send_udp</span></a></li>
+    <li><a href="network_send_udp_raw.htm"><span class="notranslate">network_send_udp_raw</span></a></li>
+    <li><a href="network_destroy.htm"><span class="notranslate">network_destroy</span></a></li>
   </ul>
-  <p> </p>
-  <p> </p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a href="../GML_Reference.htm">GML Reference</a></div>
-        <div style="float:right">Next: <a data-condition="Export:StableOnly" data-xref="{title}" href="../Web_And_HTML5/Web_And_HTML5.htm">Web And HTML5</a> <a data-condition="Export:Beta" data-xref="{title}" href="../Rollback/Rollback_Multiplayer.htm">Rollback Multiplayer</a></div>
+        <div style="float:left">Voltar: <a href="../GML_Reference.htm">Referência GML</a></div>
+        <div style="float:right">A seguir: <a data-condition="Export:StableOnly" data-xref="{title}" href="../Web_And_HTML5/Web_And_HTML5.htm">Web e HTML5</a> <a data-condition="Export:Beta" data-xref="{title}" href="../Rollback/Rollback_Multiplayer.htm">Rollback Multiplayer</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2023 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright <span class="notranslate">YoYo Games Ltd.</span> 2022 Todos os direitos reservados</span></h5>
   </div>
   <!-- KEYWORDS
 Networking

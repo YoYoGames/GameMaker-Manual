@@ -3,10 +3,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>audio_create_buffer_sound</title>
+  <title>audio_criate_buffer_sound</title>
   <meta name="generator" content="Adobe RoboHelp 2020" />
   <link rel="stylesheet" href="../../../../../assets/css/default.css" type="text/css" />
-  <script src="../../../../../assets/scripts/main_script.js" type="module"></script>
+  <script src="../../../../../assets/scripts/main_script.js"></script>
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Page explaining the function audio_create_buffer_sound" />
   <meta name="rh-index-keywords" content="audio_create_buffer_sound" />
@@ -15,11 +15,8 @@
 </head>
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
-  <h1>audio_create_buffer_sound</h1>
-  <p>With this function you can create a new sound from the contents of a buffer.</p>
-  <p>The buffer should have been created previously (see the <a href="../../../Buffers/Buffers.htm">buffer functions</a> for details on how to do this), and have had data added or loaded into it. You then pass it to this function with the data format (only <span class="inline">buffer_u8</span> or <span class="inline">buffer_s16</span> are currently supported), the sample rate (which can be between 8000hz and 48000hz), and an offset into the buffer to get the data from.</p>
-  <p class="note"><span data-conref="../../../../../assets/snippets/Tag_note.hts"> </span> You cannot pass a buffer of the type <a href="../../../Buffers/buffer_create.htm"><span class="inline2">buffer_grow</span></a> into this function.</p>
-  <p>You also need to supply the number of samples in the buffer and the channels that the sound requires. These channels are defined by one of the following constants:</p>
+  <h1>audio_criate_buffer_sound</h1>
+  <p>Com esta função você pode criar um novo som a partir do conteúdo de um <span class="notranslate">buffer</span>. O <span class="notranslate">buffer</span> terá sido criado anteriormente (veja as <a href="../../../Buffers/Buffers.htm">funções de buffer</a> para detalhes sobre como fazer isso), e teve dados adicionados ou carregados nele. Em seguida, você os passa para esta função com o formato de dados (apenas <span class="inline">buffer_u8</span> ou <span class="inline">buffer_s16</span> são suportados atualmente), a taxa de amostragem (que pode ser entre 1000hz e 48000hz), e um offset no <span class="notranslate">buffer</span> para obter os dados. Você também precisa fornecer o número de amostras no <span class="notranslate">buffer</span> e os canais que o som requer. Estes canais são definidos por uma das constantes a seguir:</p>
   <table>
     <colgroup>
       <col />
@@ -27,76 +24,74 @@
     </colgroup>
     <tbody>
       <tr>
-        <th colspan="2"><span data-keyref="Type_Constant_Audio_Channel_Type"><a href="../../../../../../GameMaker_Language/GML_Reference/Asset_Management/Audio/Audio_Buffers/audio_create_buffer_sound.htm" target="_blank">Audio Channel Constant</a></span></th>
+        <th colspan="2"><span data-keyref="Type_Constant_Audio_Channel_Type"><a data-rhwidget="HyperlinkPopover" href="../../../../../../LINKGOESHERE">Tipo de canal de áudio</a></span></th>
       </tr>
       <tr>
-        <th>Constant</th>
-        <th>Description</th>
+        <th>Constante</th>
+        <th>Descrição</th>
       </tr>
       <tr>
-        <td><span class="inline">audio_mono</span></td>
-        <td>Mono (single channel) audio</td>
+        <td><span class="notranslate"><span class="inline">audio_mono</span></td>
+        <td>Áudio mono (canal único).</td>
       </tr>
       <tr>
-        <td><span class="inline">audio_stereo</span></td>
-        <td>Stereo (dual channel) audio</td>
+        <td><span class="notranslate"><span class="inline">audio_stereo</span></td>
+        <td>Áudio estéreo (canal duplo).</td>
       </tr>
       <tr>
-        <td><span class="inline">audio_3D</span></td>
-        <td>3D (5.1) audio</td>
+        <td><span class="notranslate"><span class="inline">audio_3D</span></td>
+        <td>áudio 3D (5.1).</td>
       </tr>
     </tbody>
   </table>
-  <p>Note that after you have created a sound, you should free the pointer index associated with it when it is no longer required using the function <a href="audio_free_buffer_sound.htm"><span class="inline">audio_free_buffer_sound()</span></a>. If you fail to do this and then re-assign the variable or change rooms etc. the sound ID will be lost and you will have a memory leak.</p>
-  <p>You can&#39;t delete the buffer if any sound has been created from it and the sound has not been freed up first. So you would free the sound(s) first, and <i>then</i> delete the buffer.</p>
-  <p>Adding anything to the buffer, or changing the buffer size, after it has had a sound created from it, will give unexpected results and is not recommended - once you have started creating sounds from any buffer you should not manipulate it in any other way afterwards.</p>
-  <p> </p>
-  <h4>Syntax:</h4>
+  <p>Observe que depois de ter criado um som, você deve liberar o índice do ponteiro associado a ele quando ele não for mais necessário usando a função <a href="audio_free_buffer_sound.htm"><span class="inline">audio_free_buffer_sound()</span></a>. Se você não fizer isso e depois reatribuir a variável ou mudar <span class="notranslate">rooms</span> etc... a identificação sonora será perdida e você terá um vazamento de memória. Observe também que você não pode apagar o <span class="notranslate">buffer</span> se algum som tiver sido criado a partir dele e o som não tiver sido liberado primeiro. Portanto, você liberaria o som (ou sons) primeiro, <i>depois</i> apagaria o <span class="notranslate">buffer</span>. Também vale a pena notar que adicionar qualquer coisa ao <span class="notranslate">buffer</span>, ou mudar o tamanho do <span class="notranslate">buffer</span>, depois de ter tido um som criado a partir dele dará resultados inesperados e não é recomendado - uma vez que você tenha começado a criar sons a partir de qualquer <span class="notranslate">buffer</span> você não deve manipulá-lo de nenhuma outra forma depois.</p>
+  <p> </p>
+  <h4>Sintaxe:</h4>
   <p class="code">audio_create_buffer_sound(bufferId, bufferFormat, bufferRate, bufferOffset, bufferLength, bufferChannels);</p>
   <table>
     <tbody>
       <tr>
-        <th>Argument</th>
-        <th>Type</th>
-        <th>Description</th>
+        <th>Argumento</th>
+        <th>Tipo</th>
+        <th>Descrição</th>
       </tr>
       <tr>
-        <td>bufferId</td>
-        <td><span data-keyref="Type_ID_Buffer"><a href="../../../../../../GameMaker_Language/GML_Reference/Buffers/buffer_create.htm" target="_blank">Buffer ID</a></span></td>
-        <td>The ID of the buffer to use.</td>
+        <td><span class="notranslate">bufferId</span></td>
+        <td><span data-keyref="Type_ID_Buffer"><a data-rhwidget="HyperlinkPopover" href="../../../../../../LINKGOESHERE">Identificação do tampão</a></span></td>
+        <td><span class="notranslate">The ID of the buffer to use.</span></td>
       </tr>
       <tr>
-        <td>bufferFormat</td>
-        <td><span data-keyref="Type_Constant_Buffer_Data_Type"><a href="../../../../../../GameMaker_Language/GML_Reference/Buffers/buffer_write.htm" target="_blank">Buffer Data Type Constant</a></span></td>
-        <td>The format of the data in the buffer (<span class="inline">buffer_u8</span> or <span class="inline">buffer_s16</span>).</td>
+        <td><span class="notranslate">bufferFormat</span></td>
+        <td><span data-keyref="Type_Constant_Buffer_Data_Type"><a data-rhwidget="HyperlinkPopover" href="../../../../../../LINKGOESHERE">Constante do tipo de dados tampão</a></span></td>
+        <td><span class="notranslate">The format of the data in the buffer (<span class="inline">buffer_u8</span> ou <span class="inline">buffer_s16</span>).</td>
       </tr>
       <tr>
-        <td>bufferRate</td>
-        <td><span data-keyref="Type_Real"><a href="../../../../../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
-        <td>The sample rate of the data in the buffer.</td>
+        <td><span class="notranslate">bufferRate</span></td>
+        <td><span data-keyref="Type_Real"><a data-rhwidget="HyperlinkPopover" href="../../../../../../LINKGOESHERE">Real</a></span></td>
+        <td><span class="notranslate">The sample rate of the data in the buffer.</span></td>
       </tr>
       <tr>
-        <td>bufferOffset</td>
-        <td><span data-keyref="Type_Real"><a href="../../../../../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
-        <td>The offset into the buffer to read the sample data from (in bytes).</td>
+        <td><span class="notranslate">bufferOffset</span></td>
+        <td><span data-keyref="Type_Real"><a data-rhwidget="HyperlinkPopover" href="../../../../../../LINKGOESHERE">Real</a></span></td>
+        <td><span class="notranslate">The offset into the buffer to read the sample data from (in bytes).</span></td>
       </tr>
       <tr>
-        <td>bufferLength</td>
-        <td><span data-keyref="Type_Real"><a href="../../../../../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
-        <td>The length of the buffer (the number of bytes of audio data, excluding the header).</td>
+        <td><span class="notranslate">bufferLength</span></td>
+        <td><span data-keyref="Type_Real"><a data-rhwidget="HyperlinkPopover" href="../../../../../../LINKGOESHERE">Real</a></span></td>
+        <td><span class="notranslate">The length of the buffer (the number of bytes of audio data, excluding the header).</span></td>
       </tr>
       <tr>
-        <td>bufferChannels</td>
-        <td><span data-keyref="Type_Constant_Audio_Channel_Type"><a href="../../../../../../GameMaker_Language/GML_Reference/Asset_Management/Audio/Audio_Buffers/audio_create_buffer_sound.htm" target="_blank">Audio Channel Constant</a></span></td>
-        <td>The channels to use from one of the constants listed above.</td>
+        <td><span class="notranslate">bufferChannels</span></td>
+        <td><span data-keyref="Type_Constant_Audio_Channel_Type"><a data-rhwidget="HyperlinkPopover" href="../../../../../../LINKGOESHERE">Tipo de canal de áudio</a></span></td>
+        <td><span class="notranslate">The channels to use from one of the constants listed above.</span></td>
       </tr>
     </tbody>
   </table>
-  <p> </p>
-  <h4>Returns:</h4>
-  <p class="code"><span data-keyref="Type_Asset_Sound"><a href="../../../../../../The_Asset_Editors/Sounds.htm" target="_blank">Sound Asset</a></span></p>
-  <p> </p>
-  <h4>Example:</h4>
+  <p> </p>
+  <h4>Devoluções:</h4>
+  <p class="code"><span data-keyref="Type_Asset_Sound"><a data-rhwidget="HyperlinkPopover" href="../../../../../../The_Asset_Editors/Sounds.htm">Sound Asset</a></span></p>
+  <p> </p>
+  <h4>Exemplo:</h4>
   <p class="code">var rate = 44100;<br />
     var hertz = irandom_range(220, 880);<br />
     var samples = 44100;<br />
@@ -119,18 +114,18 @@
     <br />
     soundId = audio_create_buffer_sound(bufferId, buffer_u8, rate, 0, length, audio_stereo);
   </p>
-  <p>The above creates a buffer and then procedurally fills it with data. This data is then used to create a new sound, which is stored in the variable &quot;soundId&quot;.</p>
-  <p> </p>
-  <p> </p>
-  <p> </p>
+  <p>O acima exposto cria um <span class="notranslate">buffer</span> e, em seguida, processa-o com dados. Estes dados são então usados para criar um novo som, que é armazenado na variável &quot;soundId&quot;.</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a href="../Audio.htm">Audio Buffers</a></div>
-        <div style="float:right">Next: <a href="audio_free_buffer_sound.htm">audio_free_buffer_sound</a></div>
+        <div style="float:left">Voltar: <a href="../Audio.htm">Buffers de áudio</a></div>
+        <div style="float:right">A seguir: <a href="audio_free_buffer_sound.htm"><span class="notranslate">audio_free_buffer_sound</span></a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2023 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright <span class="notranslate">YoYo Games Ltd.</span> 2022 Todos os direitos reservados</span></h5>
   </div>
   <!-- KEYWORDS
 audio_create_buffer_sound

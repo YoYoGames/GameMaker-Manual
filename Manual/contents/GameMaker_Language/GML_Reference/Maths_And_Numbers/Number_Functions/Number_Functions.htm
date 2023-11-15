@@ -3,10 +3,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>Number Functions</title>
+  <title>Funções Numéricas</title>
   <meta name="generator" content="Adobe RoboHelp 2020" />
   <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
-  <script src="../../../../assets/scripts/main_script.js" type="module"></script>
+  <script src="../../../../assets/scripts/main_script.js"></script>
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Reference section for Number functions" />
   <meta name="rh-index-keywords" content="" />
@@ -14,82 +14,79 @@
 </head>
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
-  <h1><span data-field="title" data-format="default">Number Functions</span></h1>
-  <p>Real numbers in <span data-keyref="GameMaker Name">GameMaker</span> are considered <i>double-precision floating-point numbers</i> - that is to say that they have a decimal point in them with no fixed number of digits either before or after the point - or <i>integers</i> - that is to say they are whole numbers with no decimal point value. 2, for example, is an integer but 2.01 is a floating point real.</p>
-  <p class="note"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> On the <b>HTML5</b> target, all real numbers are doubles.</p>
-  <p>This distinction between integers and floats is very important when dealing with cross platform development as the precision of calculations made on a Windows PC is <i>not</i> the same as the precision of those same calculations when made on a mobile device. This means that you should pay particular attention when making comparisons, for example:</p>
+  <h1>Funções Numéricas</h1>
+  <p>Números reais no <span data-keyref="GameMaker Name">GameMaker</span> são considerados <i>números de ponto flutuante de precisão dupla</i> - ou seja, eles têm um ponto decimal sem número fixo de dígitos antes ou depois do ponto - ou <i>inteiros</i> - ou seja, são números inteiros sem valor de ponto decimal. 2, por exemplo, é um número inteiro, mas 2,01 é um ponto flutuante real.</p>
+  <p class="note"><b>NOTA</b>: No alvo <b>HTML5</b>, todos os números reais são duplas.</p>
+  <p>Esta distinção entre inteiros e flutuadores é muito importante quando se trata do desenvolvimento de plataformas cruzadas, pois a precisão dos cálculos feitos em um <span class="notranslate">Windows</span> PC <i>não</i> é a mesma que a precisão desses mesmos cálculos quando feitos em um dispositivo móvel. Isto significa que você deve prestar atenção especial ao fazer comparações, por exemplo:</p>
   <p class="code">if (image_index == 1)<br />
     {<br />
         do something...<br />
     }</p>
-  <p>In the example above, if we have been setting the <span class="inline2"><a data-xref="{title}" href="../../Asset_Management/Sprites/Sprite_Instance_Variables/image_speed.htm">image_speed</a></span> to 0.25 - for example - then after four steps you may assume that the <span class="inline2"><a data-xref="{title}" href="../../Asset_Management/Sprites/Sprite_Instance_Variables/image_index.htm">image_index</a></span> value would be 1, but it <i>may</i> be a value like 1.0000002 due to the way floating point maths works and so the evaluation will not be <span class="inline2">true</span>. These types of errors can be quite hard to debug and so it is always good to be aware of them and to plan ahead and use other means of checking values or to use the appropriate flooring or rounding functions (listed below) to convert the number to check into an integer (for more information on floating point maths and why this is an issue, please <a href="https://floating-point-gui.de/" target="_blank">see here</a>). For example the above code could be written as:</p>
+  <p>No exemplo acima, se estivermos definindo o <span class="inline">image_speed</span> como 0,25 - por exemplo - então após quatro passos você pode assumir que o valor <span class="inline">image_index</span> seria 1, mas <i>pode</i> ser um valor como 1,0000002 devido à forma como a matemática de ponto flutuante funciona e, portanto, a avaliação não será <span class="inline">true</span>. Estes tipos de erros podem ser bastante difíceis de depurar e por isso é sempre bom estar atento a eles e planejar com antecedência e usar outros meios de verificação de valores ou usar as funções apropriadas de piso ou arredondamento (listadas abaixo) para converter o número para verificar em um número inteiro (para mais informações sobre matemática de ponto flutuante e porque isto é um problema, por favor <a href="https://floating-point-gui.de/" target="_blank">veja aqui</a>). Por exemplo, o código acima poderia ser escrito como:</p>
   <p class="code">if (floor(image_index) == 1)<br />
     {<br />
         do something...<br />
     }</p>
-  <p>It is also worth noting that when using the <b>YoYo Compiler</b> targets, all expressions and functions are <i>evaluated from left to right</i>, while on all other target platforms they are evaluated <i>from right to left</i>, meaning that this - for example - will give different results depending on the platform:</p>
+  <p>Também vale a pena notar que ao utilizar os alvos do <b>Compilador YoYo</b>, todas as expressões e funções são <i>avaliadas da esquerda para a direita</i>, enquanto em todas as outras plataformas alvo são avaliadas <i>da direita para a esquerda</i>, o que significa que isto - por exemplo - dará resultados diferentes dependendo da plataforma:</p>
   <p class="code">val = max(num, ++num, num++);</p>
-  <p class="note"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> For more information, see the section on <a data-xref="{title}" href="../../../GML_Overview/Evaluation_Order.htm">Evaluation Order</a>.</p>
-  <p>You can also use a special function available in <span data-keyref="GameMaker Name">GameMaker</span> to set the <b><a id="epsilon"></a>epsilon</b> value for floating point maths. When a real number is rounded to the nearest floating point number, the epsilon (also know as &quot;machine epsilon&quot;) forms an upper bound on the relative error, and you can get and set the epsilon value using the following functions:</p>
+  <p class="note"><strong>NOTA</strong>: Para mais informações, consulte a seção sobre <a href="../../../GML_Overview/Evaluation_Order.htm">Ordem de Avaliação</a>.</p>
+  <p>Você também pode usar uma função especial disponível no <span data-keyref="GameMaker Name">GameMaker</span> para definir o valor <b>epsilon</b> para matemática de ponto flutuante. Quando um número real é arredondado para o número de ponto flutuante mais próximo, o epsilon (também conhecido como &quot;epsilon máquina&quot;) forma um limite superior no erro relativo, e você pode obter e definir o valor do epsilon usando as seguintes funções:</p>
   <ul class="colour">
-    <li><a data-xref="{title}" href="math_set_epsilon.htm">math_set_epsilon</a></li>
-    <li><a data-xref="{title}" href="math_get_epsilon.htm">math_get_epsilon</a></li>
+    <li><a href="math_set_epsilon.htm"><span class="notranslate">math_set_epsilon</span></a></li>
+    <li><a href="math_get_epsilon.htm"><span class="notranslate">math_get_epsilon</span></a></li>
   </ul>
-  <h2 id="func_ref">Function Reference</h2>
-  <h3 id="random">Random Numbers and Values</h3>
-  <p class="note"><b><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> </b>When using the random functions, <span data-keyref="GameMaker Name">GameMaker</span> maintains the same random seed every time you start the game. This makes debugging much easier as you are guaranteed that the random functions will always initially return the same value, however should you not wish this to happen, you must first set a new random seed at the very start of the game, either using <span class="inline3_func"><a data-xref="{title}" href="randomise.htm">randomise</a></span> or <span class="inline3_func"><a data-xref="{title}" href="random_set_seed.htm">random_set_seed</a></span>.</p>
+  <p> </p>
+  <p id="random">Todas estas funções tratam da utilização de números e valores aleatórios:</p>
+  <p class="note"><b><span class="note">NOTA</span> </b>Ao utilizar as funções aleatórias, o <span data-keyref="GameMaker Name">GameMaker</span> mantém a mesma semente aleatória toda vez que você inicia o jogo. Isto torna <span class="notranslate">debugging</span> muito mais fácil, pois você tem a garantia de que as funções aleatórias sempre retornarão inicialmente o mesmo valor, porém se você não desejar que isto aconteça, você deve primeiro definir uma nova semente aleatória logo no início do jogo, seja usando <span style="font-size:1px;"><a href="randomise.htm"><span class="inline">randomise()</span></a></span> ou <span style="font-size:1px;"><a href="random_set_seed.htm"><span class="inline">random_set_seed()</span></a></span>.</p>
   <ul class="colour">
-    <li><a data-xref="{title}" href="choose.htm">choose</a></li>
-    <li><a data-xref="{title}" href="random.htm">random</a></li>
-    <li><a data-xref="{title}" href="random_range.htm">random_range</a></li>
-    <li><a data-xref="{title}" href="irandom.htm">irandom</a></li>
-    <li><a data-xref="{title}" href="irandom_range.htm">irandom_range</a></li>
-    <li><a data-xref="{title}" href="random_set_seed.htm">random_set_seed</a></li>
-    <li><a data-xref="{title}" href="random_get_seed.htm">random_get_seed</a></li>
-    <li><a data-xref="{title}" href="randomise.htm">randomise</a><b></b></li>
+    <li><a href="choose.htm"><span class="notranslate">choose</span></a></li>
+    <li><a href="random.htm"><span class="notranslate">random</span></a></li>
+    <li><a href="random_range.htm"><span class="notranslate">random_range</span></a></li>
+    <li><a href="irandom.htm"><span class="notranslate">irandom</span></a></li>
+    <li><a href="irandom_range.htm"><span class="notranslate">irandom_range</span></a></li>
+    <li><a href="random_set_seed.htm"><span class="notranslate">random_set_seed</span></a></li>
+    <li><a href="random_get_seed.htm"><span class="notranslate">random_get_seed</span></a></li>
+    <li><a href="randomise.htm"><span class="notranslate">randomise</span></a><b></b></li>
   </ul>
-  <h3>Rounding and Truncating</h3>
-  <p>These are all functions that will round values in some way, or select a single value from various given values.</p>
+  <p> </p>
+  <p>Todas estas são funções que irão arredondar valores de alguma forma, ou selecionar um único valor entre vários valores dados:</p>
   <ul class="colour">
-    <li><a data-xref="{title}" href="round.htm">round</a></li>
-    <li><a data-xref="{title}" href="frac.htm">frac</a></li>
-    <li><a data-xref="{title}" href="abs.htm">abs</a></li>
-    <li><a data-xref="{title}" href="sign.htm">sign</a></li>
-    <li><a data-xref="{title}" href="floor.htm">floor</a></li>
-    <li><a data-xref="{title}" href="ceil.htm">ceil</a></li>
-    <li><a data-xref="{title}" href="min.htm">min</a></li>
-    <li><a data-xref="{title}" href="max.htm">max</a></li>
-    <li><a href="mean.htm">mean</a></li>
-    <li><a href="median.htm">median</a></li>
-    <li><a href="lerp.htm">lerp</a></li>
-    <li><a href="clamp.htm">clamp</a></li>
+    <li><a href="round.htm"><span class="notranslate">round</span></a></li>
+    <li><a href="floor.htm"><span class="notranslate">floor</span></a></li>
+    <li><a href="frac.htm"><span class="notranslate">frac</span></a></li>
+    <li><a href="abs.htm"><span class="notranslate">abs</span></a></li>
+    <li><a href="sign.htm"><span class="notranslate">sign</span></a></li>
+    <li><a href="ceil.htm"><span class="notranslate">ceil</span></a></li>
+    <li><a href="max.htm"><span class="notranslate">max</span></a></li>
+    <li><a href="mean.htm"><span class="notranslate">mean</span></a></li>
+    <li><a href="median.htm"><span class="notranslate">median</span></a></li>
+    <li><a href="min.htm"><span class="notranslate">min</span></a></li>
+    <li><a href="lerp.htm"><span class="notranslate">lerp</span></a></li>
+    <li><a href="clamp.htm"><span class="notranslate">clamp</span></a></li>
   </ul>
-  <h3>Comparisons and Precision</h3>
+  <p> </p>
+  <p>Finalmente, uma coleção variada de funções matemáticas importantes:</p>
   <ul class="colour">
-    <li><a data-xref="{title}" href="math_set_epsilon.htm">math_set_epsilon</a></li>
-    <li><a data-xref="{title}" href="math_get_epsilon.htm">math_get_epsilon</a></li>
+    <li><a href="exp.htm"><span class="notranslate">exp</span></a></li>
+    <li><a href="ln.htm"><span class="notranslate">ln</span></a></li>
+    <li><a href="power.htm"><span class="notranslate">power</span></a></li>
+    <li><a href="sqr.htm"><span class="notranslate">sqr</span></a></li>
+    <li><a href="sqrt.htm"><span class="notranslate">sqrt</span></a></li>
+    <li><a href="log2.htm"><span class="notranslate">log2</span></a></li>
+    <li><a href="log10.htm"><span class="notranslate">log10</span></a></li>
+    <li><a href="logn.htm"><span class="notranslate">logn</span></a></li>
   </ul>
-  <h3>Mathematical Functions</h3>
-  <ul class="colour">
-    <li><a data-xref="{title}" href="exp.htm">exp</a></li>
-    <li><a data-xref="{title}" href="ln.htm">ln</a></li>
-    <li><a data-xref="{title}" href="power.htm">power</a></li>
-    <li><a data-xref="{title}" href="sqr.htm">sqr</a></li>
-    <li><a data-xref="{title}" href="sqrt.htm">sqrt</a></li>
-    <li><a data-xref="{title}" href="log2.htm">log2</a></li>
-    <li><a data-xref="{title}" href="log10.htm">log10</a></li>
-    <li><a data-xref="{title}" href="logn.htm">logn</a></li>
-  </ul>
-  <p> </p>
-  <p> </p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a data-xref="{title}" href="../Maths_And_Numbers.htm">Maths And Numbers</a></div>
-        <div style="float:right">Next: <a data-xref="{title}" href="../../../../Additional_Information/Vectors.htm">Vectors</a></div>
+        <div style="float:left">Voltar: <a href="../Maths_And_Numbers.htm">Matemática e Números</a></div>
+        <div style="float:right">A seguir: <a href="../Angles_And_Distance/Angles_And_Distance.htm">Vetores</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2023 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright <span class="notranslate">YoYo Games Ltd.</span> 2022 Todos os direitos reservados</span></h5>
   </div>
   <!-- KEYWORDS
 Number Functions

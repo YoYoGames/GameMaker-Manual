@@ -4,9 +4,9 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>show_debug_message</title>
-  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <meta name="generator" content="Adobe RoboHelp 2020" />
   <link rel="stylesheet" href="../../../assets/css/default.css" type="text/css" />
-  <script src="../../../assets/scripts/main_script.js" type="module"></script>
+  <script src="../../../assets/scripts/main_script.js"></script>
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Reference page for show_debug_message" />
   <meta name="rh-index-keywords" content="show_debug_message" />
@@ -14,55 +14,47 @@
 </head>
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
-  <h1><span data-field="title" data-format="default">show_debug_message</span></h1>
-  <p>This function shows a custom debug message in <a data-xref="{title}" href="../../../Introduction/The_Output_Window.htm">The Output Window</a> and <a data-xref="{title}" href="The_Debug_Overlay.htm">The Debug Overlay</a> at runtime.</p>
-  <p>The syntax of this function is identical to that of the <span class="inline2"><a data-xref="{title}" href="../Strings/string.htm">string</a></span> function; aside from a single argument it can also take a <a data-xref="{text}" href="../Strings/string.htm#h">Format String</a> with placeholders and additional arguments to replace the placeholders with.</p>
-  <div data-conref="../../../assets/snippets/String_conversion_rules.hts"> </div>
-  <p>Debug messages shown with this function will be shown in the <a href="../../../Introduction/The_Output_Window.htm">Compiler Output Window</a> at the bottom of the IDE as well as in the <a href="../../../IDE_Tools/The_Debugger.htm">Graph View</a> of the debugger when running the game in Debug Mode. If you only want to see messages in Debug Mode then you should probably be using <a href="debug_event.htm"><span class="inline">debug_event()</span></a> instead.</p>
-  <p> </p>
-  <h4>Syntax:</h4>
-  <p class="code"><span data-field="title" data-format="default">show_debug_message</span>(value_or_format [, value1, value2, ... max_val]);</p>
+  <h1>show_debug_message</h1>
+  <p>Esta função criará uma mensagem de depuração personalizada que é mostrada na janela do compilador em <span class="notranslate">runtime</span>. Note que a mensagem pode ser <i>ou</i> um <span class="notranslate">string</span> ou um número real, mas se você precisar de ambos, então o número terá que ser convertido para <span class="notranslate">string</span> primeiro usando o <a href="../Strings/Strings.htm"><span class="inline">string()</span></a> (veja o exemplo abaixo) e que, se o número tiver mais de duas casas decimais, então você deve usar <a href="../Strings/string_format.htm"><span class="inline">string_format()</span></a> para mostrá-los como por padrão as casas decimais são arredondadas para as duas casas decimais mais próximas (assim &quot;1,2468&quot; seria mostrado como &quot;1,25&quot; na janela de saída).</p>
+  <p>As mensagens de depuração mostradas com esta função serão mostradas na <a href="../../../Introduction/The_Output_Window.htm">Janela de Saída do Compilador</a> na parte inferior do <span class="notranslate">IDE</span>, bem como na <a href="../../../IDE_Tools/The_Debugger.htm">Vista Gráfica</a> do <span class="notranslate">debugger</span> ao executar o jogo no Modo de Depuração. Se você só quer ver mensagens no Modo de Depuração, então você provavelmente deve estar usando <a href="debug_event.htm"><span class="inline">debug_event()</span></a> ao invés disso.</p>
+  <p> </p>
+  <h4>Sintaxe:</h4>
+  <p class="code">show_debug_message(string);</p>
   <table>
     <tbody>
       <tr>
-        <th>Argument</th>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
+        <th>Argumento</th><th>Tipo</th>
+        <th>Descrição</th>
+     </tr>
       <tr>
-        <td>value_or_format</td>
-        <td><span data-keyref="Type_Any"><a href="GameMaker_Language/GML_Overview/Data_Types.htm#variable" target="_blank">Any</a></span> (if value) or <span data-keyref="Type_String"><a href="GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">String</a></span> (if format)</td>
-        <td>The value to be turned into a string.</td>
-      </tr>
-      <tr>
-        <td>[, value1, value2, ... max_val]</td>
-        <td><span data-keyref="Type_Any"><a href="GameMaker_Language/GML_Overview/Data_Types.htm#variable" target="_blank">Any</a></span></td>
-        <td><span data-conref="../../../assets/snippets/Tag_optional.hts"> </span> The values to be inserted at the placeholder positions.</td>
-      </tr>
+        <td><span class="notranslate">string</span></td><td><span data-keyref="Type_String"></span></td>
+        <td><span class="notranslate">The custom debug message to show.</span></td>
+     </tr>
     </tbody>
   </table>
-  <p> </p>
-  <h4>Returns:</h4>
-  <p class="code"><span data-keyref="Type_Void">N/A</span></p>
-  <p> </p>
-  <h4><b>Example:</b></h4>
+  <p> </p>
+  <h4>Devoluções:</h4>
+  <p class="code"><span data-keyref="Type_Void"></span></p>
+  <p> </p>
+  <h4><b>Exemplo:</b></h4>
   <p class="code">if !instance_exists(obj_Exit)<br />
     {<br />
         show_debug_message(&quot;Exit not created!&quot;);<br />
-        show_debug_message(&quot;Error Num: {0}&quot;, global.error);<br />
+        show_debug_message(&quot;Error Num: &quot; + string(global.error));<br />
         game_end();<br />
     }</p>
-  <p>The above code checks to see if an instance exists and if it does not, a debug message is shown in the compile window and the game is ended.</p>
-  <p> </p>
-  <p> </p>
+  <p>O código acima verifica se uma instância existe e se não existe, uma mensagem de debug é mostrada na janela de compilação e o jogo é encerrado.</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a href="Debugging.htm">Debugging</a></div>
-        <div style="float:right">Next: <a data-xref="{title}" href="../Strings/show_debug_message_ext.htm">show_debug_message_ext</a></div>
+        <div style="float:left">Voltar: <a href="Debugging.htm">Depuração</a></div>
+        <div style="float:right">A seguir: <a href="show_debug_overlay.htm"><span class="notranslate">show_debug_overlay</span></a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2023 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright <span class="notranslate">YoYo Games Ltd.</span> 2022 Todos os direitos reservados</span></h5>
   </div>
   <!-- KEYWORDS
 show_debug_message

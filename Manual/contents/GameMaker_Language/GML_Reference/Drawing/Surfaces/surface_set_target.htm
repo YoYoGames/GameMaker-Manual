@@ -4,74 +4,60 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>surface_set_target</title>
-  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <meta name="generator" content="Adobe RoboHelp 2020" />
   <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
-  <script src="../../../../assets/scripts/main_script.js" type="module">
-    //<![CDATA[
-    <
-    meta name = "rh-authors"
-    content = "Mark Alexander" / >
-      <
-      meta name = "topic-comment"
-    content = "Reference for surface_set_target" / >
-      <
-      meta name = "rh-index-keywords"
-    content = "surface_set_target" / >
-      <
-      meta name = "search-keywords"
-    content = "surface_set_target" / >
-    //]]>
-  </script>
+  <script src="../../../../assets/scripts/main_script.js"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Reference for surface_set_target" />
+  <meta name="rh-index-keywords" content="surface_set_target" />
+  <meta name="search-keywords" content="surface_set_target" />
 </head>
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
-  <h1 id="h"><span data-field="title" data-format="default">surface_set_target</span></h1>
-  <p>With this function you set all further drawing to the target surface rather than the screen and in this way you can tell <span data-keyref="GameMaker Name">GameMaker</span> to only draw specific things to the specified surface.</p>
-  <p>Please note that if you do not call <span class="inline3_func"><a data-xref="{text}" href="surface_reset_target.htm#h">surface_reset_target</a></span> after you have finished, nothing will be drawn on the screen as all further drawing (even in other instances) will be done on the surface. You should also realise that nothing will be seen if the surface itself is not drawn on the screen in the draw event of an instance. You can check the return value of this function too as a debug tool to check whether the surface target was set or not, with a return value of 0 being a failure to set the target and any other positive value being a success.</p>
-  <p>One thing that should be noted is that surfaces are <i>stacked</i> so you cannot jump from target to target and then reset to the normal draw target at the end, but rather you must open and close rendering targets. For example, this will <b>not</b> work correctly:</p>
+  <h1>surface_set_target</h1>
+  <p>Com esta função, você define todos os desenhos adicionais para a superfície alvo em vez da tela e, desta forma, você pode dizer ao <span data-keyref="GameMaker Name">GameMaker</span> para desenhar apenas coisas específicas para a superfície especificada. Observe que se você não chamar <a href="surface_reset_target.htm"><span class="inline">surface_reset_target()</span></a> depois de terminar, nada será desenhado na tela, pois todos os outros desenhos (mesmo em outros casos) serão feitos na superfície. Você também deve perceber que nada será visto se a própria superfície não for desenhada na tela no evento de desenho de uma instância. Você pode verificar o valor de retorno desta função também como uma ferramenta de depuração para verificar se o alvo da superfície foi ou não definido, sendo que um valor de retorno de 0 é uma falha na definição do alvo e qualquer outro valor positivo é um sucesso.</p>
+  <p>Uma coisa que deve ser notada é que as superfícies são <i>empilhadas</i> para que você não possa pular de alvo em alvo e depois reiniciar para o alvo normal de extração no final, mas sim abrir e fechar os alvos de renderização. Por exemplo, isto <b>não</b> funcionará corretamente:</p>
   <p class="code">surface_set_target(surf1);<br />
     draw_text(32, 32, &quot;surface1&quot;);<br />
     surface_set_target(surf2);<br />
     draw_text(32, 64, &quot;surface2&quot;);<br />
     surface_reset_target();</p>
-  <p>Instead, you must reset the target for each of the surfaces that you set, much like you must use opening and closing brackets {} for code blocks. So the above should be written either like this:</p>
+  <p>Em vez disso, você deve redefinir o alvo para cada uma das superfícies que você definir, da mesma forma que você deve usar parênteses de abertura e fechamento {} para blocos de código. Portanto, o acima deve ser escrito assim:</p>
   <p class="code">surface_set_target(surf1);<br />
     draw_text(32, 32, &quot;surface1&quot;);<br />
     surface_reset_target();<br />
     surface_set_target(surf2);<br />
     draw_text(32, 64, &quot;surface2&quot;);<br />
     surface_reset_target();</p>
-  <p>or like this:</p>
+  <p>ou como este:</p>
   <p class="code">surface_set_target(surf1);<br />
     draw_text(32, 32, &quot;surface1&quot;);<br />
     surface_set_target(surf2);<br />
     draw_text(32, 64, &quot;surface2&quot;);<br />
     surface_reset_target();<br />
     surface_reset_target();</p>
-  <div data-conref="../../../../assets/snippets/Note_Surface_Function_Silently_Fails.hts"> </div>
-  <p> </p>
-  <h4>Syntax:</h4>
-  <p class="code"><span data-field="title" data-format="default">surface_set_target</span>(surface_id);</p>
+  <p class="note"><b>NOTA</b>: Quando se trabalha com superfícies há a possibilidade de que elas possam deixar de existir a qualquer momento devido ao fato de serem armazenadas na memória <span class="notranslate">texture</span>. Você deve <b>SEMPRE</b> verificar se uma superfície existe usando <span style="font-size:1px;"><a href="surface_exists.htm"><span class="inline">surface_exists()</span></a></span> antes de referenciá-los diretamente.</p>
+  <p> </p>
+  <h4>Sintaxe:</h4>
+  <p class="code">surface_set_target(surface_id);</p>
   <table>
     <tbody>
       <tr>
-        <th>Argument</th>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
+        <th>Argumento</th><th>Tipo</th>
+        <th>Descrição</th>
+     </tr>
       <tr>
-        <td>surface_id</td>
-        <td><span data-keyref="Type_ID_Surface"><a href="../../../../../GameMaker_Language/GML_Reference/Drawing/Surfaces/surface_create.htm" target="_blank">Surface</a></span></td>
-        <td>The surface to set as the drawing target.</td>
-      </tr>
+        <td><span class="notranslate">surface_id</span></td><td><span data-keyref="Type_ID_Surface"></span></td>
+        <td><span class="notranslate">The ID of the surface to set as the drawing target.</span></td>
+     </tr>
     </tbody>
   </table>
-  <p> </p>
-  <h4>Returns:</h4>
-  <p class="code"><span data-keyref="Type_Bool"><a href="../../../../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">Boolean</a></span> Whether the render target was set successfully</p>
-  <p> </p>
-  <h4>Example:</h4>
-  <p class="code">if view_current == 0<br />
+  <p> </p>
+  <h4>Devoluções:</h4>
+  <p class="code"><span data-keyref="Type_Bool"></span></p>
+  <p> </p>
+  <h4>Exemplo:</h4>
+  <p class="code">if view_current = 0<br />
     {<br />
         surface_set_target(surf);<br />
         with (obj_Effect)<br />
@@ -84,17 +70,18 @@
     {<br />
         draw_surface(surf, 0, 0);<br />
     }</p>
-  <p>The above code checks to see which view is currently being drawn, and if it is view[0] it sets the draw target to a surface and draws all instances of the object <span class="inline2">obj_Effect</span> before resetting the draw target again. If the view is not view[0] the surface is drawn to the screen.</p>
-  <p> </p>
-  <p> </p>
+  <p>O código acima verificará para ver qual vista está sendo desenhada atualmente, e se é vista[0] define o alvo de sorteio para uma superfície e desenha todas as instâncias do &quot;obj_Effect&quot; <span class="notranslate">object</span> antes de redefinir o alvo de sorteio novamente. Se a view não for view[0], a superfície é desenhada para a tela.</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a href="Surfaces.htm">Surfaces</a></div>
-        <div style="float:right">Next: <a href="surface_set_target_ext.htm">surface_set_target_ext</a></div>
+        <div style="float:left">Voltar: <a href="Surfaces.htm">Superfícies</a></div>
+        <div style="float:right">A seguir: <a href="surface_set_target_ext.htm"><span class="notranslate">surface_set_target_ext</span></a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2023 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright <span class="notranslate">YoYo Games Ltd.</span> 2021 Todos os direitos reservados</span></h5>
   </div>
   <!-- KEYWORDS
 surface_set_target

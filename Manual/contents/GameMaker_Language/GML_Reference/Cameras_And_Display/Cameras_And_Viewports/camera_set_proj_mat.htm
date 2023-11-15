@@ -6,7 +6,7 @@
   <title>camera_set_proj_mat</title>
   <meta name="generator" content="Adobe RoboHelp 2020" />
   <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
-  <script src="../../../../assets/scripts/main_script.js" type="module"></script>
+  <script src="../../../../assets/scripts/main_script.js"></script>
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Reference page for camera_set_proj_mat" />
   <meta name="rh-index-keywords" content="camera_set_proj_mat" />
@@ -15,53 +15,53 @@
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
   <h1>camera_set_proj_mat</h1>
-  <p>This function will set the <b>projection matrix</b> for a given camera. You give the unique camera ID value (as returned by the different <a href="camera_create.htm"><span class="inline">camera_create()</span></a> functions) and a projection matrix to be applied. You can find out more about creating projection matrices from the section <a href="../../Maths_And_Numbers/Matrix_Functions/Matrix_Functions.htm">Matrix Functions</a>, specifically <span class="inline"><a href="../../Maths_And_Numbers/Matrix_Functions/matrix_build_projection_perspective.htm">matrix_build_projection_perspective()</a></span> and <a href="../../Maths_And_Numbers/Matrix_Functions/matrix_build_projection_ortho.htm"><span class="inline">matrix_build_projection_ortho()</span></a>.</p>
-  <p>There are some things you need to keep in mind when using this function:</p>
+  <p>Esta função definirá a <b>matriz de projeção</b> para uma determinada câmera. Você dá o valor único de identificação da câmera (como retornado pelos diferentes <a href="camera_create.htm"><span class="inline">camera_create()</span></a> funções) e uma matriz de projeção a ser aplicada. Você pode saber mais sobre a criação de matrizes de projeção na seção <a href="../../Maths_And_Numbers/Matrix_Functions/Matrix_Functions.htm">Funções de Matriz</a>, especificamente <span class="inline"><a href="../../Maths_And_Numbers/Matrix_Functions/matrix_build_projection_perspective.htm">matrix_build_projection_perspective()</a></span> e <a href="../../Maths_And_Numbers/Matrix_Functions/matrix_build_projection_ortho.htm"><span class="inline">matrix_build_projection_ortho()</span></a>.</p>
+  <p>Há algumas coisas que você precisa ter em mente ao usar esta função:</p>
   <ul class="colour">
-    <li>If your camera does automatic object tracking - ie: it has been created using <a href="camera_create_view.htm"><span class="inline">camera_create_view()</span></a> with an object index / instance ID that isn&#39;t -1, or you are setting a camera defined in the Room Editor, or you are setting the default camera - then this matrix will get overwritten the next game frame.</li>
-    <li>If you use this function to switch to a perspective projection (as opposed to the default orthographic projection), automatic drawing of tiled sprites will stop working and will need to be handled manually. This includes any background layers that use horizontal or vertical tiling and the <span class="inline"><a href="../../Drawing/Sprites_And_Tiles/draw_sprite_tiled.htm">draw_sprite_tiled()</a></span> and <span class="inline"><a href="../../Drawing/Sprites_And_Tiles/draw_sprite_tiled_ext.htm">draw_sprite_tiled_ext()</a></span> functions, which will only draw the sprite once instead of tiling it if a perspective projection is being used.</li>
+    <li>Se sua câmera faz monitoramento automático <span class="notranslate">object</span> - ou seja: ela foi criada usando <a href="camera_create_view.htm"><span class="inline">camera_create_view()</span></a> com um índice <span class="notranslate">object</span> / ID de instância que não é -1, ou você está configurando uma câmera definida no editor <span class="notranslate">Room</span>, ou você está configurando a câmera padrão - então esta matriz será sobregravada no próximo quadro do jogo.</li>
+    <li>Se você usar esta função para <span class="notranslate">switch</span> para uma projeção em perspectiva (ao contrário da projeção ortográfica padrão), o desenho automático de azulejos <span class="notranslate">sprites</span> deixará de funcionar e precisará ser manipulado manualmente. Isto inclui quaisquer camadas de fundo que usam o azulejo horizontal ou vertical e as funções <span class="inline"><a href="../../Drawing/Sprites_And_Tiles/draw_sprite_tiled.htm">draw_sprite_tiled()</a></span> e <span class="inline"><a href="../../Drawing/Sprites_And_Tiles/draw_sprite_tiled_ext.htm">draw_sprite_tiled_ext()</a></span>, que só desenharão o <span class="notranslate">sprite</span> uma vez em vez de o azulejar se estiver sendo usada uma projeção em perspectiva.</li>
   </ul>
-  <p> </p>
-  <h4>Syntax:</h4>
+  <p> </p>
+  <h4>Sintaxe:</h4>
   <p class="code">camera_set_proj_mat(camera_id, matrix)</p>
   <table>
     <tbody>
       <tr>
-        <th>Argument</th><th>Type</th>
-        <th>Description</th>
+        <th>Argumento</th><th>Tipo</th>
+        <th>Descrição</th>
      </tr>
       <tr>
-        <td>camera_id</td><td><span data-keyref="Type_ID_Camera"></span></td>
-        <td>The unique camera ID value returned when you created the camera.</td>
+        <td><span class="notranslate">camera_id</span></td><td><span data-keyref="Type_ID_Camera"></span></td>
+        <td><span class="notranslate">The unique camera ID value returned when you created the camera.</span></td>
      </tr>
       <tr>
-        <td>matrix</td><td><span data-keyref="Type_Array_Matrix"></span></td>
-        <td>The unique matrix ID returned when you created the matrix.</td>
+        <td><span class="notranslate">matrix</span></td><td><span data-keyref="Type_Array_Matrix"></span></td>
+        <td><span class="notranslate">The unique matrix ID returned when you created the matrix.</span></td>
      </tr>
     </tbody>
   </table>
-  <p> </p>
-  <h4>Returns:</h4>
+  <p> </p>
+  <h4>Devoluções:</h4>
   <p class="code"><span data-keyref="Type_Void"></span></p>
-  <p> </p>
-  <h4>Example:</h4>
+  <p> </p>
+  <h4>Exemplo:</h4>
   <p class="code">view_camera[0] = camera_create();<br />
     var viewmat = matrix_build_lookat(640, 240, -10, 640, 240, 0, 0, 1, 0);<br />
     var projmat = matrix_build_projection_ortho(640, 480, 1.0, 32000.0);<br />
     camera_set_view_mat(view_camera[0], viewmat);<br />
     camera_set_proj_mat(view_camera[0], projmat);</p>
-  <p>The above code creates a new camera and assigns it to view port[0]. This camera then has its view and projection matrices set.</p>
-  <p> </p>
-  <p> </p>
-  <p> </p>
+  <p>O código acima cria uma nova câmera e a atribui para visualizar a porta[0]. Esta câmera então tem suas matrizes de visão e projeção definidas.</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a href="Cameras_And_View_Ports.htm">Cameras And View Ports</a></div>
-        <div style="float:right">Next: <a href="camera_set_update_script.htm">camera_set_update_script</a></div>
+        <div style="float:left">Voltar: <a href="Cameras_And_View_Ports.htm">Câmeras e Ver Portos</a></div>
+        <div style="float:right">A seguir: <a href="camera_set_update_script.htm"><span class="notranslate">camera_set_update_script</span></a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2021 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright <span class="notranslate">YoYo Games Ltd.</span> 2021 Todos os direitos reservados</span></h5>
   </div>
   <!-- KEYWORDS
 camera_set_proj_mat

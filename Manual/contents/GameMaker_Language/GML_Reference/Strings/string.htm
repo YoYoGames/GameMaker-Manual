@@ -3,10 +3,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>string</title>
+  <title>corda</title>
   <meta name="generator" content="Adobe RoboHelp 2020" />
   <link rel="stylesheet" href="../../../assets/css/default.css" type="text/css" />
-  <script src="../../../assets/scripts/main_script.js" type="module"></script>
+  <script src="../../../assets/scripts/main_script.js"></script>
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Reference page for string" />
   <meta name="rh-index-keywords" content="string" />
@@ -15,69 +15,43 @@
 </head>
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
-  <h1><span data-field="title" data-format="default">string</span></h1>
-  <p>This function creates a new string from a variety of data types.</p>
-  <p>When only one argument is provided to the function, this argument is considered to be a value, which will be converted to a string from its original <a href="../../GML_Overview/Data_Types.htm">data type</a>. When more than one argument is given, the first argument is considered a <a data-xref="{text}" href="string.htm#h">Format String</a> and the arguments that follow it are considered the values to insert into the format string.</p>
-  <h2 id="h1">Conversion From Non-String Types</h2>
-  <div data-conref="../../../assets/snippets/String_conversion_rules.hts"> </div>
-  <h2 id="h">Format String</h2>
-  <p>When you pass more than one argument to the <span class="inline2"><span data-field="title" data-format="default">string</span></span> function, the first argument will be treated as a <em>format string</em>. In a format string you can use <i>placeholders</i> of the form &quot;{0}&quot;, &quot;{1}&quot;, &quot;{2}&quot;, etc.</p>
-  <p>These placeholders will be replaced with the arguments at the positions they refer to, i.e. &quot;{0}&quot; will be replaced with the second argument, &quot;{1}&quot; will be replaced with the third argument, &quot;{2}&quot; will be replaced with the fourth argument, and so on.</p>
-  <p class="code">string_variable = string(&quot;This is a string with two placeholders that will be replaced. They are {0} and {1}.&quot;, &quot;this&quot;, &quot;that&quot;);<br />
-    <br />
-    // Results in:<br />
-    // &quot;This is a string with two placeholders that will be replaced. They are this and that.&quot;
-  </p>
-  <p>If you only pass a single argument to the function, then this argument will not be considered a format string. If you add placeholders of the kind &quot;{0}&quot; in this case, then they will be output as normal text as there are no values to replace them with: </p>
-  <p class="code">string_variable = string(&quot;This is a string with two placeholders that won&#39;t be replaced. They are {0} and {1}.&quot;);<br />
-    <br />
-    // Results in:<br />
-    // &quot;This is a string with two placeholders that won&#39;t be replaced. They are {0} and {1}.&quot;
-  </p>
-  <div data-conref="../../../assets/snippets/Note_See_Template_Strings.hts"> </div>
-  <p> </p>
-  <h4>Syntax:</h4>
-  <p class="code"><span data-field="title" data-format="default">string</span>(value_or_format [, value1, value2, ...]);</p>
+  <h1>corda</h1>
+  <p>Com esta função você pode transformar qualquer número real em um <span class="notranslate">string</span>. Se o número real for um número inteiro, ele será salvo sem casas decimais, caso contrário, ele será salvo com duas casas decimais. Se você precisar de mais casas decimais, então use a função <a href="string_format.htm"><span class="inline">string_format()</span></a>. Observe também que o uso desta função em uma variável que armazena uma <a href="../../GML_Overview/Arrays.htm">matriz</a>, uma <a href="../Data_Structures/Data_Structures.htm">estrutura de dados</a> ou uma <a href="../../GML_Overview/Structs.htm">estrutura</a> irá converter o conteúdo destas variáveis em um <span class="notranslate">string</span> que pode então ser emitido para o console ou salvo em um arquivo para <span class="notranslate">debugging</span>.</p>
+  <p> </p>
+  <h4>Sintaxe:</h4>
+  <p class="code">string(val);</p>
   <table>
     <tbody>
       <tr>
-        <th>Argument</th>
-        <th>Type</th>
-        <th>Description</th>
+        <th>Argumento</th>
+        <th>Tipo</th>
+        <th>Descrição</th>
       </tr>
       <tr>
-        <td>value_or_format</td>
-        <td><span data-keyref="Type_Any"><a href="../../../../GameMaker_Language/GML_Overview/Data_Types.htm#variable" target="_blank">Any</a></span> (if value) or <span data-keyref="Type_String"><a href="../../../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">String</a></span> (if format)</td>
-        <td>The value to be turned into a string.</td>
-      </tr>
-      <tr>
-        <td>[, value1, value2, ...]</td>
-        <td><span data-keyref="Type_Any"><a href="../../../../GameMaker_Language/GML_Overview/Data_Types.htm#variable" target="_blank">Any</a></span></td>
-        <td><span data-conref="../../../assets/snippets/Tag_optional.hts"> </span> The values to be inserted at the placeholder positions.</td>
+        <td><span class="notranslate">val</span></td>
+        <td><span data-keyref="Type_Real">Real</span></td>
+        <td><span class="notranslate">The real number to be turned into a string.</span></td>
       </tr>
     </tbody>
   </table>
-  <p> </p>
-  <h4>Returns:</h4>
-  <p class="code"><span data-keyref="Type_String"><a href="../../../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">String</a></span></p>
-  <p> </p>
-  <h4>Example 1:</h4>
-  <p class="code">draw_text(100, 100, &quot;Score: &quot; + string(score) + &quot; / Health: &quot; + <span data-field="title" data-format="default">string</span>(health));</p>
-  <p>The above code uses the <span class="inline2"><span data-field="title" data-format="default">string</span></span> function to draw both real numbers and strings together, as <a href="../Drawing/Text/draw_text.htm"><span class="inline2">draw_text()</span></a> will only accept <i>either</i> a string <i>or</i> a real, but not both, so we convert the non-strings into strings.</p>
-  <p> </p>
-  <h4>Example 2:</h4>
-  <p class="code">draw_text(100, 100, <span data-field="title" data-format="default">string</span>(&quot;Score: {0} / Health: {1}&quot;, score, health));</p>
-  <p>In this code the <span class="inline2"><span data-field="title" data-format="default">string</span></span> function is used in a slightly different way to achieve the same result as in Example 1. Here the function is called with a format string as the first argument, in which &quot;{0}&quot; is replaced with the value of <span class="inline2"><a data-xref="{title}" href="../../GML_Overview/Variables/Builtin_Global_Variables/score.htm">score</a></span> and &quot;{1}&quot; is replaced with the value of <span class="inline2"><a data-xref="{title}" href="../../GML_Overview/Variables/Builtin_Global_Variables/health.htm">health</a></span>.</p>
-  <p> </p>
-  <p> </p>
+  <p> </p>
+  <h4>Devoluções:</h4>
+  <p class="code"><span data-keyref="Type_String">String</span></p>
+  <p> </p>
+  <h4>Exemplo:</h4>
+  <p class="code">draw_text(100, 100, &quot;Score: &quot; + string(score) + &quot; / Health: &quot; + string(health));</p>
+  <p>O código acima usa a função <span class="inline">string</span> para desenhar os dois números reais e <span class="notranslate">strings</span> juntos ( <i>o</i> sorteio só aceitará um <span class="notranslate">string</span> <i>ou</i> um real, mas não ambos).</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a data-xref="{title}" href="Strings.htm">Strings</a></div>
-        <div style="float:right">Next: <a data-xref="{title}" href="string_ext.htm">string_ext</a></div>
+        <div style="float:left">Voltar: <a href="Strings.htm">Cordas</a></div>
+        <div style="float:right">A seguir: <a href="string_byte_at.htm"><span class="notranslate">string_byte_at</span></a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2023 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright <span class="notranslate">YoYo Games Ltd.</span> 2022 Todos os direitos reservados</span></h5>
   </div>
   <!-- KEYWORDS
 string
