@@ -6,7 +6,7 @@
   <title>audio_play_sound</title>
   <meta name="generator" content="Adobe RoboHelp 2022" />
   <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
-  <script src="../../../../assets/scripts/main_script.js"></script>
+  <script src="../../../../assets/scripts/main_script.js" type="module"></script>
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Page explaining the function audio_play_sound" />
   <meta name="rh-index-keywords" content="audio_play_sound" />
@@ -14,15 +14,16 @@
 </head>
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
-  <h1>audio_play_sound</h1>
-  <p>With this function you can play any sound asset in your game.</p>
-  <p>You provide the sound asset and assign it a priority, which is then used to determine how sounds are dealt with when the number of sounds playing is over the limit set by the function <a href="audio_channel_num.htm"><span class="inline">audio_channel_num()</span></a>. Lower priority sounds will be stopped in favour of higher priority sounds, and the priority value can be any real number (the actual value is arbitrary, and can be from 0 to 1 or 0 to 100, as <span data-keyref="GameMaker Name">GameMaker</span> will prioritize them the same). The <i>higher</i> the number the <i>higher</i> the priority, so a sound with priority 100 will be favoured over a sound with priority 1.</p>
+  <h1><span data-field="title" data-format="default">audio_play_sound</span></h1>
+  <p>This function plays any <span data-keyref="Type_Asset_Sound"><a href="../../../../The_Asset_Editors/Sounds.htm" target="_blank">Sound Asset</a></span> in your game.</p>
+  <div data-conref="../../../../assets/snippets/Note_Triggers_Audio_Playback_Event.hts"> </div>
+  <p>You provide the sound asset and assign it a priority, which is then used to determine how sounds are dealt with when the number of sounds playing is over the limit set by the function <a href="audio_channel_num.htm"><span class="inline">audio_channel_num()</span></a>. Lower priority sounds will be stopped in favour of higher priority sounds, and the priority value can be any real number (the actual value is arbitrary, and can be from 0 to 1 or 0 to 100, as <span data-keyref="GameMaker Name">GameMaker</span> will prioritise them the same). The <i>higher</i> the number the <i>higher</i> the priority, so a sound with priority 100 will be favoured over a sound with priority 1.</p>
   <p>The third argument is for making the sound loop and setting it to <span class="inline">true</span> will make the sound repeat until it&#39;s stopped manually, and setting it to <span class="inline">false</span> will play the sound once only.</p>
   <p>This function will also return a unique index for the sound being played, which can be stored in a variable so you can later <a href="audio_pause_sound.htm">pause it</a> or <a href="audio_stop_sound.htm">stop it</a>. This means that if you have multiple instances of the same sound playing at any one time, you can target just one instance of that sound using the <a href="Audio.htm">audio functions</a>.</p>
   <div data-conref="../../../../assets/snippets/audio_play_sound_last_arguments.hts"> </div>
   <p> </p>
   <h4>Syntax:</h4>
-  <p class="code">audio_play_sound(index, priority, loop, [gain], [offset], [pitch], [listener_mask]);</p>
+  <p class="code"><span data-field="title" data-format="default">audio_play_sound</span>(index, priority, loop, [gain], [offset], [pitch], [listener_mask]);</p>
   <table>
     <tbody>
       <tr>
@@ -32,68 +33,77 @@
       </tr>
       <tr>
         <td>index</td>
-        <td><span data-keyref="Type_Asset_Sound"><a href="../../../../../The_Asset_Editors/Sounds.htm" target="_blank">Sound Asset</a></span> or <span data-keyref="Type_ID_Audio_Queue"><a href="../../../../../GameMaker_Language/GML_Reference/Asset_Management/Audio/Audio_Buffers/audio_create_play_queue.htm" target="_blank">Audio Queue ID</a></span></td>
+        <td><span data-keyref="Type_Asset_Sound"><a href="../../../../The_Asset_Editors/Sounds.htm" target="_blank">Sound Asset</a></span> or <span data-keyref="Type_ID_Audio_Queue"><a href="Audio_Buffers/audio_create_play_queue.htm" target="_blank">Audio Queue ID</a></span></td>
         <td>The index of the sound to play.</td>
       </tr>
       <tr>
         <td>priority</td>
-        <td><span data-keyref="Type_Real"><a href="../../../../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td><span data-keyref="Type_Real"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
         <td>Set the channel priority for the sound.</td>
       </tr>
       <tr>
         <td>loop</td>
-        <td><span data-keyref="Type_Bool"><a href="../../../../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">Boolean</a></span></td>
+        <td><span data-keyref="Type_Bool"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Boolean</a></span></td>
         <td>Sets the sound to loop or not.</td>
       </tr>
       <tr>
         <td>gain</td>
-        <td><span data-keyref="Type_Real"><a href="../../../../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
-        <td><span class="optional">OPTIONAL</span> Value for the gain.</td>
+        <td><span data-keyref="Type_Real"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td><span data-conref="../../../../assets/snippets/Tag_optional.hts"> </span> The gain of the sound instance (defaults to 1).</td>
       </tr>
       <tr>
         <td>offset</td>
-        <td><span data-keyref="Type_Real"><a href="../../../../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
-        <td><span class="optional">OPTIONAL</span> The time (in seconds) to set the start point to. Values longer than the length of the given sound are ignored.</td>
+        <td><span data-keyref="Type_Real"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td><span data-conref="../../../../assets/snippets/Tag_optional.hts"> </span> The time (in seconds) to start playing. Values beyond the end of the sound are clamped to its length. The default value is the asset-level offset, this value overrides it when provided.</td>
       </tr>
       <tr>
         <td>pitch</td>
-        <td><span data-keyref="Type_Real"><a href="../../../../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
-        <td><span class="optional">OPTIONAL</span> The pitch multiplier (default 1).</td>
+        <td><span data-keyref="Type_Real"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td><span data-conref="../../../../assets/snippets/Tag_optional.hts"> </span> The pitch multiplier (defaults to 1).</td>
       </tr>
       <tr>
         <td>listener_mask</td>
-        <td><span data-keyref="Type_Real"><a href="../../../../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
-        <td><span class="optional">OPTIONAL</span> The bitmask data to set for the sound. On the HTML5 target  this will have no effect as the target does not support more than one listener.</td>
+        <td><span data-keyref="Type_Real"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td><span data-conref="../../../../assets/snippets/Tag_optional.hts"> </span> The bitmask data to set for the sound. On the HTML5 target  this will have no effect as the target does not support more than one listener.</td>
       </tr>
     </tbody>
   </table>
   <p> </p>
   <h4>Returns:</h4>
-  <p class="code"><span data-keyref="Type_ID_Sound_Instance"><a href="../../../../../GameMaker_Language/GML_Reference/Asset_Management/Audio/audio_play_sound.htm" target="_blank">Sound Instance ID</a></span></p>
+  <p class="code"><span data-keyref="Type_ID_Sound_Instance"><a href="audio_play_sound.htm" target="_blank">Sound Instance ID</a></span></p>
   <p> </p>
-  <h4>Example 1:</h4>
+  <h4>Example 1: Basic Use</h4>
   <p class="code">if health &lt;= 0<br />
     {<br />
         lives -= 1;<br />
-        audio_play_sound(snd_PlayerDead, 10, false);<br />
+        <span data-field="title" data-format="default">audio_play_sound</span>(snd_PlayerDead, 10, false);<br />
     }</p>
   <p>The above code checks the &quot;health&quot; global variable and if it is less than or equal to 0, it will remove 1 from the &quot;lives&quot; global variable and play a sound.</p>
-  <h4>Example 2:</h4>
+  <h4>Example 2: Optional Properties</h4>
   <p class="code">if bbox_left &gt; room_width<br />
     {<br />
-        audio_play_sound(snd_Goodbye, 10, false, 1.1, 0, 2);<br />
+        <span data-field="title" data-format="default">audio_play_sound</span>(snd_Goodbye, 10, false, 1.1, 0, 2);<br />
     }</p>
   <p>The above code checks if the instance is past the right bound of the room and plays a sound with a gain of 1.1 and a pitch of 2 (twice the normal pitch).</p>
+  <h4>Example 3: Asset &amp; Instance Properties</h4>
+  <p class="code">audio_sound_gain(snd_Explosion, 0.7);<br />
+    audio_sound_set_track_position(snd_Explosion, 2);<br />
+    <span data-field="title" data-format="default">audio_play_sound</span>(snd_Explosion, 10, false, 0.5);<br />
+    <span data-field="title" data-format="default">audio_play_sound</span>(snd_Explosion, 20, false, 1, 0);
+  </p>
+  <p>The above code plays the same sound multiple times.</p>
+  <p>First, the gain for the sound asset <span class="inline2">snd_Explosion</span> is set to 0.7. Next, its track position (the position from which to start playing) is set to 2 seconds.</p>
+  <p>After that, two instances of the sound are played. The first gets an instance-level gain of 0.5 and no offset. This sound instance starts playing at 2 seconds and will be heard with a gain of 0.5 * 0.7 = 0.35. The second instance keeps the instance-level gain at 1 and will be heard with a gain of 0.7 * 1 = 0.7. Its offset is provided, which overrides the 2-second offset set for the asset. This instance plays from the start.</p>
   <p> </p>
   <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a href="Audio.htm">Audio</a></div>
-        <div style="float:right">Next: <a href="audio_play_sound_at.htm">audio_play_sound_at</a></div>
+        <div style="float:left">Back: <a data-xref="{title}" href="Audio.htm">Audio</a></div>
+        <div style="float:right">Next: <a data-xref="{title}" href="audio_play_sound_ext.htm">audio_play_sound_ext</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2022 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2023 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 audio_play_sound
