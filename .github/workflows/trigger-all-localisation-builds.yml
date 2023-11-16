@@ -9,10 +9,14 @@ on:
          type: choice
          options:
           - ALL
-      Preset:
+          - ONE
+      BUILT_TYPE:
          description: "Select individual language to build"
          required: true
-         type: string
+         type: choice
+         options:
+           - main
+           - lts
     
 
 jobs:
@@ -24,21 +28,21 @@ jobs:
       matrix:
         language: [PT-BR, DE, ES, FR, IT, JA, KO, PL, RU, ZH]
      steps:
-      - name: Invoke workflow Brazilian in repo
-        if: ${{ github.event.inputs.Language }}
+      - name: Invoke Localisation Workflows
+        if: ${{ github.event.inputs.Language }} == 'ALL'
         uses: benc-uk/workflow-dispatch@v1
         with:
-          workflow: build.yml
+          workflow: ${{ github.event.inputs.Language }}.yml
           repo: YoYoGames/GameMaker-Manual-${{ matrix.language }}
-          token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }} 
+          token: ${{ secrets.GH_TOKEN }} 
         continue-on-error: false 
-      - name: Invoke workflow Brazilian in repo
-        if: ${{ github.event.inputs.Preset }} == ''
+      - name: Invoke Localisation Workflows
+        if: ${{ github.event.inputs.Language }} == 'ONE'
         uses: benc-uk/workflow-dispatch@v1
         with:
-          workflow: build.yml
-          repo: YoYoGames/GameMaker-Manual-${{ github.event.inputs.Preset }}
-          token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }} 
+          workflow: ${{ github.event.inputs.Language }}.yml
+          repo: YoYoGames/GameMaker-Manual-${{ matrix.language }}
+          token: ${{ secrets.GH_TOKEN }} 
         continue-on-error: false 
 
 
