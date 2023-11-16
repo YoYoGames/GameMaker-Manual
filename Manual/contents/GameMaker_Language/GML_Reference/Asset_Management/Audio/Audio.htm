@@ -4,7 +4,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>Audio</title>
-  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <meta name="generator" content="Adobe RoboHelp 2022" />
   <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
   <script src="../../../../assets/scripts/main_script.js" type="module"></script>
   <meta name="rh-authors" content="Mark Alexander" />
@@ -29,10 +29,11 @@
   <h3>Playing Sounds</h3>
   <p>The most straightforward way to play a sound is using <span class="inline2"><a data-xref="{title}" href="audio_play_sound.htm">audio_play_sound</a></span>: </p>
   <p class="code">audio_play_sound(snd_Explode, 10, false);</p>
-  <p>At a minimum you have to provide the <span data-keyref="Type_Asset_Sound"><a href="../../../../../The_Asset_Editors/Sounds.htm" target="_blank">Sound Asset</a></span>, a priority for the new sound instance and whether the sound should loop.</p>
-  <p>Another way to play sounds is using <span class="inline2"><a data-xref="{title}" href="audio_play_sound_ext.htm">audio_play_sound_ext</a></span>. This function is identical to <span class="inline2"><a data-xref="{title}" href="audio_play_sound.htm">audio_play_sound</a></span> but allows you to pass various audio parameters in a struct. Using this function, you only need to provide a <span data-keyref="Type_Asset_Sound"><a href="../../../../../The_Asset_Editors/Sounds.htm" target="_blank">Sound Asset</a></span> through the &quot;sound&quot; key of the struct: </p>
+  <p>At a minimum you have to provide the <span data-keyref="Type_Asset_Sound"><a href="../../../../The_Asset_Editors/Sounds.htm" target="_blank">Sound Asset</a></span>, a priority for the new sound instance and whether the sound should loop.</p>
+  <p>Another way to play sounds is using <span class="inline2"><a data-xref="{title}" href="audio_play_sound_ext.htm">audio_play_sound_ext</a></span>. This function is identical to <span class="inline2"><a data-xref="{title}" href="audio_play_sound.htm">audio_play_sound</a></span> but allows you to pass various audio parameters in a struct. Using this function, you only need to provide a <span data-keyref="Type_Asset_Sound"><a href="../../../../The_Asset_Editors/Sounds.htm" target="_blank">Sound Asset</a></span> through the &quot;sound&quot; key of the struct: </p>
   <p class="code">audio_play_sound_ext({ sound: snd_Explode });</p>
   <p><span>Here the priority will default to 0 and the sound will not be looped. You can supply <a href="audio_play_sound_ext.htm">additional keys</a> in the struct to change the properties of the sound.</span></p>
+  <div data-conref="../../../../assets/snippets/Note_Triggers_Audio_Playback_Event.hts"> </div>
   <h3>Sound Instances (Voices)</h3>
   <p>The functions <span class="inline2"><a data-xref="{title}" href="audio_play_sound.htm">audio_play_sound</a></span> and <span class="inline2"><a data-xref="{title}" href="audio_play_sound_ext.htm">audio_play_sound_ext</a></span> create a new <em>instance</em> of a sound (also called a &quot;voice&quot;) and return its ID: </p>
   <p class="code">ins_sound = audio_play_sound(snd_Explode, 10, false);</p>
@@ -40,18 +41,19 @@
   <p>In case you pass a sound <strong>asset</strong> ID to the functions, the audio property at the <strong>asset</strong> level will be set to the given value.</p>
   <p class="note"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> <span class="inline2"><a data-xref="{title}" href="audio_play_sound_at.htm">audio_play_sound_at</a></span> and <span class="inline2"><a data-xref="{title}" href="Audio_Emitters/audio_play_sound_on.htm">audio_play_sound_on</a></span> work in the same way and also return the ID of the sound instance they create.</p>
   <p class="note"><span data-conref="../../../../assets/snippets/Tag_tip.hts"> </span> The maximum number of sound instances/voices is <span data-keyref="Max_Audio_Channels_Default">128</span> by default. This can be changed using the function <span class="inline2"><a data-xref="{title}" href="audio_channel_num.htm">audio_channel_num</a></span>.</p>
-  <h3>Audio Properties</h3>
+  <h3 id="h">Audio Properties</h3>
   <p>Every sound has basic properties that are applied on different &quot;levels&quot;. Depending on the property, it either acts as a multiplier, or overrides the value set at a previous level.</p>
   <p>These audio properties are: </p>
   <ul class="Disc">
-    <li><a href="audio_sound_gain.htm"><strong>Gain</strong></a>: This is a multiplier for the volume. The default value for gain on the asset level is the value of the &quot;Volume&quot; slider in the <a href="../../../../The_Asset_Editors/Sounds.htm">Sound Editor</a>. The default value on all other levels is 1. Gain can also be added using <a data-xref="{title}" href="Audio_Effects/Audio_Effects.htm">Audio Effects</a>.</li>
+    <li><a href="audio_sound_gain.htm"><strong>Gain</strong></a>: This is a multiplier for the volume. The default value for gain on the asset level is the value of the &quot;Volume&quot; slider in <a data-xref="{title}" href="../../../../The_Asset_Editors/Sounds.htm">The Sound Editor</a>. The default value on all other levels is 1. Gain can also be added using <a data-xref="{title}" href="Audio_Effects/Audio_Effects.htm">Audio Effects</a>.</li>
     <li><a href="audio_sound_pitch.htm"><strong>Pitch</strong></a>: This is a multiplier for the sound&#39;s pitch. The default value for pitch on all levels is set to 1.</li>
     <li><a href="audio_sound_set_track_position.htm"><strong>Offset/Track Position</strong></a>: This is the offset from the start of the audio track where it starts playing. If this value is set at the instance level, it overrides the value set at the asset level. By default this is 0 (i.e. no offset).</li>
     <li><a href="audio_sound_set_listener_mask.htm"><strong>Listener Mask</strong></a>: This is a bitmask value that determines the listeners that audio is heard on. The default value is 1 (or <span class="inline2">0x01</span>), which stands for the default listener.</li>
   </ul>
   <p>For an overview of all audio properties, levels and how their values are calculated, see <a data-xref="{title}" href="Audio_Properties.htm">Audio Properties Overview</a>.</p>
+  <p class="note"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> The optional parameters that you can pass to the <span class="inline2">audio_play_sound_*</span> functions set the instance-level value of the property.</p>
   <h3>Audio Looping</h3>
-  <p>A sound can be looped by setting it to loop. This can either be done when playing the sound using any of the <span class="inline2">audio_play_sound_</span> functions: </p>
+  <p>A sound can be looped by setting it to loop. This can either be done when playing the sound using any of the <span class="inline2">audio_play_sound_*</span> functions: </p>
   <p class="code">ins_sound = audio_play_sound(snd_Engine, 100, true);</p>
   <p>or afterwards, when the sound is already playing, using the function <span class="inline3_func"><a data-xref="{title}" href="Audio_Loop_Points/audio_sound_loop.htm">audio_sound_loop</a></span>: </p>
   <p class="code">audio_sound_loop(ins_sound, true);</p>
