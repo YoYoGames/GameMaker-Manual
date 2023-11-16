@@ -10,7 +10,7 @@ on:
          options:
           - ALL
           - ONE
-      BUILT_TYPE:
+      BUILD_TYPE:
          description: "Select individual language to build"
          required: true
          type: choice
@@ -32,7 +32,7 @@ jobs:
         if: ${{ github.event.inputs.Language }} == 'ALL'
         uses: benc-uk/workflow-dispatch@v1
         with:
-          workflow: ${{ github.event.inputs.Language }}.yml
+          workflow: ${{ github.event.inputs.BUILD_TYPE }}.yml
           repo: YoYoGames/GameMaker-Manual-${{ matrix.language }}
           token: ${{ secrets.GH_TOKEN }} 
         continue-on-error: false 
@@ -40,7 +40,7 @@ jobs:
         if: ${{ github.event.inputs.Language }} == 'ONE'
         uses: benc-uk/workflow-dispatch@v1
         with:
-          workflow: ${{ github.event.inputs.Language }}.yml
+          workflow: ${{ github.event.inputs.BUILD_TYPE }}.yml
           repo: YoYoGames/GameMaker-Manual-${{ matrix.language }}
           token: ${{ secrets.GH_TOKEN }} 
         continue-on-error: false 
