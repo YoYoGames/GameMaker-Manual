@@ -4,7 +4,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>Keyboard Input</title>
-  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <meta name="generator" content="Adobe RoboHelp 2022" />
   <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
   <script src="../../../../assets/scripts/main_script.js" type="module"></script>
   <meta name="rh-authors" content="Mark Alexander" />
@@ -17,12 +17,12 @@
   <h1><span data-field="title" data-format="default">Keyboard Input</span></h1>
   <p>When dealing with the keyboard in <span data-keyref="GameMaker Name">GameMaker</span> you have a variety of functions that can be used to recognise different keyboard states like pressed or released. There are also some that store all the key presses as a string or that can tell you what the last key pressed was, as well as others that allow you to clear the keyboard state completely.</p>
   <p class="note"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> These functions are designed for Windows/Mac/Ubuntu desktop platforms only. You may find some of the built-in variables and constants aren&#39;t valid on other platforms and many of the functions won&#39;t work on mobiles.</p>
-  <p>Each input character from a key (or multiple keys) is defined by its <a href="https://en.wikipedia.org/wiki/UTF-8" target="_blank">UTF8</a> code, which is a numerical value. This value can be retrieved for any character using the <span class="inline2"><a data-xref="{title}" href="../../Strings/ord.htm">ord</a></span> function but, <span data-keyref="GameMaker Name">GameMaker</span> also has a series of <span class="inline">constants</span> for the most used keyboard special keys and a special functions. Typically you&#39;d use a combination of <span class="inline">ord()</span> with the <span class="inline">keyboard_check*()</span> functions, something like this:</p>
+  <p>Each input character from a key (or multiple keys) is defined by its <a href="https://en.wikipedia.org/wiki/UTF-8" target="_blank">UTF-8</a> code, which is a numerical value. This value can be retrieved for any character using the <span class="inline3_func"><a data-xref="{title}" href="../../Strings/ord.htm">ord</a></span> function but, <span data-keyref="GameMaker Name">GameMaker</span> also has a series of <span class="inline">constants</span> for the most used keyboard special keys and a special functions. Typically you&#39;d use a combination of <span class="inline3_func"><a data-xref="{title}" href="../../Strings/ord.htm">ord</a></span> with the <span class="inline3_func">keyboard_check*</span> functions, something like this:</p>
   <p class="code">if keyboard_check(ord(&quot;A&quot;))<br />
     {<br />
         hspeed = -5;<br />
     }</p>
-  <p>So, the above will check the &quot;A&quot; key and if it&#39;s being pressed then it&#39;ll set the horizontal speed of the object to -5. Note, that using <span class="inline">ord()</span> in this way will only function correctly if the input string is only one character in length and is a number from 0 to 9 or a <i>capitalised</i> Roman character from A to Z. The function <span class="inline">ord()</span> will return a full UTF8 value, but the <span class="inline">keyboard_check*()</span> functions will <i>only detect A - Z and 0 - 9</i>. But what if you want to use the arrow keys? Or if you want to modify an action using the &quot;shift&quot; key? Well, for that <span data-keyref="GameMaker Name">GameMaker</span> has a series of <span class="inline">vk_</span> constants (<span class="inline">vk_</span> stands for <i>virtual key</i>) that you can use in place of <span class="inline">ord()</span>:</p>
+  <p>So, the above will check the &quot;A&quot; key and if it&#39;s being pressed then it&#39;ll set the horizontal speed of the object to -5. Note, that using <span class="inline3_func"><a data-xref="{title}" href="../../Strings/ord.htm">ord</a></span> in this way will only function correctly if the input string is only one character in length and is a number from 0 to 9 or a <i>capitalised</i> Roman character from A to Z. The function <span class="inline3_func"><a data-xref="{title}" href="../../Strings/ord.htm">ord</a></span> will return a full UTF-8 value, but the <span class="inline3_func">keyboard_check*</span> functions will <i>only detect A - Z and 0 - 9</i>. But what if you want to use the arrow keys? Or if you want to modify an action using the &quot;Shift&quot; key? Well, for that <span data-keyref="GameMaker Name">GameMaker</span> has a series of <span class="inline2">vk_*</span> constants (<span class="inline2">vk_</span> stands for <i>virtual key</i>) that you can use in place of <span class="inline3_func"><a data-xref="{title}" href="../../Strings/ord.htm">ord</a></span>:</p>
   <table id="table" style="caption-side: top">
     <caption>Virtual Key Constant (vk_*)</caption>
     <colgroup>
@@ -150,21 +150,6 @@
         <td><span class="inline">vk_decimal</span></td>
         <td>decimal dot keys on the numeric keypad</td>
       </tr>
-    </tbody>
-  </table>
-  <p> </p>
-  <p>The following constants can only be used with <span class="inline2"><a data-xref="{title}" href="keyboard_check_direct.htm">keyboard_check_direct</a></span>:</p>
-  <table style="caption-side: top">
-    <caption>Virtual Key Constant (vk_*) (keyboard_check_direct only)</caption>
-    <colgroup>
-      <col />
-      <col />
-    </colgroup>
-    <tbody>
-      <tr>
-        <th>Constant</th>
-        <th>Description</th>
-      </tr>
       <tr>
         <td><span class="inline">vk_lshift</span></td>
         <td>left shift key</td>
@@ -191,47 +176,46 @@
       </tr>
     </tbody>
   </table>
-  <p><span style="text-align: justify;">The following is a small example of how to use the</span><span style="text-align: justify;"> </span><span class="inline">vk_</span><span style="text-align: justify;"> </span><span style="text-align: justify;">constants:</span></p>
+  <p><span style="text-align: justify;">The following is a small example of how to use the <span class="inline2">vk_*</span> </span><span style="text-align: justify;">constants:</span></p>
   <p class="code">if keyboard_check_pressed(vk_tab)<br />
     {<br />
         instance_create_layer(x, y, &quot;Controllers&quot;, obj_Menu);<br />
     }</p>
-  <p>The above code will detect if the &quot;Tab&quot; key is <i>pressed</i> and create an instance of object &quot;obj_Menu&quot; if it is.</p>
-  <p>If you need to check for a key character that is not 0 - 9, A - Z or one of the VK constants, then you should be checking one of the <span class="inline">keyboard_*</span> variables, like <span class="inline2"><a data-xref="{title}" href="keyboard_lastchar.htm">keyboard_lastchar</a></span> for example:</p>
+  <p>The above code will detect if the &quot;Tab&quot; key is <i>pressed</i> and create an instance of object <span class="inline2">obj_Menu</span> if it is.</p>
+  <p>If you need to check for a key character that is not 0 - 9, A - Z or one of the <span class="inline2">vk_*</span> constants, then you should be checking one of the <span class="inline2">keyboard_*</span> variables, like <span class="inline2"><a data-xref="{title}" href="keyboard_lastchar.htm">keyboard_lastchar</a></span> for example:</p>
   <p class="code">var _key = keyboard_lastchar;<br />
     if ord(_key) == ord(&quot;ç&quot;)<br />
     {<br />
         show_debug_message(&quot;ç key pressed&quot;);<br />
     }</p>
-  <p>The following functions are available for use when working with a keyboard:</p>
+  <h2 id="func_ref">Function Reference</h2>
+  <h3 id="general">General</h3>
   <p class="note"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> These functions will <i>not</i> work when using an on-screen <a href="../Virtual_Keys_And_Keyboards/Virtual_Keys_And_Keyboards.htm">Virtual Keyboard</a>.</p>
   <ul class="colour">
-    <li><a href="io_clear.htm">io_clear</a></li>
-    <li><a href="keyboard_check.htm">keyboard_check</a></li>
-    <li><a href="keyboard_check_pressed.htm">keyboard_check_pressed</a></li>
-    <li><a href="keyboard_check_released.htm">keyboard_check_released</a></li>
-    <li><a href="keyboard_check_direct.htm">keyboard_check_direct</a></li>
-    <li><a href="keyboard_clear.htm">keyboard_clear</a></li>
-    <li><a href="keyboard_set_map.htm">keyboard_set_map</a></li>
-    <li><a href="keyboard_get_map.htm">keyboard_get_map</a></li>
-    <li><a href="keyboard_unset_map.htm">keyboard_unset_map</a></li>
-    <li><a href="keyboard_set_numlock.htm">keyboard_set_numlock</a></li>
-    <li><a href="keyboard_get_numlock.htm">keyboard_get_numlock</a></li>
+    <li><a data-xref="{title}" href="io_clear.htm">io_clear</a></li>
+    <li><a data-xref="{title}" href="keyboard_check.htm">keyboard_check</a></li>
+    <li><a data-xref="{title}" href="keyboard_check_pressed.htm">keyboard_check_pressed</a></li>
+    <li><a data-xref="{title}" href="keyboard_check_released.htm">keyboard_check_released</a></li>
+    <li><a data-xref="{title}" href="keyboard_check_direct.htm">keyboard_check_direct</a></li>
+    <li><a data-xref="{title}" href="keyboard_clear.htm">keyboard_clear</a></li>
+    <li><a data-xref="{title}" href="keyboard_set_map.htm">keyboard_set_map</a></li>
+    <li><a data-xref="{title}" href="keyboard_get_map.htm">keyboard_get_map</a></li>
+    <li><a data-xref="{title}" href="keyboard_unset_map.htm">keyboard_unset_map</a></li>
+    <li><a data-xref="{title}" href="keyboard_set_numlock.htm">keyboard_set_numlock</a></li>
+    <li><a data-xref="{title}" href="keyboard_get_numlock.htm">keyboard_get_numlock</a></li>
   </ul>
-  <p> </p>
-  <p>There are also some functions that can be used to simulate keypresses:</p>
+  <h3 id="simulating_keypresses">Simulating Keypresses</h3>
   <ul class="colour">
-    <li><a href="keyboard_key_press.htm">keyboard_key_press</a></li>
-    <li><a href="keyboard_key_release.htm">keyboard_key_release</a></li>
+    <li><a data-xref="{title}" href="keyboard_key_press.htm">keyboard_key_press</a></li>
+    <li><a data-xref="{title}" href="keyboard_key_release.htm">keyboard_key_release</a></li>
   </ul>
-  <p> </p>
-  <p>Finally, the following variables are built-in to <span data-keyref="GameMaker Name">GameMaker</span> and can be accessed to get information about the keyboard state and input:</p>
+  <h3 id="keyboard_state_input">Keyboard State &amp; Input</h3>
   <p class="note"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> When using the <a href="../Virtual_Keys_And_Keyboards/Virtual_Keys_And_Keyboards.htm">Virtual Keyboard</a>, <i>only</i> the <span class="inline2"><a data-xref="{title}" href="keyboard_string.htm">keyboard_string</a></span> variable will be updated with the keyboard input.</p>
   <ul class="colour">
-    <li><a href="keyboard_key.htm">keyboard_key</a></li>
-    <li><a href="keyboard_lastkey.htm">keyboard_lastkey</a></li>
-    <li><a href="keyboard_lastchar.htm">keyboard_lastchar</a></li>
-    <li><a href="keyboard_string.htm">keyboard_string</a></li>
+    <li><a data-xref="{title}" href="keyboard_key.htm">keyboard_key</a></li>
+    <li><a data-xref="{title}" href="keyboard_lastkey.htm">keyboard_lastkey</a></li>
+    <li><a data-xref="{title}" href="keyboard_lastchar.htm">keyboard_lastchar</a></li>
+    <li><a data-xref="{title}" href="keyboard_string.htm">keyboard_string</a></li>
   </ul>
   <p> </p>
   <p> </p>
@@ -242,7 +226,7 @@
         <div style="float:right">Next: <a data-xref="{title}" href="../Mouse_Input/Mouse_Input.htm">Mouse Input</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2022 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2023 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 Keyboard Input Functions
