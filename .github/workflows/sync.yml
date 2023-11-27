@@ -17,26 +17,32 @@ jobs:
         fetch-depth: 0
         token: ${{ secrets.GH_TOKEN }}
         persist-credentials: false
-    - name: Sync upstream changes
-      id: sync
-      uses: aormsby/Fork-Sync-With-Upstream-action@v3.4
+    - name: Merge from upstream
+      env:
+        UPSTREAM: YoYoGames/GameMaker-Manual
+      run: |
+        git config --global user.name "github-actions"
+        git config --global user.email "github-actions@users.noreply.github.com"
+
+        git --version
+
+        # Add upstream remote and fetch
+        git remote add upstream "https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${UPSTREAM}.git"
+        git remote -v
+        git fetch upstream
+
+        # Merge from upstream/develop with merge strategy to keep translation in case of conflicts
+        git merge -X ours upstream/develop
+
+        # this is dangerous but will essentially remove any files not staged in the merge
+        # this is useful since the merge strategy `-X ours` will not handle files where
+        # they have been deleted on only one branch
+        # Only use this you're sure that the failing merges fall under this category and are acceptable
+        # git diff --name-only --diff-filter=U | xargs git rm
+
+        git show-ref
+    - name: Push changes
+      uses: ad-m/github-push-action@master
       with:
-          target_sync_branch: develop
-          # REQUIRED 'target_repo_token' exactly like this!
-          target_repo_token: ${{ secrets.GH_TOKEN }}
-          upstream_sync_branch: develop
-          upstream_sync_repo: YoYoGames/GameMaker-Manual
-          upstream_repo_access_token: ${{ secrets.GH_TOKEN }} 
-          git_config_user: ksuchitra532 
-          git_config_email: null
-          git_config_pull_rebase: true      
-    - name: Sync upstream changes
-      id: sync-lts
-      uses: aormsby/Fork-Sync-With-Upstream-action@v3.4
-      with:
-            target_sync_branch: main-lts
-            # REQUIRED 'target_repo_token' exactly like this!
-            target_repo_token: ${{ secrets.GH_TOKEN }}
-            upstream_sync_branch: main-lts
-            upstream_sync_repo: YoYoGames/GameMaker-Manual
-            upstream_repo_access_token: ${{ secrets.GH_TOKEN }}              
+        github_token: ${{ secrets.GH_TOKEN }}
+        branch: ${{ github.ref }}
