@@ -3,6 +3,8 @@ name: Beta
 on:
   workflow_dispatch:
   pull_request:
+    paths-ignore:
+      - '.github/workflows/**'
     branches:
       - develop
 
@@ -15,6 +17,8 @@ jobs:
    RoboHelp:
      name: "RoboHelp"
      runs-on: windows-2019
+     env:
+       LANGUAGE: ${{ vars.LANGUAGE }}
      steps:
       - uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -30,11 +34,11 @@ jobs:
           token: ${{ secrets.GH_TOKEN }}
       - name: Beta Builds
         if: github.event.pull_request.base.ref == 'develop' || github.event_name == 'workflow_dispatch'
-        run: build_robohelp_gh.bat -beta %GITHUB_WORKSPACE%\output
+        run: build_robohelp_gh.bat %GITHUB_WORKSPACE%\output
         shell: cmd
         working-directory: Manual       
       - name: Upload robohelp zip file
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
            name: YoYoStudioRoboHelp
            path: output\RoboHelp\*.zip

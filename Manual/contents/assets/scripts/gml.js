@@ -137,6 +137,7 @@ export default function(hljs) {
     "variable_get_hash", 
     "variable_clone", 
     "wallpaper_set_config", 
+    "wallpaper_set_subscriptions", 
     "ds_grid_to_mp_grid", 
     "game_change", 
     "camera_copy_transforms", 
@@ -2737,6 +2738,7 @@ export default function(hljs) {
   const SYMBOLS = [
     "audio_bus_main", 
     "wallpaper_config", 
+    "wallpaper_subscription_data", 
     "argument_relative",
     "argument",
     "argument0",

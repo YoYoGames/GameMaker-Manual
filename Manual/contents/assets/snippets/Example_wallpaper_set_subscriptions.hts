@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <meta name="topic-comment" content="" />
+  <title>Example_wallpaper_set_subscriptions</title>
+  <link rel="stylesheet" type="text/css" href="../css/default.css" />
+</head>
+<body>
+  <p class="code">// Create Event<br />
+    wallpaper_set_subscriptions([&quot;desktop_mouse&quot;, &quot;cpu&quot;]);<br />
+    <br />
+    <br />
+    // Wallpaper Subscription Data Event<br />
+    var _cpus = wallpaper_subscription_data.cpu;<br />
+    <br />
+    file = file_text_open_append(&quot;sysinfo.txt&quot;);<br />
+    file_text_writeln(file);<br />
+    file_text_write_string(file, string(date_current_datetime()));<br />
+    file_text_write_string(file, $&quot;\nCPU count: {array_length(_cpus)}&quot;);<br />
+    <br />
+    array_foreach(_cpus, function(_cpu, _num)<br />
+    {<br />
+        if (!struct_exists(_cpu, &quot;usage_pct&quot;)) return;<br />
+        var _str = $&quot;\nCPU {_num} load: {_cpu.usage_pct}%&quot;;<br />
+        file_text_write_string(file, _str);<br />
+    });<br />
+    <br />
+    file_text_close(file);
+  </p>
+  <p>The first line, run in the Create event, enables mouse input and subscribes to CPU metrics.</p>
+  <p>In the Wallpaper Subscription Data event, it gets the devices array for the CPU, and opens a text file to write metrics to.</p>
+  <p>In that file, it writes the current datetime, CPU device count (which is the length of the array), and then proceeds to write the load percentage of each CPU device in the array.</p>
+  <p>This code generates the following text in the <span class="inline2">sysinfo.txt</span> file, found in the <a href="../../GameMaker_Language/GML_Reference/File_Handling/File_Directories/working_directory.htm">working directory</a>:</p>
+  <p class="code_plain">45245.33<br />
+    CPU count: 1<br />
+    CPU 0 load: 3%<br />
+    45245.33<br />
+    CPU count: 1<br />
+    CPU 0 load: 3%<br />
+    45245.33<br />
+    CPU count: 1<br />
+    CPU 0 load: 3%</p>
+</body>
+</html>
