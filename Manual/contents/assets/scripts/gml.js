@@ -190,6 +190,7 @@ export default function(hljs) {
     "dbg_add_font_glyphs", 
     "dbg_slider_int", 
     "room_get_info", 
+    "gxc_file_sync", 
     "abs",
     "achievement_available",
     "achievement_event",
