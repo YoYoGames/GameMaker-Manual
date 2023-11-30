@@ -2,7 +2,7 @@
 ###
 ### Provide the full directory path to the .json files as the command line argument.
 ### The output HTML file will also be placed there.
-### For example: CMD > python GenerateKeyboardShortcutTableFromJson.py "C:/Users/Dev/Documents/Manual/"
+### For example: CMD > python GenerateKeyboardShortcutTableFromJson.py "C:/Users/Dev/Documents/Manual/" -name_as_desc
 ### 
 ### Important: The JSON cannot contain trailing commas, this isn't supported
 ###            using the built-in json module.
@@ -25,12 +25,16 @@ def get_combo_string(combo):
 fname_win_hotkeys = "default_hotkeys.json"
 fname_mac_hotkeys = "mac_hotkeys.json"
 
+# Whether to use the shortcut's name as the description
+name_as_desc = False
+
 # Handle parameters received from command line
 if len(sys.argv) == 1:
     print("ERROR - The input/output directory should be provided. Exiting...")
     exit()
 else:
     fdir = sys.argv[1]
+    name_as_desc = (len(sys.argv) == 3 and sys.argv[2] == "-name_as_desc")
 
 # Data structures
 input = []                              # input from file
@@ -107,12 +111,13 @@ for location in shortcuts_per_location:
     
     for name in shortcuts_per_location[location].keys():
         sc = shortcuts[name]
+        desc = name if name_as_desc else sc['description']
         html += "<tr>"
         html += "<td>" + name + "</td>"
         html += "<td>" + "<br />".join(sc['win_combo']) + "</td>"
         html += "<td>" + "<br />".join(sc['mac_combo']) + "</td>"
         html += "<td>" + location + "</td>"
-        html += "<td>" + sc['description'] + "</td>"
+        html += "<td>" + desc + "</td>"
         html += "</tr>"
 
     html += "</table>"
