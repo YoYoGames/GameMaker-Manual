@@ -107,13 +107,13 @@ with open(fdir + "/" + fname_mac_hotkeys, 'r') as f:
 html = ""
 for location in shortcuts_per_location:
     html += "<h2>{0}</h2>".format(location)
-    html += "<table>\n<tr><th>Name</th><th>Windows Key Binding</th><th>macOS Key Binding</th><th>Scope</th><th>Description</th></tr>"
+    html += "<table>\n<tr><th>Windows Key Binding</th><th>macOS Key Binding</th><th>Scope</th><th>Description</th></tr>"
     
     for name in shortcuts_per_location[location].keys():
         sc = shortcuts[name]
         desc = name if name_as_desc else sc['description']
         html += "<tr>"
-        html += "<td>" + name + "</td>"
+        # html += "<td>" + name + "</td>"
         html += "<td>" + "<br />".join(sc['win_combo']) + "</td>"
         html += "<td>" + "<br />".join(sc['mac_combo']) + "</td>"
         html += "<td>" + location + "</td>"
