@@ -66,25 +66,25 @@
   <p>Finally, depth, z-writing and z-testing are all set to their previous value in order to not affect further drawing.</p>
   <p> </p>
   <h4>Example 2: Drawing an Hourglass Shape using Circles</h4>
-  <p class="code_heading">Draw Event<span></span></p>
-  <p class="code">gpu_set_zwriteenable(<span>true</span>);<br />
-    gpu_set_ztestenable(<span>true</span>);<br />
-    <span>matrix_set</span>(matrix_view, matrix_build_lookat(<span>220</span>, <span>0</span>, <span>90</span>, <span>0</span>, <span>0</span>, <span>90</span>, <span>0</span>, <span>0</span>, <span>1</span>));<br />
-    <span>matrix_set</span>(matrix_projection, matrix_build_projection_perspective_fov(<span>60</span>, room_width/room_height, <span>1</span>, <span>10000</span>));<br />
+  <p class="code_heading">Draw Event</p>
+  <p class="code">gpu_set_zwriteenable(true);<br />
+    gpu_set_ztestenable(true);<br />
+    matrix_set(matrix_view, matrix_build_lookat(220, 0, 90, 0, 0, 90, 0, 0, 1));<br />
+    matrix_set(matrix_projection, matrix_build_projection_perspective_fov(60, room_width/room_height, 1, 10000));<br />
     <br />
-    var _depth = gpu_get_depth(); <span><span>//</span> store previous depth<br />
-      var _col = draw_get_colour();</span><br />
+    var _depth = gpu_get_depth(); // store previous depth<br />
+      var _col = draw_get_colour();<br />
     <br />
-    var n = <span>180</span>;<br />
-    <span>for</span> (var z = <span>0</span>; z &lt;= n; z += <span>10</span>)<br />
+    var n = 180;<br />
+    for (var z = 0; z &lt;= n; z += 10)<br />
     {<br />
         gpu_set_depth(z);<br />
-        <span>draw_set_colour</span>(make_color_hsv(z / n * <span>255</span>, <span>150</span>, <span>250</span>));<br />
-        <span>draw_circle</span>(<span>0</span>, <span>0</span>, <span>40</span> + lengthdir_x(<span>20</span>, z / n * <span>360</span>), <span>false</span>);<br />
+        draw_set_colour(make_color_hsv(z / n * 255, 150, 250));<br />
+        draw_circle(0, 0, 40 + lengthdir_x(20, z / n * 360), false);<br />
     }<br />
     <br />
     draw_set_colour(_col);<br />
-    gpu_set_depth(_depth);        <span><span>//</span> restore previous depth</span>
+    gpu_set_depth(_depth);        // restore previous depth
   </p>
   <p>The code above draws a coloured hourglass-like shape in the Draw event.</p>
   <p>First, z-writing and z-testing are enabled (<span class="inline3_func"><a data-xref="{title}" href="gpu_set_zwriteenable.htm">gpu_set_zwriteenable</a></span> and <span class="inline3_func"><a data-xref="{title}" href="gpu_set_ztestenable.htm">gpu_set_ztestenable</a></span>) and an appropriate projection (<span class="inline3_func"><a data-xref="{title}" href="../../Maths_And_Numbers/Matrix_Functions/matrix_build_projection_perspective_fov.htm">matrix_build_projection_perspective_fov</a></span>) and view matrix (<span class="inline3_func"><a data-xref="{title}" href="../../Maths_And_Numbers/Matrix_Functions/matrix_build_lookat.htm">matrix_build_lookat</a></span>) are built and set using <span class="inline3_func"><a data-xref="{title}" href="../../Maths_And_Numbers/Matrix_Functions/matrix_set.htm">matrix_set</a></span>. Next, the current depth value and draw colour are stored so they can be restored later.</p>
