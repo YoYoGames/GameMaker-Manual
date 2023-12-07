@@ -17,7 +17,7 @@ set basedir=%~dp0
 
 :check_options
 if %LANGUAGE%==EN (
-    set robohelpPreset="GMS2 Manual Responsive HTML5 BETA"
+    set robohelpPreset="GMS2 Manual Responsive HTML5"
 	goto finish_options
 ) else if %LANGUAGE%==ES ( 
 	set robohelpPreset="GMS2 Manual Spanish"
