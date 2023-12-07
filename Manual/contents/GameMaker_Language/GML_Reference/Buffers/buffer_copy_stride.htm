@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>buffer_copy_stride</title>
+  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <link rel="stylesheet" type="text/css" href="../../../assets/css/default.css" />
+  <script src="../../../assets/scripts/main_script.js"></script>
+  <meta name="rh-authors" content="Bart Teunis" />
+  <meta name="topic-comment" content="" />
+  <meta name="rh-index-keywords" content="buffer_copy_stride" />
+  <meta name="search-keywords" content="buffer_copy_stride" />
+  <meta name="template" content="assets/masterpages/Manual_Keyword_Page.htt" />
+</head>
+<body>
+  <h1><span data-field="title" data-format="default">buffer_copy_stride</span></h1>
+  <p>This function copies the given number of items from a source buffer to a destination buffer, where all items have the same size in bytes and are spaced apart evenly by a different number of bytes in the source and destination buffer.</p>
+  <p>You can use this function with buffers that store items and their attributes in a structured way, e.g. game data, vertex data or any other data in a known format.</p>
+  <div data-conref="../../../assets/snippets/Note_Buffer_Copy_NoSame.hts"> </div>
+  <p><img class="center" height="388" src="../../../assets/Images/Scripting_Reference/GML/Reference/Buffers/buffer_copy_stride_schematic.png" width="1231" /></p>
+  <p>The function call belonging to the above diagram would look as follows: <span class="inline2"><span data-field="title" data-format="default">buffer_copy_stride</span>(src_buffer, 6, 2, 6, 3, dest_buffer, 8, 2);</span></p>
+  <p>You can interpret the source offset as the sum of two offsets: an offset to the start of the item data and an offset within the item (i.e. which attribute of the item to copy).</p>
+  <h3>Stride</h3>
+  <p>The stride is the number of bytes to go from one item to the next. A positive value moves forward, a negative value moves backward.</p>
+  <p>For example, in case of <span data-keyref="GameMaker Name">GameMaker</span>&#39;s <a href="../../../Additional_Information/Guide_To_Primitives_And_Vertex_Building.htm#passthrough_vertex_format">default vertex format</a> the stride value is <span data-keyref="Const_DefaultVertexFormat_Bytesize">24</span> (3*4+4*1+2*4). The number of bytes to move from one (x, y, z) position in the buffer to the next is <span data-keyref="Const_DefaultVertexFormat_Bytesize">24</span>, the number of bytes to move from one colour value to the next is also <span data-keyref="Const_DefaultVertexFormat_Bytesize">24</span>, as well as the number of bytes to move from one UV to the next.</p>
+  <p>You &quot;select&quot; the attribute you want to copy by changing the offset, meanwhile the stride remains unchanged: </p>
+  <p><img class="center" height="260" src="../../../assets/Images/Scripting_Reference/GML/Reference/Buffers/buffer_copy_stride_stride.png" width="1280" /></p>
+  <h3>How It Works</h3>
+  <ul class="Disc">
+    <li>The function starts by moving <span class="inline2">src_offset</span> bytes from the start of the source buffer and <span class="inline2">dest_offset</span> bytes from the start of the destination buffer.</li>
+    <li>It then repeats <span class="inline2">src_count</span> times the following: 
+      <ul>
+        <li>Copy <span class="inline2">src_size</span> bytes of data from the current offset in the source buffer to the current offset in the destination buffer.</li>
+        <li>Move <span class="inline2">src_stride</span> bytes to the right or to the left in the source buffer, depending on the sign of <span class="inline2">src_stride</span>, and <span class="inline2">dest_stride</span> bytes to the left or right in the destination buffer.</li>
+      </ul>
+    </li>
+  </ul>
+  <h3>Usage Notes</h3>
+  <ul class="Disc">
+    <li>The stride value can be greater than the number of bytes that an item actually uses. These bytes in between may contain other data or no useful data at all.</li>
+    <li>By setting <span class="inline2">dest_stride</span> to a value greater than <span class="inline2">src_size</span> you can insert &quot;gaps&quot; between values written to the destination buffer.</li>
+    <li>In case of a fixed-size buffer (<span class="inline2">buffer_fixed</span>) or of a non-wrapping buffer the copying stops when the end of the buffer is reached. For a buffer that&#39;s set to wrap (<span class="inline2">buffer_wrap</span>) copying will continue from the start of the buffer.</li>
+  </ul>
+  <p> </p>
+  <h4>Syntax:</h4>
+  <p class="code"><span data-field="title" data-format="default">buffer_copy_stride</span>(src_buffer, src_offset, src_size, src_stride, src_count, dest_buffer, dest_offset, dest_stride);</p>
+  <table>
+    <colgroup>
+      <col />
+      <col />
+      <col />
+    </colgroup>
+    <tbody>
+      <tr>
+        <th>Argument</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>src_buffer</td>
+        <td><span data-keyref="Type_ID_Buffer"><a href="../../../../GameMaker_Language/GML_Reference/Buffers/buffer_create.htm" target="_blank">Buffer ID</a></span></td>
+        <td>The buffer containing the source data</td>
+      </tr>
+      <tr>
+        <td>src_offset</td>
+        <td><span data-keyref="Type_Real"><a href="../../../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td>The offset, in bytes, in the source buffer to start copying bytes. When negative, it is subtracted from the buffer size.</td>
+      </tr>
+      <tr>
+        <td>src_size</td>
+        <td><span data-keyref="Type_Real"><a href="../../../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td>The size, in bytes, of a single item to copy</td>
+      </tr>
+      <tr>
+        <td>src_stride</td>
+        <td><span data-keyref="Type_Real"><a href="../../../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td>The number of bytes between two items. This value can be negative and be set to 0.</td>
+      </tr>
+      <tr>
+        <td>src_count</td>
+        <td><span data-keyref="Type_Real"><a href="../../../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td>The number of items to copy</td>
+      </tr>
+      <tr>
+        <td>dest_buffer</td>
+        <td><span data-keyref="Type_ID_Buffer"><a href="../../../../GameMaker_Language/GML_Reference/Buffers/buffer_create.htm" target="_blank">Buffer ID</a></span></td>
+        <td>The buffer to copy the data to</td>
+      </tr>
+      <tr>
+        <td>dest_offset</td>
+        <td><span data-keyref="Type_Real"><a href="../../../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td>The offset, in bytes, in the destination buffer to write the data. This offset can be negative.</td>
+      </tr>
+      <tr>
+        <td>dest_stride</td>
+        <td><span data-keyref="Type_Real"><a href="../../../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td>The number of bytes between two items in the destination buffer. This value can be negative.</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>Returns:</h4>
+  <p class="code"><span data-keyref="Type_Void">N/A</span></p>
+  <p> </p>
+  <h4>Example 1: Basic Usage</h4>
+  <p class="code">var _num_items = 200;<br />
+    var _attribute_size = buffer_sizeof(buffer_u16);<br />
+    var _itemsize_source = buffer_sizeof(buffer_f32) + _attribute_size;<br />
+    buff_source = buffer_create(_num_items * _itemsize_source, buffer_fixed, 1);<br />
+    buff_destination = buffer_create(_num_items * _attribute_size, buffer_fixed, 1);<br />
+    <br />
+    var _i = 0;<br />
+    repeat(_num_items)<br />
+    {<br />
+        buffer_write(buff_source, buffer_f32, random_range(-100, 100));<br />
+        buffer_write(buff_source, buffer_u16, _i++);<br />
+    }<br />
+    <br />
+    <span data-field="title" data-format="default">buffer_copy_stride</span>(buff_source, 4, _attribute_size, _itemsize_source, _num_items, buff_destination, 0, _attribute_size);
+  </p>
+  <p>The above code shows basic usage of the <span class="inline3_func"><span data-field="title" data-format="default">buffer_copy_stride</span></span> function. First, a couple of temporary variables are defined that store the number of items in source and destination buffer, the stride of the source buffer and the size of an item. Two buffers of fixed size are then created, one to store the source data and one to store the destination data. The references to them are stored in the variables <span class="inline2">buff_source</span> and <span class="inline2">buff_destination</span> respectively. Next, the source buffer has 200 items written to it using <span class="inline3_func"><a data-xref="{title}" href="buffer_write.htm">buffer_write</a></span>. Every item consists of one random <span class="inline2">buffer_f32</span> value between -100 and 100 followed by a <span class="inline2">buffer_f16</span> value that stores an index. Finally, the second <span class="inline2">buffer_f16</span> element of each item is copied to the destination buffer using <span class="inline3_func"><span data-field="title" data-format="default">buffer_copy_stride</span></span>. The first <span class="inline2">buffer_f16</span> value is written to byte 0 (as <span class="inline2">dest_offset</span> is set to 0), the next one is written to byte 2 (<span class="inline2">dest_stride</span> is set to <span class="inline2">_itemsize</span> which is 2), the next one to byte 4, and so on. After the function call, <span class="inline2">buff_destination</span> will contain the 200 <span class="inline2">buffer_f16</span> values in <span class="inline2">buff_source</span> one right after the other, with no bytes in-between.</p>
+  <p> </p>
+  <h4>Example 2: Negative Offset &amp; Stride</h4>
+  <p class="code">var _item_size = buffer_sizeof(buffer_f32);<br />
+    var _num_items = 100;<br />
+    <br />
+    var _i = 0;<br />
+    buff_numbers = buffer_create(_num_items * _item_size, buffer_fixed, 4);<br />
+    repeat(_num_items) buffer_write(buff_numbers, buffer_f32, _i++);<br />
+    <br />
+    buff_data = buffer_create(2048, buffer_fixed, 4);<br />
+    <span data-field="title" data-format="default">buffer_copy_stride</span>(buff_numbers, -_item_size, _item_size, -_item_size, _num_items, buff_data, 0, 12);
+  </p>
+  <p>The above code first initialises two temporary variables that are used in the code that follows: the size of a single item <span class="inline2">_item_size</span> and the number of items <span class="inline2">_num_items</span>. It then creates a new buffer of a fixed size with room for this number of items. The byte alignment can be set to 4 since every item is stored at an integer multiple of 4 bytes. Next, a <a data-xref="{title}" href="../../GML_Overview/Language_Features/repeat.htm">repeat</a> loop writes the values 0 to 100 to the buffer, using <span class="inline3_func"><a data-xref="{title}" href="buffer_write.htm">buffer_write</a></span>. After that, another fixed-size buffer of 2048 bytes is created and stored in the variable <span class="inline2">buff_data</span>. Finally, <span class="inline3_func"><span data-field="title" data-format="default">buffer_copy_stride</span></span> is called to write the numbers in the source buffer <span class="inline2">buff_numbers</span> to the destination buffer <span class="inline2">buff_data</span>. Because of the negative value of the source offset, the last number in the buffer is the first one to be written. Also, the numbers are traversed backwards because of the negative value of the source stride. The destination stride of 12 makes sure the numbers are spaced 12 bytes apart in <span class="inline2">buff_data</span>. As a result <span class="inline2">buff_data</span> contains the numbers in reverse order, with 12 bytes between each of them.</p>
+  <p> </p>
+  <h4>Example 3: Stride set to 0</h4>
+  <p class="code">var _item_size = buffer_sizeof(buffer_f32);<br />
+    buff_source = buffer_create(_item_size, buffer_fixed, 4);<br />
+    buff_destination = buffer_create(16 * _item_size, buffer_fixed, 4);<br />
+    <br />
+    buffer_write(buff_source, buffer_f32, 1);<br />
+    <br />
+    <span data-field="title" data-format="default">buffer_copy_stride</span>(buff_source, 0, _item_size, 0, 4, buff_destination, 0, 5 * _item_size);
+  </p>
+  <p>The above code shows how you can use a stride value of 0 to keep copying the same value multiple times to a destination buffer.</p>
+  <p>First, the size of an item is set to the size of a float (<span class="inline2">buffer_f32</span>) and stored in <span class="inline2">_item_size</span>. Next, the source and destination buffer are created with a fixed size and an alignment of 4 (since floats always align to multiples of 4 bytes). The source buffer can only store a single float, the destination buffer can store 16 floats. Then, the value <span class="inline2">1</span> is written to the source buffer. Finally, this value is copied a total of 4 times using <span class="inline3_func"><span data-field="title" data-format="default">buffer_copy_stride</span></span> with a destination stride value of 5 times the item size. After the function has finished <span class="inline2">buff_destination</span> will contain the values of an <a href="../Maths_And_Numbers/Matrix_Functions/matrix_build_identity.htm">identity matrix</a>.</p>
+  <p> </p>
+  <h4>Example 4: Interleaving Data from Multiple Buffers</h4>
+  <p class="code_heading">Create Event</p>
+  <p class="code">vertex_format_begin();<br />
+    array_foreach([vertex_format_add_position_3d, vertex_format_add_colour, vertex_format_add_texcoord], script_execute);<br />
+    vertex_format = vertex_format_end();<br />
+    <br />
+    buff_positions_xyz = buffer_base64_decode(&quot;JqwCQwuLi0J5DIBBcQc3Q27Ar0NNpBZD+WSqQ8B9OEPB0YtD&quot;);<br />
+    buff_colours_rgba = buffer_base64_decode(&quot;Ud93/wghI//D2cr/&quot;);<br />
+    buff_uvs = buffer_base64_decode(&quot;9KQyP69/UT9Uxak+ybENPzKNZzwxS1A9&quot;);<br />
+    <br />
+    buff_vertex_data = buffer_create(3 * 24, buffer_fixed, 1);<br />
+    buffer_copy_stride(buff_positions_xyz, 0, 3 * 4, 3 * 4, 3, buff_vertex_data, 0, 24);<br />
+    buffer_copy_stride(buff_colours_rgba, 0, 4 * 1, 4 * 1, 3, buff_vertex_data, 12, 24);<br />
+    buffer_copy_stride(buff_uvs, 0, 2 * 4, 2 * 4, 3, buff_vertex_data, 16, 24);<br />
+    vb = vertex_create_buffer_from_buffer(buff_vertex_data, vertex_format);
+  </p>
+  <p class="code_heading">Draw Event</p>
+  <p class="code">vertex_submit(vb, pr_trianglelist, -1);</p>
+  <p>The above example shows how to join together data that&#39;s stored as attributes in separate buffers. The data are combined into a single buffer, in which the data are <a href="https://en.wikipedia.org/wiki/Interleaving_(data)">interleaved</a>.</p>
+  <p>First, in the Create event, the default vertex format is created and assigned to an instance variable <span class="inline2">vertex_format</span>. Then the three buffers containing the attribute data are created from base64-encoded data: <span class="inline2">buff_positions_xyz</span> stores the (x, y, z) position data of 3 vertices, <span class="inline2">buff_colours_rgba</span> stores their RGBA colour data and <span class="inline2">buff_uvs</span> their UV data. The values of each attribute are stored one after the other, e.g. <span class="inline2">buff_positions_xyz</span> stores the (x, y, z) position of the first vertex, followed by the (x, y, z) position of the second vertex, followed by that of the third vertex, etc.</p>
+  <p>After that, another buffer <span class="inline2">buff_vertex_data</span> is created to store the interleaved vertex data. Each of the three calls to <span class="inline3_func"><span data-field="title" data-format="default">buffer_copy_stride</span></span> then reads the values of each attribute (position, colour and uv) and places them in the correct positions in the destination buffer, leaving room for the other attributes to be written by the next call to the function. Finally a vertex buffer is created from the data in the buffer.</p>
+  <p>In the Draw event, the vertex buffer is submitted. This will draw a triangle.</p>
+  <p><br />
+    
+  </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div>Back: <a data-xref="{title}" href="Buffers.htm">Buffers</a></div>
+        <div>Next: <a data-xref="{title}" href="buffer_copy_from_vertex_buffer.htm">buffer_copy_from_vertex_buffer</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2023 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+buffer_copy_stride
+-->
+  <!-- TAGS
+buffer_copy_stride
+-->
+</body>
+</html>

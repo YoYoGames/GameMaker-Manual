@@ -29,7 +29,7 @@
     <span>}</span>
   </p>
   <p>or:</p>
-  <p class="code"><span><span>name = </span>function( parameter1, parameter2, ... )</span><br />
+  <p class="code">name = function( parameter1, parameter2, ... )<br />
     <span>{</span><br />
     <span>    statement1;</span><br />
     <span>    statement2;</span><br />
@@ -140,7 +140,9 @@
     }</p>
   <p class="note"><span data-conref="../../assets/snippets/Tag_note.hts"> </span> When using your own functions from scripts in the code editor, you can press<span> <img alt="F1 Icon" class="icon" height="20" src="../../assets/Images/Icons/Icon_f1.png" width="55" /></span> or click the middle mouse button <span><img alt="MMB Icon" class="icon" src="../../assets/Images/Icons/Icon_MMB.png" /> </span>on the function name to open the script that contains it for editing directly.</p>
   <h2>Script Names vs. Function Names</h2>
-  <p>It is important to understand that script <i>names</i> are <b>independent of the functions that they contain</b>, so you can name your scripts in a more &quot;common sense&quot; way, ie: all your AI functions could go in a script &quot;<span class="inline">Enemy_AI</span>&quot; (following the standard asset naming conventions of alpha-numeric characters and the under-bar &quot;_&quot; only). However, you can still call scripts in your game - and you can name scripts the same as a function that you define in them - which can give rise to a issues due to the way that <span data-keyref="GameMaker Name">GameMaker</span> stores asset references. To give an example consider this code, called from an instance:</p>
+  <p>It is important to understand that script <i>names</i> are <b>independent of the functions that they contain</b>, so you can name your scripts in a more &quot;common sense&quot; way, i.e.: all your AI functions could go in a script &quot;<span class="inline">Enemy_AI</span>&quot; and contain functions like <span class="inline2">ai_target_pos()</span>, <span class="inline2">ai_alert_level()</span>, <span class="inline2">ai_state()</span>, etc.</p>
+  <p>However, you can still name a script the same as a function that you define in it and call the script, e.g. if you want one function per script (which can be useful for making reusable libraries so all functions are shown in the Asset Browser). When doing this, it is important to understand how script references behave to avoid code errors, due to the way <span data-keyref="GameMaker Name">GameMaker</span> stores asset references.</p>
+  <p>For example, consider this code, called from an instance&#39;s event:</p>
   <p class="code">function indirectCall(func, arg)<br />
     {<br />
         func(arg);<br />
@@ -148,16 +150,22 @@
     <br />
     indirectCall(myscript, arg);
   </p>
-  <p>The above code is attempting to call a script called &quot;myscript&quot; within a method, which in this case will fail. This is because the in-line function is actually using the <em>index</em> for the script asset and <strong>not </strong>actually calling the script function - eg: if the script index resolves to &quot;4&quot;, essentially the function is calling <span class="inline">4(arg);</span>, which makes no sense. The code should instead be structured in one of the following two ways:</p>
-  <p class="code">function indirectCall(func, arg)<br />
+  <p>The above code is attempting to call a script called <span class="inline2">myscript</span> within a method, which in this case will fail. This is because the inline function is actually using the <em>index</em> for the script asset and <strong>not </strong>actually calling the script function - e.g.: if the script index resolves to &quot;4&quot;, essentially the function is calling <span class="inline2">4(arg)</span>, which makes no sense.</p>
+  <p>Here are two things you can do to work around this:</p>
+  <ol>
+    <li>Convert the script index into a <a data-xref="{title}" href="../GML_Reference/Variable_Functions/method.htm">method</a> before passing it as an argument</li>
+    <li>Use <span class="inline3_func"><a data-xref="{title}" href="../GML_Reference/Asset_Management/Scripts/script_execute.htm">script_execute</a></span> to call the passed script reference</li>
+  </ol>
+  <p>Both ways are shown below:</p>
+  <p class="code">// 1<br />
+    function indirectCall(func, arg)<br />
     {<br />
         func(arg);<br />
     }<br />
     <br />
     indirectCall(method(undefined, myscript), arg);<br />
     <br />
-    // OR<br />
-    <br />
+    // 2<br />
     function indirectCall(func, arg)<br />
     {<br />
         script_execute(func, arg);<br />
@@ -165,7 +173,6 @@
     <br />
     indirectCall(myscript, arg);
   </p>
-  <p>This is important to note, especially when working with legacy projects where scripts contain one single function, and the function is named the same as the script. However, you really should <em>never</em> do this, and your scripts should be named independently of the functions they contain.</p>
   <div data-conref="../../assets/snippets/Script_empty_reference_error.hts"> </div>
   <h2>Script Scope</h2>
   <p>This leads us to the final and most important thing to know about scripts and the functions they contain: scripts are parsed on a <b>global</b> level and will be <strong>compiled at the very start of the game</strong>. This means that <em>technically</em> all functions in a script are &quot;unbound&quot; <a href="Method_Variables.htm">method variables</a>, and any variables declared outside of a function in the script will be considered <a href="Variables/Global_Variables.htm">global variables</a>. For example, consider this script:</p>

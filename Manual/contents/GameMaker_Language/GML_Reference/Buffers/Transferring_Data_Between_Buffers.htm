@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <title>Transferring Data Between Buffers</title>
+  <meta name="topic-status" content="Draft" />
+  <link rel="stylesheet" type="text/css" href="../../../assets/css/default.css" />
+  <meta name="search-keywords" content="buffer,vertex buffer,data,transfer,stride,copy,update" />
+  <meta name="rh-index-keywords" content="buffer,vertex buffer" />
+  <meta name="template" content="../../../assets/masterpages/Manual_Page.htt" />
+</head>
+<body>
+  <h1><span data-field="title" data-format="default">Transferring Data Between Buffers</span></h1>
+  <p>This page gives an overview of how you can transfer data between buffers and vertex buffers.</p>
+  <p>At the lowest level, a buffer is a contiguous region in memory that consists of bytes. Using the functions <span class="inline3_func"><a data-xref="{title}" href="buffer_read.htm">buffer_read</a></span> and <span class="inline3_func"><a data-xref="{title}" href="buffer_write.htm">buffer_write</a></span> (and <span class="inline3_func"><a data-xref="{title}" href="buffer_peek.htm">buffer_peek</a></span>, <span class="inline3_func"><a data-xref="{title}" href="buffer_poke.htm">buffer_poke</a></span> and <span class="inline3_func"><a data-xref="{title}" href="buffer_fill.htm">buffer_fill</a></span>) basic data types can be written into a buffer. On top of this, these basic data types can be combined to create data structures where each entry in the structure follows a given format.</p>
+  <h3>Stride</h3>
+  <p>Items stored in a buffer in such a structured way all take up the same number of bytes. This is the number of bytes to move to go from one item to the next and is called the stride.</p>
+  <h2>Buffer to Buffer</h2>
+  <p>The following functions allow copying parts of data from one buffer to another: </p>
+  <ul class="colour">
+    <li><a data-xref="{title}" href="buffer_copy.htm">buffer_copy</a>: copies a contiguous block of bytes once</li>
+    <li><a data-xref="{title}" href="buffer_copy_stride.htm">buffer_copy_stride</a>: copies a contiguous block of bytes multiple times. You can use this to copy e.g. all positions, all colours, all UV&#39;s, etc.</li>
+  </ul>
+  <h2>Buffer to Vertex Buffer</h2>
+  <p>A vertex buffer is a special type of buffer. The vertex format determines what data is written to the buffer and in which order. You don&#39;t have to write the values directly, but can call functions such as <span class="inline3_func"><a data-xref="{title}" href="../Drawing/Primitives/vertex_position_3d.htm">vertex_position_3d</a></span>, <span class="inline3_func"><a data-xref="{title}" href="../Drawing/Primitives/vertex_colour.htm">vertex_colour</a></span>, <span class="inline3_func"><a data-xref="{title}" href="../Drawing/Primitives/vertex_texcoord.htm">vertex_texcoord</a></span>, etc.</p>
+  <p>A few things are specific to vertex buffers: </p>
+  <ul class="colour">
+    <li>The stride in this case is the size of the vertex format (and that of a vertex).</li>
+    <li>Most components of the vertex attributes are stored as a 32bit float (<span class="inline2">buffer_f32</span>).</li>
+    <li>Each of the components of a colour attribute (R, G, B, A) is stored as an unsigned byte (<span class="inline2">buffer_u8</span>).</li>
+  </ul>
+  <p>The following schematic shows how the data in a vertex buffer maps to the data in a buffer, and the other way around: </p>
+  <p><img class="center" src="../../../assets/Images/Scripting_Reference/GML/Reference/Buffers/buffer_transfer_overview.png" /></p>
+  <p class="note"><span data-conref="../../../assets/snippets/Tag_tip.hts"> </span> You can use the function <span class="inline3_func"><a data-xref="{title}" href="../Drawing/Primitives/vertex_format_get_info.htm">vertex_format_get_info</a></span> to get information on how the data of a vertex in a given format is laid out in a buffer.</p>
+  <p>The following functions can be used to transfer data between buffers and vertex buffers and vice versa: </p>
+  <ul class="colour">
+    <li><a data-xref="{title}" href="buffer_create_from_vertex_buffer.htm">buffer_create_from_vertex_buffer</a></li>
+    <li><a data-xref="{title}" href="buffer_create_from_vertex_buffer_ext.htm">buffer_create_from_vertex_buffer_ext</a></li>
+    <li><a data-xref="{title}" href="buffer_copy_from_vertex_buffer.htm">buffer_copy_from_vertex_buffer</a></li>
+    <li><a data-xref="{title}" href="../Drawing/Primitives/vertex_create_buffer_from_buffer.htm">vertex_create_buffer_from_buffer</a></li>
+    <li><a data-xref="{title}" href="../Drawing/Primitives/vertex_create_buffer_from_buffer_ext.htm">vertex_create_buffer_from_buffer_ext</a></li>
+    <li><a data-xref="{title}" href="../Drawing/Primitives/vertex_update_buffer_from_buffer.htm">vertex_update_buffer_from_buffer</a></li>
+  </ul>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div>Back: <a data-xref="{title}" href="Buffers.htm">Buffers</a></div>
+        <div>Next: <a href="buffer_exists.htm">buffer_exists</a></div>
+      </div>
+    </div>
+    <h5><span data-conref="../../../assets/snippets/Copyright_Notice_AutoUpdate.hts"> </span></h5>
+  </div>
+</body>
+</html>

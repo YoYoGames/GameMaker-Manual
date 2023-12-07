@@ -15,51 +15,26 @@
 </head>
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
-  <h1>buffer_create_from_vertex_buffer</h1>
-  <p>You use this function to allocate a portion of memory as a buffer in your game filled with the data from a previously created <a href="../Drawing/Primitives/Primitives_And_Vertex_Formats.htm">vertex buffer</a>. The function returns a unique <i>buffer id</i> that should be stored in a variable and used for all further function calls to the buffer. The function takes the id for the vertex buffer to use (as returned by the function <a href="../Drawing/Primitives/vertex_create_buffer.htm"><span class="inline">vertex_create_buffer()</span></a>, for example) with the following constants being used to define the buffer type:</p>
-  <table>
-    <tbody>
-      <tr>
-        <th>Constant</th>
-        <th>Description</th>
-      </tr>
-      <tr>
-        <td><span class="inline">buffer_fixed</span></td>
-        <td>A buffer of fixed size.</td>
-      </tr>
-      <tr>
-        <td><span class="inline">buffer_grow</span></td>
-        <td>A buffer that will &quot;grow&quot; dynamically as data is added</td>
-      </tr>
-      <tr>
-        <td><span class="inline">buffer_wrap</span></td>
-        <td>A buffer where the data will &quot;wrap&quot;. When the data being added reaches the limit of the buffer size, the overwrite will be placed back at the start of the buffer, and further writing will continue from that point.</td>
-      </tr>
-      <tr>
-        <td><span class="inline">buffer_fast</span></td>
-        <td>Special &quot;stripped&quot; buffer that is extremely fast to read/write to. Can only be used with <span class="inline">buffer_u8</span> <a href="buffer_write.htm">data types</a>, and <i>must</i> be 1 byte aligned.</td>
-      </tr>
-      <tr>
-        <td><span class="inline">buffer_vbuffer</span></td>
-        <td>This type of buffer is to be used as a vertex buffer only.</td>
-      </tr>
-    </tbody>
-  </table>
+  <h1><span data-field="title" data-format="default">buffer_create_from_vertex_buffer</span></h1>
+  <p>This function allocates a portion of memory as a buffer in your game filled with the data from a previously created <a href="../Drawing/Primitives/Primitives_And_Vertex_Formats.htm">vertex buffer</a>.</p>
+  <p>The function returns a reference to the buffer that should be stored in a variable and used for all further function calls to the buffer. The function takes a reference to the vertex buffer to use (as returned by the function <span class="inline3_func"><a data-xref="{title}" href="../Drawing/Primitives/vertex_create_buffer.htm">vertex_create_buffer</a></span>, for example) with the following constants being used to define the buffer type:</p>
+  <div data-conref="../../../assets/snippets/Table_Buffer_Type_Constant.hts"> </div>
   <p>Apart from the buffer type, you will also have to set the <i>byte alignment</i> for the buffer. This value will vary depending on the data that you wish to store in the buffer, and in most cases a value of 1 is perfectly fine. However, be aware that for some operations a specific alignment is <i>essential</i>, and an incorrect alignment may cause errors (for further details on alignment see <a href="../../../Additional_Information/Guide_To_Using_Buffers.htm">Buffers</a>). The following is a general guide to show which values are most appropriate for each data type (when in doubt, use an alignment of 1):</p>
   <ul class="colour">
     <li>Strings should be aligned to 1 byte.</li>
-    <li>Signed or unsigned 8bit integers can be aligned to any value, but note that for a fast buffer (see <a href="buffer_write.htm"><span class="inline">buffer_write()</span></a>) it <i>must</i> be aligned to 1.</li>
+    <li>Signed or unsigned 8bit integers can be aligned to any value, but note that for a fast buffer (see <span class="inline3_func"><a data-xref="{title}" href="buffer_write.htm">buffer_write</a></span>) it <i>must</i> be aligned to 1.</li>
     <li>Signed or unsigned 16bit integers should be aligned to 2 bytes.</li>
     <li>Signed or unsigned 32bit integers should be aligned to 4 bytes</li>
-    <li>Floats of up to 16bits should be aligned to 2 bytes. <i>(Not currently supported!)</i></li>
+    <li>Floats of up to 16bits should be aligned to 2 bytes.</li>
     <li>Floats of up to 32bits should be aligned to 4 bytes.</li>
     <li>Floats of up to 64bits should be aligned to 8 bytes.</li>
   </ul>
   <p class="note"><b><span data-conref="../../../assets/snippets/Tag_note.hts"> </span></b> Vertex buffers are 1 byte aligned, but you can create the buffer with any alignment depending on how you want to treat the data, as the vertex data is simply a raw memory copy into the buffer.</p>
-  <p class="note"><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> It&#39;s important that you remove any dynamically created resources like this from memory when you no longer need them to prevent memory leaks, so when you are finished with the buffer that you have created you should free it up again using <span style="font-size:1px;"><a href="buffer_delete.htm"><span class="inline">buffer_delete()</span></a></span>. Also note that the vertex buffer used to create the new buffer is not removed from memory either and you should use the function <span style="font-size:1px;"><a href="../Drawing/Primitives/vertex_delete_buffer.htm"><span class="inline">vertex_delete_buffer()</span></a></span> when it is no longer required.</p>
+  <div data-conref="../../../assets/snippets/Note_Buffer_Delete_Dynamic.hts"> </div>
+  <p class="note"><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> The vertex buffer used to create the new buffer is not removed from memory either and you should use the function <span class="inline3_func"><a data-xref="{title}" href="../Drawing/Primitives/vertex_delete_buffer.htm">vertex_delete_buffer</a></span> when it is no longer required.</p>
   <p> </p>
   <h4>Syntax:</h4>
-  <p class="code">buffer_create_from_vertex_buffer(vertex_buffer, type, alignment)</p>
+  <p class="code"><span data-field="title" data-format="default">buffer_create_from_vertex_buffer</span>(vertex_buffer, type, alignment)</p>
   <table>
     <tbody>
       <tr>
@@ -69,29 +44,28 @@
       </tr>
       <tr>
         <td>vertex_buffer</td>
-        <td><span data-keyref="Type_ID_Buffer_Vertex"><a href="GameMaker_Language/GML_Reference/Drawing/Primitives/vertex_create_buffer.htm" target="_blank">Vertex Buffer ID</a></span></td>
-        <td>The vertex buffer index to use.</td>
+        <td><span data-keyref="Type_ID_Buffer_Vertex"><a href="../../../../GameMaker_Language/GML_Reference/Drawing/Primitives/vertex_create_buffer.htm" target="_blank">Vertex Buffer</a></span></td>
+        <td>A reference to the vertex buffer to use.</td>
       </tr>
       <tr>
         <td>type</td>
-        <td><span data-keyref="Type_Constant_Buffer_Type"><a href="GameMaker_Language/GML_Reference/Buffers/buffer_create.htm" target="_blank">Buffer Type Constant</a></span></td>
+        <td><span data-keyref="Type_Constant_Buffer_Type"><a href="../../../../GameMaker_Language/GML_Reference/Buffers/buffer_create.htm" target="_blank">Buffer Type Constant</a></span></td>
         <td>The type of buffer to create (see the constants list above).</td>
       </tr>
       <tr>
         <td>alignment</td>
-        <td><span data-keyref="Type_Real"><a href="GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td><span data-keyref="Type_Real"><a href="../../../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
         <td>The byte alignment for the buffer</td>
       </tr>
     </tbody>
   </table>
   <p> </p>
   <h4>Returns:</h4>
-  <p class="code"><span data-keyref="Type_ID_Buffer"><a href="GameMaker_Language/GML_Reference/Buffers/buffer_create.htm" target="_blank">Buffer ID</a></span></p>
+  <p class="code"><span data-keyref="Type_ID_Buffer"><a href="../../../../GameMaker_Language/GML_Reference/Buffers/buffer_create.htm" target="_blank">Buffer</a></span></p>
   <p> </p>
   <h4>Example:</h4>
-  <p class="code">player_buffer = buffer_create_from_vertex_buffer(model_buffer, buffer_grow, 1);</p>
-  <p>The above code allocates memory to a buffer then copies the data from the given vertex buffer into it, returning the index of the new buffer which is stored in the variable &quot;player_buffer&quot;, for future use.</p>
-  <p> </p>
+  <p class="code">player_buffer = <span data-field="title" data-format="default">buffer_create_from_vertex_buffer</span>(model_buffer, buffer_grow, 1);</p>
+  <p>The above code allocates memory to a buffer then copies the data from the given vertex buffer into it, returning the new buffer which is stored in the variable <span class="inline2">player_buffer</span>, for future use.</p>
   <p> </p>
   <p> </p>
   <div class="footer">

@@ -19,9 +19,9 @@
   <h3>Usage Notes</h3>
   <ul class="Disc">
     <li>The particles created by a disabled emitter become invisible and aren&#39;t updated.</li>
-    <li><span><span>Timers related t<span>o the emitter delay (<span class="inline3_func"><a data-xref="{title}" href="part_emitter_delay.htm">part_emitter_delay</a></span>) <span>or interval (<span class="inline3_func"><a data-xref="{title}" href="part_emitter_interval.htm">part_emitter_interval</a></span>) are paused.</span></span></span></span></li>
-    <li>A disabled emitter d<span>oesn&#39;t create new particles when it is in stream m<span>ode.</span></span> <span><span>It will als<span>o n<span>ot create any particles after<span> calls t<span>o</span></span> </span></span><span><span class="inline3_func"><a data-xref="{title}" href="part_emitter_burst.htm">part_emitter_burst</a>.</span></span></span></span></li>
-    <li>The function <span class="inline3_func"><a data-xref="{title}" href="../Particle_Systems/part_particles_burst.htm">part_particles_burst</a></span> d<span>oesn&#39;t create particles f<span>or any disabled emitters in the <span data-keyref="Type_Asset_ParticleSystem"><a href="The_Asset_Editors/Particle_Systems.htm" target="_blank">Particle System Asset</a></span>.</span></span></li>
+    <li>Timers related to the emitter delay (<span class="inline3_func"><a data-xref="{title}" href="part_emitter_delay.htm">part_emitter_delay</a></span>) or interval (<span class="inline3_func"><a data-xref="{title}" href="part_emitter_interval.htm">part_emitter_interval</a></span>) are paused.</li>
+    <li>A disabled emitter doesn&#39;t create new particles when it is in stream mode. It will also not create any particles after calls to <span class="inline3_func"><a data-xref="{title}" href="part_emitter_burst.htm">part_emitter_burst</a>.</span></li>
+    <li>The function <span class="inline3_func"><a data-xref="{title}" href="../Particle_Systems/part_particles_burst.htm">part_particles_burst</a></span> doesn&#39;t create particles for any disabled emitters in the <span data-keyref="Type_Asset_ParticleSystem"><a href="The_Asset_Editors/Particle_Systems.htm" target="_blank">Particle System Asset</a></span>.</li>
   </ul>
   <p> </p>
   <h4>Syntax:</h4>
@@ -75,16 +75,16 @@
     part_type_direction(pt, 90, 90, 0, .2);<br />
     <br />
     part_emitter_stream(ps, pe1, pt, 2);<br />
-    part_emitter_stream(ps, pe2, pt, 2);<span><span><span class="misspell-word"><span><span class="misspell-word"><span><span class="misspell-word"><span><span class="misspell-word"><span><span class="misspell-word"></span></span></span></span></span></span></span></span></span></span></span>
+    part_emitter_stream(ps, pe2, pt, 2);
   </p>
   <p class="code_heading">Cleanup Event</p>
-  <p class="code">part_emitter_destr<span>oy(ps, pe1);<br />
-      part_emitter_destr<span><span class="misspell-word">oy(ps, pe2);<br />
-          part_system_destr<span><span class="misspell-word">oy(ps);<br />
-              part_type_destr<span><span class="misspell-word"><span><span class="misspell-word"><span><span class="misspell-word">oy(pt);</span></span></span></span></span></span></span></span></span></span></span></p>
-  <p>The ab<span>ove c<span>ode creates a particle system <span class="inline2">ps</span> in the Create event and adds tw<span><span>o emitters t<span><span>o it: <span class="inline2">pe1</span> and <span class="inline2">pe2</span>. The emitters are each c<span><span>onfigured t<span><span>o emit particles in a rectangular regi<span><span>on <span><span>of 100x100 pixels, using a gaussian distributi<span><span>on (i.e. m<span><span>ore particles in the center). Emitter <span class="inline2">pe1</span> is set t<span><span>o disabled using <span class="inline3_func"><span data-field="title" data-format="default">part_emitter_enable</span></span>.</span></span> A particle type <span class="inline2">pt</span> is then created and its speed and directi<span><span>on c<span><span>onfigured s<span><span>o all particles <span><span>of this type will m<span><span>ove upward with a c<span><span>onstant speed <span><span>of 2 pixels per step.</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p>
-  <p>The tw<span><span>o emitters are then &quot;turned <span><span>on&quot; using <span class="inline3_func"><a data-xref="{title}" href="part_emitter_stream.htm">part_emitter_stream</a></span>: each <span><span>of them is c<span><span>onfigured t<span><span>o create tw<span><span>o</span></span></span></span></span></span> particles per step. Since <span class="inline2">pe1</span> was set t<span><span>o </span></span>disabled<span><span>, it will n<span><span>ot emit any particles. <span class="inline2">pe2</span> is enabled and emits particles n<span><span>ormally<span><span>.</span></span></span></span></span></span></span></span></span></span></span></span></span></span></p>
-  <p>Finally, since they&#39;re dynamic res<span><span>ources, </span></span>the particle emitters, the system and the type are all destr<span><span>oyed in the Cleanup event.</span></span></p>
+  <p class="code">part_emitter_destroy(ps, pe1);<br />
+      part_emitter_destroy(ps, pe2);<br />
+          part_system_destroy(ps);<br />
+              part_type_destroy(pt);</p>
+  <p>The above code creates a particle system <span class="inline2">ps</span> in the Create event and adds two emitters to it: <span class="inline2">pe1</span> and <span class="inline2">pe2</span>. The emitters are each configured to emit particles in a rectangular region of 100x100 pixels, using a gaussian distribution (i.e. more particles in the center). Emitter <span class="inline2">pe1</span> is set to disabled using <span class="inline3_func"><span data-field="title" data-format="default">part_emitter_enable. A particle type <span class="inline2">pt</span> is then created and its speed and direction configured so all particles of this type will move upward with a constant speed of 2 pixels per step.</p>
+  <p>The two emitters are then &quot;turned on&quot; using <span class="inline3_func"><a data-xref="{title}" href="part_emitter_stream.htm">part_emitter_stream</a></span>: each of them is configured to create two particles per step. Since <span class="inline2">pe1</span> was set to disabled, it will not emit any particles. <span class="inline2">pe2</span> is enabled and emits particles normally.</p>
+  <p>Finally, since they&#39;re dynamic resources, the particle emitters, the system and the type are all destroyed in the Cleanup event.</p>
   <p> </p>
   <p> </p>
   <div class="footer">

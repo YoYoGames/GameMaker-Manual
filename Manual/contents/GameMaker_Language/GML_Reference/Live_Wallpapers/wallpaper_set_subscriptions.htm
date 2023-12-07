@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>wallpaper_set_subscriptions</title>
+  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <link rel="stylesheet" type="text/css" href="../../../assets/css/default.css" />
+  <script src="../../../assets/scripts/main_script.js" type="module"></script>
+  <meta name="rh-authors" content="Gurpreet S. Matharoo" />
+  <meta name="topic-comment" content="Reference page for wallpaper_set_subscriptions" />
+  <meta name="rh-index-keywords" content="wallpaper_set_subscriptions" />
+  <meta name="search-keywords" content="wallpaper_set_subscriptions" />
+  <meta name="template" content="assets/masterpages/Manual_Keyword_Page.htt" />
+</head>
+<body>
+  <h1><span data-field="title" data-format="default">wallpaper_set_subscriptions</span></h1>
+  <p>This function subscribes to the given metric(s) from the Companion app. This is used to get real-time system information, and enable mouse input, which is disabled for Live Wallpapers by default.</p>
+  <p class="note"><span data-conref="../../../assets/snippets/Tag_important.hts"> </span> The user must have the Companion app installed on Windows for metrics to work. <a href="https://help.gamemaker.io/hc/en-us/articles/10070287968285">See this guide</a> for setting up the Companion app.</p>
+  <p class="note"><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> Graphics drivers must be up-to-date on the target computer for GPU metrics to work correctly.</p>
+  <p class="note"><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> Each call to this function cancels any previously active subscriptions, so only those included in the last call remain active.</p>
+  <h2>Arguments</h2>
+  <p>You pass an array into this function, containing one or more of the following strings: <span class="inline2">&quot;desktop_mouse&quot;</span>, <span class="inline2">&quot;cpu&quot;</span>, <span class="inline2">&quot;gpu&quot;</span>, <span class="inline2">&quot;battery&quot;</span>, <span class="inline2">&quot;ram&quot;</span>, <span class="inline2">&quot;disk&quot;</span>, <span class="inline2">&quot;network&quot;</span>, <span class="inline2">&quot;audio&quot;</span>.</p>
+  <p><span class="inline2">&quot;desktop_mouse&quot;</span> enables mouse input for your Live Wallpaper. The other options allow the <a data-xref="{text}" href="../../../The_Asset_Editors/Object_Properties/Wallpaper_Config_Event.htm#h">Wallpaper Subscription Data</a> event to be triggered, where you receive data on the metrics you chose to subscribe to.</p>
+  <h2 id="h">Receiving Metrics</h2>
+  <p>Within the <a data-xref="{text}" href="../../../The_Asset_Editors/Object_Properties/Wallpaper_Config_Event.htm#h">Wallpaper Subscription Data</a> event you will receive updates for subscribed metrics, around once every second, except for audio which is ten times a second.</p>
+  <p>The event will contain a <span class="inline2">wallpaper_subscription_data</span> variable which is a <a href="../../GML_Overview/Structs.htm">struct</a>, containing the following members:</p>
+  <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down" href="#">wallpaper_subscription_data Struct</a></p>
+  <div class="droptext" data-targetname="drop-down">
+    <ul class="colour">
+      <li><strong>cpu</strong> (<span data-keyref="Type_Array"><a href="../../GML_Overview/Arrays.htm" target="_blank">Array</a></span>): Array of CPU devices. Each entry in this array is a struct, containing the following members:
+        <ul>
+          <li><strong>name</strong> (<span data-keyref="Type_String"><a href="../../GML_Overview/Data_Types.htm" target="_blank">String</a></span>): The name of the CPU.</li>
+          <li><strong>num_logical_cores</strong> (Integer <span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span>): Number of logical cores.</li>
+          <li><strong>num_physical_cores</strong> (Integer <span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span>): Number of physical cores.</li>
+          <li><strong>usage_pct</strong> (Integer <span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span>): The load percentage of the CPU.</li>
+          <li><strong>current_clock_speed_MHz</strong> (Integer <span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span>): The current clock speed of the CPU in MHz.</li>
+          <li><strong>max_clock_speed_MHz</strong> (Integer <span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span>): The maximum clock speed of the CPU in MHz.</li>
+          <li><strong>voltage_V</strong> (Integer <span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span>): The current voltage of the CPU in volts.</li>
+        </ul>
+      </li>
+      <li><strong>gpu </strong>(<span data-keyref="Type_Array"><a href="../../GML_Overview/Arrays.htm" target="_blank">Array</a></span>): Array of GPU devices. Each entry in this array is a struct, containing the following members:
+        <ul>
+          <li><strong>name</strong> (<span data-keyref="Type_String"><a href="../../GML_Overview/Data_Types.htm" target="_blank">String</a></span>): The name of the GPU.</li>
+          <li><strong>usage_pct</strong> (Integer <span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span>): The load percentage of the GPU.</li>
+          <li><strong>clock_speed_MHz</strong> (Integer <span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span>): The current clock speed of the GPU in MHz.</li>
+          <li><strong>fan_speed_pct</strong> or <strong>fan_speed_rpm</strong> (Integer <span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span>): The target speed of the GPU fan. Expressed as a percentage of the maximum speed on NVIDIA GPUs and in RPM on AMD GPUs.</li>
+          <li><strong>power_usage_W</strong> (Integer <span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span>): The power usage of the GPU in Watt.</li>
+          <li><strong>temperature_C</strong> (Integer <span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span>): The temperature of the GPU in Celsius.</li>
+          <li><strong>memory_used_bytes</strong> (Integer <span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span>): How much of the GPU memory is used up in bytes.</li>
+          <li><strong>memory_available_bytes</strong> (Integer <span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span>): How much of the GPU memory is available in bytes.</li>
+          <li><strong>memory_total_bytes</strong> (Integer <span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span>): The total GPU memory in bytes.</li>
+        </ul>
+      </li>
+      <li><strong>battery </strong>(<span data-keyref="Type_Array"><a href="../../GML_Overview/Arrays.htm" target="_blank">Array</a></span>): Array of battery devices. Each entry in this array is a struct, containing the following members:
+        <ul>
+          <li><strong>name</strong> (<span data-keyref="Type_String"><a href="../../GML_Overview/Data_Types.htm" target="_blank">String</a></span>): The name of the battery.</li>
+          <li><strong>is_charging </strong>(<span data-keyref="Type_Bool"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Boolean</a></span>): Indicates if the battery is charging.</li>
+          <li><strong>remaining_charge_pct </strong>(Integer <span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span>): Percentage of the charge left in the battery.</li>
+          <li><strong>remaining_time_min </strong>(Integer <span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span>): The estimated time left of the battery in minutes.</li>
+        </ul>
+      </li>
+      <li><strong>ram </strong>(<span data-keyref="Type_Array"><a href="../../GML_Overview/Arrays.htm" target="_blank">Array</a></span>): Array of RAM devices. Each entry in this array is a struct, containing the following members:
+        <ul>
+          <li><strong>name</strong> (<span data-keyref="Type_String"><a href="../../GML_Overview/Data_Types.htm" target="_blank">String</a></span>): The name of the RAM.</li>
+          <li><strong>available_bytes</strong> (Integer <span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span>): How much of the RAM memory is available in bytes.</li>
+          <li><strong>total_bytes</strong> (Integer <span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span>): The total RAM memory in bytes.</li>
+          <li><strong>used_bytes</strong> (Integer <span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span>): How much of the GPU memory is used up in bytes.</li>
+        </ul>
+      </li>
+      <li><strong>disk </strong>(<span data-keyref="Type_Array"><a href="../../GML_Overview/Arrays.htm" target="_blank">Array</a></span>): Array of disks. Each entry in this array is a struct, containing the following members:
+        <ul>
+          <li><strong>name</strong> (<span data-keyref="Type_String"><a href="../../GML_Overview/Data_Types.htm" target="_blank">String</a></span>): The name of the disk.</li>
+          <li><strong>available_bytes</strong> (Integer <span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span>): How much of the disk memory is available in bytes.</li>
+          <li><strong>total_bytes</strong> (Integer <span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span>): The total disk memory in bytes.</li>
+          <li><strong>used_bytes</strong> (Integer <span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span>): How much of the GPU memory is used up in bytes.</li>
+        </ul>
+      </li>
+      <li><strong>network</strong> (<span data-keyref="Type_Array"><a href="../../GML_Overview/Arrays.htm" target="_blank">Array</a></span>): Array of network devices. Each entry in this array is a struct, containing the following members:
+        <ul>
+          <li><strong>bandwidth_bps</strong> (Integer <span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span>): The bandwidth of the network in bits per second.</li>
+          <li><strong>send_bps</strong> (Integer <span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span>): The current bytes sent per second on the network.</li>
+          <li><strong>received_bps</strong> (Integer <span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span>): The current bytes received per second on the network.</li>
+        </ul>
+      </li>
+      <li><strong>audio</strong> (<span data-keyref="Type_Array"><a href="../../GML_Overview/Arrays.htm" target="_blank">Array</a></span> of <span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span>s): Represents a spectrum analysis of measured sound amplitudes on the system. The frequency will span from 0 Hz up to the Nyquist frequency, i.e half that of the system&#39;s sampling rate. If it is, for example, 44.1 kHz (the most common), the frequencies will range from 0 Hz to 22050 Hz. Each bin will always represent a range of 10 Hz. Thus, this array will consist of 2205 data points if the sampling rate is 44.1 kHz, and 2400 if it is 48 kHz (also common).
+        <ul>
+        </ul>
+      </li>
+    </ul>
+  </div>
+  <p>If some information could not be retrieved from the system, its corresponding variable will not be present in this structure. That may cause a crash if you try to access a variable that doesn&#39;t exist. To prevent that, use <span class="inline3_func"><a data-xref="{title}" href="../Variable_Functions/variable_struct_exists.htm">struct_exists</a></span> to check that a variable exists in a struct, before accessing it.</p>
+  <p> </p>
+  <p> </p>
+  <h4>Syntax:</h4>
+  <p class="code"><span data-field="title" data-format="default">wallpaper_set_subscriptions</span>(subscriptions);</p>
+  <table>
+    <colgroup>
+      <col />
+      <col />
+      <col />
+    </colgroup>
+    <tbody>
+      <tr>
+        <th>Argument</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>subscriptions</td>
+        <td><span data-keyref="Type_Array"><a href="../../GML_Overview/Arrays.htm" target="_blank">Array</a></span></td>
+        <td>An array containing strings, which are the metrics you want to subscribe to</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>Returns:</h4>
+  <p class="code"><span data-keyref="Type_Void">N/A</span></p>
+  <p> </p>
+  <h4>Example:</h4>
+  <div data-conref="../../../assets/snippets/Example_wallpaper_set_subscriptions.hts"> </div>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div>Back: <a data-xref="{title}" href="Live_Wallpapers.htm">Live Wallpapers</a></div>
+        <div>Next: <a href="wallpaper_set_config.htm">wallpaper_set_config</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2023 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+wallpaper_set_subscriptions
+-->
+  <!-- TAGS
+wallpaper_set_subscriptions
+-->
+</body>
+</html>

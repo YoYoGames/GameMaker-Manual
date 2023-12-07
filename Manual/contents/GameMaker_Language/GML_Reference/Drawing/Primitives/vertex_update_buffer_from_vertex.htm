@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>vertex_update_buffer_from_vertex</title>
+  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <link rel="stylesheet" type="text/css" href="../../../../assets/css/default.css" />
+  <script src="../../../../assets/scripts/main_script.js" type="module"></script>
+  <meta name="rh-authors" content="" />
+  <meta name="topic-comment" content="" />
+  <meta name="rh-index-keywords" content="" />
+  <meta name="search-keywords" content="" />
+  <meta name="template" content="assets/masterpages/Manual_Keyword_Page.htt" />
+</head>
+<body>
+  <h1><span data-field="title" data-format="default">vertex_update_buffer_from_vertex</span></h1>
+  <p>This function updates the contents of a vertex buffer using (part of) the contents of another vertex buffer.</p>
+  <p class="note"><span data-conref="../../../../assets/snippets/Tag_important.hts"> </span> You cannot pass <a href="vertex_freeze.htm">frozen</a> vertex buffers into this function.</p>
+  <h3>Usage Notes</h3>
+  <ul class="Disc">
+    <li>You can optionally provide the starting vertex and the number of vertices to copy.</li>
+    <li>The destination vertex buffer&#39;s <a href="Primitives_And_Vertex_Formats.htm#func_ref_vertex_formats">vertex format</a> should have the same attributes as the source vertex buffer (its <span data-keyref="Type_ID_Vertex_Format"><a href="vertex_format_end.htm" target="_blank">Vertex Format</a></span> can be different).</li>
+    <li>If the destination vertex buffer never had any vertices added to it, the vertices will be added using the source buffer&#39;s vertex format.</li>
+    <li><span>Writing data outside of the vertex buffer&#39;s current size will resize the vertex buffer as required.</span></li>
+  </ul>
+  <p> </p>
+  <h4>Syntax:</h4>
+  <p class="code"><span data-field="title" data-format="default">vertex_update_buffer_from_vertex</span>(dest_vbuff, dest_vert, src_vbuff[, src_vert, src_vert_num]);</p>
+  <table>
+    <colgroup>
+      <col />
+      <col />
+      <col />
+    </colgroup>
+    <tbody>
+      <tr>
+        <th>Argument</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>dest_vbuff</td>
+        <td><span data-keyref="Type_ID_Buffer_Vertex"><a href="vertex_create_buffer.htm" target="_blank">Vertex Buffer</a></span></td>
+        <td>The destination vertex buffer to copy vertices to</td>
+      </tr>
+      <tr>
+        <td>dest_vert</td>
+        <td><span data-keyref="Type_Real"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td>The index of the first vertex in the destination vertex buffer to copy to</td>
+      </tr>
+      <tr>
+        <td>src_vbuff</td>
+        <td><span data-keyref="Type_ID_Buffer_Vertex"><a href="vertex_create_buffer.htm" target="_blank">Vertex Buffer</a></span></td>
+        <td>The source vertex buffer to copy vertices from</td>
+      </tr>
+      <tr>
+        <td>src_vert</td>
+        <td><span data-keyref="Type_Real"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td><span data-conref="../../../../assets/snippets/Tag_optional.hts"> </span> The index of the first vertex in the source vertex buffer to copy</td>
+      </tr>
+      <tr>
+        <td>src_vert_num</td>
+        <td><span data-keyref="Type_Real"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td><span data-conref="../../../../assets/snippets/Tag_optional.hts"> </span> The number of vertices to copy</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>Returns:</h4>
+  <p class="code"><span data-keyref="Type_Void">N/A</span></p>
+  <p> </p>
+  <h4>Example:</h4>
+  <p class="code_heading">Create Event</p>
+  <p class="code">vertex_format_begin();<br />
+    vertex_format_add_position_3d();     // Three buffer_f32 values<br />
+    vertex_format_add_color();           // Four buffer_u8 values<br />
+    vertex_format_add_texcoord();        // Two buffer_f32 values<br />
+    vertex_format = vertex_format_end();<br />
+    <br />
+    vb = vertex_create_buffer();<br />
+    vertex_begin(vb, vertex_format);<br />
+    vertex_position_3d(vb, 100, 100, 0);<br />
+    vertex_color(vb, c_lime, 1);<br />
+    vertex_texcoord(vb, 0, 0);<br />
+    vertex_position_3d(vb, 200, 100, 0);<br />
+    vertex_color(vb, c_lime, 1);<br />
+    vertex_texcoord(vb, 1, 0);<br />
+    vertex_position_3d(vb, 200, 200, 0);<br />
+    vertex_color(vb, c_lime, 1);<br />
+    vertex_texcoord(vb, 1, 1);<br />
+    vertex_end(vb);<br />
+    <br />
+    vb2 = vertex_create_buffer();<br />
+    <br />
+    <span data-field="title" data-format="default">vertex_update_buffer_from_vertex</span>(vb2, 0, vb);
+  </p>
+  <p class="code_heading">Draw Event</p>
+  <p class="code">vertex_submit(vb2, pr_trianglelist, -1);</p>
+  <p>The above code shows how to duplicate a vertex buffer&#39;s contents to another, newly created vertex buffer.</p>
+  <p>First, in the Create event, a vertex format identical to the <a href="Primitives_And_Vertex_Formats.htm#passthrough_vertex_format">Passthrough Vertex Format</a> is created and stored in a variable <span class="inline2">vertex_format</span>. Then, a new vertex buffer is created and filled with three vertices, according to the vertex format. After that, a second vertex buffer <span class="inline2">vb2</span> is created and updated with the vertex data in <span class="inline2">vb</span> using <span class="inline3_func"><span data-field="title" data-format="default">vertex_update_buffer_from_vertex</span></span>. After the function call, the vertex data in <span class="inline2">vb2</span> will be identical to that in <span class="inline2">vb</span>.</p>
+  <p>Finally, in the Draw event, <span class="inline2">vb2</span> is drawn using <span class="inline3_func"><a data-xref="{title}" href="vertex_submit.htm">vertex_submit</a></span>.</p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div>Back: <a data-xref="{title}" href="Primitives_And_Vertex_Formats.htm">Primitives And Vertex Formats</a></div>
+        <div>Next: <a data-xref="{title}" href="vertex_get_buffer_size.htm">vertex_get_buffer_size</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2023 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+vertex_update_buffer_from_vertex
+-->
+  <!-- TAGS
+vertex_update_buffer_from_vertex
+-->
+</body>
+</html>
