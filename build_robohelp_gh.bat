@@ -16,10 +16,10 @@ set ZIP_FILE=%ZIP_FILE%
 set basedir=%~dp0
 
 :check_options
-if %LANGUAGE%==EN-BETA (
+if %LANGUAGE%==EN (
     set robohelpPreset="GMS2 Manual Responsive HTML5"
 	goto finish_options
-) else if %LANGUAGE%=="" ( 
+) else if %LANGUAGE_MAIN%==EN ( 
 	set robohelpPreset="GMS2 Manual Responsive"
 	goto finish_options	
 ) else if %LANGUAGE%==ES ( 
