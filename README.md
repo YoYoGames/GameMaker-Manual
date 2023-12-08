@@ -6,7 +6,9 @@ This manual is made using Adobe RoboHelp 2022.0.346. It is recommended to use Ro
 
 You can open the project file in RoboHelp, contained in [/Manual/GMS2_Manual.rhpj](/Manual/GMS2_Manual.rhpj).
 
-You can also edit the HTML files directly, which are placed within [/Manual/contents](/Manual/contents).
+The second recommended way is to edit the HTML files directly, which are placed within [/Manual/contents](/Manual/contents).
+
+⚠️ If you use a program that modifies the HTML file beyond the content changes you wanted to make, your PRs will be rejected.
 
 ### Please be careful when editing the manual.
 
