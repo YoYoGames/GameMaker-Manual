@@ -53,7 +53,7 @@
     show_debug_message(static_get(item) == static_get(_static_potion)); // true (1)
   </p>
   <p>This is because <span class="inline2">item</span> is the parent of the <span class="inline2">potion</span> constructor, so the static struct for <span class="inline2">item</span> is linked to the static struct for <span class="inline2">potion</span>.</p>
-  <p>The static structs of the top-level constructor functions, i.e. those that don&#39;t have a parent constructor, share the same parent struct. This struct is the &quot;root&quot; struct, which has <span class="inline2">undefined</span> as its parent struct: </p>
+  <p>The static structs of the top-level constructor functions, i.e. those that don&#39;t have a parent constructor, share the same parent struct. This struct is the &quot;root&quot; static struct, which has <span class="inline2">undefined</span> as its parent struct: </p>
   <p class="code">var _static_item = static_get(item);         // the static struct of item<br />
     var _root = static_get(_static_item);        // the static struct of all top-level static structs<br />
     var _must_be_undefined = static_get(_root);  // undefined</p>
@@ -94,7 +94,7 @@
         static count = 0;<br />
         count++;<br />
     }</p>
-  <p>Each shape now has its own <span class="inline2">count</span> variable that keeps track of the number of items of that shape. Child shapes will increment the counter of their parent shape as well: </p>
+  <p>Each shape now has its own <span class="inline2">count</span> static variable that keeps track of the number of items of that shape. Child shapes will increment the <span class="inline2">count</span> of their parent shapes as well, as they run their parents&#39; constructors in addition to their own.</p>
   <p class="code">s1 = new shape();        // Added 1 shape<br />
     s2 = new rectangle();    // Added 1 rectangle (and therefore also 1 shape)<br />
     s3 = new square();       // Added 1 square (and therefore also 1 rectangle and 1 shape)<br />
@@ -105,20 +105,24 @@
     show_debug_message($&quot;Number of squares: {square.count}&quot;);        // 1<br />
     show_debug_message($&quot;Number of ellipses: {ellipse.count}&quot;);      // 1
   </p>
-  <h2>How the Dot Operator Looks Up a Variable Name</h2>
-  <p>If the struct itself contains a (non-static) variable with this name, the dot operator returns this variable. If it doesn&#39;t, the dot operator returns the first variable in the static chain with that name, checking the static struct and the entire static chain, if needed, until a variable with that name is encountered. If the variable name cannot be found anywhere in the static chain, <span data-keyref="GameMaker Name">GameMaker</span> will throw an error.</p>
-  <p>For example: </p>
+  <h2 id="h2">How the Dot Operator Looks Up a Variable Name</h2>
+  <p>Let&#39;s say you&#39;re looking for a specific variable in a struct, using the dot operator (i.e. <span class="inline2">struct.variable_name</span>).</p>
+  <p>If the struct contains a non-static variable with that name, the dot operator returns that variable. If it doesn&#39;t, the dot operator returns the first variable in the static chain with that name, checking the current static struct, and then traversing back the entire static chain, if needed, until a variable with that name is encountered. If the variable name cannot be found anywhere in the static chain, <span data-keyref="GameMaker Name">GameMaker</span> will throw an error.</p>
+  <p>For example:</p>
   <p class="code">function root() constructor {<br />
         static show = function() {<br />
             show_debug_message(&quot;root&quot;);<br />
         }<br />
     }<br />
+    <br />
     function child() : root() constructor { }<br />
+    <br />
     function child_with_static_func() : root() constructor {<br />
         static show = function() {<br />
             show_debug_message(&quot;child_with_static_func&quot;);<br />
         }<br />
     }<br />
+    <br />
     function child_with_func() : root() constructor {<br />
         show = function() {<br />
             show_debug_message(&quot;child_with_func&quot;);<br />
@@ -127,8 +131,10 @@
     <br />
     child1 = new child();<br />
     child1.show();<br />
+    <br />
     child2 = new child_with_static_func();<br />
     child2.show();<br />
+    <br />
     child3 = new child_with_func();<br />
     child3.show();
   </p>
@@ -142,19 +148,21 @@
   <p>In certain situations you may want to access a static variable or method of the parent constructor from within the child constructor. To achieve this, you can go up the static chain and access the parent&#39;s static variable: </p>
   <p class="code">function parent() constructor<br />
     {<br />
-        static init = function() { show_debug_message(&quot;Parent Init&quot;); }<br />
+        static init = function() { show_debug_message(&quot;Parent Innit?&quot;); }<br />
     }<br />
+    <br />
     function child() : parent() constructor<br />
     {<br />
         static init = function()<br />
         {<br />
             var _static = static_get(self);<br />
             var _static_parent = static_get(_static);<br />
-            _static_parent.init();<br />
+            _static_parent.init(); // Calls the parent&#39;s init()<br />
             <br />
-            show_debug_message(&quot;Child Init&quot;);<br />
+            show_debug_message(&quot;Child Innit!&quot;);<br />
         }<br />
-    }</p>
+    }
+  </p>
   <h2>Checking Inheritance</h2>
   <p>You can use <span class="inline3_func"><a data-xref="{title}" href="../../GML_Reference/Variable_Functions/is_instanceof.htm">is_instanceof</a></span> to check if a struct belongs to the given constructor, or has the constructor as a parent.</p>
   <p>This is done by checking if your struct has the given constructor&#39;s static struct anywhere in its static chain.</p>
