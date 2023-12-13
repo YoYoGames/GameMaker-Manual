@@ -15,19 +15,13 @@
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
   <h1><span data-field="title" data-format="default">working_directory</span></h1>
-  <p><span data-field="title" data-format="default">working_directory</span> can actually return two different values depending on what you are using it for: </p>
-  <ul class="Disc">
-    <li>If you are writing a file to disk, <span class="inline2"><span data-field="title" data-format="default">working_directory</span></span> points to the area of local storage that is reserved for your game on the target device (in Windows this is <span class="inline2">&quot;%LOCALAPPDATA%/gamedir/&quot;</span> where the <span class="inline2">&quot;gamedir&quot;</span> is the directory with the name of your game).</li>
-    <li>However, when reading from disk, <span class="inline2"><span data-field="title" data-format="default">working_directory</span></span> can be <i>either</i> the local storage (<span class="inline2"><a data-xref="{title}" href="../../General_Game_Control/game_save_id.htm">game_save_id</a></span>) <i>or</i> the area where the <a data-xref="{text}" href="../../../../Settings/Included_Files.htm#h">Included Files</a> are stored.</li>
-  </ul>
-  <div data-conref="../../../../assets/snippets/Note_Variable_Contains_Path_Including_Final_Slash.hts"> </div>
-  <p> </p>
-  <p>For example, if you have a default <span class="inline">*.txt</span> file included with your game and read it into memory using <span class="inline2"><span data-field="title" data-format="default">working_directory</span></span>, then that file will be taken from the area where the Included Files are stored. If you then choose to write that information to a text file using <span class="inline2"><span data-field="title" data-format="default">working_directory</span></span>, this will write the file to the target platform&#39;s local storage, where it will be read from the next time unless you instruct <span data-keyref="GameMaker Name">GameMaker</span> to delete the file, in which case <span class="inline2"><span data-field="title" data-format="default">working_directory</span></span> will once more point to the area where the Included Files are stored.</p>
-  <p>It is worth noting that <em>in general</em> you do not need to use this and simply specify the file name itself (plus any additional path information), which is sufficient. For example, this:</p>
-  <p class="code">file_text_open_read(working_directory + &quot;my_file.txt&quot;);</p>
-  <p>would be better done as this:</p>
-  <p class="code">file_text_open_read(&quot;my_file.txt&quot;);</p>
+  <p>This returns a path that points to where the game&#39;s files are stored.</p>
+  <p>In most cases, this is the same as the <span class="inline2"><a data-xref="{title}" href="program_directory.htm">program_directory</a></span>, which is the path to the game&#39;s runner (executable). However if the game&#39;s files happen to be in a different directory than the runner (say you use <span class="inline3_func"><a data-xref="{title}" href="../../General_Game_Control/game_change.htm">game_change</a></span> to use a different working directory or use command line to run a runner in a different location), then this will point to where the game files are, not the runner.</p>
+  <p>It may also be a different directory when testing your project through the IDE, as then the game files and the runner are in different locations as well.</p>
+  <p>When using this directory to write out a file, <span data-keyref="GameMaker Name">GameMaker</span> will redirect it to the <span class="inline2"><a data-xref="{title}" href="../../General_Game_Control/game_save_id.htm">game_save_id</a></span> location if the <a href="../../../../Additional_Information/The_File_System.htm">file system sandbox</a> does not allow writing to the working directory (this is the default behaviour, which can be disabled in the <a data-xref="{title}" href="../../../../Settings/Game_Options.htm">Game Options</a> for Desktop targets only).</p>
   <div data-conref="../../../../assets/snippets/Note_Warning_GM_FileSystem_Sandboxed.hts"> </div>
+  <div data-conref="../../../../assets/snippets/Warning_directory_os_permissions.hts"> </div>
+  <div data-conref="../../../../assets/snippets/Note_Variable_Contains_Path_Including_Final_Slash.hts"> </div>
   <p> </p>
   <h4>Syntax:</h4>
   <p class="code"><span data-field="title" data-format="default">working_directory</span></p>
@@ -37,7 +31,7 @@
   <p> </p>
   <h4>Example:</h4>
   <p class="code">ini_open(working_directory + &quot;temp_ini.ini&quot;);</p>
-  <p>This will open an INI file from the working directory of the game (creating it if it does not already exist). This could be the local storage, or the area where the included files are depending on whether the file being looked for exists in either place.</p>
+  <p>This will open an INI file from the working directory of the game (creating it if it does not already exist). This could be the save area or the program directory depending on the sandbox level.</p>
   <p> </p>
   <p> </p>
   <div class="footer">
