@@ -15,7 +15,10 @@
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
   <h1><span data-field="title" data-format="default">buffer_read</span></h1>
-  <p>This function can be used to read data from a previously created buffer. It will read the value at the buffer&#39;s current <a href="buffer_seek.htm">seek position</a>.</p>
+  <p>This function reads a piece of data of the given type from the given buffer at the buffer&#39;s current <a href="buffer_seek.htm">seek position</a>.</p>
+  <p>After the function has executed the seek position is advanced by the number of bytes read. The next <span class="inline3_func"><span data-field="title" data-format="default">buffer_read</span></span> will be done at this new position and will read the next byte(s) of data.</p>
+  <p>Since the function only reads the contents starting from the buffer&#39;s current <a href="buffer_seek.htm">seek position</a>, you must ensure this is set correctly before calling the function - otherwise, you will get either incorrect results or nothing at all being returned.</p>
+  <p class="note"><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> You can use <span class="inline3_func"><a data-xref="{title}" href="buffer_peek.htm">buffer_peek</a></span> to get a value anywhere in the buffer without changing the seek position.</p>
   <p>The return value depends on the type of data that you are reading, which can be one of the following constants:</p>
   <div data-conref="../../../assets/snippets/buffer_data_type_constants.hts"> </div>
   <p>If the function succeeds, it will return a value of the given type, however if it fails then it will cause a <a href="../../../Additional_Information/Errors/Runner_Errors.htm">runner error</a>.</p>
@@ -48,8 +51,18 @@
   <p class="code"><span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span>, <span data-keyref="Type_Bool"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Boolean</a></span> or <span data-keyref="Type_String"><a href="../../GML_Overview/Data_Types.htm" target="_blank">String</a></span></p>
   <p> </p>
   <h4>Example:</h4>
-  <p class="code">var _cmd = <span data-field="title" data-format="default">buffer_read</span>(buff, buffer_s16);</p>
-  <p>The above code reads from the buffer stored in the variable <span class="inline2">buff</span> a signed 16bit value into the local variable <span class="inline2">_cmd</span>.</p>
+  <p class="code">buffer = buffer_create(10240, buffer_grow, 1);<br />
+    <br />
+    // buffer_seek(buffer, buffer_seek_start, 0);<br />
+    buffer_write(buffer, buffer_string, &quot;Hello World&quot;);<br />
+    <br />
+    buffer_seek(buffer, buffer_seek_start, 0);<br />
+    result = buffer_read(buffer, buffer_string);<br />
+    <br />
+    show_debug_message(&quot;Result = &quot; + result);
+  </p>
+  <p>The above code creates a buffer, writes a string to it and reads it back.</p>
+  <p>First a new grow buffer with an initial size of 10240 bytes is created using <span class="inline3_func"><a data-xref="{title}" href="buffer_create.htm">buffer_create</a></span>. At this point you can explicitly call <span class="inline3_func"><a data-xref="{title}" href="buffer_seek.htm">buffer_seek</a></span> to set the seek position to 0, but this isn&#39;t necessary since a newly created buffer&#39;s seek position is 0. Next the string <span class="inline2">&quot;Hello World&quot;</span> is written to the buffer with a call to <span class="inline3_func"><a data-xref="{title}" href="buffer_write.htm">buffer_write</a></span>. This advances the seek position by 12 bytes: 11 bytes for the characters of the string followed by a final null byte. After this, the string is read back from the buffer. To read the correct data, the seek position is first set back to 0 with a call to <span class="inline3_func"><a data-xref="{title}" href="buffer_seek.htm">buffer_seek</a></span>. The data is then read into a variable <span class="inline2">result</span> using <span class="inline3_func"><a data-xref="{title}" href="buffer_read.htm">buffer_read</a></span>, which is shown in a debug message.</p>
   <p> </p>
   <p> </p>
   <div class="footer">
