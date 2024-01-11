@@ -2040,6 +2040,7 @@ export default function(hljs) {
   ];
   const LITERALS = [
     "audiogroup_default", 
+    "GM_is_sandboxed", 
     "ANSI_CHARSET",
     "ARABIC_CHARSET",
     "BALTIC_CHARSET",
