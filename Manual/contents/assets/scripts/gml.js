@@ -192,6 +192,8 @@ export default function(hljs) {
     "room_get_info", 
     "gxc_file_sync", 
     "handle", 
+    "window_enable_borderless_fullscreen", 
+    "window_get_borderless_fullscreen", 
     "abs",
     "achievement_available",
     "achievement_event",
