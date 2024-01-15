@@ -21,88 +21,92 @@
   <h2 id="h">Macros</h2>
   <p>While not exactly variables, macros are similar to them in how they are used, i.e.: they are named values that you can use throughout your code to replace <a class="glossterm" data-glossterm="hard-coded" href="#">hard-coded</a> values. Basically, a macro is a named variable that holds an expression. You can define your own macros using the <a href="../Script_Functions.htm">Script Editor</a> and then use them in your code and actions as if they were regular variables, with the one difference being that they <i>can&#39;t be changed in the game</i>.</p>
   <p>The syntax structure for a macro is as follows:</p>
-  <p class="code">#macro <i>&lt;variable&gt;</i> <i>&lt;expression&gt;</i></p>
-  <p>For example, say you define the following macro &quot;<span class="inline">total_weapons</span>&quot;:</p>
-  <p class="code">#macro total_weapons 10</p>
+  <p class="code">#macro <i>&lt;NAME&gt;</i> <i>&lt;VALUE&gt;</i></p>
+  <p>For example, say you define the following macro &quot;<span class="inline">TOTAL_WEAPONS</span>&quot;:</p>
+  <p class="code">#macro TOTAL_WEAPONS 10</p>
   <p class="note_heading">Macro syntax...</p>
   <p class="note">The syntax shown above must be used correctly to define macros. You cannot use an equal sign (like in variables) or put a semicolon at the end (like in a regular statement). Doing so will cause your macro definition to become invalid.<br />
     <br />
     For example, this is not the correct way to define a macro:<br />
     <br />
-    <span class="inline2">#macro total_weapons = 10;</span><br />
+    <span class="inline2">#macro TOTAL_WEAPONS = 10;</span><br />
     <br />
-    Removing the equal sign and colon will make it a valid macro definition.
+    Removing the equal sign and colon will make it a valid macro definition.<br />
+    <br />
+    <span data-conref="../../../assets/snippets/Tag_note.hts"> </span> The recommended GML naming conventions recommend <span class="inline2">UPPERCASE_NAMING</span> for constants, however you can use lower case or any other naming conventions you like.
   </p>
   <p>You could then use this in your code like this:</p>
   <p class="code">pos++;<br />
     <br />
-    if (pos &gt;= total_weapons)<br />
+    if (pos &gt;= TOTAL_WEAPONS)<br />
     {<br />
         pos = 0;<br />
     }
   </p>
   <p>Note that you would not be able to change the constant&#39;s value, so code like this will cause the game to crash:</p>
-  <p class="code">total_weapons = 11;</p>
+  <p class="code">TOTAL_WEAPONS = 11;</p>
   <p>You can define a macro anywhere in your code or in a script and it will be <i>pre-compiled</i> and included in your game as if it was there from the start, but we recommend that you create a dedicated script asset and define all your macros in there. It will be easier to organise and debug later!</p>
-  <p>If you need the value of a macro to change at run-time then you should probably make it a <a href="Global_Variables.htm">global variable</a>, since these can be changed from code during a game, unless you set the macro to be a<span> <a href="../Runtime_Functions.htm">runtime</a></span> <a href="../Runtime_Functions.htm">function</a>. By setting the macro to a function it means that this function will be called every time you use the macro. For example:</p>
-  <p class="code">#macro col make_colour_hsv(irandom(255), 255, 255)</p>
+  <h3>Expression As Macro</h3>
+  <p>If you need the value of a macro to change at run-time then you should probably make it a <a href="Global_Variables.htm">global variable</a>, since these can be changed from code during a game, unless you set the macro to be a <a href="../Runtime_Functions.htm">runtime function</a> or any <a href="../Expressions_And_Operators.htm">expression</a>. By setting the macro to a function/expression it means that this function/expression will be called every time you use the macro. For example:</p>
+  <p class="code">#macro COL make_colour_hsv(irandom(255), 255, 255)</p>
   <p>You would then call this macro something like this:</p>
-  <p class="code">image_blend = col;</p>
+  <p class="code">image_blend = COL;</p>
   <p>Using this code will make the image blend a different colour every time the macro is used. It is worth noting that you can also split macros over multiple lines using the <span class="inline"><span class="inline">\</span></span> character to show where the line breaks are. An example would be something like:</p>
-  <p class="code">#macro hello show_debug_message(&quot;Hello&quot; + \<br />
+  <p class="code">#macro HELLO show_debug_message(&quot;Hello&quot; + \<br />
     string(player_name) + \<br />
     &quot;, how are you today?&quot;);</p>
   <p>This is purely cosmetic, in that splitting a macro like this will have no effect over the result of the final macro when used, and is simply to provide support for multi-line text on macros that have longer lines of code.</p>
-  <p>One very important feature of macros is that they can be defined for use with specific <a data-xref="{title}" href="../../../Settings/Configurations.htm">Configurations</a> (configs), meaning you can have the same macro name but give it different values based on the currently selected config. For example, say you have a configuration for Android Ads and another for iOS Ads, then you could define a single macro to hold the required app ID value:</p>
-  <p class="code">#macro ad_id &quot;&quot;<br />
-    #macro Android:ad_id &quot;com.yoyogames.googlegame&quot;<br />
-    #macro iOS:ad_id &quot;com.yoyogames.appstoregame&quot;</p>
+  <h3>Configurations</h3>
+  <p>One very important feature of macros is that they can be defined for use with specific <a data-xref="{title}" href="../../../Settings/Configurations.htm">Configurations</a> (configs), meaning you can have the same macro name but give it different values based on the currently selected config. For example, say you have a configuration for Android ads and another for iOS ads, then you could define a single macro to hold the required app ID value:</p>
+  <p class="code">#macro AD_ID &quot;&quot;<br />
+    #macro Android:AD_ID &quot;com.yoyogames.googlegame&quot;<br />
+    #macro iOS:AD_ID &quot;com.yoyogames.appstoregame&quot;</p>
   <p>Configurations do not necessarily have to be named after a platform. You might e.g. also have a specific configuration for a demo version of your game: </p>
-  <p class="code">#macro DemoVersion:ad_id &quot;&quot;</p>
+  <p class="code">#macro DemoVersion:AD_ID &quot;&quot;</p>
   <p>As you can see, you give the config name first then a colon <span class="inline">:</span> and then the macro name and value. Note that you cannot have any white-space between the colon <span class="inline">:</span> and either the config name nor the macro name otherwise you will get an error.</p>
   <h2 id="enumhead">Enums</h2>
   <p>An enum is an &quot;enumerator&quot;; it essentially permits you to create your own limited data type with a list of constant values. They have the following structure:</p>
-  <p class="code">enum <i>&lt;variable&gt;</i><br />
+  <p class="code">enum <i>&lt;NAME&gt;</i><br />
     {<br />
-    <i>    &lt;constant&gt;</i> [= <i>&lt;value&gt;</i>],<br />
-    <i>    &lt;constant&gt;</i> [= <i>&lt;value&gt;</i>],<br />
+    <i>    &lt;MEMBER&gt;</i> [= <i>&lt;VALUE&gt;</i>],<br />
+    <i>    &lt;<i>MEMBER</i>&gt;</i> [= <i>&lt;<i>VALUE</i>&gt;</i>],<br />
         // etc...<br />
     }
   </p>
   <p>In the following example, we create an enum for the colours of the rainbow and assign it various constants and default values:</p>
-  <p class="code">enum rainbowcolours<br />
+  <p class="code">enum RAINBOW<br />
     {<br />
-        red,<br />
-        orange,<br />
-        yellow,<br />
-        green,<br />
-        blue,<br />
-        indigo,<br />
-        violet<br />
+        RED,<br />
+        ORANGE,<br />
+        YELLOW,<br />
+        GREEN,<br />
+        BLUE,<br />
+        INDIGO,<br />
+        VIOLET<br />
     }</p>
-  <p>The enum entries can only be <b>integer numbers</b> or <b><a class="glossterm" data-glossterm="expression" href="#">expression</a><span class="glossextra">s</span> with previous enums that evaluate to an integer number</b>, and by default are numbered from 0 upwards, so our example given above would default to <span class="inline">red = 0</span>, <span class="inline">orange = 1</span>, <span class="inline">yellow = 2</span>, etc...</p>
+  <p>The enum entries can only be <b>integer numbers</b> or <b><a class="glossterm" data-glossterm="expression" href="#">expression</a><span class="glossextra">s</span> with previous enums that evaluate to an integer number</b>, and by default are numbered from 0 upwards, so our example given above would default to <span class="inline">RED = 0</span>, <span class="inline">ORANGE = 1</span>, <span class="inline">YELLOW = 2</span>, etc...</p>
   <p>You can also assign values to the enum variables at the time of creation:</p>
-  <p class="code">enum enum_test<br />
+  <p class="code">enum ENUM_TEST<br />
     {<br />
-        val = 10;<br />
+        VAL = 10<br />
     }<br />
     <br />
-    enum rainbowcolours<br />
+    enum <span class="misspell-word">RAINBOW</span><br />
     {<br />
-        red = 5,<br />
-        orange = 5 * 2,<br />
-        yellow = 15,<br />
-        green = 20,<br />
-        blue = 25,<br />
-        indigo = 30,<br />
-        violet = 35 * enum_test.val<br />
+        RED = 5,<br />
+        ORANGE = 5 * 2,<br />
+        YELLOW = 15,<br />
+        GREEN = 20,<br />
+        BLUE = 25,<br />
+        INDIGO = 30,<br />
+        VIOLET = 35 * ENUM_TEST.VAL<br />
     }
   </p>
-  <p>Notice in the above example we use another enum to create an expression for &quot;violet&quot;. This only works if the enum being referenced was created <i>before</i> the enum that is using it in an expression, but it will not work for variables or functions, since the enum value must be able to be evaluated as a constant when the project is <a class="glossterm" data-glossterm="Compiling" href="#">Compiling</a>. Also note that all enum values evaluate to <b>integer</b> values, and when you create your own you should be aware that <i>only integer values are permitted</i> for enums to work. This value can be any integer number that a floating point double precision number can represent, including negative values.</p>
+  <p>Notice in the above example we use another enum to create an expression for &quot;VIOLET&quot;. This only works if the enum being referenced was created <i>before</i> the enum that is using it in an expression, but it will not work for variables or functions, since the enum value must be able to be evaluated as a constant when the project is <a class="glossterm" data-glossterm="Compiling" href="#">Compiling</a>. Also note that all enum values evaluate to <b>integer</b> values, and when you create your own you should be aware that <i>only integer values are permitted</i> for enums to work. This value can be any integer number that a floating point double precision number can represent, including negative values.</p>
   <p>To later access the value within a given enum type, you can use the point <span class="inline">&quot;.&quot;</span> method, like this:</p>
-  <p class="code">variable = &lt;enum_name&gt;.&lt;<em>enum_variable</em>&gt;;</p>
-  <p>As an example, let&#39;s use the &quot;<span class="inline">rainbowcolours</span>&quot; enum that we created in the code above:</p>
-  <p class="code">colour_value = rainbowcolours.green * rainbowcolours.red;</p>
+  <p class="code">variable = &lt;ENUM_NAME&gt;.&lt;<em>ENUM_MEMBER</em>&gt;;</p>
+  <p>As an example, let&#39;s use the &quot;<span class="inline">RAINBOW</span>&quot; enum that we created in the code above:</p>
+  <p class="code">colour_value = RAINBOW.GREEN * RAINBOW.RED;</p>
   <p>The <span class="inline">colour_value</span> variable would now hold the value 100 (20 * 5).</p>
   <p class="note"><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> You <em>cannot </em>modify the values for any enum constant after it has been created, much the same as you can&#39;t modify macros after they have been created.</p>
   <p class="note"><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> Enum values are stored as int64s, so running <span class="inline2"><a data-xref="{title}" href="../../GML_Reference/Variable_Functions/is_real.htm">is_real</a></span> on them will return <span class="inline2">false</span>.</p>
