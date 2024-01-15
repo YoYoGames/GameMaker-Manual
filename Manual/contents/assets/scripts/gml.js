@@ -194,6 +194,8 @@ export default function(hljs) {
     "handle", 
     "window_enable_borderless_fullscreen", 
     "window_get_borderless_fullscreen", 
+    "is_mouse_over_debug_overlay", 
+    "is_keyboard_used_debug_overlay", 
     "abs",
     "achievement_available",
     "achievement_event",
