@@ -56,14 +56,17 @@
     string(player_name) + \<br />
     &quot;, how are you today?&quot;);</p>
   <p>This is purely cosmetic, in that splitting a macro like this will have no effect over the result of the final macro when used, and is simply to provide support for multi-line text on macros that have longer lines of code.</p>
-  <h3>Configurations</h3>
-  <p>One very important feature of macros is that they can be defined for use with specific <a data-xref="{title}" href="../../../Settings/Configurations.htm">Configurations</a> (configs), meaning you can have the same macro name but give it different values based on the currently selected config. For example, say you have a configuration for Android ads and another for iOS ads, then you could define a single macro to hold the required app ID value:</p>
+  <h3 id="h1">Configuration Override</h3>
+  <p>One very important feature of macros is that they can be defined for use with specific <a data-xref="{title}" href="../../../Settings/Configurations.htm">Configurations</a>, meaning you can override the value of a macro when running in a given configuration.</p>
+  <p>For example, say you have a configuration for Android ads and another for iOS ads, then you could define a single macro to hold the required app ID value, and override it for each configuration:</p>
   <p class="code">#macro AD_ID &quot;&quot;<br />
     #macro Android:AD_ID &quot;com.yoyogames.googlegame&quot;<br />
     #macro iOS:AD_ID &quot;com.yoyogames.appstoregame&quot;</p>
   <p>Configurations do not necessarily have to be named after a platform. You might e.g. also have a specific configuration for a demo version of your game: </p>
   <p class="code">#macro DemoVersion:AD_ID &quot;&quot;</p>
-  <p>As you can see, you give the config name first then a colon <span class="inline">:</span> and then the macro name and value. Note that you cannot have any white-space between the colon <span class="inline">:</span> and either the config name nor the macro name otherwise you will get an error.</p>
+  <p>As you can see, you give the config name first then a colon <span class="inline">:</span> and then the macro name and override value. Note that you cannot have any white-space between the colon <span class="inline">:</span> and either the config name nor the macro name otherwise you will get an error.</p>
+  <p>Macro overrides are inherited by child configurations. Say you have the following configuration set-up:</p>
+  <p><img class="center" src="../../../assets/Images/Settings/Configs_Children.png" />Here, any macro overrides set for <span class="inline2">MobileAds</span> will be inherited by <span class="inline2">MobileNoAds</span>, and you can override an inherited value by setting a macro for that child configuration.</p>
   <h2 id="enumhead">Enums</h2>
   <p>An enum is an &quot;enumerator&quot;; it essentially permits you to create your own limited data type with a list of constant values. They have the following structure:</p>
   <p class="code">enum <i>&lt;NAME&gt;</i><br />
@@ -91,7 +94,7 @@
         VAL = 10<br />
     }<br />
     <br />
-    enum <span class="misspell-word">RAINBOW</span><br />
+    enum RAINBOW<br />
     {<br />
         RED = 5,<br />
         ORANGE = 5 * 2,<br />
