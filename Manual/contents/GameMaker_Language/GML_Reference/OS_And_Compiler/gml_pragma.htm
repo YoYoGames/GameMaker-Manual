@@ -25,7 +25,8 @@
     <li><strong>&quot;optimise&quot;/&quot;optimize&quot;, &quot;&lt;specific_optimisation&gt;&quot;, &quot;&lt;control&gt;&quot;</strong> - The &quot;optimise&quot; (or &quot;optimize&quot;) pragma provides an optimisation hint to the compiler. For example: 
       <p class="code"><span data-field="title" data-format="default">gml_pragma</span>(&quot;optimise&quot;, &quot;js_array_check&quot;, &quot;push, off&quot;);</p>
       This pragma will make the compiler omit type checking code on arrays when it generates JavaScript code.<br />
-      See the section on Compiler Optimisations below for a full list of optimisations you can use.
+      <br />
+      See the section on <strong>Compiler Optimisations</strong> below for a full list of optimisations you can use.
     </li>
     <li>&quot;<b>PNGCrush</b>&quot; - The &quot;PNGCrush&quot; pragma will use the <a href="https://pmt.sourceforge.io/pngcrush/" target="_blank">PNGCrush</a> program on each texture created. Note that this can add significantly to the time that it takes to compile the game, so you don&#39;t want it on all the time, although it can make significant savings on final file size. This option only applies to Texture Groups that use the PNG format (see <a href="../../../Settings/Texture_Groups.htm#texture_group_format">Texture Group Format</a>).</li>
     <li>&quot;<b>Texgroup.Scale</b>&quot;, &quot;<b>[TextureGroupName]</b>&quot;, &quot;<b>[Scale Divisor]</b>&quot; - The &quot;Texgroup.Scale&quot; will scale the given texture group on compile. You need to give an additional two arguments here: the &quot;[TexGroupName]&quot;, which is the name (a string) of the texture group to scale, and the &quot;[Scale Divisor]&quot; (also a string), which is the divisor you wish to use for the scaling, i.e:
@@ -38,23 +39,21 @@
     </li>
   </ul>
   <p class="note"><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> The first argument to the <span class="inline3_func"><span data-field="title" data-format="default">gml_pragma</span></span> function <b>must be a compile-time string constant</b> and not a variable.</p>
-  <p> </p>
   <p><a class="dropspot" data-open-text="" data-rhwidget="DropSpot" data-target="compiler-optimisations" href="#">Compiler Optimisations</a>
     <undefined data-targetname="compiler-optimisiations"></undefined>
   </p>
   <div class="droptext" data-targetname="compiler-optimisations">
-    <p>Compiler optimisations can be provided with the <span class="inline2">&quot;optimise&quot;</span> (or <span class="inline2">&quot;optimize&quot;</span>) pragma. Their basic syntax is: </p>
+    <p class="dropspot">Compiler optimisations can be provided with the <span class="inline2">&quot;optimise&quot;</span> (or <span class="inline2">&quot;optimize&quot;</span>) pragma. Their basic syntax is: </p>
     <p class="code"><span data-field="title" data-format="default">gml_pragma</span>(&quot;optimise&quot;, &quot;&lt;specific_optimisation&gt;&quot;, &quot;&lt;control&gt;&quot;);</p>
-    <p><span class="inline2">&quot;&lt;specific_optimisation&gt;&quot;</span> - is a string containing the specific optimisation to modify.</p>
-    <p><span class="inline2">&quot;&lt;control&gt;&quot;</span> - is a string that contains a comma-delimited list of commands that control the optimisation from this point in your code: </p>
-    <ul class="colour">
+    <p class="dropspot"><span class="inline2">&quot;&lt;specific_optimisation&gt;&quot;</span> is a string containing the specific optimisation to modify.</p>
+    <p class="dropspot"><span class="inline2">&quot;&lt;control&gt;&quot;</span> is a string that contains a comma-delimited list of commands that control the optimisation from this point in your code: </p>
+    <ul class="dropspotlist">
       <li><span class="inline2">push</span> - pushes onto an internal stack (for that optimisation) the current state of that optimisation</li>
       <li><span class="inline2">pop</span> - pops from the internal stack (for that optimisation) into the current state</li>
       <li><span class="inline2">on</span> or <span class="inline2">true</span> - switches on the optimisation</li>
       <li><span class="inline2">off</span> or <span class="inline2">false</span> - switches off the optimisation</li>
     </ul>
-    <p> </p>
-    <p>The following table lists all optimisations that you can use: </p>
+    <p class="dropspot">The following table lists all optimisations that you can use: </p>
     <ul class="colour">
     </ul>
     <table border="1" cellpadding="1" cellspacing="1" id="table" style="caption-side: top">
@@ -95,15 +94,16 @@
       </tbody>
     </table>
     <h3>Example</h3>
-    <p>As an example, to optimise the following function: </p>
+    <p class="dropspot">As an example, to optimise the following function: </p>
     <p class="code">function multiples_of_two()<br />
       {<br />
           var a = [];<br />
-          for(var i = 0;i &lt; 100;i++) {<br />
+          for (var i = 0; i &lt; 100; i++)<br />
+          {<br />
               a[i] = i * 2;<br />
           }<br />
       }</p>
-    <p>You would then add <span class="inline3_func"><span data-field="title" data-format="default">gml_pragma</span></span> statements as follows: </p>
+    <p class="dropspot">You would then add <span class="inline3_func"><span data-field="title" data-format="default">gml_pragma</span></span> statements as follows: </p>
     <p class="code">function multiples_of_two()<br />
       {<br />
           gml_pragma( &quot;optimise&quot;, &quot;js_array_check&quot;, &quot;push, off&quot;);<br />
@@ -112,7 +112,8 @@
           gml_pragma( &quot;optimise&quot;, &quot;js_pre_post_no_long&quot;, &quot;push, on&quot;);<br />
           gml_pragma( &quot;optimise&quot;, &quot;js_use_infix_ops&quot;, &quot;push, on&quot;);<br />
           var a = [];<br />
-          for(var i = 0;i &lt; 100;i++) {<br />
+          for(var i = 0; i &lt; 100; i++)<br />
+          {<br />
               a[i] = i * 2;<br />
           }<br />
           gml_pragma( &quot;optimise&quot;, &quot;js_use_infix_ops&quot;, &quot;pop&quot; );<br />
