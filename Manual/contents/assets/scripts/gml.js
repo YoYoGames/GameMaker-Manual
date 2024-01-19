@@ -191,6 +191,11 @@ export default function(hljs) {
     "dbg_slider_int", 
     "room_get_info", 
     "gxc_file_sync", 
+    "handle_parse", 
+    "window_enable_borderless_fullscreen", 
+    "window_get_borderless_fullscreen", 
+    "is_mouse_over_debug_overlay", 
+    "is_keyboard_used_debug_overlay", 
     "abs",
     "achievement_available",
     "achievement_event",
@@ -2040,6 +2045,7 @@ export default function(hljs) {
   ];
   const LITERALS = [
     "audiogroup_default", 
+    "GM_is_sandboxed", 
     "ANSI_CHARSET",
     "ARABIC_CHARSET",
     "BALTIC_CHARSET",
