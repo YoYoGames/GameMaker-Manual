@@ -60,6 +60,29 @@
   <p>This window will pop up while you are writing your code (normally after a slight pause, but this can be set in the <a href="../../Setting_Up_And_Version_Information/IDE_Preferences/Text_Editor_2_Preferences.htm">Preferences</a>) and give you a selection of &quot;best-fit&quot; answers in alphabetical order.</p>
   <p>For other features when editing GML Code, see <a data-xref="{title}" href="Feather_Features.htm">Feather Features</a>.</p>
   <p>Documents can also have JSDoc style comments define the properties of the functions they contain, so when you use the functions in your code they show up in auto-complete along with their arguments and other details. You can find out more about this from the section <a href="JSDoc_Script_Comments.htm">JSDoc Script Comments</a> for more information.</p>
+  <h3>Text Cursor Navigation</h3>
+  <p>This section covers navigating the text cursor.</p>
+  <p>The text cursor&#39;s actions are local to the current document, even when multiple documents are visible at once, so something like selecting text via keyboard navigation will not continue the selection into the next/previous document.</p>
+  <p>The following inputs can be used for navigating with the text cursor:</p>
+  <ul class="colour">
+    <li><span class="shortcut">LMB</span>: Move the text cursor to the mouse position</li>
+    <li><span class="shortcut">Arrow keys</span>: Move the text cursor left/right/up/down</li>
+    <li><span class="shortcut">CTRL + LEFT/RIGHT</span>: Move left/right by one word boundary (a word is defined as <span class="inline2">alphanumeric_.</span>)</li>
+    <li><span class="shortcut">CTRL + UP/DOWN</span>: Scroll the view up/down by 1 line</li>
+    <li><span class="shortcut">ALT + UP/DOWN</span>: Move the text cursor to the previous/next document</li>
+    <li><span class="shortcut">CTRL + ALT + UP/DOWN</span>: Move the text cursor to the previous/next region within the active document</li>
+    <li><span class="shortcut">HOME</span>: Move the text cursor to the start of the first non-whitespace character on the line, when pressed again it moves the text cursor to the true start of the line. Continuous pressing toggles between these two positions.</li>
+    <li><span class="shortcut">END</span>: Move the text cursor to the end of the line.</li>
+    <li><span class="shortcut">CTRL + HOME/END</span>: Move the text cursor to the start or end of the active document</li>
+    <li><span class="shortcut">PAGE UP/PAGE DOWN</span>: Move the text cursor up or down a full page (i.e. the number of lines visible in the editor), limited to the active document</li>
+    <li><span class="shortcut">CTRL + MINUS</span>: Move the text cursor back one entry in the <strong>Text Cursor Location History</strong>, which is shared among editors, including editors that have been closed. Closed editors will be restored when needed. Multicursor locations are ignored.
+      <ul>
+        <li>The text cursor&#39;s location is logged in the history when you modify text or use <strong>Go To Declaration</strong>.</li>
+      </ul>
+    </li>
+    <li><span class="shortcut">CTRL + SHIFT + MINUS</span>: Move the text cursor forward one entry in the <strong>Text Cursor Location History</strong>.</li>
+    <li><span class="shortcut">CTRL + {</span>: <span>Move the Text Cursor to the matching brace under the text cursor, toggling between opening and closing brace. If the text cursor is not currently under a brace, but is inside of a braced region, the text cursor is moved to the opening brace; otherwise nothing happens.</span></li>
+  </ul>
   <h3>Context Menu</h3>
   <p>Right-clicking anywhere within the Editor, without a selection, will show you the following options:</p>
   <p data-condition="Misc:Need_change">IMAGE - Context menu</p>
@@ -75,7 +98,7 @@
         <li>The rest of the options appear when <a href="#code_selection_menu">text is selected</a></li>
       </ul>
     </li>
-    <li><strong>Edit</strong>
+    <li><strong>Edit</strong>:
       <ul>
         <li><strong>Tab In </strong>(<span class="shortcut">TAB</span>): Tab the current line</li>
         <li><strong>Tab Out </strong>(<span class="shortcut">SHIFT + TAB</span>): Untab the current line</li>
@@ -90,7 +113,7 @@
   <p>For GML documents, the following parts are foldable:</p>
   <ul class="colour">
     <li><a href="../../GameMaker_Language/GML_Overview/Script_Functions.htm">Function</a> declarations</li>
-    <li>if, else, for, while, repeat, do, with, switch, case, default
+    <li><span class="inline2">if</span>, <span class="inline2">else</span>, <span class="inline2">for</span>, <span class="inline2">while</span>, <span class="inline2">repeat</span>, <span class="inline2">do</span>, <span class="inline2">with</span>, <span class="inline2">switch</span>, <span class="inline2">case</span>, <span class="inline2">default</span>
       <ul>
         <li>Folding for these is only provided if the body is surrounded in <span class="inline2">{}</span> brackets (multi-line)</li>
         <li>The exception to this are switch statements and their cases, which do not require brackets for folding</li>
@@ -100,20 +123,17 @@
     <li>Multi-line comments (<span class="inline2">/* ... */</span>)</li>
     <li>Regions (<span class="inline2">#region ... #endregion</span>)</li>
   </ul>
-  <h3>Highlighting</h3>
-  <p>By default, the line your text cursor is on is highlighted. You can change this in the <a data-xref="{title}" href="../../Setting_Up_And_Version_Information/IDE_Preferences/Text_Editor_2_Preferences.htm">Text Editor 2 Preferences</a>.</p>
-  <p data-condition="Misc:Need_change">IMAGE - Show highlit line and diagnostic squiggles</p>
-  <p>Code will also be highlighted by &quot;diagnostic squiggles&quot;, lines appearing under the offending part of code. There are three types of squiggles:</p>
+  <h2>Multicursor</h2>
+  <p>The Text Editor supports multiple text cursors at once, in a single document, allowing you to insert text in multiple places.</p>
+  <p>The following inputs make use of this functionality:</p>
   <ul class="colour">
-    <li><strong>Error</strong>: These appear in a red colour</li>
-    <li><strong>Warning</strong>: These appear in a yellow colour</li>
-    <li><strong>Suggestion</strong>: These appear in a blue colour</li>
+    <li><span class="shortcut">CTRL + ALT + LEFT/RIGHT</span>: When text is selected, it searches the document for all substrings of the selected text, and places multicursors at the beginning/end of all occurrences</li>
+    <li><span class="shortcut">ALT + SHIFT + UP/DOWN</span>: Insert a multicursor on the previous/next line if none exist, extending the box selection</li>
+    <li><span class="shortcut">ALT + SHIFT + LEFT/RIGHT</span>: Extend box selection left/right</li>
+    <li><span class="shortcut">ALT + LMB</span>: Move the cursor to the line/column under the mouse in box selection mode</li>
+    <li><span class="shortcut">ESCAPE</span>: Clear multicursors if any are set</li>
   </ul>
-  <p>You can change these colours in the preferences. Read more about errors on <a data-xref="{title}" href="../../Additional_Information/Errors/Syntax_Errors.htm">Syntax Errors (Feather Messages)</a>.</p>
-  <h3>Tooltips</h3>
-  <p>Tooltips appear when hovering over part of your code that is either highlighted by diagnostics, or is a keyword that has documentation (for custom functions, JSDoc information is shown).</p>
-  <p data-condition="Misc:Need_change">IMAGE - Show tooltips</p>
-  <p>For more features that assist with code writing, see <a data-xref="{title}" href="Feather_Features.htm">Feather Features</a>.</p>
+  <p>As multicursors are inserted, the last one becomes the active text cursor. When a navigation input clears the multicursor selection, this is the place where the single, active text cursor will be placed.</p>
   <h2 id="code_selection">Code Selection</h2>
   <p>You can select parts of your text using the following inputs:</p>
   <ul class="colour">
@@ -183,6 +203,47 @@
     <li><strong>Braces</strong>: In addition to the previous behaviour, blocks beginning with <span class="inline2">{</span>, <span class="inline2">(</span>, <span class="inline2">[</span> or <span class="inline2">begin</span> are indented.</li>
     <li><strong>Full</strong>: In addition to the previous behaviour, rules from the document&#39;s <a href="Language_And_Themes.htm">language</a> are also applied (e.g. for GML, <span class="inline2">switch</span> cases will be intended, etc.)</li>
   </ul>
+  <h2>Rendering</h2>
+  <p>This section covers how the Text Editor renders parts of your code.</p>
+  <h3>Colour Coding</h3>
+  <p>Colour coding applied to a document is dependent on its language type, which controls the theme that is used. For more information, see <a href="Language_And_Themes.htm">Language And Themes</a>.</p>
+  <h3>Highlighting</h3>
+  <p>By default, the line your text cursor is on is highlighted. You can change this in the <a data-xref="{title}" href="../../Setting_Up_And_Version_Information/IDE_Preferences/Text_Editor_2_Preferences.htm">Text Editor 2 Preferences</a>.</p>
+  <p data-condition="Misc:Need_change">IMAGE - Show highlit line and diagnostic squiggles</p>
+  <p>Code will also be highlighted by &quot;diagnostic squiggles&quot;, lines appearing under the offending part of code. There are three types of squiggles:</p>
+  <ul class="colour">
+    <li><strong>Error</strong>: These appear in a red colour</li>
+    <li><strong>Warning</strong>: These appear in a yellow colour</li>
+    <li><strong>Suggestion</strong>: These appear in a blue colour</li>
+  </ul>
+  <p>You can change these colours in the preferences. Read more about errors on <a data-xref="{title}" href="../../Additional_Information/Errors/Syntax_Errors.htm">Syntax Errors (Feather Messages)</a>.</p>
+  <h3>Tooltips</h3>
+  <p>Tooltips appear when hovering over part of your code that is either highlighted by diagnostics, or is a keyword that has documentation (for custom functions, JSDoc information is shown).</p>
+  <p data-condition="Misc:Need_change">IMAGE - Show tooltips</p>
+  <p>For more features that assist with code writing, see <a data-xref="{title}" href="Feather_Features.htm">Feather Features</a>.</p>
+  <h3>Rainbow Brackets</h3>
+  <p>You can enable Rainbow Brackets from the <a href="../../Setting_Up_And_Version_Information/IDE_Preferences/Text_Editor_2_Preferences.htm">preferences</a>, which colours each pair of brackets (<span class="inline2">{}</span>, <span class="inline2">()</span>, <span class="inline2">[]</span>, <span class="inline2">[? ]</span>, <span class="inline2">[| ]</span>, <span class="inline2">begin</span>, <span class="inline2">end</span>, etc.) with the same colour, making it easier to identify where a block begins and ends.</p>
+  <p data-condition="Misc:Need_change">IMAGE - Show rainbow brackets</p>
+  <p>You can change these colours in a <a href="Language_And_Themes.htm">theme file</a>.</p>
+  <h3>Text Highlighting</h3>
+  <p data-condition="Misc:Need_change">IMAGE - Everything listed below, highlighted</p>
+  <p>The Text Editor will highlight parts of your text:</p>
+  <ul class="colour">
+    <li>All supported <a href="JSDoc_Script_Comments.htm">JSDoc identifiers</a> (e.g. <span class="inline2">@desc</span>, <span class="inline2">@param</span>, <span class="inline2">@url</span>, etc.)</li>
+    <li>Hyperlinks in comments and strings</li>
+    <li>Comments started with <span class="inline2">BUG</span>, <span class="inline2">TODO</span> or <span class="inline2">HACK</span></li>
+    <li>Escape codes in strings (e.g. <span class="inline2">\n</span>, <span class="inline2">\&quot;</span>)</li>
+  </ul>
+  <h3>Guides</h3>
+  <p data-condition="Misc:Need_change">IMAGE - Indentation and whitespace guides</p>
+  <p>Vertical lines appear for tabs or Tab Size number of spaces (from the <a data-xref="{title}" href="../../Setting_Up_And_Version_Information/IDE_Preferences/Text_Editor_2_Preferences.htm">Text Editor 2 Preferences</a>), which can be disabled in the preferences.</p>
+  <p>Whitespace guides can also be enabled, which will render whitespace characters as dots and tab characters as horizontal lines.</p>
+  <h3>International Support (RTL)</h3>
+  <p>The Text Editor supports right-to-left text and ligatures.</p>
+  <p data-condition="Misc:Need_change">IMAGE - example</p>
+  <p>Fonts that make use of ligatures for special characters (such as combined <span class="inline2">&lt;=</span> or <span class="inline2">!=</span> operators) are supported as well (like <a href="https://www.jetbrains.com/lp/mono/">JetBrains Mono</a>).</p>
+  <p> </p>
+  <p> </p>
   <p> </p>
   <p> </p>
   <p> </p>
@@ -190,7 +251,7 @@
     <div class="buttons">
       <div class="clear">
         <div>Back: <a href="../The_Text_Editor.htm">The Text Editor</a></div>
-        <div>Next: <a href="Editing_Text.htm">Editing Text</a></div>
+        <div>Next: <a href="Language_And_Themes.htm">Language And Themes</a></div>
       </div>
     </div>
     <h5><span data-conref="../../assets/snippets/Copyright_Notice_AutoUpdate.hts"> </span></h5>
