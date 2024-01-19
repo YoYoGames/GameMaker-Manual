@@ -4,7 +4,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>string_trim_end</title>
-  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <meta name="generator" content="Adobe RoboHelp 2022" />
   <link rel="stylesheet" type="text/css" href="../../../assets/css/default.css" />
   <script src="../../../assets/scripts/main_script.js" type="module"></script>
   <meta name="rh-authors" content="" />
@@ -15,11 +15,12 @@
 </head>
 <body>
   <h1><span data-field="title" data-format="default">string_trim_end</span></h1>
-  <p><span>This function returns a new string with all trailing white-space characters removed.</span></p>
+  <p><span>This function returns a new string with all trailing white-space characters removed<span> (i.e. on the right side of the string)</span>.</span></p>
+  <p>Passing an array of strings as the second argument (<span class="inline2">substr</span>) will make the function remove any of those substrings at the end of the string, instead of white-space. These substrings may be repeated at the end, in which case all continuous occurrences will be removed. See <strong>Example 3</strong> below.</p>
   <div data-conref="../../../assets/snippets/Note_whitespace_characters.hts"> </div>
   <p> </p>
   <h4>Syntax:</h4>
-  <p class="code"><span data-field="title" data-format="default">string_trim_end</span>(str);</p>
+  <p class="code"><span data-field="title" data-format="default">string_trim_end</span>(str, [<span class="misspell-word">substr</span>]);</p>
   <table>
     <colgroup>
       <col />
@@ -34,19 +35,32 @@
       </tr>
       <tr>
         <td>str</td>
-        <td><span data-keyref="Type_String"><a href="../../../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">String</a></span></td>
+        <td><span data-keyref="Type_String"><a href="../../GML_Overview/Data_Types.htm" target="_blank">String</a></span></td>
         <td>The string to trim</td>
+      </tr>
+      <tr>
+        <td>substr</td>
+        <td><span data-keyref="Type_Array"><a href="../../GML_Overview/Arrays.htm" target="_blank">Array</a></span> of <span data-keyref="Type_String"><a href="../../GML_Overview/Data_Types.htm" target="_blank">String</a></span><a href="Strings.htm">s</a></td>
+        <td><span data-conref="../../../assets/snippets/Tag_optional.hts"> </span> An array containing strings to trim from the end of the string</td>
       </tr>
     </tbody>
   </table>
   <p> </p>
   <h4>Returns:</h4>
-  <p class="code"><span data-keyref="Type_String"><a href="../../../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">String</a></span></p>
+  <p class="code"><span data-keyref="Type_String"><a href="../../GML_Overview/Data_Types.htm" target="_blank">String</a></span></p>
   <p> </p>
-  <h4>Example:</h4>
+  <h4>Example 1:</h4>
   <p class="code">var _the_string = &quot;A\nB\n\C\nD\n\n\n\n\n\n&quot;;<br />
     var _clean_string = <span data-field="title" data-format="default">string_trim_end</span>(_the_string);</p>
   <p>The above code first defines a string with many newlines at the end and stores it in a temporary variable <span class="inline2">_the_string</span>. It then calls <span class="inline2"><span data-field="title" data-format="default">string_trim_end</span></span> to remove all the newline characters at the end of the string (but <em>not</em> the ones between the letters) and stores the result in another temporary variable <span class="inline2">_clean_string</span>.</p>
+  <h4>Example 2 (Using An Array):</h4>
+  <p class="code">var _string = &quot;This is an object I lovelove&quot;<br />
+    var _remove = [&quot;This&quot;, &quot;I&quot;, &quot;love&quot;]<br />
+    var _trimmed = <span data-field="title" data-format="default">string_trim_end</span>(_string, _remove);<br />
+    <br />
+    show_debug_message(_trimmed) // Prints &quot;This is an object I &quot;
+  </p>
+  <p>This removes the word <span class="inline2">&quot;love&quot;</span> from the end of the string. <span class="inline2">&quot;love&quot;</span> appears twice at the end and is removed both times. The word <span class="inline2">&quot;I&quot;</span> is not removed, because it&#39;s not at the very end of the string, and <span class="inline2">&quot;This&quot;</span> is not removed as it&#39;s at the <a href="string_trim_start.htm">start</a>.</p>
   <p> </p>
   <p> </p>
   <div class="footer">
@@ -56,7 +70,7 @@
         <div>Next: <a data-xref="{title}" href="string_split.htm">string_split</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2022 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2023 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 string_trim_end
