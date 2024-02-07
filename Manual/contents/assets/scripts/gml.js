@@ -196,6 +196,7 @@ export default function(hljs) {
     "window_get_borderless_fullscreen", 
     "is_mouse_over_debug_overlay", 
     "is_keyboard_used_debug_overlay", 
+    "vertex_submit_ext", 
     "abs",
     "achievement_available",
     "achievement_event",
