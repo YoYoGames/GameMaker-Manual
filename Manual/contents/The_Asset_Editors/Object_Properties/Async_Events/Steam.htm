@@ -48,41 +48,40 @@
   <p>We will show an example of how downloading score data works by requesting the top ten ranking for the given leaderboard and parsing its results in the Steam Async Event (for uploading examples, please see the appropriate function pages). To start with we need to request the scores with the following code:</p>
   <p class="code">score_get = steam_download_scores(&quot;Game Scores&quot;, 1, 10);</p>
   <p>This will send off a request to the Steam Server for the scores from the leaderboard &quot;Game Scores&quot;, storing the async ID of the request in the variable &quot;<span class="inline">score_get</span>&quot;. This will then be handled in the <strong>Steam Async Event</strong> in the following way:</p>
-  <p class="code">var async_id = ds_map_find_value(async_load, &quot;id&quot;);<br />
-    if async_id == score_get<br />
-       {<br />
-       var entries = ds_map_find_value(async_load, &quot;entries&quot;);<br />
-       var map = json_decode(entries);<br />
-       if ds_map_exists(map, &quot;default&quot;)<br />
-        {<br />
-          ds_map_destroy(map);<br />
-          exit;<br />
-          }<br />
-       else<br />
-          {<br />
-          var list = ds_map_find_value(map, &quot;entries&quot;);<br />
-          var len = ds_list_size(list);<br />
-          var entry;<br />
-          for(var i = 0; i &lt; len; i++;)<br />
-             {<br />
-             entry = ds_list_find_value(list, i );<br />
-             steam_name[i] = ds_map_find_value(entry, &quot;name&quot;);<br />
-             steam_score[i] = ds_map_find_value(entry, &quot;score&quot;);<br />
-       steam_rank[i] = ds_map_find_value(entry, &quot;rank&quot;);<br />
-             if (ds_map_exists(entry, &quot;data&quot;))<br />
-                {<br />
-                var data = ds_map_find_value(entry, &quot;data&quot;);<br />
-                var buffId = buffer_base64_decode(data);<br />
-              var message = buffer_read(buffId, buffer_string);<br />
-                show_debug_message( &quot; -- attached message: &quot; + string(message));<br />
-                buffer_delete(buffId);<br />
-                }<br />
-             ds_map_destroy(entry);<br />
-           }<br />
-          ds_list_destroy(list)<br />
-          }<br />
-       ds_map_destroy(map)<br />
-       }</p>
+  <p class="code">
+    var async_id = ds_map_find_value(async_load, "id");                                  <br/>
+    if async_id == score_get                                                             <br/>
+    {                                                                                    <br/>
+        var entries = ds_map_find_value(async_load, "entries");                          <br/>
+        var map = json_decode(entries);                                                  <br/>
+        if ds_map_exists(map, "default")                                                 <br/>
+        {                                                                                <br/>
+            ds_map_destroy(map);                                                         <br/>
+            exit;                                                                        <br/>
+        }                                                                                <br/>
+        else {                                                                           <br/>
+            var list = ds_map_find_value(map, "entries");                                <br/>
+            var len = ds_list_size(list);                                                <br/>
+            for (var i = 0; i < len; i++)                                                <br/>
+            {                                                                            <br/>
+                var entry = ds_list_find_value(list, i);                                 <br/>
+                steam_name[i] = ds_map_find_value(entry, "name");                        <br/>
+                steam_score[i] = ds_map_find_value(entry, "score");                      <br/>
+                steam_rank[i] = ds_map_find_value(entry, "rank");                        <br/>
+                if (ds_map_exists(entry, "data")) {                                      <br/>
+                    var data = ds_map_find_value(entry, "data");                         <br/>
+                    var buffId = buffer_base64_decode(data);                             <br/>
+                    var message = buffer_read(buffId, buffer_string);                    <br/>
+                    show_debug_message(" -- attached message: " + string(message));      <br/>
+                    buffer_delete(buffId);                                               <br/>
+                }                                                                        <br/>
+                ds_map_destroy(entry);                                                   <br/>
+            }                                                                            <br/>
+            ds_list_destroy(list);                                                       <br/>
+        }                                                                                <br/>
+        ds_map_destroy(map);                                                             <br/>
+    }
+  </p>
   <p>What we do here is first check the &quot;<span class="inline">id</span>&quot; key of the special async_load map. If this value is the same as the value of the original callback function (stored in the &quot;<span class="inline">score_get</span>&quot; variable) we then continue to process the data. The first thing we do is parse the <span class="inline">async_load</span> DS Map for the key &quot;<span class="inline">entries</span>&quot; which will contain a JSON object containing the leaderboard data. This JSON object is then decoded (see <a href="../../../GameMaker_Language/GML_Reference/File_Handling/Encoding_And_Hashing/json_decode.htm"><span class="inline">json_decode()</span></a>) as another DS Map, and this new map ID is stored in the variable &quot;<span class="inline">map</span>&quot;.</p>
   <p>This map is checked for the key &quot;<span class="inline">default</span>&quot; and if that is found then the map is destroyed and the event is exited. If no &quot;<span class="inline">default</span>&quot; key is found, the code will then parse the map to extract the necessary information about the leaderboard, by first extracting a DS List from the &quot;<span class="inline">entries</span>&quot; key of the DS Map, and then looping through each entry of the list to get another DS Map with the <span class="inline">name</span>, <span class="inline">score</span> and <span class="inline">rank</span> of each entry. These values are then stored in arrays and then we check to see if there is an additional &quot;<span class="inline">data</span>&quot; key. If there is (ie: the score was uploaded with an additional data package) then we also parse that and send it to the compiler console for debugging, before destroying the buffer and then continuing on to destroy the map. Note that if the &quot; <span class="inline">data</span>&quot; key is included, it needs to be decoded using the <a href="../../../GameMaker_Language/GML_Reference/Buffers/buffer_base64_decode.htm"><span class="inline">buffer_base64_decode()</span></a> function before it can be correctly read.</p>
   <p>Once the loop has finished, the entries list is destroyed as is the map that it was taken from. There is no need to destroy the <span class="inline">async_load</span> DS Map as this is handled for you by <span data-keyref="GameMaker Name">GameMaker</span>.</p>
