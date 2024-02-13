@@ -117,7 +117,7 @@
     <p class="dropspot">Before writing to the buffer we have set the &quot;tell&quot; to the start of the buffer as networking always takes the data from the start of a buffer. We then write the check value (this will be used by the server to determine the type of event to be processed), then the key being used, and then the state of the key (in this case true for pressed). This buffer is then sent as a data packet by the network function. Note that we do not send the whole buffer! We only send the data written, using the buffer_tell function to return the current read/write position of the buffer (remember that writing to the buffer moves the &quot;tell&quot; to the end of what has been written). This is simply to avoid sending more bytes than is necessary.</p>
     <p class="dropspot">What about receiving the data on the server? The received data packet that must be written into the buffer on the server and then used to update the game. For that we would use the <a href="../The_Asset_Editors/Object_Properties/Async_Events.htm">Networking Asynchronous Event</a> in the network controller object of the server, as this simplified code below shows:</p>
     <p class="code">var buff = ds_map_find_value(async_load, &quot;buffer&quot;);<br />
-      if cmd == buffer_read(buff, buffer_u8);<br />
+      if (cmd == buffer_read(buff, buffer_u8);) <br />
       {<br />
           key = buffer_read(buff, buffer_s16);<br />
           key_state = buffer_read(buff, buffer_bool);<br />
