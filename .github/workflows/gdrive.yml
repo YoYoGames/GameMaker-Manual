@@ -1,0 +1,34 @@
+name: Gdrive
+
+on: [push]
+
+jobs:
+
+    build:   
+      
+      runs-on: windows-2019
+      env:
+        LANGUAGE: ${{ vars.LANGUAGE }}
+      steps:
+       - uses: aws-actions/configure-aws-credentials@v4
+         with:
+           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+           aws-region: ${{ secrets.REGION }}
+       - name: Enable git long paths to bypass path limit on Windows
+         run: git config --system core.longpaths true
+       - name: Check out the GMS2_Documentation repo
+         uses: actions/checkout@v3
+         with:
+           path: Manual  
+           token: ${{ secrets.GH_TOKEN }}
+       - name: Beta Builds
+         run: build_robohelp_gh.bat %GITHUB_WORKSPACE%\output
+         shell: cmd
+         working-directory: Manual       
+       - name: Upload a file to Google Drive
+         uses: willo32/google-drive-upload-action@v1
+         with:
+            target: output\RoboHelp\*.zip
+            credentials: ${{ secrets.CREDENTIALS_JSON }}
+            parent_folder_id: "1v3dkPTgtoJC96NOfFEyvpILkvzIXcng-"
