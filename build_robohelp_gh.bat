@@ -1,4 +1,4 @@
-@echo off
+@echo on
 rem experimental build
 if "%WORKSPACE%" == "" set WORKSPACE=%GITHUB_WORKSPACE%
 if "%BUILD_NUMBER%" == "" set BUILD_NUMBER=999
@@ -66,8 +66,8 @@ aws s3 cp %S3_BUCKET%/%ZIP_FILE% %ZIP_FILE%
 7z x %ZIP_FILE% -o"%basedir%"
 
 rem Pulling RobohelpTool from S3
-aws s3 cp %S3_BUCKET%/RoboHelpTool.exe RoboHelpTool.exe
-copy "RoboHelpTool.exe" "%basedir%"
+@REM aws s3 cp %S3_BUCKET%/RoboHelpTool.exe RoboHelpTool.exe
+@REM copy "RoboHelpTool.exe" "%basedir%"
 
 set roboHelpTool="%basedir%Adobe_RoboHelp_2022\RoboHelp.exe"
 set helpTagsTool="%basedir%RoboHelpTool.exe"

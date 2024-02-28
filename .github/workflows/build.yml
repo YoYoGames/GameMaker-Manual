@@ -19,6 +19,7 @@ jobs:
      runs-on: windows-2019
      env:
        LANGUAGE: ${{ vars.LANGUAGE }}
+     if: github.event.pull_request.base.ref == 'develop' || github.event_name == 'workflow_dispatch'      
      steps:
       - uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -28,12 +29,20 @@ jobs:
       - name: Enable git long paths to bypass path limit on Windows
         run: git config --system core.longpaths true
       - name: Check out the GMS2_Documentation repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           path: Manual  
-          token: ${{ secrets.GH_TOKEN }}
+          token: ${{ secrets.GH_TOKEN }}          
+      - name: Run action
+        uses: YoYoGames/Gdrive-Actions@main # Use the action in the current repository
+        with:
+          action: 'download' 
+          filename: 'RobohelpTool-2024.2.0.zip'
+          folder_id: ${{ secrets.FOLDER_ID }} # If available
+          drive_id: '${{ secrets.DRIVE_ID }}' # If available
+          name: 'RobohelpTool-2024.2.0.zip'
+          credentials_file: ${{ env.CREDENTIALS_FILE }}      
       - name: Beta Builds
-        if: github.event.pull_request.base.ref == 'develop' || github.event_name == 'workflow_dispatch'
         run: build_robohelp_gh.bat %GITHUB_WORKSPACE%\output
         shell: cmd
         working-directory: Manual       
