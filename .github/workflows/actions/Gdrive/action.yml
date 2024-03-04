@@ -1,0 +1,59 @@
+name: 'Google Drive File Upload or Download Action'
+description: 'Upload or download files from Google Drive'
+author: 'YoYoGames'
+inputs:
+  action:
+    description: 'Action to perform: upload or download'
+    required: true
+  filename:
+    description: 'Path to the file to upload or download'
+    required: true
+  name:
+    description: 'Name of the file on Google Drive'
+    required: false
+  folder_id:
+    description: 'ID of the file on Google Drive (for download action)'
+    required: false
+  drive_id:
+    description: 'ID of the folder on Google Drive to upload the file to (for upload action)'
+    required: true
+  credentials_file:
+    description: 'Path to the credentials file (Base64 encoded Google service account credentials)'
+    required: true
+  # overwrite:
+  #   description: 'Boolean indicating whether to overwrite existing files (for upload action)'
+  #   required: false
+  #   default: 'false'
+  # encoded:
+  #   description: 'Boolean indicating whether the filename is encoded (for download action)'
+  #   required: true
+  #   default: 'true'
+outputs:
+  download_path:
+    description: 'Path to the downloaded file (for download action)'
+# runs:
+#   using: "composite"
+#   image: "gdrive.py"
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Install Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'  
+    - name: Install Dependencies
+      run: pip install -r "requirements.txt"
+      shell: cmd
+    - name: Pass Inputs to Shell
+      run: |
+          echo "INPUT_ACTION=${{ inputs.action }}" >> $GITHUB_ENV
+          echo "INPUT_FILENAME=${{ inputs.filename }}" >> $GITHUB_ENV
+          echo "INPUT_NAME=${{ inputs.name }}" >> $GITHUB_ENV
+          echo "INPUT_DRIVE_ID=${{ inputs.drive_id }}" >> $GITHUB_ENV
+          echo "INPUT_FOLDER_ID=${{ inputs.folder_id }}" >> $GITHUB_ENV
+          echo "${{ inputs.credentials_file }}" | base64 --decode > credential.json
+      shell: bash   
+    - name: Run python script
+      run: python gdrive.py
+      shell: cmd
