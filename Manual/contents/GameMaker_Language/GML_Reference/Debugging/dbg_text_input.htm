@@ -15,12 +15,20 @@
 </head>
 <body>
   <h1><span data-field="title" data-format="default">dbg_text_input</span></h1>
-  <p>This function creates a text field within the current debug section. You can use this to modify a string variable.</p>
+  <p>This function creates a text field within the current debug section.</p>
+  <p>By default, the text input modifies the variable referenced as a string variable. You can change this <a href="../../GML_Overview/Data_Types.htm">data type</a> by setting the optional <span class="inline2">type</span> parameter to one of the following values: </p>
+  <ul class="colour">
+    <li><span class="inline2">&quot;s&quot;</span> or <span class="inline2">&quot;t&quot;</span>: a string, for which <span class="inline3_func"><a data-xref="{title}" href="../Variable_Functions/typeof.htm">typeof</a></span> returns <span class="inline2">&quot;string&quot;</span></li>
+    <li><span class="inline2">&quot;i&quot;</span> or <span class="inline2">&quot;d&quot;</span>: an integer, for which <span class="inline3_func"><a data-xref="{title}" href="../Variable_Functions/typeof.htm">typeof</a></span> returns <span class="inline2">&quot;int64&quot;</span></li>
+    <li><span class="inline2">&quot;f&quot;</span>, <span class="inline2">&quot;r&quot;</span> or <span class="inline2">&quot;g&quot;</span>: a real number, for which <span class="inline3_func"><a data-xref="{title}" href="../Variable_Functions/typeof.htm">typeof</a></span> returns <span class="inline2">&quot;number&quot;</span></li>
+  </ul>
+  <p><span>The text field also accepts hexadecimal and binary as input for both integers and real numbers, i.e. <span class="inline2">0xcafebabe</span> or <span class="inline2">0b1010101</span>. It converts this input to the correct value for the given data type.</span></p>
+  <p class="note"><span data-conref="../../../assets/snippets/Tag_warning.hts"> </span> If the variable referenced stores a value of a different type than the type you provide to this function, any change you make to the text will change the referenced variable&#39;s type.</p>
   <div data-conref="../../../assets/snippets/Note_Debug_Control_Two_Columns.hts"> </div>
   <p class="note"><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> On Android, editing a text field will bring up the on-screen keyboard.</p>
   <p> </p>
   <h4>Syntax:</h4>
-  <p class="code"><span data-field="title" data-format="default">dbg_text_input</span>(ref[, label]);</p>
+  <p class="code"><span data-field="title" data-format="default">dbg_text_input</span>(ref[, label, type]);</p>
   <table>
     <colgroup>
       <col />
@@ -43,19 +51,52 @@
         <td><span data-keyref="Type_String"><a href="../../GML_Overview/Data_Types.htm" target="_blank">String</a></span></td>
         <td><span data-conref="../../../assets/snippets/Tag_optional.hts"> </span> The label to show next to the text input</td>
       </tr>
+      <tr>
+        <td>type</td>
+        <td><span data-keyref="Type_String"><a href="../../GML_Overview/Data_Types.htm" target="_blank">String</a></span></td>
+        <td><span data-conref="../../../assets/snippets/Tag_optional.hts"> </span> The type to store the value as in the variable that&#39;s referenced. This is indicated by a single letter: <br />
+          <br />
+          - string: <span class="inline2">&quot;s&quot;</span> or <span class="inline2">&quot;t&quot;</span> (default)<br />
+          - integer: <span class="inline2">&quot;i&quot;</span> or <span class="inline2">&quot;d&quot;</span><br />
+          - real: <span class="inline2">&quot;f&quot;</span>, <span class="inline2">&quot;r&quot;</span> or <span class="inline2">&quot;g&quot;</span>
+        </td>
+      </tr>
     </tbody>
   </table>
   <p> </p>
   <h4>Returns:</h4>
   <p class="code"><span data-keyref="Type_Void">N/A</span></p>
   <p> </p>
-  <h4>Example:</h4>
+  <h4>Example 1: Basic Use</h4>
   <p class="code_heading">Create Event</p>
   <p class="code">description = &quot;This description can be changed&quot;;<br />
     var _ref = ref_create(self, &quot;description&quot;);<br />
     <span data-field="title" data-format="default">dbg_text_input</span>(_ref, &quot;Enter the description here:&quot;);
   </p>
   <p>The above code first assigns some text to an instance variable <span class="inline2">description</span>. It then creates a reference to this variable using <span class="inline3_func"><a data-xref="{title}" href="../Variable_Functions/ref_create.htm">ref_create</a></span>. Next, it creates a text input control using <span class="inline3_func"><span data-field="title" data-format="default">dbg_text_input</span></span>, the reference <em>links</em> the control to the variable.</p>
+  <p> </p>
+  <h4>Example 2: Custom Data Types</h4>
+  <p class="code_heading">Create Event</p>
+  <p class="code">an_integer = 5;<br />
+    a_real = 0.3583;<br />
+    a_string = &quot;3289430&quot;;<br />
+    <br />
+    ref_to_count = ref_create(self, &quot;an_integer&quot;);<br />
+    ref_to_some_value = ref_create(self, &quot;a_real&quot;);<br />
+    ref_to_a_string = ref_create(self, &quot;a_string&quot;);<br />
+    <br />
+    dbg_text_input(ref_to_count, &quot;An Integer&quot;, &quot;i&quot;);<br />
+    dbg_text_input(ref_to_some_value, &quot;A Real&quot;, &quot;f&quot;);<br />
+    dbg_text_input(ref_to_a_string, &quot;A String&quot;, &quot;s&quot;);
+  </p>
+  <p class="code_heading">Draw Event</p>
+  <p class="code">draw_text(5, 600, $&quot;An Integer ({typeof(an_integer)}): {an_integer}&quot;);<br />
+    draw_text(5, 620, $&quot;A Real ({typeof(a_real)}): {a_real}&quot;);<br />
+    draw_text(5, 640, $&quot;A String ({typeof(a_string)}): {a_string}&quot;);</p>
+  <p>This code example shows how to use custom data types with the text input debug control.</p>
+  <p>In the Create event of an object a couple of variables are first defined. They are assigned a real, another real and a string value. Then, a reference is created to each of these instance variables. After that, a text input is created using <span class="inline3_func"><span data-field="title" data-format="default">dbg_text_input</span></span> to modify each of these variables through the reference to it. The function calls to <span class="inline3_func"><span data-field="title" data-format="default">dbg_text_input</span></span> will bring up <a data-xref="{title}" href="The_Debug_Overlay.htm">The Debug Overlay</a>, so no call to <span class="inline3_func"><a data-xref="{title}" href="show_debug_overlay.htm">show_debug_overlay</a></span> is required.</p>
+  <p>In the object&#39;s Draw event a line of text is displayed using <span class="inline3_func"><a data-xref="{title}" href="../Drawing/Text/draw_text.htm">draw_text</a></span> for each of the variables. Each line shows a descriptive text and the type of value between parentheses, followed by the value itself. Any change made in the text inputs will show in the drawn text.</p>
+  <p>Note that the type of the first variable changes immediately from <span class="inline2">&quot;number&quot;</span> to <span class="inline2">&quot;int64&quot;</span> as soon as you make a change in its text input control.</p>
   <p> </p>
   <p> </p>
   <div class="footer">

@@ -4,7 +4,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>json_stringify</title>
-  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <meta name="generator" content="Adobe RoboHelp 2022" />
   <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
   <script src="../../../../assets/scripts/main_script.js" type="module"></script>
   <meta name="rh-authors" content="Mark Alexander" />
@@ -18,24 +18,32 @@
   <h1><span data-field="title" data-format="default">json_stringify</span></h1>
   <p>With this function you can convert single or nested structs and arrays into a valid JSON string.</p>
   <p>You supply the initial value to use (an array index or a struct reference) and then the function will &quot;stringify&quot; it, converting it into a JSON string (converting GameMaker arrays into JSON arrays, and GameMaker structs into JSON objects). You can optionally choose to &quot;pretty print&quot; it, meaning the final JSON will be formatted for easy readability.</p>
+  <h3>Conversion Notes</h3>
   <p>When using this function there are some important things to note:</p>
   <ul class="colour">
-    <li>The function will <em>not </em> convert DS maps, lists or any other data structure into JSON, and will simply store the internal index value for the structure (which is of little use as the index will change between runs of the game), and as such you should not try to stringify any value that may contain references to data structures (for that you have <a href="json_encode.htm"><span class="inline">json_encode()</span></a>).</li>
+    <li>The function will <strong>not</strong><em> </em>serialise the data contained <em>inside</em> assets, data structures and other runtime resources into JSON, and will simply store the internal handle reference for the resource (which is of little use as the index will change between runs of the game).
+      <ul>
+        <li>Upon <a href="json_parse.htm">parsing</a> the JSON, these will be converted back into runtime references so the resources can be used normally in functions. This includes any resource type that is represented as a <a href="../../../GML_Overview/Data_Types.htm">handle</a> (see the &quot;<strong>Handles</strong>&quot; section on the linked page). This conversion can be disabled when parsing.</li>
+        <li>Keep in mind that this will not be useful between game sessions as asset and resource information may have changed, depending on the type of resource. Assets are saved using their names so these references maintain their links as long as the asset name does not change.</li>
+        <li>If you want to serialise data structures (specifically lists and maps), use the <span class="inline3_func"><a data-xref="{title}" href="json_encode.htm">json_encode</a></span> function.</li>
+      </ul>
+    </li>
     <li>The function will convert just about any value into a &quot;valid&quot; JSON string, however the actual values contained in the string may not be exactly what you expect due to the way that the JSON standard operates:<br />
       <br />
-      &quot;JSON is agnostic about numbers. In any programming language, there can be a variety of number types of various capacities and complements, fixed or floating, binary or decimal. That can make interchange between different programming languages difficult. JSON instead offers only the representation of numbers that humans use: a sequence of digits. All programming languages know how to make sense of digit sequences even if they disagree on internal representations.&quot;<br />
+      <em>&quot;JSON is agnostic about numbers. In any programming language, there can be a variety of number types of various capacities and complements, fixed or floating, binary or decimal. That can make interchange between different programming languages difficult. JSON instead offers only the representation of numbers that humans use: a sequence of digits. All programming languages know how to make sense of digit sequences even if they disagree on internal representations.&quot;</em><br />
       <br />
-      For more information see the <a href="http://www.ecma-international.org/publications/standards/Ecma-404.htm">ECMA JSON Standard</a>.
+      For more information see the <a href="https://ecma-international.org/publications-and-standards/standards/ecma-404/">ECMA JSON Standard</a>.
     </li>
-    <li>If the provided struct contains any circular references, such as references back to the main struct itself (forming an infinite loop) or references to structs within the main struct forming such infinite loops, such references will be converted to <span class="inline2">&quot;null&quot;</span> upon stringifying.</li>
-    <li>If you include an int64 in the values to convert to JSON it will write it as an <i>int</i> if it is in the valid range for an int32, as a <i>double</i> if it can do so without losing precision or (if neither of those cases is applicable) as a <i>string</i> with an identifier &quot;<span class="inline">@i64@</span>&quot; before it and &quot;<span class="inline">$i64$</span>&quot; after it. When you come to parse the JSON again <span data-keyref="GameMaker Name">GameMaker</span> will pick these identifiers up and re-convert the value back into an int64. This does mean that if the JSON is intended for a server or some other non-GameMaker target, these values will not be appropriate and so should be avoided.</li>
-    <li><a href="../../../GML_Overview/Data_Types.htm"><span class="inline2">infinity</span></a> and <a href="../../../GML_Overview/Data_Types.htm"><span class="inline2">NaN</span></a> will be written into the JSON as <span class="inline2">&quot;@@infinity$$&quot;</span> (<span class="inline2">&quot;@@-infinity$$&quot;</span> for negative) and <span class="inline2">&quot;@@nan$$&quot;</span> respectively. These values will be correctly loaded back into memory when the JSON is loaded with <span class="inline3_func"><a data-xref="{title}" href="json_parse.htm">json_parse</a></span>.</li>
-    <li>If you include <a href="../../../GML_Overview/Data_Types.htm"><span class="inline2">undefined</span></a> in the struct, it will be encoded as <span class="inline2">&quot;null&quot;</span>, and upon reading that back into GameMaker you will get <a href="../../../GML_Overview/Data_Types.htm"><span class="inline2">pointer_null</span></a>.</li>
+    <li>If the provided struct contains any circular references, such as references back to the main struct itself (forming an infinite loop) or references to structs within the main struct forming such infinite loops, such references will be converted to <span class="inline2">null</span> upon stringifying.</li>
+    <li>If you include an int64 in the values to convert to JSON, it will write it as an <i>int</i> if it is in the valid range for an int32, as a <i>double</i> if it can do so without losing precision, or, if neither of those cases is applicable, as a <i>string</i> with an identifier &quot;<span class="inline">@i64@</span>&quot; before it and &quot;<span class="inline">$i64$</span>&quot; after it. When you come to parse the JSON again <span data-keyref="GameMaker Name">GameMaker</span> will pick these identifiers up and re-convert the value back into an int64 (unless conversion is disabled). This does mean that if the JSON is intended for a server or some other non-GameMaker target, these values will not be appropriate and so should be avoided.</li>
+    <li><a href="../../../GML_Overview/Data_Types.htm"><span class="inline2">infinity</span></a> and <a href="../../../GML_Overview/Data_Types.htm"><span class="inline2">NaN</span></a> will be written into the JSON as <span class="inline2">&quot;@@infinity$$&quot;</span> (<span class="inline2">&quot;@@-infinity$$&quot;</span> for negative) and <span class="inline2">&quot;@@nan$$&quot;</span> respectively. These values will be correctly loaded back into memory when the JSON is loaded with <span class="inline3_func"><a data-xref="{title}" href="json_parse.htm">json_parse</a></span> (unless conversion is disabled).</li>
+    <li>If you include <a href="../../../GML_Overview/Data_Types.htm"><span class="inline2">undefined</span></a> in the struct, it will be encoded as <span class="inline2">null</span>, which will be read back as <span class="inline2">undefined</span> when <a href="json_parse.htm">parsing</a>.</li>
     <li>Care should be taken when writing any returned JSON string to an <span class="inline">ini</span> file, as the <span class="inline">ini</span> specifications can cause issues when using quotes and escape characters. See the function <a href="../Ini_Files/ini_write_string.htm"><span class="inline">ini_write_string()</span></a> for more information.</li>
   </ul>
+  <div data-conref="../../../../assets/snippets/JSON_Filter_Function_Description.hts"> </div>
   <p> </p>
   <h4>Syntax:</h4>
-  <p class="code"><span data-field="title" data-format="default">json_stringify</span>(val, [pretty_print]);</p>
+  <p class="code"><span data-field="title" data-format="default">json_stringify</span>(val, [pretty_print], [filter_func]);</p>
   <table>
     <tbody>
       <tr>
@@ -45,19 +53,24 @@
       </tr>
       <tr>
         <td>val</td>
-        <td><span data-keyref="Type_Struct"><a href="../../../../../GameMaker_Language/GML_Overview/Structs.htm" target="_blank">Struct</a></span> or <span data-keyref="Type_Array"><a href="../../../../../GameMaker_Language/GML_Overview/Arrays.htm" target="_blank">Array</a></span></td>
+        <td><span data-keyref="Type_Struct"><a href="../../../GML_Overview/Structs.htm" target="_blank">Struct</a></span> or <span data-keyref="Type_Array"><a href="../../../GML_Overview/Arrays.htm" target="_blank">Array</a></span></td>
         <td>The reference value for a struct or array to convert into a JSON string</td>
       </tr>
       <tr>
         <td>pretty_print</td>
-        <td><span data-keyref="Type_Bool"><a href="../../../../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">Boolean</a></span></td>
+        <td><span data-keyref="Type_Bool"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Boolean</a></span></td>
         <td><span data-conref="../../../../assets/snippets/Tag_optional.hts"> </span> Whether to pretty print the string, i.e. insert indentation and line breaks for readability</td>
+      </tr>
+      <tr>
+        <td>filter_func</td>
+        <td><span data-keyref="Type_Function"><a href="../../../GML_Overview/Script_Functions.htm" target="_blank">Function</a></span></td>
+        <td><span data-conref="../../../../assets/snippets/Tag_optional.hts"> </span> Filter function that processes each item. Syntax: <span class="inline2">function(key, value) -&gt; new_value</span></td>
       </tr>
     </tbody>
   </table>
   <p> </p>
   <h4>Returns:</h4>
-  <p class="code"><span data-keyref="Type_String"><a href="../../../../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">String</a></span></p>
+  <p class="code"><span data-keyref="Type_String"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">String</a></span></p>
   <p> </p>
   <h4>Example 1:</h4>
   <p class="code">var _contents =<br />
@@ -114,6 +127,27 @@
       },<br />
       &quot;version&quot;:&quot;1.0.0&quot;<br />
     }</p>
+  <p> </p>
+  <h4>Example 3: Filter Function</h4>
+  <p class="code">var data =<br />
+    {<br />
+        x: 5.2344,<br />
+        y: 10.601,<br />
+        last_clicked: undefined,<br />
+        values :  [ 2000.1, 30.56, undefined, { slot : 10, skin : undefined } ]<br />
+    }<br />
+    <br />
+    var json = json_stringify(data, true, function(key, value)<br />
+    {<br />
+        if (is_real(value)) return round(value);<br />
+        if (is_undefined(value)) return 0;<br />
+        return value;<br />
+    });<br />
+    <br />
+    show_debug_message(json);
+  </p>
+  <p>The above code takes a struct and stringifies it to JSON, pretty-printing it, and using a filter function to modify some types of values.</p>
+  <p>If the value is a <span data-keyref="Type_Real"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span>, it <a href="../../Maths_And_Numbers/Number_Functions/round.htm">rounds</a> it, if it&#39;s <span class="inline2">undefined</span>, it changes it to 0, otherwise it simply returns the same value (meaning it remains unchanged).</p>
   <p> </p>
   <p> </p>
   <div class="footer">

@@ -58,6 +58,24 @@
   </p>
   <p>In the example above, the <span class="inline2">weapon</span> constructor holds a static variable called <span class="inline2">number_of_weapons</span>, which is shared across all of its structs. With each new call to the <span class="inline2">weapon</span> constructor, the <span class="inline2">number_of_weapons</span> value goes up by 1.</p>
   <p>After being called twice, the value of that variable becomes <span class="inline2">2</span>, which can be read from any of its structs, or from the constructor directly by writing <span class="inline2">weapon.number_of_weapons</span>.</p>
+  <h3>Statics in Parent-Child Constructors</h3>
+  <p>Generally, static variables are scoped to the function you define them in. In a hierarchy of constructors, a static variable is scoped to the constructor you define it in using the <span class="inline2">static</span> keyword: </p>
+  <p class="code">function item() constructor<br />
+    {<br />
+        static number = 0;<br />
+    }<br />
+    function weapon() : item() constructor<br />
+    {<br />
+        static types = [&quot;sword&quot;, &quot;bow&quot;, &quot;hammer&quot;];<br />
+    }<br />
+    <br />
+    my_weapon = new weapon();
+  </p>
+  <p>Here the static variable <span class="inline2">number</span> belongs to <span class="inline2">item</span> and the static variable <span class="inline2">types</span> belongs to <span class="inline2">weapon</span>.</p>
+  <p>You can access both static variables through structs created from <span class="inline2">weapon</span>: </p>
+  <p class="code">show_debug_message(my_weapon.number); // 0<br />
+    show_debug_message(my_weapon.types);  // [&quot;sword&quot;, &quot;bow&quot;, &quot;hammer&quot;]</p>
+  <p class="note"><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> In more complex constructor hierarchies you might need to traverse the <a data-xref="{text}" href="../Structs/Static_Structs.htm#h">Static Chain</a>.</p>
   <h2>Accessing Static Variables</h2>
   <p>You can read a static value for a function using the <span class="inline2">&lt;function_name&gt;.&lt;static_variable&gt;</span> syntax.</p>
   <p>Say, for a function called <span class="inline2">counter</span>, you have a static variable <span class="inline2">count</span>. You can access that by typing <span class="inline2">counter.count</span> after its first call.</p>
@@ -73,7 +91,7 @@
     <br />
     show_debug_message(counter.count);
   </p>
-  <p>You can&#39;t access a static variable from a function that was never called, as static variables are initialised on the first call to a function. Trying to do so will give you an error and crash your game.</p>
+  <div data-conref="../../../assets/snippets/Note_Warning_Static_Struct_Call_Once.hts"> </div>
   <p>For constructors, you can access static variables from the constructor function directly, or from any of the structs created from the constructor:</p>
   <p class="code">function weapon() constructor<br />
     {<br />
