@@ -3,14 +3,29 @@
 ### Provide the full directory path to the .json files as the command line argument.
 ### The output HTML file will also be placed there.
 ### For example: CMD > python GenerateKeyboardShortcutTableFromJson.py "C:/Users/Dev/Documents/Manual/" -name_as_desc
+###
+### You can provide an optional argument: 
 ### 
-### Important: The JSON cannot contain trailing commas, this isn't supported
-###            using the built-in json module.
+### -name_as_desc: Add this to write the hotkey's name as the description.
+### 
+### Important: Technically, the JSON cannot contain trailing commas, this isn't supported
+###            using the built-in json module. Though it is supported through the yy_load function.
 ###
 
 import sys
 import json
+import re
 from collections import OrderedDict
+
+def yy_load(file):
+    """ Load json from a file that possibly contains trailing commas """
+    # Do some tricky regex substitution
+    # so we can use the json module
+    data_string = ''.join(file.readlines())
+    data_string = re.sub("(,)(\s*[]}])","\g<2>", data_string)
+
+    # Now we can import using the json module
+    return json.loads(data_string)
 
 # Utility functions
 def get_combo_string(combo):
@@ -42,9 +57,10 @@ shortcuts = dict()                      # maps shortcut name => shortcut data
 shortcuts_per_location = OrderedDict()  # stores shortcuts under locations
 
 # First read the Windows defaults file
-with open(fdir + "/" + fname_win_hotkeys, 'r') as f:
+with open(fdir + "/" + fname_win_hotkeys, 'r', encoding="utf-8") as f:
     # Load all the data
-    input = json.load(f)
+    # input = json.load(f)              # risk of errors if trailing commas are present
+    input = yy_load(f)                  # regex-replace variety that fixes things
 
     # Add items under their respective locations (i.e. "group" per location)
     for shortcut in input:
@@ -84,7 +100,7 @@ with open(fdir + "/" + fname_win_hotkeys, 'r') as f:
 # Then add the combos in the macOS defaults file
 with open(fdir + "/" + fname_mac_hotkeys, 'r') as f:
     # Load all the data
-    input = json.load(f)
+    input = yy_load(f)
 
     # Add items under their respective locations
     for shortcut in input:
