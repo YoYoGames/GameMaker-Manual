@@ -20,20 +20,10 @@ inputs:
   credentials_file:
     description: 'Path to the credentials file (Base64 encoded Google service account credentials)'
     required: true
-  # overwrite:
-  #   description: 'Boolean indicating whether to overwrite existing files (for upload action)'
-  #   required: false
-  #   default: 'false'
-  # encoded:
-  #   description: 'Boolean indicating whether the filename is encoded (for download action)'
-  #   required: true
-  #   default: 'true'
 outputs:
   download_path:
     description: 'Path to the downloaded file (for download action)'
-# runs:
-#   using: "composite"
-#   image: "gdrive.py"
+
 
 runs:
   using: 'composite'
@@ -43,16 +33,16 @@ runs:
       with:
         python-version: '3.10'  
     - name: Install Dependencies
-      run: pip install -r requirements.txt
+      run: pip install -r ./Manual/.github/actions/Gdrive/requirements.txt
       shell: bash
     - name: Pass Inputs to Shell
       run: |
-          echo "INPUT_ACTION=${{ inputs.action }}" >> $GITHUB_ENV
-          echo "INPUT_FILENAME=${{ inputs.filename }}" >> $GITHUB_ENV
-          echo "INPUT_NAME=${{ inputs.name }}" >> $GITHUB_ENV
-          echo "INPUT_DRIVE_ID=${{ inputs.drive_id }}" >> $GITHUB_ENV
-          echo "INPUT_FOLDER_ID=${{ inputs.folder_id }}" >> $GITHUB_ENV
-          echo "${{ inputs.credentials_file }}" | base64 --decode > credential.json
+        echo "INPUT_ACTION=${{ inputs.action }}" >> $GITHUB_ENV
+        echo "INPUT_FILENAME=${{ inputs.filename }}" >> $GITHUB_ENV
+        echo "INPUT_NAME=${{ inputs.name }}" >> $GITHUB_ENV
+        echo "INPUT_DRIVE_ID=${{ inputs.drive_id }}" >> $GITHUB_ENV
+        echo "INPUT_FOLDER_ID=${{ inputs.folder_id }}" >> $GITHUB_ENV
+        echo "${{ inputs.credentials_file }}" | base64 --decode > credential.json
       shell: bash   
     - name: Run python script
       run: python gdrive.py
