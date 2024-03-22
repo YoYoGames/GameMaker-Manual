@@ -68,7 +68,8 @@ with open(fdir + "/" + fname_win_hotkeys, 'r', encoding="utf-8") as f:
         name = shortcut['Name']
 
         # Nothing to do for unlisted shortcuts?
-        if 'IsUnlisted' in shortcut:
+        #if 'IsUnlisted' in shortcut:
+        if 'IsListed' in shortcut and shortcut['IsListed'] == False:
             continue
 
         # Get this shortcut's combo(s)
