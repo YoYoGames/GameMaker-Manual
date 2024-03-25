@@ -37,7 +37,13 @@ def get_combo_string(combo):
         combo_string = ""
     else:
         modifier = [key for key in combo['Modifier'].split(", ") if key != "None"]
-        combo_string = " + ".join([*modifier, combo['Keys']])
+        if type(combo['Keys']) is list:
+            # This is a hotkey chord
+            mods = " + ".join([*modifier])
+            combo_string = " => ".join([mods + " + " + key for key in combo['Keys']])
+        else:
+            # This is a regular hotkey
+            combo_string = " + ".join([*modifier, combo['Keys']])
     return combo_string
 
 # Default names
