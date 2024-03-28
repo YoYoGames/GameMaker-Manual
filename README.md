@@ -17,3 +17,7 @@ The second recommended way is to edit the HTML files directly, which are placed 
 :wrench: For making your changes, it is recommended that you make a fork, clone it and edit locally where you can test your HTML in your browser.
 
 :white_check_mark: Once you are done, push your changes to your fork on GitHub and create a pull request.
+
+### Important
+
+Do not make changes to `<span data-keyref>` contents, these are RoboHelp variables and contents of these span tags should not be manually edited in the HTML files. The correct contents are inserted by RoboHelp when the manual is built.
