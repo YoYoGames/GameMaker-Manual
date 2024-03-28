@@ -16,7 +16,7 @@
 <body>
   <h1><span data-field="title" data-format="default">wallpaper_set_subscriptions</span></h1>
   <p>This function subscribes to the given metric(s) from the Companion app. This is used to get real-time system information, and enable mouse input, which is disabled for Live Wallpapers by default.</p>
-  <p class="note"><span data-conref="../../../assets/snippets/Tag_important.hts"> </span> The user must have the Companion app installed on Windows for metrics to work. <a href="https://help.gamemaker.io/hc/en-us/articles/10070287968285">See this guide</a> for setting up the Companion app.</p>
+  <p class="note"><span data-conref="../../../assets/snippets/Tag_important.hts"> </span> <a href="https://help.gamemaker.io/hc/en-us/articles/10070287968285">See this guide</a> for making a basic Live Wallpaper and (optionally) setting up the Companion app on Windows.</p>
   <p class="note"><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> Graphics drivers must be up-to-date on the target computer for GPU metrics to work correctly.</p>
   <p class="note"><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> Each call to this function cancels any previously active subscriptions, so only those included in the last call remain active.</p>
   <h2>Arguments</h2>
@@ -44,12 +44,12 @@
           <li><strong>name</strong> (<span data-keyref="Type_String"><a href="../../GML_Overview/Data_Types.htm" target="_blank">String</a></span>): The name of the GPU.</li>
           <li><strong>usage_pct</strong> (Integer <span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span>): The load percentage of the GPU.</li>
           <li><strong>clock_speed_MHz</strong> (Integer <span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span>): The current clock speed of the GPU in MHz.</li>
-          <li><strong>fan_speed_pct</strong> or <strong>fan_speed_rpm</strong> (Integer <span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span>): The target speed of the GPU fan. Expressed as a percentage of the maximum speed on NVIDIA GPUs and in RPM on AMD GPUs.</li>
+          <li><strong>fan_speed_pct</strong> or <strong>fan_speed_rpm</strong> (<span data-keyref="Type_Array"><a href="../../GML_Overview/Arrays.htm" target="_blank">Array</a></span> of Integer <span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span>s): The target speed of each GPU fan. Expressed as a percentage of the maximum speed on NVIDIA GPUs and in RPM on AMD GPUs (AMD will only return one element in the array).</li>
           <li><strong>power_usage_W</strong> (Integer <span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span>): The power usage of the GPU in Watt.</li>
           <li><strong>temperature_C</strong> (Integer <span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span>): The temperature of the GPU in Celsius.</li>
-          <li><strong>memory_used_bytes</strong> (Integer <span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span>): How much of the GPU memory is used up in bytes.</li>
-          <li><strong>memory_available_bytes</strong> (Integer <span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span>): How much of the GPU memory is available in bytes.</li>
-          <li><strong>memory_total_bytes</strong> (Integer <span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span>): The total GPU memory in bytes.</li>
+          <li><strong>memory_used_bytes</strong> (<span data-keyref="Type_String"><a href="../../GML_Overview/Data_Types.htm" target="_blank">String</a></span>): How much of the GPU memory is used up in bytes.</li>
+          <li><strong>memory_available_bytes</strong> (<span data-keyref="Type_String"><a href="../../GML_Overview/Data_Types.htm" target="_blank">String</a></span>): How much of the GPU memory is available in bytes.</li>
+          <li><strong>memory_total_bytes</strong> (<span data-keyref="Type_String"><a href="../../GML_Overview/Data_Types.htm" target="_blank">String</a></span>): The total GPU memory in bytes.</li>
         </ul>
       </li>
       <li><strong>battery </strong>(<span data-keyref="Type_Array"><a href="../../GML_Overview/Arrays.htm" target="_blank">Array</a></span>): Array of battery devices. Each entry in this array is a struct, containing the following members:
@@ -63,28 +63,30 @@
       <li><strong>ram </strong>(<span data-keyref="Type_Array"><a href="../../GML_Overview/Arrays.htm" target="_blank">Array</a></span>): Array of RAM devices. Each entry in this array is a struct, containing the following members:
         <ul>
           <li><strong>name</strong> (<span data-keyref="Type_String"><a href="../../GML_Overview/Data_Types.htm" target="_blank">String</a></span>): The name of the RAM.</li>
-          <li><strong>available_bytes</strong> (Integer <span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span>): How much of the RAM memory is available in bytes.</li>
-          <li><strong>total_bytes</strong> (Integer <span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span>): The total RAM memory in bytes.</li>
-          <li><strong>used_bytes</strong> (Integer <span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span>): How much of the GPU memory is used up in bytes.</li>
+          <li><strong>available_bytes</strong> (<span data-keyref="Type_String"><a href="../../GML_Overview/Data_Types.htm" target="_blank">String</a></span>): How much of the RAM memory is available in bytes.</li>
+          <li><strong>total_bytes</strong> (<span data-keyref="Type_String"><a href="../../GML_Overview/Data_Types.htm" target="_blank">String</a></span>): The total RAM memory in bytes.</li>
+          <li><strong>used_bytes</strong> (<span data-keyref="Type_String"><a href="../../GML_Overview/Data_Types.htm" target="_blank">String</a></span>): How much of the GPU memory is used up in bytes.</li>
         </ul>
       </li>
       <li><strong>disk </strong>(<span data-keyref="Type_Array"><a href="../../GML_Overview/Arrays.htm" target="_blank">Array</a></span>): Array of disks. Each entry in this array is a struct, containing the following members:
         <ul>
           <li><strong>name</strong> (<span data-keyref="Type_String"><a href="../../GML_Overview/Data_Types.htm" target="_blank">String</a></span>): The name of the disk.</li>
-          <li><strong>available_bytes</strong> (Integer <span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span>): How much of the disk memory is available in bytes.</li>
-          <li><strong>total_bytes</strong> (Integer <span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span>): The total disk memory in bytes.</li>
-          <li><strong>used_bytes</strong> (Integer <span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span>): How much of the GPU memory is used up in bytes.</li>
+          <li><strong>available_bytes</strong> (<span data-keyref="Type_String"><a href="../../GML_Overview/Data_Types.htm" target="_blank">String</a></span>): How much of the disk memory is available in bytes.</li>
+          <li><strong>total_bytes</strong> (<span data-keyref="Type_String"><a href="../../GML_Overview/Data_Types.htm" target="_blank">String</a></span>): The total disk memory in bytes.</li>
+          <li><strong>used_bytes</strong> (<span data-keyref="Type_String"><a href="../../GML_Overview/Data_Types.htm" target="_blank">String</a></span>): How much of the GPU memory is used up in bytes.</li>
         </ul>
       </li>
       <li><strong>network</strong> (<span data-keyref="Type_Array"><a href="../../GML_Overview/Arrays.htm" target="_blank">Array</a></span>): Array of network devices. Each entry in this array is a struct, containing the following members:
         <ul>
-          <li><strong>bandwidth_bps</strong> (Integer <span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span>): The bandwidth of the network in bits per second.</li>
+          <li><strong>bandwidth_bps</strong> (<span data-keyref="Type_String"><a href="../../GML_Overview/Data_Types.htm" target="_blank">String</a></span>): The bandwidth of the network in bits per second.</li>
           <li><strong>send_bps</strong> (Integer <span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span>): The current bytes sent per second on the network.</li>
           <li><strong>received_bps</strong> (Integer <span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span>): The current bytes received per second on the network.</li>
         </ul>
       </li>
-      <li><strong>audio</strong> (<span data-keyref="Type_Array"><a href="../../GML_Overview/Arrays.htm" target="_blank">Array</a></span> of <span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span>s): Represents a spectrum analysis of measured sound amplitudes on the system. The frequency will span from 0 Hz up to the Nyquist frequency, i.e half that of the system&#39;s sampling rate. If it is, for example, 44.1 kHz (the most common), the frequencies will range from 0 Hz to 22050 Hz. Each bin will always represent a range of 10 Hz. Thus, this array will consist of 2205 data points if the sampling rate is 44.1 kHz, and 2400 if it is 48 kHz (also common).
+      <li><strong>audio</strong> (<span data-keyref="Type_Array"><a href="../../GML_Overview/Arrays.htm" target="_blank">Array</a></span> of <span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span>s): Array of audio devices. Each entry in this array is a struct, containing the following members:
         <ul>
+          <li><strong>freq_resolution</strong> (Integer <span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span>): The frequency resolution, is always 10.</li>
+          <li><strong>spectrum_amplitude</strong> (<span data-keyref="Type_Array"><a href="../../GML_Overview/Arrays.htm" target="_blank">Array</a></span>): Represents a spectrum analysis of measured sound amplitudes on the system. The frequency will span from 0 Hz up to the Nyquist frequency, i.e half that of the system&#39;s sampling rate. If it is, for example, 44.1 kHz (the most common), the frequencies will range from 0 Hz to 22050 Hz. Each bin will always represent a range of <strong>freq_resolution</strong>. E.g. if it is 10, this array will consist of 2205 data points if the sampling rate is 44.1 kHz, and 2400 if it is 48 kHz (also common).</li>
         </ul>
       </li>
     </ul>
@@ -128,7 +130,7 @@
         <div>Next: <a href="wallpaper_set_config.htm">wallpaper_set_config</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2023 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 wallpaper_set_subscriptions
