@@ -20,4 +20,6 @@ The second recommended way is to edit the HTML files directly, which are placed 
 
 ### Important
 
-Do not make changes to `<span data-keyref>` contents, these are RoboHelp variables and contents of these span tags should not be manually edited in the HTML files. The correct contents are inserted by RoboHelp when the manual is built.
+1. Do not make changes to `<span data-keyref>` contents, these are RoboHelp variables and contents of these span tags should not be manually edited in the HTML files. The correct contents are inserted by RoboHelp when the manual is built.
+
+2. Use of this manual source is not intended for end users (e.g. downloading this repository and reading the HTML files for use with GameMaker). This is only a source from which the final manual is built, which is available on [the manual website](https://manual.gamemaker.io) and for download through the IDE (when using the offline manual option in Preferences -> General -> Help).
