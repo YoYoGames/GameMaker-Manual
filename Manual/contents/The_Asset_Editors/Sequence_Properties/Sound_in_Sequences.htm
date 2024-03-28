@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <title>Sound in Sequences</title>
+  <meta name="topic-status" content="Draft" />
+  <link rel="stylesheet" type="text/css" href="../../assets/css/default.css" />
+  <meta name="template" content="../../assets/masterpages/Manual_Page.htt" />
+  <meta name="search-keywords" content="Sound in Sequences" />
+  <meta name="rh-index-keywords" content="Sequences,Sound" />
+</head>
+<body>
+  <h1><span data-field="title" data-format="default">Sound in Sequences</span></h1>
+  <p>Sound tracks can be added to sequences, together with audio effects on that track. The simplest way to do this is by dragging a sound asset into the Canvas at the position where you want the sound to play.</p>
+  <p><img class="center" src="../../assets/Images/Asset_Editors/Sequences_Audio/SeqAudioOverview.png" /></p>
+  <p>This page covers the following topics: </p>
+  <div class="minitoc" data-minitoc-targetid="drop-down" data-type="minitoc" style="">
+    <p class="minitoc-caption" data-close-text="" data-expanded="true" data-open-text="Contents" data-type="minitoc-caption" href="#" style="">Mini TOC (placeholder)</p>
+    <ol class="minitoc-list" data-from-selector="h2" data-to-selector="h2" data-type="minitoc-list" style="">
+      <li>Heading</li>
+    </ol>
+  </div>
+  <h2>Adding Sounds</h2>
+  <p>You can add a sound track to a sequence in the following ways: </p>
+  <ul class="colour">
+    <li><strong>Drag a sound asset from <a data-xref="{title}" href="../../Introduction/The_Asset_Browser.htm">The Asset Browser</a> onto the sequence canvas.</strong> This creates a positioned audio emitter for the sound where you drop it.</li>
+    <li><strong>Select a sound asset in the Asset Explorer when adding a track.</strong> This creates an emitter for the sound at the sequence&#39;s centre.</li>
+    <li><strong>Drag a sound asset onto <a data-xref="{title}" href="The_Track_Panel.htm">The Track Panel</a>.</strong> This creates an emitter for the sound at the sequence&#39;s centre.</li>
+  </ul>
+  <p><video src="../../assets/Images/Asset_Editors/Sequences_Audio/SeqAudioAdd.mp4" width="480" height="320" controls="" class="center"></video></p>
+  <h2>Emitters</h2>
+  <p>Every sound track in a sequence gets an audio emitter as well as an audio bus. You can move the audio emitter around on the sequence canvas to <strong>Position</strong> it.</p>
+  <p>You can also change the <strong>Volume</strong> and <strong>Pitch</strong>. The volume and pitch are that of the emitter (see <a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Asset_Management/Audio/Audio_Properties.htm">Audio Properties Overview</a>).</p>
+  <p>An audio emitter is shown on the sequence canvas using the emitter icon: </p>
+  <p><img class="center" src="../../assets/Images/Asset_Editors/Sequences_Audio/SeqAudioGizmoEmitter.png" /></p>
+  <p class="note"><span data-conref="../../assets/snippets/Tag_note.hts"> </span> The position will influence how loud and from which direction the sound is heard. For this to work correctly, you also need to set an appropriate audio falloff model and update the listener position and orientation to where you want the sound to be heard. See <a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Asset_Management/Audio/Audio_Emitters/Audio_Emitters.htm">Audio Emitters</a> for more details.</p>
+  <h2>Audio Effects</h2>
+  <p>You add all <a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Asset_Management/Audio/Audio_Effects/Audio_Effects.htm">Audio Effects</a>, except for the equaliser effect, as parameter tracks to audio asset tracks.</p>
+  <p>All audio effects that you add to an audio track are processed on an audio bus created for that track. You can configure the audio bus itself by adding it as a parameter track and changing the properties of that track.</p>
+  <p>An audio bus track can be added only once to an audio track, while effect tracks can be added multiple times.</p>
+  <p><img class="center" src="../../assets/Images/Asset_Editors/Sequences_Audio/SeqAudioAddEffectParameterTracks.gif" /></p>
+  <p class="note"><span data-conref="../../assets/snippets/Tag_note.hts"> </span> You can add a maximum number of <span data-keyref="Const_Audio_Bus_Max_Effects">8</span> audio effect tracks, as limited by the number of effect slots of the <a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Asset_Management/Audio/Audio_Effects/AudioBus.htm">AudioBus Struct</a>.</p>
+  <h3>Inspector</h3>
+  <p>In <a data-xref="{title}" href="../../IDE_Tools/The_Inspector.htm">The Inspector</a> you can edit all general sound and emitter properties of a sound track as well as the settings of all its effects.</p>
+  <p><img class="center" src="../../assets/Images/Asset_Editors/Sequences_Audio/SeqAudioInspectorGeneral.png" /></p>
+  <p>You can make changes to the <strong>Rotation</strong> here but it has no effect in-game as this isn&#39;t a property that can be set for an emitter.</p>
+  <p class="note"><span data-conref="../../assets/snippets/Tag_note.hts"> </span> All properties shown above apply to the emitter except the <strong>Loop Mode</strong>, which is a property of the <a href="../../GameMaker_Language/GML_Reference/Asset_Management/Audio/audio_play_sound.htm">sound instance</a>.</p>
+  <p><img class="center" src="../../assets/Images/Asset_Editors/Sequences_Audio/SeqAudioInspectorEffects.png" />All effects that you add to the audio track are listed under &quot;<strong>Audio Effects&quot; in the Inspector</strong>. You can change their parameters here, however their order can only be changed in the Track Panel.</p>
+  <h3>Reordering Audio Effects</h3>
+  <p>Audio effects on an audio bus are applied <em>in order</em> and therefore the order of the tracks is important. The effect track at the top corresponds to the first audio effect to be applied to the bus and the effect tracks below the subsequent ones.</p>
+  <p>To reorder audio effects, click and hold the left mouse button on an effect track to drag it to its new position: </p>
+  <p><img alt="" class="center" src="../../assets/Images/Asset_Editors/Track_Editor_Reordering_Effect_Tracks.gif" /></p>
+  <p class="note"><span data-conref="../../assets/snippets/Tag_note.hts"> </span> Dragging parameter tracks only works for audio effect parameter tracks, not the bus track or any other type of parameter track.</p>
+  <h2>Audio Emitters in Sequence Instances</h2>
+  <p>Once your sequence is finished, you can add it to an asset layer in <a data-xref="{title}" href="../Rooms.htm">The Room Editor</a>, creating one or more <em>instances</em> of it. A sequence instance will include an audio emitter for each sound track in the sequence, positioned relative to the instance&#39;s position.</p>
+  <p>For example, if you added an audio emitter to your sequence at position (0, 0) and you add an instance of that sequence to a room at a position (100, 200) then <span data-keyref="GameMaker Name">GameMaker</span> will place the audio emitter at (100, 200), or (100 + 0, 200 + 0). If you have another audio emitter in another sequence at position (10, -30) and you add an instance of this sequence at (400, 50), this emitter will end up at the position (410, 20), or (400 + 10, 50 + (-30)). If you animated the emitter&#39;s position in the sequence, <span data-keyref="GameMaker Name">GameMaker</span> will update its final position accordingly.</p>
+  <p>By adding the sequence position (and possibly also rotation) to the emitter position it is moved from &quot;local&quot; space (its position defined relative to the sequence) into &quot;global&quot; space (its position defined relative to the room origin).</p>
+  <p>So you can place two instances of the same sequence in a room and the audio emitter in one will be heard on one side and the other one on the other side (despite the two emitters both having the same &quot;local&quot; position).</p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div>Back: <a data-xref="{title}" href="../Sequences.htm">The Sequence Editor</a></div>
+        <div>Next: <a data-xref="{title}" href="Clipping_Masks.htm">Clipping Masks</a></div>
+      </div>
+    </div>
+    <h5><span data-conref="../../assets/snippets/Copyright_Notice_AutoUpdate.hts"> </span></h5>
+  </div>
+</body>
+</html>

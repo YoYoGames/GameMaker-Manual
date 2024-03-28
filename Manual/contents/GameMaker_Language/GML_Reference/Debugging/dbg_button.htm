@@ -21,6 +21,7 @@
   <p> </p>
   <h4>Syntax:</h4>
   <p class="code"><span data-field="title" data-format="default">dbg_button</span>(label, ref[, width, height]);</p>
+  <p> </p>
   <table>
     <colgroup>
       <col />
@@ -41,7 +42,7 @@
       <tr>
         <td>ref</td>
         <td><span data-keyref="Type_DbgRef"><a href="../Variable_Functions/ref_create.htm" target="_blank">Reference</a></span> or <span data-keyref="Type_Function_Script"><a href="../../GML_Overview/Script_Functions.htm" target="_blank">Script Function</a></span> or <span data-keyref="Type_Function"><a href="../../GML_Overview/Script_Functions.htm" target="_blank">Function</a></span></td>
-        <td>A reference to a <span data-keyref="Type_Function"><a href="../../GML_Overview/Script_Functions.htm" target="_blank">Function</a></span> or <span data-keyref="Type_Function_Script"><a href="../../GML_Overview/Script_Functions.htm" target="_blank">Script Function</a></span> created using <span class="inline3_func"><a data-xref="{title}" href="../Variable_Functions/ref_create.htm">ref_create</a></span> or a function</td>
+        <td>A <span data-keyref="Type_Function"><a href="../../GML_Overview/Script_Functions.htm" target="_blank">Function</a></span> or <span data-keyref="Type_Function_Script"><a href="../../GML_Overview/Script_Functions.htm" target="_blank">Script Function</a></span> or a reference to one (created with <span class="inline3_func"><a data-xref="{title}" href="../Variable_Functions/ref_create.htm">ref_create</a></span>)</td>
       </tr>
       <tr>
         <td>width</td>
@@ -59,10 +60,48 @@
   <h4>Returns:</h4>
   <p class="code"><span data-keyref="Type_Void">N/A</span></p>
   <p> </p>
-  <h4>Example:</h4>
+  <h4>Example 1: Basic Use</h4>
   <p class="code_heading">Create Event</p>
-  <p class="code"><span data-field="title" data-format="default">dbg_button</span>(&quot;Click me!&quot;, function() { show_debug_message(&quot;Clicked the button!&quot;) });</p>
+  <p class="code">my_method = function()<br />
+    {<br />
+        show_debug_message(&quot;Clicked the button!&quot;<br />
+    };<br />
+    <span data-field="title" data-format="default">dbg_button</span>(&quot;Click me!&quot;, my_method);
+  </p>
   <p>The above code creates a button control in an <a href="../Asset_Management/Objects/Objects.htm">object</a>&#39;s Create event using <span class="inline3_func"><span data-field="title" data-format="default">dbg_button</span></span>. Since no calls are made to <span class="inline3_func"><a data-xref="{title}" href="dbg_view.htm">dbg_view</a></span> or <span class="inline3_func"><a data-xref="{title}" href="dbg_section.htm">dbg_section</a></span>, the button is added to a new debug section named <span data-keyref="DebugSection_Name_Default">&quot;Default&quot;</span> in a new debug view named <span data-keyref="DebugView_Name_Default">&quot;Default&quot;</span>. Clicking the button calls a function that shows a debug message using <span class="inline3_func"><a data-xref="{title}" href="show_debug_message.htm">show_debug_message</a></span>.</p>
+  <p> </p>
+  <h4>Example 2: Extended Example</h4>
+  <p class="code_heading">Script Asset</p>
+  <p class="code">/// Script Asset<br />
+    <br />
+    function script_function()<br />
+    {<br />
+        show_message(&quot;Called the script function!&quot;);<br />
+    }
+  </p>
+  <p class="code_heading">Create Event</p>
+  <p class="code">my_method = function()<br />
+    {<br />
+        show_message(&quot;Called the method!&quot;);<br />
+    }<br />
+    <br />
+    ref_to_method = ref_create(self, &quot;my_method&quot;);<br />
+    ref_to_script_function_global = ref_create(global, &quot;script_function&quot;);<br />
+    func = script_function;<br />
+    ref_to_script_function = ref_create(self, &quot;func&quot;);<br />
+    <br />
+    dbg_section(&quot;Function Calls&quot;);<br />
+    dbg_button(&quot;Call the Script Function&quot;, script_function, 400);<br />
+    dbg_button(&quot;Call the Script Function through the Reference&quot;, ref_to_script_function, 400);<br />
+    dbg_button(&quot;Call the Script Function through the Reference (Global)&quot;, ref_to_script_function_global, 400);<br />
+    dbg_button(&quot;Call the Method&quot;, my_method, 400);<br />
+    dbg_button(&quot;Call the Method through the Reference&quot;, ref_to_method, 400);<br />
+    dbg_section(&quot;Game&quot;);<br />
+    dbg_button(&quot;End the Game&quot;, game_end);
+  </p>
+  <p>The code example above shows a variety of ways to add button controls that execute functions to the debug overlay.</p>
+  <p>First, a script function is defined in a script asset as well as a method in an object&#39;s Create event. Then, also in the Create event, various references to the script function and to the method are created. Note that in case of <span class="inline2">ref_to_script_function</span>, you can change the function to be executed by simply assigning a new value to the instance variable <span class="inline2">func</span>. After that, two sections are added to the debug overlay. Several buttons are added to the first section, where each of them calls the script function or the method through a different path. One more button is added to the second section. Clicking this button executes the built-in function <span class="inline3_func"><a data-xref="{title}" href="../General_Game_Control/game_end.htm">game_end</a></span>, which can be called because it takes no (mandatory) arguments.</p>
+  <p>When the code has executed, <a data-xref="{title}" href="The_Debug_Overlay.htm">The Debug Overlay</a> is shown as any call to the <span class="inline2">dbg_*</span> functions will bring up the overlay.</p>
   <p> </p>
   <p> </p>
   <div class="footer">
