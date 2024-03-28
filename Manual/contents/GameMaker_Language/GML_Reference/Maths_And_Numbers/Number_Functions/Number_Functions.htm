@@ -4,9 +4,9 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>Number Functions</title>
-  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <meta name="generator" content="Adobe RoboHelp 2022" />
   <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
-  <script src="../../../../assets/scripts/main_script.js"></script>
+  <script src="../../../../assets/scripts/main_script.js" type="module"></script>
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Reference section for Number functions" />
   <meta name="rh-index-keywords" content="" />
@@ -14,79 +14,82 @@
 </head>
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
-  <h1>Number Functions</h1>
+  <h1><span data-field="title" data-format="default">Number Functions</span></h1>
   <p>Real numbers in <span data-keyref="GameMaker Name">GameMaker</span> are considered <i>double-precision floating-point numbers</i> - that is to say that they have a decimal point in them with no fixed number of digits either before or after the point - or <i>integers</i> - that is to say they are whole numbers with no decimal point value. 2, for example, is an integer but 2.01 is a floating point real.</p>
-  <p class="note"><b>NOTE</b>: On the <b>HTML5</b> target, all real numbers are doubles.</p>
-  <p>This distinction between integers and floats is very important when dealing with cross platform development as the precision of calculations made on a Windows PC is <i>not</i> the same as the precision of those same calculations when made on a mobile device. This means that you should pay particular attention when making comparisons, for example:</p>
+  <p class="note"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> On the <b>HTML5</b> target, all real numbers are doubles.</p>
+  <p>This distinction between integers and floats is very important when dealing with cross-platform development as the precision of calculations made on a Windows PC is <i>not</i> the same as the precision of those same calculations when made on a mobile device. This means that you should pay particular attention when making comparisons, for example:</p>
   <p class="code">if (image_index == 1)<br />
     {<br />
-        do something...<br />
+        // Do something...<br />
     }</p>
-  <p>In the example above, if we have been setting the <span class="inline">image_speed</span> to 0.25 - for example - then after four steps you may assume that the <span class="inline">image_index</span> value would be 1, but it <i>may</i> be a value like 1.0000002 due to the way floating point maths works and so the evaluation will not be <span class="inline">true</span>. These types of errors can be quite hard to debug and so it is always good to be aware of them and to plan ahead and use other means of checking values or to use the appropriate flooring or rounding functions (listed below) to convert the number to check into an integer (for more information on floating point maths and why this is an issue, please <a href="https://floating-point-gui.de/" target="_blank">see here</a>). For example the above code could be written as:</p>
+  <p>In the example above, if we have been setting the <span class="inline2"><a data-xref="{title}" href="../../Asset_Management/Sprites/Sprite_Instance_Variables/image_speed.htm">image_speed</a></span> to 0.25 - for example - then after four steps you may assume that the <span class="inline2"><a data-xref="{title}" href="../../Asset_Management/Sprites/Sprite_Instance_Variables/image_index.htm">image_index</a></span> value would be 1, but it <i>may</i> be a value like 1.0000002 due to the way floating point maths works and so the evaluation will not be <span class="inline2">true</span>. These types of errors can be quite hard to debug and so it is always good to be aware of them and to plan ahead and use other means of checking values or to use the appropriate flooring or rounding functions (listed below) to convert the number to check into an integer (for more information on floating point maths and why this is an issue, please <a href="https://floating-point-gui.de/" target="_blank">see here</a>). For example the above code could be written as:</p>
   <p class="code">if (floor(image_index) == 1)<br />
     {<br />
-        do something...<br />
+        // Do something...<br />
     }</p>
   <p>It is also worth noting that when using the <b>YoYo Compiler</b> targets, all expressions and functions are <i>evaluated from left to right</i>, while on all other target platforms they are evaluated <i>from right to left</i>, meaning that this - for example - will give different results depending on the platform:</p>
   <p class="code">val = max(num, ++num, num++);</p>
-  <p class="note"><strong>NOTE</strong>: For more informaton, see the section on <a href="../../../GML_Overview/Evaluation_Order.htm">Evaluation Order</a>.</p>
-  <p>You can also use a special function available in <span data-keyref="GameMaker Name">GameMaker</span> to set the <b>epsilon</b> value for floating point maths. When a real number is rounded to the nearest floating point number, the epsilon (also know as &quot;machine epsilon&quot;) forms an upper bound on the relative error, and you can get and set the epsilon value using the following functions:</p>
+  <p class="note"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> For more information, see the section on <a data-xref="{title}" href="../../../GML_Overview/Evaluation_Order.htm">Evaluation Order</a>.</p>
+  <p>You can also use a special function available in <span data-keyref="GameMaker Name">GameMaker</span> to set the <b><a id="epsilon"></a>epsilon</b> value for floating point maths. When a real number is rounded to the nearest floating point number, the epsilon (also know as &quot;machine epsilon&quot;) forms an upper bound on the relative error, and you can set and get the epsilon value using the following functions:</p>
   <ul class="colour">
-    <li><a href="math_set_epsilon.htm">math_set_epsilon</a></li>
-    <li><a href="math_get_epsilon.htm">math_get_epsilon</a></li>
+    <li><a data-xref="{title}" href="math_set_epsilon.htm">math_set_epsilon</a></li>
+    <li><a data-xref="{title}" href="math_get_epsilon.htm">math_get_epsilon</a></li>
   </ul>
-  <p> </p>
-  <p id="random">These functions all deal with using random numbers and values:</p>
-  <p class="note"><b><span class="note">NOTE</span> </b>When using the random functions, <span data-keyref="GameMaker Name">GameMaker</span> maintains the same random seed every time you start the game. This makes debugging much easier as you are guaranteed that the random functions will always initially return the same value, however should you not wish this to happen, you must first set a new random seed at the very start of the game, either using <span style="font-size:1px;"><a href="randomise.htm"><span class="inline">randomise()</span></a></span> or <span style="font-size:1px;"><a href="random_set_seed.htm"><span class="inline">random_set_seed()</span></a></span>.</p>
+  <h2 id="func_ref">Function Reference</h2>
+  <h3 id="random">Random Numbers and Values</h3>
+  <p class="note"><b><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> </b>When using the random functions, <span data-keyref="GameMaker Name">GameMaker</span> maintains the same random seed every time you start the game. This makes debugging much easier as you are guaranteed that the random functions will always initially return the same value, however should you not wish this to happen, you must first set a new random seed at the very start of the game, either using <span class="inline3_func"><a data-xref="{title}" href="randomise.htm">randomise</a></span> or <span class="inline3_func"><a data-xref="{title}" href="random_set_seed.htm">random_set_seed</a></span>.</p>
   <ul class="colour">
-    <li><a href="choose.htm">choose</a></li>
-    <li><a href="random.htm">random</a></li>
-    <li><a href="random_range.htm">random_range</a></li>
-    <li><a href="irandom.htm">irandom</a></li>
-    <li><a href="irandom_range.htm">irandom_range</a></li>
-    <li><a href="random_set_seed.htm">random_set_seed</a></li>
-    <li><a href="random_get_seed.htm">random_get_seed</a></li>
-    <li><a href="randomise.htm">randomise</a><b></b></li>
+    <li><a data-xref="{title}" href="choose.htm">choose</a></li>
+    <li><a data-xref="{title}" href="random.htm">random</a></li>
+    <li><a data-xref="{title}" href="random_range.htm">random_range</a></li>
+    <li><a data-xref="{title}" href="irandom.htm">irandom</a></li>
+    <li><a data-xref="{title}" href="irandom_range.htm">irandom_range</a></li>
+    <li><a data-xref="{title}" href="random_set_seed.htm">random_set_seed</a></li>
+    <li><a data-xref="{title}" href="random_get_seed.htm">random_get_seed</a></li>
+    <li><a data-xref="{title}" href="randomise.htm">randomise</a><b></b></li>
   </ul>
-  <p> </p>
-  <p>These are all functions that will round values in some way, or select a single value from various given values:</p>
+  <h3>Rounding and Truncating</h3>
+  <p>These are all functions that will round values in some way, or select a single value from various given values.</p>
   <ul class="colour">
-    <li><a href="round.htm">round</a></li>
-    <li><a href="floor.htm">floor</a></li>
-    <li><a href="frac.htm">frac</a></li>
-    <li><a href="abs.htm">abs</a></li>
-    <li><a href="sign.htm">sign</a></li>
-    <li><a href="ceil.htm">ceil</a></li>
-    <li><a href="max.htm">max</a></li>
+    <li><a data-xref="{title}" href="round.htm">round</a></li>
+    <li><a data-xref="{title}" href="frac.htm">frac</a></li>
+    <li><a data-xref="{title}" href="abs.htm">abs</a></li>
+    <li><a data-xref="{title}" href="sign.htm">sign</a></li>
+    <li><a data-xref="{title}" href="floor.htm">floor</a></li>
+    <li><a data-xref="{title}" href="ceil.htm">ceil</a></li>
+    <li><a data-xref="{title}" href="min.htm">min</a></li>
+    <li><a data-xref="{title}" href="max.htm">max</a></li>
     <li><a href="mean.htm">mean</a></li>
     <li><a href="median.htm">median</a></li>
-    <li><a href="min.htm">min</a></li>
     <li><a href="lerp.htm">lerp</a></li>
     <li><a href="clamp.htm">clamp</a></li>
   </ul>
-  <p> </p>
-  <p>Finally we a miscellaneous collection of important mathematical functions:</p>
+  <h3>Comparisons and Precision</h3>
   <ul class="colour">
-    <li><a href="exp.htm">exp</a></li>
-    <li><a href="ln.htm">ln</a></li>
-    <li><a href="power.htm">power</a></li>
-    <li><a href="sqr.htm">sqr</a></li>
-    <li><a href="sqrt.htm">sqrt</a></li>
-    <li><a href="log2.htm">log2</a></li>
-    <li><a href="log10.htm">log10</a></li>
-    <li><a href="logn.htm">logn</a></li>
+    <li><a data-xref="{title}" href="math_set_epsilon.htm">math_set_epsilon</a></li>
+    <li><a data-xref="{title}" href="math_get_epsilon.htm">math_get_epsilon</a></li>
   </ul>
-  <p> </p>
+  <h3>Mathematical Functions</h3>
+  <ul class="colour">
+    <li><a data-xref="{title}" href="exp.htm">exp</a></li>
+    <li><a data-xref="{title}" href="ln.htm">ln</a></li>
+    <li><a data-xref="{title}" href="power.htm">power</a></li>
+    <li><a data-xref="{title}" href="sqr.htm">sqr</a></li>
+    <li><a data-xref="{title}" href="sqrt.htm">sqrt</a></li>
+    <li><a data-xref="{title}" href="log2.htm">log2</a></li>
+    <li><a data-xref="{title}" href="log10.htm">log10</a></li>
+    <li><a data-xref="{title}" href="logn.htm">logn</a></li>
+  </ul>
   <p> </p>
   <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a href="../Maths_And_Numbers.htm">Maths And Numbers</a></div>
-        <div style="float:right">Next: <a href="../Angles_And_Distance/Angles_And_Distance.htm">Vectors</a></div>
+        <div style="float:left">Back: <a data-xref="{title}" href="../Maths_And_Numbers.htm">Maths And Numbers</a></div>
+        <div style="float:right">Next: <a data-xref="{title}" href="../../../../Additional_Information/Vectors.htm">Vectors</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2022 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2023 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 Number Functions
