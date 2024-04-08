@@ -14,7 +14,7 @@
 <body>
   <h1><span data-field="title" data-format="default">Editing Code</span></h1>
   <p>The <span data-keyref="Code_Editor2_Name">Code Editor</span> will open when you create an asset that requires it (e.g. Objects, Scripts, Shaders, etc.).</p>
-  <p>As described on <a data-xref="{title}" href="../The_Text_Editor.htm">Code Editor</a>, some asset types contain <strong>documents</strong> within them. For example, Objects have <strong>events</strong>, Timelines have <strong>moments</strong>, and Shaders have <strong>fragment</strong> and <strong>vertex </strong>shaders, which are separate <strong>documents</strong> within the asset.</p>
+  <p>As described on <a data-xref="{title}" href="../The_Text_Editor.htm">The Code Editor</a>, some asset types contain <strong>documents</strong> within them. For example, Objects have <strong>events</strong>, Timelines have <strong>moments</strong>, and Shaders have <strong>fragment</strong> and <strong>vertex </strong>shaders, which are separate <strong>documents</strong> within the asset.</p>
   <p>For Objects and Timelines, since they won&#39;t have any documents to begin with, you will see this:</p>
   <p data-condition="Misc:Need_change">IMAGE - CREATE CTA</p>
   <p>You can click on the &quot;<strong>Create ...</strong>&quot; button to create your first document (in this example, clicking on this would open the <strong>Events</strong> menu as it is an object).</p>
@@ -56,9 +56,9 @@
   </ul>
   <h2>Writing Code</h2>
   <p>While writing code you will get syntax highlighting and auto-complete for the language you are currently editing.</p>
-  <p data-condition="Misc:Need_change">IMAGE - Auto completion</p>
+  <p data-condition="Misc:Need_change">IMAGE - Auto completion (Candidate window with detail tooltip)</p>
   <p>This window will pop up while you are writing your code (normally after a slight pause, but this can be set in the <a href="../../Setting_Up_And_Version_Information/IDE_Preferences/Text_Editor_2_Preferences.htm">Preferences</a>) and give you a selection of &quot;best-fit&quot; answers in alphabetical order.</p>
-  <p>For other features when editing GML Code, see <a data-xref="{title}" href="Feather_Features.htm">Feather Features</a>.</p>
+  <p>For other features when editing GML Code, see <a data-xref="{title}" href="Feather_Features.htm">Code Completion</a>.</p>
   <p>Documents can also have JSDoc style comments that define the properties of the functions they contain, so when you use the functions in your code they show up in auto-complete along with their arguments and other details. You can find out more about this from the section <a href="JSDoc_Script_Comments.htm">JSDoc Script Comments</a> for more information.</p>
   <h3>Document Manipulation</h3>
   <p>Here are some basic inputs for manipulating a document:</p>
@@ -106,18 +106,30 @@
     <li><span class="shortcut">CTRL + {</span>: <span>Move the Text Cursor to the matching brace under the text cursor, toggling between opening and closing brace. If the text cursor is not currently under a brace, but is inside of a braced region, the text cursor is moved to the opening brace; otherwise nothing happens.</span></li>
   </ul>
   <h3>Context Menu</h3>
-  <p>Right-clicking anywhere within the Editor, without a selection, will show you the following options:</p>
+  <p>Right-clicking anywhere within the Editor will show you the following options:</p>
   <p data-condition="Misc:Need_change">IMAGE - Context menu</p>
-  <p>Some of these options are explained below:-*</p>
+  <p>These options are explained below:</p>
   <ul class="colour">
     <li><strong>Go To Declaration</strong> (<span class="shortcut">F1</span>): Navigates to the identifier&#39;s declaration</li>
     <li><strong>Preview Declaration</strong> (<span class="shortcut">ALT + F1</span>): Previews the identifier&#39;s declaration</li>
     <li><strong>Find Usages</strong> (<span class="shortcut">Shift + F1</span>): Finds all usages of the identifier and displays them in the Search Results window</li>
     <li><strong>Refactor This...</strong> (<span class="shortcut">CTRL + R</span>): Rename the identifier</li>
+    <li><strong>Cut</strong> (<span class="shortcut">CTRL + X</span>): Cut the selected text, or the whole line when no text is selected</li>
+    <li><strong>Copy</strong> (<span class="shortcut">CTRL + C)</span>: Copy the selected text, or the whole line when no text is selected</li>
+    <li><strong>Paste</strong> (<span class="shortcut">CTRL + V</span>): Paste text, replacing any selected text</li>
+    <li><strong>Select All</strong> (<span class="shortcut">CTRL + A</span>): Select all text in the document</li>
     <li><strong>Insert...</strong>:
       <ul>
-        <li><strong>UUID:</strong> A random<span> </span><a href="https://en.wikipedia.org/wiki/Universally_unique_identifier">UUIDv4</a><span> </span>in<span> </span><span>00000000-0000-0000-0000-000000000000 format</span></li>
-        <li>The rest of the options appear when <a href="#code_selection_menu">text is selected</a></li>
+        <li><strong>UUID:</strong> A random<span> </span><a href="https://en.wikipedia.org/wiki/Universally_unique_identifier">UUIDv4</a><span> </span>in<span> </span><span><span class="inline2">00000000-0000-0000-0000-000000000000</span> format, replacing any selected text</span></li>
+        <li><span>The options below appear only when text is selected:</span>
+          <ul>
+            <li><strong>MD5:</strong> Hashes and replaces selected text with the MD5 algorithm</li>
+            <li><strong>SHA1:</strong> Hashes and replaces selected text with the SHA1 algorithm</li>
+            <li><strong>SHA256:</strong> Hashes and replaces selected text with the SHA256 algorithm</li>
+            <li><strong>To Base 64:</strong> Converts selected text to base64 encoded text</li>
+            <li><strong>From Base 64:</strong> Converts selected text from base64 encoded text. If the selected text is not a valid base64 string then nothing happens.</li>
+          </ul>
+        </li>
       </ul>
     </li>
     <li><strong>Edit</strong>:
@@ -128,6 +140,24 @@
         <li><strong>Uncomment </strong>(<span class="shortcut">CTRL + SHIFT + K</span>): Uncomment line</li>
         <li><strong>Duplicate</strong><span> </span>(<span class="shortcut">CTRL + D</span>): Duplicate the current line</li>
         <li><strong>Join Lines </strong>(<span class="shortcut">CTRL + J</span>): Joins current line and next line</li>
+        <li><strong>Sort lines alphanumerically:</strong> Sorts the selected lines alphanumerically, only shows when there is a valid selection</li>
+      </ul>
+    </li>
+    <li><strong>Regions</strong>:
+      <ul>
+        <li><strong>Fold All Regions</strong> (<span class="shortcut">CTRL + M</span>): Fold all the regions in the document</li>
+        <li><strong>Unfold All Regions</strong> (<span class="shortcut">CTRL + U</span>): Unfold all regions in the document</li>
+        <li><strong>Fold/Unfold region</strong> (<span class="shortcut">CTRL + ENTER</span>): Fold/unfold the region at the text cursor</li>
+      </ul>
+    </li>
+    <li><strong>Convert case to...</strong> (<em>when text is selected</em>)
+      <ul>
+        <li><strong>UPPERCASE</strong><span> </span>(<span class="shortcut">CTRL + SHIFT + U</span>): Converts selected text to <span class="inline2">UPPERCASE</span></li>
+        <li><strong>lowercase </strong>(<span class="shortcut">CTRL + U</span>)<b>:</b> Converts selected text to <span class="inline2">lowercase</span></li>
+        <li><strong>Proper Case </strong>(<span class="shortcut">ALT + U</span>): Converts selected text to <span class="inline2">Proper Case</span></li>
+        <li><strong>Sentence case </strong>(<span class="shortcut">CTRL + ALT + U</span>): Converts selected text to <span class="inline2">Sentence case</span></li>
+        <li><strong>iNVERTED:</strong> Converts selected text to <span class="inline2">iNVERTED cASE</span> where uppercase characters are converted to lowercase and vice versa</li>
+        <li><strong>rAndOM cAse:</strong> Converts selected text to random casing</li>
       </ul>
     </li>
   </ul>
@@ -176,41 +206,6 @@
     <li><strong>Indent</strong> the line with <span class="shortcut"><strong>Tab</strong></span> and <strong>reverse-indent</strong> with <span class="shortcut"><strong>Shift + Tab</strong></span></li>
     <li>Press <span class="shortcut">CTRL + R</span> to rename the selected identifier, if supported by the Language Server</li>
   </ul>
-  <h3 id="code_selection_menu">Selection Context Menu</h3>
-  <p>Right-click on your text selection for the following options:</p>
-  <p data-condition="Misc:Need_change">IMAGE - Selection context menu</p>
-  <ul class="colour">
-    <li><strong>Insert...</strong>:
-      <ul>
-        <li><strong>MD5:</strong> Hashes and replaces selected text with the MD5 algorithm</li>
-        <li><strong>SHA1:</strong> Hashes and replaces selected text with the SHA1 algorithm</li>
-        <li><strong>SHA256:</strong> Hashes and replaces selected text with the SHA256 algorithm</li>
-        <li><strong>To Base 64:</strong> Converts selected text to base64 encoded text</li>
-        <li><strong>From Base 64:</strong> Converts selected text from base64 encoded text. If the selected text is not a valid base64 string then nothing happens.</li>
-      </ul>
-    </li>
-    <li><strong>Edit</strong>
-      <ul>
-        <li><strong>Tab In </strong>(<span class="shortcut">TAB</span>): Tabs selection in</li>
-        <li><strong>Tab Out </strong>(<span class="shortcut">SHIFT + TAB</span>): Untab selection</li>
-        <li><strong>Comment </strong>(<span class="shortcut">CTRL + K</span>): Comment selection</li>
-        <li><strong>Uncomment </strong>(<span class="shortcut">CTRL + SHIFT + K</span>): Uncomment selection</li>
-        <li><strong>Duplicate</strong><span> </span>(<span class="shortcut">CTRL + D</span>): Duplicates the selected lines</li>
-        <li><strong>Join Lines </strong>(<span class="shortcut">CTRL + J</span>): Joins the selected lines</li>
-        <li><strong>Sort lines alphanumerically:</strong> Sorts the selected lines alphanumerically</li>
-      </ul>
-    </li>
-    <li><strong>Convert case to...</strong>
-      <ul>
-        <li><strong>UPPERCASE</strong><span> </span>(<span class="shortcut">CTRL + SHIFT + U</span>): Converts selected text to UPPERCASE</li>
-        <li><strong>lowercase </strong>(<span class="shortcut">CTRL + U</span>)<b>:</b> Converts selected text to lowercase</li>
-        <li><strong>Proper Case </strong>(<span class="shortcut">ALT + U</span>): Converts selected text to Proper Case</li>
-        <li><strong>Sentence case </strong>(<span class="shortcut">CTRL + ALT + U</span>): Converts selected text to Sentence case</li>
-        <li><strong>iNVERTED:</strong> Converts selected text to iNVERTED cASE where uppercase characters are converted to lowercase and vice versa</li>
-        <li><strong>rAndOM cAse:</strong> Converts selected text to random casing</li>
-      </ul>
-    </li>
-  </ul>
   <h2>Indentation Modes</h2>
   <p>From the <a data-xref="{title}" href="../../Setting_Up_And_Version_Information/IDE_Preferences/Text_Editor_2_Preferences.htm">Code Editor Preferences</a>, you can choose to use spaces or tabs for indentation.</p>
   <p>The &quot;<strong>Tab Size</strong>&quot; preference determines how long your indentation tabs are. When using spaces for indentation, pressing <span class="shortcut">TAB</span> will insert this number of spaces. When using tabs, it will insert one tab character which is as long as the number of spaces set in &quot;<strong>Tab Size</strong>&quot;.</p>
@@ -227,6 +222,7 @@
   </ul>
   <h2>Rendering</h2>
   <p>This section covers how the <span data-keyref="Code_Editor2_Name">Code Editor</span> renders parts of your code.</p>
+  <p>Part of this is covered under <a data-xref="{title}" href="Feather_Features.htm">Code Completion</a>.</p>
   <h3>Highlighting</h3>
   <p>By default, the line your text cursor is on is highlighted. You can change this in the <a data-xref="{title}" href="../../Setting_Up_And_Version_Information/IDE_Preferences/Text_Editor_2_Preferences.htm">Code Editor Preferences</a>.</p>
   <p data-condition="Misc:Need_change">IMAGE - Show highlit line and diagnostic squiggles</p>
@@ -264,7 +260,7 @@
   <h3>Tooltips</h3>
   <p>Tooltips appear when hovering over part of your code that is either highlighted by diagnostics, or is a keyword that has documentation (for custom functions, JSDoc information is shown).</p>
   <p data-condition="Misc:Need_change">IMAGE - Show tooltips</p>
-  <p>For more features that assist with code writing, see <a data-xref="{title}" href="Feather_Features.htm">Feather Features</a>.</p>
+  <p>For more features that assist with code writing, see <a data-xref="{title}" href="Feather_Features.htm">Code Completion</a>.</p>
   <h3>International Support (RTL)</h3>
   <p>The Text Editor supports right-to-left text and ligatures.</p>
   <p data-condition="Misc:Need_change">IMAGE - example</p>
@@ -275,7 +271,7 @@
     <div class="buttons">
       <div class="clear">
         <div>Back: <a href="../The_Text_Editor.htm">The Text Editor</a></div>
-        <div>Next: <a data-xref="{title}" href="Feather_Features.htm">Feather Features</a></div>
+        <div>Next: <a data-xref="{title}" href="Feather_Features.htm">Code Completion</a></div>
       </div>
     </div>
     <h5><span data-conref="../../assets/snippets/Copyright_Notice_AutoUpdate.hts"> </span></h5>
