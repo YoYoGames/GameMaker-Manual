@@ -1,9 +1,8 @@
 @echo off
-setlocal enabledelayedexpansion
 
 rem Read the content of .git/refs/remotes/origin/HEAD using type
-for /f "delims=" %%A in ('type .git\refs\remotes\origin\HEAD 2^>nul') do (
-    set "branch_ref=%%A"
+for /F "tokens=2 delims=/" %%A in ('type .git\refs\remotes\origin\HEAD 2^>nul') do (
+    set "branch_name=%%A"
 )
 
 rem Extract the branch name after "refs/remotes/origin/"
