@@ -16,7 +16,7 @@ jobs:
 
    RoboHelp:
      name: "RoboHelp"
-     runs-on: windows-2019
+     runs-on: windows-2022
      env:
        LANGUAGE: ${{ vars.LANGUAGE }}
      steps:
@@ -35,15 +35,18 @@ jobs:
       - name: Set Branch Name
         id: set_branch
         shell: pwsh
-        run: .\branch.ps1
+        run: |
+            $branchName = .\script.ps1
+            echo "Branch Name: $branchName" >> $GITHUB_ENV
+            echo "::set-output name=branch::$branchName"
         working-directory: Manual                   
-      - name: Beta Builds
-        if: github.event.pull_request.base.ref == 'develop' || github.event_name == 'workflow_dispatch'
-        env:
-            BRANCH_NAME: ${{ steps.set_branch.outputs.branch }}
-        run: build_robohelp_gh.bat %GITHUB_WORKSPACE%\output
-        shell: cmd
-        working-directory: Manual       
+      # - name: Beta Builds
+      #   if: github.event.pull_request.base.ref == 'develop' || github.event_name == 'workflow_dispatch'
+      #   env:
+      #       BRANCH_NAME: ${{ steps.set_branch.outputs.branch }}
+      #   run: build_robohelp_gh.bat %GITHUB_WORKSPACE%\output
+      #   shell: cmd
+      #   working-directory: Manual       
       # - name: Upload robohelp zip file
       #   uses: actions/upload-artifact@v3
       #   with:

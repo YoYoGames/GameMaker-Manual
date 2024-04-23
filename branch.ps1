@@ -14,4 +14,4 @@ if (Test-Path $headFilePath -PathType Leaf) {
 }
 
 # Output the branch name as an output variable
-Write-Output "##vso[task.setvariable variable=branch]$branchName"
+Write-Output "$branchName"
