@@ -97,17 +97,18 @@ for /f "delims=" %%A in ('git symbolic-ref refs/remotes/origin/HEAD 2^>nul') do 
     set "symbolic_ref=%%A"
 )
 
+rem If symbolic_ref variable is set (i.e., command was successful)
+if defined symbolic_ref (
+    rem Extract the branch name by removing the prefix "refs/remotes/origin/"
+    set "branch_name=!symbolic_ref:refs/remotes/origin/=!"
+
+    rem Print the branch name (trimmed of the prefix)
+    echo Branch Name: !branch_name!
+
 rem Check if symbolic_ref variable is set (i.e., command was successful)
 if not defined symbolic_ref (
     echo Error: Unable to retrieve symbolic ref for remote origin/HEAD
     exit /b 1
-)
-
-rem Extract the branch name by removing the prefix "refs/remotes/origin/"
-set "branch_name=!symbolic_ref:refs/remotes/origin/=!"
-
-rem Print the extracted branch name
-echo Branch Name: !branch_name!
 
 pushd %DESTDIR%\RoboHelp
 
@@ -125,6 +126,8 @@ rem If symbolic_ref variable is set (i.e., command was successful)
         aws s3 cp helpdocs_keywords.json s3://manual-json-files/Green/helpdocs_keywords.json
         aws s3 cp helpdocs_tags.json s3://manual-json-files/Green/helpdocs_tags.json
     )
+)
+)	
 
 @REM rem ************************************************** ZIP up the output
 7z a YoYoStudioRoboHelp.zip . -r
