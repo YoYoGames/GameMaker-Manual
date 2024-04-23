@@ -6,6 +6,7 @@ echo %CD%
 
 rem Get symbolic ref for remote origin/HEAD
 for /f "delims=" %%A in ('git symbolic-ref refs/remotes/origin/HEAD 2^>nul') do (
+    echo "Git symbolic-ref output: %%A"
     set "symbolic_ref=%%A"
 )
 
