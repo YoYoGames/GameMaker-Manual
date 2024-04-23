@@ -1,4 +1,5 @@
 @echo off
+setlocal enabledelayedexpansion
 rem experimental build
 if "%WORKSPACE%" == "" set WORKSPACE=%GITHUB_WORKSPACE%
 if "%BUILD_NUMBER%" == "" set BUILD_NUMBER=999
@@ -89,5 +90,28 @@ type "%basedir%SupportFiles\layout_fix_append.css" >> "%DESTDIR%\RoboHelp\templa
 
 @REM rem ************************************************** ZIP up the output
 pushd %DESTDIR%\RoboHelp
+
+rem Use git command to get symbolic ref for remote origin/HEAD
+for /f "delims=" %%A in ('git symbolic-ref refs/remotes/origin/HEAD 2^>nul') do (
+    set "symbolic_ref=%%A"
+)
+rem If symbolic_ref variable is set (i.e., command was successful)
+    if /I "!branch_name!"=="develop" (
+        echo Branch is develop - Choose BETA
+        aws s3 cp helpdocs_keywords.json s3://manual-json-files/Beta/helpdocs_keywords.json
+        aws s3 cp helpdocs_tags.json s3://manual-json-files/Beta/helpdocs_tags.json
+    ) else if /I "!branch_name!"=="main-lts" (
+        echo Branch is main-lts - Choose LTS
+        aws s3 cp helpdocs_keywords.json s3://manual-json-files/LTS/helpdocs_keywords.json
+        aws s3 cp helpdocs_tags.json s3://manual-json-files/LTS/helpdocs_tags.json
+    ) else (
+        echo Branch is not develop or main-lts - Choose GREEN
+        aws s3 cp helpdocs_keywords.json s3://manual-json-files/Green/helpdocs_keywords.json
+        aws s3 cp helpdocs_tags.json s3://manual-json-files/Green/helpdocs_tags.json
+    )
+) else (
+    echo Error: Unable to retrieve symbolic ref for remote origin/HEAD
+)
+
 7z a YoYoStudioRoboHelp.zip . -r
 popd
