@@ -90,7 +90,7 @@ type "%basedir%SupportFiles\layout_fix_append.css" >> "%DESTDIR%\RoboHelp\templa
 
 
 rem Navigate to the directory containing the Git repository
-cd /d "%GITHUB_WORKSPACE%"
+cd /d "%WORKSPACE%"
 
 rem Use git command to get symbolic ref for remote origin/HEAD
 for /f "delims=" %%A in ('git symbolic-ref refs/remotes/origin/HEAD 2^>nul') do (
