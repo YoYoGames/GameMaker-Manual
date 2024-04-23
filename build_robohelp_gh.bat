@@ -7,6 +7,7 @@ if "%SOURCE_BUILD_NUMBER%" == "" set SOURCE_BUILD_NUMBER=%BUILD_NUMBER%
 if "%SOURCE_MAJOR_VERSION%" == "" set SOURCE_MAJOR_VERSION=1
 if "%SOURCE_MINOR_VERSION%" == "" set SOURCE_MINOR_VERSION=0
 if "%JOB_NAME%" == "" set JOB_NAME=GMS2_Manual
+set BRANCH_NAME=%BRANCH_NAME%
 set BUILDTYPE=release
 set BUILDPLATFORM="Any CPU"
 set BUILDCLEAN=1
@@ -88,32 +89,12 @@ rem output help tags files
 rem append css fix to layout.css
 type "%basedir%SupportFiles\layout_fix_append.css" >> "%DESTDIR%\RoboHelp\template\Charcoal_Grey\layout.css"
 
-
-rem Navigate to the directory containing the Git repository
-pushd "%WORKSPACE%\Manual"
-
-rem Use git command to get symbolic ref for remote origin/HEAD
-for /f "delims=" %%A in ('git symbolic-ref refs/remotes/origin/HEAD 2^>nul') do (
-    set "symbolic_ref=%%A"
-)
-
-rem If symbolic_ref variable is set (i.e., command was successful)
-if defined symbolic_ref (
-    rem Extract the branch name by removing the prefix "refs/remotes/origin/"
-    set "branch_name=!symbolic_ref:refs/remotes/origin/=!"
-
-    rem Print the branch name (trimmed of the prefix)
-    echo Branch Name: !branch_name!
-
-popd	
-
-	pushd %DESTDIR%\RoboHelp
-    rem Check the branch name and set color accordingly
-    if /I "!branch_name!"=="develop" (
+pushd %DESTDIR%\RoboHelp
+    if /I "%BRANCH_NAME%"=="develop" (
         echo Branch is develop - Choose BETA
         aws s3 cp helpdocs_keywords.json s3://manual-json-files/Beta/helpdocs_keywords.json
         aws s3 cp helpdocs_tags.json s3://manual-json-files/Beta/helpdocs_tags.json
-    ) else if /I "!branch_name!"=="main-lts" (
+    ) else if /I "%BRANCH_NAME%"=="main-lts" (
         echo Branch is main-lts - Choose LTS
         aws s3 cp helpdocs_keywords.json s3://manual-json-files/LTS/helpdocs_keywords.json
         aws s3 cp helpdocs_tags.json s3://manual-json-files/LTS/helpdocs_tags.json
@@ -122,10 +103,7 @@ popd
         aws s3 cp helpdocs_keywords.json s3://manual-json-files/Green/helpdocs_keywords.json
         aws s3 cp helpdocs_tags.json s3://manual-json-files/Green/helpdocs_tags.json
     )
-) else (
-    echo Error: Unable to retrieve symbolic ref for remote origin/HEAD
-)
 
 @REM rem ************************************************** ZIP up the output
 7z a YoYoStudioRoboHelp.zip . -r
-	popd
+popd

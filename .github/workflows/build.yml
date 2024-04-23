@@ -32,6 +32,26 @@ jobs:
         with:
           path: Manual  
           token: ${{ secrets.GH_TOKEN }}
+      - name: Set Branch Name
+        id: set_branch
+        shell: pwsh
+        run: |
+          @echo off
+          setlocal enabledelayedexpansion 
+          for /f "delims=" %%A in ('git symbolic-ref refs/remotes/origin/HEAD 2^>nul') do (
+            set "symbolic_ref=%%A"
+          )
+          if defined symbolic_ref (
+            set "branch_name=!symbolic_ref:refs/remotes/origin/=!"
+    
+            set "BRANCH_NAME=!branch_name!"
+          ) else (
+            echo Error: Unable to retrieve symbolic ref for remote origin/HEAD
+            exit /b 1
+          ) 
+      - name: Display Branch Name
+        run: |
+          echo "BRANCH_NAME=%BRANCH_NAME%" >> $GITHUB_ENV          
       - name: Beta Builds
         if: github.event.pull_request.base.ref == 'develop' || github.event_name == 'workflow_dispatch'
         run: build_robohelp_gh.bat %GITHUB_WORKSPACE%\output
