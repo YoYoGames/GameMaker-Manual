@@ -1,4 +1,4 @@
-@echo on
+@echo off
 setlocal enabledelayedexpansion
 
 echo "Checking current directory:"
@@ -9,6 +9,8 @@ for /f "delims=" %%A in ('git symbolic-ref refs/remotes/origin/HEAD 2^>nul') do 
     set "symbolic_ref=%%A"
 )
 
-rem Print symbolic ref for debugging
-echo "Symbolic ref:"
-echo !symbolic_ref!
+rem Extract the branch name by removing the prefix "refs/remotes/origin/"
+set "branch_name=!symbolic_ref:refs/remotes/origin/=!"
+
+rem Print the extracted branch name
+echo Branch Name: !branch_name!
