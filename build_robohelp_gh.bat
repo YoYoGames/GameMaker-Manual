@@ -1,4 +1,4 @@
-@echo off
+@echo on
 setlocal enabledelayedexpansion
 rem experimental build
 if "%WORKSPACE%" == "" set WORKSPACE=%GITHUB_WORKSPACE%
