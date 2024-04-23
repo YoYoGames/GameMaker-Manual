@@ -88,22 +88,29 @@ rem output help tags files
 rem append css fix to layout.css
 type "%basedir%SupportFiles\layout_fix_append.css" >> "%DESTDIR%\RoboHelp\template\Charcoal_Grey\layout.css"
 
-@REM rem ************************************************** ZIP up the output
-pushd %DESTDIR%\RoboHelp
+
+rem Navigate to the directory containing the Git repository
+cd /d "%GITHUB_WORKSPACE%"
 
 rem Use git command to get symbolic ref for remote origin/HEAD
 for /f "delims=" %%A in ('git symbolic-ref refs/remotes/origin/HEAD 2^>nul') do (
     set "symbolic_ref=%%A"
 )
 
-rem If symbolic_ref variable is set (i.e., command was successful)
-if defined symbolic_ref (
-    rem Extract the branch name by removing the prefix "refs/remotes/origin/"
-    set "branch_name=!symbolic_ref:refs/remotes/origin/=!"
+rem Check if symbolic_ref variable is set (i.e., command was successful)
+if not defined symbolic_ref (
+    echo Error: Unable to retrieve symbolic ref for remote origin/HEAD
+    exit /b 1
+)
 
-    rem Print the branch name (trimmed of the prefix)
-    echo Branch Name: !branch_name!
-	
+rem Extract the branch name by removing the prefix "refs/remotes/origin/"
+set "branch_name=!symbolic_ref:refs/remotes/origin/=!"
+
+rem Print the extracted branch name
+echo Branch Name: !branch_name!
+
+pushd %DESTDIR%\RoboHelp
+
 rem If symbolic_ref variable is set (i.e., command was successful)
     if /I "!branch_name!"=="develop" (
         echo Branch is develop - Choose BETA
@@ -118,9 +125,7 @@ rem If symbolic_ref variable is set (i.e., command was successful)
         aws s3 cp helpdocs_keywords.json s3://manual-json-files/Green/helpdocs_keywords.json
         aws s3 cp helpdocs_tags.json s3://manual-json-files/Green/helpdocs_tags.json
     )
-) else (
-    echo Error: Unable to retrieve symbolic ref for remote origin/HEAD
-)
 
+@REM rem ************************************************** ZIP up the output
 7z a YoYoStudioRoboHelp.zip . -r
 popd
