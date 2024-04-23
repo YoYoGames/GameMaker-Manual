@@ -13,4 +13,4 @@ rem Extract the branch name by removing the prefix "refs/remotes/origin/"
 set "branch_name=!symbolic_ref:refs/remotes/origin/=!"
 
 rem Print the extracted branch name
-echo Branch Name: !branch_name!
+echo Branch Name: %branch_name%
