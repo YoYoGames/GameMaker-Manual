@@ -1,17 +1,21 @@
 @echo off
 setlocal enabledelayedexpansion
 
-echo "Checking current directory:"
-echo %CD%
+rem Read the content of .git/refs/remotes/origin/HEAD
+set "git_head_file=.git\refs\remotes\origin\HEAD"
 
-rem Get symbolic ref for remote origin/HEAD
-for /f "delims=" %%A in ('git symbolic-ref refs/remotes/origin/HEAD 2^>nul') do (
-    echo "Git symbolic-ref output: %%A"
-    set "symbolic_ref=%%A"
+rem Check if the file exists
+if exist "%git_head_file%" (
+    rem Read the content of the file into a variable
+    set /p "branch_name=" < "%git_head_file%"
+
+    rem Extract the branch name after "refs/remotes/origin/"
+    set "prefix=refs/remotes/origin/"
+    set "branch_name=!branch_name:*%prefix%=!"
+
+    rem Print the extracted branch name
+    echo Branch Name: !branch_name!
+) else (
+    echo Error: .git/refs/remotes/origin/HEAD not found
+    exit /b 1
 )
-
-rem Extract the branch name by removing the prefix "refs/remotes/origin/"
-set "branch_name=!symbolic_ref:refs/remotes/origin/=!"
-
-rem Print the extracted branch name
-echo Branch Name: !branch_name!
