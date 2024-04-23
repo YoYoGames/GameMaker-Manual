@@ -35,15 +35,7 @@ jobs:
       - name: Set Branch Name
         id: set_branch
         shell: cmd
-        run: |
-          for /f "delims=" %%A in ('git symbolic-ref refs/remotes/origin/HEAD 2^>nul') do (
-              set "symbolic_ref=%%A"
-          )
-          if defined symbolic_ref (
-              set "branch_name=!symbolic_ref:refs/remotes/origin/=!"
-              set "BRANCH_NAME=!branch_name!"
-          )  
-          echo "BRANCH_NAME=%BRANCH_NAME%" >> $GITHUB_ENV
+        run: branch.bat
         working-directory: Manual                   
       - name: Beta Builds
         if: github.event.pull_request.base.ref == 'develop' || github.event_name == 'workflow_dispatch'
