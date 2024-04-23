@@ -90,7 +90,7 @@ type "%basedir%SupportFiles\layout_fix_append.css" >> "%DESTDIR%\RoboHelp\templa
 
 
 rem Navigate to the directory containing the Git repository
-cd /d "%WORKSPACE%"
+pushd "%WORKSPACE%\Manual"
 
 rem Use git command to get symbolic ref for remote origin/HEAD
 for /f "delims=" %%A in ('git symbolic-ref refs/remotes/origin/HEAD 2^>nul') do (
@@ -104,6 +104,8 @@ if defined symbolic_ref (
 
     rem Print the branch name (trimmed of the prefix)
     echo Branch Name: !branch_name!
+
+popd	
 
 	pushd %DESTDIR%\RoboHelp
     rem Check the branch name and set color accordingly
@@ -126,4 +128,4 @@ if defined symbolic_ref (
 
 @REM rem ************************************************** ZIP up the output
 7z a YoYoStudioRoboHelp.zip . -r
-popd
+	popd
