@@ -98,11 +98,11 @@ if /i %robohelpPreset%=="GMS2 Manual Responsive HTML5 BETA" (
     aws s3 cp helpdocs_keywords.json s3://manual-json-files/Beta/helpdocs_keywords.json
     aws s3 cp helpdocs_tags.json s3://manual-json-files/Beta/helpdocs_tags.json
 ) else if /i %robohelpPreset%=="GMS2 Manual Responsive HTML5" (
-    echo Branch is main-lts - Choose LTS
+    echo Branch is Main - Choose Green
     aws s3 cp helpdocs_keywords.json s3://manual-json-files/Green/helpdocs_keywords.json
     aws s3 cp helpdocs_tags.json s3://manual-json-files/Green/helpdocs_tags.json
 ) else (
-    echo Branch is not develop or main-lts - Choose GREEN
+    echo Branch is not develop or main - Choose LTS
     aws s3 cp helpdocs_keywords.json s3://manual-json-files/LTS/helpdocs_keywords.json
     aws s3 cp helpdocs_tags.json s3://manual-json-files/LTS/helpdocs_tags.json
 )
