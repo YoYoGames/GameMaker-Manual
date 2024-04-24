@@ -11,7 +11,7 @@ set BRANCH_NAME=%BRANCH_NAME%
 set BUILDTYPE=release
 set BUILDPLATFORM="Any CPU"
 set BUILDCLEAN=1
-set BUILDBETA=0
+set BUILDBETA=%BUILDBETA%
 set S3_BUCKET=%S3_BUCKET%
 set ZIP_FILE=%ZIP_FILE%
 
@@ -19,7 +19,11 @@ set basedir=%~dp0
 
 :check_options
 if %LANGUAGE%==EN (
-    set robohelpPreset="GMS2 Manual Responsive HTML5 BETA"
+    if "%BUILDBETA%"=="1" (
+        set robohelpPreset="GMS2 Manual Responsive HTML5 BETA"
+    ) else (
+        set robohelpPreset="GMS2 Manual Responsive HTML5"
+    )
 	goto finish_options
 ) else if %LANGUAGE%==ES ( 
 	set robohelpPreset="GMS2 Manual Spanish"
@@ -90,18 +94,18 @@ rem append css fix to layout.css
 type "%basedir%SupportFiles\layout_fix_append.css" >> "%DESTDIR%\RoboHelp\template\Charcoal_Grey\layout.css"
 
 pushd %DESTDIR%\RoboHelp
-    if /I "%BRANCH_NAME%"=="develop" (
+    if /I "%robohelpPreset%"=="GMS2 Manual Responsive HTML5 BETA" (
         echo Branch is develop - Choose BETA
         aws s3 cp helpdocs_keywords.json s3://manual-json-files/Beta/helpdocs_keywords.json
         aws s3 cp helpdocs_tags.json s3://manual-json-files/Beta/helpdocs_tags.json
-    ) else if /I "%BRANCH_NAME%"=="main-lts" (
+    ) else if /I "%robohelpPreset%"=="GMS2 Manual Responsive HTML5" (
         echo Branch is main-lts - Choose LTS
-        aws s3 cp helpdocs_keywords.json s3://manual-json-files/LTS/helpdocs_keywords.json
-        aws s3 cp helpdocs_tags.json s3://manual-json-files/LTS/helpdocs_tags.json
-    ) else (
-        echo Branch is not develop or main-lts - Choose GREEN
         aws s3 cp helpdocs_keywords.json s3://manual-json-files/Green/helpdocs_keywords.json
         aws s3 cp helpdocs_tags.json s3://manual-json-files/Green/helpdocs_tags.json
+    ) else (
+        echo Branch is not develop or main-lts - Choose GREEN
+        aws s3 cp helpdocs_keywords.json s3://manual-json-files/LTS/helpdocs_keywords.json
+        aws s3 cp helpdocs_tags.json s3://manual-json-files/LTS/helpdocs_tags.json
     )
 
 @REM rem ************************************************** ZIP up the output
