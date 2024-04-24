@@ -1,7 +1,7 @@
 import os
+import sys
 import logging
 
-# Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # Define the path to the HEAD file
@@ -18,19 +18,24 @@ if os.path.exists(head_file_path):
         head_content = head_file.read().strip()
 
         # Extract the branch name from the content
-        if head_content.startswith("ref: refs/remotes/origin/"):
-            branch_name = head_content.replace("ref: refs/remotes/origin/", "")
+        if head_content.startswith("ref: "):
+            branch_name = head_content.split("/")[-1].strip()
             logging.info(f"Extracted branch name: {branch_name}")
-
-# Append the branch name as a GitHub Actions variable to the specified output file
-if branch_name:
-    github_output_file = os.getenv('GITHUB_OUTPUT')
-    logging.info(f"Appending branch name '{branch_name}' to output file: {github_output_file}")
-
-    with open(github_output_file, 'a') as env:
-        env.write(f"branch_name={branch_name}\n")
-
-    logging.info("Branch name appended successfully.")
 else:
-    logging.warning("No branch name extracted.")
+    logging.error("HEAD file not found.")
+    sys.exit(1)  # Exit with non-zero status if HEAD file is not found
 
+# Write the branch name to the specified output file (if GITHUB_OUTPUT is set)
+if branch_name:
+    try:
+        with open(branch_name, 'a') as env:
+            env.write(f"branch_name={branch_name}\n")
+        logging.info(f"Branch name '{branch_name}'")
+    except Exception as e:
+        logging.error(f"Failed to write branch name")
+        logging.error(str(e))
+else:
+    logging.warning("GITHUB_OUTPUT environment variable not set. Branch name not written to output.")
+
+# Optionally print the branch name for reference
+print(f"Branch Name: {branch_name}")
