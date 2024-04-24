@@ -1,8 +1,17 @@
 import os
 import sys
 import logging
+import subprocess
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
+# Check if Git is installed
+try:
+    subprocess.run(["git", "--version"], check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    logging.info("Git is installed and accessible.")
+except subprocess.CalledProcessError:
+    logging.error("Git is not installed or not accessible.")
+    sys.exit(1)
 
 # Define the path to the HEAD file
 head_file_path = ".git/refs/remotes/origin/HEAD"
@@ -27,13 +36,13 @@ else:
 
 # Write the branch name to the specified output file (if GITHUB_OUTPUT is set)
 if branch_name:
-    try:
-        with open(branch_name, 'a') as env:
-            env.write(f"branch_name={branch_name}\n")
-        logging.info(f"Branch name '{branch_name}'")
-    except Exception as e:
-        logging.error(f"Failed to write branch name")
-        logging.error(str(e))
+        try:
+            with open(branch_name, 'a') as env_file:
+                env_file.write(f"branch_name={branch_name}\n")
+            logging.info(f"Branch name '{branch_name}'")
+        except Exception as e:
+            logging.error(f"Failed to write branch name to output file")
+            logging.error(str(e))
 else:
     logging.warning("GITHUB_OUTPUT environment variable not set. Branch name not written to output.")
 
