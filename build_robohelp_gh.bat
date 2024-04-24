@@ -93,11 +93,11 @@ rem append css fix to layout.css
 type "%basedir%SupportFiles\layout_fix_append.css" >> "%DESTDIR%\RoboHelp\template\Charcoal_Grey\layout.css"
 
 pushd %DESTDIR%\RoboHelp
-if /i "!robohelpPreset!"=="GMS2 Manual Responsive HTML5 BETA" (
+if /i %robohelpPreset%=="GMS2 Manual Responsive HTML5 BETA" (
     echo Branch is develop - Choose BETA
     aws s3 cp helpdocs_keywords.json s3://manual-json-files/Beta/helpdocs_keywords.json
     aws s3 cp helpdocs_tags.json s3://manual-json-files/Beta/helpdocs_tags.json
-) else if /i "!robohelpPreset!"=="GMS2 Manual Responsive HTML5" (
+) else if /i %robohelpPreset%=="GMS2 Manual Responsive HTML5" (
     echo Branch is main-lts - Choose LTS
     aws s3 cp helpdocs_keywords.json s3://manual-json-files/Green/helpdocs_keywords.json
     aws s3 cp helpdocs_tags.json s3://manual-json-files/Green/helpdocs_tags.json
