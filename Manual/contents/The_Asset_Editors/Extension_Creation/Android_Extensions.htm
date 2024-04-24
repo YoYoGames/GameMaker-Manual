@@ -4,9 +4,9 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>Android Extensions</title>
-  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <meta name="generator" content="Adobe RoboHelp 2022" />
   <link rel="stylesheet" href="../../assets/css/default.css" type="text/css" />
-  <script src="../../assets/scripts/main_script.js"></script>
+  <script src="../../assets/scripts/main_script.js" type="module"></script>
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Page detailing how Android extensions work" />
   <meta name="rh-index-keywords" content="Extensions - Creating Android Extensions" />
@@ -45,8 +45,8 @@
     YYAndroidGradle<br />
     YYAndroidGradleEnd<br />
     YYAndroidGradleAndroid<br />
-    <span>YYAndroidGradleDependencies<span> <br />
-        YYAndroidGradleProperties</span></span><br />
+    YYAndroidGradleDependencies <br />
+    YYAndroidGradleProperties<br />
     YYAndroidManifestAttributes<br />
     YYAndroidManifestApplicationAttributes<br />
     YYAndroidManifestActivityAttributes<br />
@@ -54,7 +54,8 @@
     YYAndroidManifestApplicationInject<br />
     YYAndroidStringValuesInjection<br />
     YYAndroidLayout<br />
-    <span>YYAndroidProguard</span>
+    YYAndroidProguard<br />
+    YYAndroidLogcat
   </p>
   <p>The runtime location where the code is injected will depend on the type of the tag:</p>
   <table>
@@ -90,6 +91,38 @@
     </tbody>
   </table>
   <p class="note"><span class="note">NOTE</span> These paths are only for VM; for YYC, injected code will go into the <span class="inline">{RUNTIME}\yyc\</span> directory, where the paths may or may not be equivalent to those for VM.</p>
+  <h3 id="h1">Conditional Injection</h3>
+  <p>You can inject code conditionally, depending on the value of one of the <a data-xref="{text}" href="../Extensions.htm#extension_options">Extension Options</a>.</p>
+  <p>Inside a code injection group, use <span class="inline2">toInject</span> with the required option in <span class="inline2">condition</span>:</p>
+  <p class="code">&lt;YYIosPlist&gt;<br />
+     <br />
+    &lt;toInject condition=&#39;${YYEXTOPT_MyExtension_ShouldInject}&#39;&gt;<br />
+    ...<br />
+    &lt;/toInject&gt;<br />
+     <br />
+    &lt;/YYIosPlist&gt;</p>
+  <p>This will only inject the code between the <span class="inline2">toInject</span> tags when the option <span class="inline2">YYEXTOPT_MyExtension_ShouldInject</span> is <span class="inline2">true</span>. The option should be of the <strong>Boolean</strong> type.</p>
+  <p>You can also check against a specific value by specifying it in the <span class="inline2">match</span> attribute:</p>
+  <p class="code">&lt;YYIosPlist&gt;<br />
+     <br />
+    &lt;toInject condition=&#39;${YYEXTOPT_MyExtension_ShouldInject}&#39; match=&#39;FooBar&#39;&gt;<br />
+    &lt;string&gt;This content is injected IF condition == match&lt;/string&gt;<br />
+    &lt;/toInject&gt;<br />
+     <br />
+    &lt;/YYIosPlist&gt;</p>
+  <p>This will only inject the code between the <span class="inline2">toInject</span> tags when the option <span class="inline2">YYEXTOPT_MyExtension_ShouldInject</span> is equal to <span class="inline2">&quot;FooBar&quot;</span>. This allows you to match against a value of any type, as this check is done at compile time when all extension option values are provided as strings.</p>
+  <p>Also see: <a data-xref="{text}" href="Creating_An_Extension.htm#h2">Using Extension Options</a></p>
+  <h3>Usage Tips</h3>
+  <ul class="colour">
+    <li>You can use <span class="inline2">YYAndroidLogcat</span> to use custom logging tags with <a href="https://developer.android.com/studio/command-line/logcat">Logcat</a>. Set up your tag with a priority level, e.g.:<br />
+      <br />
+      <span class="inline2">&lt;YYAndroidLogcat&gt;</span><br />
+      <span class="inline2">myDebugTag:V</span><br />
+      <span class="inline2">&lt;/YYAndroidLogcat&gt;</span><br />
+      <br />
+      In your extension, use a logging function to log a message with this tag, e.g. <span class="inline2">Log.i(&quot;myDebugTag&quot;, &quot;Hello World&quot;);</span>
+    </li>
+  </ul>
   <h2>Source Files</h2>
   <p>Once you have set this up correctly, you will need to add the files required for your extension package to work. To do this you need to click on the buttons at the bottom, either <em>Add SDK</em> or <em>Add Source</em> and then browse to the files you wish to add. Added files will be stored in the <span class="inline">AndroidSource</span> directory along with your extension. You can open this location at any time by right clicking <img alt="RMB Icon" class="icon" src="../../assets/Images/Icons/Icon_RMB.png" /> on the extension and selecting <em>Open in Explorer</em>.</p>
   <p>For information on your creating native extensions for Android, see <a href="Extended_Examples.htm">Source Examples</a>.</p>
@@ -102,7 +135,7 @@
         <div style="float:right">Next: <a href="iOS_Extensions.htm">iOS Extensions</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2022 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 Android Extensions
