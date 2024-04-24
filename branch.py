@@ -27,4 +27,10 @@ if branch_name:
     github_output_file = os.getenv('GITHUB_OUTPUT')
     logging.info(f"Appending branch name '{branch_name}' to output file: {github_output_file}")
 
-    with open(github_output_file, 'a') as env
+    with open(github_output_file, 'a') as env:
+        env.write(f"branch_name={branch_name}\n")
+
+    logging.info("Branch name appended successfully.")
+else:
+    logging.warning("No branch name extracted.")
+
