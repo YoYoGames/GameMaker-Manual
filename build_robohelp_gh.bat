@@ -7,7 +7,6 @@ if "%SOURCE_BUILD_NUMBER%" == "" set SOURCE_BUILD_NUMBER=%BUILD_NUMBER%
 if "%SOURCE_MAJOR_VERSION%" == "" set SOURCE_MAJOR_VERSION=1
 if "%SOURCE_MINOR_VERSION%" == "" set SOURCE_MINOR_VERSION=0
 if "%JOB_NAME%" == "" set JOB_NAME=GMS2_Manual
-set BRANCH_NAME=%BRANCH_NAME%
 set BUILDTYPE=release
 set BUILDPLATFORM="Any CPU"
 set BUILDCLEAN=1
@@ -94,11 +93,11 @@ rem append css fix to layout.css
 type "%basedir%SupportFiles\layout_fix_append.css" >> "%DESTDIR%\RoboHelp\template\Charcoal_Grey\layout.css"
 
 pushd %DESTDIR%\RoboHelp
-    if /I "%robohelpPreset%"=="GMS2 Manual Responsive HTML5 BETA" (
+    if "%robohelpPreset%"=="GMS2 Manual Responsive HTML5 BETA" (
         echo Branch is develop - Choose BETA
         aws s3 cp helpdocs_keywords.json s3://manual-json-files/Beta/helpdocs_keywords.json
         aws s3 cp helpdocs_tags.json s3://manual-json-files/Beta/helpdocs_tags.json
-    ) else if /I "%robohelpPreset%"=="GMS2 Manual Responsive HTML5" (
+    ) else if "%robohelpPreset%"=="GMS2 Manual Responsive HTML5" (
         echo Branch is main-lts - Choose LTS
         aws s3 cp helpdocs_keywords.json s3://manual-json-files/Green/helpdocs_keywords.json
         aws s3 cp helpdocs_tags.json s3://manual-json-files/Green/helpdocs_tags.json
