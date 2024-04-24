@@ -34,11 +34,7 @@ jobs:
           token: ${{ secrets.GH_TOKEN }}
       - name: Set Branch Name
         id: set_branch
-        shell: pwsh
-        run: |
-            $branchName = .\branch.ps1
-            Write-Host $branchName
-            git branch --show-current
+        run: python3 branch.py
         working-directory: Manual                   
       # - name: Beta Builds
       #   if: github.event.pull_request.base.ref == 'develop' || github.event_name == 'workflow_dispatch'
