@@ -2,7 +2,7 @@
 ###
 ### Provide the full directory path to the .json files as the command line argument.
 ### The output HTML file will also be placed there.
-### For example: CMD > python GenerateKeyboardShortcutTableFromJson.py "C:/Users/Dev/Documents/Manual/" -name_as_desc -env beta -update_rh_vars
+### For example: CMD > python GenerateKeyboardShortcutTableFromJson.py "C:/Users/Dev/Documents/GitHub/ameMaker-Manual/Manual/" -name_as_desc -env beta -update_rh_vars
 ###
 ### You can provide a few optional arguments: 
 ### 
