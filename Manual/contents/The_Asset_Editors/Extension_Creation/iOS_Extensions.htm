@@ -68,6 +68,7 @@
     YYIosScriptPhase<br />
     YYIosCFBundleURLSchemesArray<br />
     YYIosLSApplicationQueriesSchemesArray<br />
+    YYIosPrivacyManifest<br />
     <br />
     YYTvosPlist<br />
     YYTvosEntitlements<br />
@@ -77,7 +78,8 @@
     YYTvosBuildSettingsInjection<br />
     YYTvosScriptPhase<br />
     YYTvosCFBundleURLSchemesArray<br />
-    YYTvosLSApplicationQueriesSchemesArray
+    YYTvosLSApplicationQueriesSchemesArray<br />
+    YYTvosPrivacyManifest
   </p>
   <p>The runtime location where the code is injected will depend on the type of the tag:</p>
   <table>
@@ -116,10 +118,27 @@
         <td style="">{RUNTIME}\ios\TemplateProject\${YYXCodeProjName}.xcodeproj\<br />
           xcshareddata\xcschemes\${YYXCodeProjName}.xcscheme</td>
       </tr>
+      <tr>
+        <td style=""><strong>PrivacyManifest</strong></td>
+        <td style=""><span>{RUNTIME}\ios\TemplateProject\${YYXCodeProjName}\Supporting Files\PrivacyInfo.xcprivacy</span></td>
+      </tr>
     </tbody>
   </table>
   <p class="note"><strong></strong><span class="note">NOTE</span> These paths are only for VM. For YYC, injected code will go into the <span class="inline">{RUNTIME}\yyc\</span> directory, where the paths may or may not be equivalent to those for VM.</p>
   <p>You can also inject tags conditionally. See: <a data-xref="{text}" href="Android_Extensions.htm#h1">Conditional Injection</a></p>
+  <h2>File Injection</h2>
+  <p>Within the text files added to your extension (see: <a data-xref="{text}" href="Creating_An_Extension.htm#h3">Adding Files</a>), you can inject code from the Code Injection window by mentioning a tag inside <span class="inline2">${ }</span>. For example, say you have a file with the following contents:</p>
+  <p class="code">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;<br />
+    &lt;dict&gt;<br />
+    <br />
+        ${YYIosMyInjectionTag}<br />
+    <br />
+    &lt;/dict&gt;
+  </p>
+  <p class="note"><span data-conref="../../assets/snippets/Tag_important.hts"> </span> You can create your own tags for this use. Such custom tags must start with <span class="inline2">YYIos</span> or <span class="inline2">YYTvos</span> (depending on the platform).</p>
+  <p>The <span class="inline2">${YYIosMyInjectionTag}</span> part here will be replaced with the contents of the <span class="inline2">&lt;YYIosMyInjectionTag&gt; &lt;/YYIosMyInjectionTag&gt;</span> group from the extension&#39;s Code Injection window.</p>
+  <h3>Custom Files</h3>
+  <p>You can create a folder called &quot;iOSProjectFiles&quot; in the folder of your extension (alongside its <span class="inline2">.yy</span> file). Any files placed in this folder will be moved to the root of the generated Xcode project at compile time, and can also take injection tags as described above.</p>
   <h2>Additional Information</h2>
   <p>If your extension has had any System Frameworks or 3rd Party Frameworks added, these will now be listed in the <strong>Extension Properties </strong>window, with each one having a check-box beside it. If you mark the check-box, you are enabling weak linking, which is useful should you need to &quot;override&quot; any symbol from the included library with your own value, but it should be noted that doing so will slow linking down.</p>
   <p>For information on your creating native extensions for iOS, see <a href="Extended_Examples.htm">Source Examples</a>; and for information on using CocoaPods in extensions, see the following guide:</p>
