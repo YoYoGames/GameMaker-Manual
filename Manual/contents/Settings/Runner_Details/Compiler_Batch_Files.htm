@@ -22,6 +22,7 @@
   <p>The extension versions of a script file will be executed first, and its root version will be executed last. The order in which extensions are executed can&#39;t be controlled, so an extension developer must ensure that one extension&#39;s scripts don&#39;t rely on another extension&#39;s scripts.</p>
   <h2>Execution</h2>
   <p>Script files with specific names, placed in any of the directories described above, are executed at various points during the compilation process:</p>
+  <p class="note"><span data-conref="../../assets/snippets/Tag_note.hts"> </span> These steps are listed in the order that they are run, except for those under &quot;<strong>Platform-Specific Steps</strong>&quot;.</p>
   <table border="1" cellpadding="1" cellspacing="1">
     <colgroup>
       <col style="width:33.33%" />
@@ -35,34 +36,27 @@
         <th>Description</th>
       </tr>
       <tr>
-        <td><strong>pre_run_step.bat</strong></td>
-        <td><strong>pre_run_step.sh</strong></td>
-        <td>This is executed before the game deployment is about to start</td>
+        <td><strong>pre_project_step.bat</strong></td>
+        <td><strong>pre_project_step.sh</strong></td>
+        <td>This is executed before the asset compiler has loaded the project files</td>
       </tr>
       <tr>
-        <td><strong>post_run_step.bat</strong></td>
-        <td><strong>post_run_step.sh</strong></td>
-        <td>This is executed when the game is prepared and ready to run; after the script&#39;s execution the game is started</td>
+        <td><strong>post_project_step.bat</strong></td>
+        <td><strong>post_project_step.sh</strong></td>
+        <td>This is executed after the asset compiler has loaded the project files</td>
+      </tr>
+      <tr>
+        <td><strong>pre_run_step.bat</strong></td>
+        <td><strong>pre_run_step.sh</strong></td>
+        <td><em>Only runs when testing the game (&quot;Run&quot; or F5 in the IDE), not run when creating a package</em><br />
+          <br />
+          This is executed before the game deployment is about to start
+        </td>
       </tr>
       <tr>
         <td><strong>pre_build_step.bat</strong></td>
         <td><strong>pre_build_step.sh</strong></td>
-        <td>This is executed before the asset compiler is started for building the game</td>
-      </tr>
-      <tr>
-        <td><strong>post_build_step.bat</strong></td>
-        <td><strong>post_build_step.sh</strong></td>
-        <td>This is executed after the asset compiler has been started for building the game</td>
-      </tr>
-      <tr>
-        <td><strong>pre_package_step.bat</strong></td>
-        <td><strong>pre_package_step.sh</strong></td>
-        <td>This is executed before the final packaging step, which is when all files are ready but the final ZIP file or store package is about to be created</td>
-      </tr>
-      <tr>
-        <td><strong>post_package_step.bat</strong></td>
-        <td><strong>post_package_step.sh</strong></td>
-        <td>This is executed after the final packaging step has completed and the final ZIP file or store package has been prepared</td>
+        <td>This is executed before the asset compiler is asked to build the game</td>
       </tr>
       <tr>
         <td><strong>post_textures.bat</strong></td>
@@ -73,9 +67,43 @@
         </td>
       </tr>
       <tr>
+        <td><strong>post_build_step.bat</strong></td>
+        <td><strong>post_build_step.sh</strong></td>
+        <td>This is executed after the asset compiler has been started for building the game</td>
+      </tr>
+      <tr>
         <td><strong>remote_build_step.bat</strong></td>
         <td><strong>remote_build_step.sh</strong></td>
         <td>This is executed on the remote machine, when you are on a Windows machine and compiling remotely for macOS/iOS/tvOS or Ubuntu.</td>
+      </tr>
+      <tr>
+        <td><strong>pre_package_step.bat</strong></td>
+        <td><strong>pre_package_step.sh</strong></td>
+        <td>This is executed before the final packaging step, which is when all files are ready but the final ZIP file or store package is about to be created</td>
+      </tr>
+      <tr>
+        <td><strong>post_package_step.bat</strong></td>
+        <td><strong>post_package_step.sh</strong></td>
+        <td><em>Only runs when creating a package/executable</em><br />
+          <br />
+          This is executed after the final packaging step has completed and the final ZIP file or store package has been prepared
+        </td>
+      </tr>
+      <tr>
+        <td><strong>post_run_step.bat</strong></td>
+        <td><strong>post_run_step.sh</strong></td>
+        <td><em>Only runs when testing the game (&quot;Run&quot; or F5 in the IDE), not run when creating a package</em><br />
+          <br />
+          This is executed when the game is prepared and ready to run; after the script&#39;s execution the game is started
+        </td>
+      </tr>
+      <tr>
+        <th colspan="3">Platform-Specific Steps</th>
+      </tr>
+      <tr>
+        <td><strong>pre_gradle_step.bat</strong></td>
+        <td><strong>pre_gradle_step.sh</strong></td>
+        <td><span class="important">Android</span> This is executed when the files necessary for the Android tools have been created, but before Gradle is called. You can use this step to access and modify the Android files yourself, before the Android tools compile it into a final executable.</td>
       </tr>
     </tbody>
   </table>
@@ -100,7 +128,7 @@
         <div>Next: <a data-xref="{title}" href="../Command_Line_Parameters.htm">Command Line Parameters</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2023 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
   </div>
 </body>
 </html>
