@@ -32,6 +32,8 @@ jobs:
             token: ${{ secrets.GH_TOKEN }}
         - name: Monthly Builds
           if: github.event.pull_request.base.ref == 'main' || github.event_name == 'workflow_dispatch'
+          env:
+            BUILDBETA: '0'
           run: build_robohelp_gh.bat %GITHUB_WORKSPACE%\output
           shell: cmd
           working-directory: Manual
