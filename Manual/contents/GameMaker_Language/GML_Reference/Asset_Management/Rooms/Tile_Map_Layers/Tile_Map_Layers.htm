@@ -3,83 +3,126 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>Tile Map Layers</title>
-  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <title>Tile Map Elements</title>
+  <meta name="generator" content="Adobe RoboHelp 2022" />
   <link rel="stylesheet" href="../../../../../assets/css/default.css" type="text/css" />
   <script src="../../../../../assets/scripts/main_script.js" type="module"></script>
   <meta name="rh-authors" content="Mark Alexander" />
-  <meta name="topic-comment" content="Page outlining the different functions and variables associated with Tile Map Layers" />
+  <meta name="topic-comment" content="Page outlining the different functions and variables associated with Tile Layers" />
   <meta name="rh-index-keywords" content="" />
   <meta name="search-keywords" content="Tile Map Layers" />
 </head>
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
-  <h1>Tile Map Layers</h1>
-  <p>The <span data-keyref="GameMaker Name">GameMaker</span> <a href="../../../../../The_Asset_Editors/Rooms.htm">Room Editor</a> permits you to add tiles into any given room using <i>layers</i>. As the name implies, a tile map layer is simply a collection of tile set tiles that are all considered to be at the same depth within the room, and by stacking layers you can make some things draw over or under others. You can also control certain aspects of layers from code, adding or removing things, or changing certain properties of the layer or what it contains at run time. Note that in the room editor you are limited to one tile map per layer (the <a href="../../../../../The_Asset_Editors/Room_Properties/Layer_Properties.htm"><i>Tile Layer</i></a>), but when working with them in code, you can have multiple tile maps assigned to a single layer, with each map having its own unique ID and properties, so:</p>
+  <h1 id="h2"><span data-field="title" data-format="default">Tile Map Elements</span></h1>
+  <p>A tile map is a collection of tile set tiles that are all considered to be at the same depth within the room.</p>
+  <p>It can be visualised as a grid where each cell stores some tile data: the index of the tile that should be drawn at that cell, along with how it should be drawn (rotated, flipped and/or mirrored).</p>
+  <p>Each tile map has its own unique element ID and properties.</p>
+  <p>When working with tiles, you use a few things that are related to one another as follows: </p>
   <ul class="colour">
-    <li>The <i>tile set</i> is the resource that you use to create tile layers and tile maps</li>
-    <li>The <i>tile layer</i> is what you create in the Room Editor to add tile sets to</li>
-    <li>The <i>tile map</i> is what you call the collection of tiles that are added to a layer, either in the room editor or through code, as a single element on that layer</li>
+    <li>The <strong>tile set</strong> is the asset that you use to create tile layers and tile maps.</li>
+    <li>The <strong>tile layer</strong> is what you create in <a data-xref="{title}" href="../../../../../The_Asset_Editors/Rooms.htm">The Room Editor</a> to add tile sets to. Note that layers are only of a certain type in the Room Editor, not in code.</li>
+    <li>The <strong>tile map</strong> is what you call the collection of tiles that are added to a layer, either in the Room Editor or through code, as a single element on that layer.</li>
   </ul>
-  <p>Below is a list of all the functions that can be used for editing <b>tile map layers</b>:</p>
+  <p class="note"><span data-conref="../../../../../assets/snippets/Tag_note.hts"> </span> In the Room Editor you are limited to a single tile map per layer, which is created when you add a <a href="../../../../../The_Asset_Editors/Room_Properties/Layer_Properties.htm">Tile Layer</a>, but when working with them in code, you can have multiple tile maps assigned to a layer.</p>
+  <h3 id="tile_data_blob">Tile Data &quot;Blob&quot;</h3>
+  <p>A &quot;blob&quot; of tile data is stored as a 32 bit value. It is made up of <span data-keyref="Const_Tile_Data_Max_Index_Bits">19</span> bits that store the tile index in the tile set (bits 0 to 18) plus a few extra bits to indicate how the tile data should be drawn: bit 28 stores the mirror bit, bit 29 stores the flip bit, bit 30 stores the rotate bit and bit 31 is unused. Bits 19 to 27 are also unused. You can also use these unused bits to store your own data.</p>
+  <p>For more convenient access to certain bits you can use the values of the tile mask constant: </p>
+  <table id="table" style="caption-side: top">
+    <caption>Tile Mask Constant</caption>
+    <colgroup>
+      <col />
+      <col />
+    </colgroup>
+    <tbody>
+      <tr>
+        <th>Constant</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td><span class="inline">tile_rotate</span></td>
+        <td>Used to set/get the rotate bit of a tile data blob.</td>
+      </tr>
+      <tr>
+        <td><span class="inline">tile_mirror</span></td>
+        <td>Used to set/get the mirror bit of a tile data blob.</td>
+      </tr>
+      <tr>
+        <td><span class="inline">tile_flip</span></td>
+        <td>Used to set/get the flip bit of a tile data blob.</td>
+      </tr>
+      <tr>
+        <td><span class="inline">tile_index_mask</span></td>
+        <td>A special constant that is for &quot;and&quot;-ing with the tile data blob to extract the <span data-keyref="Const_Tile_Data_Max_Index_Bits">19</span> bits of the tile index.</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>You can get tile data at a specific map cell using <span class="inline3_func"><a data-xref="{title}" href="tilemap_get.htm">tilemap_get</a></span> or <span class="inline3_func"><a data-xref="{title}" href="tilemap_get_at_pixel.htm">tilemap_get_at_pixel</a></span> and set it using <span class="inline3_func"><a data-xref="{title}" href="tilemap_set.htm">tilemap_set</a></span> or <span class="inline3_func"><a data-xref="{title}" href="tilemap_set_at_pixel.htm">tilemap_set_at_pixel</a></span>.</p>
+  <h3 id="tile_map_bit_mask">Tile Map Bit Mask</h3>
+  <p>You have the possibility of adding your own bit mask to a tile map in order to use bits of the tile data &quot;blob&quot; for your own use, although this is for advanced users only as you will be masking off bits that are reserved for the tile index. There are <span data-keyref="Const_Tile_Data_Max_Index_Bits">19</span> bits reserved for your tile indices, but if you only use 8 of them, then you have eleven bits left over that can be used to create a custom mask. This mask can then be used and checked in code to create custom tile collisions or whatever.</p>
+  <p>The bit mask is &quot;and&quot;-ed <span class="inline2">&amp;</span> against the tile data when the tile map is <i>drawn</i> (so it doesn&#39;t affect any of the other functionality), meaning that bits which aren&#39;t in the mask are ignored, but can still be read and written to by the user for their own purposes.</p>
+  <p>However, you would normally not need to create your own tile data blobs, and would instead use the function <span class="inline3_func"><a data-xref="{title}" href="tilemap_get.htm">tilemap_get</a></span> to get the tile data, then you would manipulate it using the functions for <a href="Tile_Map_Layers.htm#editing_individual_tiles">Editing Individual Tiles</a>, and then you would set it again using <span class="inline3_func"><a data-xref="{title}" href="tilemap_set.htm">tilemap_set</a></span>.</p>
+  <p class="note"><span data-conref="../../../../../assets/snippets/Tag_note.hts"> </span> Aside from a mask per tile map, there is also a <a href="tilemap_set_global_mask.htm">global</a> one. The two are bitwise &quot;and&quot;-ed <span class="inline2">&amp;</span> together internally by <span data-keyref="GameMaker Name">GameMaker</span> before being used for drawing.</p>
+  <h3 id="calculating_the_mask_bits">Calculating the Mask Bits</h3>
+  <p>To get an initial index mask value you take the number of tiles in the tile set and subtract 1, so a 16x16 tile set has 256 tiles and a mask value of 255 (or $ff in hexadecimal). If the tile set has a number of tiles that&#39;s not a power of two, then round up to the nearest power of two to get the mask, for example a tile set that is 20x20 has 400 tiles, which you would round up to 512, and so get a mask index value of 511 ($1ff in hexadecimal). Apart from the index mask, normally you would want to preserve the flip, rotate and mirror values that are assigned to a tile too, to help with that there are the constants under <a data-xref="{captionText}" href="Tile_Map_Layers.htm#table" title="Tile Mask Constant Table">Tile Mask Constant</a> that can be used. These can be bitwise &quot;or&quot;-ed <span class="inline2">|</span> together with the index mask value to preserve those bits of data.</p>
+  <p class="note"><span data-conref="../../../../../assets/snippets/Tag_note.hts"> </span> See <a data-xref="{title}" href="../../../../../Additional_Information/Bitwise_Operators.htm">Bitwise Operators</a> for more information on how to work with binary and bit masks.</p>
+  <h2 id="func_ref">Function Reference</h2>
+  <h3 id="func_ref_editing_tile_map_layers">Editing <span data-field="title" data-format="default" id="">Tile Map Elements</span></h3>
   <ul class="colour">
-    <li><a href="layer_tilemap_get_id.htm">layer_tilemap_get_id</a></li>
-    <li><a href="layer_tilemap_exists.htm">layer_tilemap_exists</a></li>
-    <li><a href="layer_tilemap_create.htm">layer_tilemap_create</a></li>
-    <li><a href="layer_tilemap_destroy.htm">layer_tilemap_destroy</a></li>
-    <li><a href="tilemap_tileset.htm">tilemap_tileset</a></li>
-    <li><a href="tilemap_clear.htm">tilemap_clear</a></li>
-    <li><a href="tilemap_x.htm">tilemap_x</a></li>
-    <li><a href="tilemap_y.htm">tilemap_y</a></li>
-    <li><a href="tilemap_set.htm">tilemap_set</a></li>
-    <li><a href="tilemap_set_at_pixel.htm">tilemap_set_at_pixel</a></li>
-    <li><a href="tilemap_set_mask.htm">tilemap_set_mask</a></li>
-    <li><a href="tilemap_set_global_mask.htm">tilemap_set_global_mask</a></li>
-    <li><a href="tilemap_set_width.htm">tilemap_set_width</a></li>
-    <li><a href="tilemap_set_height.htm">tilemap_set_height</a></li>
-    <li><a href="tilemap_get_mask.htm">tilemap_get_mask</a></li>
-    <li><a href="tilemap_get_global_mask.htm">tilemap_get_global_mask</a></li>
-    <li><a href="tilemap_get_tileset.htm">tilemap_get_tileset</a></li>
-    <li><a href="tilemap_get_frame.htm">tilemap_get_frame</a></li>
-    <li><a href="tilemap_get_tile_width.htm">tilemap_get_tile_width</a></li>
-    <li><a href="tilemap_get_tile_height.htm">tilemap_get_tile_height</a></li>
-    <li><a href="tilemap_get_width.htm">tilemap_get_width</a></li>
-    <li><a href="tilemap_get_height.htm">tilemap_get_height</a></li>
-    <li><a href="tilemap_get_x.htm">tilemap_get_x</a></li>
-    <li><a href="tilemap_get_y.htm">tilemap_get_y</a></li>
-    <li><a href="tilemap_get.htm">tilemap_get</a></li>
-    <li><a href="tilemap_get_at_pixel.htm">tilemap_get_at_pixel</a></li>
-    <li><a href="tilemap_get_cell_x_at_pixel.htm">tilemap_get_cell_x_at_pixel</a></li>
-    <li><a href="tilemap_get_cell_y_at_pixel.htm">tilemap_get_cell_y_at_pixel</a></li>
-    <li><a href="../../../Drawing/Sprites_And_Tiles/draw_tilemap.htm">draw_tilemap</a></li>
+    <li><a data-xref="{title}" href="layer_tilemap_get_id.htm">layer_tilemap_get_id</a></li>
+    <li><a data-xref="{title}" href="layer_tilemap_exists.htm">layer_tilemap_exists</a></li>
+    <li><a data-xref="{title}" href="layer_tilemap_create.htm">layer_tilemap_create</a></li>
+    <li><a data-xref="{title}" href="layer_tilemap_destroy.htm">layer_tilemap_destroy</a></li>
+    <li><a data-xref="{title}" href="tilemap_tileset.htm">tilemap_tileset</a></li>
+    <li><a data-xref="{title}" href="tilemap_clear.htm">tilemap_clear</a></li>
+    <li><a data-xref="{title}" href="tilemap_x.htm">tilemap_x</a></li>
+    <li><a data-xref="{title}" href="tilemap_y.htm">tilemap_y</a></li>
+    <li><a data-xref="{title}" href="tilemap_set.htm">tilemap_set</a></li>
+    <li><a data-xref="{title}" href="tilemap_set_at_pixel.htm">tilemap_set_at_pixel</a></li>
+    <li><a data-xref="{title}" href="tilemap_set_mask.htm">tilemap_set_mask</a></li>
+    <li><a data-xref="{title}" href="tilemap_set_global_mask.htm">tilemap_set_global_mask</a></li>
+    <li><a data-xref="{title}" href="tilemap_set_width.htm">tilemap_set_width</a></li>
+    <li><a data-xref="{title}" href="tilemap_set_height.htm">tilemap_set_height</a></li>
+    <li><a data-xref="{title}" href="tilemap_get_mask.htm">tilemap_get_mask</a></li>
+    <li><a data-xref="{title}" href="tilemap_get_global_mask.htm">tilemap_get_global_mask</a></li>
+    <li><a data-xref="{title}" href="tilemap_get_tileset.htm">tilemap_get_tileset</a></li>
+    <li><a data-xref="{title}" href="tilemap_get_frame.htm">tilemap_get_frame</a></li>
+    <li><a data-xref="{title}" href="tilemap_get_tile_width.htm">tilemap_get_tile_width</a></li>
+    <li><a data-xref="{title}" href="tilemap_get_tile_height.htm">tilemap_get_tile_height</a></li>
+    <li><a data-xref="{title}" href="tilemap_get_width.htm">tilemap_get_width</a></li>
+    <li><a data-xref="{title}" href="tilemap_get_height.htm">tilemap_get_height</a></li>
+    <li><a data-xref="{title}" href="tilemap_get_x.htm">tilemap_get_x</a></li>
+    <li><a data-xref="{title}" href="tilemap_get_y.htm">tilemap_get_y</a></li>
+    <li><a data-xref="{title}" href="tilemap_get.htm">tilemap_get</a></li>
+    <li><a data-xref="{title}" href="tilemap_get_at_pixel.htm">tilemap_get_at_pixel</a></li>
+    <li><a data-xref="{title}" href="tilemap_get_cell_x_at_pixel.htm">tilemap_get_cell_x_at_pixel</a></li>
+    <li><a data-xref="{title}" href="tilemap_get_cell_y_at_pixel.htm">tilemap_get_cell_y_at_pixel</a></li>
+    <li><a data-xref="{title}" href="../../../Drawing/Sprites_And_Tiles/draw_tilemap.htm">draw_tilemap</a></li>
   </ul>
-  <p> </p>
-  <p>Apart from the functions listed above to set tile maps, you also have a number of functions that can be used to manipulate the data of individual tiles. A &quot;blob&quot; of tile data is made up of the tile index plus a few extra bits to show whether the tile has been rotated, flipped or mirrored. You also have the possibility of adding your own bit-mask to the tile data, although this is for advanced users only as you will be masking off bits that are reserved for the tile index - essentially there are 19 bits reserved for your tile indices, but if you only use 8 of them, then you have eleven bits left over that can be used to create a custom mask. This mask can then be used and checked in code to create custom tile collisions or whatever. However, you would normally not need to create your own tile data blobs, and would instead use the function <a href="tilemap_get.htm"><span class="inline">tilemap_get()</span></a> to get the tile data, then you would manipulate it using the functions below, and then you would set it again using <a href="tilemap_set.htm"><span class="inline">tilemap_set()</span></a>.</p>
-  <p>Below is a list of all the functions that can be used for editing individual <b>tiles</b>:</p>
+  <h3 id="func_ref_editing_individual_tiles">Editing Individual Tiles</h3>
   <ul class="colour">
-    <li><a href="tile_get_empty.htm">tile_get_empty</a></li>
-    <li><a href="tile_get_index.htm">tile_get_index</a></li>
-    <li><a href="tile_get_flip.htm">tile_get_flip</a></li>
-    <li><a href="tile_get_mirror.htm">tile_get_mirror</a></li>
-    <li><a href="tile_get_rotate.htm">tile_get_rotate</a></li>
-    <li><a href="tile_set_empty.htm">tile_set_empty</a></li>
-    <li><a href="tile_set_index.htm">tile_set_index</a></li>
-    <li><a href="tile_set_flip.htm">tile_set_flip</a></li>
-    <li><a href="tile_set_mirror.htm">tile_set_mirror</a></li>
-    <li><a href="tile_set_rotate.htm">tile_set_rotate</a></li>
-    <li><a href="../../../Drawing/Sprites_And_Tiles/draw_tile.htm">draw_tile</a></li>
+    <li><a data-xref="{title}" href="tile_get_empty.htm">tile_get_empty</a></li>
+    <li><a data-xref="{title}" href="tile_get_index.htm">tile_get_index</a></li>
+    <li><a data-xref="{title}" href="tile_get_flip.htm">tile_get_flip</a></li>
+    <li><a data-xref="{title}" href="tile_get_mirror.htm">tile_get_mirror</a></li>
+    <li><a data-xref="{title}" href="tile_get_rotate.htm">tile_get_rotate</a></li>
+    <li><a data-xref="{title}" href="tile_set_empty.htm">tile_set_empty</a></li>
+    <li><a data-xref="{title}" href="tile_set_index.htm">tile_set_index</a></li>
+    <li><a data-xref="{title}" href="tile_set_flip.htm">tile_set_flip</a></li>
+    <li><a data-xref="{title}" href="tile_set_mirror.htm">tile_set_mirror</a></li>
+    <li><a data-xref="{title}" href="tile_set_rotate.htm">tile_set_rotate</a></li>
+    <li><a data-xref="{title}" href="../../../Drawing/Sprites_And_Tiles/draw_tile.htm">draw_tile</a></li>
   </ul>
-  <p> </p>
   <p> </p>
   <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a href="../Rooms.htm">Rooms</a></div>
-        <div style="float:right">Next: <a href="../Background_Layers/Background_Layers.htm">Background Layers</a></div>
+        <div style="float:left">Back: <a data-xref="{title}" href="../Rooms.htm">Rooms</a></div>
+        <div style="float:right">Next: <a data-xref="{title}" href="../Background_Layers/Background_Layers.htm">Background Elements</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2022 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2023 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 Tile Map Layers

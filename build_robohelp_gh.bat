@@ -1,4 +1,5 @@
-@echo off
+@echo on
+setlocal enabledelayedexpansion
 rem experimental build
 if "%WORKSPACE%" == "" set WORKSPACE=%GITHUB_WORKSPACE%
 if "%BUILD_NUMBER%" == "" set BUILD_NUMBER=999
@@ -9,7 +10,7 @@ if "%JOB_NAME%" == "" set JOB_NAME=GMS2_Manual
 set BUILDTYPE=release
 set BUILDPLATFORM="Any CPU"
 set BUILDCLEAN=1
-set BUILDBETA=0
+set BUILDBETA=%BUILDBETA%
 set S3_BUCKET=%S3_BUCKET%
 set ZIP_FILE=%ZIP_FILE%
 
@@ -17,7 +18,11 @@ set basedir=%~dp0
 
 :check_options
 if %LANGUAGE%==EN (
-    set robohelpPreset="GMS2 Manual Responsive HTML5 BETA"
+    if "%BUILDBETA%"=="1" (
+        set robohelpPreset="GMS2 Manual Responsive HTML5 BETA"
+    ) else (
+        set robohelpPreset="GMS2 Manual Responsive HTML5"
+    )
 	goto finish_options
 ) else if %LANGUAGE%==ES ( 
 	set robohelpPreset="GMS2 Manual Spanish"
@@ -87,7 +92,21 @@ rem output help tags files
 rem append css fix to layout.css
 type "%basedir%SupportFiles\layout_fix_append.css" >> "%DESTDIR%\RoboHelp\template\Charcoal_Grey\layout.css"
 
-@REM rem ************************************************** ZIP up the output
 pushd %DESTDIR%\RoboHelp
+if /i %robohelpPreset%=="GMS2 Manual Responsive HTML5 BETA" (
+    echo Branch is develop - Choose BETA
+    aws s3 cp helpdocs_keywords.json s3://manual-json-files/Beta/helpdocs_keywords.json
+    aws s3 cp helpdocs_tags.json s3://manual-json-files/Beta/helpdocs_tags.json
+) else if /i %robohelpPreset%=="GMS2 Manual Responsive HTML5" (
+    echo Branch is Main - Choose Green
+    aws s3 cp helpdocs_keywords.json s3://manual-json-files/Green/helpdocs_keywords.json
+    aws s3 cp helpdocs_tags.json s3://manual-json-files/Green/helpdocs_tags.json
+) else (
+    echo Branch is not develop or main - Choose LTS
+    aws s3 cp helpdocs_keywords.json s3://manual-json-files/LTS/helpdocs_keywords.json
+    aws s3 cp helpdocs_tags.json s3://manual-json-files/LTS/helpdocs_tags.json
+)
+
+@REM rem ************************************************** ZIP up the output
 7z a YoYoStudioRoboHelp.zip . -r
 popd

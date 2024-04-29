@@ -15,21 +15,28 @@
 </head>
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
-  <h1>json_parse</h1>
-  <p>This function can be used to parse a JSON string (either previously created using <span class="inline3_func"><a data-xref="{title}" href="json_stringify.htm">json_stringify</a></span> or from any valid source), and convert it into a collection of arrays or structs, where an array is the equivalent of a JSON array and a struct is the equivalent of a JSON object.</p>
-  <p>You supply the string to parse, and the function will return the top level array or struct which can then be used in your code. If you are not sure of the contents of the JSON, you can use the different <a href="../../Variable_Functions/Variable_Functions.htm">Variable Functions</a> (like <a href="../../Variable_Functions/typeof.htm"><span class="inline">typeof()</span></a> and <a href="../../Variable_Functions/variable_struct_get_names.htm"><span class="inline">variable_struct_get_names()</span></a> in case of a struct) to check the returned contents.</p>
-  <p>When using this function there are some important things to note:</p>
+  <h1><span data-field="title" data-format="default">json_parse</span></h1>
+  <p>This function parses a JSON string and converts it into a collection of nested arrays and structs. An array is the equivalent of a JSON array and a struct is the equivalent of a JSON object.</p>
+  <p>The JSON should be either previously created using <span class="inline3_func"><a data-xref="{title}" href="json_stringify.htm">json_stringify</a></span> or should come from any other valid source.</p>
+  <p>You supply the string to parse, and the function will return the top-level array or struct which can then be used in your code. If you are not sure of the contents of the JSON, you can use the different <a data-xref="{title}" href="../../Variable_Functions/Variable_Functions.htm">Variable Functions</a> (like <span class="inline3_func"><a data-xref="{title}" href="../../Variable_Functions/typeof.htm">typeof</a></span> and <span class="inline3_func"><a data-xref="{title}" href="../../Variable_Functions/variable_struct_get_names.htm">struct_get_names</a></span> in case of a struct) to check the returned contents.</p>
+  <h3>Usage Notes</h3>
   <ul class="colour">
     <li>Trying to parse an invalid value (i.e.: not a string, or invalid JSON) will throw an exception error.</li>
-    <li><span class="inline2">null</span> values are parsed as <span class="inline2">undefined</span>.</li>
-    <li>This function only allows you to load JSON files with a maximum nesting limit of 128.</li>
-    <li>Any runtime values serialised by <span class="inline3_func"><a data-xref="{title}" href="json_stringify.htm">json_stringify</a></span> will be converted back to runtime values (e.g. <a href="../../../GML_Overview/Data_Types.htm">handles</a> and values like <span class="inline2">int64</span>, <span class="inline2">NaN</span> and <span class="inline2">infinity</span>), however this conversion can be disabled by passing <span class="inline2">true</span> into the optional <span><span class="inline2">inhibit_string_convert</span> argument, meaning these will remain as strings.</span></li>
-    <li>See <span class="inline3_func"><a data-xref="{title}" href="json_stringify.htm">json_stringify</a></span> for more information on how GameMaker interacts with the JSON format.</li>
+    <li>This function only allows you to load JSON files with a maximum nesting limit of <span data-keyref="Const_JSON_Max_Nesting_Limit">128</span>.</li>
+    <li>Data conversions:
+      <ul>
+        <li><span class="inline2">null</span> values are parsed as <span class="inline2">undefined</span>.</li>
+        <li>Any runtime values serialised by <span class="inline3_func"><a data-xref="{title}" href="json_stringify.htm">json_stringify</a></span> will be converted back to runtime values (e.g. <a href="../../../GML_Overview/Data_Types.htm">handles</a> and values like <span class="inline2">int64</span>, <span class="inline2">NaN</span> and <span class="inline2">infinity</span>), however this conversion can be disabled by passing <span class="inline2">true</span> into the optional <span><span class="inline2">inhibit_string_convert</span> argument, meaning these will remain as strings.</span></li>
+        <li>See <a data-xref="{text}" href="../../../../Additional_Information/Guide_To_Using_JSON.htm#data_conversions">Data Conversions</a> for a full overview.</li>
+      </ul>
+    </li>
+    <li>See <a data-xref="{title}" href="../../../../Additional_Information/Guide_To_Using_JSON.htm">Guide To Using JSON</a> for more information on how <span data-keyref="GameMaker Name">GameMaker</span> interacts with the JSON format.</li>
   </ul>
+  <div data-conref="../../../../assets/snippets/Note_See_Guide_To_Using_JSON.hts"> </div>
   <div data-conref="../../../../assets/snippets/JSON_Filter_Function_Description.hts"> </div>
   <p> </p>
   <h4>Syntax:</h4>
-  <p class="code">json_parse(json, [filter_func], [<span>inhibit_string_convert</span>])</p>
+  <p class="code"><span data-field="title" data-format="default">json_parse</span>(json, [filter_func], [inhibit_string_convert])</p>
   <table>
     <tbody>
       <tr>
@@ -45,10 +52,10 @@
       <tr>
         <td>filter_func</td>
         <td><span data-keyref="Type_Function"><a href="../../../GML_Overview/Script_Functions.htm" target="_blank">Function</a></span></td>
-        <td><span data-conref="../../../../assets/snippets/Tag_optional.hts"> </span> Filter function that processes each item. Syntax: <span class="inline2">function(key, value) -&gt; new_value</span></td>
+        <td><span data-conref="../../../../assets/snippets/Tag_optional.hts"> </span> Filter function that processes each item. Don&#39;t pass a value or set this to <span class="inline2">undefined</span> if you only want to set <span class="inline2">inhibit_string_convert</span>. Syntax: <span class="inline2">function(key, value) -&gt; new_value</span></td>
       </tr>
       <tr>
-        <td><span>inhibit_string_convert</span></td>
+        <td>inhibit_string_convert</td>
         <td><span data-keyref="Type_Bool"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Boolean</a></span></td>
         <td><span data-conref="../../../../assets/snippets/Tag_optional.hts"> </span> Set this to <span class="inline2">true</span> to disable converting strings into runtime references. Default value: <span class="inline2">false</span></td>
       </tr>
@@ -65,7 +72,7 @@
     show_debug_message(data);
   </p>
   <p>The above code creates a new string containing valid JSON, and then calls <span class="inline3_func"><a data-xref="{title}" href="json_parse.htm">json_parse</a></span> to convert that string into a GML struct. It then prints the result to the debug log.</p>
-  <p class="note"><span class="note">NOTE</span> You will notice that the JSON string contains a backslash (<span class="inline2">\</span>) before every double quote (<span class="inline2">&quot;</span>) inside it:<br />
+  <p class="note"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> You will notice that the JSON string contains a backslash (<span class="inline2">\</span>) before every double quote (<span class="inline2">&quot;</span>) inside it:<br />
     <br />
     <span class="inline2">json = &quot;{ <strong>\&quot; </strong>myObj</span><br />
     <br />
@@ -74,14 +81,14 @@
     If you are loading JSON from an external file however, there is no need to escape characters in that file.
   </p>
   <hr />
-  <p>After parsing the JSON string above, if you know its structure, you can use various <a href="../../Variable_Functions/Variable_Functions.htm">Variable Functions</a> to check and read its contents:</p>
+  <p>After parsing the JSON string above, if you know its structure, you can use various <a data-xref="{title}" href="../../Variable_Functions/Variable_Functions.htm">Variable Functions</a> to check and read its contents:</p>
   <p class="code">var data = json_parse(json);<br />
     <br />
     // Check if the struct has myObj variable<br />
-    if (variable_struct_exists(data, &quot;myObj&quot;)) <br />
+    if (variable_struct_exists(data, &quot;myObj&quot;))<br />
     {<br />
         // Check if it&#39;s a struct<br />
-        if (is_struct(data.myObj)) <br />
+        if (is_struct(data.myObj))<br />
         {<br />
             // Print all struct members to the log<br />
             var _names = variable_struct_get_names(data.myObj);<br />
@@ -95,10 +102,10 @@
     }<br />
     <br />
     // Check if the struct has myArray variable<br />
-    if (variable_struct_exists(data, &quot;myArray&quot;)) <br />
+    if (variable_struct_exists(data, &quot;myArray&quot;))<br />
     {<br />
         // Check if it&#39;s an array<br />
-        if (is_array(data.myArray)) <br />
+        if (is_array(data.myArray))<br />
         {<br />
             show_debug_message(data.myArray);<br />
         }<br />
@@ -117,6 +124,7 @@
     var data = json_parse(json, function (key, value)<br />
     {<br />
         show_debug_message($&quot;Key: {key}, Value: {value}&quot;);<br />
+        return value;<br />
     });
   </p>
   <p>The above code takes the same JSON string from the previous example, and converts it into a GML struct, however this time it uses a filter function.</p>
@@ -149,7 +157,7 @@
     <br />
     show_debug_message(data);
   </p>
-  <p>The above code takes a JSON string containing an array inside a struct. Then <span class="inline3_func">json_parse()</span> is run with a filter function that multiplies each value with 1000, only when it&#39;s a <span data-keyref="Type_Real"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span>. Otherwise it simply returns the value itself.</p>
+  <p>The above code takes a JSON string containing an array inside a struct. Then <span class="inline3_func"><span data-field="title" data-format="default">json_parse</span></span> is run with a filter function that multiplies each value with 1000, only when it&#39;s a <span data-keyref="Type_Real"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span>. Otherwise it simply returns the value itself.</p>
   <p>The resulting structure looks like this:</p>
   <p class="code_plain">{ prices : [ 2000,5000,1000,2000,4000,5000 ] }</p>
   <p> </p>
