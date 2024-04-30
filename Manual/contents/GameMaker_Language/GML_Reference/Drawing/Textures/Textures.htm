@@ -29,12 +29,12 @@
   </ul>
   <h2 id="texture_compression">Texture Compression</h2>
   <p>Texture compression is image compression applied to textures specifically.</p>
-  <p>A game&#39;s textures can take up a large part of memory, in RAM as well as in VRAM.<span> For example, a texture image of 2048 x 2048 pixels that contains all four channels (R, G, B and A) takes up (2048 x 2048) pixels x 4 channels/pixel x 1 bytes/channel = 16777216 bytes, or 16MB of video memory. </span>All this data needs to be loaded into RAM and then be sent to VRAM.</p>
+  <p>A game&#39;s textures can take up a large part of memory, in RAM as well as in VRAM.<span> For example, a texture image of 2048 x 2048 pixels that contains all four channels (R, G, B and A) takes up (2048 x 2048) pixels x 4 channels/pixel x 1 bytes/channel = 16777216 bytes, or 16MB of video memory. </span>All this data needs to be loaded into RAM and then sent to VRAM.</p>
   <p><span></span>Textures can be compressed to reduce their size, which minimises the amount of data that needs to be moved from RAM memory to VRAM when textures are prefetched (as the available &quot;bandwidth&quot; is limited). Additionally, if your game does many texture lookups and t<span>he platform it&#39;s running on does not have sufficient graphics memory bandwidth to handle the texture reading at a high frame rate, the game may slow down.</span></p>
   <p><span data-keyref="GameMaker Name">GameMaker</span> has two ways to allow for texture compression and decompression. Texture compression is set per <a href="../../../../Settings/Texture_Groups.htm">texture group</a> and works differently according to the format used: </p>
   <ul class="colour">
     <li><strong>BZ + </strong><strong>QOI</strong>, <strong>QOI</strong>, <strong>PNG</strong> - The asset compiler compresses all textures in the texture group to the given format and stores them with the game. When they are loaded from disk into RAM, they remain compressed while in RAM. When a texture from this texture group format is then fetched into VRAM, it is decompressed on the CPU and this decompressed data stored in VRAM.</li>
-    <li><strong>Custom</strong> - GPU texture compression. The textures are generated at compile time using an external tool that compresses the textures to a format optimised for decompressing on the GPU and are then stored with the game. When a texture of this format is loaded into RAM, it remains compressed there. When it&#39;s fetched into VRAM, the texture data still remains compressed there. The texture is decompressed by the GPU in real time when it performs texel lookups on the texture.</li>
+    <li><strong>Custom</strong> - GPU texture compression. The textures are generated at compile time using an external tool that compresses the textures to a format optimised for decompressing on the GPU and are then stored with the game. When a texture of this format is loaded into RAM, it remains compressed there. When it&#39;s fetched into VRAM, the texture data still remains compressed. The texture is decompressed by the GPU in real time when it performs texel lookups on the texture.</li>
   </ul>
   <p>The following image shows a comparison of different texture formats: </p>
   <figure><img alt="" class="center" height="314" src="../../../../assets/Images/Scripting_Reference/GML/Reference/Drawing/texture_compression_comparison_default_bcn7_bcn3.png" width="462" />
@@ -42,7 +42,7 @@
       From left to right: BZ2 + QOI (no GPU texture compression), BC7 and BC3.</figcaption>
   </figure>
   <h3 id="gpu_compressed_textures">GPU Compressed Textures</h3>
-  <p>The textures are stored compressed in VRAM and are decompressed in real time by the GPU.</p>
+  <p>The textures are stored in a compressed format in VRAM and are decompressed in real time by the GPU.</p>
   <p>Custom GPU texture compression is done using an extension: <a href="https://github.com/YoYoGames/GM-GPUTextureCompression">GM-GPUTextureCompression</a>. To generate GPU textures, you should first add this extension to your project.</p>
   <p>After adding the extension, to enable GPU compressed textures for a texture group: </p>
   <ul class="colour">
