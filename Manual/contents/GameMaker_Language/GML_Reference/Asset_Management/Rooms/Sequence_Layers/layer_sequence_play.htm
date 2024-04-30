@@ -15,8 +15,8 @@
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
   <h1><span data-field="title" data-format="default">layer_sequence_play</span></h1>
-  <p>With this function you can start the playback of the given sequence. You supply the sequence element ID as returned by <span class="inline3_func"><a data-xref="{title}" href="layer_sequence_create.htm">layer_sequence_create</a></span> or by one of the <a href="../General_Layer_Functions/General_Layer_Functions.htm">layer element functions</a> and the function will play the sequence, which you can then pause if required using the function <span class="inline3_func"><a data-xref="{title}" href="layer_sequence_pause.htm">layer_sequence_pause</a></span>.</p>
-  <p class="note"><b><span data-conref="../../../../../assets/snippets/Tag_important.hts"> </span> </b>If your sequence has any instances in it, these instances shouldn&#39;t change their <span class="inline2"><a data-xref="{title}" href="../../Sprites/Sprite_Instance_Variables/image_xscale.htm">image_xscale</a></span>  / <span class="inline2"><a data-xref="{title}" href="../../Sprites/Sprite_Instance_Variables/image_yscale.htm">image_yscale</a></span> / <span class="inline2"><a data-xref="{title}" href="../../Sprites/Sprite_Instance_Variables/image_angle.htm">image_angle</a></span> / <span class="inline2"><a data-xref="{title}" href="../../Instances/Instance_Variables/x.htm">x</a></span> / <span class="inline2"><a data-xref="{title}" href="../../Instances/Instance_Variables/y.htm">y</a></span> variables as they will be overwritten when the sequence updates each step after starting to be played. You can check <span class="inline2"><a data-xref="{title}" href="../../Sequences/in_sequence.htm">in_sequence</a></span> and only update the properties of such an instance when this variable is <span class="inline2">false</span>.</p>
+  <p>With this function you can start the playback of the given sequence. You supply the sequence element ID as returned by <span class="inline3_func"><a data-xref="{title}" href="layer_sequence_create.htm">layer_sequence_create</a></span> or by one of the <a href="../General_Layer_Functions/General_Layer_Functions.htm">layer element functions</a> and the function will play the sequence, which you can then pause if required using the function <span class="inline3_func"><a data-xref="{title}" href="layer_sequence_pause.htm">layer_sequence_pause</a></span>.<b></b></p>
+  <div data-conref="../../../../../assets/snippets/Note_Instances_In_Sequence_Shouldnt_Update_Transform_Vars.hts"> </div>
   <p> </p>
   <h4>Syntax:</h4>
   <p class="code"><span data-field="title" data-format="default">layer_sequence_play</span>(sequence_element_id)</p>
@@ -39,15 +39,15 @@
   <p class="code"><span data-keyref="Type_Void">N/A</span></p>
   <p> </p>
   <h4>Example:</h4>
-  <p class="code">if keyboard_check_pressed(ord(&quot;P&quot;))<br />
+  <p class="code">if (keyboard_check_pressed(ord(&quot;P&quot;)))<br />
     {<br />
         global.Pause = !global.Pause;<br />
         var a = layer_get_all_elements(layer);<br />
         for (var i = 0; i &lt; array_length(a); i++;)<br />
         {<br />
-            if layer_get_element_type(a[i]) == layerelementtype_sequence<br />
+            if (layer_get_element_type(a[i]) == layerelementtype_sequence)<br />
             {<br />
-                if global.Pause<br />
+                if (global.Pause)<br />
                 {<br />
                     layer_sequence_pause(a[i]);<br />
                 }<br />

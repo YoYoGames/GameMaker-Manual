@@ -3,8 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>General Layer Functions</title>
-  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <title>Layers</title>
+  <meta name="generator" content="Adobe RoboHelp 2022" />
   <link rel="stylesheet" href="../../../../../assets/css/default.css" type="text/css" />
   <script src="../../../../../assets/scripts/main_script.js" type="module"></script>
   <meta name="rh-authors" content="Mark Alexander" />
@@ -14,9 +14,28 @@
 </head>
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
-  <h1><span data-field="title" data-format="default">General Layer Functions</span></h1>
-  <p>The <span data-keyref="GameMaker Name">GameMaker</span> <a href="../../../../../The_Asset_Editors/Rooms.htm">Room Editor</a> permits you to add <i>layers</i> of different assets to your room. These can be tile maps (using tile sets), backgrounds, sprites or sequences, particle systems and instances, but note that unlike the room editor, you are <i>not</i> limited to a single asset type per layer, and can add multiple asset types to the same layer - for example you can have a background and a tile map all on the same layer.</p>
-  <p class="note"><span data-conref="../../../../../assets/snippets/Tag_note.hts"> </span> Each asset that is added to a layer is considered an <strong>element</strong> of that layer.</p>
+  <h1><span data-field="title" data-format="default">Layers</span></h1>
+  <p>Any assets that you add to rooms are placed on a layer. These assets can be tile maps (using tile sets), backgrounds, sprites or sequences, particle systems and instances. You can add and modify a room&#39;s layers in <a data-xref="{title}" href="../../../../../The_Asset_Editors/Rooms.htm">The Room Editor</a> or at runtime through code.</p>
+  <p>Layers are useful for a few reasons:</p>
+  <ul class="colour">
+    <li>they logically group assets.</li>
+    <li>they affect how these assets on the layer are drawn:
+      <ul>
+        <li>at an offset (x, y) and moving with a certain speed.</li>
+        <li>at a certain depth, the <span class="inline3_func"><a data-xref="{title}" href="layer_depth.htm">layer_depth</a></span>.</li>
+        <li>using custom code (<span class="inline3_func"><a data-xref="{title}" href="layer_script_begin.htm">layer_script_begin</a></span> and <span class="inline3_func"><a data-xref="{title}" href="layer_script_end.htm">layer_script_end</a></span>) and shader (<span class="inline3_func"><a data-xref="{title}" href="layer_shader.htm">layer_shader</a></span>).</li>
+      </ul>
+    </li>
+  </ul>
+  <p>You can get all layers in the current room using <span class="inline3_func"><a data-xref="{title}" href="layer_get_all.htm">layer_get_all</a></span> or a single layer based on the name you gave it in the Room Editor using <span class="inline3_func"><a data-xref="{title}" href="layer_get_id.htm">layer_get_id</a></span>.</p>
+  <p class="note"><span data-conref="../../../../../assets/snippets/Tag_note.hts"> </span> Unlike the Room Editor, you are <i>not</i> limited to only certain asset types per layer, and can add assets of different types to the same layer - for example you can have a background, a tile map and an instance all on the same layer.</p>
+  <h3 id="layer_elements">Layer Elements</h3>
+  <p>Each asset that you add to a layer is considered an <strong>element</strong> of that layer.</p>
+  <p>When you use <a data-xref="{title}" href="../../../../../The_Asset_Editors/Rooms.htm">The Room Editor</a> to add assets to a room, a new element is added to that layer every time you drag an asset onto the editor canvas. There are two exceptions to this: in case of tiles the element that&#39;s added is a <a href="../Tile_Map_Layers/Tile_Map_Layers.htm">tile map</a>, rather than the individual tiles that you place and also, no element is added for <a data-xref="{title}" href="../../Paths/Paths.htm">Paths</a>.</p>
+  <p>To get all elements on a layer you can use the function <span class="inline3_func"><a data-xref="{title}" href="layer_get_all_elements.htm">layer_get_all_elements</a></span>.</p>
+  <p>To get the underlying asset type of an element, you can use the function <span class="inline3_func"><a data-xref="{title}" href="layer_get_element_type.htm">layer_get_element_type</a></span>.</p>
+  <h2 id="func_ref">Function Reference</h2>
+  <h3 id="func_ref_general">General</h3>
   <p>This section outlines the general functions used when working with room layers, as well as a few functions specific to working with <strong><a href="../../../../../The_Asset_Editors/Room_Properties/Layer_Properties.htm">instance layer</a> </strong>elements:</p>
   <ul class="colour">
     <li><a href="layer_exists.htm">layer_exists</a></li>
@@ -56,20 +75,25 @@
     <li><a href="layer_get_script_end.htm">layer_get_script_end</a></li>
     <li><a href="layer_get_shader.htm">layer_get_shader</a></li>
   </ul>
-  <p> </p>
+  <h3 id="func_ref_targeting_layers_in_a_different_room">Targeting Layers in a Different Room</h3>
   <p>We also have a couple of extra functions relating to targeting layers in a different room. It may be that you want to change something in a room that is not the current room, or maybe you want to generate rooms procedurally, or any number of things. To enable this we use the following functions:</p>
   <ul class="colour">
     <li><a href="layer_set_target_room.htm">layer_set_target_room</a></li>
     <li><a href="layer_get_target_room.htm">layer_get_target_room</a></li>
     <li><a href="layer_reset_target_room.htm">layer_reset_target_room</a></li>
   </ul>
-  <p> </p>
   <p>What you do here is set the target room using the appropriate function and then call the layer functions are normal. These layer functions will now apply <i>only</i> to the target room and not the current one. When you are finished you&#39;d call the reset function to return the code scope back to the current room again.</p>
-  <p class="note"><span data-conref="../../../../../assets/snippets/Tag_warning.hts"> </span> While targeting another room, you can use all the regular layer functions <b>except</b> you cannot create instances using <span style="font-size:1px;"><a href="../../Instances/instance_create_layer.htm"><span class="inline">instance_create_layer()</span></a></span> or <span style="font-size:1px;"><a href="../../Instances/instance_create_depth.htm"><span class="inline">instance_create_depth()</span></a></span>, nor will the layer function <a href="layer_add_instance.htm"><span style="font-size:1px;"><span class="inline">layer_add_instance()</span></span></a> be available.</p>
-  <p>Finally, and this is exclusively for use with <i>instances</i> on layers (although the layer itself can have other elements, they will not be affected by the following functions), you have a couple of functions that can be used to deactivate or reactivate all instances:</p>
+  <h3 id="func_ref_activate_deactivate_instances_on_layers">Activate/Deactivate Instances on Layers</h3>
+  <p class="note"><span data-conref="../../../../../assets/snippets/Tag_warning.hts"> </span> While targeting another room, you can use all the regular layer functions, <b>except</b> you cannot create instances using <span class="inline3_func"><a data-xref="{title}" href="../../Instances/instance_create_layer.htm">instance_create_layer</a></span> or <span class="inline3_func"><a data-xref="{title}" href="../../Instances/instance_create_depth.htm">instance_create_depth</a></span>, nor will the layer function <span class="inline3_func"><a data-xref="{title}" href="layer_add_instance.htm">layer_add_instance</a></span> be available.</p>
+  <p>Exclusively for use with <i>instances</i> on layers (although the layer itself can have other elements, they will not be affected by the following functions) you have a couple of functions that can be used to deactivate or reactivate all instances:</p>
   <ul class="colour">
     <li><a href="../../Instances/Deactivating_Instances/instance_deactivate_layer.htm">instance_deactivate_layer</a></li>
     <li><a href="../../Instances/Deactivating_Instances/instance_activate_layer.htm">instance_activate_layer</a></li>
+  </ul>
+  <h3 id="func_ref_particle_systems">Particle Systems</h3>
+  <p>There are no functions to get access to particle systems on a layer, but you can create them on a specific layer using the function: </p>
+  <ul class="colour">
+    <li><a data-xref="{title}" href="../../../Drawing/Particles/Particle_Systems/part_system_create_layer.htm">part_system_create_layer</a></li>
   </ul>
   <p> </p>
   <p> </p>

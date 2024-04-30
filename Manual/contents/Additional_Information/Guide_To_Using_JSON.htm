@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <title>Guide To Using JSON</title>
+  <meta name="topic-status" content="Draft" />
+  <link rel="stylesheet" type="text/css" href="../assets/css/default.css" />
+  <meta name="rh-authors" content="Bart Teunis" />
+  <meta name="topic-comment" content="This page is a guide on how to work with JSON in GameMaker" />
+  <meta name="template" content="../assets/masterpages/Manual_Page.htt" />
+  <meta name="search-keywords" content="json" />
+  <meta name="rh-index-keywords" content="Guide To Using JSON" />
+</head>
+<body>
+  <h1><span data-field="title" data-format="default">Guide To Using JSON</span></h1>
+  <p>This page describes how to work with JSON in <span data-keyref="GameMaker Name">GameMaker</span>.</p>
+  <div class="minitoc" data-minitoc-targetid="drop-down" data-type="minitoc" style="">
+    <p class="minitoc-caption" data-close-text="" data-expanded="true" data-open-text="Contents" data-type="minitoc-caption" href="#" style="">Mini TOC (placeholder)</p>
+    <ol class="minitoc-list" data-from-selector="h2" data-to-selector="h3" data-type="minitoc-list" style="">
+      <li>Heading</li>
+    </ol>
+  </div>
+  <h2 id="json">JSON</h2>
+  <div>
+    <p>JSON (JavaScript Object Notation) is a lightweight data-interchange format which is easy to read and write, for both people and machines. It is built on two basic structures:</p>
+    <ul class="colour">
+      <li>A collection of name/value pairs, known as a &quot;map&quot;, &quot;dictionary&quot; or &quot;object&quot; in programming languages. It is represented in <span data-keyref="GameMaker Name">GameMaker</span> by a <span data-keyref="Type_Struct"><a href="../GameMaker_Language/GML_Overview/Structs.htm" target="_blank">Struct</a></span> or a <span data-keyref="Type_ID_DS_Map"><a href="../GameMaker_Language/GML_Reference/Data_Structures/DS_Maps/ds_map_create.htm" target="_blank">DS Map</a></span>.</li>
+      <li>An ordered list of values, known as a &quot;list&quot;, &quot;array&quot; or &quot;sequence&quot; in other programming languages. It is represented in <span data-keyref="GameMaker Name">GameMaker</span> by an <span data-keyref="Type_Array"><a href="../GameMaker_Language/GML_Overview/Arrays.htm" target="_blank">Array</a></span> or a <span data-keyref="Type_ID_DS_List"><a href="../GameMaker_Language/GML_Reference/Data_Structures/DS_Lists/ds_list_create.htm" target="_blank">DS List</a></span>.</li>
+    </ul>
+    <p class="note"><span data-conref="../assets/snippets/Tag_important.hts"> </span> JSON is <em>agnostic</em> about numbers. In any programming language, there can be a variety of number types of various capacities and complements, fixed or floating, binary or decimal. That can make interchange between different programming languages difficult. JSON instead offers only the representation of numbers that humans use: a sequence of digits. All programming languages know how to make sense of digit sequences even if they disagree on internal representations. For more information see the <a href="https://ecma-international.org/publications-and-standards/standards/ecma-404/">ECMA JSON Standard</a>.</p>
+  </div>
+  <h2 id="json_in_gamemaker">JSON in <span data-keyref="GameMaker Name" id="">GameMaker</span></h2>
+  <p><span data-keyref="GameMaker Name">GameMaker</span> has built-in support for reading and writing JSON through two sets of functions: </p>
+  <ul class="colour">
+    <li><span class="inline3_func"><a data-xref="{title}" href="../GameMaker_Language/GML_Reference/File_Handling/Encoding_And_Hashing/json_parse.htm">json_parse</a></span> and <span class="inline3_func"><a data-xref="{title}" href="../GameMaker_Language/GML_Reference/File_Handling/Encoding_And_Hashing/json_stringify.htm">json_stringify</a></span> which you use to convert a JSON string to a collection of <a href="../GameMaker_Language/GML_Overview/Structs.htm">Structs</a> and <a data-xref="{title}" href="../GameMaker_Language/GML_Overview/Arrays.htm">Arrays</a> and back.</li>
+    <li><span class="inline3_func"><a data-xref="{title}" href="../GameMaker_Language/GML_Reference/File_Handling/Encoding_And_Hashing/json_encode.htm">json_encode</a></span> and <span class="inline3_func"><a data-xref="{title}" href="../GameMaker_Language/GML_Reference/File_Handling/Encoding_And_Hashing/json_decode.htm">json_decode</a></span> which you use to convert a JSON string to a collection of <a data-xref="{title}" href="../GameMaker_Language/GML_Reference/Data_Structures/DS_Maps/DS_Maps.htm">DS Maps</a> and <a data-xref="{title}" href="../GameMaker_Language/GML_Reference/Data_Structures/DS_Lists/DS_Lists.htm">DS Lists</a> and back. Encoding requires you to <em>mark</em> <a href="../GameMaker_Language/GML_Reference/Data_Structures/DS_Maps/DS_Maps.htm#func_ref_json" title="DS map marking functions">DS map keys</a> and <a href="../GameMaker_Language/GML_Reference/Data_Structures/DS_Lists/DS_Lists.htm##func_ref_json" title="DS list marking functions">DS list items</a> as such (so it is clear which map keys and list items should become nested JSON objects and arrays).</li>
+  </ul>
+  <h3 id="which_functions_to_use">Which Functions to Use</h3>
+  <ul class="colour">
+    <li><span class="inline3_func"><a data-xref="{title}" href="../GameMaker_Language/GML_Reference/File_Handling/Encoding_And_Hashing/json_parse.htm">json_parse</a></span> and <span class="inline3_func"><a data-xref="{title}" href="../GameMaker_Language/GML_Reference/File_Handling/Encoding_And_Hashing/json_stringify.htm">json_stringify</a></span> are the main functions to use when working with JSON. If you&#39;re not using any <a data-xref="{title}" href="../GameMaker_Language/GML_Reference/Data_Structures/Data_Structures.htm">Data Structures</a> or when you start a new project, these are the functions to use.</li>
+    <li>Use <span class="inline3_func"><a data-xref="{title}" href="../GameMaker_Language/GML_Reference/File_Handling/Encoding_And_Hashing/json_encode.htm">json_encode</a></span> and <span class="inline3_func"><a data-xref="{title}" href="../GameMaker_Language/GML_Reference/File_Handling/Encoding_And_Hashing/json_decode.htm">json_decode</a></span> when working with <a data-xref="{title}" href="../GameMaker_Language/GML_Reference/Data_Structures/Data_Structures.htm">Data Structures</a>. The item passed to <span class="inline3_func"><a data-xref="{title}" href="../GameMaker_Language/GML_Reference/File_Handling/Encoding_And_Hashing/json_encode.htm">json_encode</a></span> (the &quot;root&quot;) must always be a <span data-keyref="Type_ID_DS_Map"><a href="../GameMaker_Language/GML_Reference/Data_Structures/DS_Maps/ds_map_create.htm" target="_blank">DS Map</a></span>. Similarly, <span class="inline3_func"><a data-xref="{title}" href="../GameMaker_Language/GML_Reference/File_Handling/Encoding_And_Hashing/json_decode.htm">json_decode</a></span> always returns a DS map, no matter the data type that you pass it (anything you pass to the function that&#39;s not a DS map is wrapped in one).</li>
+    <li>Use <span class="inline3_func"><a data-xref="{title}" href="../GameMaker_Language/GML_Reference/File_Handling/Encoding_And_Hashing/json_encode.htm">json_encode</a></span> on a <span data-keyref="Type_ID_DS_Map"><a href="../GameMaker_Language/GML_Reference/Data_Structures/DS_Maps/ds_map_create.htm" target="_blank">DS Map</a></span> that contains nested <a href="../GameMaker_Language/GML_Overview/Structs.htm#struct">structs</a> and <a data-xref="{title}" href="../GameMaker_Language/GML_Overview/Arrays.htm">Arrays</a>. The structs and arrays will also be converted to JSON, i.e. <span class="inline3_func"><a data-xref="{title}" href="../GameMaker_Language/GML_Reference/File_Handling/Encoding_And_Hashing/json_encode.htm">json_encode</a></span> allows you to convert a mixed hierarchy.</li>
+  </ul>
+  <p>This guide focuses on the functions <span class="inline3_func"><a data-xref="{title}" href="../GameMaker_Language/GML_Reference/File_Handling/Encoding_And_Hashing/json_parse.htm">json_parse</a></span> and <span class="inline3_func"><a data-xref="{title}" href="../GameMaker_Language/GML_Reference/File_Handling/Encoding_And_Hashing/json_stringify.htm">json_stringify</a></span>.</p>
+  <h3 id="data_conversions">Data Conversions</h3>
+  <p>The JSON standard has a limited number of values that it supports: an object, an array, a string, a number and the values <span class="inline2">true</span>, <span class="inline2">false</span> and <span class="inline2">null</span>. <span data-keyref="GameMaker Name">GameMaker</span> uses more <a data-xref="{title}" href="../GameMaker_Language/GML_Overview/Data_Types.htm">Data Types</a> than this and in order to store these in a way they can be read back later, it converts them to a string representation. Both the <span class="inline3_func"><a data-xref="{title}" href="../GameMaker_Language/GML_Reference/File_Handling/Encoding_And_Hashing/json_parse.htm">json_parse</a></span> / <span class="inline3_func"><a data-xref="{title}" href="../GameMaker_Language/GML_Reference/File_Handling/Encoding_And_Hashing/json_stringify.htm">json_stringify</a></span> and <span class="inline3_func"><a data-xref="{title}" href="../GameMaker_Language/GML_Reference/File_Handling/Encoding_And_Hashing/json_decode.htm">json_decode</a></span> / <span class="inline3_func"><a data-xref="{title}" href="../GameMaker_Language/GML_Reference/File_Handling/Encoding_And_Hashing/json_encode.htm">json_encode</a></span> perform these conversions.</p>
+  <p class="note"><span data-conref="../assets/snippets/Tag_note.hts"> </span> You can disable the automatic string conversion when parsing JSON by setting the <span class="inline2">inhibit_string_convert</span> argument of <span class="inline3_func"><a data-xref="{title}" href="../GameMaker_Language/GML_Reference/File_Handling/Encoding_And_Hashing/json_parse.htm">json_parse</a></span> to <span class="inline2">true</span>.</p>
+  <p>The following table lists the conversions that take place when converting between JSON data and <span data-keyref="GameMaker Name">GameMaker</span>: </p>
+  <table style="caption-side: top">
+    <caption>JSON Data Conversions</caption>
+    <colgroup>
+      <col style="width:33.33%" />
+      <col style="width:33.33%" />
+      <col style="width:33.33%" />
+    </colgroup>
+    <tbody>
+      <tr>
+        <th>JSON Type</th>
+        <th>GM Type/Value</th>
+        <th>Notes</th>
+      </tr>
+      <tr>
+        <td><span class="inline2">true</span> / <span class="inline2">false</span></td>
+        <td><span class="inline2">true</span> / <span class="inline2">false</span></td>
+        <td> </td>
+      </tr>
+      <tr>
+        <td>real / number</td>
+        <td><span data-keyref="Type_Real"><a href="../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td> </td>
+      </tr>
+      <tr>
+        <td><span class="inline2">&quot;@i64@hex_value$i64@&quot;</span></td>
+        <td>int64</td>
+        <td><span data-keyref="GameMaker Name">GameMaker</span> will write it as:<br />
+          - an <i>int</i> if it&#39;s in the valid range for an int32.<br />
+          - a <i>double</i> if it can do so without losing precision.<br />
+          - a <i>string</i> with an identifier <span class="inline2">&quot;@i64@&quot;</span> before it and <span class="inline2">&quot;$i64$&quot;</span> after it if neither of those cases is applicable<span>.</span><br />
+          <br />
+          When you read the JSON again, <span data-keyref="GameMaker Name">GameMaker</span> will pick up these identifiers and convert the value back into an int64 (unless conversion is disabled).<br />
+          <br />
+          <span data-conref="../assets/snippets/Tag_warning.hts"> </span> If the JSON is intended for a server or some other non-<span data-keyref="GameMaker Name">GameMaker</span> target, these values will not be appropriate and so should be avoided.
+        </td>
+      </tr>
+      <tr>
+        <td>null</td>
+        <td><span class="inline2">undefined</span><br />
+          <span class="inline2">pointer_null</span>
+        </td>
+        <td><span class="inline2">undefined</span> and <span class="inline2">pointer_null</span> are written as JSON <span class="inline2">null</span>. JSON <span class="inline2">null</span> is always read back as <span class="inline2">undefined</span> when <a href="../GameMaker_Language/GML_Reference/File_Handling/Encoding_And_Hashing/json_parse.htm">parsing</a> or <a href="../GameMaker_Language/GML_Reference/File_Handling/Encoding_And_Hashing/json_decode.htm">decoding</a>.</td>
+      </tr>
+      <tr>
+        <td>string</td>
+        <td><span data-keyref="Type_String"><a href="../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">String</a></span></td>
+        <td> </td>
+      </tr>
+      <tr>
+        <td><span class="inline2">&quot;@@infinity$$&quot;</span>, <span class="inline2">@@-infinity$$</span></td>
+        <td><span class="inline2">infinity</span>, <span class="inline2">-infinity</span></td>
+        <td><span class="inline2">infinity</span> is written as a string</td>
+      </tr>
+      <tr>
+        <td><span class="inline2">&quot;@@nan$$&quot;</span></td>
+        <td><span class="inline2">NaN</span></td>
+        <td><span class="inline2">NaN</span> is written as a string</td>
+      </tr>
+      <tr>
+        <td>object</td>
+        <td><span data-keyref="Type_Struct"><a href="../GameMaker_Language/GML_Overview/Structs.htm" target="_blank">Struct</a></span> (or <span data-keyref="Type_ID_DS_Map"><a href="../GameMaker_Language/GML_Reference/Data_Structures/DS_Maps/ds_map_create.htm" target="_blank">DS Map</a></span>)</td>
+        <td> </td>
+      </tr>
+      <tr>
+        <td>array</td>
+        <td><span data-keyref="Type_Array"><a href="../GameMaker_Language/GML_Overview/Arrays.htm" target="_blank">Array</a></span> (or <span data-keyref="Type_ID_DS_List"><a href="../GameMaker_Language/GML_Reference/Data_Structures/DS_Lists/ds_list_create.htm" target="_blank">DS List</a></span>)</td>
+        <td> </td>
+      </tr>
+      <tr>
+        <td><span class="inline2">&quot;ref &lt;type&gt; &lt;id&gt;&quot;</span></td>
+        <td><span data-keyref="Type_Handle"><a href="../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">Handle</a></span></td>
+        <td>Handles are stored in their string representation <span data-conref="../assets/snippets/Handle_Format.hts"> </span> when writing JSON and are converted back to runtime values when reading back the JSON.<br />
+          <br />
+          The exception is when using <span class="inline3_func"><a data-xref="{title}" href="../GameMaker_Language/GML_Reference/File_Handling/Encoding_And_Hashing/json_encode.htm">json_encode</a></span>: nested <a data-xref="{title}" href="../GameMaker_Language/GML_Reference/Data_Structures/DS_Maps/DS_Maps.htm">DS Maps</a> and <a data-xref="{title}" href="../GameMaker_Language/GML_Reference/Data_Structures/DS_Lists/DS_Lists.htm">DS Lists</a> that you&#39;ve <a href="../GameMaker_Language/GML_Reference/Data_Structures/DS_Maps/DS_Maps.htm#func_ref_json">marked</a> <a href="../GameMaker_Language/GML_Reference/Data_Structures/DS_Lists/DS_Lists.htm#func_ref_json">as such</a> will be written as JSON objects and arrays respectively.<br />
+          <br />
+          <span data-conref="../assets/snippets/Tag_note.hts"> </span> Relying on this behaviour will generally be of little use as the index will change between runs of the game.
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="filter_function">Filter Function</h3>
+  <p>If you want full control over how the contents of the JSON are read or written, you can optionally provide a filter function that runs for each element to <span class="inline3_func"><a data-xref="{title}" href="../GameMaker_Language/GML_Reference/File_Handling/Encoding_And_Hashing/json_stringify.htm">json_stringify</a></span> and <span class="inline3_func"><a data-xref="{title}" href="../GameMaker_Language/GML_Reference/File_Handling/Encoding_And_Hashing/json_parse.htm">json_parse</a></span>. See the function pages for more information.</p>
+  <h2 id="writing_json">Writing JSON</h2>
+  <p>Writing JSON is done with <span class="inline3_func"><a data-xref="{title}" href="../GameMaker_Language/GML_Reference/File_Handling/Encoding_And_Hashing/json_stringify.htm">json_stringify</a></span>. For example, the following struct: </p>
+  <p class="code">my_struct =<br />
+    {<br />
+        test: &quot;this&quot;,<br />
+        val: [&quot;that&quot;, &quot;another thing&quot;, {&quot;value&quot;: &quot;a nested struct&quot;}]<br />
+    };</p>
+  <p>Can be converted to a JSON string using <span class="inline3_func"><a data-xref="{title}" href="../GameMaker_Language/GML_Reference/File_Handling/Encoding_And_Hashing/json_stringify.htm">json_stringify</a></span>: </p>
+  <p class="code">struct_json = json_stringify(my_struct);</p>
+  <p>And then be written to a file using either the text file functions: </p>
+  <p class="code">var _file = file_text_open_write(&quot;struct_as_json.json&quot;);<br />
+    file_text_write_string(_file, struct_json);<br />
+    file_text_close(_file);</p>
+  <p>Or the buffer functions: </p>
+  <p class="code">var _buff = buffer_create(<span>16384</span><span>,<span> </span></span><span>buffer_fixed, 1</span>);<br />
+    buffer_write(buffer_text, struct_json);<br />
+    buffer_save(&quot;struct_as_json.json&quot;);<br />
+    buffer_delete(_buff);</p>
+  <p>You can also send the JSON string over a network or store it somewhere else (e.g. in a text field in a database).</p>
+  <p>The following text is the output: </p>
+  <p class="code">{&quot;test&quot;:&quot;this&quot;,&quot;val&quot;:[&quot;that&quot;,&quot;another thing&quot;,{&quot;value&quot;:&quot;a nested struct&quot;}]}</p>
+  <p>By default, <span class="inline3_func"><a data-xref="{title}" href="../GameMaker_Language/GML_Reference/File_Handling/Encoding_And_Hashing/json_stringify.htm">json_stringify</a></span> writes the JSON <em>linearised</em>. In this case everything is placed on the same line, with no space in between and no indentation added. This format is useful when every byte counts, though it is not particularly readable.</p>
+  <h3 id="prettify">Prettify</h3>
+  <p>The <span class="inline2">prettify</span> parameter can be set to <span class="inline2">true</span> to add indentation to the generated JSON string to make it look &quot;pretty&quot;, i.e. more human-readable.</p>
+  <p>The following code: </p>
+  <p class="code">struct_json = json_stringify(my_struct, true);</p>
+  <p>outputs the following JSON: </p>
+  <p class="code">{<br />
+      &quot;test&quot;:&quot;this&quot;,<br />
+      &quot;val&quot;:[<br />
+        &quot;that&quot;,<br />
+        &quot;another thing&quot;,<br />
+        {<br />
+          &quot;value&quot;:&quot;a nested struct&quot;<br />
+        }<br />
+      ]<br />
+    }</p>
+  <p>Compared to the linearised output, the JSON above shows at a glance how the data is constructed.</p>
+  <h3>Usage Notes</h3>
+  <ul class="colour">
+    <li>Care should be taken when writing a JSON string to an INI file, as the INI specification can cause issues when using quotes and escape characters. See <a href="../GameMaker_Language/GML_Reference/File_Handling/Ini_Files/ini_write_string.htm"><span class="inline2">ini_write_string()</span></a> for more information.</li>
+    <li>Circular references in DS maps, such as references back to the main map itself (forming an infinite loop) or references to maps within the main map forming such infinite loops, will be serialised only on the first level where they&#39;re encountered, and converted to <span class="inline2">null</span> for deeper references. In the case of structs such references are immediately converted to <span class="inline2">null</span> upon stringifying.</li>
+  </ul>
+  <h2 id="reading_json">Reading JSON</h2>
+  <p>To read data from a previously created JSON string, you turn it into a struct using <span class="inline3_func"><a data-xref="{title}" href="../GameMaker_Language/GML_Reference/File_Handling/Encoding_And_Hashing/json_parse.htm">json_parse</a></span>: </p>
+  <p class="code">my_struct = json_parse(struct_json);</p>
+  <p>By default, string values in the JSON will be checked to see if they contain special values. If so, these values are converted to the internal <span data-keyref="GameMaker Name">GameMaker</span> value. For example: </p>
+  <p class="code">json = json_stringify({ &quot;infinity&quot;: infinity, &quot;NaN&quot;: NaN});<br />
+    show_debug_message(json);                                    // {&quot;NaN&quot;:&quot;@@nan$$&quot;,&quot;infinity&quot;:&quot;@@infinity$$&quot;}<br />
+    data_with_strings_converted = json_parse(json);<br />
+    show_debug_message(data_with_strings_converted);             // { NaN : NaN, infinity : inf }<br />
+    data_with_strings_unchanged = json_parse(json, , true);<br />
+    show_debug_message(data_with_strings_converted);             // { NaN : &quot;@@nan$$&quot;, infinity : &quot;@@infinity$$&quot; }</p>
+  <h3>Usage Notes</h3>
+  <ul class="colour">
+    <li>The maximum nesting limit of the JSON string to be parsed or decoded is <span data-keyref="Const_JSON_Max_Nesting_Limit">128</span>.</li>
+    <li>While trailing commas are not part of the JSON standard, <span data-keyref="GameMaker Name">GameMaker</span> parses JSON strings that contain them. For example: <span class="inline2">{&quot;name&quot;: &quot;Level 1&quot;, &quot;Description&quot;: &quot;The first level&quot;, }</span>.</li>
+  </ul>
+  <h2 id="serialisation">Serialisation</h2>
+  <p><a href="https://en.wikipedia.org/wiki/Serialization" title="Serialisation">Serialisation</a> is described as follows: </p>
+  <blockquote>In computing, serialization (or serialisation) is the process of translating a data structure or object state into a format that can be stored (e.g. files in secondary storage devices, data buffers in primary storage devices) or transmitted (e.g. data streams over computer networks) and reconstructed later (possibly in a different computer environment).</blockquote>
+  <p>In <span data-keyref="GameMaker Name">GameMaker</span>, a struct is such a data structure. It can have both variables and functions as its members. When you stringify a struct&#39;s contents with <span class="inline3_func"><a data-xref="{title}" href="../GameMaker_Language/GML_Reference/File_Handling/Encoding_And_Hashing/json_stringify.htm">json_stringify</a></span>, only the struct&#39;s variables are written, not its functions.</p>
+  <p class="note"><span data-conref="../assets/snippets/Tag_note.hts"> </span> You can only serialise <a href="../GameMaker_Language/GML_Overview/Structs.htm" title="structs">structs</a> this way in <span data-keyref="GameMaker Name">GameMaker</span>, not <a data-xref="{title}" href="../GameMaker_Language/GML_Reference/Data_Structures/Data_Structures.htm">Data Structures</a> or <a data-xref="{title}" href="../GameMaker_Language/GML_Reference/Asset_Management/Instances/Instances.htm">Instances</a>.</p>
+  <p>By manually setting the <a data-xref="{title}" href="../GameMaker_Language/GML_Overview/Structs/Static_Structs.htm">Static Struct</a> of the structs that <span class="inline3_func"><a data-xref="{title}" href="../GameMaker_Language/GML_Reference/File_Handling/Encoding_And_Hashing/json_parse.htm">json_parse</a></span> returns with <span class="inline3_func"><a data-xref="{title}" href="../GameMaker_Language/GML_Reference/Variable_Functions/static_set.htm">static_set</a></span> you can restore those structs to their original state.</p>
+  <p>As an example, suppose you have a constructor <span class="inline2">Vector</span>: </p>
+  <p class="code">function Vector(_x=0, _y=0, _z=0) constructor<br />
+    {<br />
+        x = _x;<br />
+        y = _y;<br />
+        z = _z;<br />
+        <br />
+        static add = function(_v2)<br />
+        {<br />
+            x += _v2.x;<br />
+            y += _v2.y;<br />
+            z += _v2.z;<br />
+            <br />
+            return self;<br />
+        }<br />
+        static sum = function(_v1, _v2)<br />
+        {<br />
+            // Note: call using Vector.sum(v1, v2)<br />
+            return new Vector(_v1.x + _v2.x, _v1.y + _v2.y, _v1.z + _v2.z);<br />
+        }<br />
+        static dot = function(_v1, _v2)<br />
+        {<br />
+            // Note: call using Vector.sum(v1, v2)<br />
+            return dot_product_3d(_v1.x, _v1.y, _v1.z, _v2.x, _v2.y, _v2.z);<br />
+        }<br />
+        // Other<br />
+    }</p>
+  <p>You then create a few of these vectors: </p>
+  <p class="code">v1 = new Vector();<br />
+    v2 = new Vector(100, 100);<br />
+    v3 = new Vector(200, 20, 50);<br />
+    v1.add(v2);<br />
+    v4 = Vector.sum(v2, v3);</p>
+  <p>These four vectors can be stored in an array and converted to JSON using <span class="inline3_func"><a data-xref="{title}" href="../GameMaker_Language/GML_Reference/File_Handling/Encoding_And_Hashing/json_stringify.htm">json_stringify</a></span>:</p>
+  <p class="code">json = json_stringify([v1, v2, v3, v4]);</p>
+  <p>This JSON string can be saved or sent somewhere else.</p>
+  <p>At you point you might want to restore these vectors in another instance of the game, not just their values (<span class="inline2">x</span>, <span class="inline2">y</span> and <span class="inline2">z</span>) but also their behaviour (<span class="inline3_func">add</span>, <span class="inline3_func">sum</span>, <span class="inline3_func">dot</span>, ...).</p>
+  <p>To get the information back into structs you parse the JSON string using <span class="inline3_func"><a data-xref="{title}" href="../GameMaker_Language/GML_Reference/File_Handling/Encoding_And_Hashing/json_parse.htm">json_parse</a></span> and then assign the individual array elements to the variable names used earlier: </p>
+  <p class="code">vectors = json_parse(json);<br />
+    v1 = vectors[0];<br />
+    v2 = vectors[1];<br />
+    v3 = vectors[2];<br />
+    v4 = vectors[3];</p>
+  <p>The structs have now been read back from the JSON string, but they are entirely new structs that don&#39;t belong to a constructor anymore. The structs were <span class="inline2">Vector</span> structs in the original instance of the game, but aren&#39;t anymore. At least, not &quot;officially&quot;, as you&#39;ll see with a call to the function <span class="inline3_func"><a data-xref="{title}" href="../GameMaker_Language/GML_Reference/Variable_Functions/instanceof.htm">instanceof</a></span>: </p>
+  <p class="code">instanceof(v1, Vector);  // false<br />
+    instanceof(v2, Vector);  // false<br />
+    instanceof(v3, Vector);  // false<br />
+    instanceof(v4, Vector);  // false</p>
+  <p>To tell <span data-keyref="GameMaker Name">GameMaker</span> that each of these structs should, once again, belong to the <span class="inline2">Vector</span> constructor, you can use the function <span class="inline3_func"><a data-xref="{title}" href="../GameMaker_Language/GML_Reference/Variable_Functions/static_set.htm">static_set</a></span>: </p>
+  <p class="code">var _static_vec = static_get(Vector);<br />
+    static_set(v1, _static_vec);<br />
+    static_set(v2, _static_vec);<br />
+    static_set(v3, _static_vec);<br />
+    static_set(v4, _static_vec);</p>
+  <p>By using <span class="inline3_func"><a data-xref="{title}" href="../GameMaker_Language/GML_Reference/Variable_Functions/static_set.htm">static_set</a></span> on the structs you first detach them from the static as a simple &quot;data&quot; struct and reattach them to the static chain as &quot;child&quot; structs of the static struct of <span class="inline2">Vector</span>. Since you can access all static members of the hierarchy of static structs (or constructors) a struct belongs to, this way you give the structs access to <span class="inline2">Vector</span>&#39;s <a data-xref="{text}" href="../GameMaker_Language/GML_Overview/Structs/Static_Structs.htm#h">Static Chain</a>, restoring their behaviour.</p>
+  <p>From here on, <span class="inline2">v1</span> to <span class="inline2">v4</span> <em>are</em> instances of <span class="inline2">Vector</span>!</p>
+  <p class="code">instanceof(v1, Vector);  // true!<br />
+    instanceof(v2, Vector);  // true!<br />
+    instanceof(v3, Vector);  // true!<br />
+    instanceof(v4, Vector);  // true!</p>
+  <p>And you can use them like any other <span class="inline2">Vector</span> struct: </p>
+  <p class="code">v1.add(v2).add(v3);<br />
+    v5 = Vector.sum(v1, v1);</p>
+  <p class="note"><span data-conref="../assets/snippets/Tag_important.hts"> </span> In order for this to work, the functions must be defined as static so they belong to the <em>constructor</em>, rather than to the struct <em>instance</em>. If you don&#39;t declare the functions as static, each struct instance should receive a copy of the function through execution of the constructor. However, setting the static struct with <span class="inline3_func"><a data-xref="{title}" href="../GameMaker_Language/GML_Reference/Variable_Functions/static_set.htm">static_set</a></span> doesn&#39;t call the constructor, rather it moves the struct to a different place in the <a data-xref="{text}" href="../GameMaker_Language/GML_Overview/Structs/Static_Structs.htm#h">Static Chain</a> which enables it to access a different static struct&#39;s functions (see <a data-xref="{text}" href="../GameMaker_Language/GML_Overview/Structs/Static_Structs.htm#h2">How the Dot Operator Looks Up a Variable Name</a>).</p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div>Back: <a data-xref="{title}" href="Additional_Information.htm">Additional Information</a></div>
+        <div>Next: <a data-xref="{title}" href="Project_Format.htm">Project Format</a></div>
+      </div>
+    </div>
+    <h5><span data-conref="../assets/snippets/Copyright_Notice_AutoUpdate.hts"> </span></h5>
+  </div>
+</body>
+</html>

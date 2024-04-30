@@ -90,7 +90,7 @@
       game_save_buffer(SaveBuffer);</p>
     <p class="dropspot">The above will first set the control variable to <span class="inline">true </span>(so that this is saved when we save the game to the buffer) and then seek to the start of the buffer before writing the current save state into it. Why do we use <a href="../GameMaker_Language/GML_Reference/Buffers/buffer_seek.htm"><span class="inline">buffer_seek()</span></a>? Well, as mentioned already on this page, you read and write to a buffer from the last position that data was added to it. This means that if you don&#39;t set the buffer tell back to the start then when you save you will be adding the data into the buffer at the current buffer read/write position. So, we use the function <span class="inline">buffer_seek()</span> to move the tell to the buffer start.</p>
     <p class="dropspot">We have now saved the current game state to a buffer. The next step would be to code how to load it, probably in another <strong>Keypress Event</strong>:</p>
-    <p class="code">if StateSaved<br />
+    <p class="code">if (StateSaved) <br />
       {<br />
           buffer_seek(SaveBuffer, buffer_seek_start, 0);<br />
           game_load_buffer(SaveBuffer);<br />
@@ -117,7 +117,7 @@
     <p class="dropspot">Before writing to the buffer we have set the &quot;tell&quot; to the start of the buffer as networking always takes the data from the start of a buffer. We then write the check value (this will be used by the server to determine the type of event to be processed), then the key being used, and then the state of the key (in this case true for pressed). This buffer is then sent as a data packet by the network function. Note that we do not send the whole buffer! We only send the data written, using the buffer_tell function to return the current read/write position of the buffer (remember that writing to the buffer moves the &quot;tell&quot; to the end of what has been written). This is simply to avoid sending more bytes than is necessary.</p>
     <p class="dropspot">What about receiving the data on the server? The received data packet that must be written into the buffer on the server and then used to update the game. For that we would use the <a href="../The_Asset_Editors/Object_Properties/Async_Events.htm">Networking Asynchronous Event</a> in the network controller object of the server, as this simplified code below shows:</p>
     <p class="code">var buff = ds_map_find_value(async_load, &quot;buffer&quot;);<br />
-      if cmd == buffer_read(buff, buffer_u8);<br />
+      if (cmd == buffer_read(buff, buffer_u8)) <br />
       {<br />
           key = buffer_read(buff, buffer_s16);<br />
           key_state = buffer_read(buff, buffer_bool);<br />

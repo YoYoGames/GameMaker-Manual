@@ -89,8 +89,8 @@
         <td style="">The temporary directory to use (defaults to <span class="inline2">c:\temp</span>)</td>
       </tr>
       <tr>
-        <td style=""><span class="inline">/of=[output_folder_filename]</span></td>
-        <td style="">The output directory where the build will be extracted; do not specify just a directory as the trailing entry is always removed (e.g.: specifying <span class="inline2">d:\game\output</span> will place the game files in <span class="inline2">d:\game</span>)<br />
+        <td style=""><span class="inline">/of=[output_filename]</span></td>
+        <td style="">The filename of the output executable without the extension, e.g. <span class="inline2">C:/output/game</span>, which would output the executable at <span class="inline2">C:/output/game.zip</span> (or a different file format depending on the platform)<br />
           <br />
           If this is not specified, a directory named <span class="inline2">output</span> will be created in the same directory as the <span class="inline">.bat</span> file (or where the command is running from), containing the extracted build files
         </td>
@@ -183,120 +183,121 @@
     <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] -- Windows Clean</p>
     <p>Building VM for Windows -- <span class="inline">Run</span>, <span class="inline">PackageZip </span>and <span class="inline">PackageNsis</span>:</p>
     <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] -- Windows Run</p>
-    <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_folder_filename] /tf=[target_file] -- Windows PackageZip</p>
-    <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_folder_filename] /tf=[target_file] -- Windows PackageNsis</p>
+    <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_filename] /tf=[target_file] -- Windows PackageZip</p>
+    <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_filename] /tf=[target_file] -- Windows PackageNsis</p>
     <p>Building YYC for Windows-- <span class="inline">Run</span>, <span class="inline">PackageZip </span>and <span class="inline">PackageNsis</span>:</p>
-    <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /platform=YYC -- Windows Run</p>
-    <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_folder_filename] /tf=[target_file] /platform=YYC -- Windows PackageZip</p>
-    <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_folder_filename] /tf=[target_file] /platform=YYC -- Windows PackageNsis</p>
+    <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /runtime=YYC -- Windows Run</p>
+    <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_filename] /tf=[target_file] /runtime=YYC -- Windows PackageZip</p>
+    <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_filename] /tf=[target_file] /runtime=YYC -- Windows PackageNsis</p>
   </div>
   <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down1" href="#">macOS</a></p>
   <div class="droptext" data-targetname="drop-down1">
+    <p class="note"><span data-conref="../assets/snippets/Tag_important.hts"> </span> On Mac you will need to use <strong>mono</strong> to run Igor, so you will need to write <span class="inline"><strong>mono</strong></span> before all your commands, e.g.: <span class="inline">mono Igor.exe [options]</span></p>
     <p>Cleaning macOS project:</p>
     <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] -- Mac Clean</p>
     <p>Building VM for macOS while on a Mac:</p>
-    <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_folder_filename] /tf=[target_file] -- Mac Package</p>
-    <p><strong>Note</strong> that on Mac you will need to use mono to run Igor, so you will need to write <span class="inline"><strong>mono</strong></span> before all your commands, e.g.: <span class="inline">mono Igor.exe [options]</span></p>
+    <p class="note"><span data-conref="../assets/snippets/Tag_note.hts"> </span> Use <strong>PackageZip</strong> to build a ZIP file, and <strong>PackageDMG</strong> to build a DMG. These examples use <strong>PackageZip</strong>.</p>
+    <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_filename] /tf=[target_file] -- Mac PackageZip</p>
     <p>Building VM for macOS while on a PC:</p>
-    <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_folder_filename] /tf=[target_file] /device=[device_IDE_Name] -- Mac Package</p>
+    <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_filename] /tf=[target_file] /device=[device_IDE_Name] -- Mac PackageZip</p>
     <p>Building YYC for macOS while on a Mac:</p>
-    <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_folder_filename] /tf=[target_file] /platform=YYC -- Mac Package</p>
+    <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_filename] /tf=[target_file] /runtime=YYC -- Mac PackageZip</p>
     <p>Building YYC for macOS while on a PC:</p>
-    <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_folder_filename] /tf=[target_file] /platform=YYC /device=[device_IDE_Name] -- Mac Package</p>
+    <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_filename] /tf=[target_file] /runtime=YYC /device=[device_IDE_Name] -- Mac PackageZip</p>
   </div>
   <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down2" href="#">Linux / Ubuntu</a></p>
   <div class="droptext" data-targetname="drop-down2">
     <p>Cleaning Linux project:</p>
     <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] -- Linux Clean</p>
     <p>Building VM for Linux while on a PC:</p>
-    <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_folder_filename] /tf=[target_file] /device=[device_IDE_Name] -- Linux Package</p>
+    <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_filename] /tf=[target_file] /device=[device_IDE_Name] -- Linux Package</p>
     <p>Building YYC for Linux while on a PC:</p>
-    <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_folder_filename] /tf=[target_file] /platform=YYC /device=[device_IDE_Name] -- Linux Package</p>
+    <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_filename] /tf=[target_file] /runtime=YYC /device=[device_IDE_Name] -- Linux Package</p>
   </div>
   <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down3" href="#">HTML5</a></p>
   <div class="droptext" data-targetname="drop-down3">
     <p>Cleaning HTML5 project:</p>
     <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] -- HTML5 Clean</p>
     <p>Building HTML5 folder (make sure to specify a target folder with <span class="inline">/tf)</span>:</p>
-    <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_folder_filename] /tf=[target_folder] -- HTML5 folder</p>
+    <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_filename] /tf=[target_folder] -- HTML5 folder</p>
   </div>
   <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down4" href="#">iOS</a></p>
   <div class="droptext" data-targetname="drop-down4">
     <p>Building VM for iOS while on a Mac:</p>
-    <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_folder_filename] /tf=[target_file] -- ios Package</p>
+    <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_filename] /tf=[target_file] -- ios Package</p>
     <p>Building VM for iOS while on a PC:</p>
-    <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_folder_filename] /tf=[target_file] /device=[device_IDE_Name] -- ios Package</p>
+    <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_filename] /tf=[target_file] /device=[device_IDE_Name] -- ios Package</p>
     <p>Building YYC for iOS while on a Mac:</p>
-    <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_folder_filename] /tf=[target_file] /platform=YYC -- ios Package</p>
+    <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_filename] /tf=[target_file] /runtime=YYC -- ios Package</p>
     <p>Building YYC for iOS while on a PC:</p>
-    <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_folder_filename] /tf=[target_file] /platform=YYC /device=[device_IDE_Name] -- ios Package</p>
+    <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_filename] /tf=[target_file] /runtime=YYC /device=[device_IDE_Name] -- ios Package</p>
   </div>
   <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down5" href="#">Android</a></p>
   <div class="droptext" data-targetname="drop-down5">
     <p>Cleaning Android project:</p>
     <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] -- Windows Clean</p>
     <p>Building an Android APK using VM:</p>
-    <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_folder_filename] /tf=[target_file] -- Android Package</p>
+    <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_filename] /tf=[target_file] -- Android Package</p>
     <p>Building an Android APK using YYC:</p>
-    <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_folder_filename] /tf=[target_file] /platform=YYC -- Android Package</p>
+    <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_filename] /tf=[target_file] /runtime=YYC -- Android Package</p>
   </div>
   <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down6" href="#">tvOS</a></p>
   <div class="droptext" data-targetname="drop-down6">
     <p>Cleaning tvOS project:</p>
     <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] -- tvos Clean</p>
     <p>Building VM for tvOS while on a Mac:</p>
-    <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_folder_filename] /tf=[target_file] -- tvos Package</p>
+    <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_filename] /tf=[target_file] -- tvos Package</p>
     <p>Building VM for tvOS while on a PC:</p>
-    <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_folder_filename] /tf=[target_file] /device=[device_IDE_Name] -- tvos Package</p>
+    <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_filename] /tf=[target_file] /device=[device_IDE_Name] -- tvos Package</p>
     <p>Building YYC for tvOS while on a Mac:</p>
-    <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_folder_filename] /tf=[target_file] /platform=YYC -- tvos Package</p>
+    <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_filename] /tf=[target_file] /runtime=YYC -- tvos Package</p>
     <p>Building YYC for tvOS while on a PC:</p>
-    <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_folder_filename] /tf=[target_file] /platform=YYC /device=[device_IDE_Name] -- tvos Package</p>
+    <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_filename] /tf=[target_file] /runtime=YYC /device=[device_IDE_Name] -- tvos Package</p>
   </div>
   <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down7" href="#">PS4</a></p>
   <div class="droptext" data-targetname="drop-down7">
     <p>Cleaning PS4 project:</p>
     <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] -- ps4 Clean</p>
     <p>Building VM for PS4 while on a PC:</p>
-    <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_folder_filename] /tf=[target_file] /device=[device_IDE_Name] -- ps4 Package</p>
+    <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_filename] /tf=[target_file] /device=[device_IDE_Name] -- ps4 Package</p>
     <p>Building YYC for PS4 while on a PC:</p>
-    <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_folder_filename] /tf=[target_file] /platform=YYC /device=[device_IDE_Name] -- ps4 Package</p>
+    <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_filename] /tf=[target_file] /runtime=YYC /device=[device_IDE_Name] -- ps4 Package</p>
   </div>
   <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down10" href="#">PS5</a></p>
   <div class="droptext" data-targetname="drop-down10">
     <p>Cleaning PS5 project:</p>
     <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] -- ps5 Clean</p>
     <p>Building VM for PS5 while on a PC:</p>
-    <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_folder_filename] /tf=[target_file] /device=[device_IDE_Name] -- ps5 Package</p>
+    <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_filename] /tf=[target_file] /device=[device_IDE_Name] -- ps5 Package</p>
     <p>Building YYC for PS5 while on a PC:</p>
-    <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_folder_filename] /tf=[target_file] /platform=YYC /device=[device_IDE_Name] -- ps5 Package</p>
+    <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_filename] /tf=[target_file] /runtime=YYC /device=[device_IDE_Name] -- ps5 Package</p>
   </div>
   <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down8" href="#">Xbox One</a></p>
   <div class="droptext" data-targetname="drop-down8">
     <p>Cleaning Xbox One project:</p>
     <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] -- XBoxOne Clean</p>
     <p>Building VM for Xbox One while on a PC:</p>
-    <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_folder_filename] /tf=[target_file] /device=[device_IDE_Name] -- XBoxOne Package</p>
+    <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_filename] /tf=[target_file] /device=[device_IDE_Name] -- XBoxOne Package</p>
     <p>Building YYC for Xbox One while on a PC:</p>
-    <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_folder_filename] /tf=[target_file] /platform=YYC /device=[device_IDE_Name] -- XBoxOne Package</p>
+    <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_filename] /tf=[target_file] /runtime=YYC /device=[device_IDE_Name] -- XBoxOne Package</p>
   </div>
   <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down11" href="#">Xbox Series X/S</a></p>
   <div class="droptext" data-targetname="drop-down11">
     <p>Cleaning Xbox Series X/S project:</p>
     <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] -- XBoxOneSeriesXS Clean</p>
     <p>Building VM for Xbox Series X/S:</p>
-    <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_folder_filename] /tf=[target_file] /device=[device_IDE_Name] -- XBoxOneSeriesXS Package</p>
+    <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_filename] /tf=[target_file] /device=[device_IDE_Name] -- XBoxOneSeriesXS Package</p>
     <p>Building YYC for Xbox Series X/S:</p>
-    <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_folder_filename] /tf=[target_file] /platform=YYC /device=[device_IDE_Name] -- XBoxOneSeriesXS Package</p>
+    <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_filename] /tf=[target_file] /runtime=YYC /device=[device_IDE_Name] -- XBoxOneSeriesXS Package</p>
   </div>
   <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down9" href="#">Switch</a></p>
   <div class="droptext" data-targetname="drop-down9">
     <p>Cleaning Switch project:</p>
     <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] -- Switch Clean</p>
     <p>Building VM for Switch while on a PC:</p>
-    <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_folder_filename] /tf=[target_file] /device=[device_IDE_Name] -- Switch Package</p>
+    <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_filename] /tf=[target_file] /device=[device_IDE_Name] -- Switch Package</p>
     <p>Building VM for YYC while on a PC:</p>
-    <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_folder_filename] /tf=[target_file] /platform=YYC /device=[device_IDE_Name] -- Switch Package</p>
+    <p class="code">Igor.exe /uf=[user_folder] /rp=[runtime_path] /project=[project_YYP_file] /cache=[cache_dir_path] /temp=[temp_dir_path] /of=[output_filename] /tf=[target_file] /runtime=YYC /device=[device_IDE_Name] -- Switch Package</p>
   </div>
   <p> </p>
   <h1>Igor Runtime</h1>
@@ -484,13 +485,13 @@
      },<br />
      {<br />
       &quot;name&quot; : &quot;Platformer Game Windows&quot;,<br />
-      &quot;path&quot; : &quot;C:/Users/&lt;MY USERNAME&gt;/Documents/GameMaker/Platformer Game/PlatformerGame.yyp&quot;,<br />
+      &quot;path&quot; : &quot;C:/Users/&lt;MY USERNAME&gt;/Documents/<span data-keyref="GameMaker_Paths_Directory_Name">GameMakerStudio2</span>/Platformer Game/PlatformerGame.yyp&quot;,<br />
       &quot;target&quot; : &quot;Windows|Local,HTML5|selenium:firefox,PS4|Default&quot;,<br />
       &quot;command&quot; : &quot;Run&quot;<br />
      },<br />
      {<br />
       &quot;name&quot; : &quot;Puzzle Game Windows&quot;,<br />
-      &quot;path&quot; : &quot;C:/Users/&lt;MY USERNAME&gt;/Documents/GameMaker/Puzzle Game/PuzzleGame.yyp&quot;,<br />
+      &quot;path&quot; : &quot;C:/Users/&lt;MY USERNAME&gt;/Documents/<span data-keyref="GameMaker_Paths_Directory_Name">GameMakerStudio2</span>/Puzzle Game/PuzzleGame.yyp&quot;,<br />
       &quot;platform&quot; : &quot;HTML5&quot;,<br />
       &quot;command&quot; : &quot;Run&quot;,<br />
       &quot;device&quot; : &quot;selenium:chrome&quot;<br />
@@ -505,7 +506,7 @@
         <div style="float:right">Next: <a data-xref="{title}" href="Runner_Details/Compiler_Batch_Files.htm">Compiler Batch Files / Scripts</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2023 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 Building via Command Line

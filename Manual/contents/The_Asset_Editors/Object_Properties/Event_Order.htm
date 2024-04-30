@@ -15,7 +15,7 @@
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
   <h1><span data-field="title" data-format="default">Event Order</span></h1>
-  <p>When considering Events in <span data-keyref="GameMaker Name">GameMaker</span>, it should be noted that <strong>the exact order that ALL the events are going to occur in each step cannot be clearly stated</strong>, simply because it depends on the internal workings of <span data-keyref="GameMaker Name">GameMaker</span> and this is subject to change as the software develops. However there are certain events that will <em>always </em>run in the same order.</p>
+  <p>When considering Events in <span data-keyref="GameMaker Name">GameMaker</span>, it should be noted that <strong>the exact order that ALL the events are going to occur in each step cannot be clearly stated</strong>, simply because it depends on the internal workings of <span data-keyref="GameMaker Name">GameMaker</span> and this is subject to change as the software develops or based on the platform where the game is running. However there are certain events that will <em>always </em>run in the same order.</p>
   <h2 id="upon_entering_a_room">Upon Entering a Room</h2>
   <p>The first set of events that will always happen the same way are those that occur when a room is first entered. The order that the different events will fire is: </p>
   <ul class="colour">
@@ -36,13 +36,14 @@
   </ul>
   <p class="note"><span data-conref="../../assets/snippets/Tag_note.hts"> </span> You can also set the order in which specific instances are created within <a data-xref="{title}" href="../Rooms.htm">The Room Editor</a> itself by moving them up or down the list of the <a href="../Room_Properties/Layer_Properties.htm">Instance Layer Properties</a> window.</p>
   <h2 id="every_step_frame">Every Step/Frame</h2>
-  <p>Other than those specific events, events in a game step also always occur in the same order no matter what.</p>
-  <p>They will always remain consistent, so if you have code that relies on specific timing during each step of your game, you should use the below list. The list should be read as &quot;first all Begin Step events are executed, then all Step events are executed, after that all End Step events are executed, then all Draw events, etc.&quot;</p>
-  <p class="note"><span data-conref="../../assets/snippets/Tag_note.hts"> </span> The Step events are always executed before the Draw events.</p>
+  <p>Other than those specific events, events in a game step also always occur in the same order. However, the order of the instances within an event is not always guaranteed, and may vary between different GameMaker versions and target platforms.</p>
+  <p>As a general rule, you can rely on the order of the events listed below, but not on the order in which the instances in the room execute one event.</p>
+  <p>For example, you will see below that the &quot;Step&quot; event always executes after the &quot;Begin Step&quot; event, however you cannot guarantee that, for example, Object2 will always execute its Step event after Object1. If you require such an execution order, then making use of a different event is recommended (e.g. putting Object2&#39;s Step code in End Step, if you need it to execute after Object1&#39;s Step).</p>
+  <p>So when you have code that relies on specific timing during each step of your game, make use of the events as listed below. To put it simply, first all Begin Step events are executed, then all Step events are executed, after that all End Step events are executed, then all Draw events, etc.</p>
   <ul class="colour">
     <li><strong>Begin Step Event</strong></li>
-    <li><strong>Timelines</strong></li>
-    <li><strong>Time Sources</strong>
+    <li><a href="../Timelines.htm"><strong>Timelines</strong></a></li>
+    <li><a href="../../GameMaker_Language/GML_Reference/Time_Sources/Time_Sources.htm"><strong>Time Sources</strong></a>
       <ul>
         <li><strong>&quot;Ticks&quot; (updates)</strong></li>
         <li><strong>Callbacks</strong>
@@ -54,11 +55,14 @@
         </li>
       </ul>
     </li>
-    <li><strong>Alarms</strong></li>
+    <li><a href="../../GameMaker_Language/GML_Reference/Asset_Management/Instances/Instance_Variables/alarm.htm"><strong>Alarms</strong></a></li>
     <li><strong>Step Event</strong> (note that the Step event is executed just before instances are put in their new positions, including when following a path)</li>
     <li><strong>End Step Event</strong></li>
   </ul>
-  <p>After all Step events come all Draw events. These are also always dealt with in the same order as follows (except for the <strong>Window Resize </strong>event, which is triggered differently):</p>
+  <p>After all Step events are complete, GameMaker executes the Draw events for all instances, in the same game step. Within a particular event (e.g. Draw End), the order in which instances run that event depends on the layer order, e.g. the layer with the highest depth has its instances drawn first, and the layer with the lowest depth is drawn last.</p>
+  <p class="note"><span data-conref="../../assets/snippets/Tag_note.hts"> </span> The layer with the highest depth (which draws first) is displayed at the bottom of the Room Editor&#39;s <a href="../Room_Properties/Layer_Properties.htm">layer list</a>, while the lowest depth layer is at the top (as it is &quot;closer&quot; to the viewer).</p>
+  <p>Each Draw event draws instances in this order (based on the <a href="../../GameMaker_Language/GML_Reference/Asset_Management/Instances/Instance_Variables/depth.htm">depth</a> value), and then moves on to the next event, repeating the same instance order (e.g. Draw Begin moving to Draw and then Draw End).</p>
+  <p>This is the order of the Draw events:</p>
   <ul class="colour">
     <li><strong>Pre-Draw Event</strong></li>
     <li><strong>Draw Begin Event</strong></li>
@@ -79,7 +83,7 @@
         <div style="float:right">Next: <a data-xref="{title}" href="Other_Events.htm">Other Events</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2023 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 Event Order

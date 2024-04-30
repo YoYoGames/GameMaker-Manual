@@ -33,9 +33,9 @@
     save4 = buffer_save_async(buff4, &quot;Player_Save4.sav&quot;, 0, 16384);<br />
     save_id = <span data-field="title" data-format="default">buffer_async_group_end</span>();</p>
   <p>The above code starts a buffer group then sets it to save out 4 files asynchronously. The group definition is then ended (at which point saving will begin), storing the ID of the function call in the variable <span class="inline2">save_id</span>. When the save is complete, the asynchronous <a data-xref="{title}" href="../../../The_Asset_Editors/Object_Properties/Async_Events/Save_Load.htm">Save / Load</a> event will be triggered and you can parse the <span class="inline2"><a data-xref="{title}" href="../../GML_Overview/Variables/Builtin_Global_Variables/async_load.htm">async_load</a></span> map for the correct ID of the function, like this:</p>
-  <p class="code">if ds_map_find_value(async_load, &quot;id&quot;) == saveid<br />
+  <p class="code">if (ds_map_find_value(async_load, &quot;id&quot;) == saveid) <br />
     {<br />
-        if ds_map_find_value(async_load, &quot;status&quot;) == false<br />
+        if (ds_map_find_value(async_load, &quot;status&quot;) == false) <br />
         {<br />
             show_debug_message(&quot;Save failed!&quot;);<br />
         }<br />
