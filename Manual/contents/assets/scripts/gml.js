@@ -197,6 +197,7 @@ export default function(hljs) {
     "is_mouse_over_debug_overlay", 
     "is_keyboard_used_debug_overlay", 
     "vertex_submit_ext", 
+    "dbg_text_separator", 
     "abs",
     "achievement_available",
     "achievement_event",
