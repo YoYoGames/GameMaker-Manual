@@ -198,6 +198,8 @@ export default function(hljs) {
     "is_keyboard_used_debug_overlay", 
     "vertex_submit_ext", 
     "dbg_text_separator", 
+    "dbg_view_exists", 
+    "dbg_section_exists", 
     "abs",
     "achievement_available",
     "achievement_event",
