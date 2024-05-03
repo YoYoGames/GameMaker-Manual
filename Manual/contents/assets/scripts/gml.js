@@ -200,6 +200,7 @@ export default function(hljs) {
     "dbg_text_separator", 
     "dbg_view_exists", 
     "dbg_section_exists", 
+    "gamepad_enumerate", 
     "abs",
     "achievement_available",
     "achievement_event",
