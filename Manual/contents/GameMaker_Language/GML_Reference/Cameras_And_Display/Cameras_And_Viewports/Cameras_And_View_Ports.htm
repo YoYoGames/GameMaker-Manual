@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"><head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>Cameras And View Ports</title>
-  <meta name="generator" content="Adobe RoboHelp 2022"/>
-  <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css"/>
+  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
   <script src="../../../../assets/scripts/main_script.js" type="module"></script>
-  <meta name="rh-authors" content="Mark Alexander"/>
-  <meta name="topic-comment" content="Reference section for Cameras And View Ports"/>
-  <meta name="rh-index-keywords" content=""/>
-  <meta name="search-keywords" content="Cameras And View Ports,viewports,view ports,views,camera,cameras"/>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Reference section for Cameras And View Ports" />
+  <meta name="rh-index-keywords" content="" />
+  <meta name="search-keywords" content="Cameras And View Ports,viewports,view ports,views,camera,cameras" />
 </head>
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
-  <h1>Cameras And Viewports</h1>
+  <h1 id="h">Cameras And Viewports</h1>
   <p>When creating rooms in <span data-keyref="GameMaker Name">GameMaker</span> you need to set up different <i>view ports</i> and/or <i>cameras</i> to control what is displayed to the player. The <i>view ports</i> are, basically, little windows into your game world that enable you to show the player parts of a room, either scaled or 1:1, and as such they are essential when your game room is larger than the display size. The <i>cameras</i> are what define exactly what will be shown in each view port.</p>
   <p><span data-keyref="GameMaker Name">GameMaker</span> permits you 8 independent view ports (numbered from 0 - 7) and an unlimited number of cameras, of which only 8 can be <i>active</i> at any one time - one assigned to each of the available ports - although normally you&#39;ll only need one or two view ports. Cameras can show different parts of the same room and can be activated and deactivated as well as assigned to view ports at any time, meaning that you can use cameras to draw HUD elements or to have split screen effects, or to create cut-scenes for example. Essentially, you position a camera within a room and define the &quot;view&quot; (area) of the room that will be visible to it, and then this view is drawn to a view <i>port</i> - note that the view port can be a different size to the camera view and as such you can distort and scale the camera view if it is a size other than 1:1 with the view port.</p>
   <p class="note"><span data-conref="../../../../assets/snippets/Tag_important.hts"> </span> It&#39;s easy to get confused when talking about cameras, views and view ports, so to clarify: </p>
@@ -22,9 +23,9 @@
     <li><b>The View</b>: What the camera sees, based on the position, projection and rotation of the camera</li>
     <li><b>The View Port</b>: The area of the screen where the camera view will be displayed</li>
   </ul>
-  <p><img alt="Camera illustration" class="center" src="../../../../assets/Images/Scripting_Reference/GML/Reference/Cameras_Display/Camera_Example.png"/>If you are adding cameras through <a data-xref="{title}" href="../../../../The_Asset_Editors/Rooms.htm">The Room Editor</a><b></b> then you can retrieve their <i>camera ID</i> value using the <span class="inline2"><a data-xref="{title}" href="view_camera.htm">view_camera</a></span> variable. You can then manipulate the view using the functions below and you can even destroy the default cameras if required, although you will need to assign a new camera to the view otherwise you will get some very unpredictable behaviour. Cameras added to a view port in the Room Editor are <b>global</b> in scope, meaning that they are created once when you start the game, and then as you enter each room they are set to the values set in the Room Editor, so if you destroy a default camera in <i>any</i> room, it will cease to exist for <i>all rooms</i>.</p>
+  <p><img alt="Camera illustration" class="center" src="../../../../assets/Images/Scripting_Reference/GML/Reference/Cameras_Display/Camera_Example.png" />If you are adding cameras through <a data-xref="{title}" href="../../../../The_Asset_Editors/Rooms.htm">The Room Editor</a><b></b> then you can retrieve their <i>camera ID</i> value using the <span class="inline2"><a data-xref="{title}" href="view_camera.htm">view_camera</a></span> variable. You can then manipulate the view using the functions below and you can even destroy the default cameras if required, although you will need to assign a new camera to the view otherwise you will get some very unpredictable behaviour. Cameras added to a view port in the Room Editor are <b>global</b> in scope, meaning that they are created once when you start the game, and then as you enter each room they are set to the values set in the Room Editor, so if you destroy a default camera in <i>any</i> room, it will cease to exist for <i>all rooms</i>.</p>
   <p>Something to note about cameras and view ports is that the total area of the bounding box for <i>all active view ports in the first room of the game</i> is what defines the <b>background canvas size</b> (or window size for macOS, Ubuntu (Linux) and Windows), and any areas that are not covered by a view port will default to drawing using the window colour as illustrated by the image below:</p>
-  <p><img alt="View Port Canvas" class="center" src="../../../../assets/Images/Scripting_Reference/GML/Reference/Cameras_Display/viewport_canvas.png"/></p>
+  <p><img alt="View Port Canvas" class="center" src="../../../../assets/Images/Scripting_Reference/GML/Reference/Cameras_Display/viewport_canvas.png" /></p>
   <p class="note"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> By default you need to select <strong>Clear Display Buffer</strong> in the Room Editor for the colour to be shown, and you can only set the colour using the function <span class="inline3_func"><a data-xref="{title}" href="../The_Game_Window/window_set_colour.htm">window_set_colour</a></span>. If you don&#39;t use this function it will default to black.</p>
   <p>You should take care when using multiple cameras as the draw event for all instances is called once for each visible view, so if you have three camera views active in one room, the draw event will be run three times every step (basically doing three times the work) which can be a cause for slowdown if the game is large or complex. The <span class="inline2"><a data-xref="{title}" href="view_current.htm">view_current</a></span> variable can be used to help limit these draw calls however by checking which view is being drawn and only drawing items that are specific to a given view port. Also be careful when creating your own cameras, as if you create one in a room and don&#39;t remove it using the <span class="inline3_func"><a data-xref="{title}" href="camera_destroy.htm">camera_destroy</a></span> function you can get a memory leak.</p>
   <p>You can find an overview of all the available functions from the different sections below, but it&#39;s worth noting that some of these functions require the setting up and use of different matrices, so you may want to look at the section of the manual for the <a href="../../Maths_And_Numbers/Matrix_Functions/Matrix_Functions.htm">Matrix Functions</a>. Also note that there are a few room functions that can be used to get and set cameras and view port values in rooms other than the current one (see<span> the section on</span> <a href="../../Asset_Management/Rooms/Rooms.htm">Rooms</a>).</p>
@@ -117,5 +118,5 @@ Cameras And Viewports
   <!-- TAGS
 camera_functions
 -->
-
-</body></html>
+</body>
+</html>
