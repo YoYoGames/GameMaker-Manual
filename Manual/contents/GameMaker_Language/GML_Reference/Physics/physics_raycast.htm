@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>physics_raycast</title>
+  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <link rel="stylesheet" type="text/css" href="../../../assets/css/default.css" />
+  <script src="../../../assets/scripts/main_script.js" type="module"></script>
+  <meta name="rh-authors" content="" />
+  <meta name="topic-comment" content="" />
+  <meta name="rh-index-keywords" content="" />
+  <meta name="search-keywords" content="" />
+  <meta name="template" content="assets/masterpages/Manual_Keyword_Page.htt" />
+</head>
+<body>
+  <h1><span data-field="title" data-format="default">physics_raycast</span></h1>
+  <p>This function casts a ray against (part of) the physics world and returns an array of structs with information on where the ray hit and what the normal is at the hitpoint.</p>
+  <p><video src="../../../assets/Images/Scripting_Reference/GML/Reference/Physics/physics_raycast_example.mp4" width="480" height="320" controls="" class="center" id=""></video></p>
+  <p>You define the ray by providing its start point and its end point. Collisions are checked between the start and end point, or between the start point and only a fraction of the ray.</p>
+  <p>The part of the physics world to check against can be a single object, a single instance or an <span data-keyref="Type_Array"><a href="../../GML_Overview/Arrays.htm" target="_blank">Array</a></span> containing both objects and instances.</p>
+  <p>By default, the function only returns the closest hit, but it can return all hits if you set the <span class="inline2">all_hits</span> parameter to <span class="inline2">true</span>.</p>
+  <p>The following information is returned for every hitpoint: </p>
+  <table style="caption-side: top">
+    <caption>Raycast Hitpoint Struct</caption>
+    <colgroup>
+      <col style="width:33.33%" />
+      <col style="width:33.33%" />
+      <col style="width:33.33%" />
+    </colgroup>
+    <tbody>
+      <tr>
+        <th>Variable</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>hitpointX</td>
+        <td><span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td>The x coordinate of the hitpoint.</td>
+      </tr>
+      <tr>
+        <td>hitpointY</td>
+        <td><span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td>The y coordinate of the hitpoint.</td>
+      </tr>
+      <tr>
+        <td>normalX</td>
+        <td><span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td>The x component of the normal at the hitpoint.</td>
+      </tr>
+      <tr>
+        <td>normalY</td>
+        <td><span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td>The y component of the normal at the hitpoint.</td>
+      </tr>
+      <tr>
+        <td>fraction</td>
+        <td><span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td>The fraction of the line segment where the hit occurred, a value from 0 to 1. 0 is at the start point, 1 is at the end point, 0.5 is in the middle, etc.</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>Syntax:</h4>
+  <p class="code"><span data-field="title" data-format="default">physics_raycast</span>(x_start, y_start, x_end, y_end, ids, [all_hits], [max_fraction]);</p>
+  <table>
+    <colgroup>
+      <col />
+      <col />
+      <col />
+    </colgroup>
+    <tbody>
+      <tr>
+        <th>Argument</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>x_start</td>
+        <td><span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td>The x coordinate of the ray&#39;s start point.</td>
+      </tr>
+      <tr>
+        <td>y_start</td>
+        <td><span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td>The y coordinate of the ray&#39;s start point.</td>
+      </tr>
+      <tr>
+        <td>x_end</td>
+        <td><span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td>The x coordinate of the ray&#39;s end point.</td>
+      </tr>
+      <tr>
+        <td>y_end</td>
+        <td><span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td>The y coordinate of the ray&#39;s end point.</td>
+      </tr>
+      <tr>
+        <td>ids</td>
+        <td><span data-keyref="Type_Asset_Object"><a href="../../../The_Asset_Editors/Objects.htm" target="_blank">Object Asset</a></span> or <span data-keyref="Type_ID_Instance"><a href="../Asset_Management/Instances/Instance_Variables/id.htm" target="_blank">Object Instance</a></span> or an <span data-keyref="Type_Array"><a href="../../GML_Overview/Arrays.htm" target="_blank">Array</a></span> containing a combination of those</td>
+        <td>A single object asset or instance or an array containing a combination of them to check the ray against. All of them must have physics fixtures. Child objects that have physics enabled are also checked.</td>
+      </tr>
+      <tr>
+        <td>all_hits</td>
+        <td><span data-keyref="Type_Bool"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Boolean</a></span></td>
+        <td><span data-conref="../../../assets/snippets/Tag_optional.hts"> </span> Whether to return all the hits or only the closest. The default is <span class="inline2">false</span>.</td>
+      </tr>
+      <tr>
+        <td>max_fraction</td>
+        <td><span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td><span data-conref="../../../assets/snippets/Tag_optional.hts"> </span> The maximum proportion of the ray to check. A value from 0 to 1. 0 is at the start point, 1 is at the end point. If this is set to, for example, 0.5 then the check is only performed from the ray&#39;s start point to its midpoint. The default is 1.</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>Returns:</h4>
+  <p class="code"><span data-keyref="Type_Array"><a href="../../GML_Overview/Arrays.htm" target="_blank">Array</a></span> of <span data-keyref="Type_Struct_Raycast_Hitpoint"><a href="physics_raycast.htm" target="_blank">Raycast Hitpoint Struct</a></span> if there are collisions (or <span data-keyref="Type_Undefined"><a href="../../GML_Overview/Data_Types.htm" target="_blank">undefined</a></span> if the room doesn&#39;t have a physics world, when there are no physics instances or when no collisions are detected)</p>
+  <p> </p>
+  <h4>Example 1: Basic Use</h4>
+  <p class="code_heading">Create Event</p>
+  <p class="code">physics_world_create(0.1);<br />
+    fixtures = [];<br />
+    <br />
+    var _fix = physics_fixture_create();<br />
+    physics_fixture_set_density(_fix, 0);<br />
+    repeat(100)<br />
+    {<br />
+        var _angle = random(360);<br />
+        var _x = random(room_width), _y = random(room_height);<br />
+        physics_fixture_set_edge_shape(_fix, _x, _y, _x + lengthdir_x(40, _angle), _y + lengthdir_y(40, _angle));<br />
+        var _fix_bound = physics_fixture_bind(_fix, id);<br />
+        array_push(fixtures, _fix_bound);<br />
+    }<br />
+    physics_fixture_delete(_fix);<br />
+    <br />
+    x1 = room_width / 2; y1 = room_height / 2;<br />
+    x2 = mouse_x; y2 = mouse_y;<br />
+    <br />
+    hits = undefined;
+  </p>
+  <p class="code_heading">Step Event</p>
+  <p class="code">x2 = mouse_x; y2 = mouse_y;<br />
+    hits = physics_raycast(x1, y1, x2, y2, id, true);</p>
+  <p class="code_heading">Draw Event</p>
+  <p class="code">physics_world_draw_debug(phy_debug_render_shapes);<br />
+    draw_line_colour(x1, y1, x2, y2, c_red, c_blue);<br />
+    <br />
+    if (is_undefined(hits)) { exit; }<br />
+    <br />
+    for(var i = 0;i &lt; array_length(hits);i++)<br />
+    {<br />
+        var _hit = hits[i];<br />
+        draw_line(_hit.hitpointX, _hit.hitpointY, _hit.hitpointX + _hit.normalX * 40, _hit.hitpointY + _hit.normalY * 40);<br />
+    }
+  </p>
+  <p class="code_heading">Clean Up Event</p>
+  <p class="code">for(var i = 0;i &lt; array_length(fixtures);i++) { physics_remove_fixture(id, fixtures[i]); }</p>
+  <p>The example above shows how to use the <span class="inline3_func"><span data-field="title" data-format="default">physics_raycast</span></span> function.</p>
+  <p>First, in an object&#39;s Create event, a physics world is set up using <span class="inline3_func"><a data-xref="{title}" href="The_Physics_World/physics_world_create.htm">physics_world_create</a></span> and 100 <a href="Fixtures/physics_fixture_set_edge_shape.htm" title="physics_fixture_set_edge_shape()">edge-shaped</a> fixtures are bound to it using <span class="inline3_func"><a data-xref="{title}" href="Fixtures/physics_fixture_bind.htm">physics_fixture_bind</a></span>. After that, the fixture is deleted since it&#39;s no longer needed once the fixtures have been bound to the instance. The start and end point are initialised to the room center and the mouse position respectively, the coordinates are stored in variables <span class="inline2">x1</span>, <span class="inline2">y1</span>, <span class="inline2">x2</span> and <span class="inline2">y2</span>. The variable <span class="inline2">hits</span> that will hold the result of the function call is set to <span class="inline2">undefined</span>.</p>
+  <p>In the Step event, the ray&#39;s end point is first updated and then the <span class="inline3_func"><span data-field="title" data-format="default">physics_raycast</span></span> function is called. A ray is cast in the physics world from (x1, y1) to (x2, y2), checking for hits with the current instance of the object, i.e. its <span class="inline2"><a data-xref="{title}" href="../Asset_Management/Instances/Instance_Variables/id.htm">id</a></span>. The <span class="inline2">all_hits</span> parameter is set to <span class="inline2">true</span> so that all hits are returned.</p>
+  <p>In the Draw event, the physics world&#39;s shapes are drawn with a call to <span class="inline3_func"><a data-xref="{title}" href="The_Physics_World/physics_world_draw_debug.htm">physics_world_draw_debug</a></span> and the ray itself is drawn with a call to <span class="inline3_func"><a data-xref="{title}" href="../Drawing/Basic_Forms/draw_line_colour.htm">draw_line_colour</a></span>. If <span class="inline3_func"><span data-field="title" data-format="default">physics_raycast</span></span> returned <span class="inline2">undefined</span>, the Draw event is exited. If it returned results, a line is drawn for every hitpoint returned: a line 40 pixels long is drawn from the hitpoint in the direction of the normal at the hitpoint.</p>
+  <p>In the Clean Up event all bound fixtures are removed.</p>
+  <p> </p>
+  <h4>Example 2: Using the Fraction Value</h4>
+  <p class="code_heading">Step Event</p>
+  <p class="code"><span>x2 = mouse_x; y2 = mouse_y;</span><br />
+    hits = physics_raycast(x1, y1, x2, y2, id, false);</p>
+  <p class="code_heading">Draw Event</p>
+  <p class="code">physics_world_draw_debug(phy_debug_render_shapes);<br />
+    draw_line_colour(x1, y1, x2, y2, c_red, c_blue);<br />
+    <br />
+    if (is_undefined(hits)) { exit; }<br />
+    <br />
+    var _fract = hits[0].fraction;<br />
+    draw_line_colour(x1, y1, x1 + _fract * (x2 - x1), y1 + _fract * (y2 - y1), c_yellow, c_yellow);
+  </p>
+  <p>The above code shows how to use the fraction value to draw a line from the ray&#39;s start point to the hitpoint. (the object&#39;s Create and Clean Up events are the same as in Example 1)</p>
+  <p>In the Step event, the end point&#39;s coordinates are set to the mouse position. The function <span class="inline3_func"><span data-field="title" data-format="default">physics_raycast</span></span> is called and casts a ray against the object, the <span class="inline2">all_hits</span> parameter is set to <span class="inline2">false</span> so that only the closest hit is returned.</p>
+  <p>In the Draw event, the physics world&#39;s shapes are drawn with a call to <span class="inline3_func"><a data-xref="{title}" href="The_Physics_World/physics_world_draw_debug.htm">physics_world_draw_debug</a></span> and the ray itself is drawn. If the function returned <span class="inline2">undefined</span>, the Draw event is exited. If the function returned a result, it will only be one result since the <span class="inline2">all_hits</span> parameter was set to <span class="inline2">false</span>. So the fraction can be found in <span class="inline2">hits[0].fraction</span>. A second, yellow line is then drawn over the ray from the start point to the point that&#39;s the fraction of the distance between the two points away from the start point. This point is at the same coordinates as the hitpoint itself, i.e. <span class="inline2">hits[0].hitpointX</span> and <span class="inline2">hits[0].hitpointY</span>.</p>
+  <p> </p>
+  <h4>Example 3: Checking against Multiple Objects &amp; Instances</h4>
+  <p class="code_heading">Step Event</p>
+  <p class="code">hits = physics_raycast(x1, y1, x2, y2, [obj_physics_parent, obj_physics_circle, ins_physics_unique], true);</p>
+  <p>The above code shows how to call <span class="inline3_func"><span data-field="title" data-format="default">physics_raycast</span></span> with an array of objects and instances. The ray is checked against all <a href="../../../Quick_Start_Guide/Objects_And_Instances.htm">instances</a> of child objects of <span class="inline2">obj_physics_parent</span>, against all instances of <span class="inline2">obj_physics_circle</span> and against the one unique instance <span class="inline2">ins_physics_unique</span>.</p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div>Back: <a data-xref="{title}" href="Physics.htm">Physics</a></div>
+        <div>Next: <a data-xref="{title}" href="physics_test_overlap.htm">physics_test_overlap</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+physics_raycast
+-->
+  <!-- TAGS
+physics_raycast
+-->
+</body>
+</html>
