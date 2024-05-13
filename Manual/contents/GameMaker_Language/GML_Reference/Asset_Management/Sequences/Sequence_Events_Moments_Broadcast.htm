@@ -6,7 +6,7 @@
   <title>Sequence Events, Moments and Broadcast Messages</title>
   <meta name="generator" content="Adobe RoboHelp 2022" />
   <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
-  <script src="../../../../assets/scripts/main_script.js"></script>
+  <script src="../../../../assets/scripts/main_script.js" type="module"></script>
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Page outlining the different functions and variables associated with Sequence Events, Moments and Broadcast Messages" />
   <meta name="rh-index-keywords" content="" />
@@ -47,9 +47,9 @@
     <br />
     function seq_reverse()<br />
     {<br />
-        if mouse_check_button_pressed(mb_left)<br />
+        if (mouse_check_button_pressed(mb_left))<br />
         {<br />
-            if self.headDirection == seqdir_right<br />
+            if (self.headDirection == seqdir_right)<br />
             {<br />
                 self.headDirection = seqdir_left;<br />
             }<br />
@@ -57,7 +57,7 @@
         }<br />
     }
   </p>
-  <p>In this function all we&#39;re doing is listening for a mouse press and then reversing the playback direction of the sequence that the method has been bound to. You&#39;ll notice that currently you are not able to pass any parameters to the functions which are linked to these properties, and in all cases the <a href="../../../GML_Overview/Instance_Keywords.htm"><span class="inline">self</span></a> variable within the scope of the function is assigned to be the sequence instance.</p>
+  <p>In this function all we&#39;re doing is listening for a mouse press and then reversing the playback direction of the sequence that the method has been bound to. You&#39;ll notice that currently you are not able to pass any parameters to the functions which are linked to these properties, and in all cases the <a href="../../../GML_Overview/Instance_Keywords.htm"><span class="inline">self</span></a> variable within the scope of the function is assigned to be the <a href="Sequence_Structs/The_Sequence_Instance_Struct.htm">sequence instance struct</a>.</p>
   <p class="note"><b><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span></b> It&#39;s worth noting that in the above script the <span class="inline">self</span> identifier can be omitted and is only used to explicitly show the scope of the method variable being used for this example.</p>
   <p>To assign this to a sequence you would then do something like this:</p>
   <p class="code">var _seq = sequence_get(Sequence1);<br />
@@ -90,6 +90,7 @@
     _k[2].channels = _d;<br />
     _seq.momentKeyframes = _k;</p>
   <p>The above code will simply set frames 60, 120, and 180 of the &quot;moment&quot; track to call the method <span class="inline">seq_shoot</span>. You&#39;ll notice that currently you are not able to pass any parameters to the functions which are used for each moment, and in all cases the <span class="inline">self</span> variable within the scope of the function is assigned to be the sequence instance (you generally don&#39;t need to use <span class="inline">self</span> but under some special cases it may be useful).</p>
+  <p>The self scope of a moment function is the <a href="Sequence_Structs/The_Sequence_Instance_Struct.htm">sequence instance struct</a>, same as a sequence event.</p>
   <h2><label for="3">Broadcast Messages</label></h2>
   <p>Sequences can be made to generate <b>broadcast messages</b>, which simple strings that are added to specific frames along the animation timeline, and when that point in the timeline is reached, then the string will be broadcast out to all object instances that listen for it. You can add these messages in the IDE using the <a href="../../../../The_Asset_Editors/Sequences.htm">Sequence editor</a>, but they can also be created and edited using code.</p>
   <p>To create a broadcast message on a sequence using GML, you need to add them to a frame in the <span class="inline">messageEventKeyframes</span> property of the sequence struct. This is essentially a &quot;special&quot; track that is only used for this purpose and so can only take keyframe data that is associated with the broadcast messages that you want the sequence to have. This track is created in much the same way as you would create any other track, by creating keyframe structs and filling them with keyframe data, where channel 0 is the only channel that you can use and the track type is <span class="inline">seqtracktype_message</span>. Below is an example of how this would be created:</p>
@@ -126,7 +127,7 @@
         <div style="float:left">Back: <a href="Sequences.htm">Sequences</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2023 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 Sequence Events
