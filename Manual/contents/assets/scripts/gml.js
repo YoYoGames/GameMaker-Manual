@@ -202,6 +202,8 @@ export default function(hljs) {
     "dbg_section_exists", 
     "gamepad_enumerate", 
     "physics_raycast",
+    "struct_remove_from_hash", 
+    "struct_exists_from_hash", 
     "abs",
     "achievement_available",
     "achievement_event",
