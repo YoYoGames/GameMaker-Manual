@@ -204,6 +204,8 @@ export default function(hljs) {
     "physics_raycast",
     "struct_remove_from_hash", 
     "struct_exists_from_hash", 
+    "gpu_set_sprite_cull", 
+    "gpu_get_sprite_cull", 
     "abs",
     "achievement_available",
     "achievement_event",
