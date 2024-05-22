@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>struct_remove_from_hash</title>
+  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <link rel="stylesheet" type="text/css" href="../../../assets/css/default.css" />
+  <script src="../../../assets/scripts/main_script.js" type="module"></script>
+  <meta name="rh-authors" content="" />
+  <meta name="topic-comment" content="" />
+  <meta name="rh-index-keywords" content="struct_remove_from_hash" />
+  <meta name="search-keywords" content="struct_remove_from_hash" />
+  <meta name="template" content="assets/masterpages/Manual_Keyword_Page.htt" />
+</head>
+<body>
+  <h1><span data-field="title" data-format="default">struct_remove_from_hash</span></h1>
+  <p>This function removes the variable, referred to by the given hash, from the struct.</p>
+  <p>You can retrieve the hash of a variable using <span class="inline3_func"><a data-xref="{title}" href="variable_get_hash.htm">variable_get_hash</a></span>.</p>
+  <p> </p>
+  <h4>Syntax:</h4>
+  <p class="code"><span data-field="title" data-format="default">struct_remove_from_hash</span>(struct, hash);</p>
+  <table>
+    <colgroup>
+      <col />
+      <col />
+      <col />
+    </colgroup>
+    <tbody>
+      <tr>
+        <th>Argument</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>struct</td>
+        <td><span data-keyref="Type_Struct"><a href="../../GML_Overview/Structs.htm" target="_blank">Struct</a></span></td>
+        <td>The struct to remove the variable from</td>
+      </tr>
+      <tr>
+        <td>hash</td>
+        <td><span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td>The hash value referring to the variable (as returned by <span class="inline3_func"><a data-xref="{title}" href="variable_get_hash.htm">variable_get_hash</a></span>)</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>Returns:</h4>
+  <p class="code"><span data-keyref="Type_Void">N/A</span></p>
+  <p> </p>
+  <h4>Example 1: Basic Use</h4>
+  <p class="code">var _hash = variable_get_hash(&quot;my_first_var&quot;);<br />
+    var _struct = <br />
+    {<br />
+        my_first_var: 398043,<br />
+        my_second_var: &quot;Hello!&quot;<br />
+    };<br />
+    <span data-field="title" data-format="default">struct_remove_from_hash</span>(_struct, _hash);<br />
+    <br />
+    var _arr_names = variable_struct_get_names(_struct);<br />
+    array_foreach(_arr_names, show_debug_message);
+  </p>
+  <p>The above code shows how to remove a variable from a struct using <span class="inline3_func"><span data-field="title" data-format="default">struct_remove_from_hash</span></span>. First, the hash of the variable name is retrieved with a call to <span class="inline3_func"><a data-xref="{title}" href="variable_get_hash.htm">variable_get_hash</a></span> and stored in a temporary variable <span class="inline2">_hash</span>. Next, a struct is created that holds a variable with that name and another variable. <span class="inline3_func"><span data-field="title" data-format="default">struct_remove_from_hash</span></span> is then called with the hash, which removes <span class="inline2">my_first_var</span> from the struct. Finally, to check if the variable was removed, the struct&#39;s variable names are retrieved with a call to <span class="inline3_func"><a data-xref="{title}" href="variable_struct_get_names.htm">struct_get_names</a></span> and each name is output in a debug message (using <span class="inline3_func"><a data-xref="{title}" href="../Debugging/show_debug_message.htm">show_debug_message</a></span> with <span class="inline3_func"><a data-xref="{title}" href="array_foreach.htm">array_foreach</a></span>).</p>
+  <p> </p>
+  <h4>Example 2: Optimised Removal of the Same Variable in Many Items</h4>
+  <p class="code">randomise();<br />
+    <br />
+    arr_party_stats = <br />
+    [<br />
+        {hp: 100, mp: 100},<br />
+        {hp: 100, mp: 100},<br />
+        {hp: 89, mp: 70}<br />
+    ];<br />
+    var _to_remove = choose(&quot;hp&quot;, &quot;mp&quot;);<br />
+    var _hash = variable_get_hash(_to_remove);<br />
+    <br />
+    var i = 0, _num = array_length(arr_party_stats);<br />
+    repeat(_num)<br />
+    {<br />
+        <span data-field="title" data-format="default">struct_remove_from_hash</span>(arr_party_stats[i++], _hash);<br />
+    }
+  </p>
+  <p>The above code shows how to use <span class="inline3_func"><a data-xref="{title}" href="variable_get_hash.htm">variable_get_hash</a></span> and <span class="inline3_func"><span data-field="title" data-format="default">struct_remove_from_hash</span></span> in a situation where the compiler cannot optimise automatically by calculating the hash at compile time.</p>
+  <p>First, an array of structs <span class="inline2">arr_party_stats</span> is initialised. Each struct contains two variables: <span class="inline2">hp</span> and <span class="inline2">mp</span>. Then, the variable name to remove is chosen randomly at runtime with a call to <span class="inline3_func"><a data-xref="{title}" href="../Maths_And_Numbers/Number_Functions/choose.htm">choose</a></span>. The compiler cannot replace the variable name with its corresponding hash value here, as it cannot know at compile time what the output of the <span class="inline3_func"><a data-xref="{title}" href="../Maths_And_Numbers/Number_Functions/choose.htm">choose</a></span> function is going to be. This situation can still be optimised if you get the hash yourself at runtime with a call to <span class="inline3_func"><a data-xref="{title}" href="variable_get_hash.htm">variable_get_hash</a></span>. The result of this function call is stored in a temporary variable <span class="inline2">_hash</span>. Finally, the variable is removed from every struct in the array by calling <span class="inline3_func"><span data-field="title" data-format="default">struct_remove_from_hash</span></span> in a repeat loop. The same hash value can be used with every call to the function, since the variable name is the same every time.</p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div>Back: <a data-xref="{title}" href="Variable_Functions.htm">Variable Functions</a></div>
+        <div>Next: <a data-xref="{title}" href="variable_get_hash.htm">variable_get_hash</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+struct_remove_from_hash
+-->
+  <!-- TAGS
+struct_remove_from_hash
+-->
+</body>
+</html>

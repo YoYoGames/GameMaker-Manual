@@ -17,11 +17,12 @@
   <h1><span data-field="title" data-format="default">dbg_slider_int</span></h1>
   <p>This function creates a slider control for an integer <span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span> value within the current debug section, with a minimum and maximum value.</p>
   <p>Moving the slider &quot;truncates&quot; the referenced variable (i.e. sets its fractional part to zero) and changes its integer part in steps of 1.</p>
+  <p>You can also pass an array as the first argument, and the function will create a slider for each reference in the array.</p>
   <p>Pressing CTRL+click on the slider will allow you to enter a number directly.</p>
   <div data-conref="../../../assets/snippets/Note_Debug_Control_Two_Columns.hts"> </div>
   <p> </p>
   <h4>Syntax:</h4>
-  <p class="code"><span data-field="title" data-format="default">dbg_slider_int</span>(dbgref, [minimum], [maximum], [label]);</p>
+  <p class="code"><span data-field="title" data-format="default">dbg_slider_int</span>(ref_or_array, [minimum, maximum, label, step]);</p>
   <table>
     <colgroup>
       <col />
@@ -35,9 +36,9 @@
         <th>Description</th>
       </tr>
       <tr>
-        <td>dbgref</td>
-        <td><span data-keyref="Type_DbgRef"><a href="../Variable_Functions/ref_create.htm" target="_blank">Reference</a></span></td>
-        <td>A reference to a <span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span> value, created using <span class="inline3_func"><a data-xref="{title}" href="../Variable_Functions/ref_create.htm">ref_create</a></span></td>
+        <td>ref_or_array</td>
+        <td><span data-keyref="Type_DbgRef"><a href="../Variable_Functions/ref_create.htm" target="_blank">Reference</a></span> or <span data-keyref="Type_Array"><a href="../../GML_Overview/Arrays.htm" target="_blank">Array</a></span></td>
+        <td>A reference to a <span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span> value, created using <span class="inline3_func"><a data-xref="{title}" href="../Variable_Functions/ref_create.htm">ref_create</a></span>, or an array containing references</td>
       </tr>
       <tr>
         <td>minimum</td>
@@ -54,6 +55,14 @@
         <td><span data-keyref="Type_String"><a href="../../GML_Overview/Data_Types.htm" target="_blank">String</a></span></td>
         <td><span data-conref="../../../assets/snippets/Tag_optional.hts"> </span> The label to show next to the slider</td>
       </tr>
+      <tr>
+        <td>step</td>
+        <td><span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td><span data-conref="../../../assets/snippets/Tag_optional.hts"> </span> The step size to use for the slider. Values &lt;= 0 indicate no step. The value you pass is truncated to an integer, e.g. 0.7 becomes 0, 4.3 becomes 4, etc.<br />
+          <br />
+          <span data-conref="../../../assets/snippets/Tag_note.hts"> </span> The step size doesn&#39;t set the number to add. Rather, it sets the values that can be selected to be a multiple of the step. For example, if the starting value is 5 and the step is set to 2, the values &quot;left&quot; and &quot;right&quot; of it won&#39;t be 3 and 7, they will be 4 and 6. Both 4 and 6 are multiples of the step and so are valid values, while 3 and 7 aren&#39;t.
+        </td>
+      </tr>
     </tbody>
   </table>
   <p> </p>
@@ -65,7 +74,7 @@
   <p class="code">my_var = 127;<br />
     <span data-field="title" data-format="default">dbg_slider_int</span>(ref_create(my_var), 0, 200, &quot;Variable&quot;);
   </p>
-  <p>The above code is executed in an <a href="../Asset_Management/Objects/Objects.htm">object</a>&#39;s Create event, or any other event that isn&#39;t performed continuously. First, an <a href="../../GML_Overview/Variables/Instance_Variables.htm">instance variable</a> <span class="inline2">my_var</span> is set. Then, an integer slider control is created using <span class="inline3_func"><span data-field="title" data-format="default">dbg_slider_int</span></span>. The function receives a reference to the variable, returned by <span class="inline3_func"><a data-xref="{title}" href="../Variable_Functions/ref_create.htm">ref_create</a></span>, values of 0 and 200 for the <span class="inline2">minimum</span> and <span class="inline2">maximum</span> parameters and a label <span class="inline2">&quot;Variable&quot;</span>. Dragging the slider changes the value of the instance&#39;s <span class="inline2">my_var</span> variable in steps of 1.</p>
+  <p>The above code is executed in an <a href="../Asset_Management/Objects/Objects.htm">object</a>&#39;s Create event, or in any other event that isn&#39;t performed continuously. First, an <a href="../../GML_Overview/Variables/Instance_Variables.htm">instance variable</a> <span class="inline2">my_var</span> is set. Then, an integer slider control is created using <span class="inline3_func"><span data-field="title" data-format="default">dbg_slider_int</span></span>. The function receives a reference to the variable, returned by <span class="inline3_func"><a data-xref="{title}" href="../Variable_Functions/ref_create.htm">ref_create</a></span>, values of 0 and 200 for the <span class="inline2">minimum</span> and <span class="inline2">maximum</span> parameters and a label <span class="inline2">&quot;Variable&quot;</span>. Dragging the slider changes the value of the instance&#39;s <span class="inline2">my_var</span> variable in steps of 1.</p>
   <p> </p>
   <p> </p>
   <div class="footer">
@@ -75,7 +84,7 @@
         <div>Next: <a data-xref="{title}" href="dbg_sprite.htm">dbg_sprite</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2023 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 dbg_slider_int
