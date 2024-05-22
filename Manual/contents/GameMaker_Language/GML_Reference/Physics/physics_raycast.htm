@@ -9,18 +9,18 @@
   <script src="../../../assets/scripts/main_script.js" type="module"></script>
   <meta name="rh-authors" content="" />
   <meta name="topic-comment" content="" />
-  <meta name="rh-index-keywords" content="" />
-  <meta name="search-keywords" content="" />
+  <meta name="rh-index-keywords" content="physics_raycast" />
+  <meta name="search-keywords" content="physics_raycast" />
   <meta name="template" content="assets/masterpages/Manual_Keyword_Page.htt" />
 </head>
 <body>
   <h1><span data-field="title" data-format="default">physics_raycast</span></h1>
   <p>This function casts a ray against (part of) the physics world and returns an array of structs with information on where the ray hit and what the normal is at the hitpoint.</p>
   <p><video src="../../../assets/Images/Scripting_Reference/GML/Reference/Physics/physics_raycast_example.mp4" width="480" height="320" controls="" class="center" id=""></video></p>
-  <p>You define the ray by providing its start point and its end point. Collisions are checked between the start and end point, or between the start point and only a fraction of the ray.</p>
-  <p>The part of the physics world to check against can be a single object, a single instance or an <span data-keyref="Type_Array"><a href="../../GML_Overview/Arrays.htm" target="_blank">Array</a></span> containing both objects and instances.</p>
-  <p>By default, the function only returns the closest hit, but it can return all hits if you set the <span class="inline2">all_hits</span> parameter to <span class="inline2">true</span>.</p>
-  <p>The following information is returned for every hitpoint: </p>
+  <p>You define the ray by providing its start and end points. Collisions are either checked between the start and end point, or from the start till a fraction of the ray (depending on the parameters passed).</p>
+  <p>The part of the physics world to check against can be a single object, a single instance or an <span data-keyref="Type_Array"><a href="../../GML_Overview/Arrays.htm" target="_blank">Array</a></span> containing objects and/or instances.</p>
+  <p>By default, the function only returns the closest hit, but it can return all hits if you set the <span class="inline2">all_hits</span> parameter to <span class="inline2">true</span>. When the parameter is set to <span class="inline2">false</span>, the function still returns an array on a collision being found, which only contains one element.</p>
+  <p>In the returned array, each struct will represent one hitpoint, holding the following information for any given hitpoint:</p>
   <table style="caption-side: top">
     <caption>Raycast Hitpoint Struct</caption>
     <colgroup>
@@ -98,8 +98,8 @@
       </tr>
       <tr>
         <td>ids</td>
-        <td><span data-keyref="Type_Asset_Object"><a href="../../../The_Asset_Editors/Objects.htm" target="_blank">Object Asset</a></span> or <span data-keyref="Type_ID_Instance"><a href="../Asset_Management/Instances/Instance_Variables/id.htm" target="_blank">Object Instance</a></span> or an <span data-keyref="Type_Array"><a href="../../GML_Overview/Arrays.htm" target="_blank">Array</a></span> containing a combination of those</td>
-        <td>A single object asset or instance or an array containing a combination of them to check the ray against. All of them must have physics fixtures. Child objects that have physics enabled are also checked.</td>
+        <td><span data-keyref="Type_Asset_Object"><a href="../../../The_Asset_Editors/Objects.htm" target="_blank">Object Asset</a></span> or <span data-keyref="Type_ID_Instance"><a href="../Asset_Management/Instances/Instance_Variables/id.htm" target="_blank">Object Instance</a></span> or <span data-keyref="Type_Array"><a href="../../GML_Overview/Arrays.htm" target="_blank">Array</a></span></td>
+        <td>A single object asset, instance or an array containing a combination of them to check the ray against. All of them must have physics fixtures. Child objects that have physics enabled are also checked.</td>
       </tr>
       <tr>
         <td>all_hits</td>
@@ -109,7 +109,7 @@
       <tr>
         <td>max_fraction</td>
         <td><span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
-        <td><span data-conref="../../../assets/snippets/Tag_optional.hts"> </span> The maximum proportion of the ray to check. A value from 0 to 1. 0 is at the start point, 1 is at the end point. If this is set to, for example, 0.5 then the check is only performed from the ray&#39;s start point to its midpoint. The default is 1.</td>
+        <td><span data-conref="../../../assets/snippets/Tag_optional.hts"> </span> The maximum proportion of the ray to check. A value from 0 to 1. 0 is at the start point, 1 is at the end point. If this is set to, for example, 0.5 then the check is only performed from the ray&#39;s start point to its midpoint. The default is 1, meaning the ray is checked fully.</td>
       </tr>
     </tbody>
   </table>
