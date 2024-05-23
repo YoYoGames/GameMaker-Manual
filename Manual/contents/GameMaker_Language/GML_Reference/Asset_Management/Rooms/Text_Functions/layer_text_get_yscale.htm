@@ -43,10 +43,19 @@
   <p class="code"><span data-keyref="Type_Real"><a href="../../../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></p>
   <p> </p>
   <h4>Example:</h4>
-  <p class="code">code_example () {<br />
-        <br />
-    }</p>
-  <p>Explain The Code Example Here</p>
+  <p class="code">var _zoom = (mouse_wheel_up() - mouse_wheel_down()) * 0.1;<br />
+    <br />
+    var text1_id = layer_text_get_id(&quot;Assets&quot;, &quot;text1&quot;);<br />
+    <br />
+    var text1_xscale = layer_text_get_xscale(text1_id);<br />
+    var text1_yscale = layer_text_get_yscale(text1_id);<br />
+    <br />
+    layer_text_xscale(text1_id, text1_xscale + _zoom);<br />
+    layer_text_yscale(text1_id, text1_yscale + _zoom);
+  </p>
+  <p>This scales the Text Element based on input from the mouse wheel. It first gets the wheel&#39;s delta input, by subtracting an up scroll from a down scroll (returning <span class="inline2">1</span> for up and <span class="inline2">-1</span> for down). It multiplies that by <span class="inline2">0.1</span> to slow down the scale change that takes place in one frame.</p>
+  <p>Then it gets the ID of the Text Element <span class="inline2">text1</span> from the layer <span class="inline2">Assets</span>, and gets its xscale and yscale. It applies each component back, with the zoom value added to it.</p>
+  <p>Since this code is for a Step event, you should initialise the <span class="inline2">text1_id</span> variable in the Create event.</p>
   <p> </p>
   <p> </p>
   <div class="footer">

@@ -33,7 +33,7 @@
       </tr>
       <tr>
         <td>text_element_id</td>
-        <td><span data-keyref="Type_ID_Element_Text"><a href="layer_text_create.htm" target="_blank">Text Element ID</a></span></td>
+        <td><span data-keyref="Type_ID_Element_Text"><a href="layer_text_get_id.htm" target="_blank">Text Element ID</a></span></td>
         <td>The text element ID, retrieved from <span class="inline3_func"><a data-xref="{title}" href="layer_text_create.htm">layer_text_create</a></span> or <span class="inline3_func"><a data-xref="{title}" href="layer_text_get_id.htm">layer_text_get_id</a></span>.</td>
       </tr>
       <tr>
@@ -48,10 +48,20 @@
   <p class="code"><span data-keyref="Type_Void">N/A</span></p>
   <p> </p>
   <h4>Example:</h4>
-  <p class="code">code_example () {<br />
-        <br />
-    }</p>
-  <p>Explain The Code Example Here</p>
+  <p class="code">var text1_id = layer_text_get_id(&quot;Assets&quot;, &quot;text1&quot;);<br />
+    <br />
+    var text1_blend = layer_text_get_blend(text1_id);<br />
+    <br />
+    var target_colour = keyboard_check(vk_space) ? c_red : c_white;<br />
+    <br />
+    var new_colour = merge_colour(text1_blend, target_colour, 0.1);<br />
+    <br />
+    layer_text_blend(text1_id, new_colour);
+  </p>
+  <p>This gets the ID of the Text Element <span class="inline2">text1</span> from the layer <span class="inline2">Assets</span>, and gets its blend colour. It sets the target colour based on input, being red when space is held, and white otherwise.</p>
+  <p>It calculates a colour between the current and the target colour, moving the current colour 10% (<span class="inline2">0.1</span>) towards the target.</p>
+  <p>Finally it applies the new colour to the element. Each frame it moves closer to the target colour.</p>
+  <p>Since this code is for a Step event, you should initialise the <span class="inline2">text1_id</span> variable in the Create event.</p>
   <p> </p>
   <p> </p>
   <div class="footer">
