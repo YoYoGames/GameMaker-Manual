@@ -392,6 +392,7 @@ export default function(hljs) {
     "audio_set_master_gain",
     "audio_sound_gain",
     "audio_sound_get_gain",
+    "audio_sound_get_asset",
     "audio_sound_get_listener_mask",
     "audio_sound_get_pitch",
     "audio_sound_get_track_position",
