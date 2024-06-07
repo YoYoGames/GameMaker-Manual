@@ -16,14 +16,21 @@
 <body>
   <h1><span data-field="title" data-format="default">gpu_set_sprite_cull</span></h1>
   <p>This function sets whether (frustum) culling of sprites is enabled globally or not.</p>
-  <p>When enabled, sprites will be <em>culled</em> against the view frustum, i.e. they&#39;re not submitted to the GPU and aren&#39;t drawn when fully out of sight.</p>
-  <h3>(View) Frustum Culling</h3>
+  <p>When enabled, sprites are checked against the view frustum on the CPU and <em>culled</em> (i.e. removed) if they&#39;re fully outside. Sprites that are culled are not submitted to the GPU (i.e. drawn).</p>
+  <p class="note"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> Sprite culling applies to all sprites that are drawn in your game, either manually using the <span class="inline3_func">draw_sprite_*</span> functions, as elements on asset layers or as part of sequences. Culling is only performed on sprites.</p>
+  <h3 id="frustum_culling">(View) Frustum Culling</h3>
   <p>The <em>view frustum</em> is the region of the game world that a camera sees. It is determined by the camera&#39;s position and orientation in the game world as well as by the projection it has set: </p>
   <ul class="colour">
     <li>in case of an <a href="../../Maths_And_Numbers/Matrix_Functions/matrix_build_projection_ortho.htm" title="matrix_build_projection_ortho">orthographic projection</a> it is a box shape.</li>
     <li>in case of a <a href="../../Maths_And_Numbers/Matrix_Functions/matrix_build_projection_perspective.htm" title="matrix_build_projection_perspective">perspective</a> <a href="../../Maths_And_Numbers/Matrix_Functions/matrix_build_projection_perspective_fov.htm" title="matrix_build_projection_perspective_fov">projection</a> it is a truncated pyramid shape.</li>
   </ul>
-  <p> </p>
+  <figure><img class="center" height="387" src="../../../../assets/Images/Asset_Editors/Camera_Example.png" title="" width="854" />
+    <figcaption>Any sprites that are fully outside of the Camera View (or Frustum) are culled, i.e. not submitted to the GPU for drawing</figcaption>
+  </figure>
+  <p>View frustum culling is one type of visibility culling, where the CPU checks if a shape is inside the view frustum or not.</p>
+  <p>To determine if a sprite is visible <span data-keyref="GameMaker Name">GameMaker</span> calculates a sphere around the sprite and checks if this sphere is inside the view frustum. When the sphere is fully outside of it, the sprite must be, too, and is culled, i.e. not submitted for drawing.</p>
+  <p><img class="center" src="../../../../assets/Images/Scripting_Reference/GML/Reference/Drawing/sprite_cull_bounding_sphere.png" /></p>
+  <p class="note"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> The sprite&#39;s scale factor and the <a href="../../Maths_And_Numbers/Matrix_Functions/matrix_set.htm" title="matrix_set()">world matrix</a> are taken into account when performing sprite culling.</p>
   <p> </p>
   <h4>Syntax:</h4>
   <p class="code"><span data-field="title" data-format="default">gpu_set_sprite_cull</span>(enable);</p>
