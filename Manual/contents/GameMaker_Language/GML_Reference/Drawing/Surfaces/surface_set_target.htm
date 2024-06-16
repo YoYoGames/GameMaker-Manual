@@ -26,28 +26,35 @@
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
   <h1 id="h"><span data-field="title" data-format="default">surface_set_target</span></h1>
-  <p>With this function you set all further drawing to the target surface rather than the screen and in this way you can tell <span data-keyref="GameMaker Name">GameMaker</span> to only draw specific things to the specified surface.</p>
-  <p>Please note that if you do not call <span class="inline3_func"><a data-xref="{text}" href="surface_reset_target.htm#h">surface_reset_target</a></span> after you have finished, nothing will be drawn on the screen as all further drawing (even in other instances) will be done on the surface. You should also realise that nothing will be seen if the surface itself is not drawn on the screen in the draw event of an instance. You can check the return value of this function too as a debug tool to check whether the surface target was set or not, with a return value of 0 being a failure to set the target and any other positive value being a success.</p>
-  <p>One thing that should be noted is that surfaces are <i>stacked</i> so you cannot jump from target to target and then reset to the normal draw target at the end, but rather you must open and close rendering targets. For example, this will <b>not</b> work correctly:</p>
-  <p class="code">surface_set_target(surf1);<br />
-    draw_text(32, 32, &quot;surface1&quot;);<br />
-    surface_set_target(surf2);<br />
-    draw_text(32, 64, &quot;surface2&quot;);<br />
-    surface_reset_target();</p>
-  <p>Instead, you must reset the target for each of the surfaces that you set, much like you must use opening and closing brackets <span class="inline2">{ }</span> for code blocks. So the above should be written either like this:</p>
-  <p class="code">surface_set_target(surf1);<br />
-    draw_text(32, 32, &quot;surface1&quot;);<br />
-    surface_reset_target();<br />
-    surface_set_target(surf2);<br />
-    draw_text(32, 64, &quot;surface2&quot;);<br />
-    surface_reset_target();</p>
-  <p>or like this:</p>
-  <p class="code">surface_set_target(surf1);<br />
-    draw_text(32, 32, &quot;surface1&quot;);<br />
-    surface_set_target(surf2);<br />
-    draw_text(32, 64, &quot;surface2&quot;);<br />
-    surface_reset_target();<br />
-    surface_reset_target();</p>
+  <p>This function sets all further drawing to the target surface rather than the screen. In this way you can tell <span data-keyref="GameMaker Name">GameMaker</span> to only draw specific things to the specified surface.</p>
+  <p>By default, the target surface&#39;s depth buffer is used (if it has one). If you pass another surface as the optional <span class="inline2">depth</span> parameter, that surface&#39;s depth buffer is used if it has one. No depth buffer is used if the surface passed as the <span class="inline2">depth</span> parameter has no depth buffer.</p>
+  <h3>Usage Notes</h3>
+  <ul class="colour">
+    <li>All surfaces that you pass to this function must exist. An error is thrown if any surface passed to the function doesn&#39;t exist.</li>
+    <li>If you do not call <span class="inline3_func"><a data-xref="{text}" href="surface_reset_target.htm#h">surface_reset_target</a></span> after you have finished, nothing will be drawn on the screen as all further drawing (even in other instances) will be done on the surface. You should also realise that nothing will be seen if the surface itself is not drawn on the screen in the Draw event of an instance. You can check the return value of this function too as a debug tool to check whether the surface target was set or not, with a return value of 0 being a failure to set the target and any other positive value being a success.</li>
+    <li>Surfaces are <i>stacked</i> so you cannot jump from target to target and then reset to the normal draw target at the end, but rather you must open and close rendering targets. For example, this will <b>not</b> work correctly:
+      <p class="code">surface_set_target(surf1);<br />
+        draw_text(32, 32, &quot;surface1&quot;);<br />
+        surface_set_target(surf2);<br />
+        draw_text(32, 64, &quot;surface2&quot;);<br />
+        surface_reset_target();</p>
+      <p>Instead, you must reset the target for each of the surfaces that you set, much like you must use opening and closing brackets <span class="inline2">{ }</span> for code blocks. So the above should be written either like this:</p>
+      <p class="code">surface_set_target(surf1);<br />
+        draw_text(32, 32, &quot;surface1&quot;);<br />
+        surface_reset_target();<br />
+        surface_set_target(surf2);<br />
+        draw_text(32, 64, &quot;surface2&quot;);<br />
+        surface_reset_target();</p>
+      <p>or like this:</p>
+      <p class="code">surface_set_target(surf1);<br />
+        draw_text(32, 32, &quot;surface1&quot;);<br />
+        surface_set_target(surf2);<br />
+        draw_text(32, 64, &quot;surface2&quot;);<br />
+        surface_reset_target();<br />
+        surface_reset_target();</p>
+    </li>
+  </ul>
+  <p> </p>
   <div data-conref="../../../../assets/snippets/Note_Surface_Function_Silently_Fails.hts"> </div>
   <p> </p>
   <h4>Syntax:</h4>
@@ -60,14 +67,14 @@
         <th>Description</th>
       </tr>
       <tr>
-        <td>surface_id</td>
+        <td>surface</td>
         <td><span data-keyref="Type_ID_Surface"><a href="surface_create.htm" target="_blank">Surface</a></span></td>
         <td>The surface to set as the drawing target.</td>
       </tr>
       <tr>
         <td>depth</td>
         <td><span data-keyref="Type_ID_Surface"><a href="surface_create.htm" target="_blank">Surface</a></span></td>
-        <td><span data-conref="../../../../assets/snippets/Tag_optional.hts"> </span> The surface to use as the target to draw the depth to. Defaults to the depth buffer of <span class="inline2">surface_id</span>.</td>
+        <td><span data-conref="../../../../assets/snippets/Tag_optional.hts"> </span> The surface whose depth buffer to use (if this surface has one).</td>
       </tr>
     </tbody>
   </table>
@@ -79,7 +86,7 @@
   <p class="code">if (view_current == 0)<br />
     {<br />
         surface_set_target(surf);<br />
-        with (obj_Effect)<br />
+        with (obj_effect)<br />
         {<br />
             draw_self();<br />
         }<br />
@@ -89,7 +96,7 @@
     {<br />
         draw_surface(surf, 0, 0);<br />
     }</p>
-  <p>The above code checks to see which view is currently being drawn, and if it is view[0] it sets the draw target to a surface and draws all instances of the object <span class="inline2">obj_Effect</span> before resetting the draw target again. If the view is not view[0] the surface is drawn to the screen.</p>
+  <p>The above code checks to see which view is currently being drawn, and if it is view[0] it sets the draw target to a surface and draws all instances of the object <span class="inline2">obj_effect</span> before resetting the draw target again. If the view is not view[0] the surface is drawn to the screen.</p>
   <p> </p>
   <p> </p>
   <div class="footer">
