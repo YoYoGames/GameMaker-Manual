@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <meta name="topic-comment" content="A snippet with a code example on the buffer_get_surface_depth and buffer_set_surface_depth functions" />
+  <title>Example_Buffer_Get_Set_Surface_Depth</title>
+  <link rel="stylesheet" type="text/css" href="../css/default.css" />
+</head>
+<body>
+  <p class="code_heading">Create Event</p>
+  <p class="code">size = 256;<br />
+    row_bytesize = 4 * size;<br />
+    <br />
+    surface = -1;<br />
+    buffer = buffer_create(4 * size * size, buffer_fixed, 4);<br />
+    <br />
+    gpu_set_ztestenable(true);
+  </p>
+  <p class="code_heading">Draw Event</p>
+  <p class="code">if (!surface_exists(surface))<br />
+    {<br />
+        surface = surface_create(size, size);<br />
+    }<br />
+    <br />
+    surface_set_target(surface);<br />
+    draw_clear_ext(c_teal, 1, 1);<br />
+    gpu_set_depth(10000);<br />
+    draw_rectangle(100, 100, 150, 150, false);<br />
+    gpu_set_depth(0);<br />
+    draw_rectangle(150, 150, 200, 200, true);<br />
+    surface_reset_target();<br />
+    <br />
+    buffer_get_surface_depth(buffer, surface, 0);<br />
+    buffer_fill(buffer, row_bytesize * 112, buffer_f32, 0.7, row_bytesize * 20);<br />
+    buffer_set_surface_depth(buffer, surface, 0);<br />
+    <br />
+    surface_set_target(surface);<br />
+    gpu_set_depth(8000);<br />
+    draw_circle_color(120, 120, 20, c_red, c_red, false);<br />
+    surface_reset_target();
+  </p>
+  <p class="code_heading">Draw GUI Event</p>
+  <p class="code">var _texture = surface_get_texture_depth(surface);<br />
+    draw_primitive_begin_texture(pr_trianglestrip, _texture);<br />
+    draw_vertex_texture(0, 0, 0, 0);<br />
+    draw_vertex_texture(size, 0, 1, 0);<br />
+    draw_vertex_texture(0, size, 0, 1);<br />
+    draw_vertex_texture(size, size, 1, 1);<br />
+    draw_primitive_end();<br />
+    <br />
+    draw_surface(surface, size, 0);
+  </p>
+  <p>The code above shows an extended example on how to use the functions <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Buffers/buffer_get_surface_depth.htm">buffer_get_surface_depth</a></span> and <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Buffers/buffer_set_surface_depth.htm">buffer_set_surface_depth</a></span>.</p>
+  <p>In the Create event, a few variables are initialised: the (square) size of the surface, the number of bytes in the buffer taken by a single row of the surface, the surface variable and the buffer. Note that the buffer alignment can be set to 4 since all values are stored as a <span class="inline2">buffer_f32</span>, which takes up 4 bytes, i.e. each depth value is read/written at an offset that is a multiple of 4 bytes. Z-testing is also enabled with a call to <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Drawing/GPU_Control/gpu_set_ztestenable.htm">gpu_set_ztestenable</a></span>.</p>
+  <p>In the Draw event, the surface is newly created if it doesn&#39;t exist. Then, it is set as the render target, its colour buffer cleared to the colour <span class="inline2">c_teal</span> with an alpha value of 1 and its depth buffer cleared to 1. After that, two rectangles are drawn, a first one at a depth value of 10000, a second one at a depth value of 0. The render target is then reset.</p>
+  <p>Still in the Draw event, the depth buffer&#39;s contents are copied into the previously created buffer using <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Buffers/buffer_get_surface_depth.htm">buffer_get_surface_depth</a></span> and the depth value in 20 rows is changed by filling a region of the buffer with a new value (using <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Buffers/buffer_fill.htm">buffer_fill</a></span>). The changes are written back to the depth buffer using <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Buffers/buffer_set_surface_depth.htm">buffer_set_surface_depth</a></span>. After this, the surface is once again set as the render target. This time, a red disk is drawn on it, using a depth value of 8000 and the render target is once again reset.</p>
+  <p>Finally, in the Draw GUI event, the depth texture and the surface are displayed alongside each other, showing the contents of both.</p>
+</body>
+</html>

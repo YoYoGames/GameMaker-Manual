@@ -65,7 +65,7 @@
   <p class="note" style="padding-top: 0.5em;padding-right: 1em;padding-bottom: 0.5em;padding-left: 4em"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> This doesn&#39;t appear to happen with sprites or other visual assets (but actually does!) as they are also stored in regular memory (RAM) and when they are removed from texture memory (VRAM) they immediately get restored from regular memory when the game regains focus.</p>
   <ul class="colour">
     <li>Second, you should note that surfaces can require large quantities of VRAM to be used, and so you should attempt to keep them as small as possible. Normally you would try and keep them no larger than the size of the view or display window.</li>
-    <li>Third, you should <b>only create surfaces in the draw event</b>. If you create a surface in the Create Event of an instance, you could potentially get the <i>same</i> index as the <span class="inline2"><a data-xref="{title}" href="application_surface.htm">application_surface</a></span>. This can then cause lots of problems and confusion as you think you are using your own surface, but you are actually using the current render target. You should also always try to limit <i>drawing</i> to a surface in the draw event too, since due to the optimised way in which <span data-keyref="GameMaker Name">GameMaker</span> draws to the screen, it is recommended that you keep all draw functions <i>within the draw event</i> - this includes clearing a surface when it is first created, etc. Drawing to a surface outside of the draw event is possible and may even be necessary for some effects, but it&#39;s not how it <em>should</em> be done.</li>
+    <li>Third, you should <b>only create surfaces in the Draw event</b>. If you create a surface in the Create Event of an instance, you could potentially get the <i>same</i> index as the <span class="inline2"><a data-xref="{title}" href="application_surface.htm">application_surface</a></span>. This can then cause lots of problems and confusion as you think you are using your own surface, but you are actually using the current render target. You should also always try to limit <i>drawing</i> to a surface in the Draw event too, since due to the optimised way in which <span data-keyref="GameMaker Name">GameMaker</span> draws to the screen, it is recommended that you keep all draw functions <i>within the Draw event</i> - this includes clearing a surface when it is first created, etc. Drawing to a surface outside of the Draw event is possible and may even be necessary for some effects, but it&#39;s not how it <em>should</em> be done.</li>
     <li>Fourth, when drawing to a surface manually, the surface is <i>always</i> at the position of (0, 0). This means that you may need to convert <em>absolute</em> coordinates into <em>relative</em> coordinates for the surface. For example, if you have a camera-sized surface and wish to draw something that is currently visible in the camera to that surface, you should subtract the camera view x and y coordinates from the actual x and y coordinates to get a relative position to the surface (0, 0) position. So, the code would look something like this:</li>
   </ul>
   <p class="code">if (view_current == 0)<br />
@@ -88,6 +88,9 @@
   </ul>
   <p class="note"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> This is not true of the <a href="application_surface.htm">application surface</a>, only user-created surfaces.</p>
   <p>One thing to note is that should you require drawing the whole display to a surface (including tiles, backgrounds etc.) you can simply access the application surface itself (see below for further details) or you could assign a surface to a view port using the variable <a href="../../Cameras_And_Display/Cameras_And_Viewports/view_surface_id.htm"><span class="inline">view_surface_id[0..7]</span></a> as with this, all that is visible in that view port will be drawn to the corresponding surface.</p>
+  <h2 id="depth_and_stencil_buffer">Depth and Stencil Buffer</h2>
+  <p>The most straightforward use for surfaces is to draw sprites, text, particle effects, etc. to it, i.e. visual elements with a colour and possibly a transparency (alpha) value for every pixel. By default, surfaces also have a depth and stencil buffer that can be used to achieve all kinds of advanced graphical effects.</p>
+  <p>See <a data-xref="{title}" href="../Depth_And_Stencil_Buffer/The_Depth_And_Stencil_Buffer.htm">The Depth And Stencil Buffer</a> for detailed information.</p>
   <h2>Function Reference</h2>
   <p>The following functions exist to deal with surfaces (these functions are specific for creating and manipulating surfaces, but to actually draw them to the screen you should be using the specific draw functions that can be found below):</p>
   <ul class="colour">
@@ -97,16 +100,19 @@
     <li><a href="surface_resize.htm">surface_resize</a></li>
     <li><a href="surface_set_target.htm">surface_set_target</a></li>
     <li><a href="surface_set_target_ext.htm">surface_set_target_ext</a></li>
-    <li><a href="surface_get_target.htm">surface_get_target</a></li>
-    <li><a href="surface_get_target_ext.htm">surface_get_target_ext</a></li>
-    <li><a href="surface_reset_target.htm">surface_reset_target</a></li>
+    <li><a data-xref="{title}" href="surface_get_target.htm">surface_get_target</a></li>
+    <li><a data-xref="{title}" href="surface_get_target_depth.htm">surface_get_target_depth</a></li>
+    <li><a data-xref="{title}" href="surface_get_target_ext.htm">surface_get_target_ext</a></li>
+    <li><a data-xref="{title}" href="surface_reset_target.htm">surface_reset_target</a></li>
     <li><a href="surface_copy.htm">surface_copy</a></li>
     <li><a href="surface_copy_part.htm">surface_copy_part</a></li>
     <li><a href="surface_depth_disable.htm">surface_depth_disable</a></li>
     <li><a href="surface_get_height.htm">surface_get_height</a></li>
     <li><a href="surface_get_width.htm">surface_get_width</a></li>
-    <li><a href="surface_get_texture.htm">surface_get_texture</a></li>
+    <li><a data-xref="{title}" href="surface_get_texture.htm">surface_get_texture</a></li>
+    <li><a data-xref="{title}" href="surface_get_texture_depth.htm">surface_get_texture_depth</a></li>
     <li><a href="surface_get_depth_disable.htm">surface_get_depth_disable</a></li>
+    <li><a data-xref="{title}" href="surface_has_depth.htm">surface_has_depth</a></li>
     <li><a href="surface_getpixel.htm">surface_getpixel</a></li>
     <li><a href="surface_getpixel_ext.htm">surface_getpixel_ext</a></li>
     <li><a data-xref="{title}" href="surface_get_format.htm">surface_get_format</a></li>
@@ -156,7 +162,7 @@
     <li>Draw GUI End event</li>
   </ul>
   <p>The use of this surface means that you can easily create incredible transitions using shaders, or take the screen and wrap it around a 3D form, or simply scale a low-res game up to any resolution screen... The possibilities are endless!</p>
-  <p>To access this surface, you need to use the built-in global variable <span class="inline">application_surface</span> which is explained on the following page:</p>
+  <p>To access this surface, you need to use the built-in global variable <span class="inline2">application_surface</span> which is explained on the following page:</p>
   <ul class="colour">
     <li><a href="application_surface.htm">application_surface</a></li>
   </ul>
