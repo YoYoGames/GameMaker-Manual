@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <title>The Depth And Stencil Buffer</title>
+  <meta name="topic-status" content="Draft" />
+  <link rel="stylesheet" type="text/css" href="../../../../assets/css/default.css" />
+  <meta name="rh-authors" content="Bart Teunis" />
+  <meta name="topic-comment" content="Overview page for the depth and stencil buffer" />
+  <meta name="template" content="../../../../assets/masterpages/Manual_Page.htt" />
+  <meta name="search-keywords" content="depth,stencil,depth buffer,stencil buffer" />
+  <meta name="rh-index-keywords" content="The Depth And Stencil Buffer" />
+</head>
+<body>
+  <h1><span data-field="title" data-format="default">The Depth And Stencil Buffer</span></h1>
+  <p>The depth and stencil buffer are two data buffers that are used for advanced graphical effects in both 2D and 3D games, which include shadow mapping, deferred rendering, volumetric rendering, ambient occlusion and many more.</p>
+  <p>They store, for every pixel, a 24-bit <em>depth</em> value and an 8-bit <em>stencil</em> value respectively. They are created for every <span data-keyref="Type_ID_Surface"><a href="../Surfaces/surface_create.htm" target="_blank">Surface</a></span> when the depth buffer is enabled. By default, surfaces are created with a depth buffer (and a stencil buffer), <a href="../GPU_Control/gpu_set_zwriteenable.htm">z-writing</a> is enabled, <a href="../GPU_Control/gpu_set_ztestenable.htm">z-testing</a> is disabled and the <a href="../GPU_Control/gpu_set_stencil_enable.htm">stencil test</a> is disabled.</p>
+  <p>The depth and stencil buffer always exist together, i.e.: if a surface has a depth buffer, it also has a stencil buffer, if it has no depth buffer, it also has no stencil buffer.</p>
+  <p>Like the surfaces they belong to, the depth and stencil buffer are also stored in video memory (<a class="glossterm" data-glossterm="VRAM" href="#">VRAM</a>).</p>
+  <p class="note"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> Automatic depth buffer and stencil buffer generation can be turned off using <span class="inline3_func"><a data-xref="{title}" href="../Surfaces/surface_depth_disable.htm">surface_depth_disable</a></span>.</p>
+  <h2 id="the_depth_buffer">The Depth Buffer</h2>
+  <p>The depth buffer, also called z-buffer, is a graphics buffer created with the same dimensions as the surface that it&#39;s created for. It stores a 24-bit depth value for every pixel of the surface, which holds the distance away from the surface.</p>
+  <p><img class="center" height="412" src="../../../../assets/Images/Scripting_Reference/GML/Reference/Drawing/Surface_Colour_Alpha_and_Depth_Buffer.png" width="1348" /></p>
+  <p>The depth buffer can be displayed as a grayscale image, where <strong>white</strong> (a value of 1) indicates the pixel is as far away as it can be (at the far plane) and <strong>black</strong> (a value of 0) indicates the closest pixel (at znear).</p>
+  <p>By default, the depth buffer is <strong>enabled</strong> in <span data-keyref="GameMaker Name">GameMaker</span>, which means that every surface is <a href="../Surfaces/surface_create.htm" title="surface_create()">created</a> with a depth buffer. This also applies to the <span class="inline2"><a data-xref="{title}" href="../Surfaces/application_surface.htm">application_surface</a></span>, which is the surface that&#39;s drawn to by default.</p>
+  <h3>Depth vs. Depth Buffer Depth</h3>
+  <p>There are two different uses of the term depth in <span data-keyref="GameMaker Name">GameMaker</span>: </p>
+  <ul class="colour">
+    <li>The depth value assigned to anything that&#39;s drawn, either automatically by <span data-keyref="GameMaker Name">GameMaker</span> or manually using code. This can be: 
+      <ul>
+        <li>The layer depth of layers in <a data-xref="{title}" href="../../../../The_Asset_Editors/Rooms.htm">The Room Editor</a>.</li>
+        <li>An object instance&#39;s depth set through its <span class="inline2"><a data-xref="{title}" href="../../Asset_Management/Instances/Instance_Variables/depth.htm">depth</a></span> variable.</li>
+        <li>The depth value you set manually in <span data-keyref="GML_Code">GML Code</span> using <span class="inline3_func"><a data-xref="{title}" href="../GPU_Control/gpu_set_depth.htm">gpu_set_depth</a></span>.<br />
+          <br />
+          This depth is the z coordinate of the vertex that <span data-keyref="GameMaker Name">GameMaker</span> writes to the vertex buffer, <em>before</em> any transformations have taken place on the vertex. (For any geometry drawn by <span data-keyref="GameMaker Name">GameMaker</span>, this is the value stored in <span class="inline2">in_Position.z</span>).
+        </li>
+      </ul>
+    </li>
+    <li>The depth buffer, which stores a depth value for every pixel of a surface (i.e. render target). This is the fraction of the distance between the near plane and the far plane. A value of 0 corresponds to znear, a value of 1 corresponds to zfar. The value depends on the <a href="../../Cameras_And_Display/Cameras_And_Viewports/Cameras_And_View_Ports.htm">camera</a> currently in use and its type of <a href="../../Cameras_And_Display/Cameras_And_Viewports/camera_set_proj_mat.htm" title="camera_set_proj_mat()">projection</a> (<a href="../../Maths_And_Numbers/Matrix_Functions/matrix_build_projection_perspective.htm" title="matrix_build_projection_perspective()">perspective</a> or <a href="../../Maths_And_Numbers/Matrix_Functions/matrix_build_projection_ortho.htm" title="matrix_build_projection_ortho()">orthographic</a>).</li>
+  </ul>
+  <p>The depth buffer stores the values after all transformations have been applied. <span class="inline3_func"><a data-xref="{title}" href="../draw_clear_depth.htm">draw_clear_depth</a></span> can be used to reset all values in the depth buffer to any value between 0 (znear) and 1 (zfar).</p>
+  <p>For the default orthographic camera the values can be converted as follows: </p>
+  <p class="code">depth_buffer_depth = 0.5 + depth / 32000<br />
+    depth = (depth_buffer_depth - 0.5) * 32000</p>
+  <h3 id="the_depth_test">The Depth Test</h3>
+  <p>The depth test is a test using the depth buffer that can be performed on the pixels that you draw to. It is disabled by default and can be enabled with <span class="inline3_func"><a data-xref="{title}" href="../GPU_Control/gpu_set_ztestenable.htm">gpu_set_ztestenable</a></span>.</p>
+  <p>When enabled, the GPU performs a test on all pixels affected by the current draw command (e.g. a <span class="inline2">draw_*</span> function). This test is set to <span class="inline2"><span data-keyref="Const_ZFunc_Default">cmpfunc_lessequal</span></span> by default, but you can change it to another comparison using <span class="inline3_func"><a data-xref="{title}" href="../GPU_Control/gpu_set_zfunc.htm">gpu_set_zfunc</a></span>.</p>
+  <p>The test looks as follows: </p>
+  <p class="code"><span data-keyref="Const_Depth_Equation">depth_of_pixel_being_written cmp_func value_at_pixel_in_depth_buffer</span></p>
+  <p>If a pixel passes the depth test, it is passed to the stencil test (when enabled). If all tests pass, the pixel is finally drawn.</p>
+  <p class="note"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> Z-writing must be enabled in order for the depth value to be overwritten if the depth test passes. This is enabled by default. See <span class="inline3_func"><a data-xref="{title}" href="../GPU_Control/gpu_set_zwriteenable.htm">gpu_set_zwriteenable</a></span>.</p>
+  <p>When z-testing is enabled, every time you draw something to a surface that has a depth buffer, the depth value of the new pixel is compared to the value at the corresponding pixel in the depth buffer. For example: </p>
+  <p class="code">// 1<br />
+    gpu_set_ztestenable(true);<br />
+    draw_clear_alpha(#282828, 1);<br />
+    draw_clear_depth(1);<br />
+    <br />
+    // 2<br />
+    var _c = #BB6666;<br />
+    gpu_set_depth(1000);<br />
+    draw_rectangle_color(25, 25, 125, 125, _c, _c, _c, _c, false);<br />
+    <br />
+    // 3<br />
+    _c = #449999;<br />
+    gpu_set_depth(2000);<br />
+    draw_circle_color(125, 125, 50, _c, _c, false);
+  </p>
+  <p><img class="center" src="../../../../assets/Images/Scripting_Reference/GML/Reference/Drawing/Depth_Test_Steps.png" />In the first step the background is cleared to a grey colour and the depth buffer is cleared to 1, which corresponds to zfar. In the second step the depth is set to 1000 (note that this is the GM depth and not the 0-1 buffer depth), written to the depth buffer as <span class="inline2">0.5 + 1000/32000</span> = <span class="inline2">0.53125</span>, which is in front of (i.e. <em>less than</em>) zfar (at 1).</p>
+  <p>As a result, the depth test (set to <span class="inline2"><span data-keyref="Const_ZFunc_Default">cmpfunc_lessequal</span></span>) passes for all pixels covered by the rectangle and it is fully drawn. Since z-writing is enabled, the depth value for those pixels is replaced with the new value <span class="inline2">0.53125</span>. In the third step the depth is set to 2000, written to the depth buffer as <span class="inline2">0.5 + 2000/32000</span> = <span class="inline2">0.5625</span>, and a circle is drawn at that depth. There are now two possible situations for the depth test:</p>
+  <ul class="colour">
+    <li>the comparison of the depth of the pixels of the circle that don&#39;t overlap with the rectangle to zfar (in light blue)</li>
+    <li>the comparison of the depth of the pixels of the circle that do overlap with the rectangle (in white)</li>
+  </ul>
+  <p>The light blue pixels are drawn since their depth is less than the maximum depth at zfar. Since z-writing is enabled, the depth value for those pixels is replaced with the new value <span class="inline2">0.5625</span>. The pixels shown in white, however, aren&#39;t drawn as the depth value of <span class="inline2">0.5625</span> is greater than <span class="inline2">0.53125</span>, not less than or equal to <span class="inline2">0.53125</span> (<span class="inline2"><span data-keyref="Const_ZFunc_Default">cmpfunc_lessequal</span></span>). The depth values for those pixels remain unchanged, i.e. remain at <span class="inline2">0.53125</span>.</p>
+  <p>Using the depth test allows you to draw things in a random order, while still making sure that objects are sorted correctly according to their distance from the viewpoint that you&#39;re looking from.</p>
+  <p class="note"><span data-conref="../../../../assets/snippets/Tag_important.hts"> </span> If your game is 2D and relies only on the drawing order of the layers as you defined them in <a data-xref="{title}" href="../../../../The_Asset_Editors/Rooms.htm">The Room Editor</a> (or the <a href="../../Asset_Management/Instances/Instance_Variables/depth.htm">depth order</a> of your instances), then you don&#39;t need to enable the depth test. The depth buffer itself can be disabled as well in this case using <span class="inline3_func"><a data-xref="{title}" href="../Surfaces/surface_depth_disable.htm">surface_depth_disable</a></span>.</p>
+  <h3>Using the Depth Buffer</h3>
+  <p>The following gives a general overview on how to use the depth buffer and the depth test: </p>
+  <ul class="colour">
+    <li>Enable depth testing with <span class="inline3_func"><a data-xref="{title}" href="../GPU_Control/gpu_set_ztestenable.htm">gpu_set_ztestenable</a></span>. Possibly also restore other GPU settings to their default values (commented out) in case you changed them (e.g. the default z-test comparison function): 
+      <p class="code">// surface_depth_disable(false);<br />
+        // gpu_set_zwriteenable(true);<br />
+        gpu_set_ztestenable(true);<br />
+        // gpu_set_zfunc(<span data-keyref="Const_ZFunc_Default">cmpfunc_lessequal</span>);</p>
+    </li>
+    <li>Clear the depth buffer to a value of 1 using <span class="inline3_func"><a data-xref="{title}" href="../draw_clear_depth.htm">draw_clear_depth</a></span>. 1 is the maximum depth value and corresponds to zfar, so that any object that&#39;s closer than zfar will always pass the <span class="inline2"><span data-keyref="Const_ZFunc_Default">cmpfunc_lessequal</span></span> test.
+      <p class="code">draw_clear_depth(1);</p>
+    </li>
+    <li>Draw sprites, text, particles, 3D models, etc. Note that if you draw to the <span class="inline2"><a data-xref="{title}" href="../Surfaces/application_surface.htm">application_surface</a></span>, the depth used is the depth of the layer that a visual element is on (<span class="inline3_func"><a data-xref="{title}" href="../../Asset_Management/Rooms/General_Layer_Functions/layer_get_depth.htm">layer_get_depth</a></span>), the instance&#39;s <span class="inline2"><a data-xref="{title}" href="../../Asset_Management/Instances/Instance_Variables/depth.htm">depth</a></span> or the depth value that you set manually using <span class="inline3_func"><a data-xref="{title}" href="../GPU_Control/gpu_set_depth.htm">gpu_set_depth</a></span>.</li>
+    <li>Optionally use the depth buffer in a subsequent draw pass, e.g. by passing the surface which it belongs to as the second parameter to <span class="inline3_func"><a data-xref="{title}" href="../Surfaces/surface_set_target.htm">surface_set_target</a></span> or by using the depth buffer&#39;s texture in a shader to sample the depth values. The depth buffer&#39;s texture can be retrieved with <span class="inline3_func"><a data-xref="{title}" href="../Surfaces/surface_get_texture_depth.htm">surface_get_texture_depth</a></span>. The depth values are stored in the red colour channel.</li>
+    <li>Copy the contents of the depth buffer to a regular buffer with <span class="inline3_func"><a data-xref="{title}" href="../../Buffers/buffer_get_surface_depth.htm">buffer_get_surface_depth</a></span> or update the contents of the depth buffer with data stored in a regular buffer with <span class="inline3_func"><a data-xref="{title}" href="../../Buffers/buffer_set_surface_depth.htm">buffer_set_surface_depth</a></span>.</li>
+  </ul>
+  <h3>Perspective Projection</h3>
+  <p>When using a perspective projection (<span class="inline3_func"><a data-xref="{title}" href="../../Maths_And_Numbers/Matrix_Functions/matrix_build_projection_perspective.htm">matrix_build_projection_perspective</a></span> / <span class="inline3_func"><a data-xref="{title}" href="../../Maths_And_Numbers/Matrix_Functions/matrix_build_projection_perspective_fov.htm">matrix_build_projection_perspective_fov</a></span>) the values stored in the depth buffer are not linear and the conversion formula for an orthographic projection cannot be used.</p>
+  <p>The following function can be used in the fragment shader to convert non-linear depth values to linear ones: </p>
+  <div data-conref="../../../../assets/snippets/Code_Snippet_Shader_Linearize_Depth.hts"> </div>
+  <p>The ratio of the projection&#39;s <span class="inline2">zfar / znear</span> should be passed to the shader as a uniform variable and then passed to the function.</p>
+  <p>See the code example on the <span class="inline3_func"><a data-xref="{title}" href="../Surfaces/surface_get_texture_depth.htm">surface_get_texture_depth</a></span> function page for a complete example.</p>
+  <h2>The Stencil Buffer</h2>
+  <p>The stencil buffer, like the depth buffer, is a graphics buffer stored in video memory, created with the same dimensions as the surface it&#39;s created for. It stores an 8-bit integer stencil value for every pixel of a render target, allowing for 256 possible values, ranging from 0 to 255.</p>
+  <p><img class="center" height="640" src="../../../../assets/Images/Scripting_Reference/GML/Reference/Drawing/Stencil_Buffer_Detail.png" width="780" /></p>
+  <p>In the image above, a red rectangle (not filled) is drawn with a stencil reference value of 4. The sprite you see is then drawn using a value of 2. 2 is greater than 0 but less than 4, so the sprite&#39;s pixels that overlap the red rectangle are discarded.</p>
+  <h3>The Stencil Test</h3>
+  <p>Like the depth test, the stencil test is performed on every pixel that&#39;s drawn to a surface. It&#39;s disabled by default and can be enabled with <span class="inline3_func"><a data-xref="{title}" href="../GPU_Control/gpu_set_stencil_enable.htm">gpu_set_stencil_enable</a></span>. The comparison is one of the values under the <span data-keyref="Type_Constant_Draw_ZComparison"><a href="../GPU_Control/gpu_get_zfunc.htm" target="_blank">Comparison Function Constant</a></span>. The test itself compares a stencil reference value to the current value in the stencil buffer: </p>
+  <p class="code"><span data-keyref="Const_Stencil_Equation">ref cmp_func stencil</span></p>
+  <p class="note"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> Both sides of the comparison are binary AND-ed <span class="inline2">&amp;</span> with a read bitmask, which defaults to all ones (<span class="inline2">0b11111111</span>). You can set this mask, if needed, using <span class="inline3_func"><a data-xref="{title}" href="../GPU_Control/gpu_set_stencil_read_mask.htm">gpu_set_stencil_read_mask</a></span>. The comparison then changes to: <span class="inline2"><span data-keyref="Const_Stencil_Equation_Masks">(ref &amp; read_mask) cmp_func (stencil &amp; read_mask)</span></span>.</p>
+  <p>The stencil test is more flexible than the depth test as it allows you to set the operation to perform when the test passes and when it fails. This operation is set using <span class="inline3_func"><a data-xref="{title}" href="../GPU_Control/gpu_set_stencil_pass.htm">gpu_set_stencil_pass</a></span> and <span class="inline3_func"><a data-xref="{title}" href="../GPU_Control/gpu_set_stencil_fail.htm">gpu_set_stencil_fail</a></span> respectively, to one of the following constants:</p>
+  <div data-conref="../../../../assets/snippets/Table_Stencil_Op_Constants.hts"> </div>
+  <p class="note"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> You can also set the operation to perform in case the stencil test passes but the depth test fails using <span class="inline3_func"><a data-xref="{title}" href="../GPU_Control/gpu_set_stencil_depth_fail.htm">gpu_set_stencil_depth_fail</a></span>.</p>
+  <h3>Using the Stencil Buffer</h3>
+  <p>The following is an overview of how to use the stencil buffer: </p>
+  <ul class="colour">
+    <li>Enable the stencil test using <span class="inline3_func"><a data-xref="{title}" href="../GPU_Control/gpu_set_stencil_enable.htm">gpu_set_stencil_enable</a></span>, set the stencil comparison function using <span class="inline3_func"><a data-xref="{title}" href="../GPU_Control/gpu_set_stencil_func.htm">gpu_set_stencil_func</a></span> (default <span class="inline2"><span data-keyref="Const_Stencil_Func_Default">cmpfunc_always</span></span>) and set the pass and fail operations using <span class="inline3_func"><a data-xref="{title}" href="../GPU_Control/gpu_set_stencil_pass.htm">gpu_set_stencil_pass</a></span> and <span class="inline3_func"><a data-xref="{title}" href="../GPU_Control/gpu_set_stencil_fail.htm">gpu_set_stencil_fail</a></span>. By default, both operations are set to <span class="inline2"><span data-keyref="Const_Stencil_Op_Default">stencilop_keep</span></span>.</li>
+    <li>Clear the stencil buffer to a certain value using <span class="inline3_func"><a data-xref="{title}" href="../draw_clear_stencil.htm">draw_clear_stencil</a></span>.</li>
+    <li>Draw to the surface. Before drawing, you can change the stencil reference value to use with <span class="inline3_func"><a data-xref="{title}" href="../GPU_Control/gpu_set_stencil_ref.htm">gpu_set_stencil_ref</a></span>. For example, to draw a rectangle of 50x50 pixels using a reference value of 10: 
+      <p class="code">gpu_set_stencil_ref(10);<br />
+        draw_rectangle(0, 0, 49, 49, false);</p>
+    </li>
+  </ul>
+  <h2>Functions</h2>
+  <p>The following functions can be used to clear the depth and stencil buffers: </p>
+  <ul class="colour">
+    <li><a data-xref="{title}" href="../draw_clear_depth.htm">draw_clear_depth</a></li>
+    <li><a data-xref="{title}" href="../draw_clear_stencil.htm">draw_clear_stencil</a></li>
+    <li><a data-xref="{title}" href="../draw_clear_ext.htm">draw_clear_ext</a></li>
+  </ul>
+  <p>Other functions for setting/getting values related to the depth/stencil buffers are listed on <a data-xref="{title}" href="../GPU_Control/GPU_Control.htm">GPU Control</a>.</p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div>Back: <a data-xref="{title}" href="../Drawing.htm">Drawing</a></div>
+        <div>Next: <a data-xref="{title}" href="../Colour_And_Alpha/Colour_And_Alpha.htm">Colour And Alpha</a></div>
+      </div>
+    </div>
+    <h5><span data-conref="../../../../assets/snippets/Copyright_Notice_AutoUpdate.hts"> </span></h5>
+  </div>
+</body>
+</html>
