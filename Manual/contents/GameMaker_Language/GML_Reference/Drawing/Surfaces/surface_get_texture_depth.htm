@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>surface_get_texture_depth</title>
+  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <link rel="stylesheet" type="text/css" href="../../../../assets/css/default.css" />
+  <script src="../../../../assets/scripts/main_script.js" type="module"></script>
+  <meta name="rh-authors" content="" />
+  <meta name="topic-comment" content="" />
+  <meta name="rh-index-keywords" content="" />
+  <meta name="search-keywords" content="" />
+  <meta name="template" content="assets/masterpages/Manual_Keyword_Page.htt" />
+</head>
+<body>
+  <h1><span data-field="title" data-format="default">surface_get_texture_depth</span></h1>
+  <p>This function returns the depth texture of the given surface or -1 if no depth texture exists.</p>
+  <p>The texture can then be passed to <span class="inline3_func"><a data-xref="{title}" href="../Textures/texture_set_stage.htm">texture_set_stage</a></span> for use in <a data-xref="{title}" href="../../Asset_Management/Shaders/Shaders.htm">Shaders</a>.</p>
+  <p>The depth value is stored in the red channel and can be accessed in a shader as follows: </p>
+  <p class="code">float depth = texture2D(depth_texture, v_vTexcoord).r;</p>
+  <p>When you write to the depth buffer with a <a href="../../Maths_And_Numbers/Matrix_Functions/matrix_build_projection_perspective.htm" title="matrix_build_projection_perspective()">perspective</a> <a href="../../Maths_And_Numbers/Matrix_Functions/matrix_build_projection_perspective_fov.htm" title="matrix_build_projection_perspective_fov()">projection</a> set, the depth values stored in the texture will not be linear and you need to convert the values to linear ones in a custom shader, using the following shader function: </p>
+  <div data-conref="../../../../assets/snippets/Code_Snippet_Shader_Linearize_Depth.hts"> </div>
+  <p>In the shader you can then use this function as follows: </p>
+  <p class="code_heading">Vertex Shader</p>
+  <p class="code">// Identical to passthrough vertex shader code</p>
+  <p class="code_heading">Fragment Shader</p>
+  <p class="code">precision highp float; // This might be required on some platforms!<br />
+    <br />
+    varying vec2 v_vTexcoord;<br />
+    <br />
+    uniform float u_fZParam;<br />
+    <br />
+    // Define the LinearizeDepth() function here<br />
+    // ...<br />
+    <br />
+    void main()<br />
+    {<br />
+        float depth = texture2D(gm_BaseTexture, v_vTexcoord).r;<br />
+        depth = LinearizeDepth(depth, u_fZParam);<br />
+        gl_FragColor = vec4(vec3(depth), 1.0);<br />
+    }
+  </p>
+  <p>In the code above the calculated depth value is assigned to all three colour channels (R, G and B) to output a greyscale image.</p>
+  <p> </p>
+  <h4>Syntax:</h4>
+  <p class="code"><span data-field="title" data-format="default">surface_get_texture_depth</span>(surface)</p>
+  <table>
+    <colgroup>
+      <col />
+      <col />
+      <col />
+    </colgroup>
+    <tbody>
+      <tr>
+        <th>Argument</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>surface</td>
+        <td><span data-keyref="Type_ID_Surface"><a href="surface_create.htm" target="_blank">Surface</a></span></td>
+        <td>The surface of which to get the depth texture</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>Returns:</h4>
+  <p class="code"><span data-keyref="Type_Pointer_Texture"><a href="../../Asset_Management/Sprites/Sprite_Information/sprite_get_texture.htm" target="_blank">Texture</a></span> (or -1 if no depth texture exists)</p>
+  <p> </p>
+  <h4>Example: Displaying a Depth Texture</h4>
+  <p class="code_heading">Create Event</p>
+  <p class="code">znear = 1;<br />
+    zfar = 15000;<br />
+    zparam = zfar / znear;<br />
+    u_zparam = shader_get_uniform(sh_display_depth, &quot;u_fZParam&quot;);<br />
+    <br />
+    view_enabled = true;<br />
+    view_visible[0] = true;<br />
+    camera_set_proj_mat(view_camera[0], matrix_build_projection_perspective_fov(-45, room_width/room_height, znear, zfar));<br />
+    camera_set_view_mat(view_camera[0], matrix_build_lookat(room_width/2, room_height/2, 0, room_width/2, room_height/2, 1, 0, -1, 0));
+  </p>
+  <p class="code_heading">Draw Event</p>
+  <p class="code">gpu_set_ztestenable(true);<br />
+    gpu_set_depth(1000);<br />
+    draw_rectangle(100, 100, 200, 200, false);<br />
+    gpu_set_depth(4000);<br />
+    draw_circle(150, 300, 50, false);<br />
+    gpu_set_depth(2000 + dsin(current_time * .1) * 1000);<br />
+    draw_triangle(50, 160, 350, 50, 170, 300, false);<br />
+    gpu_set_depth(14000 + dsin(current_time * .2) * 6000);<br />
+    draw_triangle(650, 500, 900, 700, 1200, 800, false);<br />
+    gpu_set_ztestenable(false);</p>
+  <p class="code_heading">Draw GUI Event</p>
+  <p class="code">var _texture = surface_get_texture_depth(application_surface);<br />
+    <br />
+    shader_set(sh_display_depth);<br />
+    shader_set_uniform_f(u_zparam, zparam);<br />
+    draw_primitive_begin_texture(pr_trianglestrip, _texture);<br />
+    draw_vertex_texture(room_width/2, 0, 0, 0);<br />
+    draw_vertex_texture(room_width, 0, 1, 0);<br />
+    draw_vertex_texture(room_width/2, room_height/2, 0, 1);<br />
+    draw_vertex_texture(room_width, room_height/2, 1, 1);<br />
+    draw_primitive_end();<br />
+    shader_reset();
+  </p>
+  <p>The above code shows an extended example on how to use the depth buffer with a perspective projection. A few shapes are drawn to the application surface, the application surface&#39;s depth texture is then retrieved and the depth texture drawn on top of the application surface.</p>
+  <p>In the Create event, the <span class="inline2">znear</span> and <span class="inline2">zfar</span> values of the perspective projection are initialised, as well as the ratio <span class="inline2">zfar / znear</span>. The shader uniform is also retrieved. After that, views are enabled and <span class="inline2">view[0]</span> is made visible. This view&#39;s camera is then assigned a projection and view matrix.</p>
+  <p>In the Draw event a few shapes are then drawn at various depth values. Depth testing is first enabled with a call to <span class="inline3_func"><a data-xref="{title}" href="../GPU_Control/gpu_set_ztestenable.htm">gpu_set_ztestenable</a></span>, then the shapes are drawn. Before each shape is drawn its depth is set with a call to the <span class="inline3_func"><a data-xref="{title}" href="../GPU_Control/gpu_set_depth.htm">gpu_set_depth</a></span> function. Drawing is done on the <span class="inline2"><a data-xref="{title}" href="application_surface.htm">application_surface</a></span>, since this is the draw target that <span data-keyref="GameMaker Name">GameMaker</span> uses by default. At the end of the Draw event, z-testing is disabled again.</p>
+  <p>Finally, in the Draw GUI event the depth texture of the <span class="inline2"><a data-xref="{title}" href="application_surface.htm">application_surface</a></span> is retrieved with a call to <span class="inline3_func"><span data-field="title" data-format="default">surface_get_texture_depth</span></span> and stored in a temporary variable <span class="inline2">_texture</span>. The depth texture is then drawn in the top-right corner of the window on top of the application surface. It is displayed on a textured primitive drawn using the <a data-xref="{text}" href="../Primitives/Primitives_And_Vertex_Formats.htm#h">Primitive Functions</a>, using a shader <span class="inline2">sh_display_depth</span> that uses the fragment shader code and the <span class="inline2">LinearizeDepth() </span>function provided on this page.</p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div>Back: <a data-xref="{title}" href="Surfaces.htm">Surfaces</a></div>
+        <div>Next: <a data-xref="{title}" href="surface_get_depth_disable.htm">surface_get_depth_disable</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+surface_get_texture_depth
+-->
+  <!-- TAGS
+surface_get_texture_depth
+-->
+</body>
+</html>
