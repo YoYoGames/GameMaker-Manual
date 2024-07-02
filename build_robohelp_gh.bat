@@ -23,7 +23,7 @@ if %LANGUAGE%==EN (
     ) else (
         set robohelpPreset="GMS2 Manual Responsive HTML5"
     )
-	goto finish_options
+		goto finish_options
 ) else if %LANGUAGE%==ES ( 
 	set robohelpPreset="GMS2 Manual Spanish"
 	goto finish_options
