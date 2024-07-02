@@ -17,7 +17,7 @@
   <h1><span data-field="title" data-format="default">Event Order</span></h1>
   <p>When considering Events in <span data-keyref="GameMaker Name">GameMaker</span>, it should be noted that <strong>the exact order that ALL the events are going to occur in each step cannot be clearly stated</strong>, simply because it depends on the internal workings of <span data-keyref="GameMaker Name">GameMaker</span> and this is subject to change as the software develops or based on the platform where the game is running. However there are certain events that will <em>always </em>run in the same order.</p>
   <h2 id="upon_entering_a_room">Upon Entering a Room</h2>
-  <p>The first set of events that will always happen the same way are those that occur when a room is first entered. The order that the different events will fire is: </p>
+  <p>The first set of events that will always happen the same way are those that occur when a room is first entered. The order that the different events will fire is:</p>
   <ul class="colour">
     <li>All instances are created one after the other, according to the room&#39;s <a data-xref="{text}" href="../Room_Properties/Room_Properties.htm#creation_order">Instance Creation Order</a>. More specifically, for every instance: 
       <ul>
@@ -56,10 +56,18 @@
       </ul>
     </li>
     <li><a href="../../GameMaker_Language/GML_Reference/Asset_Management/Instances/Instance_Variables/alarm.htm"><strong>Alarms</strong></a></li>
-    <li><strong>Step Event</strong> (note that the Step event is executed just before instances are put in their new positions, including when following a path)</li>
+    <li><strong>Step Event</strong></li>
+    <li>All instances are moved their new positions (based on their <span class="inline2"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Asset_Management/Instances/Instance_Variables/hspeed.htm">hspeed</a></span> and <span class="inline2"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Asset_Management/Instances/Instance_Variables/vspeed.htm">vspeed</a></span>), also when following a path</li>
+    <li>Collisions are checked
+      <ul>
+        <li>If  a collision is detected and one of the colliding instances is solid then both instances are moved back to their previous frame&#39;s position (if not solid they are left at their new positions) and their collision events are called.
+          <p class="note"><span data-conref="../../assets/snippets/Tag_note.hts"> </span> In <a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Movement_And_Collisions/Collisions/Collision_Compatibility_Mode.htm">Collision Compatibility Mode</a> the instances are moved back to their previous position before <em>and</em> after the Collision events instead.</p>
+        </li>
+      </ul>
+    </li>
     <li><strong>End Step Event</strong></li>
   </ul>
-  <p>After all Step events are complete, GameMaker executes the Draw events for all instances, in the same game step. Within a particular event (e.g. Draw End), the order in which instances run that event depends on the layer order, e.g. the layer with the highest depth has its instances drawn first, and the layer with the lowest depth is drawn last.</p>
+  <p>After all Step events are complete, <span data-keyref="GameMaker Name">GameMaker</span> executes the Draw events for all instances, in the same game step. Within a particular event (e.g. Draw End), the order in which instances run that event depends on the layer order, e.g. the layer with the highest depth has its instances drawn first, and the layer with the lowest depth is drawn last.</p>
   <p class="note"><span data-conref="../../assets/snippets/Tag_note.hts"> </span> The layer with the highest depth (which draws first) is displayed at the bottom of the Room Editor&#39;s <a href="../Room_Properties/Layer_Properties.htm">layer list</a>, while the lowest depth layer is at the top (as it is &quot;closer&quot; to the viewer).</p>
   <p>Each Draw event draws instances in this order (based on the <a href="../../GameMaker_Language/GML_Reference/Asset_Management/Instances/Instance_Variables/depth.htm">depth</a> value), and then moves on to the next event, repeating the same instance order (e.g. Draw Begin moving to Draw and then Draw End).</p>
   <p>This is the order of the Draw events:</p>
