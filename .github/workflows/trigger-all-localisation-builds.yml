@@ -9,6 +9,7 @@ on:
         type: choice
         options:
          - ALL
+         - SINGLE
       BUILD_TYPE:
         description: "Select individual language to build"
         required: true
@@ -51,7 +52,7 @@ jobs:
           token: ${{ secrets.GH_TOKEN }} 
         continue-on-error: false 
       - name: Invoke Localisation Workflows
-        if: ${{ github.event.inputs.COUNTRY }} == 'true'
+        if: ${{ github.event.inputs.COUNTRY }} == 'true' ||  ${{ github.event.inputs.Language }} == 'SINGLE'
         uses: benc-uk/workflow-dispatch@v1
         with:
           workflow: ${{ github.event.inputs.BUILD_TYPE }}.yml
