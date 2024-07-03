@@ -41,7 +41,7 @@ def yy_load(file):
     return json.loads(data_string)
 
 # Utility functions
-def get_combo_string(combo):
+def get_combo_string(combo, replace_in_names=[]):
     global mods
     if not combo:
         combo_string = ""
@@ -55,6 +55,10 @@ def get_combo_string(combo):
         else:
             # This is a regular hotkey
             combo_string = " + ".join([*modifier, combo['Keys']])
+        
+        if replace_in_names:
+            for item in replace_in_names:
+                combo_string = combo_string.replace(item[0], item[1])
     return combo_string
 
 # Default names
@@ -142,9 +146,13 @@ with open(fpath_win, 'r', encoding="utf-8") as f:
             for override in shortcut['PlatformOverrides']:
                 if override['Platform'] != 'MacOs':
                     continue
+
+                # Get this shortcut's Mac combo(s)
                 cbo = override['Combo']
                 combos = [cbo] if type(cbo) is not list else cbo
-                combo_strings = [get_combo_string(combo) for combo in combos]
+                combo_strings = [get_combo_string(combo, replace_in_names=[("Windows", "Command")]) for combo in combos]
+
+                # Assign to final output
                 shortcuts[name]['mac_combo'] = combo_strings
 
         # Store name of shortcut under all its locations
