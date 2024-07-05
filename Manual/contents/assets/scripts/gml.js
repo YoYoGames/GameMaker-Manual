@@ -308,6 +308,8 @@ export default function(hljs) {
     "flexpanel_node_style_set_max_width", 
     "flexpanel_node_style_set_min_height", 
     "flexpanel_node_style_set_max_height", 
+    "flexpanel_node_style_set_width", 
+    "flexpanel_node_style_set_height", 
     "abs",
     "achievement_available",
     "achievement_event",
