@@ -46,9 +46,9 @@
     <li><span class="inline2">horizontal</span>, <span class="inline2">vertical</span></li>
     <li><span class="inline2">position</span>, <span class="inline2">positionType</span></li>
   </ul>
-  <p>See <span class="inline3_func"><a data-xref="{title}" href="Function_Reference/flexpanel_create_node.htm">flexpanel_create_node</a></span> for an example on using these members in a struct or JSON string.</p>
+  <p>See <span class="inline3_func"><a data-xref="{title}" href="Function_Reference/flexpanel_create_node.htm">flexpanel_create_node</a></span> for examples on using these members in a struct or JSON string.</p>
   <p>The sections below describe what type of values you can pass for each property in the struct or JSON.</p>
-  <p>Each property also has GML functions for setting and getting that property for a node. However, the types of values that a setter function accepts may be different from the type of value you can give it in the struct/JSON. Ensure you read the page for the function you are trying to use for information on its argument types.</p>
+  <p class="note"><span data-conref="../../../assets/snippets/Tag_important.hts"> </span> Each property also has GML functions for setting and getting that property for a node. However, the types of values that a setter function accepts may be different from the type of value you can give it in the struct/JSON. Ensure you read the page for the function you are trying to use for information on its argument types.</p>
   <h2>Basic Properties</h2>
   <h3>Name</h3>
   <p class="note">Struct property: <span class="inline2">name</span><br />
@@ -58,7 +58,7 @@
   <p class="note">Struct property: <span class="inline2">data</span><br />
     Function: <span class="inline3_func"><a data-xref="{title}" href="Function_Reference/flexpanel_node_get_data.htm">flexpanel_node_get_data</a></span></p>
   <p>You can give a node a <span class="inline2">data</span> member which is a struct that can store any data you like. It does not affect the layouts and is for your own use.</p>
-  <p>When this member is not supplied, a node is created with an empty data struct, which can be retrieved at any time. The returned struct can be modified and it affects what is returned with future calls to the function (for the same node).</p>
+  <p>When this member is not supplied, a node is still created with an empty data struct, which can be retrieved at any time. The returned struct can be modified and it affects what is returned with future calls to the function for the same node.</p>
   <h3>Nodes</h3>
   <p class="note">Struct property: <span class="inline2">nodes</span><br />
     Functions: <span class="inline3_func"><a data-xref="{title}" href="Function_Reference/flexpanel_node_insert_child.htm">flexpanel_node_insert_child</a></span>, <span class="inline3_func"><a data-xref="{title}" href="Function_Reference/flexpanel_node_remove_child.htm">flexpanel_node_remove_child</a></span>, <span class="inline3_func"><a data-xref="{title}" href="Function_Reference/flexpanel_node_remove_all_children.htm">flexpanel_node_remove_all_children</a></span>, <span class="inline3_func"><a data-xref="{title}" href="Function_Reference/flexpanel_node_get_child.htm">flexpanel_node_get_child</a></span></p>
@@ -73,7 +73,7 @@
   <p>These properties define the width and height of the &quot;border box&quot; of the node, which is the collective size of the node&#39;s content, padding and border.</p>
   <p>Both width and height can take the following values:</p>
   <ul class="colour">
-    <li><span class="inline2">&quot;auto&quot;</span>: This is the default value. It calculates the width or height of the node based on its content.</li>
+    <li><span class="inline2">&quot;auto&quot;</span>: This is the default value. It calculates the width or height of the node based on its content (e.g. child nodes).</li>
     <li>A <span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span> value, e.g. <span class="inline2">64</span>: This defines a size in absolute pixels, however depending on other properties, this may or may not be the <a href="Function_Reference/flexpanel_node_layout_get_position.htm">final size</a> of the node.</li>
     <li>Percentage value as string, e.g. <span class="inline2">&quot;50%&quot;</span>: This defines the width or height as a percentage of its <a data-xref="{text}" href="Flex_Panels.htm#h">Containing Block</a>&#39;s width or height.</li>
   </ul>
@@ -91,16 +91,16 @@
     Functions: </p>
   <p>These properties define the distance between an edge of the node and the same edge of its parent&#39;s node, with positive values moving the node toward the centre, and negative values moving it away from the centre.</p>
   <p>For example, a <span class="inline2">left</span> value of <span class="inline2">20</span> will place the node&#39;s left edge 20 pixels to the right of the parent&#39;s left edge. A <span class="inline2">right</span> value of <span class="inline2">40</span> will move the node so its right edge is 40 pixels to the left of its parent&#39;s, without resizing the node.</p>
-  <p>These values also accepted percentages as strings.</p>
+  <p>These values also accept percentages as strings.</p>
   <p><span class="inline2">left</span> and <span class="inline2">top</span> will always take precedence over <span class="inline2">right</span> and <span class="inline2">bottom</span>, respectively. <span class="inline2">start</span> and <span class="inline2">end</span> change depending on the <a href="#direction">Layout Direction</a>.</p>
   <h3>Position Type</h3>
   <p class="note">Struct properties: <span class="inline2">position</span>, <span class="inline2">positionType</span><br />
     Functions: </p>
   <p>This defines the position type of the node. You can pass any one of the following strings:</p>
   <ul class="colour">
-    <li><span class="inline2">&quot;relative&quot;</span> (default): This node will participate in the flow of its parent container and will take up space in it. Inset positions will be relative to its position within the flow.</li>
-    <li><span class="inline2">&quot;absolute&quot;</span>: This node is removed from the flow of its parent and will not take up space. Inset positions will be relative to the <a data-xref="{text}" href="Flex_Panels.htm#h">Containing Block</a>.</li>
-    <li><span class="inline2">&quot;static&quot;</span>: The node will behave like relative except it will ignore insets and will not form a <a data-xref="{text}" href="Flex_Panels.htm#h">Containing Block</a>.</li>
+    <li><span class="inline2">&quot;relative&quot;</span> (default): This node will participate in the flow of its parent container and will take up space in it. Inset positions (<span class="inline2">left</span>, <span class="inline2">top</span>, etc.) will be relative to the node&#39;s position within the flow.</li>
+    <li><span class="inline2">&quot;absolute&quot;</span>: This node is removed from the flow of its parent and will not take up space. Inset positions will be relative to the <a data-xref="{text}" href="Flex_Panels.htm#h">Containing Block</a> which may not be its direct parent.</li>
+    <li><span class="inline2">&quot;static&quot;</span>: The node will behave like relative except it will ignore insets and will not form a <a data-xref="{text}" href="Flex_Panels.htm#h">Containing Block</a> for its children.</li>
   </ul>
   <h3>Margin</h3>
   <p class="note">Struct properties: <span class="inline2">margin</span>, <span class="inline2">marginLeft</span>, <span class="inline2">marginRight</span>, <span class="inline2">marginTop</span>, <span class="inline2">marginBottom</span>, <span class="inline2">marginStart</span>, <span class="inline2">marginEnd</span>, <span class="inline2">marginHorizontal</span>, <span class="inline2">marginVertical</span><br />
@@ -127,7 +127,7 @@
     <li><span class="inline2">&quot;ltr&quot;</span>: Flex panels are laid out from left to right. The <span class="inline2">start</span> inset refers to <span class="inline2">left</span> and <span class="inline2">end</span> refers to <span class="inline2">right</span>.</li>
     <li><span class="inline2">&quot;rtl&quot;</span>: Flex panels are laid out from right to left. The <span class="inline2">start</span> inset refers to <span class="inline2">right</span> and <span class="inline2">end</span> refers to <span class="inline2">left</span>.</li>
   </ul>
-  <p>This can be set for a layout tree when <a href="Function_Reference/flexpanel_calculate_layout.htm">calculating its layout</a>.</p>
+  <p>This can be set for an entire layout tree when <a href="Function_Reference/flexpanel_calculate_layout.htm">calculating its layout</a>.</p>
   <h3>Flex Direction</h3>
   <p class="note">Struct properties: <span class="inline2">flexDirection</span><br />
     Functions: </p>
@@ -139,10 +139,11 @@
     <li><span class="inline2">&quot;column-reverse&quot;</span>: Align children from bottom to top.</li>
     <li><span class="inline2">&quot;row-reverse&quot;</span>: Align children from right to left.</li>
   </ul>
+  <p>The <span class="inline2">justifyContent</span> property controls how child nodes are laid out on the main axis, and <span class="inline2">alignItems</span> controls how they are placed on the cross axis.</p>
   <h3>Flex Wrap</h3>
   <p class="note">Struct properties: <span class="inline2">flexWrap</span><br />
     Functions: </p>
-  <p>This controls what happens when children in the node have overflown on the main axis. By default, they will overflow or shrink depending on their properties.</p>
+  <p>This controls what happens when children in the container have overflown on the main axis. By default, they will overflow or shrink depending on their properties.</p>
   <p>You can choose from the following values:</p>
   <ul class="colour">
     <li><span class="inline2">&quot;no-wrap&quot;</span> (default): Default behaviour, no wrapping</li>
