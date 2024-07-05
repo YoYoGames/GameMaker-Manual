@@ -270,6 +270,7 @@ export default function(hljs) {
     "draw_clear_depth", 
     "draw_clear_stencil", 
     "draw_clear_ext", 
+    "flexpanel_node_get_struct", 
     "flexpanel_create_node", 
     "flexpanel_delete_node", 
     "flexpanel_node_insert_child", 
