@@ -16,7 +16,7 @@
 <body>
   <h1><span data-field="title" data-format="default">flexpanel_node_insert_child</span></h1>
   <p>This function inserts the node <span class="inline2">node</span> (second argument) into the node <span class="inline2">root</span> (first argument) as a child.</p>
-  <p>You must provide its index, which controls where the child is placed in the parent&#39;s heirarchy, which may then affect its layout position.</p>
+  <p>You must provide its index, which controls where the child is placed in the parent&#39;s heirarchy, which may then affect its layout position. The index must start at 0 and increase in increments for each added child (i.e. <span class="inline2">0</span>, then <span class="inline2">1</span>, then <span class="inline2">2</span>, and so on). Any other order is not accepted when adding children.</p>
   <p>You can use this index value to later retrieve the child node from the parent using <span class="inline3_func"><a data-xref="{title}" href="flexpanel_node_get_child.htm">flexpanel_node_get_child</a></span>.</p>
   <p> </p>
   <h4>Syntax:</h4>
@@ -55,10 +55,21 @@
   <p class="code"><span data-keyref="Type_Void">N/A</span></p>
   <p> </p>
   <h4>Example:</h4>
-  <p class="code">code_example () {<br />
-        <br />
-    }</p>
-  <p>Explain The Code Example Here</p>
+  <p class="code">n_root = flexpanel_create_node({<br />
+        left: 20, top: 20,<br />
+        width: 400, height: 600, flexDirection: &quot;column&quot;, padding: 20, gapRow: 10, alignItems: &quot;flex-end&quot;<br />
+    });<br />
+    <br />
+    var i = 0; repeat (6)<br />
+    {<br />
+        flexpanel_node_insert_child(n_root, flexpanel_create_node({<br />
+            width: &quot;70%&quot;, height: 100, flexShrink: 1,<br />
+        }), i);<br />
+        <br />
+        i++;<br />
+    }
+  </p>
+  <p>This creates a root node and then runs a <a data-xref="{title}" href="../../../GML_Overview/Language_Features/repeat.htm">repeat</a> loop to insert several child nodes into the root node.</p>
   <p> </p>
   <p> </p>
   <div class="footer">

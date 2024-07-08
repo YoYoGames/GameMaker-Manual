@@ -46,10 +46,31 @@
   <p class="code"><span data-keyref="Type_Struct"><a href="../../../GML_Overview/Structs.htm" target="_blank">Struct</a></span></p>
   <p> </p>
   <h4>Example:</h4>
-  <p class="code">code_example () {<br />
-        <br />
-    }</p>
-  <p>Explain The Code Example Here</p>
+  <p class="code">var _pos = flexpanel_node_layout_get_position(_node, false);<br />
+    var _data = flexpanel_node_get_data(_node);<br />
+    <br />
+    if (!struct_exists(_data, &quot;inst&quot;))<br />
+    {<br />
+        // Create instance<br />
+        var _inst = instance_create_depth(_pos.left, _pos.top, _depth, obj_ui_element,<br />
+        {<br />
+            name: _name,<br />
+            width: _pos.width,<br />
+            height: _pos.height<br />
+        });<br />
+        <br />
+        _data.inst = _inst;<br />
+    }<br />
+    else<br />
+    {<br />
+        var _inst = _data.inst;<br />
+        _inst.x = _pos.left;<br />
+        _inst.y = _pos.top;<br />
+        _inst.width = _pos.width;<br />
+        _inst.height = _pos.height;<br />
+    }
+  </p>
+  <p>This gets the positional data and data struct of the node <span class="inline2">_node</span>. Then it checks if it has an <span class="inline2">inst</span> variable. If not, it creates an instance and stores that in the data struct as <span class="inline2">inst</span>. If the variable already exists, it updates the instance stored in <span class="inline2">inst</span>.</p>
   <p> </p>
   <p> </p>
   <div class="footer">
