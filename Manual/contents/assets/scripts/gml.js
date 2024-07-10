@@ -335,6 +335,8 @@ export default function(hljs) {
     "flexpanel_node_style_get_max_height", 
     "flexpanel_node_style_get_width", 
     "flexpanel_node_style_get_height", 
+    "gpu_set_scissor", 
+    "gpu_get_scissor", 
     "abs",
     "achievement_available",
     "achievement_event",
