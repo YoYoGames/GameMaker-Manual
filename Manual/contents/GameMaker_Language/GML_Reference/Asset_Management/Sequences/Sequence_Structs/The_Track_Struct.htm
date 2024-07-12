@@ -15,7 +15,7 @@
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
   <h1><span data-field="title" data-format="default">The Track Struct</span></h1>
-  <p>The track struct can be used either for top-level <i></i><a class="glossterm" data-glossterm="asset track" href="#">asset track</a><span class="glossextra">s</span> or for sub-track <i></i><a class="glossterm" data-glossterm="parameter tracks" href="#">parameter tracks</a>, and the behaviour of the track is defined by two things, its <b>name</b> and its <b>type</b>. Track <a href="../../../../GML_Overview/Structs.htm">structs</a> are created using the function <a href="../sequence_track_new.htm"><span class="inline">sequence_track_new()</span></a> and can be retrieved from sequence assets using the <span class="inline">activeTracks</span> property from <a data-xref="{title}" href="The_Sequence_Instance_Struct.htm">The Sequence Instance Struct</a> or the <span class="inline">tracks</span> property from <a data-xref="{title}" href="The_Sequence_Object_Struct.htm">The Sequence Object Struct</a>.</p>
+  <p>The track struct can be used either for top-level <i></i><a class="glossterm" data-glossterm="asset track" href="#">asset track</a><span class="glossextra">s</span> or for sub-track <i></i><a class="glossterm" data-glossterm="parameter tracks" href="#">parameter tracks</a>, and the behaviour of the track is defined by two things, its <b>name</b> and its <b>type</b>. Track <a href="../../../../GML_Overview/Structs.htm">structs</a> are created using the function <span class="inline3_func"><a data-xref="{title}" href="../sequence_track_new.htm">sequence_track_new</a></span> and can be retrieved from sequence assets using the <span class="inline2">activeTracks</span> property of <a data-xref="{title}" href="The_Sequence_Instance_Struct.htm">The Sequence Instance Struct</a> or the <span class="inline2">tracks</span> property of <a data-xref="{title}" href="The_Sequence_Object_Struct.htm">The Sequence Object Struct</a>.</p>
   <p>The properties available in the track struct are:</p>
   <table>
     <colgroup>
@@ -50,12 +50,17 @@
       <tr>
         <td><span class="inline">visible</span></td>
         <td style=""><span data-keyref="Type_Bool"><a href="../../../../GML_Overview/Data_Types.htm" target="_blank">Boolean</a></span></td>
-        <td style="">This indicates whether this track is visible (the value is <span class="inline">true</span>) or not (the value is <span class="inline">false</span>). You can get or set this value and if a track not visible then none of its child tracks will be drawn either.</td>
+        <td style="">This indicates whether this track is visible (the value is <span class="inline2">true</span>) or not (the value is <span class="inline2">false</span>). You can get or set this value and if a track not visible then none of its child tracks will be drawn either.</td>
       </tr>
       <tr>
         <td><span class="inline">keyframes</span></td>
         <td style=""><span data-keyref="Type_Array"><a href="../../../../GML_Overview/Arrays.htm" target="_blank">Array</a></span> of <span data-keyref="Type_Struct_Sequence_Keyframe"><a href="The_Keyframe_Struct.htm" target="_blank">Sequence Keyframe Struct</a></span>s</td>
         <td style="">This property allows access to the list of <a href="The_Keyframe_Struct.htm">keyframe structs</a> for the track. When getting this property an array of keyframe structs is returned, and when setting this property an array of keyframe structs should be specified.</td>
+      </tr>
+      <tr>
+        <td><span class="inline">enabled</span></td>
+        <td style=""><span data-keyref="Type_Bool"><a href="../../../../GML_Overview/Data_Types.htm" target="_blank">Boolean</a></span></td>
+        <td style="">This indicates whether this track is enabled. If the<span> track is an asset track it isn&#39;t drawn, if it&#39;s a parameter track the track&#39;s values aren&#39;t applied.</span></td>
       </tr>
     </tbody>
   </table>
@@ -172,20 +177,20 @@
   <h2>Name</h2>
   <p>The <span class="inline">name</span> property can be any of the following strings:</p>
   <ul class="colour">
-    <li>&quot;<strong>position</strong>&quot; - when set on a track which is of type <span class="inline">seqtracktype_real</span> this indicates that the contents of this track should be used as positional data.</li>
-    <li>&quot;<strong>scale</strong>&quot; - when set on a track which is of type <span class="inline">seqtracktype_real</span> this indicates that the contents of this track should be used as scaling data.</li>
-    <li>&quot;<strong>rotation</strong>&quot; - when set on a track which is of type <span class="inline">seqtracktype_real</span> this indicates that the contents of this track should be used as rotation data.</li>
-    <li>&quot;<strong>blend_multiply</strong>&quot; or &quot;<strong>image_blend</strong>&quot; - when set on a track which is of type <span class="inline">seqtracktype_colour</span> this indicates that the contents of this track should be used as colour multiplication data. The keyframe data for such a track should be an array of four values with the format [A, R, G, B]. Note that the values for each component are expressed as between 0 and 1, where 0 corresponds to the HEX value #00 and 1 corresponds to the HEX value #FF (0 - 255 as shown in the colour picker for image blend tracks in <a data-xref="{title}" href="../../../../../The_Asset_Editors/Sequences.htm">The Sequence Editor</a>).</li>
-    <li>&quot;<strong>image_speed</strong>&quot; - when set on a track which is of type <span class="inline">seqtracktype_real</span> this indicates that the contents of this track should be used as the image speed value.</li>
-    <li>&quot;<strong>image_index</strong>&quot; - when set on a track which is of type <span class="inline">seqtracktype_real</span> this indicates that the contents of this track should be used as the image index value.</li>
-    <li>&quot;<strong>image_angle</strong>&quot; - when set on a track which is of type <span class="inline">seqtracktype_real</span> this indicates that the contents of this track should be used as the image angle value.</li>
+    <li>&quot;<strong>position</strong>&quot; - when set on a track which is of type <span class="inline2">seqtracktype_real</span> this indicates that the contents of this track should be used as positional data.</li>
+    <li>&quot;<strong>scale</strong>&quot; - when set on a track which is of type <span class="inline2">seqtracktype_real</span> this indicates that the contents of this track should be used as scaling data.</li>
+    <li>&quot;<strong>rotation</strong>&quot; - when set on a track which is of type <span class="inline2">seqtracktype_real</span> this indicates that the contents of this track should be used as rotation data.</li>
+    <li>&quot;<strong>blend_multiply</strong>&quot; or &quot;<strong>image_blend</strong>&quot; - when set on a track which is of type <span class="inline2">seqtracktype_colour</span> this indicates that the contents of this track should be used as colour multiplication data. The keyframe data for such a track should be an array of four values with the format [A, R, G, B]. Note that the values for each component are expressed as between 0 and 1, where 0 corresponds to the HEX value <span class="inline2">#00</span> and 1 corresponds to the HEX value <span class="inline2">#FF</span> (0 - 255 as shown in the colour picker for image blend tracks in <a data-xref="{title}" href="../../../../../The_Asset_Editors/Sequences.htm">The Sequence Editor</a>).</li>
+    <li>&quot;<strong>image_speed</strong>&quot; - when set on a track which is of type <span class="inline2">seqtracktype_real</span> this indicates that the contents of this track should be used as the image speed value.</li>
+    <li>&quot;<strong>image_index</strong>&quot; - when set on a track which is of type <span class="inline2">seqtracktype_real</span> this indicates that the contents of this track should be used as the image index value.</li>
+    <li>&quot;<strong>image_angle</strong>&quot; - when set on a track which is of type <span class="inline2">seqtracktype_real</span> this indicates that the contents of this track should be used as the image angle value.</li>
   </ul>
   <h3>Text Track parameter names (only used under Text tracks)</h3>
   <ul class="colour">
-    <li>&quot;<strong>frameSize</strong>&quot; - when set on a <span class="inline">seqtracktype_real</span> track, this indicates that the contents of this track should be used as the frame size for the text. Each keyframe for this track should have two channels, 0 and 1, where 0 stores the X size and 1 stores the Y size of the frame.</li>
-    <li>&quot;<strong>characterSpacing</strong>&quot; - also used with <span class="inline">seqtracktype_real</span> tracks, used as the character spacing for the text. Each keyframe for this track should have a single channel containing the spacing value.</li>
-    <li>&quot;<strong>lineSpacing</strong>&quot; - also used with <span class="inline">seqtracktype_real</span> tracks, used as the line spacing for the text. Each keyframe for this track should have a single channel containing the spacing value.</li>
-    <li>&quot;<strong>paragraphSpacing</strong>&quot; - also used with <span class="inline">seqtracktype_real</span> tracks, used as the paragraph spacing for the text. Each keyframe for this track should have a single channel containing the spacing value.</li>
+    <li>&quot;<strong>frameSize</strong>&quot; - when set on a <span class="inline2">seqtracktype_real</span> track, this indicates that the contents of this track should be used as the frame size for the text. Each keyframe for this track should have two channels, 0 and 1, where 0 stores the X size and 1 stores the Y size of the frame.</li>
+    <li>&quot;<strong>characterSpacing</strong>&quot; - also used with <span class="inline2">seqtracktype_real</span> tracks, used as the character spacing for the text. Each keyframe for this track should have a single channel containing the spacing value.</li>
+    <li>&quot;<strong>lineSpacing</strong>&quot; - also used with <span class="inline2">seqtracktype_real</span> tracks, used as the line spacing for the text. Each keyframe for this track should have a single channel containing the spacing value.</li>
+    <li>&quot;<strong>paragraphSpacing</strong>&quot; - also used with <span class="inline2">seqtracktype_real</span> tracks, used as the paragraph spacing for the text. Each keyframe for this track should have a single channel containing the spacing value.</li>
   </ul>
   <h3>Audio Effect Track parameter names</h3>
   <ul class="colour">
@@ -238,7 +243,7 @@
         <div style="float:right">Next: <a href="The_Keyframe_Struct.htm">The Keyframe Struct</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2023 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 The Track Struct
