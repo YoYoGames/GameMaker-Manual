@@ -14,14 +14,14 @@
 </head>
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
-  <h1>Android Extensions</h1>
+  <h1><span data-field="title" data-format="default">Android Extensions</span></h1>
   <p>To create an extension for Android you have to do it in two parts. The first part would be to add the extension itself, along with the required files, and the second is to create the functions and macros/constants that the extension requires.</p>
   <p>The functions and constants are added using <strong>placeholder </strong>files to group them together, so you&#39;d add a placeholder and then define the functions and macros as explained in the previous section. To add the rest of the files though you would need to first tick the <em>Android </em>check-box in the <b>Extra Platforms</b> section of the editor, which will open up the extension&#39;s Android Properties:</p>
   <p class="dropspot"><img alt="Android Editor" class="center" src="../../assets/Images/Asset_Editors/Editor_Extensions_Android.png" /></p>
   <p>Here you can give the following details:</p>
   <ul class="colour">
     <li class="dropspot"><strong>Class Name</strong>: Your extension can have multiple classes, with each class having its own functions and constants, so you should give it a name that reflects its purpose.</li>
-    <li class="dropspot"><strong>Android Permissions</strong>: Here you can add in any extra permissions that your extension requires. What these permissions are will depend entirely on the use that the extension has, and so you should <a href="https://developer.android.com/reference/android/Manifest.permission.html">check the documentation supplied by Google</a> for the Android platform, or, if you are using a third party SDK, the documentation that comes with the SDK. To add a new permission you need to click on the <img alt="Add Argument Icon" class="icon" height="18" src="../../assets/Images/Icons/Icon_AddArgument.png" width="18" /> button to add a placeholder permission, and then do a double <img alt="LMB Icon" class="icon" src="../../assets/Images/Icons/Icon_LMB.png" /> click on that to edit it to what is required. You can remove permissions using the <img alt="Remove Argument Icon" class="icon" src="../../assets/Images/Icons/Icon_RemoveArgument.png" /> button.</li>
+    <li class="dropspot"><strong>Android Permissions</strong>: Here you can add in any extra permissions that your extension requires. What these permissions are will depend entirely on the use that the extension has, and so you should <a href="https://developer.android.com/reference/android/Manifest.permission.html">check the documentation supplied by Google</a> for the Android platform, or, if you are using a third-party SDK, the documentation that comes with the SDK. To add a new permission you need to click on the <img alt="Add Argument Icon" class="icon" height="18" src="../../assets/Images/Icons/Icon_AddArgument.png" width="18" /> button to add a placeholder permission, and then do a double <img alt="LMB Icon" class="icon" src="../../assets/Images/Icons/Icon_LMB.png" /> click on that to edit it to what is required. You can remove permissions using the <img alt="Remove Argument Icon" class="icon" src="../../assets/Images/Icons/Icon_RemoveArgument.png" /> button.</li>
     <li class="dropspot"><b>Code Injection</b>: Here you can add any code to be injected (added) into your Android application when your game is built for testing or final release. Make sure to revise this (and your permissions) carefully before submitting any games to the store, as incorrect settings will cause your game to be failed for submission. See the section below for more information.</li>
   </ul>
   <h2 id="h">Code Injection</h2>
@@ -91,6 +91,28 @@
     </tbody>
   </table>
   <p class="note"><span class="note">NOTE</span> These paths are only for VM; for YYC, injected code will go into the <span class="inline">{RUNTIME}\yyc\</span> directory, where the paths may or may not be equivalent to those for VM.</p>
+  <h3>Escaping XML Characters</h3>
+  <p>All characters between the start and end tag are parsed as XML so any character that can be misinterpreted as an XML character needs to be escaped. You can do this: </p>
+  <ul class="colour">
+    <li>By converting special characters into their XML-escaped version, where needed (e.g. <span class="inline2">&lt;</span> becomes <span class="inline2">&amp;lt;</span>, <span class="inline2">&gt;</span> becomes <span class="inline2">&amp;gt;</span>, etc.)
+      <p class="code">//options.compilerArgs &amp;lt;&amp;lt; &quot;-Xlint:unchecked&quot;</p>
+    </li>
+    <li>By enclosing all text between the start and end tag within a CDATA section: 
+      <p class="code">&lt;YYAndroidGradleEnd&gt;<br />
+        &lt;![CDATA[<br />
+        <br />
+        // Add what you need without escaping characters<br />
+        //tasks.withType(JavaCompile) {<br />
+        //options.deprecation = true<br />
+        //options.verbose = true<br />
+        //options.compilerArgs &lt;&lt; &quot;-Xlint:unchecked&quot;<br />
+        //}<br />
+        <br />
+        ]]&gt;<br />
+        &lt;/YYAndroidGradleEnd&gt;
+      </p>
+    </li>
+  </ul>
   <h3 id="h1">Conditional Injection</h3>
   <p>You can inject code conditionally, depending on the value of one of the <a data-xref="{text}" href="../Extensions.htm#extension_options">Extension Options</a>.</p>
   <p>Inside a code injection group, use <span class="inline2">toInject</span> with the required option in <span class="inline2">condition</span>:</p>
