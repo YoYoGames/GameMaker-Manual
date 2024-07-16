@@ -270,6 +270,7 @@ export default function(hljs) {
     "draw_clear_depth", 
     "draw_clear_stencil", 
     "draw_clear_ext", 
+    "dbg_sprite_button", 
     "abs",
     "achievement_available",
     "achievement_event",
