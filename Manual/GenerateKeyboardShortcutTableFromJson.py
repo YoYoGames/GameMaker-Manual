@@ -1,13 +1,13 @@
-### Python script to generate copy-pasteable HTML tables from JSON files
+### Python script to generate copy-pasteable HTML tables from JSON file
 ###
-### Provide the full directory path to the .json files as the command line argument.
+### Provide the full directory path to the .json file as the command line argument.
 ### The output HTML file will also be placed there.
-### For example: CMD > python GenerateKeyboardShortcutTableFromJson.py "C:/Users/Dev/Documents/GitHub/ameMaker-Manual/Manual/" -name_as_desc -env beta -update_rh_vars
+### For example: CMD > python GenerateKeyboardShortcutTableFromJson.py "C:/Users/Dev/Documents/GitHub/GameMaker-Manual/Manual/" -name_as_desc -env beta
 ###
 ### You can provide a few optional arguments: 
 ### 
 ### -name_as_desc: Add this to write the hotkey's name as the description.
-### -env: Provide this, followed by the environment in which you want to look for the JSON files
+### -env: Provide this, followed by the environment in which you want to look for the JSON file
 ###       (one of: "dev", "lts", "beta", "prod")
 ###       Note: only works on Windows!
 ### -update_rh_vars: Add this to update the RoboHelp variables
@@ -41,7 +41,7 @@ def yy_load(file):
     return json.loads(data_string)
 
 # Utility functions
-def get_combo_string(combo):
+def get_combo_string(combo, replace_in_names=[]):
     global mods
     if not combo:
         combo_string = ""
@@ -55,11 +55,14 @@ def get_combo_string(combo):
         else:
             # This is a regular hotkey
             combo_string = " + ".join([*modifier, combo['Keys']])
+        
+        if replace_in_names:
+            for item in replace_in_names:
+                combo_string = combo_string.replace(item[0], item[1])
     return combo_string
 
 # Default names
-fname_win_hotkeys = "default_hotkeys.json"
-fname_mac_hotkeys = "mac_hotkeys.json"
+fname_hotkeys = "default_hotkeys.json"
 
 install_dirs = {
     "dev": "GameMaker-Dev",
@@ -98,10 +101,9 @@ if not os.path.isdir(in_dir) or not os.path.isdir(out_dir):
     exit()
 
 # Check if files exist
-fpath_win = in_dir + os.sep + fname_win_hotkeys
-fpath_mac = in_dir + os.sep + fname_mac_hotkeys
-if not os.path.isfile(fpath_win) or not os.path.isfile(fpath_mac):
-    print("ERROR - One or more files doesn't exist. Exiting...")
+fpath_win = in_dir + os.sep + fname_hotkeys
+if not os.path.isfile(fpath_win):
+    print("ERROR - Shortcuts file doesn't exist. Exiting...")
     exit()
 
 # Data structures
@@ -109,7 +111,7 @@ input = []                              # input from file
 shortcuts = dict()                      # maps shortcut name => shortcut data
 shortcuts_per_location = OrderedDict()  # stores shortcuts under locations
 
-# First read the Windows defaults file
+# Read the defaults file
 with open(fpath_win, 'r', encoding="utf-8") as f:
     # Load all the data
     # input = json.load(f)              # risk of errors if trailing commas are present
@@ -139,6 +141,20 @@ with open(fpath_win, 'r', encoding="utf-8") as f:
                     # "Localisation": combo['Localisation']
         }
 
+        # Store platform overrides, if there are any
+        if 'PlatformOverrides' in shortcut and shortcut['PlatformOverrides']:
+            for override in shortcut['PlatformOverrides']:
+                if override['Platform'] != 'MacOs':
+                    continue
+
+                # Get this shortcut's Mac combo(s)
+                cbo = override['Combo']
+                combos = [cbo] if type(cbo) is not list else cbo
+                combo_strings = [get_combo_string(combo, replace_in_names=[("Windows", "Command")]) for combo in combos]
+
+                # Assign to final output
+                shortcuts[name]['mac_combo'] = combo_strings
+
         # Store name of shortcut under all its locations
         loc = shortcut['Location']
         locations = [loc] if (type(loc) == str) else loc
@@ -150,28 +166,6 @@ with open(fpath_win, 'r', encoding="utf-8") as f:
             
             # Add the shortcut
             shortcuts_per_location[location][name] = name
-
-# Then add the combos in the macOS defaults file
-with open(fpath_mac, 'r') as f:
-    # Load all the data
-    input = yy_load(f)
-
-    # Add items under their respective locations
-    for shortcut in input:
-        # Get unique name
-        name = shortcut['Name']
-
-        # Nothing to do for unlisted shortcuts
-        if name not in shortcuts:
-            continue
-        
-        # Get this shortcut's combo(s)
-        cbo = shortcut['Combo']
-        combos = [cbo] if type(cbo) is not list else cbo
-        combo_strings = [get_combo_string(combo) for combo in combos]
-
-        # Just overwrite the macOS combo under the right name here
-        shortcuts[name]['mac_combo'] = combo_strings
 
 # Generate HTML
 html = ""

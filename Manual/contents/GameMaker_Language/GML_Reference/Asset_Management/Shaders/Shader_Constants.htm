@@ -3,8 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>Shader Uniforms</title>
-  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <title>Built-In Shader Constants</title>
+  <meta name="generator" content="Adobe RoboHelp 2022" />
   <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
   <script src="../../../../assets/scripts/main_script.js" type="module"></script>
   <meta name="rh-authors" content="Mark Alexander" />
@@ -14,10 +14,17 @@
 </head>
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
-  <h1>Shader Constants</h1>
-  <p>Apart from the shader functions and constants defined in the OpenGL ES Shading Language (GLSL ES) <a href="http://www.khronos.org/registry/gles/specs/2.0/GLSL_ES_Specification_1.0.17.pdf" target="_blank">Reference Pages</a>, there are also a number of shader uniforms available to you that are unique to <span data-keyref="GameMaker Name">GameMaker</span>.</p>
-  <p>The following display matrix constants can be used as array indices when using the shader array constant <span class="inline">gm_Matrices</span>:</p>
-  <table>
+  <h1><span data-field="title" data-format="default">Built-In Shader Constants</span></h1>
+  <p>Apart from the shader functions and constants defined in the OpenGL ES Shading Language (GLSL ES) <a href="https://registry.khronos.org/OpenGL/specs/es/2.0/GLSL_ES_Specification_1.00.pdf" target="_blank">Reference Pages</a>, there are also a number of built-in shader constants available to you that are unique to <span data-keyref="GameMaker Name">GameMaker</span>.</p>
+  <p>The names listed in the tables below refer to either:</p>
+  <ul class="colour">
+    <li><span class="inline2">#define</span>s, which are similar to <a data-xref="{text}" href="../../../GML_Overview/Variables/Constants.htm#h">Macros</a> in <span data-keyref="GML_Code">GML Code</span> and are written in <span class="inline2">UPPERCASE</span></li>
+    <li>Uniforms, which start with the <span class="inline2">gm_</span> prefix</li>
+  </ul>
+  <h2>Constants</h2>
+  <p>The following constants (i.e. <em>defines</em>) can be used as array indices when using the shader array uniform <span class="inline2">gm_Matrices</span>:</p>
+  <table style="caption-side: top">
+    <caption>Matrix Index Constant</caption>
     <tbody>
       <tr>
         <th>Constant</th>
@@ -25,27 +32,26 @@
       </tr>
       <tr>
         <td><span class="inline">MATRIX_VIEW</span></td>
-        <td>This array index constant holds the index to the current view matrix. The index returned would be used as an array value when calling the <span class="inline">gm_Matrices</span> constant within the shader code.</td>
+        <td>This array index constant holds the index to the current view matrix. The index returned would be used as an array value when accessing the built-in <span class="inline2">gm_Matrices</span> uniform within the shader code.</td>
       </tr>
       <tr>
         <td><span class="inline">MATRIX_PROJECTION</span></td>
-        <td>This array index constant holds the index to the current projection matrix. The index returned would be used as an array value when calling the <span class="inline">gm_Matrices</span> constant within the shader code.</td>
+        <td>This array index constant holds the index to the current projection matrix. The index returned would be used as an array value when accessing the built-in <span class="inline2">gm_Matrices</span> uniform within the shader code.</td>
       </tr>
       <tr>
         <td><span class="inline">MATRIX_WORLD</span></td>
-        <td>This array index constant holds the index to the current world matrix. This can be used for things like lighting if you have light information in world-space. The index returned would be used as an array value when calling the <span class="inline">gm_Matrices</span> constant within the shader code.</td>
+        <td>This array index constant holds the index to the current world matrix. This can be used for things like lighting if you have light information in world space. The index returned would be used as an array value when accessing the built-in <span class="inline2">gm_Matrices</span> uniform within the shader code.</td>
       </tr>
       <tr>
         <td><span class="inline">MATRIX_WORLD_VIEW</span></td>
-        <td>This array index constant holds the index to the result of the world and view matrices multiplied together. This is often used for things like fog. The index returned would be used as an array value when calling the <span class="inline">gm_Matrices</span> constant within the shader code.</td>
+        <td>This array index constant holds the index to the result of the world and view matrices multiplied together. This is often used for things like fog. The index returned would be used as an array value when accessing the built-in <span class="inline2">gm_Matrices</span> uniform within the shader code.</td>
       </tr>
       <tr>
         <td><span class="inline">MATRIX_WORLD_VIEW_PROJECTION</span></td>
-        <td>This array index constant holds the index to the result of the world, view and projection matrices multiplied together. This is the normal transformation matrix used for vertex positions. The index returned would be used as an array value when calling the <span class="inline">gm_Matrices</span> constant within the shader code.</td>
+        <td>This array index constant holds the index to the result of the world, view and projection matrices multiplied together. This is the normal transformation matrix used for vertex positions. The index returned would be used as an index into the <span class="inline2">gm_Matrices</span> uniform within the shader code.</td>
       </tr>
     </tbody>
   </table>
-  <p> </p>
   <p>The following constants are also available:</p>
   <table>
     <tbody>
@@ -54,92 +60,121 @@
         <th>Description</th>
       </tr>
       <tr>
-        <td><span class="inline">MATRIX_MAX</span></td>
+        <td><span class="inline">MATRICES_MAX</span></td>
         <td>The size of the matrix array (<span class="inline2">gm_Matrices</span>) in the vertex shader.</td>
       </tr>
       <tr>
         <td><span class="inline">MAX_VS_LIGHTS</span></td>
-        <td>The maximum number of point and directional lights available in the shader.</td>
+        <td>The maximum number of point and directional lights available in the vertex shader.</td>
       </tr>
     </tbody>
   </table>
-  <p> </p>
-  <p>The following pre-defined matrix uniforms and constants can be used in your shader to access <span data-keyref="GameMaker Name">GameMaker</span> specific values:</p>
+  <h2>Uniforms</h2>
   <table>
+    <colgroup>
+      <col />
+      <col />
+      <col />
+    </colgroup>
     <tbody>
       <tr>
-        <th>Constant</th>
+        <th>Uniform</th>
+        <th>Shader</th>
         <th>Description</th>
       </tr>
       <tr>
+        <th colspan="3">Common</th>
+      </tr>
+      <tr>
         <td><span class="inline">gm_Matrices[matrix]</span></td>
-        <td>This array constant returns a transform matrix and is one of the available pre-defined uniforms that <span data-keyref="GameMaker Name">GameMaker</span> creates for you to use within the shader code editor. The array index is chosen from one of the above listed constants.</td>
+        <td>Vertex Shader</td>
+        <td>This array uniform of mat4s stores the various transform matrices used by <span data-keyref="GameMaker Name">GameMaker</span> and is one of the available predefined uniforms that <span data-keyref="GameMaker Name">GameMaker</span> creates for you to use within the shader code editor. The array index is chosen from one of the matrix index constants listed above, e.g. <span class="inline2">gm_Matrices[MATRIX_WORLD_VIEW_PROJECTION]</span>. Its number of elements is <span class="inline2">MATRICES_MAX</span>.</td>
       </tr>
       <tr>
         <td><span class="inline">gm_BaseTexture</span></td>
-        <td>This is a 2D sampler constant that returns the texture of the current object, as set by <span data-keyref="GameMaker Name">GameMaker</span>. So it would be the current sprite, surface or texture that would normally be used when drawing without the shader being called.</td>
+        <td>Fragment Shader</td>
+        <td>This is a 2D sampler uniform that holds the texture of that which <span data-keyref="GameMaker Name">GameMaker</span> is currently drawing. So it would be the (full) texture page the current sprite is on, the texture of the surface being drawn or the texture passed as the texture to <span class="inline3_func"><a data-xref="{title}" href="../../Drawing/Primitives/vertex_submit.htm">vertex_submit</a></span> in case you&#39;re submitting a custom vertex buffer.</td>
+      </tr>
+      <tr>
+        <th colspan="3">Lighting</th>
       </tr>
       <tr>
         <td><span class="inline">gm_LightingEnabled</span></td>
-        <td>This can be used to get or set the <span data-keyref="GameMaker Name">GameMaker</span> lighting when using 3D.</td>
+        <td>Vertex Shader</td>
+        <td>This boolean uniform holds whether lighting is enabled, i.e. the value set with <span class="inline3_func"><a data-xref="{title}" href="../../Drawing/Lighting/draw_light_enable.htm">draw_light_enable</a></span> and returned by <span class="inline3_func"><a data-xref="{title}" href="../../Drawing/Lighting/draw_get_lighting.htm">draw_get_lighting</a></span>.</td>
       </tr>
       <tr>
         <td><span class="inline">gm_Lights_Direction[]</span></td>
-        <td>This is an array of vec4s, each vec4 contains a light&#39;s normalised direction vector (X, Y, Z) and a fourth dimension (W) which is 1 when the light is enabled, and 0 when disabled</td>
+        <td>Vertex Shader</td>
+        <td>This is an array uniform of vec4s, where each vec4 contains a light&#39;s normalised direction vector (X, Y, Z) and a fourth dimension (W) which is 1 when the light is enabled, and 0 when disabled. Light properties can be set using <span class="inline3_func"><a data-xref="{title}" href="../../Drawing/Lighting/draw_light_define_direction.htm">draw_light_define_direction</a></span>.</td>
       </tr>
       <tr>
         <td><span class="inline">gm_Lights_PosRange[]</span></td>
-        <td>This is an array of vec4s, each vec4 contains a light&#39;s position (X, Y, Z) and a fourth dimension (W) which is the light&#39;s range, which is 0 when that light is disabled</td>
+        <td>Vertex Shader</td>
+        <td>This is an array uniform of vec4s, where each vec4 contains a light&#39;s position (X, Y, Z) and a fourth dimension (W) which is the light&#39;s range, which is 0 when that light is disabled. Light properties can be set using <span class="inline3_func"><a data-xref="{title}" href="../../Drawing/Lighting/draw_light_define_point.htm">draw_light_define_point</a></span>.</td>
       </tr>
       <tr>
-        <td><span class="inline">gm_Lights_Colour</span></td>
-        <td>This is an array of vec4s, each vec4 contains a light&#39;s colour (R, G, B), with the alpha channel (A) always being 1</td>
+        <td><span class="inline">gm_Lights_Colour[]</span></td>
+        <td>Vertex Shader</td>
+        <td>This is an array uniform of vec4s, where each vec4 contains a light&#39;s colour (R, G, B), with the alpha channel (A) always being 1.</td>
       </tr>
       <tr>
         <td><span class="inline">gm_AmbientColour</span></td>
-        <td>This is a vec4 containing the colour of the ambient light as set in <a href="../../Drawing/Lighting/draw_light_define_ambient.htm"><span class="inline">draw_light_define_ambient()</span></a></td>
+        <td>Vertex Shader</td>
+        <td>This is a vec4 uniform containing the colour of the ambient light as set with <span class="inline3_func"><a data-xref="{title}" href="../../Drawing/Lighting/draw_light_define_ambient.htm">draw_light_define_ambient</a></span>.</td>
+      </tr>
+      <tr>
+        <th colspan="3">Fog</th>
       </tr>
       <tr>
         <td><span class="inline">gm_FogStart</span></td>
-        <td>This can be used to get the distance where polygons start to be blended with the fog colour.</td>
+        <td>Vertex Shader</td>
+        <td>This is the distance where polygons start to be blended with the fog colour.</td>
       </tr>
       <tr>
         <td><span class="inline">gm_RcpFogRange</span></td>
-        <td>This can be used to get the distance at which fog is maximal and nothing can be seen anymore.</td>
+        <td>Vertex Shader</td>
+        <td>This is the distance at which fog is maximal and nothing can be seen anymore.</td>
       </tr>
       <tr>
         <td><span class="inline">gm_PS_FogEnabled</span></td>
-        <td>This will return <span class="inline">true</span> or <span class="inline">false</span> if the GPU has pixel fog enabled or not.</td>
+        <td>Fragment Shader</td>
+        <td>This will hold <span class="inline2">true</span> or <span class="inline2">false</span>, depending on whether the GPU has pixel fog enabled or not.</td>
       </tr>
       <tr>
         <td><span class="inline">gm_FogColour</span></td>
+        <td>Fragment Shader</td>
         <td>This can be used to get the fog colour used by <span data-keyref="GameMaker Name">GameMaker</span>.</td>
       </tr>
       <tr>
         <td><span class="inline">gm_VS_FogEnabled</span></td>
-        <td>This will return <span class="inline">true</span> or <span class="inline">false</span> if the GPU has vertex fog enabled or not.</td>
+        <td>Vertex Shader</td>
+        <td>This will hold <span class="inline2">true</span> or <span class="inline2">false</span>, depending on whether the GPU has vertex fog enabled or not.</td>
+      </tr>
+      <tr>
+        <th colspan="3">Alpha Testing</th>
       </tr>
       <tr>
         <td><span class="inline">gm_AlphaTestEnabled</span></td>
-        <td>This can be used to get alpha testing in the shader. See <a href="../../Drawing/GPU_Control/gpu_set_alphatestenable.htm"><span class="inline">gpu_set_alphatestenable()</span></a> for more information on alpha testing.</td>
+        <td>Fragment Shader</td>
+        <td>This boolean uniform holds whether alpha testing is enabled. See <span class="inline3_func"><a data-xref="{title}" href="../../Drawing/GPU_Control/gpu_set_alphatestenable.htm">gpu_set_alphatestenable</a></span> for more information on alpha testing.</td>
       </tr>
       <tr>
         <td><span class="inline">gm_AlphaRefValue</span></td>
-        <td>This can be used to get the current alpha testing reference value. See <a href="../../Drawing/GPU_Control/gpu_set_alphatestref.htm"><span class="inline">gpu_set_alphatestref()</span></a> for more information on the alpha test reference.</td>
+        <td>Fragment Shader</td>
+        <td>This float uniform holds the current alpha testing reference value. See <span class="inline3_func"><a data-xref="{title}" href="../../Drawing/GPU_Control/gpu_set_alphatestref.htm">gpu_set_alphatestref</a></span> for more information on the alpha test reference.</td>
       </tr>
     </tbody>
   </table>
-  <p> </p>
-  <p> </p>
   <p> </p>
   <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a href="Shaders.htm">Shaders</a></div>
+        <div style="float:left">Back: <a data-xref="{title}" href="Shaders.htm">Shaders</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2022 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 Shader Constants
