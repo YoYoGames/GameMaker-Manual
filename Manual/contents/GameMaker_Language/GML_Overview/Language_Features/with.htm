@@ -14,7 +14,9 @@
 </head>
 <body>
   <h1><span data-field="title" data-format="default">with</span></h1>
-  <p>As indicated in the section <a href="../Addressing_Variables_In_Other_Instances.htm">Addressing Variables in Other Instances</a>, it is possible to read and change the value of variables in instances and <a href="../Structs.htm">structs</a> other than the one currently executing any given code. However, in a number of cases you want to do a lot more than just change a single variable within those other instances, and may want to perform more complex code actions that require multiple functions and lines of code. For example, imagine that you want to move all the instances of a ball object in your game 8 pixels down. You may think that this is achieved simply by the following piece of code:</p>
+  <p>As indicated in the section <a href="../Addressing_Variables_In_Other_Instances.htm">Addressing Variables in Other Instances</a>, it is possible to read and change the value of variables in instances and <a href="../Structs.htm">structs</a> other than the one currently executing any given code.</p>
+  <p>However, in a number of cases you want to do a lot more than just change a single variable within those other instances, and may want to perform more complex code actions that require multiple functions and lines of code, within the <em>context</em> of another instance or struct.</p>
+  <p>For example, imagine that you want to move all the instances of a ball object in your game 8 pixels down. You may think that this is achieved simply by the following piece of code:</p>
   <p class="code">obj_ball.y = obj_ball.y + 8;</p>
   <p>But this is not correct, as the right-hand side of the assignment gets the value of the y coordinate of the first ball and adds 8 to it. Next this new value is set as the y coordinate of <em>all </em>balls, so the result is that all balls get the same y coordinate, and even if you use the following:</p>
   <p class="code">obj_ball.y += 8;</p>
@@ -23,9 +25,9 @@
   <p>The <span class="inline2"><span data-field="title" data-format="default">with</span></span> statement takes the form:</p>
   <p class="code"><span data-field="title" data-format="default">with</span> (&lt;expression&gt;)<br />
     {<br />
-    &lt;statement&gt;;<br />
-    &lt;statement&gt;;<br />
-    ...<br />
+        &lt;statement&gt;;<br />
+        &lt;statement&gt;;<br />
+        ...<br />
     }</p>
   <p>The <a class="glossterm" data-glossterm="expression" href="#">expression</a> can take a number of different inputs:</p>
   <ul class="colour">
@@ -47,11 +49,18 @@
         speed = 1 + random(2);<br />
         direction = random(360);<br />
     }</p>
-  <p> </p>
-  <div data-conref="../../../assets/snippets/Instance_creation_order_warning.hts"> </div>
-  <p> </p>
+  <div>
+    <p class="note"><span class="note">NOTE</span> Instances in a room are created in a certain <a href="/Users/gurpreetsingh/GameMaker-Manual/Manual/contents/The_Asset_Editors/Room_Properties/Room_Properties.htm#creation_order">order</a>, and their Create events are also executed as they are created one-by-one. This means that you must be careful when running a <span class="inline2">with()</span> statement on a different instance that has not been created yet, as that will cause the statement to not execute as expected.<br />
+      <br />
+      For example: let&#39;s say <strong>ObjectA</strong> is created before <strong>ObjectB</strong>, and you have the following code in <strong>ObjectA</strong>&#39;s Create event:<br />
+      <br />
+      <span class="inline2">with (ObjectB) myValue = 10;</span><br />
+      <br />
+      <strong>ObjectA</strong> is created first and its Create event runs, where you would expect it to set the value in <strong>ObjectB</strong>. However you will instead find that nothing happens. This is because no instances of ObjectB have been created yet, so the <span class="inline2">with()</span> statement does not execute at all.
+    </p>
+  </div>
   <h2 id="with_as_a_loop">With as a Loop</h2>
-  <p>The <span class="inline2"><span data-field="title" data-format="default">with</span></span> statement essentially performs a loop. Depending on the result of the expression, the statements inside the curly brackets <span class="inline2">{&nbsp;}</span> will either be not executed at all, executed a single time or multiple times:</p>
+  <p>The <span class="inline2"><span data-field="title" data-format="default">with</span></span> statement essentially performs a loop. Depending on the result of the expression, the statements inside the curly brackets <span class="inline2">{ }</span> will either be not executed at all, executed a single time or multiple times:</p>
   <ul class="colour">
     <li>When <span class="inline2">with</span> receives <span class="inline2">noone</span>, it executes 0 times, i.e. it runs the code for &quot;no one&quot;.</li>
     <li>When it receives an <span data-keyref="Type_ID_Instance"><a href="../../GML_Reference/Asset_Management/Instances/Instance_Variables/id.htm" target="_blank">Object Instance</a></span>, a <span data-keyref="Type_Struct"><a href="../Structs.htm" target="_blank">Struct</a></span> or one of the keywords <span class="inline2">self</span>, <span class="inline2">other</span> or <span class="inline2">global</span>, it runs the code once, for the instance or struct being referenced.</li>
