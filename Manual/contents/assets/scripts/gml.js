@@ -337,6 +337,7 @@ export default function(hljs) {
     "flexpanel_node_style_get_height", 
     "gpu_set_scissor", 
     "gpu_get_scissor", 
+    "dbg_sprite_button", 
     "abs",
     "achievement_available",
     "achievement_event",
