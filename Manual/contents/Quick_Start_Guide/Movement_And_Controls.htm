@@ -4,7 +4,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>Movement And Controls</title>
-  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <meta name="generator" content="Adobe RoboHelp 2022" />
   <link rel="stylesheet" href="../assets/css/default.css" type="text/css" />
   <script src="../assets/scripts/main_script.js" type="module"></script>
   <meta name="rh-authors" content="Mark Alexander" />
@@ -113,35 +113,41 @@
   </div>
   <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop_down2" href="#">Gamepad Movement</a></p>
   <div class="droptext" data-targetname="drop_down2">
-    <p class="dropspot">We&#39;ve covered mouse movement and keyboard movement, so that means it&#39;s time to cover <strong>gamepad </strong>movement. Now, we won&#39;t be covering the d-pad, as really that works just like using the keyboard (simply change the keyboard functions in the above example for <a href="../GameMaker_Language/GML_Reference/Game_Input/GamePad_Input/gamepad_button_check.htm"><span class="inline">gamepad_button_check()</span></a> or <a href="../Drag_And_Drop/Drag_And_Drop_Reference/Gamepad/If_Gamepad_Button_Down.htm">If Gamepad button Down</a>), so in this example we&#39;ll look at using the analog stick for movement.</p>
-    <p class="dropspot">To start with, we need to detect the gamepad being used. Gamepads are given an ID value from 0 to 11, so we will use a &quot; <span class="inline">for</span>&quot; loop to detect the ID of any connected gamepads and store this ID value in a variable for future use. Since we only want to setect the first gamepad that is connected and not all of them, we will use the &quot; <span class="inline">break</span>&quot; command after we detect a gamepad so that the it &quot;breaks&quot; the loop (for example, if the first gamepad connected is ID 4, then the loop will only run 5 times, checking the ID values 0 - 4 and then breaking out of the loop when the gamepad is encountered). So, make (or open) an object, assign it a sprite, and then add a <strong>Create Event</strong> with the following:</p>
-    <p class="dropspot"><img alt="Getting Gamepad ID Using DnD" class="center" src="../assets/Images/QS_Guide/QS_MovementExample_DnD_3_1.png" /></p>
-    <p class="code">gamepad_id = -1;<br />
-      <br />
-      for (var i = 0; i &lt; 12; i += 1;)<br />
+    <p class="dropspot">We&#39;ve covered mouse movement and keyboard movement, so that means it&#39;s time to cover <strong>gamepad </strong>movement, particularly using the left analog stick for movement.</p>
+    <p class="dropspot">To start with, we need to detect all gamepads that are connected, which we will store in an <a href="../GameMaker_Language/GML_Overview/Arrays.htm">array</a> called <span class="inline2">gamepads</span>. Let&#39;s create it in the Create event first:</p>
+    <p class="dropspot"><img class="center" src="../assets/Images/QS_Guide/QS_MovementExample_3_1.png" /></p>
+    <p class="code">gamepads = [];</p>
+    <p class="dropspot">Now we can use the <a href="../The_Asset_Editors/Object_Properties/Async_Events/System.htm">Async System</a> event which runs when the game detects a connected gamepad (and also runs when a gamepad disconnects). We&#39;ll store all detected gamepads in the <span class="inline2">gamepads</span> array and also remove them as they are disconnected. Later, we will make use of whichever gamepad is the first one in the array.</p>
+    <p class="dropspot"><img class="center" src="../assets/Images/QS_Guide/QS_MovementExample_3_2.png" /></p>
+    <p class="code">if (async_load[? &quot;event_type&quot;] == &quot;gamepad discovered&quot;)<br />
       {<br />
-          if (gamepad_is_connected(i)) <br />
-          {<br />
-              gamepad_id = i;<br />
-              gamepad_set_axis_deadzone(gamepad_id, 0.2);<br />
-      <br />
-              break;<br />
-          }<br />
-      }
-    </p>
+          var _pad = async_load[? &quot;pad_index&quot;];<br />
+          gamepad_set_axis_deadzone(_pad, 0.2);<br />
+          array_push(gamepads, _pad);<br />
+      }<br />
+      else if (async_load[? &quot;event_type&quot;] == &quot;gamepad lost&quot;)<br />
+      {<br />
+          var _pad = async_load[? &quot;pad_index&quot;];<br />
+          var _index = array_get_index(gamepads, _pad);<br />
+          array_delete(gamepads, _index, 1);<br />
+      }</p>
+    <p class="dropspot">When a gamepad is discovered, it adds its index to the array, and when it&#39;s lost, its finds the gamepad index from the array and then deletes it.</p>
     <p class="dropspot">Notice that in the above code we set the <strong> <a class="glossterm" data-glossterm="deadzone" href="#">deadzone</a> </strong>for the gamepad. This is because analog sticks on different makes of gamepads will have different sensibility, and sometimes they can be so sensitive that if you don&#39;t set a deadzone then they can cause unwanted movement in your games. So we set the deadzone to a value like 0.2 to tell <span data-keyref="GameMaker Name">GameMaker</span> to ignore any gamepad stick values under that <a class="glossterm" data-glossterm="absolute" href="#">absolute</a> value.</p>
-    <p class="dropspot">To add the actual movement, we&#39;ll need a <strong>Step Event</strong>, so add that now and give it the following GML Visual or GML:</p>
-    <p class="dropspot"><img alt="Get Gamepad Input Using DnD" class="center" src="../assets/Images/QS_Guide/QS_MovementExample_DnD_3_2.png" /></p>
-    <p class="code">if (gamepad_id &gt; -1) <br />
+    <p class="dropspot">To add the actual movement, we&#39;ll need a <strong>Step Event</strong>, so add that now and give it the following GML Visual or GML code:</p>
+    <p class="dropspot"><img class="center" src="../assets/Images/QS_Guide/QS_MovementExample_3_3.png" /></p>
+    <p class="code">if (array_length(gamepads) &gt; 0)<br />
       {<br />
-          var _h = gamepad_axis_value(gamepad_id, gp_axislh);<br />
-          var _v = gamepad_axis_value(gamepad_id, gp_axislv);<br />
+          var _h = gamepad_axis_value(gamepads[0], gp_axislh);<br />
+          var _v = gamepad_axis_value(gamepads[0], gp_axislv);<br />
           x += _h * 4;<br />
           y += _v * 4;<br />
       }</p>
-    <p class="dropspot">Here we are checking the <em>left </em>stick for horizontal or vertical movement. The axis functions return a value between -1 and 1, so for the horizontal axis -1 is left, 0 is not moving and 1 is right, and for the vertical axis it&#39;s -1 for up, 0 for not moving and 1 for down. Note too that the values are <em>between </em>-1 and 1, so - for example - the horizontal axis could return a value of 0.5, meaning the stick is halfway between the &quot;rest&quot; position and fully pushed to the right. For that reason, we then multiply the value by 4 (you can multiply by any value really, depending on the speed you want the instance to move) - it means that the speed of the instance will vary depending on how much of a movement has been made on the stick axis.</p>
+    <p class="dropspot">Here we are checking if the <span class="inline2">gamepads</span> array has any elements, and if so we then check the <em>left </em>stick for horizontal or vertical movement on the first gamepad, i.e. <span class="inline2">gamepads[0]</span>.</p>
+    <p class="dropspot">The axis functions return a value between -1 and 1, so for the horizontal axis -1 is left, 0 is not moving and 1 is right, and for the vertical axis it&#39;s -1 for up, 0 for not moving and 1 for down.</p>
+    <p class="dropspot">Note too that the values are <em>between </em>-1 and 1, so - for example - the horizontal axis could return a value of 0.5, meaning the stick is halfway between the &quot;rest&quot; position and fully pushed to the right. For that reason, we then multiply the value by 4 (you can multiply by any value really, depending on the speed you want the instance to move) - it means that the speed of the instance will vary depending on how much of a movement has been made on the stick axis.</p>
     <p class="dropspot">Place an instance of this object in a room and pres the press <strong>Play </strong>button <strong> <img alt="Play Icon" class="icon" src="../assets/Images/Icons/Icon_PlayGame.png" /></strong>, then move around using the left stick of your connected gamepad. You should see something like this:</p>
     <p class="dropspot"><img alt="Animation Showing Gamepad Movement" class="center" src="../assets/Images/QS_Guide/QS_MovementExample_3_1.gif" /></p>
+    <p class="dropspot">You can check other buttons like the front facing buttons, shoulder butons and the D-Pad using <a href="../GameMaker_Language/GML_Reference/Game_Input/GamePad_Input/gamepad_button_check.htm"><span class="inline2">gamepad_button_check()</span></a> or <a href="../Drag_And_Drop/Drag_And_Drop_Reference/Gamepad/If_Gamepad_Button_Down.htm">If Gamepad Button Down</a>. There are more gamepad <a href="../GameMaker_Language/GML_Reference/Game_Input/GamePad_Input/Gamepad_Input.htm">functions</a> and <a href="../Drag_And_Drop/Drag_And_Drop_Reference/Gamepad/Gamepad_Actions.htm">actions</a> that you can use as well.</p>
     <p class="dropspot"> </p>
   </div>
   <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop_down3" href="#">Advanced 8-Way Movement</a></p>
@@ -196,7 +202,7 @@
         <div style="float:right">Next: <a data-xref="{title}" href="Summary.htm">Summary</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2022 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 Movement
