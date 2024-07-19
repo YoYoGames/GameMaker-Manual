@@ -51,7 +51,7 @@
   <p class="code">myseq.length = 120;<br />
     myseq.loopmode = seqplay_pingpong;</p>
   <ul class="colour">
-    <li>Before you can add tracks to the sequence object, you need to create them, so you&#39;d now create an array of <i>asset</i> tracks that have been defined with the function <span class="inline3_func"><a data-xref="{title}" href="sequence_track_new.htm">sequence_track_new</a></span>. Note that in code, there is really no difference between asset tracks and parameter tracks - they are all simply tracks and how they behave will depend on the type of track you create and whether they are assigned as sub-tracks to a top level track or not. So, you would create a track for an asset, and then assign sub-tracks for the different parameters to it and these sub-tracks would act as the <i>parameter</i> tracks for the asset. The example below creates a single graphic asset track that will be added to the sequence later:</li>
+    <li>Before you can add tracks to the sequence object, you need to create them, so you&#39;d now create an array of <i>asset</i> tracks that have been defined with the function <span class="inline3_func"><a data-xref="{title}" href="sequence_track_new.htm">sequence_track_new</a></span>. Note that in code, there is really no difference between asset tracks and parameter tracks - they are all simply tracks and how they behave will depend on the type of track you create and whether they are assigned as sub-tracks to a top level track or not. So, you would create a track for an asset, and then assign sub-tracks for the different parameters to it and these sub-tracks would act as the <i>parameter</i> tracks for the asset. The example below creates a single graphics asset track that will be added to the sequence later:</li>
   </ul>
   <p class="code">var mytracks = array_create(1);<br />
     mytracks[0] = sequence_track_new(seqtracktype_graphic);</p>
@@ -61,52 +61,43 @@
   <p class="code">// Create a new keyframe struct for a graphics asset track and add it to an array (as you can have multiple keys in a frame)<br />
     var graphickeys = array_create(1);<br />
     graphickeys[0] = sequence_keyframe_new(seqtracktype_graphic);<br />
-    <br />
-    // Set the graphics keyframe top level data for the keyframe position and length, etc...<br />
+    // Set the graphics keyframe top level data for the keyframe position and length, etc.<br />
     graphickeys[0].frame = 0;<br />
     graphickeys[0].length = 1;<br />
     graphickeys[0].stretch = true;<br />
     graphickeys[0].disabled = false;<br />
-    <br />
     // Create the channel data that will go into this keyframe (again an array, as each key can have multiple channels of keyframe data)<br />
     var graphickeydata = array_create(1);<br />
     graphickeydata[0] = sequence_keyframedata_new(seqtracktype_graphic);<br />
     graphickeydata[0].spriteIndex = spr_Platform;<br />
     graphickeydata[0].channel = 0;<br />
-    <br />
     // Add the keyframe data channels to the graphics track keyframe<br />
     graphickeys[0].channels = graphickeydata;<br />
-    <br />
     // Add the definied keyframes to the track<br />
     mytracks[0].name = &quot;TestGraphicTrack&quot;;<br />
-    mytracks[0].keyframes = graphickeys;
-  </p>
+    mytracks[0].keyframes = graphickeys;</p>
   <ul class="colour">
-    <li>We now need to create a parameter track which we&#39;ll assign as a sub-track to the graphics track we just created. This will be done in a similar way as shown above, only now we need to give the track a name that shows its purpose, in this case &quot;position&quot; as we&#39;ll be using this track to move the graphics track over the course of the sequence animation frames:</li>
+    <li>We now need to create a parameter track which we&#39;ll assign as a sub-track to the graphics track we just created. This will be done in a similar way as shown above, only now we need to give the track a name that shows its purpose, in this case &quot;position&quot; as we&#39;ll be using this track to move the graphics track track over the course of the sequence animation frames:</li>
   </ul>
   <p class="code">// Create a new parameter track struct for the position of the graphic<br />
     var paramtracks = array_create(1);<br />
     paramtracks[0] = sequence_track_new(seqtracktype_real);<br />
     paramtracks[0].name = &quot;position&quot;;<br />
     paramtracks[0].interpolation = seqinterpolation_lerp;<br />
-    <br />
     // Create the keyframe struct to hold the parameter channel data and set the frame position for the keyframe<br />
     var paramkeys = array_create(2);<br />
     paramkeys[0] = sequence_keyframe_new(seqtracktype_real);<br />
     paramkeys[0].frame = 0;<br />
     paramkeys[1] = sequence_keyframe_new(seqtracktype_real);<br />
     paramkeys[1].frame = 120;<br />
-    <br />
     // Create the keyframe data structs<br />
     var paramkeydata1 = array_create(2);<br />
     paramkeydata1[0] = sequence_keyframedata_new(seqtracktype_real);<br />
     paramkeydata1[0].channel = 0; // Channel 0 for a position track is the X position<br />
     paramkeydata1[0].value = 0;<br />
-    <br />
     paramkeydata1[1] = sequence_keyframedata_new(seqtracktype_real);<br />
     paramkeydata1[1].channel = 1; // Channel 1 for a position track is the Y position<br />
     paramkeydata1[1].value = 0;<br />
-    <br />
     var paramkeydata2 = array_create(2);<br />
     paramkeydata2[0] = sequence_keyframedata_new(seqtracktype_real);<br />
     paramkeydata2[0].channel = 0;<br />
@@ -114,14 +105,11 @@
     paramkeydata2[1] = sequence_keyframedata_new(seqtracktype_real);<br />
     paramkeydata2[1].channel = 1;<br />
     paramkeydata2[1].value = room_height;<br />
-    <br />
     // Assign the keyframe data structs to the channels for each key<br />
     paramkeys[0].channels = paramkeydata1;<br />
     paramkeys[1].channels = paramkeydata2;<br />
-    <br />
     // Assign the keys to the parameter track<br />
-    paramtracks[0].keyframes = paramkeys;
-  </p>
+    paramtracks[0].keyframes = paramkeys;</p>
   <ul class="colour">
     <li>With that done, the final thing to do is assign the parameter track as a sub-track to our main graphics asset track that we created at the beginning and then assign these tracks to the sequence which we can then create an instance of in the room:</li>
   </ul>
