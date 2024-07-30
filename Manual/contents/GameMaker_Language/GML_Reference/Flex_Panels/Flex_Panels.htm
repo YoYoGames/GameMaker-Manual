@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Flex Panels</title>
+  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <link rel="stylesheet" href="../../../assets/css/default.css" type="text/css" />
+  <script src="../../../assets/scripts/main_script.js" type="module"></script>
+  <meta name="rh-authors" content="" />
+  <meta name="topic-comment" content="" />
+  <meta name="rh-index-keywords" content="Flex_Panels" />
+  <meta name="search-keywords" content="Flex_Panels" />
+  <meta name="template" content="assets/masterpages/Manual_Page.htt" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1><span data-field="title" data-format="default">Flex Panels</span></h1>
+  <p>This section details the usage of the <span data-keyref="FlexPanel">Flex Panel</span> runtime functions, which help you create UI layouts by handling all the logical calculations concerning where UI boxes are placed and how they behave.</p>
+  <p>The <span data-keyref="FlexPanel">Flex Panel</span> functionality uses the <a href="http://yogalayout.dev">Yoga</a> library.</p>
+  <p>This section contains the following pages:</p>
+  <ul class="colour">
+    <li><a data-xref="{title}" href="Flex_Panels_Styling.htm">Flex Panel Struct Members</a></li>
+    <li><a data-xref="{title}" href="Function_Reference/section_index.htm">Flex Panel Functions</a></li>
+  </ul>
+  <h2>Overview</h2>
+  <p>You can use these functions to set up layouts consisting of <strong>nodes</strong>. Each node is a rectangular area and may contain other nodes, making a node a <strong>container</strong>.</p>
+  <p>By setting up nodes inside nodes (inside nodes...), you can create a layout tree. Each node can have properties that define how large it is, how it should be positioned in relation to the nodes in its container, how its own child nodes should behave, and so on.</p>
+  <p><img class="center" src="../../../assets/Images/Scripting_Reference/GML/Reference/Flex Panels/flexpanel_overview.png" />A layout tree can then be <a href="Function_Reference/flexpanel_calculate_layout.htm">calculated according to a given canvas size</a>, and the final positions and sizes of the nodes <a href="Function_Reference/flexpanel_node_layout_get_position.htm">can be used</a> anywhere you like (e.g. setting up your UI systems). There is no rendering or asset support in these functions and how you make use of this data is entirely up to you.</p>
+  <h2>How To Create Layouts</h2>
+  <p>Creating a layout is as simple as calling <span class="inline3_func"><a data-xref="{title}" href="Function_Reference/flexpanel_create_node.htm">flexpanel_create_node</a></span> and passing it a struct or a JSON string. That struct/JSON should define the properties of the root node and all nodes nested under the root node. The structure of that struct/JSON is <a href="Flex_Panels_Styling.htm">outlined on this page</a>.</p>
+  <div data-conref="../../../assets/snippets/Flex_Panel_example_create_node_with_struct.hts"> </div>
+  <p>You can specify as many options in that struct/JSON as you like, or you can call the function without passing a struct/JSON, which will create an empty node. You can later set properties on the node and insert/remove children by calling the <a data-xref="{title}" href="Function_Reference/section_index.htm">Flex Panel Functions</a>.</p>
+  <p>Each node has styling properties, which define its position, size and behaviour within its container. You can specify these styling properties in the struct/JSON that you pass while creating a node, which are all listed here: <a data-xref="{text}" href="Flex_Panels_Styling.htm#h20">Styling Properties</a>.</p>
+  <p>You can also set and get these styling properties after creating a node using the <a data-xref="{title}" href="Function_Reference/Styling_Functions/section_index.htm">Styling Functions</a>.</p>
+  <h2>Using Layout Data</h2>
+  <p>After you have set up your layout, you must call <span class="inline3_func"><a data-xref="{title}" href="Function_Reference/flexpanel_calculate_layout.htm">flexpanel_calculate_layout</a></span> with the dimensions where you intend to use the layout.</p>
+  <p>Then you can call <span class="inline3_func"><a data-xref="{title}" href="Function_Reference/flexpanel_node_layout_get_position.htm">flexpanel_node_layout_get_position</a></span> on the node you want information for, which will return a struct with its positional data.</p>
+  <p>You can use that positional data in any way you want, e.g. creating UI object instances for each node or drawing them as rectangles.</p>
+  <h2>Layout Examples</h2>
+  <p><img class="center" src="../../../assets/Images/Scripting_Reference/GML/Reference/Flex Panels/flexpanel_example1.png" />Open the section below to see the code used to generate both of the layouts shown above:</p>
+  <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down" href="#">Layout Code</a></p>
+  <div class="droptext" data-targetname="drop-down">
+    <p class="dropspot">This is the code used to generate the layout on the left:</p>
+    <p class="code">n_root = flexpanel_create_node({<br />
+          left: 20, top: 20,<br />
+          width: 800, height: 600, justifyContent: &quot;center&quot;, alignItems: &quot;center&quot;,<br />
+          nodes: [<br />
+              {<br />
+                  width: &quot;60%&quot;, height: &quot;60%&quot;,<br />
+                  nodes: [<br />
+                      {<br />
+                          width: 200, height: 200, right: 20, bottom: 20, position: &quot;absolute&quot;<br />
+                      }<br />
+                  ]<br />
+              }<br />
+          ]<br />
+      });</p>
+    <p class="dropspot">The first child is centred because of its parent&#39;s <a data-xref="{text}" href="Flex_Panels_Styling.htm#h13">Justify Content</a> and <a data-xref="{text}" href="Flex_Panels_Styling.htm#h1">Align Items</a> properties (which handle the main axis and cross axis alignment, respectively).</p>
+    <p class="dropspot">The second child has its <a data-xref="{text}" href="Flex_Panels_Styling.htm#h17">Position Type</a> set to <span class="inline2">&quot;absolute&quot;</span>, which allows it to be positioned along the bottom-right corner independently.</p>
+    <hr />
+    <p class="dropspot">This is the code used to generate the layout on the right:</p>
+    <p class="code">n_root = flexpanel_create_node({<br />
+          left: 20, top: 20,<br />
+          width: 400, height: 600, flexDirection: &quot;column&quot;, padding: 20, gapRow: 10, alignItems: &quot;flex-end&quot;<br />
+      });<br />
+      <br />
+      var i = 0; repeat (6)<br />
+      {<br />
+          flexpanel_node_insert_child(n_root, flexpanel_create_node({<br />
+              width: &quot;70%&quot;, height: 100, flexShrink: 1,<br />
+          }), i);<br />
+          <br />
+          i++;<br />
+      }
+    </p>
+    <p class="dropspot">Here, children are inserted using a <a data-xref="{title}" href="../../GML_Overview/Language_Features/repeat.htm">repeat</a> loop so that the same information does not have to be duplicated and written into the struct literal.</p>
+    <p class="dropspot">The <span class="inline2">&quot;column&quot;</span> <a data-xref="{text}" href="Flex_Panels_Styling.htm#h8">Flex Direction</a> of the parent allows its children to be laid out vertically (forming the main axis), and the <span class="inline2">&quot;flex-end&quot;</span> <a data-xref="{text}" href="Flex_Panels_Styling.htm#h1">Align Items</a> property aligns the children to the end of its cross axis (i.e. to the right).</p>
+    <p class="dropspot">The <a data-xref="{text}" href="Flex_Panels_Styling.htm#h10">Flex Shrink</a> property in the children ensures they shrink if they overflow the bounds of its parents.</p>
+    <p class="dropspot"> </p>
+  </div>
+  <p>Both of these examples use the data from <span class="inline3_func"><a data-xref="{title}" href="Function_Reference/flexpanel_node_layout_get_position.htm">flexpanel_node_layout_get_position</a></span> in <span class="inline3_func"><a data-xref="{title}" href="../Drawing/Basic_Forms/draw_rectangle.htm">draw_rectangle</a></span> to draw a node&#39;s rectangular area from <span class="inline2">left</span>, <span class="inline2">top</span> to <span class="inline2">left + width</span>, <span class="inline2">top + height</span>.</p>
+  <h2 id="h1">Flex Panel Preview</h2>
+  <p><a data-xref="{title}" href="../Debugging/The_Debug_Overlay.htm">The Debug Overlay</a> contains a window for testing layouts in real-time using the same JSON data that you would pass into <span class="inline3_func"><a data-xref="{title}" href="Function_Reference/flexpanel_create_node.htm">flexpanel_create_node</a></span>.</p>
+  <p><img class="center" src="../../../assets/Images/Scripting_Reference/GML/Reference/Debug/debug_overlay_flexpanel.png" />You can use this to test your JSON data and edit layouts before using the data in your game code. This JSON code can also be used as a struct literal in your code.</p>
+  <h2 id="h">Containing Block</h2>
+  <p>Some of the <a data-xref="{text}" href="Flex_Panels_Styling.htm#h20">Styling Properties</a> depend on a node&#39;s Containing Block, which may not be the same as its direct parent. For example, a node with a <span class="inline2">positionType</span> of <span class="inline2">relative</span> will position itself within its direct parent, however an <span class="inline2">absolute</span> node will position itself to its Containing Block.</p>
+  <p>For information on how a Containing Block is chosen for a node and how it affects the node, see: <a href="https://www.yogalayout.dev/docs/advanced/containing-block">Containing block</a></p>
+  <p> </p>
+  <p> </p>
+  <!--</div>-->
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div>Back: <a data-xref="{title}" href="../GML_Reference.htm">GML Code Reference</a></div>
+        <div>Next: <a data-xref="{title}" href="../Time_Sources/Time_Sources.htm">Time Sources</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+Flex_Panels
+-->
+  <!-- TAGS
+Flex_Panels
+-->
+</body>
+</html>
