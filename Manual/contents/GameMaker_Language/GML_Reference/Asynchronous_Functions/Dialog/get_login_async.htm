@@ -20,6 +20,7 @@
   <p>This map will contain the keys <span class="inline2">&quot;id&quot;</span>, <span class="inline2">&quot;status&quot;</span>, <span class="inline2">&quot;username&quot;</span> and <span class="inline2">&quot;password&quot;</span>, with the user input stored in <span class="inline2">&quot;username&quot;</span> and <span class="inline2">&quot;password&quot;</span>.</p>
   <p>This function will return an index number for the async event that was triggered, which can then be checked in the corresponding event so that you can &quot;target&quot; specific data in case you&#39;re expecting more than one async event to be triggered (perhaps from some other function).</p>
   <div data-conref="../../../../assets/snippets/Note_Dialog_For_Debug_Only.hts"> </div>
+  <p class="note"><span data-conref="../../../../assets/snippets/Tag_warning.hts"> </span> The password is returned unencrypted. You should make sure to encrypt it before doing anything with it, e.g. saving it to disk, sending it over a network, ...</p>
   <p> </p>
   <h4>Syntax:</h4>
   <p class="code"><span data-field="title" data-format="default">get_login_async</span>(name, password);</p>
@@ -56,6 +57,7 @@
     login = get_login_async(u, p);</p>
   <p>The above code opens an INI file (or creates one if it doesn&#39;t exist) and gets the name and password stored in that file. If they do not exist, then the default of an empty string (<span class="inline2">&quot;&quot;</span>) is returned. These values are then used in <span class="inline3_func"><span data-field="title" data-format="default">get_login_async</span></span> to ask the user for their username and password details, with the request index being stored in the variable <span class="inline2">login</span>. Note that while waiting for the user to give the necessary information the game and its events will continue to run as normal.</p>
   <p>Now that the asynchronous code has been fired off, we need to check for the return value in the <a href="../../../../The_Asset_Editors/Object_Properties/Async_Events/Dialog.htm">asynchronous event for Dialogs</a> in the following way:</p>
+  <p class="code_heading">Async Dialog Event</p>
   <p class="code">if (ds_map_find_value(async_load, &quot;id&quot;) == login)<br />
     {<br />
         u = ds_map_find_value(async_load, &quot;username&quot;);<br />
