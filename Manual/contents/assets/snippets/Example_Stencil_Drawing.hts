@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <meta name="topic-comment" content="A code example showing how to use the stencil buffer when drawing shapes" />
+  <title>Example_Stencil_Drawing</title>
+  <link rel="stylesheet" type="text/css" href="../css/default.css" />
+</head>
+<body>
+  <p class="code_heading">Draw Event</p>
+  <p class="code">gpu_set_stencil_enable(true);<br />
+    draw_clear_stencil(0);<br />
+    gpu_set_stencil_func(cmpfunc_greaterequal);<br />
+    gpu_set_stencil_pass(stencilop_replace);<br />
+    gpu_set_stencil_ref(128);<br />
+    draw_circle_color(100, 100, 50, c_red, c_red, false);<br />
+    gpu_set_stencil_ref(64);<br />
+    draw_rectangle_color(100, 100, 179, 170, c_blue, c_blue, c_blue, c_blue, false);<br />
+    gpu_set_stencil_enable(false);</p>
+  <p>The code example above shows how to draw shapes with the stencil buffer enabled.</p>
+  <p>First the stencil test is enabled with a call to <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Drawing/GPU_Control/gpu_set_stencil_enable.htm">gpu_set_stencil_enable</a></span> and the stencil buffer is cleared to 0 using <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Drawing/draw_clear_stencil.htm">draw_clear_stencil</a></span>. After that, the stencil comparison function is set to <span class="inline2">cmpfunc_greaterequal</span> using <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Drawing/GPU_Control/gpu_set_stencil_func.htm">gpu_set_stencil_func</a></span> and the operation to perform when the stencil test passes set to <span class="inline2">stencilop_replace</span> with a call to <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Drawing/GPU_Control/gpu_set_stencil_pass.htm">gpu_set_stencil_pass</a></span> (the operation to perform when the stencil test fails remains at the default <span class="inline2">stencilop_keep</span>).</p>
+  <p>Next, the stencil reference value is set to 128 using <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Drawing/GPU_Control/gpu_set_stencil_ref.htm">gpu_set_stencil_ref</a></span> and a filled red circle is drawn. The stencil test passes for every pixel covered by the circle (because the comparison that takes place is <span class="inline2">128 &gt;= 0</span>) and the value in the stencil buffer is replaced. A filled blue rectangle is then drawn with the stencil ref value set to 64 instead. For all pixels of the rectangle that overlap with the circle&#39;s pixels the comparison will be <span class="inline2">64 &gt;= 128</span>. These pixels don&#39;t pass the stencil test, the current stencil value is kept and the pixel isn&#39;t drawn. For all pixels of the rectangle that <em>don&#39;t</em> overlap with the circle&#39;s pixels the comparison will be <span class="inline2">64 &gt;= 0</span>. These pixels pass the stencil test, the current stencil value is replaced and the pixel is drawn.</p>
+  <p>Finally, the stencil buffer is disabled again with another call to <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Drawing/GPU_Control/gpu_set_stencil_enable.htm">gpu_set_stencil_enable</a></span>.</p>
+</body>
+</html>

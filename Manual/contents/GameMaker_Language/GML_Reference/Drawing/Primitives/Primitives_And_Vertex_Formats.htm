@@ -15,8 +15,70 @@
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
   <h1><span data-field="title" data-format="default">Primitives And Vertex Formats</span></h1>
-  <p>A primitive is a type of drawing done using points to define what is shown on the screen. They can be made up of single points, lines, or triangles and can be coloured, have alpha blending and even be given a texture, which means that they can be used to create some very exciting effects in a 2D game! For example, you can create a rectangle using multiple triangle primitives, then texture it with a flag sprite and in the draw event of an instance have that flag &quot;wave&quot; in the wind and distort the sprite you used by simply modifying the points that form the primitive.</p>
-  <p class="note"><b><span data-conref="../../../../assets/snippets/Tag_warning.hts"> </span> </b>These functions do not work with the HTML5 module unless you have enabled OpenGL in the <a href="../../../../Settings/Game_Options/HTML5.htm">Game Options</a>.</p>
+  <p>A primitive is a type of drawing done using points to define what is shown on the screen. They can be made up of single points, lines or triangles and can be coloured, have alpha blending and even be given a texture, which means that they can be used to create some very exciting effects in your 2D and 3D games!</p>
+  <p>The points of a primitive are called <em>vertices</em> (singular <em><a class="glossterm" data-glossterm="vertex" href="#">vertex</a></em>) and store data about their position, colour, texture and possibly other information. The GPU then draws these vertices using the primitive <em>type</em> that you provide: </p>
+  <p><img alt="The different primitive types" class="center" height="436" src="../../../../assets/Images/Scripting_Reference/GML/Reference/Drawing/primitive_types.png" width="573" /></p>
+  <p>For example, you can create a rectangle using two triangle primitives, then texture it with a flag sprite and in the Draw event of an instance have that flag &quot;wave&quot; in the wind and distort the sprite you used by simply modifying the points that form the primitive.<b></b></p>
+  <div data-conref="../../../../assets/snippets/Note_Primitives_Enable_WebGL_On_HTML5.hts"> </div>
+  <h2>Creating Primitives</h2>
+  <p><span data-keyref="GameMaker Name">GameMaker</span> offers two ways to draw and create primitives: </p>
+  <ul class="colour">
+    <li>The primitive functions: the <span class="inline3_func">draw_primitive_*</span> and <span class="inline3_func">draw_vertex_*</span> functions</li>
+    <li>Vertex buffers</li>
+  </ul>
+  <h3 id="h">Primitive Functions</h3>
+  <p>The <span class="inline3_func">draw_primitive_*</span> functions allow you to define primitives and draw them directly to the screen (or to a <a href="../Surfaces/Surfaces.htm">surface</a>). You call <span class="inline3_func"><a data-xref="{title}" href="draw_primitive_begin.htm">draw_primitive_begin</a></span> or <span class="inline3_func"><a data-xref="{title}" href="draw_primitive_begin_texture.htm">draw_primitive_begin_texture</a></span>, then define the vertices with any of the <span class="inline3_func">draw_vertex_*</span> functions and finally call <span class="inline3_func"><a data-xref="{title}" href="draw_primitive_end.htm">draw_primitive_end</a></span> to draw the primitive.</p>
+  <p class="code_heading">Draw Event</p>
+  <p class="code">var _tex = sprite_get_texture(spr_image, 0);<br />
+    draw_primitive_begin_texture(pr_trianglestrip, _tex);<br />
+    draw_vertex_texture(0, 0, 0, 0);<br />
+    draw_vertex_texture(100, 0, 1, 0);<br />
+    draw_vertex_texture(0, 100, 0, 1);<br />
+    draw_vertex_texture(100, 100, 1, 1);<br />
+    draw_primitive_end();</p>
+  <h3>Vertex Buffers</h3>
+  <p>Vertex buffers are the more advanced way to define reusable primitives. They are <a data-xref="{title}" href="../../Buffers/Buffers.htm">Buffers</a> that store data about vertices specifically (&quot;vertex data&quot;). With vertex buffers you split up the definition of the primitive and its drawing.</p>
+  <p>You create a new, empty vertex buffer using <span class="inline3_func"><a data-xref="{title}" href="vertex_create_buffer.htm">vertex_create_buffer</a></span> / <span class="inline3_func"><a data-xref="{title}" href="vertex_create_buffer_ext.htm">vertex_create_buffer_ext</a></span> or create one and fill it with the data in a buffer using <span class="inline3_func"><a data-xref="{title}" href="vertex_create_buffer_from_buffer.htm">vertex_create_buffer_from_buffer</a></span> / <span class="inline3_func"><a data-xref="{title}" href="vertex_create_buffer_from_buffer_ext.htm">vertex_create_buffer_from_buffer_ext</a></span>:</p>
+  <p class="code_heading">Create Event</p>
+  <p class="code">// Create an empty vertex buffer<br />
+    vb = vertex_create_buffer();<br />
+    <br />
+    // Create a vertex buffer filled with data from a buffer<br />
+    var _buff = buffer_load(&quot;model.mod&quot;);<br />
+    vb_model = vertex_create_buffer_from_buffer(_buff, format);<br />
+    buffer_delete(_buff);
+  </p>
+  <p class="note"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> See <a data-xref="{title}" href="../../Buffers/Transferring_Data_Between_Buffers.htm">Transferring Data Between Buffers</a> for more info on how to pass data between the two buffer types.</p>
+  <p>You draw a vertex buffer by submitting it at any time in Draw events using <span class="inline3_func"><a data-xref="{title}" href="vertex_submit.htm">vertex_submit</a></span>, or just part of it using<span class="inline3_func"><a data-xref="{title}" href="vertex_submit_ext.htm">vertex_submit_ext</a></span>.</p>
+  <p>The following is a complete example that makes use of <span data-keyref="GameMaker Name">GameMaker</span>&#39;s default <a href="../../../../Additional_Information/Guide_To_Primitives_And_Vertex_Building.htm">passthrough vertex format</a>: </p>
+  <p class="code_heading">Create Event</p>
+  <p class="code">var _uv_data = sprite_get_uvs(spr_image, 0);<br />
+    var _umin = _uv_data[0], _vmin = _uv_data[1], _umax = _uv_data[2], _vmax = _uv_data[3];<br />
+    <br />
+    vb = vertex_create_buffer();<br />
+    <br />
+    vertex_begin(vb, format);<br />
+    <br />
+    vertex_position_3d(vb,   0,   0, 0); vertex_color(vb, c_white, 1); vertex_texcoord(vb, _umin, _vmin);<br />
+    vertex_position_3d(vb, 100,   0, 0); vertex_color(vb, c_white, 1); vertex_texcoord(vb, _umax, _vmin);<br />
+    vertex_position_3d(vb,   0, 100, 0); vertex_color(vb, c_white, 1); vertex_texcoord(vb, _umin, _vmax);<br />
+    vertex_position_3d(vb, 100, 100, 0); vertex_color(vb, c_white, 1); vertex_texcoord(vb, _umax, _vmax);<br />
+    <br />
+    vertex_end(vb);
+  </p>
+  <p class="code_heading">Draw Event</p>
+  <p class="code">var _tex = sprite_get_texture(spr_image, 0);<br />
+    vertex_submit(vb, pr_trianglestrip, _tex);</p>
+  <p class="code_heading">Cleanup Event</p>
+  <p class="code">vertex_delete_buffer(vb);</p>
+  <p class="note"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> See the <a data-xref="{title}" href="../../../../Additional_Information/Guide_To_Primitives_And_Vertex_Building.htm">Guide To Primitives And Vertex Building</a> for more info on how to work with vertex buffers.</p>
+  <h3>Texture Coordinates</h3>
+  <p>In the code examples above, the UVs are provided differently for vertex buffers. This is because the UVs are interpreted differently by both sets of functions: </p>
+  <ul class="colour">
+    <li>The functions <span class="inline3_func"><a data-xref="{title}" href="draw_vertex_texture.htm">draw_vertex_texture</a></span> and <span class="inline3_func"><a data-xref="{title}" href="draw_vertex_texture_colour.htm">draw_vertex_texture_colour</a></span> map (0, 0) to the top-left corner of the sprite&#39;s region on the texture page and (1, 1) to the bottom-right corner of the sprite&#39;s region on the texture page.</li>
+    <li>The function <span class="inline3_func"><a data-xref="{title}" href="vertex_texcoord.htm">vertex_texcoord</a></span> doesn&#39;t map the texture coordinates that you pass it to any sprite in a texture page. Therefore, (0, 0) is the top-left corner of the texture page and (1, 1) is the bottom-right corner of the texture page, i.e. the range [0, 1] covers the entire texture page.</li>
+  </ul>
+  <p class="note"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> You can use the functions <span class="inline3_func"><a data-xref="{title}" href="../../Asset_Management/Sprites/Sprite_Information/sprite_get_uvs.htm">sprite_get_uvs</a></span>, <span class="inline3_func"><a data-xref="{title}" href="../../Asset_Management/Fonts/font_get_uvs.htm">font_get_uvs</a></span> and <span class="inline3_func"><a data-xref="{title}" href="../../Asset_Management/Tilsets/tileset_get_uvs.htm">tileset_get_uvs</a></span> to get a specific asset&#39;s UV range on the texture page.</p>
   <h2 id="func_ref">Function Reference</h2>
   <h3 id="func_ref_primitives">Primitives</h3>
   <ul class="colour">
@@ -70,6 +132,7 @@
     <li><a href="vertex_end.htm">vertex_end</a></li>
     <li><a href="vertex_freeze.htm">vertex_freeze</a></li>
     <li><a href="vertex_submit.htm">vertex_submit</a></li>
+    <li><a data-xref="{title}" href="vertex_submit_ext.htm">vertex_submit_ext</a></li>
   </ul>
   <p class="note"><span data-conref="../../../../assets/snippets/Tag_important.hts"> </span> The primitives that you build should follow the format that you have set using the Vertex Format functions, so if you have defined a vertex format with only positional data, there is no point building your primitive with colour data. You should note that the order in which you add properties to the primitive you are building is defined by the order in which you added these properties when creating the vertex format, so if you have defined the vector format with the order position, colour and texture coordinate, you <i>must</i> add these properties to the primitive being built in the same order otherwise you will get errors.</p>
   <p>For an overview of how to build primitives using the vertex functions, see:</p>

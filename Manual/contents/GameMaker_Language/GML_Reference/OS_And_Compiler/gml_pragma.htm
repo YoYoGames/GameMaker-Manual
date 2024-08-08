@@ -14,28 +14,128 @@
 </head>
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
-  <h1>gml_pragma</h1>
-  <p>The <span class="inline">gml_pragma</span> function affects how the given target compiles your code and should be called with the different commands to further optimise the final compilation of your project. These commands are effectively <i>pre-processed</i> before the game is compiled and so the function can be placed anywhere in your project and it will still be processed before the game is fully compiled. The available commands are as follows:</p>
+  <h1><span data-field="title" data-format="default">gml_pragma</span></h1>
+  <p>The <span data-field="title" data-format="default">gml_pragma</span> function affects how the given target compiles your code and should be called with the different commands to further optimise the final compilation of your project. These commands are effectively <i>pre-processed</i> before the game is compiled and so the function can be placed anywhere in your project and it will still be processed before the game is fully compiled. The available commands are as follows:</p>
   <ul class="colour">
-    <li>&quot;<b>forceinline</b>&quot; - When the function is called with the &quot;forceinline&quot; pragma in a <b>script function</b>, the YYC will compile the project with the function inline, rather than referenced. This will give a further processing boost, but care must be taken when using it as it will also inflate the final executable file size, especially if the in-lined code is large and/or used in multiple different places, as well as greatly increase the compile time. Note that this pragma is <b>only valid when building using the YYC</b>.</li>
+    <li>&quot;<b>forceinline</b>&quot; - When a <strong>function or method</strong> contains a &quot;forceinline&quot; pragma, the YYC requests the C++ compiler to compile the project with the function <a href="https://en.wikipedia.org/wiki/Inline_expansion" title="Inline expansion">inlined</a>, rather than referenced. This request isn&#39;t guaranteed and what happens depends on the C++ compiler.<br />
+      Inlining functions will give a further processing boost, but care must be taken when using it as it will also inflate the final executable file size (especially if the inlined code is large and/or used in multiple different places) as well as greatly increase the compile time. Note that this pragma is <b>only valid when building using the YYC</b>.</li>
     <li>&quot;<b>global</b>&quot;, &quot;<b>[gml code]</b>&quot; - The &quot;global&quot; pragma permits you to call some GML code formatted as a string, at a <b>global</b> scope, at compile time, before the first room of the game executes. For example:
-      <p class="code">gml_pragma(&quot;global&quot;, &quot;Init()&quot;);</p>
-      This will call the script function &quot;Init&quot; before the first room of the game is run. Note that the GML supplied as the second argument <b>must be a compile time constant</b>, and also note that you cannot use this pragma to create instances or perform any operations that require a room (or anything in a room) to function.
+      <p class="code"><span data-field="title" data-format="default">gml_pragma</span>(&quot;global&quot;, &quot;Init()&quot;);</p>
+      This will call the script function &quot;Init&quot; before the first room of the game is run. Note that the GML supplied as the second argument <b>must be a compile-time constant</b>, and also note that you cannot use this pragma to create instances or perform any operations that require a room (or anything in a room) to function.
     </li>
-    <li>&quot;<b>PNGCrush</b>&quot; - The &quot;PNGCrush&quot; pragma will use the <a href="https://pmt.sourceforge.io/pngcrush/" target="_blank">PNGCrush</a> program on each texture created. Note that this can add significantly to the time that it takes to compile the game, so you don&#39;t want it on all the time, although it can make significant savings on final file size. This option only applies to Texture Groups that use the PNG format (see <a data-xref="{text}" href="../../../Settings/Texture_Groups.htm#h"> </a>).</li>
-    <li>&quot;<b>Texgroup.Scale</b>&quot;, &quot;<b>[TextureGroupName]</b>&quot;, &quot;<b>[Scale Divisor]</b>&quot; - The &quot;Texgroup.Scale&quot; will scale the given texture group on compile. You need to give an additional two arguments here: the &quot;[TexGroupName]&quot;, which is the name (a string) of the texture group to scale, and the &quot;[Scale Divisor]&quot; (also a string), which is the divisor you wish to use for the scaling, i.e:
-      <p class="code">gml_pragma(&quot;Texgroup.Scale&quot;, &quot;level1&quot;, &quot;2&quot;);</p>
-      This will half all the textures in the &quot;level1&quot; texture group.
+    <li><strong>&quot;optimise&quot;/&quot;optimize&quot;, &quot;&lt;specific_optimisation&gt;&quot;, &quot;&lt;control&gt;&quot;</strong> - The &quot;optimise&quot; (or &quot;optimize&quot;) pragma provides an optimisation hint to the compiler. For example: 
+      <p class="code"><span data-field="title" data-format="default">gml_pragma</span>(&quot;optimise&quot;, &quot;js_array_check&quot;, &quot;push, off&quot;);</p>
+      This pragma will make the compiler omit type checking code on arrays when it generates JavaScript code.<br />
+      <br />
+      See the section on <strong>Compiler Optimisations</strong> below for a full list of optimisations you can use.
     </li>
-    <li>&quot;<b>UnityBuild</b>&quot;, &quot;<b>[enable/disable]</b>&quot; -  (<strong>Xbox One XDK only</strong>) If you call the function with this pragma and set the enable/disable argument to <span class="inline">true</span> then on compile it will collapse all the .cpp files in the project into a single file which it then uses to build everything, for example:
-      <p class="code">gml_pragma(&quot;UnityBuild&quot;, &quot;true&quot;);</p>
-      The benefit of doing a unity build is that builds are faster but the down side is that it does a <i>full</i> build each time so even if you change a single part of the code it will build everything again without using any cached files. This has been added specifically for the Xbox Legacy (XDK) export using <a href="../../../Settings/YoYo_Compiler.htm">YYC</a>. For more information on unity builds, please see <a href="https://en.wikipedia.org/wiki/Unity_build" target="_blank">here</a>.
+    <li id="pngcrush">&quot;<b>PNGCrush</b>&quot; - The &quot;PNGCrush&quot; pragma will use the <a href="https://pmt.sourceforge.io/pngcrush/" target="_blank">PNGCrush</a> program on each texture created. Note that this can add significantly to the time that it takes to compile the game, so you don&#39;t want it on all the time, although it can make significant savings on final file size. This option only applies to Texture Groups that use the PNG format (see <a href="../../../Settings/Texture_Groups.htm#texture_group_format">Texture Group Format</a>).</li>
+    <li>&quot;<b>Texgroup.Scale</b>&quot;, &quot;<b>[TextureGroupName]</b>&quot;, &quot;<b>[Scale Divisor]</b>&quot; - The &quot;Texgroup.Scale&quot; will scale the given texture group on compile. You need to give an additional two arguments here: the &quot;[TexGroupName]&quot;, which is the name (a string) of the texture group to scale, and the &quot;[Scale Divisor]&quot; (also a string), which is the divisor you wish to use for the scaling, i.e.:
+      <p class="code"><span data-field="title" data-format="default">gml_pragma</span>(&quot;Texgroup.Scale&quot;, &quot;level1&quot;, &quot;2&quot;);</p>
+      This will halve all the textures in the &quot;level1&quot; texture group.
+    </li>
+    <li>&quot;<b>UnityBuild</b>&quot;, &quot;<b>[enable/disable]</b>&quot; - If you call the function with this pragma and set the enable/disable argument to <span class="inline">true</span> then on compile it will collapse all the .cpp files in the project into a single file which it then uses to build everything, for example:
+      <p class="code"><span data-field="title" data-format="default">gml_pragma</span>(&quot;UnityBuild&quot;, &quot;true&quot;);</p>
+      The benefit of doing a unity build is that builds are faster but the down side is that it does a <i>full</i> build each time so even if you change a single part of the code it will build everything again without using any cached files. This has been added specifically for the Xbox One export using the YYC although it can be called for other builds (<b>YYC only</b>). For more information on unity builds, please see <a href="http://buffered.io/posts/the-magic-of-unity-builds/" target="_blank">here</a>.
     </li>
   </ul>
-  <p class="note"><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> The first argument to the <span class="inline">gml_pragma</span> function <b>must be a compile time string constant</b> and not a variable.</p>
+  <p class="note"><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> The first argument to the <span class="inline3_func"><span data-field="title" data-format="default">gml_pragma</span></span> function <b>must be a compile-time string constant</b> and not a variable.</p>
+  <p><a class="dropspot" data-open-text="" data-rhwidget="DropSpot" data-target="compiler-optimisations" href="#">Compiler Optimisations</a>
+    <undefined data-targetname="compiler-optimisiations"></undefined>
+  </p>
+  <div class="droptext" data-targetname="compiler-optimisations">
+    <p class="dropspot">Compiler optimisations can be provided with the <span class="inline2">&quot;optimise&quot;</span> (or <span class="inline2">&quot;optimize&quot;</span>) pragma. Their basic syntax is: </p>
+    <p class="code"><span data-field="title" data-format="default">gml_pragma</span>(&quot;optimise&quot;, &quot;&lt;specific_optimisation&gt;&quot;, &quot;&lt;control&gt;&quot;);</p>
+    <p class="dropspot"><span class="inline2">&quot;&lt;specific_optimisation&gt;&quot;</span> is a string containing the specific optimisation to modify.</p>
+    <p class="dropspot"><span class="inline2">&quot;&lt;control&gt;&quot;</span> is a string that contains a comma-delimited list of commands that control the optimisation from this point in your code: </p>
+    <ul class="dropspotlist">
+      <li><span class="inline2">push</span> - pushes onto an internal stack (for that optimisation) the current state of that optimisation</li>
+      <li><span class="inline2">pop</span> - pops from the internal stack (for that optimisation) into the current state</li>
+      <li><span class="inline2">on</span> or <span class="inline2">true</span> - switches on the optimisation</li>
+      <li><span class="inline2">off</span> or <span class="inline2">false</span> - switches off the optimisation</li>
+    </ul>
+    <p class="dropspot">The following table lists all optimisations that you can use: </p>
+    <ul class="colour">
+    </ul>
+    <table border="1" cellpadding="1" cellspacing="1" id="table" style="caption-side: top">
+      <caption>Compiler Optimisations</caption>
+      <colgroup>
+        <col style="width:50%" />
+        <col style="width:50%" />
+      </colgroup>
+      <tbody>
+        <tr>
+          <th>Optimisation</th>
+          <th>Description</th>
+        </tr>
+        <tr>
+          <td><span class="inline">js_array_check</span></td>
+          <td>If ON then the compiled code will include checks that variables are arrays and do basic error checking on the array, omitted if OFF. These checks are done at each use of the array.<br />
+            <span data-conref="../../../assets/snippets/Tag_note.hts"> </span> If OFF then you need to make sure that every variable used as an array is definitely of type array before using it.
+          </td>
+        </tr>
+        <tr>
+          <td><span class="inline">js_error_check</span></td>
+          <td>If ON then the compiled code will include <span>checks in the generated JavaScript code to bring it in line with how the VM/YYC runner handles errors</span>. These checks will be omitted if OFF.<br />
+            <span data-conref="../../../assets/snippets/Tag_note.hts"> </span> This can be safely omitted if your code is not erroring when used, generally something that can be disabled once your code is working error free.
+          </td>
+        </tr>
+        <tr>
+          <td><span class="inline">js_check_index</span></td>
+          <td>If ON then the generated code will include checks on the index on array access (read and write) to catch out of range errors. If OFF you need to make sure to always use an array index that&#39;s within the array&#39;s length (i.e. from 0 to <span class="inline3_func"><a data-xref="{title}" href="../Variable_Functions/array_length.htm">array_length</a></span>-1).</td>
+        </tr>
+        <tr>
+          <td><span class="inline">js_pre_post_no_long</span></td>
+          <td>If ON then increment <span class="inline2">++</span> and decrement <span class="inline2">--</span> expressions are not checked to see if they operate on values of type int64 (or Long in JavaScript). You need to make sure that no variables are of type <a href="../Variable_Functions/is_int64.htm">int64</a> when using the <span class="inline2">++</span> and <span class="inline2">--</span> operators.</td>
+        </tr>
+        <tr>
+          <td><span class="inline">js_use_infix_ops</span></td>
+          <td>If ON then JavaScript&#39;s binary operators <span class="inline2">+</span>, <span class="inline2">-</span>, <span class="inline2">*</span>, etc. are used in preference to using <span data-keyref="GameMaker Name">GameMaker</span>&#39;s type checking functions. In this case you need to make sure that all variables used in the expression are of type <a href="../Variable_Functions/is_real.htm">real</a>.</td>
+        </tr>
+      </tbody>
+    </table>
+    <h3>Example</h3>
+    <p class="dropspot">As an example, to optimise the following function: </p>
+    <p class="code">function multiples_of_two()<br />
+      {<br />
+          var a = [];<br />
+          for (var i = 0; i &lt; 100; i++)<br />
+          {<br />
+              a[i] = i * 2;<br />
+          }<br />
+      }</p>
+    <p class="dropspot">You would then add <span class="inline3_func"><span data-field="title" data-format="default">gml_pragma</span></span> statements as follows: </p>
+    <p class="code">function multiples_of_two()<br />
+      {<br />
+          gml_pragma( &quot;optimise&quot;, &quot;js_array_check&quot;, &quot;push, off&quot;);<br />
+          gml_pragma( &quot;optimise&quot;, &quot;js_error_check&quot;, &quot;push, off&quot;);<br />
+          gml_pragma( &quot;optimise&quot;, &quot;js_check_index&quot;, &quot;push, off&quot;);<br />
+          gml_pragma( &quot;optimise&quot;, &quot;js_pre_post_no_long&quot;, &quot;push, on&quot;);<br />
+          gml_pragma( &quot;optimise&quot;, &quot;js_use_infix_ops&quot;, &quot;push, on&quot;);<br />
+          var a = [];<br />
+          for(var i = 0; i &lt; 100; i++)<br />
+          {<br />
+              a[i] = i * 2;<br />
+          }<br />
+          gml_pragma( &quot;optimise&quot;, &quot;js_use_infix_ops&quot;, &quot;pop&quot; );<br />
+          gml_pragma( &quot;optimise&quot;, &quot;js_pre_post_no_long&quot;, &quot;pop&quot; );<br />
+          gml_pragma( &quot;optimise&quot;, &quot;js_check_index&quot;, &quot;pop&quot; );<br />
+          gml_pragma( &quot;optimise&quot;, &quot;js_error_check&quot;, &quot;pop&quot; );<br />
+          gml_pragma( &quot;optimise&quot;, &quot;js_array_check&quot;, &quot;pop&quot; );<br />
+      }</p>
+    <h3>Usage Notes</h3>
+    <ul class="colour">
+      <li>Compiler optimisations are treated as <em>hints</em> to the compiler, it is free to ignore those hints. Also, certain optimisations may only target specific compilers, for example the JavaScript transpiler (these optimisations begin with <span class="inline2">&quot;js_&quot;</span>).</li>
+      <li>All the parameters to the <span class="inline3_func">&quot;optimise&quot;</span> command must be known at compile-time and therefore <strong>must</strong> be constant strings, an error is generated otherwise.</li>
+      <li>If the compiler doesn&#39;t understand a <span class="inline2">&quot;specific_optimisation&quot;</span> string, it will silently ignore it.</li>
+    </ul>
+    <p> </p>
+    <ul class="colour">
+    </ul>
+  </div>
   <p> </p>
   <h4>Syntax:</h4>
-  <p class="code">gml_pragma(command, [optional...]);</p>
+  <p class="code"><span data-field="title" data-format="default">gml_pragma</span>(command, [optional...]);</p>
   <table>
     <tbody>
       <tr>
@@ -60,9 +160,8 @@
   <p class="code"><span data-keyref="Type_Void">N/A</span></p>
   <p> </p>
   <h4>Example:</h4>
-  <p class="code">gml_pragma(&quot;forceinline&quot;);</p>
-  <p>The above example code will force the script function where it is used to be in-lined on compile.</p>
-  <p> </p>
+  <p class="code"><span data-field="title" data-format="default">gml_pragma</span>(&quot;forceinline&quot;);</p>
+  <p>The above example code will force the script function where it is used to be inlined on compile.</p>
   <p> </p>
   <p> </p>
   <div class="footer">
@@ -72,7 +171,7 @@
         <div style="float:right">Next: <a href="parameter_count.htm">parameter_count</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2023 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 gml_pragma

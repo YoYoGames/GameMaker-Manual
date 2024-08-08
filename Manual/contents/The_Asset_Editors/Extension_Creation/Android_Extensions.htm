@@ -4,7 +4,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>Android Extensions</title>
-  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <meta name="generator" content="Adobe RoboHelp 2022" />
   <link rel="stylesheet" href="../../assets/css/default.css" type="text/css" />
   <script src="../../assets/scripts/main_script.js" type="module"></script>
   <meta name="rh-authors" content="Mark Alexander" />
@@ -14,18 +14,18 @@
 </head>
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
-  <h1>Android Extensions</h1>
+  <h1><span data-field="title" data-format="default">Android Extensions</span></h1>
   <p>To create an extension for Android you have to do it in two parts. The first part would be to add the extension itself, along with the required files, and the second is to create the functions and macros/constants that the extension requires.</p>
-  <p>The functions and constants are added using <strong>placeholder </strong>files to group them together, so you&#39;d add a placeholder and then define the functions and macros as explained in the previous section. To add the rest of the files though you would need to first tick the <em>Android </em>check-box in the <b>Extra Platforms</b> section of the editor, which will open up the extension&#39;s Android Properties:</p>
+  <p>The functions and constants are added using <strong>placeholder </strong>files to group them together, so you&#39;d add a placeholder and then define the functions and macros as explained in the previous section. To add the rest of the files though you would need to first tick the <em>Android </em>checkbox in the <b>Extra Platforms</b> section of the editor, which will open up the extension&#39;s Android Properties:</p>
   <p class="dropspot"><img alt="Android Editor" class="center" src="../../assets/Images/Asset_Editors/Editor_Extensions_Android.png" /></p>
   <p>Here you can give the following details:</p>
   <ul class="colour">
     <li class="dropspot"><strong>Class Name</strong>: Your extension can have multiple classes, with each class having its own functions and constants, so you should give it a name that reflects its purpose.</li>
-    <li class="dropspot"><strong>Android Permissions</strong>: Here you can add in any extra permissions that your extension requires. What these permissions are will depend entirely on the use that the extension has, and so you should <a href="https://developer.android.com/reference/android/Manifest.permission.html">check the documentation supplied by Google</a> for the Android platform, or, if you are using a third party SDK, the documentation that comes with the SDK. To add a new permission you need to click on the <img alt="Add Argument Icon" class="icon" height="18" src="../../assets/Images/Icons/Icon_AddArgument.png" width="18" /> button to add a placeholder permission, and then do a double <img alt="LMB Icon" class="icon" src="../../assets/Images/Icons/Icon_LMB.png" /> click on that to edit it to what is required. You can remove permissions using the <img alt="Remove Argument Icon" class="icon" src="../../assets/Images/Icons/Icon_RemoveArgument.png" /> button.</li>
+    <li class="dropspot"><strong>Android Permissions</strong>: Here you can add in any extra permissions that your extension requires. What these permissions are will depend entirely on the use that the extension has, and so you should <a href="https://developer.android.com/reference/android/Manifest.permission.html">check the documentation supplied by Google</a> for the Android platform, or, if you are using a third-party SDK, the documentation that comes with the SDK. To add a new permission you need to click on the <img alt="Add Argument Icon" class="icon" height="18" src="../../assets/Images/Icons/Icon_AddArgument.png" width="18" /> button to add a placeholder permission and then do a double <img alt="LMB Icon" class="icon" src="../../assets/Images/Icons/Icon_LMB.png" /> click on that to edit it to what is required. You can remove permissions using the <img alt="Remove Argument Icon" class="icon" src="../../assets/Images/Icons/Icon_RemoveArgument.png" /> button.</li>
     <li class="dropspot"><b>Code Injection</b>: Here you can add any code to be injected (added) into your Android application when your game is built for testing or final release. Make sure to revise this (and your permissions) carefully before submitting any games to the store, as incorrect settings will cause your game to be failed for submission. See the section below for more information.</li>
   </ul>
   <h2 id="h">Code Injection</h2>
-  <p>Any code entered into the &quot;Code Injection&quot; window will need to be separated into distinct XML groups, as shown in the screenshot above. The XML tag you use for a group will determine where the code is injected into your application.</p>
+  <p>Any code entered into the &quot;Code Injection&quot; window needs to be separated into distinct XML groups, as shown in the screenshot above. The XML tag you use for a group will determine where the code is injected into your application.</p>
   <p>You can use the following syntax to create code injection groups:</p>
   <p class="code">&lt;YYTagName&gt;<br />
     <br />
@@ -45,8 +45,8 @@
     YYAndroidGradle<br />
     YYAndroidGradleEnd<br />
     YYAndroidGradleAndroid<br />
-    <span>YYAndroidGradleDependencies<span> <br />
-        YYAndroidGradleProperties</span></span><br />
+    YYAndroidGradleDependencies <br />
+    YYAndroidGradleProperties<br />
     YYAndroidManifestAttributes<br />
     YYAndroidManifestApplicationAttributes<br />
     YYAndroidManifestActivityAttributes<br />
@@ -91,6 +91,77 @@
     </tbody>
   </table>
   <p class="note"><span class="note">NOTE</span> These paths are only for VM; for YYC, injected code will go into the <span class="inline">{RUNTIME}\yyc\</span> directory, where the paths may or may not be equivalent to those for VM.</p>
+  <h3>Escaping XML Characters</h3>
+  <p>All characters between the start and end tag are parsed as XML so any character that can be misinterpreted as an XML character needs to be escaped. You can do this: </p>
+  <ul class="colour">
+    <li>By converting special characters into their XML-escaped version, where needed (e.g. <span class="inline2">&lt;</span> becomes <span class="inline2">&amp;lt;</span>, <span class="inline2">&gt;</span> becomes <span class="inline2">&amp;gt;</span>, etc.)
+      <p class="code">//options.compilerArgs &amp;lt;&amp;lt; &quot;-Xlint:unchecked&quot;</p>
+    </li>
+    <li>By enclosing all text between the start and end tag within a CDATA section: 
+      <p class="code">&lt;YYAndroidGradleEnd&gt;<br />
+        &lt;![CDATA[<br />
+        <br />
+        // Add what you need without escaping characters<br />
+        //tasks.withType(JavaCompile) {<br />
+        //options.deprecation = true<br />
+        //options.verbose = true<br />
+        //options.compilerArgs &lt;&lt; &quot;-Xlint:unchecked&quot;<br />
+        //}<br />
+        <br />
+        ]]&gt;<br />
+        &lt;/YYAndroidGradleEnd&gt;
+      </p>
+    </li>
+  </ul>
+  <h3>Injecting Values</h3>
+  <p>You can insert various values into your injected code. This follows the <span class="inline2">${NAME}</span> syntax, where <span class="inline2">NAME</span> can be any of the following:</p>
+  <p class="code">// Gradle config<br />
+    <span>applicationId<br />
+      <span id="">minSdkVersion<br />
+        <span>targetSdkVersion<br />
+          multiDexEnabled<br />
+          <br />
+          // Android Studio config<br />
+          <span>PROJECT_DIR<br />
+            <span>MODULE_DIR<br />
+              <span>USER_HOME<br />
+                <span>FILE_DIR<br />
+                  <span>SRC_DIR<br />
+                    <span>OUTPUT_DIR<br />
+                      <span><span class="misspell-word">CLASSPATH<br />
+                          <br />
+                          // Project Information<br />
+                          <span>YYAndroidPackageName<br />
+                            <span>YYAndroidPackageDomain<br />
+                              <span>YYAndroidPackageCompany<br />
+                                <span>YYAndroidPackageProduct<br />
+                                  <span>YYAndroidDisplayName<br />
+                                    <span>YYAndroidMajorVersion<br />
+                                      <span>YYAndroidMinorVersion<br />
+                                        <span>YYAndroidBuildVersion<br />
+                                          <span>YYAndroidMinSDKVersion</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span>
+  </p>
+  <h3 id="h1">Conditional Injection</h3>
+  <p>You can inject code conditionally, depending on the value of one of the <a data-xref="{text}" href="../Extensions.htm#extension_options">Extension Options</a>.</p>
+  <p>Inside a code injection group, use <span class="inline2">toInject</span> with the required option in <span class="inline2">condition</span>:</p>
+  <p class="code">&lt;YYIosPlist&gt;<br />
+     <br />
+    &lt;toInject condition=&#39;${YYEXTOPT_MyExtension_ShouldInject}&#39;&gt;<br />
+    ...<br />
+    &lt;/toInject&gt;<br />
+     <br />
+    &lt;/YYIosPlist&gt;</p>
+  <p>This will only inject the code between the <span class="inline2">toInject</span> tags when the option <span class="inline2">YYEXTOPT_MyExtension_ShouldInject</span> is <span class="inline2">true</span>. The option should be of the <strong>Boolean</strong> type.</p>
+  <p>You can also check against a specific value by specifying it in the <span class="inline2">match</span> attribute:</p>
+  <p class="code">&lt;YYIosPlist&gt;<br />
+     <br />
+    &lt;toInject condition=&#39;${YYEXTOPT_MyExtension_ShouldInject}&#39; match=&#39;FooBar&#39;&gt;<br />
+    &lt;string&gt;This content is injected IF condition == match&lt;/string&gt;<br />
+    &lt;/toInject&gt;<br />
+     <br />
+    &lt;/YYIosPlist&gt;</p>
+  <p>This will only inject the code between the <span class="inline2">toInject</span> tags when the option <span class="inline2">YYEXTOPT_MyExtension_ShouldInject</span> is equal to <span class="inline2">&quot;FooBar&quot;</span>. This allows you to match against a value of any type, as this check is done at compile time when all extension option values are provided as strings.</p>
+  <p>Also see: <a data-xref="{text}" href="Creating_An_Extension.htm#h2">Using Extension Options</a></p>
   <h3>Usage Tips</h3>
   <ul class="colour">
     <li>You can use <span class="inline2">YYAndroidLogcat</span> to use custom logging tags with <a href="https://developer.android.com/studio/command-line/logcat">Logcat</a>. Set up your tag with a priority level, e.g.:<br />
@@ -102,6 +173,16 @@
       In your extension, use a logging function to log a message with this tag, e.g. <span class="inline2">Log.i(&quot;myDebugTag&quot;, &quot;Hello World&quot;);</span>
     </li>
   </ul>
+  <h2>File Injection</h2>
+  <p>Within the text files added to your extension (see: <a data-xref="{text}" href="Creating_An_Extension.htm#h3">Adding Files</a>), you can inject code from the Code Injection window by mentioning a tag inside <span class="inline2">${ }</span>. For example, say you have a file with the following contents:</p>
+  <p class="code">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;<br />
+    <br />
+    ${YYAndroidMyInjectionTag}
+  </p>
+  <p class="note"><span data-conref="../../assets/snippets/Tag_important.hts"> </span> You can create your own tags for this use. Such custom tags must start with <span class="inline2">YYAndroid</span>.</p>
+  <p>The <span class="inline2">${YYAndroidMyInjectionTag}</span> part here will be replaced with the contents of the <span class="inline2">&lt;YYAndroidMyInjectionTag&gt; &lt;/YYAndroidMyInjectionTag&gt;</span> group from the extension&#39;s Code Injection window.</p>
+  <h3>Custom Files</h3>
+  <p>You can create a folder called &quot;ProjectFiles&quot; in the folder of your extension (alongside its <span class="inline2">.yy</span> file). Any files placed in this folder will be moved to the root of the generated Android project at compile time, and can also take injection tags as described above.</p>
   <h2>Source Files</h2>
   <p>Once you have set this up correctly, you will need to add the files required for your extension package to work. To do this you need to click on the buttons at the bottom, either <em>Add SDK</em> or <em>Add Source</em> and then browse to the files you wish to add. Added files will be stored in the <span class="inline">AndroidSource</span> directory along with your extension. You can open this location at any time by right clicking <img alt="RMB Icon" class="icon" src="../../assets/Images/Icons/Icon_RMB.png" /> on the extension and selecting <em>Open in Explorer</em>.</p>
   <p>For information on your creating native extensions for Android, see <a href="Extended_Examples.htm">Source Examples</a>.</p>
@@ -114,7 +195,7 @@
         <div style="float:right">Next: <a href="iOS_Extensions.htm">iOS Extensions</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2022 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 Android Extensions

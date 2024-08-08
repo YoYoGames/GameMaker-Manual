@@ -4,7 +4,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>The Sequence Editor</title>
-  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <meta name="generator" content="Adobe RoboHelp 2022" />
   <link rel="stylesheet" href="../assets/css/default.css" type="text/css" />
   <script src="../assets/scripts/main_script.js" type="module"></script>
   <meta name="rh-authors" content="Mark Alexander" />
@@ -18,14 +18,14 @@
   <p><img alt="The Sequence Editor" class="center" height="972" src="../assets/Images/Asset_Editors/Editor_Sequences.png" width="1689" /></p>
   <p>A <strong>Sequence </strong>is essentially a collection of assets that perform a dynamic animation over time. They can contain sprites, instances, sounds and other things, and each of these can be set to move or change colour, or start/stop animating over time within the sequence itself. The assets you add are assigned to specific <strong>tracks </strong>within the sequence and these tracks can then have different attributes applied to them - called <strong>keyframes</strong> - which can be static or change over time. All editing of a sequence takes place in the <strong>Sequence Editor</strong> which is essentially comprised of three areas:</p>
   <ul class="colour">
-    <li><strong>Canvas </strong>- where you place the assets that make up the sequence</li>
-    <li><strong>Track Panel </strong>- where you add/remove <strong>asset tracks</strong> and <strong>parameter tracks</strong> to your sequence</li>
+    <li><strong>Canvas </strong>- where you place the assets that make up the sequence.</li>
+    <li><strong>Track Panel </strong>- where you add/remove <strong>asset tracks</strong> and <strong>parameter tracks</strong> to/from your sequences.</li>
     <li><strong>Dope Sheet</strong> - where you add/remove/edit the <strong>keyframes</strong> of the tracks and control how they behave over time.</li>
   </ul>
-  <p>Note too that you can have sequences within sequences to create complex animations and effects, and sequences can also be accessed and changed through code to give you as much control as possible over how they will be displayed and used in your game. For more information on the coded aspect of sequences, please see the section on the <a href="../GameMaker_Language/GML_Reference/Asset_Management/Sequences/Sequences.htm">Sequences Functions</a>.</p>
-  <p>Before continuing to explain the details of the editor, we&#39;ll take a moment to explain how a sequence is created as well as some keywords that are used in the descriptions so you&#39;ll have a more thorough understanding of how the Sequences Editor works. The general workflow for creating a sequence is as follows:</p>
+  <p>Note too that you can have sequences within sequences to create complex animations and effects, and sequences can also be accessed and changed through code to give you as much control as possible over how they will be displayed and used in your game. For more information on the coded aspect of sequences, please see the section on the <a href="../GameMaker_Language/GML_Reference/Asset_Management/Sequences/Sequences.htm">Sequence Functions</a> page.</p>
+  <p>Before continuing to explain the details of the editor, we&#39;ll take a moment to explain how a sequence is created as well as some keywords that are used in the descriptions so you&#39;ll have a more thorough understanding of how the Sequence Editor works. The general workflow for creating a sequence is as follows:</p>
   <ul class="colour">
-    <li>First you&#39;d create your sequence from <a data-xref="{title}" href="../Introduction/The_Asset_Browser.htm">The Asset Browser</a>, which will open it the Sequences Editor.</li>
+    <li>First you&#39;d create your sequence from <a data-xref="{title}" href="../Introduction/The_Asset_Browser.htm">The Asset Browser</a>, which will open it the Sequence Editor.</li>
     <li>Next you&#39;d drag an asset (sprite, object, sound or sequence) into the editor canvas.</li>
     <li>This will create an <a class="glossterm" data-glossterm="asset track" href="#">asset track</a> in the <strong>Track Panel</strong>, and add an <a class="glossterm" data-glossterm="asset key" href="#">asset key</a> to the <a class="glossterm" data-glossterm="Dope Sheet" href="#">Dope Sheet</a>. The asset track is simply the name of the track that contains the asset, while the asset key is a bar that is drawn to symbolise the number of frames that the asset will be animated over in the sequence.</li>
     <li>At this point, you&#39;ll usually want to position the asset in the canvas at its initial position for the start of the sequence, and add in any initial transforms, like scale or rotation.</li>
@@ -34,7 +34,7 @@
     <li>All parameter keys are stored in additional <a class="glossterm" data-glossterm="parameter tracks" href="#">parameter tracks</a> which are a subset of tracks under the main asset track in the Track Panel, and you can edit the parameter key data for each parameter in the track editor.</li>
     <li>Now you would repeat the above process for the length of the sequence, moving, rotating and scaling the asset as required, and then adding more assets as you need them.</li>
   </ul>
-  <p>Below you can find an overview of each of the features of the sequence editor, and at the bottom of this page are links to pages that explain the three main features mentioned above in more depth:</p>
+  <p>Below you can find an overview of each of the features of the Sequence Editor, and at the bottom of this page are links to pages that explain the three main features mentioned above in more depth:</p>
   <p> </p>
   <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down" href="#">Rulers / Guides</a></p>
   <div class="droptext" data-targetname="drop-down">
@@ -87,9 +87,15 @@
     <ul class="dropspotlist">
       <li class="dropspot"><strong>Create </strong>- This event happens when an instance of the sequence is first created, and is the very first thing that happens within a sequence placed in the room through the room editor when a room is entered.</li>
       <li class="dropspot"><strong>Destroy </strong>- This event is executed when an instance of the sequence is destroyed, and will be run before the Clean Up event (see below).</li>
-      <li class="dropspot"><strong>Clean Up</strong> - This event will be called after any event that removes an instance of the sequence from the room. So, it will be triggered if the sequence is destroyed, if the room ends, or if the game ends, and is designed to perform any task that you need performed once when the sequence instance is removed from the game for any reason. If you have destroyed the sequence instance using, for example, layer_sequence_destroy(), then this event will be called after the Destroy Event (see above).</li>
-      <li class="dropspot"><strong>Begin Step</strong> / <strong>Step </strong>/ <strong>End Step</strong> - The Step Event is an event that is checked every single step (frame) of the game while the sequence instance exists, and is split into three parts: begin, step and end. For most things the standard step event will be fine to use, but sometimes you want a bit more control over what code runs and at what time, so for that you are provided with the Begin and End step events, and these events will always be triggered in the same order every step (frame) of the game. <strong>Important!</strong> If the sequence is paused then these events will <em>not </em>be triggered, and when play resumes they will be triggered the <em>next frame after the sequence starts playing again</em>. Also note that the order of events is not influenced by the playhead direction, and even if the sequence is playing backwards, the events will still be run as Begin, Step and End.</li>
-      <li class="dropspot"><strong>Async Event</strong>: This is the equivalent of the object <a href="Object_Properties/Async_Events.htm">Asynchronous System Event</a>. <strong>Important!</strong> If the sequence is paused then this event will <em>not </em>be triggered.</li>
+      <li class="dropspot"><strong>Clean Up</strong> - This event will be called after any event that removes an instance of the sequence from the room. So, it will be triggered if the sequence is destroyed, if the room ends, or if the game ends, and is designed to perform any task that you need performed once when the sequence instance is removed from the game for any reason. If you have destroyed the sequence instance using, for example, <span class="inline3_func"><a data-xref="{title}" href="../GameMaker_Language/GML_Reference/Asset_Management/Rooms/Sequence_Layers/layer_sequence_destroy.htm">layer_sequence_destroy</a></span>, then this event will be called after the Destroy Event (see above).</li>
+      <li class="dropspot"><strong>Begin Step</strong> / <strong>Step </strong>/ <strong>End Step</strong> - The Step Event is an event that is checked every single step (frame) of the game while the sequence instance exists, and is split into three parts: begin, step and end. For most things the standard step event will be fine to use, but sometimes you want a bit more control over what code runs and at what time, so for that you are provided with the Begin and End step events, and these events will always be triggered in the same order every step (frame) of the game.<br />
+        <br />
+        <span data-conref="../assets/snippets/Tag_important.hts"> </span> If the sequence is paused then these events will <em>not </em>be triggered, and when play resumes they will be triggered the <em>next frame after the sequence starts playing again</em>. Also note that the order of events is not influenced by the playhead direction, and even if the sequence is playing backwards, the events will still be run as Begin, Step and End.
+      </li>
+      <li class="dropspot"><strong>Async Event</strong>: This is the equivalent of the object <a href="Object_Properties/Async_Events.htm">Asynchronous System Event</a>.<br />
+        <br />
+        <span data-conref="../assets/snippets/Tag_important.hts"> </span> If the sequence is paused then this event will <em>not </em>be triggered.
+      </li>
     </ul>
     <p class="dropspot">Each event can be assigned a single function which will be called when the event is triggered. You can assign the function using the input box for the event, and clicking the arrow button  will open the script editor for the function to be edited. You can also click the Create New button at the bottom to create a new script resource with &quot;boilerplate&quot; functions already defined and ready to be filled in. Note that you can change the function names to anything you require and do not have to use the predefined names, and you can also remove any function definitions that you don&#39;t need. It is important note that functions used for sequence events cannot take any arguments.</p>
     <p class="dropspot">Sequence events can also be added and edited using code. For more information please see <a href="../GameMaker_Language/GML_Reference/Asset_Management/Sequences/Sequence_Events_Moments_Broadcast.htm">here</a>.</p>
@@ -98,10 +104,10 @@
   <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down6" href="#">Track Panel</a></p>
   <div class="droptext" data-targetname="drop-down6">
     <p class="dropspot">The <strong>Track Panel</strong> is where each of the assets in your sequence is listed as a track, with each track having sub-tracks for any parameters that are being changed for the asset. You can click <img alt="LMB Icon" class="icon" src="../assets/Images/Icons/Icon_LMB.png" /> and drag on any asset track to change its position above or below the other tracks (any assigned parameter tracks will move along with it), and you can use <img alt="Control Icon" class="icon" height="20" src="../assets/Images/Icons/Icon_Ctrl.png" width="55" /> / <img alt="CMD Icon" class="icon" height="20" src="../assets/Images/Icons/Icon_Cmd.png" width="55" /> + <img alt="LMB Icon" class="icon" src="../assets/Images/Icons/Icon_LMB.png" /> to select multiple tracks.</p>
-    <p class="dropspot">You can create a track by dragging an asset from the Asset Browser (either a sprite, an object, a sound, a sequence or a particle system) into the sequence canvas, or you can click the <img alt="Add Track Icon" class="icon" src="../assets/Images/Icons/Icon_AddAsset.png" /> icon at the bottom to add a new track and select the asset to use from the Asset Explorer window that opens. The new track will be created and the asset added at the current playhead position within the dope sheet timeline:</p>
+    <p class="dropspot">You can create a track by dragging an asset from <a data-xref="{title}" href="../Introduction/The_Asset_Browser.htm">The Asset Browser</a> (either a sprite, an object, a sound, a sequence or a particle system) into the sequence canvas, or you can click the <img alt="Add Track Icon" class="icon" src="../assets/Images/Icons/Icon_AddAsset.png" /> icon at the bottom to add a new track and select the asset to use from the Asset Explorer window that opens. The new track will be created and the asset added at the current playhead position within the dope sheet timeline:</p>
     <p class="dropspot"><img alt="Add A New Asset Track" class="center" src="../assets/Images/Asset_Editors/Editor_Sequences_AddTrack.gif" />The track editor has many other features that are discussed in full detail on the following page:</p>
     <ul class="dropspotlist">
-      <li class="dropspot"><a href="Sequence_Properties/The_Track_Panel.htm">The Track Panel</a></li>
+      <li class="dropspot"><a data-xref="{title}" href="Sequence_Properties/The_Track_Panel.htm">The Track Panel</a></li>
     </ul>
     <p class="dropspot"> </p>
   </div>
@@ -204,13 +210,14 @@
   <p> </p>
   <p>Due to the initial complexity of the Sequence Editor, we have only given a brief overview of the features available here, but we have additional pages listed below that go into more depth about its features and how they can be used:</p>
   <ul class="colour">
-    <li><a href="Sequence_Properties/The_Sequence_Canvas.htm">The Sequence Canvas</a></li>
-    <li><a href="Sequence_Properties/The_Track_Panel.htm">The Track Panel</a></li>
+    <li><a data-xref="{title}" href="Sequence_Properties/The_Sequence_Canvas.htm">The Sequence Canvas</a></li>
+    <li><a data-xref="{title}" href="Sequence_Properties/The_Track_Panel.htm">The Track Panel</a></li>
     <li><a data-xref="{title}" href="Sequence_Properties/Text_in_Sequences.htm">Text in Sequences</a></li>
-    <li><a href="Sequence_Properties/Clipping_Masks.htm">Clipping Masks</a></li>
-    <li><a href="Sequence_Properties/Using_The_Dope_Sheet.htm">Using The Dope Sheet</a></li>
-    <li><a href="Sequence_Properties/Using_Animation_Curves.htm">Using Animation Curves</a></li>
-    <li><a href="Sequence_Properties/Broadcast_Messages.htm">Broadcast Messages</a></li>
+    <li><a data-xref="{title}" href="Sequence_Properties/Sound_in_Sequences.htm">Sound in Sequences</a></li>
+    <li><a data-xref="{title}" href="Sequence_Properties/Clipping_Masks.htm">Clipping Masks</a></li>
+    <li><a data-xref="{title}" href="Sequence_Properties/Using_The_Dope_Sheet.htm">Using The Dope Sheet</a></li>
+    <li><a data-xref="{title}" href="Sequence_Properties/Using_Animation_Curves.htm">Using Animation Curves</a></li>
+    <li><a data-xref="{title}" href="Sequence_Properties/Broadcast_Messages.htm">Broadcast Messages &amp; Moments</a></li>
   </ul>
   <p> </p>
   <p> </p>
@@ -221,7 +228,7 @@
         <div style="float:right">Next: <a data-xref="{title}" href="Shaders.htm">The Shader Editor</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2023 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 The Sequences Editor

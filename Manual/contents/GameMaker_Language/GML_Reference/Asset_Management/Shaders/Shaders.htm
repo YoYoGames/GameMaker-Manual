@@ -4,7 +4,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>Shaders</title>
-  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <meta name="generator" content="Adobe RoboHelp 2022" />
   <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
   <script src="../../../../assets/scripts/main_script.js" type="module"></script>
   <meta name="rh-authors" content="Mark Alexander" />
@@ -16,16 +16,16 @@
   <!--<div class="body-scroll" style="top: 150px;">-->
   <h1><span data-field="title" data-format="default">Shaders</span></h1>
   <p>Shaders are an incredibly powerful tool for manipulating what and how things are <a class="glossterm" data-glossterm="rendered" href="#">rendered</a> to the screen by the graphics card. Since these tiny programs are actually run on the graphics card itself, this means that they are extremely fast to process, freeing up valuable CPU cycles for more game logic.</p>
-  <p>To create a shader you will need to have written both a <b>Vertex Shader</b> and a <b>Fragment Shader</b> (also know as a <b>Pixel Shader</b>) using the <a href="../../../../The_Asset_Editors/Shaders.htm">Shader Editor</a>, and even if (for example) you only wish to change the vertex positions for an instance being drawn, or if you only want to change the colour values for the pixels, you will still need <b>both</b> programs for a complete shader to work.</p>
-  <p class="note"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> Shaders do <b>not</b> permit you to change the value of any variables that you pass into them, and so these will be called <b>shader constants</b> in all the documentation that refers to them.</p>
+  <p>To create a shader you will need to have written both a <b>Vertex Shader</b> and a <b>Fragment Shader</b> (also know as a <b>Pixel Shader</b>) using <a data-xref="{title}" href="../../../../The_Asset_Editors/Shaders.htm">The Shader Editor</a>, and even if (for example) you only wish to change the vertex positions for an instance being drawn, or if you only want to change the colour values for the pixels, you will still need <b>both</b> programs for a complete shader to work.</p>
+  <p class="note"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> Shaders do <b>not</b> permit you to change the value of any variables that you pass into them, and so these will be called <b>shader constants</b> (or uniforms) in all the documentation that refers to them.</p>
   <p>For a complete overview of the language specification of GLSL ES that <span data-keyref="GameMaker Name">GameMaker</span> currently uses, including the functions and variables that you can use to program the shaders themselves, please refer to the <a href="https://registry.khronos.org/OpenGL/specs/es/2.0/GLSL_ES_Specification_1.00.pdf">GLSL ES Specification 1.00</a>. If you&#39;re looking for a quick overview of these functions and variables, the following link is useful as well as it contains some quick reference cards for the OpenGL ES API on the last two cards: <a href="https://www.khronos.org/opengles/sdk/docs/reference_cards/OpenGL-ES-2_0-Reference-card.pdf">OpenGL ES Reference Cards</a>.</p>
   <p>Using a shader in your projects is very simple, and only requires a couple of lines of code to get the most basic of use from it:</p>
   <p class="code">shader_set(myShader);<br />
     draw_self();<br />
     shader_reset();</p>
-  <p>As you can see, they are used in a similar manner to blend modes and surfaces, where you first select (set) the shader, draw what you want using it, then reset the draw target again afterwards. If you wish to render the full screen through a shader, and not just a single sprite or background, you will need to set up a surface to catch the current view, and then pass that through to the shader (see <a href="../../Drawing/Surfaces/Surfaces.htm">Surfaces</a> for more information).</p>
-  <p class="note"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> Shaders, like anything related to drawing, can <b>only be used in the draw event</b>. It is also worth noting that if you are trying to use a colour value in a shader and the object has no texture, the results will turn out black.</p>
-  <p>If the shader you are using has input values, these are set using the <i>uniform</i> functions. You would first get the uniform <i>handle</i> (which is essentially an ID value for the uniform to be set) using the function <a href="shader_get_uniform.htm"><span class="inline">shader_get_uniform()</span></a> in the <b>Create Event</b> of the instance using the shader, and then store these handles in variables, something like this:</p>
+  <p>As you can see, they are used in a similar manner to blend modes and surfaces, where you first select (set) the shader, draw what you want using it, then reset the draw target again afterwards. If you wish to render the entire screen through a shader, and not just a single sprite or background, you will need to set up a surface to catch the current view, and then pass that through to the shader (see <a data-xref="{title}" href="../../Drawing/Surfaces/Surfaces.htm">Surfaces</a> for more information).</p>
+  <p class="note"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> Shaders, like anything related to drawing, can <b>only be used in the Draw events</b>. It is also worth noting that if you are trying to use a colour value in a shader and the object has no texture, the results will turn out black.</p>
+  <p>If the shader you are using has input values, these are set using the <i>uniform</i> functions. You would first get the uniform <i>handle</i> (which is essentially an ID value for the uniform to be set) using the function <span class="inline3_func"><a data-xref="{title}" href="shader_get_uniform.htm">shader_get_uniform</a></span> in the <b>Create Event</b> of the instance using the shader, and then store these handles in variables, something like this:</p>
   <p class="code">colour_to_find = shader_get_uniform(sShaderDemo5, &quot;f_Colour1&quot;);<br />
     colour_to_set = shader_get_uniform(sShaderDemo5, &quot;f_Colour2&quot;);</p>
   <p>Once you have the uniform handles, they can then be set in the shader code for the <b>Draw Event</b> like this:</p>
@@ -34,7 +34,7 @@
     shader_set_uniform_f(colour_to_set, 1,0,0 );<br />
     draw_sprite(sprite_index,image_index,x+24, y);<br />
     shader_reset();</p>
-  <p>One final thing to note is that although shaders are accepted across all platforms, they are still device specific and if the hardware or software of the device cannot use shaders then you will get an error. Therefore you are recommended to check that the shader has been compiled before setting uniforms or using the shader itself, like this:</p>
+  <p>One final thing to note is that although shaders are accepted across all platforms, they are still device specific and if the hardware or software of the device cannot use shaders then you will get an error. Therefore you are recommended to check that the shader has been compiled before setting uniforms or using the shader itself by using <span class="inline3_func"><a data-xref="{title}" href="shader_is_compiled.htm">shader_is_compiled</a></span>, like this:</p>
   <p class="code">if (shader_is_compiled(myShader))<br />
     {<br />
         shader_set(myShader);<br />
@@ -42,7 +42,7 @@
         shader_reset();<br />
     }<br />
     else show_debug_message(&quot;Shader failed&quot;);</p>
-  <p>As an extra check you can also call the function <a href="shaders_are_supported.htm"><span class="inline">shaders_are_supported()</span></a> to see if the hardware even supports shaders. In general you&#39;d do these checks on game start and store the results as a <a href="../../../GML_Overview/Variables/Global_Variables.htm">global variable</a> to then check later.</p>
+  <p>As an extra check you can also call the function <span class="inline3_func"><a data-xref="{title}" href="shaders_are_supported.htm">shaders_are_supported</a></span> to see if the hardware even supports shaders. In general you&#39;d do these checks on game start and store the results as a <a href="../../../GML_Overview/Variables/Global_Variables.htm">global variable</a> to then check later.</p>
   <p>It is important to note that <span data-keyref="GameMaker Name">GameMaker</span> also supports some conditional compile <b>Macros</b> which can be used within GLSL ES shaders so they can perform alternative code on specific supported platforms. The macros and the platforms they will be generated on are shown in the table below:</p>
   <p> </p>
   <table>
@@ -81,6 +81,9 @@
     #else<br />
     // GLSL shader code here<br />
     #endif</p>
+  <p dir="auto">Shaders use a certain <em>precision</em> to store variables. By default, this may not be the highest precision. You can add the following line of code:</p>
+  <p class="code" dir="auto"><span data-keyref="Const_Shader_HighPrecision">precision highp float;</span></p>
+  <p dir="auto">at the top of any pixel shader that requires a higher degree of mathematical precision. This can be useful on e.g. s<span>ome Android devices that run their shaders in low precision mode</span>.</p>
   <p>If you are new to shaders or want a more complete guide to creating and use them using <span data-keyref="GameMaker Name">GameMaker</span>, then please see the following page of the manual:</p>
   <ul class="colour">
     <li><a data-xref="{title}" href="../../../../Additional_Information/Guide_To_Using_Shaders.htm">Guide To Using Shaders</a></li>
@@ -138,7 +141,6 @@
   </ul>
   <p> </p>
   <p> </p>
-  <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
@@ -146,7 +148,7 @@
         <div style="float:right">Next: <a href="../Sequences/Sequences.htm">Sequences</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2022 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 Shaders

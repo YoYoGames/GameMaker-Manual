@@ -4,7 +4,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>tilemap_set_mask</title>
-  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <meta name="generator" content="Adobe RoboHelp 2022" />
   <link rel="stylesheet" href="../../../../../assets/css/default.css" type="text/css" />
   <script src="../../../../../assets/scripts/main_script.js" type="module"></script>
   <meta name="rh-authors" content="Mark Alexander" />
@@ -14,44 +14,13 @@
 </head>
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
-  <h1>tilemap_set_mask</h1>
-  <p>This function can be used to set the <b>tile bit mask</b> for a single tile map. You give the tile map element ID (which you get when you create a tile map element using <a href="layer_tilemap_create.htm"><span class="inline">layer_tilemap_create()</span></a> or when you use the function <a href="layer_tilemap_get_id.htm"><span class="inline">layer_tilemap_get_id()</span></a>), and then the mask value. The idea is that if you have, for example, a pretty small tile set of 16 x 16 tiles then you have a total of 256 different tiles in your tile set, which only uses up 8 bits of your index in the tile data &quot;blob&quot; (from an available 19 bits of data). These bits can be &quot;masked&quot; and then the rest of the tile data can be used to store additional values.</p>
-  <p>An easy way to get the initial index mask value is to take the number of tiles in the tile set and subtract 1, so a 16x16 tile set has 256 tiles and a mask value of 255 (or $ff in hexadecimal), and if the tile set has a number of tiles that are not a power of two, then round up to the nearest power of two to get the mask, for example a tile set that is 20x20 has 400 tiles, which you would round up to 512, and so get a mask index value of 511 ($1ff in hexadecimal). Apart from the index mask, normally you would want to preserve the flip, rotate and mirror values that are assigned to a tile too, so to help with that there are a few <b>constants</b> that can be used. These can be &quot;or&quot;-ed together with the index mask value to preserve those bits of data. The following constants can be used (see the example code below for usage):</p>
-  <table>
-    <colgroup>
-      <col />
-      <col />
-    </colgroup>
-    <tbody>
-      <tr>
-        <th colspan="2"><span data-keyref="Type_Constant_Tile_Mask"><a data-rhwidget="HyperlinkPopover" href="../../../../../../GameMaker_Language/GML_Reference/Asset_Management/Rooms/Tile_Map_Layers/tilemap_get_mask.htm">Tile Mask Constant</a></span></th>
-      </tr>
-      <tr>
-        <th>Constant</th>
-        <th>Description</th>
-      </tr>
-      <tr>
-        <td><span class="inline">tile_rotate</span></td>
-        <td>Used to set/get the rotate bit of a tile data blob.</td>
-      </tr>
-      <tr>
-        <td><span class="inline">tile_mirror</span></td>
-        <td>Used to set/get the mirror bit of a tile data blob.</td>
-      </tr>
-      <tr>
-        <td><span class="inline">tile_flip</span></td>
-        <td>Used to set/get the flip bit of a tile data blob.</td>
-      </tr>
-      <tr>
-        <td><span class="inline">tile_index_mask</span></td>
-        <td>A special constant that is for &quot;and&quot;-ing with the tile data blob to extract the tile index.</td>
-      </tr>
-    </tbody>
-  </table>
-  <p>Tile map bit masking is an advanced feature and allows you to use bits of the tile data &quot;blob&quot; for your own use. For example, the user could reserve a bit to mean &quot;solid&quot; in the tile-data structure and then this can be checked for fast collisions. Basically, the bit mask is &quot;and&quot;-ed against the tile data when the tile map is <i>drawn</i> (so it doesn&#39;t affect any of the other functionality), meaning that bits which aren&#39;t in the mask are ignored, but can still be read and written to by the user for their own purposes. Note that there are two different masks – a global one and one per tile map - and these are &quot;and&quot;-ed together internally by <span data-keyref="GameMaker Name">GameMaker</span> before being used for drawing.</p>
+  <h1><span data-field="title" data-format="default">tilemap_set_mask</span></h1>
+  <p>This function sets the <a data-rhwidget="HyperlinkPopover" data-xref="{text}" href="Tile_Map_Layers.htm#tile_map_bit_mask">Tile Map Bit Mask</a> for a single tile map.</p>
+  <p>You give the tile map element ID (which you get when you create a tile map element using <span class="inline3_func"><a data-xref="{title}" href="layer_tilemap_create.htm">layer_tilemap_create</a></span> or when you use the function <span class="inline3_func"><a data-xref="{title}" href="layer_tilemap_get_id.htm">layer_tilemap_get_id</a></span>), and then the mask value. If you have, for example, a pretty small tile set of 16 x 16 tiles then you have a total of 256 different tiles in your tile set. You only need 8 bits of the <a data-rhwidget="HyperlinkPopover" data-xref="{text}" href="Tile_Map_Layers.htm#h3"> </a> to index these tiles (from an available <span data-keyref="Const_Tile_Data_Max_Index_Bits">19</span> bits of data). These bits can be &quot;masked&quot; and then the rest of the tile data can be used to store additional values. See <a data-xref="{text}" href="Tile_Map_Layers.htm#calculating_the_mask_bits">Calculating the Mask Bits</a>.</p>
+  <p>Tile map bit masking is an advanced feature and allows you to use bits of the tile data &quot;blob&quot; for your own use. For example, you could reserve a bit to mean &quot;solid&quot; in the tile data that can then be checked for fast collisions. Basically, the bit mask is &quot;and&quot;-ed against the tile data when the tile map is <i>drawn</i> (so it doesn&#39;t affect any of the other functionality), meaning that bits which aren&#39;t in the mask are ignored, but can still be read and written to by the user for their own purposes.</p>
   <p> </p>
   <h4>Syntax:</h4>
-  <p class="code">tilemap_set_mask(tilemap_element_id, mask)</p>
+  <p class="code"><span data-field="title" data-format="default">tilemap_set_mask</span>(tilemap_element_id, mask);</p>
   <table>
     <tbody>
       <tr>
@@ -61,37 +30,73 @@
       </tr>
       <tr>
         <td>tilemap_element_id</td>
-        <td><span data-keyref="Type_ID_Element_Tilemap"><a data-rhwidget="HyperlinkPopover" href="../../../../../../LINKGOESHERE">Tile Map Element ID</a></span></td>
+        <td><span data-keyref="Type_ID_Element_Tilemap"><a href="layer_tilemap_get_id.htm" target="_blank">Tile Map Element ID</a></span></td>
         <td>The unique ID value of the tile map element to set the mask of</td>
       </tr>
       <tr>
         <td>mask</td>
-        <td><span data-keyref="Type_Real"><a data-rhwidget="HyperlinkPopover" href="../../../../../../LINKGOESHERE">Real</a></span></td>
+        <td><span data-keyref="Type_Real"><a href="../../../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
         <td>The mask value</td>
       </tr>
     </tbody>
   </table>
   <p> </p>
   <h4>Returns:</h4>
-  <p class="code"><span data-keyref="Type_Void"><a data-rhwidget="HyperlinkPopover" href="../../../../../../LINKGOESHERE">N/A</a></span></p>
+  <p class="code"><span data-keyref="Type_Void">N/A</span></p>
   <p> </p>
-  <h4>Example:</h4>
-  <p class="code">var lay_id = layer_get_id(&quot;Tiles_sky&quot;);<br />
-    var map_id = layer_tilemap_get_id(lay_id);<br />
-    var mask = tile_mirror | tile_flip | tile_rotate | 255;<br />
-    tilemap_set_mask(map_id, mask);</p>
-  <p>The above code gets the tile map ID from the given layer and then sets the tile map bit mask to 8bits, preserving the flip, mirror, and rotate values for each tile in the map.</p>
+  <h4>Example 1: Using 8 bits for the tile index</h4>
+  <p class="code">var _lay_id = layer_get_id(&quot;Tiles_sky&quot;);<br />
+    var _map_id = layer_tilemap_get_id(_lay_id);<br />
+    var _mask = tile_mirror | tile_flip | tile_rotate | 255;<br />
+    tilemap_set_mask(_map_id, _mask);</p>
+  <p>The above code gets the tile map ID from the given layer and then sets the tile map bit mask to 8bits (a value of <span class="inline2">255</span> or <span class="inline2">0b11111111</span>), preserving the flip, mirror, and rotate values for each tile in the map.</p>
   <p> </p>
+  <h4>Example 2: Resetting to the default mask</h4>
+  <p class="code">var _lay_id = layer_get_id(&quot;Tiles_sky&quot;);<br />
+    var _map_id = layer_tilemap_get_id(_lay_id);<br />
+    var _mask = tile_mirror | tile_flip | tile_rotate | tile_index_mask;<br />
+    tilemap_set_mask(_map_id, _mask);</p>
+  <p>The above code sets the tile bit mask to the value needed for <span data-keyref="GameMaker Name">GameMaker</span> to draw tiles correctly by combining all tile mask constants using bitwise OR. The full <span data-keyref="Const_Tile_Data_Max_Index_Bits">19</span> bits are used for the tile index and the mirror, flip and rotate bits are preserved.</p>
+  <p> </p>
+  <h4>Example 3: Writing and reading back custom data</h4>
+  <p class="code_heading">Create Event</p>
+  <p class="code">randomise();<br />
+    <br />
+    var _lay_id = layer_get_id(&quot;Tiles_1&quot;);<br />
+    var _map_id = layer_tilemap_get_id(_lay_id);<br />
+    var _mask = tile_mirror | tile_flip | tile_rotate | 255;<br />
+    tilemap_set_mask(_map_id, _mask);<br />
+    for(var _x = 0;_x &lt; tilemap_get_width(_map_id);_x++)<br />
+    {<br />
+        for(var _y = 0;_y &lt; tilemap_get_height(_map_id);_y++)<br />
+        {<br />
+            var _tdata = tilemap_get(_map_id, _x, _y);<br />
+            var _random_value = irandom(255);<br />
+            var _random_value_shifted = _random_value &lt;&lt; 8;<br />
+            _tdata |= _random_value_shifted;<br />
+            tilemap_set(_map_id, _tdata, _x, _y);<br />
+        }<br />
+    }
+  </p>
+  <p class="code_heading">Step Event</p>
+  <p class="code">var _tdata = tilemap_get_at_pixel(map_id, mouse_x, mouse_y);<br />
+    random_value_under_cursor = (_tdata &gt;&gt; 8) &amp; 255;</p>
+  <p class="code_heading">Draw GUI Event</p>
+  <p class="code">draw_text(5, 5, $&quot;Value: {random_value_under_cursor}&quot;);</p>
+  <p>The above code shows how to store some custom data in the cells of a tile map and read them back.</p>
+  <p>In the Create event the bit mask is set to be the 8 lowest bits plus the mirror, flip and rotate bits. A random integer value from 0 to 255 is then written to bit 8 to 15 of each tile. This is done as follows: the bits of <span class="inline2">_random_value</span> are first shifted <em>left</em> by 8 bits, for example a value of <span class="inline2">0b0000000011001111</span> (<span class="inline2">207</span>) becomes <span class="inline2">0b1100111100000000</span> (<span class="inline2">52992</span>). This result is stored in <span class="inline2">_random_value_shifted</span>. This value is then bitwise &quot;or&quot;-ed <span class="inline2">|</span> with the tile data, which will result in a 1 bit whenever a bit is set in either the tile data or in the random value. The tile data is then written back to the same tile map call using <span class="inline3_func"><a data-xref="{title}" href="tilemap_set.htm">tilemap_set</a></span>.</p>
+  <p>In the Step event the tile data under the mouse is looked up using <span class="inline3_func"><a data-xref="{title}" href="tilemap_get_at_pixel.htm">tilemap_get_at_pixel</a></span>. To get the random value back out, the bits are first shifted <em>right</em> by 8 bits, which moves the 8 bits of the random value back to bit positions 0 to 7 (the index bits are also shifted right and so are lost at this point). This new value is then bitwise &quot;and&quot;-ed <span class="inline2">&amp;</span> with 255 to only keep the lower 8 bits that hold the random value (any of the mirror, flip or rotate bits may be set which, without &quot;and&quot;-ing would give a much higher value). The result is assigned to <span class="inline2">random_value_under_cursor</span>.</p>
+  <p>The random value stored in the tile under the mouse position is displayed in the Draw GUI event.</p>
   <p> </p>
   <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a href="Tile_Map_Layers.htm">Tile Map Layers</a></div>
-        <div style="float:right">Next: <a href="tilemap_set_global_mask.htm">tilemap_set_global_mask</a></div>
+        <div style="float:left">Back: <a data-xref="{title}" href="Tile_Map_Layers.htm">Tile Map Elements</a></div>
+        <div style="float:right">Next: <a data-xref="{title}" href="tilemap_set_global_mask.htm">tilemap_set_global_mask</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2022 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 tilemap_set_mask

@@ -4,7 +4,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>gamepad_set_axis_deadzone</title>
-  <meta name="generator" content="Adobe RoboHelp 2019" />
+  <meta name="generator" content="Adobe RoboHelp 2022" />
   <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
   <script src="../../../../assets/scripts/main_script.js" type="module"></script>
   <meta name="rh-authors" content="Mark Alexander" />
@@ -15,38 +15,43 @@
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
   <h1>gamepad_set_axis_deadzone</h1>
-  <p>This function can be used to set the &quot;dead zone&quot; of the joystick axis. You specify the device slot to set, and then set a value from 0 to 1 and if the input amount is lower than the given value, the joystick axis is considered to be at 0.
-    Note that this is a global setting that will affect <i>all</i> axis of all joysticks connected to the device slot specified. </p>
-  <p>Using this function does not mean that the axis value will start from the deadzone value, as the function <a href="gamepad_axis_value.htm"><span class="inline">gamepad_axis_value()</span></a> will <em>always</em> return a normalised value between -1
-    and 0 or 0 and 1. For example, setting the deadzone to 0.2 will mean that pushing the stick right will only start returning a value from 0 - 1 when the <em>raw</em> axis value is over 0.2 - so when the raw value is 0.2, the return value will be 0,
-    when the raw value is at 0.5, the return value will be 0.375, or if the raw value is 0.9, then the return value would be 0.875.</p>
+  <p>This function can be used to set the &quot;dead zone&quot; of the joystick axis. You specify the device slot to set, and then set a value from 0 to 1 and if the input amount is lower than the given value, the joystick axis is considered to be at 0. Note that this is a global setting that will affect <i>all</i> axis of all joysticks connected to the device slot specified. </p>
+  <p>Using this function does not mean that the axis value will start from the deadzone value, as the function <a href="gamepad_axis_value.htm"><span class="inline">gamepad_axis_value()</span></a> will <em>always</em> return a normalised value between -1 and 0 or 0 and 1. For example, setting the deadzone to 0.2 will mean that pushing the stick right will only start returning a value from 0 - 1 when the <em>raw</em> axis value is over 0.2 - so when the raw value is 0.2, the return value will be 0, when the raw value is at 0.5, the return value will be 0.375, or if the raw value is 0.9, then the return value would be 0.875.</p>
   <p> </p>
   <h4>Syntax:</h4>
   <p class="code">gamepad_set_axis_deadzone(device, deadzone);</p>
   <table>
     <tbody>
       <tr>
-        <th>Argument</th><th>Type</th>
+        <th>Argument</th>
+        <th>Type</th>
         <th>Description</th>
-     </tr>
+      </tr>
       <tr>
-        <td>device</td><td><span data-keyref="Type_Real"></span></td>
+        <td>device</td>
+        <td><span data-keyref="Type_Real"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
         <td>Which gamepad device &quot;slot&quot; to check.</td>
-     </tr>
+      </tr>
       <tr>
-        <td>deadzone</td><td><span data-keyref="Type_Real"></span></td>
+        <td>deadzone</td>
+        <td><span data-keyref="Type_Real"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
         <td>The dead zone value from 0 to 1.</td>
-     </tr>
+      </tr>
     </tbody>
   </table>
   <p> </p>
   <h4>Returns:</h4>
-  <p class="code"><span data-keyref="Type_Void"></span></p>
+  <p class="code"><span data-keyref="Type_Void">N/A</span></p>
   <p> </p>
   <h4>Example:</h4>
-  <p class="code">if gamepad_is_connected(0) gamepad_set_axis_deadzone(0, 0.05);<br/> if gamepad_is_connected(1) gamepad_set_axis_deadzone(1, 0.05);<br/> if gamepad_is_connected(2) gamepad_set_axis_deadzone(2, 0.05);<br/> if gamepad_is_connected(3) gamepad_set_axis_deadzone(3,
-    0.05);</p>
-  <p>The above code will set the dead zone of the joystick axis on any of 4 connected devices to 0.05.</p>
+  <p class="code">if (async_load[? &quot;event_type&quot;] == &quot;gamepad discovered&quot;)<br />
+    {<br />
+        var _pad = async_load[? &quot;pad_index&quot;];<br />
+        gamepad_set_axis_deadzone(_pad, 0.2);<br />
+        array_push(gamepads, _pad);<br />
+    }</p>
+  <p>The above code runs in the Async <a data-xref="{title}" href="../../../../The_Asset_Editors/Object_Properties/Async_Events/System.htm">System</a> event and when a gamepad is discovered, it takes the pad index, sets its deadzone to 20% and pushes the pad index into an array.</p>
+  <p>This follows the <strong>Gamepad Movement</strong> example on <a data-xref="{title}" href="../../../../Quick_Start_Guide/Movement_And_Controls.htm">Movement And Controls</a> where the <span class="inline2">gamepads</span> array is set up.</p>
   <p> </p>
   <p> </p>
   <p> </p>
@@ -57,7 +62,7 @@
         <div style="float:right">Next: <a href="gamepad_set_vibration.htm"> gamepad_set_vibration </a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2021 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 gamepad_set_axis_deadzone
