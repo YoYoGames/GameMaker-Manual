@@ -13,9 +13,6 @@
 ### -update_rh_vars: Add this to update the RoboHelp variables
 ###                  A RH variable is written (or updated if exists) for every Win/Mac shortcut
 ###                  For example: Hotkey_Create_Asset_Win, Hotkey_Create_Asset_Mac
-### 
-### Important: Technically, the JSON cannot contain trailing commas, this isn't supported
-###            using the built-in json module. Though it is supported through the yy_load function.
 ###
 
 import sys
@@ -29,16 +26,6 @@ import xml.etree.ElementTree as ET
 
 # Unique modifier keys
 mods = set()
-
-def yy_load(file):
-    """ Load json from a file that possibly contains trailing commas """
-    # Do some tricky regex substitution
-    # so we can use the json module
-    data_string = ''.join(file.readlines())
-    data_string = re.sub("(,)(\s*[]}])","\g<2>", data_string)
-
-    # Now we can import using the json module
-    return json.loads(data_string)
 
 # Utility functions
 def get_combo_string(combo, replace_in_names=[]):
@@ -114,8 +101,7 @@ shortcuts_per_location = OrderedDict()  # stores shortcuts under locations
 # Read the defaults file
 with open(fpath_win, 'r', encoding="utf-8") as f:
     # Load all the data
-    # input = json.load(f)              # risk of errors if trailing commas are present
-    input = yy_load(f)                  # regex-replace variety that fixes things
+    input = json.load(f)              # risk of errors if trailing commas are present
 
     # Add items under their respective locations (i.e. "group" per location)
     for shortcut in input:

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <meta name="topic-comment" content="A note that lists the contents of the async_load DS map in the async HTTP event" />
+  <title>Note_HTTP_async_load_Contents</title>
+  <link rel="stylesheet" type="text/css" href="../css/default.css" />
+</head>
+<body>
+  <p>The general structure for the DS map will be as follows:</p>
+  <ul class="colour">
+    <li><b>id: </b>The ID which was returned from the command. If you fire off a series of <span class="inline2">http_*</span> requests then you need to know which one you&#39;re getting the reply to, and so you would use this value to compare to the value you stored when you originally sent the request to find the right one.</li>
+    <li><b>status: </b>Holds a value of less than 0 for an error, 0 for complete and 1 for receiving packets (see below for more details).</li>
+    <li><b>result: </b>The data received (string only).</li>
+    <li><b>url: </b>The complete URL you requested.</li>
+    <li><b>http_status: </b>The raw HTTP status code (if available). This returns the standard web status code for most browsers, e.g.: 304 for &quot;Not Modified&quot;, 204 for &quot;No Content&quot;, etc.</li>
+  </ul>
+  <p>If multiple packets are returned to your game, the callback <span class="inline2">&quot;status&quot;</span> key will return 1, in which case the DS map will have the following additional keys:</p>
+  <ul class="colour">
+    <li><b>&quot;contentLength&quot;: </b>This is the size of file that the web server has said you should expect to receive (may be -1 if the server does not return this data).</li>
+    <li><b>&quot;sizeDownloaded&quot;: </b>The size of the data that has already been downloaded.</li>
+  </ul>
+</body>
+</html>

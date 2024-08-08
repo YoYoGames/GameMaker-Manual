@@ -14,13 +14,14 @@
 </head>
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
-  <h1>show_question_async</h1>
-  <p>This function opens a window and displays the question you define in the function to the user. This is an asynchronous function, and as such <span data-keyref="GameMaker Name">GameMaker</span> does <i>not</i> block the device it is being run on while waiting for an answer, but rather keeps on running events as normal. The function has two buttons that show &quot;Yes&quot; and &quot;No&quot;, and once the user has pressed one, an asynchronous <b>Dialog</b> event is triggered which, for the duration of that event <i>only</i>, will have a DS map stored in the variable <a href="../../../GML_Overview/Variables/Builtin_Global_Variables/async_load.htm"><span class="inline">async_load</span></a>.</p>
-  <p>This map will contain the two keys, &quot;<strong>id</strong>&quot;, and &quot;<strong>status</strong>&quot;. &quot;id&quot; is the value that was returned by the function when called, while the &quot;status&quot; will be either <span class="inline">true</span> or <span class="inline">false</span> for &quot;Yes&quot; and &quot;No&quot; respectively.</p>
+  <h1><span data-field="title" data-format="default">show_question_async</span></h1>
+  <p>This function opens a window and displays the question you define in the function to the user.</p>
+  <p>This is an asynchronous function, and as such <span data-keyref="GameMaker Name">GameMaker</span> does <i>not</i> block the device it is being run on while waiting for an answer, but rather keeps on running events as normal. The function has two buttons that show <strong>Yes</strong> and <strong>No</strong>, and once the user has pressed one, an asynchronous <a data-xref="{title}" href="../../../../The_Asset_Editors/Object_Properties/Async_Events/Dialog.htm">Dialog</a> event is triggered which, for the duration of that event <i>only</i>, will have a <span data-keyref="Type_ID_DS_Map"><a href="../../Data_Structures/DS_Maps/ds_map_create.htm" target="_blank">DS Map</a></span> stored in the variable <span class="inline2"><a data-xref="{title}" href="../../../GML_Overview/Variables/Builtin_Global_Variables/async_load.htm">async_load</a></span>.</p>
+  <p>This map will contain the two keys: <span class="inline2">&quot;id&quot;</span> and <span class="inline2">&quot;status&quot;</span>. <span class="inline2">&quot;id&quot;</span> is the value that was returned by the function when called, while the <span class="inline2">&quot;status&quot;</span> will be either <span class="inline2">true</span> or <span class="inline2">false</span> for <strong>Yes</strong> and <strong>No</strong> respectively.</p>
   <div data-conref="../../../../assets/snippets/Note_Dialog_For_Debug_Only.hts"> </div>
   <p> </p>
   <h4>Syntax:</h4>
-  <p class="code">show_question_async(string);</p>
+  <p class="code"><span data-field="title" data-format="default">show_question_async</span>(string);</p>
   <table>
     <tbody>
       <tr>
@@ -31,7 +32,7 @@
       <tr>
         <td>string</td>
         <td><span data-keyref="Type_String"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">String</a></span></td>
-        <td>The question to ask to the user.</td>
+        <td>The question to ask the user</td>
       </tr>
     </tbody>
   </table>
@@ -39,32 +40,33 @@
   <h4>Returns:</h4>
   <p class="code"><span data-keyref="Type_ID_Async_Event"><a href="../Asynchronous_Functions.htm" target="_blank">Async Request ID</a></span></p>
   <p> </p>
-  <h4>Extended Example:</h4>
-  <p>The <b>left mouse press event</b> (for example) of the object that is showing the message would have the following code:</p>
-  <p class="code">msg = show_question_async(&quot;Do you want to buy some armour for &quot; + string(armour[0, 5]) + &quot;coins?&quot;);</p>
-  <p>The above will show a question with the given string, requesting that the user press either &quot;yes&quot; or &quot;No&quot;. The function id is stored in the variable &quot;msg&quot; and will be used in the <a href="../../../../The_Asset_Editors/Object_Properties/Async_Events/Dialog.htm">Asynchronous Dialog event</a> as shown below:</p>
-  <p class="code">var i_d, stat;<br />
-    i_d = ds_map_find_value(async_load, &quot;id&quot;);<br />
-    if (i_d == msg) <br />
+  <h4>Example:</h4>
+  <p>The <b>Mouse Left Pressed Event</b> (for example) of the object that is showing the message would have the following code:</p>
+  <p class="code_heading">Mouse Left Pressed Event</p>
+  <p class="code">msg = <span data-field="title" data-format="default">show_question_async</span>(&quot;Do you want to buy some armour for &quot; + string(armour[0, 5]) + &quot;coins?&quot;);</p>
+  <p>The above will show a question with the given string, requesting that the user press either <strong>Yes</strong> or <strong>No</strong>. The async ID is stored in the variable <span class="inline2">msg</span> and will be used in the <a href="../../../../The_Asset_Editors/Object_Properties/Async_Events/Dialog.htm">Asynchronous Dialog event</a> as shown below:</p>
+  <p class="code_heading">Async - Dialog Event</p>
+  <p class="code">var _id, _stat;<br />
+    _id = ds_map_find_value(async_load, &quot;id&quot;);<br />
+    if (_id == msg)<br />
     {<br />
-        if (ds_map_find_value(async_load, &quot;status&quot;)) <br />
+        if (ds_map_find_value(async_load, &quot;status&quot;))<br />
         {<br />
-            coins -= armour[0,5];<br />
-            global.protection += armour[0,0];<br />
+            coins -= armour[0, 5];<br />
+            global.protection += armour[0, 0];<br />
         }<br />
     }</p>
-  <p>The above code checks the &quot;id&quot; key of the returned <span class="inline">DS Map</span> against the value stored in the variable &quot;msg&quot;. If they are the same, it then checks to see if one of the two buttons were pressed and if it returns <span class="inline">true</span> it will then deduct a value from a variable and add a value to a global variable too.</p>
-  <p> </p>
+  <p>The above code checks the <span class="inline2">&quot;id&quot;</span> key of the returned <span data-keyref="Type_ID_DS_Map"><a href="../../Data_Structures/DS_Maps/ds_map_create.htm" target="_blank">DS Map</a></span> against the value stored in the variable <span class="inline2">&quot;msg&quot;</span>. If they are the same, it then checks to see if one of the two buttons were pressed and if it returns <span class="inline2">true</span> it will then deduct a value from a variable and add a value to a global variable too.</p>
   <p> </p>
   <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a href="Dialog.htm">Dialog</a></div>
-        <div style="float:right">Next: <a href="shop_leave_rating.htm">shop_leave_rating</a></div>
+        <div style="float:left">Back: <a data-xref="{title}" href="Dialog.htm">Dialog</a></div>
+        <div style="float:right">Next: <a data-xref="{title}" href="shop_leave_rating.htm">shop_leave_rating</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2023 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 show_question_async

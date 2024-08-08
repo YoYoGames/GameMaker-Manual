@@ -338,6 +338,8 @@ export default function(hljs) {
     "gpu_set_scissor", 
     "gpu_get_scissor", 
     "dbg_sprite_button", 
+    "http_set_connect_timeout", 
+    "http_get_connect_timeout", 
     "abs",
     "achievement_available",
     "achievement_event",
