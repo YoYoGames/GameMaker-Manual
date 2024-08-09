@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>vertex_submit_ext</title>
+  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <link rel="stylesheet" type="text/css" href="../../../../assets/css/default.css" />
+  <script src="../../../../assets/scripts/main_script.js" type="module"></script>
+  <meta name="rh-authors" content="" />
+  <meta name="topic-comment" content="" />
+  <meta name="rh-index-keywords" content="vertex_submit_ext" />
+  <meta name="search-keywords" content="vertex_submit_ext" />
+  <meta name="template" content="assets/masterpages/Manual_Keyword_Page.htt" />
+</head>
+<body>
+  <h1><span data-field="title" data-format="default">vertex_submit_ext</span></h1>
+  <p>This function submits a range of vertices in the given vertex buffer to the GPU for drawing.</p>
+  <p>The range is provided as an offset and number of vertices to submit. The offset can be any value greater than 0, the number of vertices the actual number to submit, or the value <span class="inline2">-1</span> to indicate that all vertices starting at the offset should be submitted.</p>
+  <div data-conref="../../../../assets/snippets/Note_Warning_Surface_Must_Exist.hts"> </div>
+  <h3>Usage Notes</h3>
+  <ul class="colour">
+    <li>This function can only be used in the <a data-xref="{title}" href="../../../../The_Asset_Editors/Object_Properties/Draw_Events.htm">Draw Events</a>.</li>
+    <li>The function supports both regular and <a href="vertex_freeze.htm">frozen</a> vertex buffers.</li>
+    <li>The number of vertices must be in accordance with the primitive type you&#39;re drawing.</li>
+    <li>You can use <span class="inline3_func"><a data-xref="{title}" href="vertex_submit.htm">vertex_submit</a></span> if you need to submit the entire vertex buffer.</li>
+    <li>Triangle fans (<span class="inline2">pr_trianglefan</span>) are converted to <span class="inline2">pr_trianglelist</span> internally on platforms that don&#39;t support them when you call this function.</li>
+  </ul>
+  <p> </p>
+  <h4>Syntax:</h4>
+  <p class="code"><span data-field="title" data-format="default">vertex_submit_ext</span>(<span>buffer, primtype, texture, offset, number</span>);</p>
+  <table>
+    <colgroup>
+      <col />
+      <col />
+      <col />
+    </colgroup>
+    <tbody>
+      <tr>
+        <th>Argument</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>buffer</td>
+        <td><span data-keyref="Type_ID_Buffer_Vertex"><a href="vertex_create_buffer.htm" target="_blank">Vertex Buffer</a></span></td>
+        <td>The vertex buffer to use.</td>
+      </tr>
+      <tr>
+        <td>primtype</td>
+        <td><span data-keyref="Type_Constant_Draw_Primitive_Type"><a href="draw_primitive_begin.htm" target="_blank">Primitive Type Constant</a></span></td>
+        <td>The primitive type to use.</td>
+      </tr>
+      <tr>
+        <td>texture</td>
+        <td><span data-keyref="Type_Pointer_Texture"><a href="../../Asset_Management/Sprites/Sprite_Information/sprite_get_texture.htm" target="_blank">Texture</a></span></td>
+        <td>The texture to use (or <span class="inline2">-1</span> for no texture).</td>
+      </tr>
+      <tr>
+        <td>offset</td>
+        <td><span data-keyref="Type_Real"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td>The offset in the vertex buffer, or, the index of the first vertex in the buffer to submit. Must be &gt; 0. Use <span class="inline2">-1</span> to submit all vertices after the given offset.</td>
+      </tr>
+      <tr>
+        <td>number</td>
+        <td><span data-keyref="Type_Real"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td>The number of vertices to submit. This value is clamped to the size of the vertex buffer.</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>Returns:</h4>
+  <p class="code"><span data-keyref="Type_Void">N/A</span></p>
+  <p> </p>
+  <h4>Example 1: Basic Use</h4>
+  <p class="code_heading">Draw Event</p>
+  <p class="code"> <span data-field="title" data-format="default">vertex_submit_ext</span>(vb, pr_trianglelist, -1, 5, 6);</p>
+  <p>The above code shows a basic call to the function <span class="inline3_func"><span data-field="title" data-format="default">vertex_submit_ext</span></span>. The number of vertices is 6, which is a multiple of 3, as required for the primitive type used <span class="inline2">pr_trianglelist</span>.</p>
+  <p> </p>
+  <h4>Example 2: Progressively Drawing a Line</h4>
+  <p class="code_heading">Create Event</p>
+  <p class="code">vb = vertex_create_buffer();<br />
+    vertex_begin(vb, fmt_default);<br />
+    repeat(100)<br />
+    {<br />
+        vertex_position_3d(vb, random(room_width), random(room_height), 0);<br />
+        vertex_color(vb, c_white, 1);<br />
+        vertex_texcoord(vb, 0, 0);<br />
+    }<br />
+    vertex_end(vb);</p>
+  <p class="code_heading">Draw Event</p>
+  <p class="code">var _num = (current_time / 1000 * 12) mod (vertex_get_number(vb) + 1);<br />
+    <span data-field="title" data-format="default">vertex_submit_ext</span>(vb, pr_linestrip, -1, 0, _num);
+  </p>
+  <p>The code example above fills a vertex buffer with 100 random points and then progressively draws more points using the value of the built-in variable <span class="inline2"><a data-xref="{title}" href="../../Maths_And_Numbers/Date_And_Time/current_time.htm">current_time</a></span>.</p>
+  <p>In the Create event, a vertex buffer is created using <span class="inline3_func"><a data-xref="{title}" href="vertex_create_buffer.htm">vertex_create_buffer</a></span>. 100 vertices are then added to it in a <a data-xref="{title}" href="../../../GML_Overview/Language_Features/repeat.htm">repeat</a> loop. Every vertex gets a random position in the room, a white colour and a texture coordinate that&#39;s unused but must be there, according to the <a data-xref="{bookmarkText}" href="../../../../Additional_Information/Guide_To_Primitives_And_Vertex_Building.htm#passthrough_vertex_format">passthrough_vertex_format</a> used.</p>
+  <p>In the Draw event, the vertex buffer is submitted using <span class="inline3_func"><span data-field="title" data-format="default">vertex_submit_ext</span></span> as a <span class="inline2">pr_linestrip</span>. The starting vertex is always the first one (indicated by the offset value <span class="inline2">0</span>), the number of vertices is calculated using <span class="inline2"><a data-xref="{title}" href="../../Maths_And_Numbers/Date_And_Time/current_time.htm">current_time</a></span> with a modulo operator used to create a simple animation that loops.</p>
+  <p> </p>
+  <h4>Example 3: Groups of Vertices</h4>
+  <p class="code_heading">Create Event</p>
+  <p class="code">vb = vertex_create_buffer();<br />
+    arr_groups = [];<br />
+    <br />
+    var _px, _py, _col;<br />
+    vertex_begin(vb, fmt_default);<br />
+    for(var i = 0;i &lt; 8;i++)<br />
+    {<br />
+        _px = random(room_width);<br />
+        _py = random(room_height);<br />
+        _col = choose(c_red, c_blue, c_green, c_yellow);<br />
+        repeat(3)<br />
+        {<br />
+            vertex_position_3d(vb, _px + random_range(-20, 20), _py + random_range(-20, 20), 0);<br />
+            vertex_color(vb, _col, 1);<br />
+            vertex_texcoord(vb, 0, 0);<br />
+        }<br />
+        array_push(arr_groups, {visible: true, range: {offset: i * 3, num: 3}});<br />
+    }<br />
+    vertex_end(vb);<br />
+    vertex_freeze(vb);
+  </p>
+  <p class="code_heading">Draw Event</p>
+  <p class="code">var i = 0, _num = array_length(arr_groups);<br />
+    repeat(_num)<br />
+    {<br />
+        var _group = arr_groups[i++];<br />
+        if (!_group.visible) { continue; }<br />
+        vertex_submit_ext(vb, pr_trianglelist, -1, _group.range.offset, _group.range.num);<br />
+    }</p>
+  <p>The code example above shows how to treat a vertex buffer as groups of vertices, each given by a range and number of vertices. The visibility of every group of vertices can be set separately.</p>
+  <p>In the Create event, a vertex buffer is created and an empty array with it to store info about every range of vertices. A total of 8 triangles are added to the vertex buffer using the default <a data-xref="{bookmarkText}" href="../../../../Additional_Information/Guide_To_Primitives_And_Vertex_Building.htm#passthrough_vertex_format">passthrough_vertex_format</a>, each with a random position somewhere in the room, a random colour and a random width and height. A <a href="../../../GML_Overview/Structs.htm">struct</a> is also pushed onto the array using <span class="inline3_func"><a data-xref="{title}" href="../../Variable_Functions/array_push.htm">array_push</a></span> that stores the visibility and range of the vertices of each triangle. Finally the vertex buffer is frozen with <span class="inline3_func"><a data-xref="{title}" href="vertex_freeze.htm">vertex_freeze</a></span> so it can be submitted to the GPU faster.</p>
+  <p>In the Draw event, all groups of vertices are submitted separately with a call to <span class="inline3_func"><span data-field="title" data-format="default">vertex_submit_ext</span></span> inside a <a data-xref="{title}" href="../../../GML_Overview/Language_Features/repeat.htm">repeat</a> loop. If any group is not visible, it is skipped and the next one is checked.</p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div>Back: <a data-xref="{title}" href="Primitives_And_Vertex_Formats.htm">Primitives And Vertex Formats</a></div>
+        <div>Next: <a data-xref="{title}" href="draw_primitive_begin.htm">draw_primitive_begin</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2023 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+vertex_submit_ext
+-->
+  <!-- TAGS
+vertex_submit_ext
+-->
+</body>
+</html>

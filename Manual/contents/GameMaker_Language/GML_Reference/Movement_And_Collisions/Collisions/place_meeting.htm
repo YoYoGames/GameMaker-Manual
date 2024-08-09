@@ -4,9 +4,9 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>place_meeting</title>
-  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <meta name="generator" content="Adobe RoboHelp 2022" />
   <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
-  <script src="../../../../assets/scripts/main_script.js"></script>
+  <script src="../../../../assets/scripts/main_script.js" type="module"></script>
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Page that gives an overview of the funtion place_meeting" />
   <meta name="rh-index-keywords" content="place_meeting" />
@@ -16,8 +16,11 @@
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
   <h1>place_meeting</h1>
-  <p>With this function you can check a position for a collision with another instance or all instances of an object using the collision mask of the instance that runs the code for the check. When you use this you are effectively asking <span data-keyref="GameMaker Name">GameMaker</span> to move the instance to the new position, check for a collision, move back and tell you if a collision was found or not. This will work for precise collisions, but only if both the instance and the object being checked for have precise collision masks selected otherwise only bounding box collisions are applied. This function also accepts the special keywords <b>all</b> and <b>other</b>. Please note that should you need to get the unique instance <b>id</b> of the object being collided with, you should use <a href="../../Asset_Management/Instances/instance_place.htm"><span class="inline">instance_place()</span></a>.</p>
-  <p><img alt="Place meeting example" class="center" src="../../../../assets/Images/Scripting_Reference/GML/Reference/Movement_Collisions/place_meeting.png" />Note that the given x/y coordinates will be floored to the nearest integer before the check is performed.</p>
+  <p>With this function you can check a position for a collision with another instance, or all instances of an object, using the collision mask of the instance that runs the code. When you use this you are effectively asking <span data-keyref="GameMaker Name">GameMaker</span> to move the instance to the new position, check for a collision, move back and tell you if a collision was found or not.</p>
+  <p>This will work for precise collisions, but only if both the instance and the object being checked for have precise collision masks selected. Otherwise, only bounding box collisions are applied.</p>
+  <div data-conref="../../../../assets/snippets/Collisions_function_accepted_arguments.hts"> </div>
+  <p>If you need to get the unique instance <b>id</b> of the object being collided with, you should use <a href="../../Asset_Management/Instances/instance_place.htm"><span class="inline">instance_place()</span></a>.</p>
+  <p><img alt="Place meeting example" class="center" src="../../../../assets/Images/Scripting_Reference/GML/Reference/Movement_Collisions/place_meeting.png" />See: <a href="Collisions.htm">Collisions</a></p>
   <p> </p>
   <h4>Syntax:</h4>
   <p class="code">place_meeting(x, y, obj);</p>
@@ -30,32 +33,47 @@
       </tr>
       <tr>
         <td>x</td>
-        <td><span data-keyref="Type_Real">Real</span></td>
+        <td><span data-keyref="Type_Real"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
         <td>The x position to check.</td>
       </tr>
       <tr>
         <td>y</td>
-        <td><span data-keyref="Type_Real">Real</span></td>
+        <td><span data-keyref="Type_Real"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
         <td>The y position to check.</td>
       </tr>
       <tr>
         <td>obj</td>
-        <td><span data-keyref="Type_Asset_Object">Object Asset</span> or <span data-keyref="Type_ID_Instance">Instance ID</span></td>
-        <td>The instance or object to check for.</td>
+        <td><span data-keyref="Collision_obj_type"><span data-keyref="Type_Asset_Object"><a href="../../../../The_Asset_Editors/Objects.htm" target="_blank">Object Asset</a></span> or <span data-keyref="Type_ID_Instance"><a href="../../Asset_Management/Instances/Instance_Variables/id.htm" target="_blank">Object Instance</a></span> or <span data-keyref="Type_ID_Element_Tilemap"><a href="../../Asset_Management/Rooms/Tile_Map_Layers/layer_tilemap_get_id.htm" target="_blank">Tile Map Element ID</a></span> or <span data-keyref="Type_Array"><a href="../../../GML_Overview/Arrays.htm" target="_blank">Array</a></span></span></td>
+        <td><span data-keyref="Collision_obj_description">An object, instance, tile map ID, keywords all/other, or array containing these items</span></td>
       </tr>
     </tbody>
   </table>
   <p> </p>
   <h4>Returns:</h4>
-  <p class="code"><span data-keyref="Type_Bool">Boolean</span></p>
+  <p class="code"><span data-keyref="Type_Bool"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Boolean</a></span></p>
   <p> </p>
-  <h4>Example:</h4>
-  <p class="code">if keyboard_check(vk_left)<br />
+  <h4>Example 1:</h4>
+  <p class="code">if (keyboard_check(vk_left))<br />
     {<br />
-        if !place_meeting(x - 5, y, obj_wall) x -=5;<br />
+        if (!place_meeting(x - 5, y, obj_wall))<br />
+        {<br />
+            x -= 5;<br />
+        }<br />
     }</p>
   <p>The above code checks to see if there is <i>not</i> a collision to the left of the instance and moves the instance if there is none.</p>
-  <p> </p>
+  <h4>Example 2:</h4>
+  <p class="code">var _tilemap = layer_tilemap_get_id(&quot;Tiles_1&quot;);<br />
+    <br />
+    if (keyboard_check(vk_left))<br />
+    {<br />
+        if !place_meeting(x - 5, y, [obj_wall, obj_bush, _tilemap])<br />
+        {<br />
+            x -= 5;<br />
+        }<br />
+    }
+  </p>
+  <p>This is the same logic as the last example, however it uses an array to check for collisions against two types of objects (<span class="inline2">obj_wall</span>, <span class="inline2">obj_bush</span>) and the Tile Map for a Tile Layer called &quot;Tiles_1&quot;.</p>
+  <p>As you only need to get your tile map ID once, you can move the first line to the Create event.</p>
   <p> </p>
   <p> </p>
   <div class="footer">
@@ -65,7 +83,7 @@
         <div style="float:right">Next: <a href="position_empty.htm">position_empty</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2022 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 place_meeting
