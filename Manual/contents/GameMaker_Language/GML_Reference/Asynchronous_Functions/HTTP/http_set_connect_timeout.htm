@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>http_set_connect_timeout</title>
+  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <link rel="stylesheet" type="text/css" href="../../../../assets/css/default.css" />
+  <script src="../../../../assets/scripts/main_script.js" type="module"></script>
+  <meta name="rh-authors" content="" />
+  <meta name="topic-comment" content="" />
+  <meta name="rh-index-keywords" content="http_set_connect_timeout" />
+  <meta name="search-keywords" content="http_set_connect_timeout" />
+  <meta name="template" content="assets/masterpages/Manual_Keyword_Page.htt" />
+</head>
+<body>
+  <h1><span data-field="title" data-format="default">http_set_connect_timeout</span></h1>
+  <p>This function sets the connection timeout used for HTTP requests. Any requests made after a call to this function will use this timeout.</p>
+  <p>When the connection times out, an async <a data-xref="{title}" href="../../../../The_Asset_Editors/Object_Properties/Async_Events/HTTP.htm">HTTP</a> event will be triggered.</p>
+  <p class="note"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> The value set is only a guideline and requests may time out earlier or later depending on the network conditions and the operating system.</p>
+  <p> </p>
+  <h4>Syntax:</h4>
+  <p class="code"><span data-field="title" data-format="default">http_set_connect_timeout</span>(connect_timeout_ms);</p>
+  <table>
+    <colgroup>
+      <col />
+      <col />
+      <col />
+    </colgroup>
+    <tbody>
+      <tr>
+        <th>Argument</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>connect_timeout_ms</td>
+        <td><span data-keyref="Type_Real"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td>The connection timeout value to use for subsequent requests (in milliseconds)</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>Returns:</h4>
+  <p class="code"><span data-keyref="Type_Real"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></p>
+  <p> </p>
+  <h4>Example:</h4>
+  <p class="code_heading">Mouse Left Pressed Event</p>
+  <p class="code"><span data-field="title" data-format="default">http_set_connect_timeout</span>(10000);<br />
+    var _map_headers = ds_map_create();<br />
+    request_id = http_request(&quot;https://www.google.com&quot;, &quot;GET&quot;, _map_headers, &quot;&quot;);</p>
+  <p class="code_heading">Async HTTP Event</p>
+  <p class="code">if (async_load[? &quot;id&quot;] != request_id)<br />
+    {<br />
+        show_debug_message(&quot;Not a response to our request...&quot;);<br />
+        exit;<br />
+    }<br />
+    <br />
+    var _status = async_load[? &quot;status&quot;];<br />
+    var _http_status = async_load[? &quot;http_status&quot;];<br />
+    show_debug_message($&quot;Status: {_status}, HTTP Status: {_http_status}&quot;);
+  </p>
+  <p>The above code first sends an HTTP GET request in the Mouse Left Pressed event. Before the request, the HTTP timeout is first set to 10 seconds. In the async HTTP event the async ID is compared to the request ID returned by the call to <span class="inline3_func"><a data-xref="{title}" href="http_request.htm">http_request</a></span>. If the IDs are not the same, a debug message is shown and the event is exited. If the async ID equals the request ID, code execution continues and the values of the <span class="inline2"><a data-xref="{title}" href="../../../GML_Overview/Variables/Builtin_Global_Variables/async_load.htm">async_load</a></span>&#39;s <span class="inline2">&quot;status&quot;</span> and <span class="inline2">&quot;http_status&quot;</span> keys are shown in another debug message. The values of these variables should be checked to determine if an error occurred and, if so, which one.</p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div>Back: <a data-xref="{title}" href="HTTP.htm">HTTP</a></div>
+        <div>Next: <a data-xref="{title}" href="http_get_request_crossorigin.htm">http_get_request_crossorigin</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+http_set_connect_timeout
+-->
+  <!-- TAGS
+http_set_connect_timeout
+-->
+</body>
+</html>
