@@ -4,7 +4,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>object_exists</title>
-  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <meta name="generator" content="Adobe RoboHelp 2022" />
   <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
   <script src="../../../../assets/scripts/main_script.js" type="module"></script>
   <meta name="rh-authors" content="Mark Alexander" />
@@ -23,31 +23,33 @@
   <table>
     <tbody>
       <tr>
-        <th>Argument</th><th>Type</th>
+        <th>Argument</th>
+        <th>Type</th>
         <th>Description</th>
-     </tr>
+      </tr>
       <tr>
-        <td>obj</td><td><span data-keyref="Type_Asset_Object"></span></td>
+        <td>obj</td>
+        <td><span data-keyref="Type_Asset_Object"><a href="../../../../The_Asset_Editors/Objects.htm" target="_blank">Object Asset</a></span></td>
         <td>The index of the object to check.</td>
-     </tr>
+      </tr>
     </tbody>
   </table>
   <p> </p>
   <h4>Returns:</h4>
-  <p class="code"><span data-keyref="Type_Bool"></span></p>
+  <p class="code"><span data-keyref="Type_Bool"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Boolean</a></span></p>
   <p> </p>
   <h4>Example:</h4>
-  <p class="code">var object_id = buffer_read(net_buffer, buffer_u16);<br />
-    var pos_x = buffer_read(net_buffer, buffer_u16);<br />
-    var pos_y = buffer_read(net_buffer, buffer_u16);<br />
-    <br />
-    if (object_exists(object_id))<br />
+  <p class="code">function destroy_all_instances(_object)<br />
     {<br />
-        instance_create_layer(pos_x, pos_y, &quot;Instances&quot;, object_id);<br />
-    }
-  </p>
-  <p>The above code reads data from a buffer that was received via networking. Since it contains an object ID (used for spawning instances), we first need to ensure that the value is not invalid and that the object actually exists. For that we call <span class="inline">object_exists()</span> in a condition, and if that is true, we create an instance of that object at the received position.</p>
-  <p> </p>
+        if (!object_exists(_object)) return;<br />
+        <br />
+        with (_object)<br />
+        {<br />
+            instance_create_layer(x, y, layer, obj_explosion);<br />
+            instance_destroy();<br />
+        }<br />
+    }</p>
+  <p>This function destroys all instances of the given object. It does a check first and in case an invalid object asset has been passed, it ends the function. Otherwise, it continues with execution and for each instance of the object, it creates an explosion instance in its location and destroys the instance.</p>
   <p> </p>
   <p> </p>
   <div class="footer">
@@ -57,7 +59,7 @@
         <div style="float:right">Next: <a href="object_get_name.htm">object_get_name</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2022 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 object_exists
