@@ -3228,7 +3228,7 @@ export default function(hljs) {
     },
     {
       match: [
-        VALID_IDENTIFIER_REG,
+        /(?<=[a-zA-Z_][a-zA-Z0-9_]*)/,
         DOT_ACCESSOR_REG,
         VALID_IDENTIFIER_REG
       ],
@@ -3293,10 +3293,10 @@ export default function(hljs) {
         // Prevent keywords being taken by function calls.
         beginKeywords: KEYWORDS.join(" ")
       },
-      PROP_ACCESS,
       FUNCTION_DECLARATION,
       FUNCTION_CALL,
-      USER_ASSET_CONSTANT
+      USER_ASSET_CONSTANT,
+      PROP_ACCESS,
     ]
   };
 }
