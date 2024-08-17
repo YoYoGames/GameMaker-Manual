@@ -50,7 +50,7 @@ export default function(hljs) {
         }
       },
       {
-        begin: "#define"
+        match: "#define"
       },
       {
         match: [
@@ -74,6 +74,23 @@ export default function(hljs) {
       },
     ]
   };
+
+  const STRINGS = {
+    variants: [
+      hljs.APOS_STRING_MODE,
+      hljs.QUOTE_STRING_MODE,
+      {
+        scope: "string",
+        begin: "@'",
+        end: "'"
+      },
+      {
+        scope: "string",
+        begin: "@\"",
+        end: "\""
+      }
+    ]
+  }
 
   const BUILT_INS = [
     "texturegroup_get_names", 
@@ -3155,9 +3172,8 @@ export default function(hljs) {
     contains: [
       hljs.C_LINE_COMMENT_MODE,
       hljs.C_BLOCK_COMMENT_MODE,
-      hljs.APOS_STRING_MODE,
-      hljs.QUOTE_STRING_MODE,
       hljs.C_NUMBER_MODE,
+      STRINGS,
       PREPROCESSOR,
     ]
   };
