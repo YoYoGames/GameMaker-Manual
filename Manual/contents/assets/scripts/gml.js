@@ -1,9 +1,8 @@
 export default function(hljs) {
+
+  const VALID_IDENTIFIER = /[a-zA-Z_][a-zA-Z0-9_]+/;
+
   const KEYWORDS = [
-    "#define",
-    "#endregion",
-    "#macro",
-    "#region",
     "and",
     "begin",
     "break",
@@ -37,6 +36,45 @@ export default function(hljs) {
     "with",
     "xor",
   ];
+
+  const PREPROCESSOR = {
+    variants: [
+      {
+        match: [
+          /#macro\s/,
+          VALID_IDENTIFIER
+        ],
+        className: {
+          1: "keyword",
+          2: "literal"
+        }
+      },
+      {
+        begin: "#define"
+      },
+      {
+        match: [
+          /#region\s/,
+          /[^\n]*/
+        ],
+        className: {
+          1: "keyword",
+          2: "comment"
+        }
+      },
+      {
+        match: [
+          /#endregion\s/,
+          /[^\n]*/
+        ],
+        className: {
+          1: "keyword",
+          2: "comment"
+        }
+      },
+    ]
+  };
+
   const BUILT_INS = [
     "texturegroup_get_names", 
     "texturegroup_get_textures", 
@@ -3112,14 +3150,15 @@ export default function(hljs) {
       keyword: KEYWORDS,
       built_in: BUILT_INS,
       literal: LITERALS,
-      symbol: SYMBOLS,
+      symbol: SYMBOLS
     },
     contains: [
       hljs.C_LINE_COMMENT_MODE,
       hljs.C_BLOCK_COMMENT_MODE,
       hljs.APOS_STRING_MODE,
       hljs.QUOTE_STRING_MODE,
-      hljs.C_NUMBER_MODE
+      hljs.C_NUMBER_MODE,
+      PREPROCESSOR,
     ]
   };
 }
