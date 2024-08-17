@@ -3259,6 +3259,17 @@ export default function(hljs) {
     relevance: 0
   };
 
+  // The manual likes using `obj_` and such to define assets. Sneaky trick to make it look nicer :P
+  const USER_ASSET_CONSTANT = {
+    className: "literal",
+    end: VALID_IDENTIFIER_REG,
+    variants: [
+      { begin: "spr_" },
+      { begin: "obj_" },
+      { begin: "shader_" },
+    ]
+  };
+
   return {
     name: 'GML',
     case_insensitive: false, // language is case-sensitive
@@ -3280,7 +3291,8 @@ export default function(hljs) {
         // Prevent keywords being taken by function calls.
         beginKeywords: KEYWORDS.join(" ")
       },
-      FUNCTION_CALL
+      FUNCTION_CALL,
+      USER_ASSET_CONSTANT
     ]
   };
 }
