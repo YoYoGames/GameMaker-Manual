@@ -1,8 +1,5 @@
 export default function(hljs) {
 
-  const VALID_IDENTIFIER = /[a-zA-Z_][a-zA-Z0-9_]*/;
-  const DOT_ACCESSOR = /\s*\.\s*/;
-
   const KEYWORDS = [
     "and",
     "begin",
@@ -3113,12 +3110,15 @@ export default function(hljs) {
     "player_type"
   ];
 
-  const PREPROCESSOR_MODE = {
+  const VALID_IDENTIFIER_REG = /[a-zA-Z_][a-zA-Z0-9_]*/;
+  const DOT_ACCESSOR_REG = /\s*\.\s*/;
+
+  const PREPROCESSOR = {
     variants: [
       {
         match: [
           /#macro\s/,
-          VALID_IDENTIFIER
+          VALID_IDENTIFIER_REG
         ],
         className: {
           1: "keyword",
@@ -3151,7 +3151,14 @@ export default function(hljs) {
     ]
   };
 
-  const STRING_MODE = {
+  const COMMENT = {
+    variants: [
+      hljs.C_LINE_COMMENT_MODE,
+      hljs.C_BLOCK_COMMENT_MODE,
+    ]
+  };
+
+  const STRING = {
     variants: [
       hljs.APOS_STRING_MODE,
       hljs.QUOTE_STRING_MODE,
@@ -3168,10 +3175,10 @@ export default function(hljs) {
     ]
   };
 
-  const VAR_DECLARATION_MODE = [
+  const VAR_DECLARATION = [
     {
       match: [
-        VALID_IDENTIFIER,
+        VALID_IDENTIFIER_REG,
         /\s*:/
       ],
       className: {
@@ -3182,7 +3189,7 @@ export default function(hljs) {
       match: [
         "var",
         /\s+/,
-        VALID_IDENTIFIER
+        VALID_IDENTIFIER_REG
       ],
       className: {
         1: "keyword",
@@ -3193,7 +3200,7 @@ export default function(hljs) {
       match: [
         "static",
         /\s+/,
-        VALID_IDENTIFIER
+        VALID_IDENTIFIER_REG
       ],
       className: {
         1: "keyword",
@@ -3202,12 +3209,12 @@ export default function(hljs) {
     }
   ];
 
-  const PROP_ACCESS_MODE = [
+  const PROP_ACCESS = [
     {
       match: [
         "global",
-        DOT_ACCESSOR,
-        VALID_IDENTIFIER
+        DOT_ACCESSOR_REG,
+        VALID_IDENTIFIER_REG
       ],
       className: {
         1: "literal",
@@ -3216,15 +3223,40 @@ export default function(hljs) {
     },
     {
       match: [
-        VALID_IDENTIFIER,
-        DOT_ACCESSOR,
-        VALID_IDENTIFIER
+        VALID_IDENTIFIER_REG,
+        DOT_ACCESSOR_REG,
+        VALID_IDENTIFIER_REG
       ],
       className: {
         3: "variable-instance"
       }
     },
   ];
+
+  const FUNCTION_DECLARATION = {
+    match: [
+      "function",
+      /\s+/,
+      VALID_IDENTIFIER_REG,
+      /\s*?\(/
+    ],
+    className: {
+      1: "keyword",
+      3: "function"
+    }
+  };
+
+  const FUNCTION_CALL = {
+    begin: [
+      VALID_IDENTIFIER_REG,
+      /\s*?/,
+      /\(/
+    ],
+    className: {
+      1: "function"
+    },
+    relevance: 0
+  };
 
   return {
     name: 'GML',
@@ -3236,13 +3268,18 @@ export default function(hljs) {
       symbol: SYMBOLS
     },
     contains: [
-      hljs.C_LINE_COMMENT_MODE,
-      hljs.C_BLOCK_COMMENT_MODE,
+      COMMENT,
       hljs.C_NUMBER_MODE,
-      STRING_MODE,
-      PREPROCESSOR_MODE,
-      VAR_DECLARATION_MODE,
-      PROP_ACCESS_MODE
+      STRING,
+      PROP_ACCESS,
+      PREPROCESSOR,
+      VAR_DECLARATION,
+      FUNCTION_DECLARATION,
+      {
+        // Prevent keywords being taken by function calls.
+        beginKeywords: KEYWORDS.join(" ")
+      },
+      FUNCTION_CALL
     ]
   };
 }
