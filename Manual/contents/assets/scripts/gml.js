@@ -1,6 +1,7 @@
 export default function(hljs) {
 
-  const VALID_IDENTIFIER = /[a-zA-Z_][a-zA-Z0-9_]+/;
+  const VALID_IDENTIFIER = /[a-zA-Z_][a-zA-Z0-9_]*/;
+  const DOT_ACCESSOR = /\s*\.\s*/;
 
   const KEYWORDS = [
     "and",
@@ -36,61 +37,6 @@ export default function(hljs) {
     "with",
     "xor",
   ];
-
-  const PREPROCESSOR = {
-    variants: [
-      {
-        match: [
-          /#macro\s/,
-          VALID_IDENTIFIER
-        ],
-        className: {
-          1: "keyword",
-          2: "literal"
-        }
-      },
-      {
-        match: "#define"
-      },
-      {
-        match: [
-          /#region\s/,
-          /[^\n]*/
-        ],
-        className: {
-          1: "keyword",
-          2: "comment"
-        }
-      },
-      {
-        match: [
-          /#endregion\s/,
-          /[^\n]*/
-        ],
-        className: {
-          1: "keyword",
-          2: "comment"
-        }
-      },
-    ]
-  };
-
-  const STRINGS = {
-    variants: [
-      hljs.APOS_STRING_MODE,
-      hljs.QUOTE_STRING_MODE,
-      {
-        scope: "string",
-        begin: "@'",
-        end: "'"
-      },
-      {
-        scope: "string",
-        begin: "@\"",
-        end: "\""
-      }
-    ]
-  }
 
   const BUILT_INS = [
     "texturegroup_get_names", 
@@ -3160,6 +3106,120 @@ export default function(hljs) {
     "player_name",
     "player_type"
   ];
+
+  const PREPROCESSOR_MODE = {
+    variants: [
+      {
+        match: [
+          /#macro\s/,
+          VALID_IDENTIFIER
+        ],
+        className: {
+          1: "keyword",
+          2: "literal"
+        }
+      },
+      {
+        match: "#define"
+      },
+      {
+        match: [
+          /#region\s/,
+          /[^\n]*/
+        ],
+        className: {
+          1: "keyword",
+          2: "comment"
+        }
+      },
+      {
+        match: [
+          /#endregion\s/,
+          /[^\n]*/
+        ],
+        className: {
+          1: "keyword",
+          2: "comment"
+        }
+      },
+    ]
+  };
+
+  const STRING_MODE = {
+    variants: [
+      hljs.APOS_STRING_MODE,
+      hljs.QUOTE_STRING_MODE,
+      {
+        scope: "string",
+        begin: "@'",
+        end: "'"
+      },
+      {
+        scope: "string",
+        begin: "@\"",
+        end: "\""
+      }
+    ]
+  };
+
+  const VAR_DECLARATION_MODE = [
+    {
+      match: [
+        VALID_IDENTIFIER,
+        /\s*:/
+      ],
+      className: {
+        1: "variable-instance"
+      },
+    },
+    {
+      match: [
+        "var",
+        /\s+/,
+        VALID_IDENTIFIER
+      ],
+      className: {
+        1: "keyword",
+        3: "variable-local"
+      },
+    },
+    {
+      match: [
+        "static",
+        /\s+/,
+        VALID_IDENTIFIER
+      ],
+      className: {
+        1: "keyword",
+        3: "variable-static"
+      },
+    }
+  ];
+
+  const PROP_ACCESS_MODE = [
+    {
+      match: [
+        "global",
+        DOT_ACCESSOR,
+        VALID_IDENTIFIER
+      ],
+      className: {
+        1: "literal",
+        3: "variable-global"
+      }
+    },
+    {
+      match: [
+        VALID_IDENTIFIER,
+        DOT_ACCESSOR,
+        VALID_IDENTIFIER
+      ],
+      className: {
+        3: "variable-instance"
+      }
+    },
+  ];
+
   return {
     name: 'GML',
     case_insensitive: false, // language is case-sensitive
@@ -3173,8 +3233,10 @@ export default function(hljs) {
       hljs.C_LINE_COMMENT_MODE,
       hljs.C_BLOCK_COMMENT_MODE,
       hljs.C_NUMBER_MODE,
-      STRINGS,
-      PREPROCESSOR,
+      STRING_MODE,
+      PREPROCESSOR_MODE,
+      VAR_DECLARATION_MODE,
+      PROP_ACCESS_MODE
     ]
   };
 }
