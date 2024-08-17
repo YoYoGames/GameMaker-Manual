@@ -28,6 +28,7 @@ export default function(hljs) {
     "static",
     "switch",
     "then",
+    "throw",
     "until",
     "var",
     "while",
