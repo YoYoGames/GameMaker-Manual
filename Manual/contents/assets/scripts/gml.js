@@ -3179,15 +3179,6 @@ export default function(hljs) {
   const VAR_DECLARATION = [
     {
       match: [
-        VALID_IDENTIFIER_REG,
-        /\s*:/
-      ],
-      className: {
-        1: "variable-instance"
-      },
-    },
-    {
-      match: [
         "var",
         /\s+/,
         VALID_IDENTIFIER_REG
@@ -3206,6 +3197,16 @@ export default function(hljs) {
       className: {
         1: "keyword",
         3: "variable-static"
+      },
+    },
+    {
+      match: [
+        /(?<!case\s+)\b/,
+        VALID_IDENTIFIER_REG,
+        /\s*:/
+      ],
+      className: {
+        2: "variable-instance"
       },
     }
   ];
@@ -3283,14 +3284,14 @@ export default function(hljs) {
       COMMENT,
       hljs.C_NUMBER_MODE,
       STRING,
-      PROP_ACCESS,
       PREPROCESSOR,
       VAR_DECLARATION,
-      FUNCTION_DECLARATION,
       {
         // Prevent keywords being taken by function calls.
         beginKeywords: KEYWORDS.join(" ")
       },
+      PROP_ACCESS,
+      FUNCTION_DECLARATION,
       FUNCTION_CALL,
       USER_ASSET_CONSTANT
     ]
