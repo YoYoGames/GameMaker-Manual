@@ -3195,6 +3195,73 @@ export default function(hljs) {
   };
 
   /**
+   * Dot accessor usage with a special highlighting case for `global`.
+   */
+  const PROP_ACCESS = [
+    {
+      match: [
+        "global",
+        DOT_ACCESSOR_REG,
+        VALID_IDENTIFIER_REG
+      ],
+      className: {
+        1: "literal",
+        3: "variable-global"
+      }
+    },
+    {
+      match: [
+        /(?<=[a-zA-Z_][a-zA-Z0-9_]*)/,
+        DOT_ACCESSOR_REG,
+        VALID_IDENTIFIER_REG
+      ],
+      className: {
+        3: "variable-instance"
+      }
+    },
+  ];
+
+  /**
+   * Function call sites, just looking for `<ident>(`. This creates false positives
+   * for keywords such as `if (<condition>)`, so has lower priority in the mode `contains` list.
+   */
+  const FUNCTION_CALL = {
+    begin: [
+      VALID_IDENTIFIER_REG,
+      /\s*?/,
+      /\(/
+    ],
+    className: {
+      1: "function"
+    },
+    relevance: 0
+  };
+
+  /**
+   * The manual likes using `obj_` and such to define assets. Sneaky trick to make it look nicer :P
+   */
+  const USER_ASSET_CONSTANT = {
+    className: "literal",
+    end: VALID_IDENTIFIER_REG,
+    variants: [
+      { begin: "spr_" },
+      { begin: "obj_" },
+      { begin: "shader_" },
+    ]
+  };
+
+  /**
+   * Expressions, which form part of a valid statement.
+   */
+  const EXPRESSION = [
+	STRING,
+	PROP_ACCESS,
+	hljs.C_NUMBER_MODE,
+	FUNCTION_CALL,
+	USER_ASSET_CONSTANT
+  ];
+
+  /**
    * A variable declaration, of:
    * 1. `var <ident>`
    * 2. `static <ident>`
@@ -3236,33 +3303,6 @@ export default function(hljs) {
   ];
 
   /**
-   * Dot accessor usage with a special highlighting case for `global`.
-   */
-  const PROP_ACCESS = [
-    {
-      match: [
-        "global",
-        DOT_ACCESSOR_REG,
-        VALID_IDENTIFIER_REG
-      ],
-      className: {
-        1: "literal",
-        3: "variable-global"
-      }
-    },
-    {
-      match: [
-        /(?<=[a-zA-Z_][a-zA-Z0-9_]*)/,
-        DOT_ACCESSOR_REG,
-        VALID_IDENTIFIER_REG
-      ],
-      className: {
-        3: "variable-instance"
-      }
-    },
-  ];
-
-  /**
    * A function declaration matching for:
    * ```gml
    * function <ident>(
@@ -3279,35 +3319,6 @@ export default function(hljs) {
       1: "keyword",
       3: "function"
     }
-  };
-
-  /**
-   * Function call sites, just looking for `<ident>(`. This creates false positives
-   * for keywords such as `if (<condition>)`, so has lower priority in the mode `contains` list.
-   */
-  const FUNCTION_CALL = {
-    begin: [
-      VALID_IDENTIFIER_REG,
-      /\s*?/,
-      /\(/
-    ],
-    className: {
-      1: "function"
-    },
-    relevance: 0
-  };
-
-  /**
-   * The manual likes using `obj_` and such to define assets. Sneaky trick to make it look nicer :P
-   */
-  const USER_ASSET_CONSTANT = {
-    className: "literal",
-    end: VALID_IDENTIFIER_REG,
-    variants: [
-      { begin: "spr_" },
-      { begin: "obj_" },
-      { begin: "shader_" },
-    ]
   };
 
   /**
@@ -3341,10 +3352,7 @@ export default function(hljs) {
         className: {
           1: "literal"
         },
-        contains: [
-          hljs.C_NUMBER_MODE,
-          PROP_ACCESS
-        ]
+        contains: EXPRESSION
       },
       {
         match: VALID_IDENTIFIER_REG,
