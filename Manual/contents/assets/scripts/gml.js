@@ -3125,9 +3125,37 @@ export default function(hljs) {
   const DOT_ACCESSOR_REG = /\s*\.\s*/;
 
   /**
-   * A single-line comment.
+   * Various types of strings supported in the engine.
    */
-  const COMMENT_LINE = hljs.COMMENT('//', /\$|\n/);
+  const STRING = {
+    variants: [
+      hljs.QUOTE_STRING_MODE,
+      {
+        scope: "string",
+        begin: "@'",
+        end: "'"
+      },
+      {
+        scope: "string",
+        begin: "@\"",
+        end: "\""
+      }
+    ]
+  };
+
+  /**
+   * Various representations of numbers!
+   */
+  const NUMBER = {
+    className: "literal",
+    variants: [
+      { match: /\$[0-9a-fA-F]+/ },
+      { match: /\#[0-9a-fA-F]+/ },
+      { match: /0x[0-9a-fA-F][0-9a-fA-F_]*/ },
+      { match: /0b[01][01_]*/ },
+      { match: /[0-9][0-9_.]*/ }
+    ]
+  };
 
   /**
    * Pre-processor modes for macro definitions and regions.
@@ -3171,31 +3199,17 @@ export default function(hljs) {
   };
 
   /**
+   * A single-line comment.
+   */
+  const COMMENT_LINE = hljs.COMMENT('//', /\$|\n/);
+
+  /**
    * Modes for the types of comments supported in GML.
    */
   const COMMENT = {
     variants: [
 		  COMMENT_LINE,
       hljs.C_BLOCK_COMMENT_MODE,
-    ]
-  };
-
-  /**
-   * Various types of strings supported in the engine.
-   */
-  const STRING = {
-    variants: [
-      hljs.QUOTE_STRING_MODE,
-      {
-        scope: "string",
-        begin: "@'",
-        end: "'"
-      },
-      {
-        scope: "string",
-        begin: "@\"",
-        end: "\""
-      }
     ]
   };
 
@@ -3259,11 +3273,11 @@ export default function(hljs) {
    * Expressions, which form part of a valid statement.
    */
   const EXPRESSION = [
-	STRING,
-	PROP_ACCESS,
-	hljs.C_NUMBER_MODE,
-	FUNCTION_CALL,
-	USER_ASSET_CONSTANT
+    STRING,
+    PROP_ACCESS,
+    NUMBER,
+    FUNCTION_CALL,
+    USER_ASSET_CONSTANT
   ];
 
   /**
@@ -3377,9 +3391,9 @@ export default function(hljs) {
     },
     contains: [
       COMMENT,
-      hljs.C_NUMBER_MODE,
-      STRING,
       PREPROCESSOR,
+      NUMBER,
+      STRING,
       ENUM_DEFINITION,
       VAR_DECLARATION,
       {
