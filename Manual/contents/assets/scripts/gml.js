@@ -3121,7 +3121,7 @@ export default function(hljs) {
     variants: [
       {
         match: [
-          /#macro\s/,
+          /#macro\s+/,
           VALID_IDENTIFIER_REG
         ],
         className: {
@@ -3134,7 +3134,7 @@ export default function(hljs) {
       },
       {
         match: [
-          /#region\s/,
+          /#region\s+/,
           /[^\n]*/
         ],
         className: {
@@ -3144,7 +3144,7 @@ export default function(hljs) {
       },
       {
         match: [
-          /#endregion\s/,
+          /#endregion\s+/,
           /[^\n]*/
         ],
         className: {
