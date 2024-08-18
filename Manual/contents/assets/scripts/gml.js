@@ -3113,9 +3113,28 @@ export default function(hljs) {
     "player_type"
   ];
 
+  /**
+   * Regex for some sort of identifier - i.e, a valid name of something in code.
+   * 
+   * Negative lookbehind and lookahead are used purely due to the manual formatting using `<br />`
+   * or `<br>` for line breaks, instead of properly formatting the code as `<pre>` block, so that
+   * we don't get highlighting mixed up with line break tags.
+   * 
+   * Ideally the manual wouldn't do this, but it'd require another massive sweep with another evil
+   * regex, plus a lot of manual labour to check correctness. Plus, there might be some reason for
+   * this that I'm not aware of as of writing, so it is what it is.
+   */
   const VALID_IDENTIFIER_REG = /(?<!\<)[a-zA-Z_][a-zA-Z0-9_]*(?!\s*\/?\>)/;
+
+  /**
+   * Regex for a dot separating some LHS and RHS expression with optional whitespace (as this is
+   * supported in the engine.)
+   */
   const DOT_ACCESSOR_REG = /\s*\.\s*/;
 
+  /**
+   * Pre-processor modes for macro definitions and regions.
+   */
   const PREPROCESSOR = {
     variants: [
       {
@@ -3154,6 +3173,9 @@ export default function(hljs) {
     ]
   };
 
+  /**
+   * Modes for the types of comments supported in GML.
+   */
   const COMMENT = {
     variants: [
       hljs.C_LINE_COMMENT_MODE,
@@ -3161,6 +3183,9 @@ export default function(hljs) {
     ]
   };
 
+  /**
+   * Various types of strings supported in the engine.
+   */
   const STRING = {
     variants: [
       hljs.APOS_STRING_MODE,
@@ -3178,6 +3203,12 @@ export default function(hljs) {
     ]
   };
 
+  /**
+   * A variable declaration, of:
+   * 1. `var <ident>`
+   * 2. `static <ident>`
+   * 3. `<ident>:`
+   */
   const VAR_DECLARATION = [
     {
       match: [
@@ -3213,6 +3244,9 @@ export default function(hljs) {
     }
   ];
 
+  /**
+   * Dot accessor usage with a special highlighting case for `global`.
+   */
   const PROP_ACCESS = [
     {
       match: [
@@ -3237,6 +3271,12 @@ export default function(hljs) {
     },
   ];
 
+  /**
+   * A function declaration matching for:
+   * ```gml
+   * function <ident>(
+   * ```
+   */
   const FUNCTION_DECLARATION = {
     match: [
       "function",
@@ -3250,6 +3290,10 @@ export default function(hljs) {
     }
   };
 
+  /**
+   * Function call sites, just looking for `<ident>(`. This creates false positives
+   * for keywords such as `if (<condition>)`, so has lower priority in the mode `contains` list.
+   */
   const FUNCTION_CALL = {
     begin: [
       VALID_IDENTIFIER_REG,
@@ -3262,7 +3306,9 @@ export default function(hljs) {
     relevance: 0
   };
 
-  // The manual likes using `obj_` and such to define assets. Sneaky trick to make it look nicer :P
+  /**
+   * The manual likes using `obj_` and such to define assets. Sneaky trick to make it look nicer :P
+   */
   const USER_ASSET_CONSTANT = {
     className: "literal",
     end: VALID_IDENTIFIER_REG,
@@ -3273,6 +3319,14 @@ export default function(hljs) {
     ]
   };
 
+  /**
+   * An enum definition in the form:
+   * ```gml
+   * enum <ident> {
+   *     <ident> [= <expr>][,]
+   * }
+   * ```
+   */
   const ENUM_DEFINITION = {
     begin: [
       /enum/,
@@ -3286,6 +3340,7 @@ export default function(hljs) {
       3: "literal"
     },
     contains: [
+      COMMENT,
       {
         begin: [
           VALID_IDENTIFIER_REG,
