@@ -2259,6 +2259,7 @@ var hljs = (function () {
        * @param {HighlightedHTMLElement} element - the HTML element to highlight
       */
       function highlightElement(element) {
+
         /** @type HTMLElement */
         let node = null;
         const language = blockLanguage(element);
@@ -2277,21 +2278,22 @@ var hljs = (function () {
 		
         node = element;
 		
-	// Escape all brs
-	node.innerHTML = node.innerHTML.replaceAll(/(<br *\/*>)/g, 'thisisalinebreak');
+        // Replace <br [/]> with line breaks to make the parser's job easier.
+        node.innerHTML = node.innerHTML
+          .replaceAll(/\n(<br *\/*>)/g, '\n')
+          .replaceAll(/(<br *\/*>)\n/g, '\n');
 
-	// Get text
-      var text = node.textContent;
-		
-	// Escape all HTML symbols
-	text = escapeHTMLCustom(text);
-	
-	// Re-enter brs
-	text = text.replaceAll(/thisisalinebreak/g, '<br>');
+        // Get text & escape all HTML symbols
+        const text = escapeHTMLCustom(node.textContent);
 
+        // Format the code!
         const result = language ? highlight(text, { language, ignoreIllegals: true }) : highlightAuto(text);
 
-        element.innerHTML = result.value;
+        // Bring back line breaks.
+        const reformatted = result.value.replaceAll(/\n/g, '<br>');
+        
+        element.innerHTML = reformatted;
+
         updateClassName(element, language, result.language);
         element.result = {
           language: result.language,

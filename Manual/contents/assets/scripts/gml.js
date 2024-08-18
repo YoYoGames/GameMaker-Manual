@@ -3115,16 +3115,8 @@ export default function(hljs) {
 
   /**
    * Regex for some sort of identifier - i.e, a valid name of something in code.
-   * 
-   * Negative lookbehind and lookahead are used purely due to the manual formatting using `<br />`
-   * or `<br>` for line breaks, instead of properly formatting the code as `<pre>` block, so that
-   * we don't get highlighting mixed up with line break tags.
-   * 
-   * Ideally the manual wouldn't do this, but it'd require another massive sweep with another evil
-   * regex, plus a lot of manual labour to check correctness. Plus, there might be some reason for
-   * this that I'm not aware of as of writing, so it is what it is.
    */
-  const VALID_IDENTIFIER_REG = /(?<!\<)[a-zA-Z_][a-zA-Z0-9_]*(?!\s*\/?\>)/;
+  const VALID_IDENTIFIER_REG = /[a-zA-Z_][a-zA-Z0-9_]*/;
 
   /**
    * Regex for a dot separating some LHS and RHS expression with optional whitespace (as this is
@@ -3332,7 +3324,7 @@ export default function(hljs) {
       /enum/,
       /\s+/,
       VALID_IDENTIFIER_REG,
-      /(?:\s|(?:<br>))*{/
+      /\s*{/
     ],
     end: "}",
     className: {
