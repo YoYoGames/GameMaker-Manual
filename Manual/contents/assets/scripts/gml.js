@@ -3114,7 +3114,7 @@ export default function(hljs) {
     "player_type"
   ];
 
-  const VALID_IDENTIFIER_REG = /[a-zA-Z_][a-zA-Z0-9_]*/;
+  const VALID_IDENTIFIER_REG = /(?<!\<)[a-zA-Z_][a-zA-Z0-9_]*(?!\s*\/?\>)/;
   const DOT_ACCESSOR_REG = /\s*\.\s*/;
 
   const PREPROCESSOR = {
