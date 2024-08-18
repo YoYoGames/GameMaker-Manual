@@ -3232,6 +3232,17 @@ export default function(hljs) {
       match: [
         /(?<=[a-zA-Z_][a-zA-Z0-9_]*)/,
         DOT_ACCESSOR_REG,
+        VALID_IDENTIFIER_REG,
+        /\s*\(/
+      ],
+      className: {
+        3: "function"
+      }
+    },
+    {
+      match: [
+        /(?<=[a-zA-Z_][a-zA-Z0-9_]*)/,
+        DOT_ACCESSOR_REG,
         VALID_IDENTIFIER_REG
       ],
       className: {
@@ -3252,8 +3263,7 @@ export default function(hljs) {
     ],
     className: {
       1: "function"
-    },
-    relevance: 0
+    }
   };
 
   /**
