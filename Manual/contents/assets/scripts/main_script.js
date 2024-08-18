@@ -2281,7 +2281,8 @@ var hljs = (function () {
         // Replace <br [/]> with line breaks to make the parser's job easier.
         node.innerHTML = node.innerHTML
           .replaceAll(/\n(<br *\/*>)/g, '\n')
-          .replaceAll(/(<br *\/*>)\n/g, '\n');
+          .replaceAll(/(<br *\/*>)\n/g, '\n')
+          .replaceAll(/(<br *\/*>)/g, '\n');
 
         // Get text & escape all HTML symbols
         const text = escapeHTMLCustom(node.textContent);
