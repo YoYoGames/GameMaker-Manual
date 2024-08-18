@@ -3125,6 +3125,11 @@ export default function(hljs) {
   const DOT_ACCESSOR_REG = /\s*\.\s*/;
 
   /**
+   * A single-line comment.
+   */
+  const COMMENT_LINE = hljs.COMMENT('//', /\$|\n/);
+
+  /**
    * Pre-processor modes for macro definitions and regions.
    */
   const PREPROCESSOR = {
@@ -3170,7 +3175,7 @@ export default function(hljs) {
    */
   const COMMENT = {
     variants: [
-      hljs.C_LINE_COMMENT_MODE,
+		  COMMENT_LINE,
       hljs.C_BLOCK_COMMENT_MODE,
     ]
   };
