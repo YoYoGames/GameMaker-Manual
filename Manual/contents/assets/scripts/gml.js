@@ -3180,7 +3180,6 @@ export default function(hljs) {
    */
   const STRING = {
     variants: [
-      hljs.APOS_STRING_MODE,
       hljs.QUOTE_STRING_MODE,
       {
         scope: "string",
