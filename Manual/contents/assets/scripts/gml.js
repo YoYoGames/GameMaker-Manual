@@ -14,7 +14,6 @@ export default function(hljs) {
     "do",
     "else",
     "end",
-    "enum",
     "exit",
     "finally",
     "for",
@@ -3274,6 +3273,40 @@ export default function(hljs) {
     ]
   };
 
+  const ENUM_DEFINITION = {
+    begin: [
+      /enum/,
+      /\s+/,
+      VALID_IDENTIFIER_REG,
+      /(?:\s|(?:<br>))*{/
+    ],
+    end: "}",
+    className: {
+      1: "keyword",
+      3: "literal"
+    },
+    contains: [
+      {
+        begin: [
+          VALID_IDENTIFIER_REG,
+          /\s*=\s*/
+        ],
+        end: /,|\n|}/,
+        className: {
+          1: "literal"
+        },
+        contains: [
+          hljs.C_NUMBER_MODE,
+          PROP_ACCESS
+        ]
+      },
+      {
+        match: VALID_IDENTIFIER_REG,
+        className: "literal"
+      }
+    ]
+  };
+
   return {
     name: 'GML',
     case_insensitive: false, // language is case-sensitive
@@ -3288,6 +3321,7 @@ export default function(hljs) {
       hljs.C_NUMBER_MODE,
       STRING,
       PREPROCESSOR,
+      ENUM_DEFINITION,
       VAR_DECLARATION,
       {
         // Prevent keywords being taken by function calls.
@@ -3296,7 +3330,7 @@ export default function(hljs) {
       FUNCTION_DECLARATION,
       FUNCTION_CALL,
       USER_ASSET_CONSTANT,
-      PROP_ACCESS,
+      PROP_ACCESS
     ]
   };
 }
