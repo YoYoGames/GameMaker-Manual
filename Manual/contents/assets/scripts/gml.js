@@ -80,7 +80,7 @@ export default function(hljs) {
     "achievement_type_achievement_challenge",
     "achievement_type_score_challenge",
     "all",
-	
+  
     "animcurvetype_linear",
     "animcurvetype_catmullrom",
     "animcurvetype_bezier",
@@ -963,7 +963,7 @@ export default function(hljs) {
    * Regex for a dot separating some LHS and RHS expression with optional whitespace (as this is
    * supported in the engine.)
    */
-  const DOT_ACCESSOR_REG = /\s*\.\s*/;
+  const DOT_ACCESSOR_REG = /\b\.\b/;
 
   /**
    * Various types of strings supported in the engine.
@@ -1049,7 +1049,7 @@ export default function(hljs) {
    */
   const COMMENT = {
     variants: [
-		  COMMENT_LINE,
+      COMMENT_LINE,
       hljs.C_BLOCK_COMMENT_MODE,
     ]
   };
@@ -1071,23 +1071,21 @@ export default function(hljs) {
     },
     {
       match: [
-        /(?<=[a-zA-Z_][a-zA-Z0-9_]*)/,
         DOT_ACCESSOR_REG,
         VALID_IDENTIFIER_REG,
         /\s*\(/
       ],
       className: {
-        3: "function"
+        2: "function"
       }
     },
     {
       match: [
-        /(?<=[a-zA-Z_][a-zA-Z0-9_]*)/,
         DOT_ACCESSOR_REG,
         VALID_IDENTIFIER_REG
       ],
       className: {
-        3: "variable-instance"
+        2: "variable-instance"
       }
     },
   ];
@@ -1131,46 +1129,31 @@ export default function(hljs) {
     USER_ASSET_CONSTANT
   ];
 
+  const SWITCH_CASE = {
+    begin: [
+      /case/,
+      /\s+/
+    ],
+    end: /:/,
+    className: {
+      1: "keyword"
+    },
+    contains: EXPRESSION
+  };
+
   /**
-   * A variable declaration, of:
-   * 1. `var <ident>`
-   * 2. `static <ident>`
-   * 3. `<ident>:`
+   * A struct variable declaration, of `<ident>:`
    */
-  const VAR_DECLARATION = [
-    {
-      match: [
-        "var",
-        /\s+/,
-        VALID_IDENTIFIER_REG
-      ],
-      className: {
-        1: "keyword",
-        3: "variable-local"
-      },
+  const STRUCT_LITERAL_MEMBER = {
+    match: [
+      /\b/,
+      VALID_IDENTIFIER_REG,
+      /\s*:/
+    ],
+    className: {
+      2: "variable-instance"
     },
-    {
-      match: [
-        "static",
-        /\s+/,
-        VALID_IDENTIFIER_REG
-      ],
-      className: {
-        1: "keyword",
-        3: "variable-static"
-      },
-    },
-    {
-      match: [
-        /(?<!case\s+)\b/,
-        VALID_IDENTIFIER_REG,
-        /\s*:/
-      ],
-      className: {
-        2: "variable-instance"
-      },
-    }
-  ];
+  };
 
   /**
    * A function declaration matching for:
@@ -1245,11 +1228,12 @@ export default function(hljs) {
       NUMBER,
       STRING,
       ENUM_DEFINITION,
-      VAR_DECLARATION,
+      SWITCH_CASE,
       {
         // Prevent keywords being taken by function calls.
         beginKeywords: KEYWORDS.join(" ")
       },
+      STRUCT_LITERAL_MEMBER,
       FUNCTION_DECLARATION,
       FUNCTION_CALL,
       USER_ASSET_CONSTANT,
