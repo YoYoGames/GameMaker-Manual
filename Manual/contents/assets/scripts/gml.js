@@ -964,11 +964,37 @@ export default function(hljs) {
    * supported in the engine.)
    */
   const DOT_ACCESSOR_REG = /\b\.\b/;
+
+  /**
+   * A template string substitution. `contains` is filled in after `EXPRESSION` is defined due to
+   * nesting.
+   */
+  const STRING_SUBSTITUTION = {
+    begin: /{/,
+    end: /}/,
+    // contains: EXPRESSION
+  };
+
   /**
    * Various types of strings supported in the engine.
    */
   const STRING = {
     variants: [
+      {
+        begin: /\$"/,
+        end: "\"",
+        beginScope: "string",
+        endScope: "string",
+        illegal: '\\n',
+        contains: [
+          hljs.BACKSLASH_ESCAPE,
+          STRING_SUBSTITUTION,
+          {
+            match: /[^\n"{}]/,
+            scope: "string"
+          }
+        ]
+      },
       hljs.QUOTE_STRING_MODE,
       {
         scope: "string",
@@ -1118,6 +1144,9 @@ export default function(hljs) {
     FUNCTION_CALL,
     USER_ASSET_CONSTANT
   ];
+
+  STRING_SUBSTITUTION.contains = EXPRESSION;
+
   const SWITCH_CASE = {
     begin: [
       /case/,
