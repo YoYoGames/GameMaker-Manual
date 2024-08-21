@@ -978,6 +978,15 @@ export default function(hljs) {
   };
 
   /**
+   * A template string substitution for use with the older `string()` optional args with `"{0}"`,
+   * etc.
+   */
+  const STRING_NUMERICAL_SUBSTITUTION = {
+    match: /{[0-9]+}/,
+    scope: "literal"
+  };
+
+  /**
    * An escape sequence in a string.
    */
   const STRING_ESCAPE = {
@@ -1010,19 +1019,24 @@ export default function(hljs) {
       {
         scope: "string",
         begin: "@'",
-        end: "'"
+        end: "'",
+        contains: [STRING_NUMERICAL_SUBSTITUTION]
       },
       {
         scope: "string",
         begin: "@\"",
-        end: "\""
+        end: "\"",
+        contains: [STRING_NUMERICAL_SUBSTITUTION]
       },
       {
         scope: "string",
         begin: /"/,
         end: /"/,
         illegal: "\\n",
-        contains: [STRING_ESCAPE]
+        contains: [
+          STRING_ESCAPE, 
+          STRING_NUMERICAL_SUBSTITUTION
+        ]
       }
     ]
   };
