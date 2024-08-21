@@ -972,7 +972,20 @@ export default function(hljs) {
   const STRING_SUBSTITUTION = {
     begin: /{/,
     end: /}/,
+    beginScope: "literal",
+    endScope: "literal",
     // contains: EXPRESSION
+  };
+
+  /**
+   * An escape sequence in a string.
+   */
+  const STRING_ESCAPE = {
+    scope: "literal",
+    variants: [
+      { match: /\\u[a-fA-F0-9]{1,6}/ },
+      { match: /\\[^\n]/ }
+    ]
   };
 
   /**
@@ -985,17 +998,15 @@ export default function(hljs) {
         end: "\"",
         beginScope: "string",
         endScope: "string",
-        illegal: '\\n',
         contains: [
-          hljs.BACKSLASH_ESCAPE,
+          STRING_ESCAPE,
           STRING_SUBSTITUTION,
           {
-            match: /[^\n"{}]/,
+            match: /[^\n"{]/,
             scope: "string"
           }
         ]
       },
-      hljs.QUOTE_STRING_MODE,
       {
         scope: "string",
         begin: "@'",
@@ -1005,6 +1016,13 @@ export default function(hljs) {
         scope: "string",
         begin: "@\"",
         end: "\""
+      },
+      {
+        scope: "string",
+        begin: /"/,
+        end: /"/,
+        illegal: "\\n",
+        contains: [STRING_ESCAPE]
       }
     ]
   };
