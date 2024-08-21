@@ -439,6 +439,7 @@ export default function(hljs) {
     "iap_storeload_failed",
     "iap_storeload_ok",
     "iap_unavailable",
+    "infinity",
     "input_type",
     "kbv_autocapitalize_characters",
     "kbv_autocapitalize_none",
