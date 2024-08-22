@@ -16,57 +16,8 @@
   <!--<div class="body-scroll" style="top: 150px;">-->
   <h1><span data-field="title" data-format="default">Constants</span></h1>
   <p>A constant is a type of variable that is set once at the start of the game and then never changes. In fact, constant values <em>cannot be changed after they have been declared</em>. This makes them ideal for holding values that are used throughout the game to identify special data.</p>
-  <p>In the GameMaker Language there are two types of user-defined constants: <strong>macros</strong> and <strong>enums</strong>, both of which are explained below. Also note that any value that is always the same is classed as a constant, regardless of the <a href="../Data_Types.htm">data type</a>, for example, a string or the number 3.</p>
-  <p class="note"><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> The GameMaker Language also has a number of built-in constant values that are used to identify specific things. These are outlined on the appropriate pages for the runtime functions that require them in the <a data-xref="{title}" href="../../GML_Reference/GML_Reference.htm">GML Code Reference</a> section.</p>
-  <h2 id="h">Macros</h2>
-  <p>While not exactly variables, macros are similar to them in how they are used, i.e.: they are named values that you can use throughout your code to replace <a class="glossterm" data-glossterm="hard-coded" href="#">hard-coded</a> values. Basically, a macro is a named variable that holds an expression. You can define your own macros using the <a href="../Script_Functions.htm">Script Editor</a> and then use them in your code and actions as if they were regular variables, with the one difference being that they <i>can&#39;t be changed in the game</i>.</p>
-  <p>The syntax structure for a macro is as follows:</p>
-  <p class="code">#macro <i>&lt;NAME&gt;</i> <i>&lt;VALUE&gt;</i></p>
-  <p>For example, say you define the following macro &quot;<span class="inline">TOTAL_WEAPONS</span>&quot;:</p>
-  <p class="code">#macro TOTAL_WEAPONS 10</p>
-  <p class="note_heading">Macro syntax...</p>
-  <p class="note">The syntax shown above must be used correctly to define macros. You cannot use an equal sign (like in variables) or put a semicolon at the end (like in a regular statement). Doing so will cause your macro definition to become invalid.<br />
-    <br />
-    For example, this is not the correct way to define a macro:<br />
-    <br />
-    <span class="inline2">#macro TOTAL_WEAPONS = 10;</span><br />
-    <br />
-    Removing the equal sign and colon will make it a valid macro definition.<br />
-    <br />
-    <span data-conref="../../../assets/snippets/Tag_note.hts"> </span> The recommended GML naming conventions recommend <span class="inline2">UPPERCASE_NAMING</span> for constants, however you can use lower case or any other naming conventions you like.
-  </p>
-  <p>You could then use this in your code like this:</p>
-  <p class="code">pos++;<br />
-    <br />
-    if (pos &gt;= TOTAL_WEAPONS)<br />
-    {<br />
-        pos = 0;<br />
-    }
-  </p>
-  <p>Note that you would not be able to change the constant&#39;s value, so code like this will cause the game to crash:</p>
-  <p class="code">TOTAL_WEAPONS = 11;</p>
-  <p>You can define a macro anywhere in your code or in a script and it will be <i>pre-compiled</i> and included in your game as if it was there from the start, but we recommend that you create a dedicated script asset and define all your macros in there. It will be easier to organise and debug later!</p>
-  <h3>Expression As Macro</h3>
-  <p>If you need the value of a macro to change at run-time then you should probably make it a <a href="Global_Variables.htm">global variable</a>, since these can be changed from code during a game, unless you set the macro to be a <a href="../Runtime_Functions.htm">runtime function</a> or any <a href="../Expressions_And_Operators.htm">expression</a>. By setting the macro to a function/expression it means that this function/expression will be called every time you use the macro. For example:</p>
-  <p class="code">#macro COL make_colour_hsv(irandom(255), 255, 255)</p>
-  <p>You would then call this macro something like this:</p>
-  <p class="code">image_blend = COL;</p>
-  <p>Using this code will make the image blend a different colour every time the macro is used. It is worth noting that you can also split macros over multiple lines using the <span class="inline"><span class="inline">\</span></span> character to show where the line breaks are. An example would be something like:</p>
-  <p class="code">#macro HELLO show_debug_message(&quot;Hello&quot; + \<br />
-    string(player_name) + \<br />
-    &quot;, how are you today?&quot;);</p>
-  <p>This is purely cosmetic, in that splitting a macro like this will have no effect over the result of the final macro when used, and is simply to provide support for multi-line text on macros that have longer lines of code.</p>
-  <h3 id="h1">Configuration Override</h3>
-  <p>One very important feature of macros is that they can be defined for use with specific <a data-xref="{title}" href="../../../Settings/Configurations.htm">Configurations</a>, meaning you can override the value of a macro when running in a given configuration.</p>
-  <p>For example, say you have a configuration for Android ads and another for iOS ads, then you could define a single macro to hold the required app ID value, and override it for each configuration:</p>
-  <p class="code">#macro AD_ID &quot;&quot;<br />
-    #macro Android:AD_ID &quot;com.yoyogames.googlegame&quot;<br />
-    #macro iOS:AD_ID &quot;com.yoyogames.appstoregame&quot;</p>
-  <p>Configurations do not necessarily have to be named after a platform. You might e.g. also have a specific configuration for a demo version of your game: </p>
-  <p class="code">#macro DemoVersion:AD_ID &quot;&quot;</p>
-  <p>As you can see, you give the config name first then a colon <span class="inline">:</span> and then the macro name and override value. Note that you cannot have any white-space between the colon <span class="inline">:</span> and either the config name nor the macro name otherwise you will get an error.</p>
-  <p>Macro overrides are inherited by child configurations. Say you have the following configuration set-up:</p>
-  <p><img class="center" src="../../../assets/Images/Settings/Configs_Children.png" />Here, any macro overrides set for <span class="inline2">MobileAds</span> will be inherited by <span class="inline2">MobileNoAds</span>, and you can override an inherited value by setting a macro for that child configuration.</p>
+  <p>In the GameMaker Language there are two types of user-defined constants: <b>enums </b>and <b>macros</b>, both of which are explained below. Also note that any value that is always the same is classed as a constant, regardless of the <a href="../Data_Types.htm">data type</a>, for example, a string or the number 3.</p>
+  <p class="note"><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> The GameMaker Language also has a number of built-in constant values that are used to identify specific things. These are outlined on the appropriate pages for the runtime functions that require them in the <a data-xref="{title}" href="../../GML_Reference/GML_Reference.htm">GML Code Reference</a> section and some general ones are mentioned at the bottom of this page.</p>
   <h2 id="enumhead">Enums</h2>
   <p>An enum is an &quot;enumerator&quot;; it essentially permits you to create your own limited data type with a list of constant values. They have the following structure:</p>
   <p class="code">enum <i>&lt;NAME&gt;</i><br />
@@ -88,7 +39,7 @@
         VIOLET<br />
     }</p>
   <p>The enum entries can only be <b>integer numbers</b> or <b><a class="glossterm" data-glossterm="expression" href="#">expression</a><span class="glossextra">s</span> with previous enums that evaluate to an integer number</b>, and by default are numbered from 0 upwards, so our example given above would default to <span class="inline">RED = 0</span>, <span class="inline">ORANGE = 1</span>, <span class="inline">YELLOW = 2</span>, etc...</p>
-  <p>You can also assign values to the enum variables at the time of creation:</p>
+  <p>You can also assign custom values to the enum variables at the time of creation:</p>
   <p class="code">enum ENUM_TEST<br />
     {<br />
         VAL = 10<br />
@@ -105,14 +56,69 @@
         VIOLET = 35 * ENUM_TEST.VAL<br />
     }
   </p>
-  <p>Notice in the above example we use another enum to create an expression for &quot;VIOLET&quot;. This only works if the enum being referenced was created <i>before</i> the enum that is using it in an expression, but it will not work for variables or functions, since the enum value must be able to be evaluated as a constant when the project is <a class="glossterm" data-glossterm="Compiling" href="#">Compiling</a>. Also note that all enum values evaluate to <b>integer</b> values, and when you create your own you should be aware that <i>only integer values are permitted</i> for enums to work. This value can be any integer number that a floating point double precision number can represent, including negative values.</p>
-  <p>To later access the value within a given enum type, you can use the point <span class="inline">&quot;.&quot;</span> method, like this:</p>
+  <p>Notice in the above example we use another enum to create an expression for &quot;VIOLET&quot;. This only works if the enum being referenced was created <i>before</i> the enum that is using it in an expression, but it will not work for variables or functions, since the enum value must be able to be evaluated as a constant when the project is <a class="glossterm" data-glossterm="Compiling" href="#">Compiling</a>.</p>
+  <p>Also note that all enum values evaluate to <b>integer</b> values, and when you create your own you should be aware that <i>only integer values are permitted</i> for enums to work. This value can be any integer number that a <strong>floating point double precision</strong> number can represent, including negative values.</p>
+  <p>To later access the value within a given enum type, use the point <span class="inline">&quot;.&quot;</span> method, like this:</p>
   <p class="code">variable = &lt;ENUM_NAME&gt;.&lt;<em>ENUM_MEMBER</em>&gt;;</p>
   <p>As an example, let&#39;s use the &quot;<span class="inline">RAINBOW</span>&quot; enum that we created in the code above:</p>
   <p class="code">colour_value = RAINBOW.GREEN * RAINBOW.RED;</p>
   <p>The <span class="inline">colour_value</span> variable would now hold the value 100 (20 * 5).</p>
-  <p class="note"><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> You <em>cannot </em>modify the values for any enum constant after it has been created, much the same as you can&#39;t modify macros after they have been created.</p>
+  <p class="note"><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> You <em>cannot </em>modify the values for any enum constant after it has been created.</p>
   <p class="note"><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> Enum values are stored as int64s, so running <span class="inline2"><a data-xref="{title}" href="../../GML_Reference/Variable_Functions/is_real.htm">is_real</a></span> on them will return <span class="inline2">false</span>.</p>
+  <h2 id="h">Macros</h2>
+  <p>A macro is a <strong>global identifier</strong> that holds an <strong>expression</strong> (which may be just a value).</p>
+  <p>You can see it as being similar to a variable, as it can hold any type of value (e.g. <span class="inline2">10</span>, <span class="inline2">&quot;hello world&quot;</span>, etc.). The main difference is that a macro <strong>cannot be changed</strong> at runtime once it&#39;s defined, as it needs to have a known value when your game is <a class="glossterm" data-glossterm="Compiling" href="#">Compiling</a>.</p>
+  <p>In addition to that, a macro can be an expression (e.g. <span class="inline2">sin(current_time) + 10</span>), which can then be used on its own in a statement, or as part of a larger expression. This does mean that the use of such a macro will not always be <em>constant</em>, as any function calls or identifiers included in the macro may return different values at different points in time in your game.</p>
+  <h3>Syntax</h3>
+  <p>The syntax structure for a macro is as follows:</p>
+  <p class="code">#macro <i>&lt;NAME&gt;</i> <i>&lt;VALUE&gt;</i></p>
+  <p>For example, say you define the following macro &quot;<span class="inline">TOTAL_WEAPONS</span>&quot;:</p>
+  <p class="code">#macro TOTAL_WEAPONS 10</p>
+  <p class="note_heading">Macro syntax...</p>
+  <p class="note">The syntax shown above must be used correctly to define macros. You cannot use an equal sign (like in variables) or put a semicolon at the end (like in a regular statement). Doing so will cause your macro definition to become invalid.<br />
+    <br />
+    For example, this is not a correct way to define a macro:<br />
+    <br />
+    <span class="inline2">#macro TOTAL_WEAPONS = 10;</span><br />
+    <br />
+    Removing the equal sign and colon will make it a valid macro definition.<br />
+    <br />
+    <span data-conref="../../../assets/snippets/Tag_note.hts"> </span> The recommended GML naming conventions recommend <span class="inline2">UPPERCASE_NAMING</span> for constants, however you may use lower case or any other naming conventions you like.
+  </p>
+  <p>You could then use this in your code like this:</p>
+  <p class="code">pos++;<br />
+    <br />
+    if (pos &gt;= TOTAL_WEAPONS)<br />
+    {<br />
+        pos = 0;<br />
+    }
+  </p>
+  <p>This may be in any object or script in your game, as a macro is <strong>global</strong> and can be used from anywhere.</p>
+  <p>Note that you would not be able to change the constant&#39;s value, so code like this will cause the game to crash:</p>
+  <p class="code">TOTAL_WEAPONS = 11;</p>
+  <p>You can define a macro anywhere in your code or in a script and it will be <i>pre-compiled</i> and included in your game as if it was there from the start, but we recommend that you create a dedicated script asset and define all your macros in there. It will be easier to organise and debug later!</p>
+  <h3>Expression As Macro</h3>
+  <p>As previously mentioned, a macro has the capability of holding an expression. This means if there&#39;s a function that you have to repeatedly call in your game with the same parameters, you can make it a macro:</p>
+  <p class="code">#macro COL make_colour_hsv(irandom(255), 255, 255)</p>
+  <p>You would then call this macro something like this:</p>
+  <p class="code">image_blend = COL;</p>
+  <p>Using this code will make the image blend a different colour every time the macro is used.</p>
+  <p>You can also split macros over multiple lines using the <span class="inline"><span class="inline">\</span></span> character to show where the line breaks are. An example would be something like:</p>
+  <p class="code">#macro HELLO show_debug_message(&quot;Hello&quot; + \<br />
+    string(player_name) + \<br />
+    &quot;, how are you today?&quot;);</p>
+  <p>This is purely cosmetic, in that splitting a macro like this will have no effect over the result of the final macro when used, and is simply to provide support for multi-line text on macros that have longer lines of code.</p>
+  <h3 id="h1">Configuration Override</h3>
+  <p>One very important feature of macros is that they can be defined for use with specific <a data-xref="{title}" href="../../../Settings/Configurations.htm">Configurations</a>, meaning you can override the value of a macro when running in a given configuration.</p>
+  <p>For example, say you have a configuration for Android ads and another for iOS ads, then you could define a single macro to hold the required app ID value, and override it for each configuration:</p>
+  <p class="code">#macro AD_ID &quot;&quot;<br />
+    #macro Android:AD_ID &quot;com.yoyogames.googlegame&quot;<br />
+    #macro iOS:AD_ID &quot;com.yoyogames.appstoregame&quot;</p>
+  <p>Configurations do not necessarily have to be named after a platform. You might e.g. also have a specific configuration for a demo version of your game: </p>
+  <p class="code">#macro DemoVersion:AD_ID &quot;&quot;</p>
+  <p>As you can see, you give the config name first then a colon <span class="inline">:</span> and then the macro name and override value. Note that you cannot have any white-space between the colon <span class="inline">:</span> and either the config name nor the macro name otherwise you will get an error.</p>
+  <p>Macro overrides are inherited by child configurations. Say you have the following configuration set-up:</p>
+  <p><img class="center" src="../../../assets/Images/Settings/Configs_Children.png" />Here, any macro overrides set for <span class="inline2">MobileAds</span> will be inherited by <span class="inline2">MobileNoAds</span>, and you can override an inherited value by setting a macro for that child configuration.</p>
   <h2>Built-In Constants</h2>
   <p>The following table shows a list of the built-in constants that can be returned by some functions and operations in your projects:</p>
   <table>
