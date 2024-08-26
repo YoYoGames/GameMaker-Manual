@@ -4,7 +4,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>Fixtures</title>
-  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <meta name="generator" content="Adobe RoboHelp 2022" />
   <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
   <script src="../../../../assets/scripts/main_script.js" type="module"></script>
   <meta name="rh-authors" content="Mark Alexander" />
@@ -15,8 +15,31 @@
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
   <h1><span data-field="title" data-format="default">Fixtures</span></h1>
-  <p>Before an instance in <span data-keyref="GameMaker Name">GameMaker</span> can have physical properties it must have a fixture assigned to it. A fixture binds a shape or form to the instance and this adds material properties such as density, friction, and restitution. Fixtures can be boxes, circles, polygons or any other simple shape you wish as <span data-keyref="GameMaker Name">GameMaker</span> provides functions that enable you to define your own shape point by point, and then once you have your shape you can go ahead and define its physical properties too. These properties are what govern the way the instance with the fixture assigned to it will react with other instances in the physics world.</p>
+  <p>Before an instance in <span data-keyref="GameMaker Name">GameMaker</span> can have physical properties it must have a fixture assigned to it. A fixture binds a shape or form to the instance and this adds material properties such as density, friction, and restitution.</p>
+  <p>Your physics object will already have a basic fixture assigned to it via the <a href="../../../../The_Asset_Editors/Object_Properties/Physics_Objects.htm">Object Editor</a> if it has &quot;<strong>Uses Physics</strong>&quot; checked. This fixture cannot be changed at runtime, however you can assign additional fixtures using the functions listed on this page. If you do not wish to use the default fixture, disable &quot;<strong>Uses Physics</strong>&quot; for your object and assign a fixture at runtime which will enable Physics for the instance.</p>
+  <p>Fixtures can be boxes, circles, polygons or any other simple shape you wish as <span data-keyref="GameMaker Name">GameMaker</span> provides functions that enable you to define your own shape point by point, and then once you have your shape you can go ahead and define its physical properties too. These properties are what govern the way the instance with the fixture assigned to it will react with other instances in the physics world.</p>
+  <h3>Creating a Basic Fixture</h3>
+  <p>Creating a fixture requires you to call and store the value from <span class="inline3_func"><a data-xref="{title}" href="physics_fixture_create.htm">physics_fixture_create</a></span>, set up a shape (see shape functions in the list below), add <a href="physics_fixture_add_point.htm">points</a>, assign any optional properties and then <a href="physics_fixture_bind.htm">bind</a> the fixture to an instance:</p>
+  <p class="code">fix = physics_fixture_create();<br />
+    <br />
+    physics_fixture_set_polygon_shape(fix);<br />
+    <br />
+    // Basic 60x60 square<br />
+    physics_fixture_add_point(fix, -30, -30);<br />
+    physics_fixture_add_point(fix, 30, -30);<br />
+    physics_fixture_add_point(fix, 30, 30);<br />
+    physics_fixture_add_point(fix, -30, 30);<br />
+    <br />
+    physics_fixture_set_collision_group(fix, 1);<br />
+    physics_fixture_set_density(fix, 1);<br />
+    <br />
+    physics_fixture_bind(fix, id);
+  </p>
+  <p>The code above sets the collision group to 1 so the fixture collides with other fixtures (as this is the default collision group for fixtures created via the IDE) and sets a density so it is affected by gravity. It then binds the fixture to the current instance. You can test this by calling <span class="inline3_func"><a data-xref="{title}" href="../The_Physics_World/physics_draw_debug.htm">physics_draw_debug</a></span> in a Draw event to draw the fixtures associated with the instance to the screen for debugging purposes.</p>
+  <div data-conref="../../../../assets/snippets/Note_physics_fixture_define.hts"> </div>
+  <p class="note"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> You can define one fixture and have it bound to multiple instances (think of a pool table, where all the balls have the same physical properties, yet each one is a discreet entity). You can also bind multiple fixtures to a single instance and combine the physical properties (for example, using two triangular polygon fixtures to create a star)</p>
   <h3>Properties</h3>
+  <p>You can define the following properties for a fixture:</p>
   <ul class="colour">
     <li><b>Density:</b> A material&#39;s density is defined as its mass per unit volume. It is, essentially, a measurement of how tightly matter is crammed together. If you wish your fixture to be <i>static</i> (ie: immovable) then the density should be set to 0, essentially making it infinitely dense. <i>Kinematic</i> objects that move with constant velocity and are not physically affected by collisions are also defined using a density of 0.</li>
     <li><b>Friction:</b> Friction is the force resisting the relative motion of solid surfaces, fluid layers, and material elements sliding against each other.</li>
@@ -24,15 +47,13 @@
     <li><b>Angular Damping:</b> As above, this is a generalised force that is applied to an object to stop it spinning eternally.</li>
     <li><b>Restitution:</b> In physics, restitution is defined as &quot;the return of an object or system to its original state after elastic deformation&quot;, but as the fixtures in <span data-keyref="GameMaker Name">GameMaker</span> are really rigid bodies and cannot be deformed, think of this as basically how &quot;bouncy&quot; the fixture is.</li>
   </ul>
-  <p>So as you can see, with just a few simple functions, <span data-keyref="GameMaker Name">GameMaker</span> can help you to create complex systems and interactions which will give your games an unprecedented sense of realism.</p>
-  <p class="note"><b><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> </b>You can define one fixture and have it bound to multiple instances (think of a pool table, where all the balls have the same physical properties, yet each one is a discreet entity). You can also bind multiple fixtures to a single instance and combine the physical properties (for example, using two triangular polygon fixtures to create a star)</p>
+  <p>So as you can see, with just a few simple functions, <span data-keyref="GameMaker Name">GameMaker</span> can help you to create complex systems and interactions which will give your games an unprecedented sense of realism.<b></b></p>
   <h3 id="h">Updating Existing Contacts</h3>
   <p>Two physics instances are &quot;in contact&quot; when their bounding boxes overlap (i.e. the rectangular regions surrounding their actual shapes). In this case, calling one of the <span class="inline3_func">physics_set_*</span> functions on a bound fixture <em>will change</em> the value of the property, but in order to force the physics engine to also <em>take this new value into account</em>, you&#39;ll need to deactivate and reactivate the physics instance using <span class="inline2"><a data-xref="{title}" href="../Physics_Variables/phy_active.htm">phy_active</a></span>: </p>
   <p class="code">var _new_friction = 100;<br />
-      phy_active = false;<br />
+    phy_active = false;<br />
     physics_set_friction(fixture_id, _new_friction);<br />
-    phy_active = true;
-  </p>
+    phy_active = true;</p>
   <h2 id="func_ref">Function Reference</h2>
   <h3 id="func_ref_general">General</h3>
   <p>The following functions are for creating, binding, setting collisions and then deleting fixtures:</p>
@@ -86,7 +107,7 @@
         <div style="float:right">Next: <a href="../Joints/Joints.htm">Joints</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2023 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 Fixtures
