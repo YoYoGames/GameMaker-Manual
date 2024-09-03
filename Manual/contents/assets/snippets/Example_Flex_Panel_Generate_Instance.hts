@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <meta name="topic-comment" content="" />
+  <title>Example_Flex_Panel_Generate_Instance</title>
+  <link rel="stylesheet" type="text/css" href="../css/default.css" />
+</head>
+<body>
+  <p class="code">generate_instance = function(_node, _depth)<br />
+    {<br />
+        // Get layout data<br />
+        var _pos = flexpanel_node_layout_get_position(_node, false);<br />
+        var _name = flexpanel_node_get_name(_node);<br />
+        <br />
+        // Create instance<br />
+        instance_create_depth(_pos.left, _pos.top, _depth, obj_ui_element,<br />
+        {<br />
+            name: _name,<br />
+            width: _pos.width,<br />
+            height: _pos.height<br />
+        });<br />
+        <br />
+        // Call for children (recursive)<br />
+        var _children_count = flexpanel_node_get_num_children(_node);<br />
+        for (var i = 0; i &lt; _children_count; i++)<br />
+        {<br />
+            var _child = flexpanel_node_get_child(_node, i);<br />
+            generate_instance(_child, _depth - 1);<br />
+        }<br />
+    }<br />
+    <br />
+    generate_instance(n_root, 0);
+  </p>
+  <p>This function takes a node and a depth. It then gets the absolute positional data for the node and creates an <span data-keyref="Type_ID_Instance"><a href="../../GameMaker_Language/GML_Reference/Asset_Management/Instances/Instance_Variables/id.htm" target="_blank">Object Instance</a></span> at the node&#39;s calculated position, giving the instance the node&#39;s name, width and height.</p>
+  <p>It then iterates through each child of the node and runs the same function for each child.</p>
+  <p>Finally, the function is run for the root node, which will then be recursively executed for all of its child nodes as well.</p>
+</body>
+</html>

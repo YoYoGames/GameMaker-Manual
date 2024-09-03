@@ -16,18 +16,19 @@
   <!--<div class="body-scroll" style="top: 150px;">-->
   <h1><span data-field="title" data-format="default">http_request</span></h1>
   <p>This function creates an HTTP request and sends it.</p>
-  <p>An HTTP request can be used for many things like (for example) authentication via HTTP headers if you use RESTful APIs. The function requires the full IP address of the server to request from as well as the type of request to make (as a string, see the note below): <span class="inline2">&quot;GET&quot;</span>, <span class="inline2">&quot;HEAD&quot;</span>, <span class="inline2">&quot;POST&quot;</span>, <span class="inline2">&quot;PUT&quot;</span>, <span class="inline2">&quot;DELETE&quot;</span>, <span class="inline2">&quot;TRACE&quot;</span>, <span class="inline2">&quot;OPTIONS&quot;</span>, or <span class="inline2">&quot;CONNECT&quot;</span>. You will also need to supply a <span class="inline"><a href="../../Data_Structures/DS_Maps/DS_Maps.htm">DS map</a></span> of key/value pairs (as strings, where the key is the header field and the value is the required data for the header), and the final argument is an optional data string that you can add to the request, and if it&#39;s not needed then it can be either 0 or an empty string &quot;&quot;. Note that you can also send a buffer (see the section on <a data-xref="{title}" href="../../Buffers/Buffers.htm">Buffers</a> for more details), in which case the last argument would be the index of the buffer to send.</p>
+  <p>An HTTP request can be used for many things like (for example) authentication via HTTP headers if you use RESTful APIs.</p>
+  <p>The function requires the full IP address of the server to request from as well as the type of request to make: <span class="inline2">&quot;GET&quot;</span>, <span class="inline2">&quot;HEAD&quot;</span>, <span class="inline2">&quot;POST&quot;</span>, <span class="inline2">&quot;PUT&quot;</span>, <span class="inline2">&quot;DELETE&quot;</span>, <span class="inline2">&quot;TRACE&quot;</span>, <span class="inline2">&quot;OPTIONS&quot;</span> or <span class="inline2">&quot;CONNECT&quot;</span>. You&#39;ll also need to supply a <span data-keyref="Type_ID_DS_Map"><a href="../../Data_Structures/DS_Maps/ds_map_create.htm" target="_blank">DS Map</a></span> of key/value pairs (as strings, where the key is the header field and the value is the required data for the header). The final argument is an optional data string that you can add to the request, and if it&#39;s not needed then it can be either 0 or an empty string <span class="inline2">&quot;&quot;</span>. Note that you can also send a buffer (see the section on <a data-xref="{title}" href="../../Buffers/Buffers.htm">Buffers</a> for more details), in which case the last argument would be the handle to the buffer to send.</p>
+  <p>The function returns an <span data-keyref="Type_ID_Async_Event"><a href="../Asynchronous_Functions.htm" target="_blank">Async Request ID</a></span> which can be used to identify its callback, as described below.</p>
+  <div data-conref="../../../../assets/snippets/Note_HTTP_Requests_CrossOrigin.hts"> </div>
   <h3>Usage Notes</h3>
-  <ul class="Disc">
+  <ul class="colour">
     <li>HTTP headers normally follow the format &quot;key:value&quot;, but since <span data-keyref="GameMaker Name">GameMaker</span> creates these pairs for you from the DS map there is no need to include the colon &quot;:&quot; in your map key or value strings.</li>
     <li>When using a buffer for the body argument, if the buffer seek position is at the start (0) then no body is sent and the buffer is filled with the response from the HTTP call, but if the buffer seek position is non-zero, then the buffer string content is sent as the body.</li>
-    <li>You should be aware that due to XSS protection in browsers, requests to and attempts to load resources from across domains are blocked and may appear to return blank results. Please see the part on <a data-xref="{text}" href="HTTP.htm#cross_domain_issues">Cross-Domain Issues</a> for further details.</li>
   </ul>
-  <p>This function returns an <span data-keyref="Type_ID_Async_Event"><a href="../Asynchronous_Functions.htm" target="_blank">Async Request ID</a></span> which can be used to identify its callback, as described below.</p>
   <h2>Async Callback</h2>
-  <p>This event will generate a &quot;callback&quot; which is picked up by any <a href="../../../../The_Asset_Editors/Object_Properties/Async_Events/HTTP.htm">Async HTTP Events</a>, in which case it will generate a <span class="inline">DS Map</span> that is exclusive to this event and is stored in the special variable <span class="inline2"><a data-xref="{title}" href="../../../GML_Overview/Variables/Builtin_Global_Variables/async_load.htm">async_load</a></span>. This DS map has the following two keys related to the request function:</p>
+  <p>This event will generate a &quot;callback&quot; which is picked up by any <a href="../../../../The_Asset_Editors/Object_Properties/Async_Events/HTTP.htm">Async HTTP Events</a>, in which case it will generate a <span data-keyref="Type_ID_DS_Map"><a href="../../Data_Structures/DS_Maps/ds_map_create.htm" target="_blank">DS Map</a></span> that is exclusive to this event and is stored in the special variable <span class="inline2"><a data-xref="{title}" href="../../../GML_Overview/Variables/Builtin_Global_Variables/async_load.htm">async_load</a></span>. This DS map has the following two keys related to the request function:</p>
   <ul class="colour">
-    <li><b>id: </b>The ID which was returned from the function. If you fire off a series of <span class="inline">http_</span> requests then you need to know which one you are getting the reply to, and so you would use this value to compare to the value you stored when you originally sent the request to find the right one.</li>
+    <li><b>id: </b>The ID which was returned from the function. If you fire off a series of <span class="inline2">http_*</span> requests then you need to know which one you are getting the reply to, and so you would use this value to compare to the value you stored when you originally sent the request to find the right one.</li>
     <li><b>response_headers:</b> If this has a value greater than or equal to 0, it holds a DS map that contains the HTTP headers returned with the response to the HTTP request.</li>
   </ul>
   <p> </p>
@@ -48,7 +49,7 @@
       <tr>
         <td>method</td>
         <td><span data-keyref="Type_String"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">String</a></span></td>
-        <td>The request method (normally <span class="inline2">&quot;POST&quot;</span> or <span class="inline2">&quot;GET&quot;</span>, but all methods are supported)</td>
+        <td>The request method (normally<span class="inline2">&quot;GET&quot;</span> or <span class="inline2">&quot;POST&quot;</span>, but all methods are supported)</td>
       </tr>
       <tr>
         <td>header_map</td>
@@ -64,7 +65,7 @@
   </table>
   <p> </p>
   <h4>Returns:</h4>
-  <p class="code"><span data-keyref="Type_ID_Async_Event"><a href="../Asynchronous_Functions.htm" target="_blank">Async Request ID</a></span></p>
+  <p class="code"><span data-keyref="Type_ID_Async_Event"><a href="../Asynchronous_Functions.htm" target="_blank">Async Request ID</a></span> (or -1 if something went wrong)</p>
   <p> </p>
   <h4>Example:</h4>
   <p class="code">var _headers = ds_map_create();<br />
@@ -72,9 +73,9 @@
     ds_map_add(_headers, &quot;Content-Type&quot;, &quot;application/x-www-form-urlencoded&quot;);<br />
     ds_map_add(_headers, &quot;Cookie&quot;, &quot;request_method=GET; _InAppPurchases_session=69bb6ef6eec2b&quot;);<br />
     var _data=&quot;utf8=%E2%9C%93&amp;authenticity_token=kPmS14DcYcuKgMFZUsN3XFfj3mhs%3D&amp;product%5Bname%5D=CatchTheHaggis&amp;product%5Bproduct_id%5D=http_test&amp;commit=Create+Product&quot;;<br />
-    request = <span data-field="title" data-format="default">http_request</span>(&quot;http://225.0.0.97:3000/products&quot;, &quot;POST&quot;, _headers, _data);<br />
+    request_id = <span data-field="title" data-format="default">http_request</span>(&quot;http://225.0.0.97:3000/products&quot;, &quot;POST&quot;, _headers, _data);<br />
     ds_map_destroy(_headers);</p>
-  <p>The above code creates a DS map with the relevant HTTP headers for the function, then creates a data string for use as this is a POST request. Finally the function is called, with its ID value being stored in the instance variable <span class="inline2">request</span> for checking in the HTTP asynchronous event.</p>
+  <p>The above code creates a DS map with the relevant HTTP headers for the function, then creates a data string for use as this is a POST request. Finally the function is called, with its ID value being stored in the instance variable <span class="inline2">request_id</span> for checking in the HTTP asynchronous event.</p>
   <p> </p>
   <p> </p>
   <div class="footer">
@@ -84,7 +85,7 @@
         <div style="float:right">Next: <a data-xref="{title}" href="http_get.htm">http_get</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2023 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 http_request
