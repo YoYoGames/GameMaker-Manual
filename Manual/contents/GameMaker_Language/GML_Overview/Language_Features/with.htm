@@ -15,12 +15,12 @@
 <body>
   <h1><span data-field="title" data-format="default">with</span></h1>
   <p>As indicated in the section <a href="../Addressing_Variables_In_Other_Instances.htm">Addressing Variables in Other Instances</a>, it is possible to read and change the value of variables in instances and <a href="../Structs.htm">structs</a> other than the one currently executing any given code.</p>
-  <p>However, in a number of cases you want to do a lot more than just change a single variable within those other instances, and may want to perform more complex code actions that require multiple functions and lines of code, within the <em>context</em> of another instance or struct.</p>
+  <p>However, in a number of cases you want to do a lot more than just change a single variable within those other instances, and may want to perform more complex code actions that require multiple functions and lines of code, within the <em>scope</em> of another instance or struct.</p>
   <p>For example, imagine that you want to move all the instances of a ball object in your game 8 pixels down. You may think that this is achieved simply by the following piece of code:</p>
   <p class="code">obj_ball.y = obj_ball.y + 8;</p>
   <p>But this is not correct, as the right-hand side of the assignment gets the value of the y coordinate of the first ball and adds 8 to it. Next this new value is set as the y coordinate of <em>all </em>balls, so the result is that all balls get the same y coordinate, and even if you use the following:</p>
   <p class="code">obj_ball.y += 8;</p>
-  <p>it will have exactly the same effect because it is simply an abbreviation of the first statement. So how <i>do</i> we achieve something like this? This is why the <span class="inline2"><span data-field="title" data-format="default">with</span></span> statement exists in GML.</p>
+  <p>It will have exactly the same effect because it is simply an abbreviation of the first statement. So how <i>do</i> we achieve something like this? This is why the <span class="inline2"><span data-field="title" data-format="default">with</span></span> statement exists in GML.</p>
   <h2 id="syntax">Syntax</h2>
   <p>The <span class="inline2"><span data-field="title" data-format="default">with</span></span> statement takes the form:</p>
   <p class="code"><span data-field="title" data-format="default">with</span> (&lt;expression&gt;)<br />
@@ -31,16 +31,17 @@
     }</p>
   <p>The <a class="glossterm" data-glossterm="expression" href="#">expression</a> can take a number of different inputs:</p>
   <ul class="colour">
-    <li>One or more instances to perform the code on: a single <span data-keyref="Type_ID_Instance"><a href="../../GML_Reference/Asset_Management/Instances/Instance_Variables/id.htm" target="_blank">Object Instance</a></span>, an <span data-keyref="Type_Asset_Object"><a href="../../../The_Asset_Editors/Objects.htm" target="_blank">Object Asset</a></span> (which indicates that <i>all instances</i> of this object in the room are to run the code block).</li>
+    <li>One or more instances to perform the code on: a single <span data-keyref="Type_ID_Instance"><a href="../../GML_Reference/Asset_Management/Instances/Instance_Variables/id.htm" target="_blank">Object Instance</a></span> or an <span data-keyref="Type_Asset_Object"><a href="../../../The_Asset_Editors/Objects.htm" target="_blank">Object Asset</a></span> (which indicates that <i>all instances</i> of this object in the room are to run the code block).</li>
     <li>One or more structs, or the keyword <span class="inline2">global</span> to access the <a data-xref="{text}" href="../Variables/Global_Variables.htm#the_global_struct">The Global Struct</a>.</li>
     <li>One of the special <a href="../Instance_Keywords.htm">keywords</a> (<span class="inline2">self</span>, <span class="inline2">other</span>, <span class="inline2">all</span> or <span class="inline2">noone</span>).</li>
   </ul>
   <p>This will then change the <a href="../Variables_And_Variable_Scope.htm">scope</a> of the code within the curly brackets <span class="inline2">{ }</span> from the instance, struct or function that executes the <span class="inline2"><span data-field="title" data-format="default">with</span></span> to the instance (or instances or struct) given in the expression.</p>
-  <p>Once the expression has set the scope of the <span class="inline2">with</span>, the <a class="glossterm" data-glossterm="statement" href="#">statement</a> will then be executed for each of the indicated instances or structs, as if it is the current (i.e. <span class="inline2">self</span>). So, returning to our original problem, to move all instances of the ball object 8 pixels down you would type:</p>
+  <p>Once the expression has set the scope of the <span class="inline2">with</span>, the <a class="glossterm" data-glossterm="statement" href="#">statement</a> will then be executed for each of the indicated instances or structs, as if it is the current scope (i.e. <span class="inline2">self</span>). So, returning to our original problem, to move all instances of the ball object 8 pixels down you would type:</p>
   <p class="code">with (obj_ball)<br />
     {<br />
         y += 8;<br />
     }</p>
+  <p>Since we passed it an <strong>object handle</strong> (<span class="inline2">obj_ball</span>), it executes the block code for all instances of that object. If you were to pass a specific <strong>instance handle</strong>, the code would execute only for that instance.</p>
   <p>If you want to execute multiple statements, just include them in the curly brackets, the same as you would around any other code block. So for example, to move all the balls in our example to a random position and give them a random speed and direction, you would use:</p>
   <p class="code">with (obj_ball)<br />
     {<br />
@@ -110,9 +111,9 @@
     {<br />
         instance_destroy();<br />
     }</p>
-  <p>The above code will destroy the instance of <span class="inline2">obj_ball</span> nearest to the instance running the code. When no instance is found, the function returns <span class="inline2">noone</span> so that the code inside the <span class="inline2"><span data-field="title" data-format="default">with</span></span> isn&#39;t executed.</p>
+  <p>The above code will destroy the instance of <span class="inline2">obj_ball</span> nearest to the instance running the code. When no instance is found, the function returns <span class="inline2">noone</span> so that the code inside the <span class="inline2"><span data-field="title" data-format="default">with</span></span> is not executed.</p>
   <h3>Assigning Struct Variables</h3>
-  <p class="code">with(clone_struct)<br />
+  <p class="code">with (clone_struct)<br />
     {<br />
         xx = other.x;<br />
         yy = other.y;<br />

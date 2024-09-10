@@ -101,7 +101,7 @@ FOR /L %%X IN (1, 1, %number_of_files%) DO (
  
  rem insert into gml.js
  set line_to_insert="    "!new_name!","
- if %file_type%==2 echo Inserting keyword into gml.js & call "_page_generation\insert_text.bat" %gml_js_file% %gml_js_file%.txt %insert_keyword_before% !line_to_insert! & del %gml_js_file% & rename %gml_js_file%.txt gml.js
+ if %file_type%==2 if NOT "%keyword_type%"=="1" echo Inserting keyword into gml.js & call "_page_generation\insert_text.bat" %gml_js_file% %gml_js_file%.txt %insert_keyword_before% !line_to_insert! & del %gml_js_file% & rename %gml_js_file%.txt gml.js
  
 )
 
