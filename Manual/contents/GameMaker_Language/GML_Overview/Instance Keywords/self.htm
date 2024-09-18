@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>self</title>
+  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <link rel="stylesheet" type="text/css" href="../../../assets/css/default.css" />
+  <script src="../../../assets/scripts/main_script.js" type="module"></script>
+  <meta name="rh-authors" content="" />
+  <meta name="topic-comment" content="" />
+  <meta name="rh-index-keywords" content="self" />
+  <meta name="search-keywords" content="self" />
+  <meta name="template" content="assets/masterpages/Manual_Keyword_Page.htt" />
+</head>
+<body>
+  <h1><span data-field="title" data-format="default">self</span></h1>
+  <p><span class="inline2">self</span> is the struct or instance that is the <strong>current scope</strong> of the code being executed. For object instances this will be a struct as well, containing the variables for that instance.</p>
+  <p>The current scope can be changed within an event or function using a <span class="inline3_func"><a data-xref="{title}" href="../Language_Features/with.htm">with</a></span> block, in which case <span class="inline2">self</span> can be used to target the new struct or instance that is now in scope. For example:</p>
+  <p class="code">var val = 100;<br />
+    with (instance_create_layer(x, y, &quot;Instances&quot;, obj_Fire))<br />
+    {<br />
+        self.val = val;<br />
+    }</p>
+  <p>In this example you can see that we have a <i>local</i> variable called <span class="inline2">val</span> and we want it to set the <i>instance</i> variable with the same name in the newly created object instance. To identify the instance variable correctly and tell <span data-keyref="GameMaker Name">GameMaker</span> to set it in the instance calling the code block, we use the <span class="inline2">self</span> keyword.</p>
+  <p><span class="inline2">self</span> is used in the same way with <a href="../Structs.htm">structs</a> to reference member variables of the struct. It can also be used within constructor functions to reference the struct being generated from the constructor.</p>
+  <h2 id="h">When &#39;self&#39; changes</h2>
+  <p>Within an event, the current <span class="inline2">self</span> will change in the following situations:</p>
+  <ul class="colour">
+    <li>Inside a <span class="inline3_func"><a data-xref="{title}" href="../Language_Features/with.htm">with</a></span> block, as shown above</li>
+    <li>When calling a <a href="../Method_Variables.htm">method</a> that is bound to an instance or a struct, the <span class="inline2">self</span> during the execution of that function will be the instance or struct to which the method is bound</li>
+    <li>When calling a constructor function, <span class="inline2">self</span> will refer to the new struct that is being generated as a result of that function.</li>
+  </ul>
+  <p>In all of these cases, when <span class="inline2">self</span> changes to a new scope, <span class="inline2"><a href="other.htm">other</a></span> will be set to be the previous scope. The only exception is when a bound constructor method is called. This is described more in <a data-xref="{text}" href="other.htm#h">When &#39;other&#39; changes</a>.</p>
+  <h2>Notes</h2>
+  <p class="note"><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> You can also use the <span class="inline2"><a data-xref="{title}" href="../../GML_Reference/Asset_Management/Instances/Instance_Variables/id.htm">id</a></span> built-in instance variable instead of <span class="inline2">self</span>, but <span class="inline2">self</span> offers certain benefits. To start with, it is faster for the compiler to identify the instance (or struct) using <span class="inline2">self</span> rather than <span class="inline2">id</span>, as the <span class="inline2">id</span> value goes through the instance lookup table while <span class="inline2">self</span> does not. Secondly, for those people making extensions, it is very useful to ensure the correct scoping of variables, since it is possible that a project which uses an extension may have a global scope variable or something with the same name as a variable in the extension.</p>
+  <p class="note"><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> The <span class="inline2">self</span> keyword is <strong>not </strong>a shortcut for the actual handle of an instance and should only be used in the context explained above. If you require the ID handle<strong> </strong>for an instance then you need to use <span class="inline2"><a data-xref="{title}" href="../../GML_Reference/Asset_Management/Instances/Instance_Variables/id.htm">id</a></span>. </p>
+  <p class="note"><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> The <span class="inline2">self</span> struct of an instance will be destroyed when its instance is destroyed (either <a href="../../GML_Reference/Asset_Management/Instances/instance_destroy.htm">manually</a> or as a result of a <a href="../../GML_Reference/Asset_Management/Rooms/room_goto.htm">room ending</a>), however it will be kept alive if there are any references to the self struct itself or any resources within the self struct (e.g. arrays, methods, structs). This may cause unintended issues in addition to a possible memory leak. To avoid this in case of a struct reference, you can create a <a href="../../GML_Reference/Garbage_Collection/weak_ref_create.htm">weak reference</a>.</p>
+  <h2>&#39;self&#39; as a value</h2>
+  <p>You can also assign <span class="inline2">self</span> as a value to a variable. What <span class="inline2">self</span> references is only determined when you use it to look up a variable. For example: </p>
+  <p class="code_heading">Create Event</p>
+  <p class="code">my_val = 5;<br />
+    the_thing = self;<br />
+    <br />
+    the_struct = <br />
+    {<br />
+        a: 4,<br />
+        b: 5<br />
+    }<br />
+    <br />
+    with(the_struct)<br />
+    {<br />
+        a = other.the_thing.my_val;<br />
+    }<br />
+    <br />
+    show_debug_message(the_struct);  // { a : 5, b : 5 }
+  </p>
+  <p>This code is executed when an instance of an object is created. The instance receives a variable <span class="inline2">my_val</span> that&#39;s assigned the value <span class="inline2">5</span> and a variable <span class="inline2">the_thing</span> that&#39;s assigned the value <span class="inline2">self</span>. It also receives a variable <span class="inline2">the_struct</span>, with variables <span class="inline2">a</span> set to <span class="inline2">4</span> and <span class="inline2">b</span> set to <span class="inline2">5</span>. Next, the scope is changed to that of the struct using a <span class="inline2"><a data-xref="{title}" href="../Language_Features/with.htm">with</a></span> statement. Between the curly braces <span class="inline2">{ }</span>,  the scope is that of the struct. The following line of code is then executed: </p>
+  <p class="code">a = other.the_thing.my_val;</p>
+  <p>The variable <span class="inline2">a</span> is an existing variable of <span class="inline2">the_struct</span> so it can be assigned to directly inside the <span class="inline2">with</span>. What the expression on the right-hand side refers to can be found by checking the dot operators one by one. <span class="inline2">other</span> refers to the scope that came before, i.e. before entering the <span class="inline2">with</span> statement, so the instance scope. The instance&#39;s <span class="inline2">the_thing</span> variable stores the value <span class="inline2">self</span>, which refers to the <strong>current</strong> scope, which was just found to be that of the instance. Its <span class="inline2">my_val</span> variable stores the value <span class="inline2">5</span>, which is finally assigned to the struct&#39;s variable <span class="inline2">a</span>. The final value of <span class="inline2">the_struct</span> is therefore <span class="inline2">{a : 5, b : 5}</span>.</p>
+  <p>Note that doing: </p>
+  <p class="code">with(the_struct)<br />
+    {<br />
+        a = the_thing.my_val;<br />
+    }</p>
+  <p>will throw an error, since here <span class="inline2">my_val</span> is looked up on <span class="inline2">the_struct</span>&#39;s &quot;self&quot;. However, <span class="inline2">the_struct</span> doesn&#39;t have a <span class="inline2">my_val</span> variable!</p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div>Back: <a data-xref="{title}" href="../Instance_Keywords.htm">Instance Keywords</a></div>
+        <div>Next: <a data-xref="{title}" href="other.htm">other</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+self
+-->
+  <!-- TAGS
+self
+-->
+</body>
+</html>
