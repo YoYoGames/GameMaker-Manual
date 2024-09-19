@@ -37,33 +37,32 @@
   <p class="note"><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> The <span class="inline2">self</span> keyword is <strong>not </strong>a shortcut for the actual handle of an instance and should only be used in the context explained above. If you require the ID handle<strong> </strong>for an instance then you need to use <span class="inline2"><a data-xref="{title}" href="../../GML_Reference/Asset_Management/Instances/Instance_Variables/id.htm">id</a></span>. </p>
   <p class="note"><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> The <span class="inline2">self</span> struct of an instance will be destroyed when its instance is destroyed (either <a href="../../GML_Reference/Asset_Management/Instances/instance_destroy.htm">manually</a> or as a result of a <a href="../../GML_Reference/Asset_Management/Rooms/room_goto.htm">room ending</a>), however it will be kept alive if there are any references to the self struct itself or any resources within the self struct (e.g. arrays, methods, structs). This may cause unintended issues in addition to a possible memory leak. To avoid this in case of a struct reference, you can create a <a href="../../GML_Reference/Garbage_Collection/weak_ref_create.htm">weak reference</a>.</p>
   <h2>&#39;self&#39; as a value</h2>
-  <p>You can also assign <span class="inline2">self</span> as a value to a variable. What <span class="inline2">self</span> references is only determined when you use it to look up a variable. For example: </p>
-  <p class="code_heading">Create Event</p>
-  <p class="code">my_val = 5;<br />
-    the_thing = self;<br />
+  <p>When <span class="inline2">self</span> is used in a struct literal, there are two rules that define its scope:</p>
+  <ol class="colour">
+    <li>When used as a value itself (just <span class="inline2">self</span>) to be read later, it stores the scope of the struct being created</li>
+    <li>When a value from it is accessed, it is read from the scope that is creating the struct, not the struct itself</li>
+  </ol>
+  <p>Consider the following code that is run in an instance:</p>
+  <p class="code">name = &quot;instance&quot;;<br />
     <br />
-    the_struct = <br />
-    {<br />
-        a: 4,<br />
-        b: 5<br />
+    struct = {<br />
+        name : &quot;struct&quot;,<br />
+        self_value : self,<br />
+        self_name : self.name<br />
     }<br />
     <br />
-    with(the_struct)<br />
-    {<br />
-        a = other.the_thing.my_val;<br />
-    }<br />
-    <br />
-    show_debug_message(the_struct);  // { a : 5, b : 5 }
+    show_debug_message( struct.self_value.name );<br />
+    show_debug_message( struct.self_name );
   </p>
-  <p>This code is executed when an instance of an object is created. The instance receives a variable <span class="inline2">my_val</span> that&#39;s assigned the value <span class="inline2">5</span> and a variable <span class="inline2">the_thing</span> that&#39;s assigned the value <span class="inline2">self</span>. It also receives a variable <span class="inline2">the_struct</span>, with variables <span class="inline2">a</span> set to <span class="inline2">4</span> and <span class="inline2">b</span> set to <span class="inline2">5</span>. Next, the scope is changed to that of the struct using a <span class="inline2"><a data-xref="{title}" href="../Language_Features/with.htm">with</a></span> statement. Between the curly braces <span class="inline2">{ }</span>,  the scope is that of the struct. The following line of code is then executed: </p>
-  <p class="code">a = other.the_thing.my_val;</p>
-  <p>The variable <span class="inline2">a</span> is an existing variable of <span class="inline2">the_struct</span> so it can be assigned to directly inside the <span class="inline2">with</span>. What the expression on the right-hand side refers to can be found by checking the dot operators one by one. <span class="inline2">other</span> refers to the scope that came before, i.e. before entering the <span class="inline2">with</span> statement, so the instance scope. The instance&#39;s <span class="inline2">the_thing</span> variable stores the value <span class="inline2">self</span>, which refers to the <strong>current</strong> scope, which was just found to be that of the instance. Its <span class="inline2">my_val</span> variable stores the value <span class="inline2">5</span>, which is finally assigned to the struct&#39;s variable <span class="inline2">a</span>. The final value of <span class="inline2">the_struct</span> is therefore <span class="inline2">{a : 5, b : 5}</span>.</p>
-  <p>Note that doing: </p>
-  <p class="code">with(the_struct)<br />
-    {<br />
-        a = the_thing.my_val;<br />
-    }</p>
-  <p>will throw an error, since here <span class="inline2">my_val</span> is looked up on <span class="inline2">the_struct</span>&#39;s &quot;self&quot;. However, <span class="inline2">the_struct</span> doesn&#39;t have a <span class="inline2">my_val</span> variable!</p>
+  <p>This sets a <span class="inline2">name</span> variable in the instance, then defines a struct with a <span class="inline2">name</span> variable as well.</p>
+  <p>In the struct, it creates two more variables: one that stores <span class="inline2">self</span> (rule 1 above) and one that reads <span class="inline2">name</span> from the current <span class="inline2">self</span> (rule 2 above).</p>
+  <p>In such a struct declaration, the scope does not change, so in both of these cases you would normally expect them to point to the instance that is defining the struct.</p>
+  <p>However when you execute this code, you get the following output:</p>
+  <p class="code">struct<br />
+    instance</p>
+  <p>The argument for the first call, <span class="inline2">struct.self_value.name</span>, where <span class="inline2">self_value</span> stores <span class="inline2">self</span>, resolves to the scope of the struct, instead of the scope of the instance, which was the active scope when <span class="inline2">self</span> was stored into the variable.</p>
+  <p>This happens as a result of <span class="inline2">self</span> being stored as a value in the struct literal which follows rule 1 defined above.</p>
+  <p>The argument for the second call, <span class="inline2">struct.self_name</span>, correctly refers to the name of the instance, as <span class="inline2">self</span> was accessed at the time the instance was the current scope. This follows rule 2 defined above.</p>
   <p> </p>
   <p> </p>
   <div class="footer">
