@@ -47,6 +47,7 @@
     <li>Inside a <span class="inline3_func"><a data-xref="{title}" href="../Language_Features/with.htm">with</a></span> block, <span class="inline2">other</span> will be the instance or struct that called the <span class="inline2">with()</span> function</li>
     <li>When calling a <a href="../Method_Variables.htm">method</a> that is bound to an instance or a struct, <span class="inline2">other</span> will be the instance or struct that called that method</li>
     <li>When calling an unbound constructor function, <span class="inline2">other</span> will be the instance or struct that called that function. If the constructor is bound as a method, then <span class="inline2">other</span> will be the instance or struct to which the constructor method is bound.</li>
+    <li>When stored as a reference through a struct literal, covered below under &quot;<strong>&#39;other&#39; as a reference</strong>&quot;.</li>
   </ul>
   <h2>Struct Declaration</h2>
   <p>Scope doesn&#39;t change inside a struct declaration, so <span class="inline2">other</span> refers to the same scope as <span class="inline2">self</span> (the <strong>current</strong> scope), meaning the struct or instance that&#39;s initialising the struct:</p>
@@ -59,6 +60,52 @@
     // This prints &#39;1&#39; (true) meaning that both sides refer to the same instance
   </p>
   <p>However, you do not need to use <span class="inline2">other</span> to read variables from the instance as any variables you reference directly will be read from that instance&#39;s scope, as described <a href="../Structs.htm#inst_in_struct">in this section</a> of the manual. You would only need to use this if you wanted to store a reference to that instance&#39;s struct.</p>
+  <h3 id="h1">&#39;other&#39; as a reference</h3>
+  <p>The page on <span class="inline2"><a data-xref="{title}" href="self.htm">self</a></span> contains a section on <a data-xref="{text}" href="self.htm#h1">&#39;self&#39; as a reference</a> with an example, which you should read before this section. This will cover that same example and how it would affect the <span class="inline2">other</span> reference.</p>
+  <p>Both rules covered on the aforementioned page regarding storing <span class="inline2">self</span> as a reference also apply to storing <span class="inline2">other</span> as a reference. However <span class="inline2">other</span> would be the previous <span class="inline2">self</span> as it would be if <span class="inline2">self</span> was stored.</p>
+  <p>Let&#39;s take that same example and replace <span class="inline2">self</span> with <span class="inline2">other</span>:</p>
+  <p class="code">name = &quot;instance&quot;;<br />
+    <br />
+    struct = {<br />
+        name : &quot;struct&quot;,<br />
+        other_ref : other,<br />
+        other_name : other.name<br />
+    }<br />
+    <br />
+    show_debug_message( struct.other_ref.name );<br />
+    show_debug_message( struct.other_name );
+  </p>
+  <p>This prints:</p>
+  <p class="code_plain">instance<br />
+    instance</p>
+  <p>The base scope in the code example is an instance, so with <span class="inline2">self</span> changing in <span class="inline2">other_ref</span> it stays as the instance scope (which was the &quot;previous&quot; scope) and for <span class="inline2">other_name</span> it also remains the instance scope as the <span class="inline2">self</span> there is unchanged and there is no previous scope before the instance (as it is the base scope).</p>
+  <p>However, what would happen in the second case if there were another scope before the instance scope?</p>
+  <p>We can answer that question by placing this code inside a <span class="inline2">with()</span> block:</p>
+  <p class="code">name = &quot;other_instance&quot;;<br />
+    <br />
+    with (inst)<br />
+    {<br />
+        name = &quot;instance&quot;;<br />
+    <br />
+        struct = {<br />
+            name : &quot;struct&quot;,<br />
+            other_ref : other,<br />
+            other_name : other.name<br />
+        }<br />
+        <br />
+        show_debug_message( struct.other_ref.name );<br />
+        show_debug_message( struct.other_name );<br />
+    }
+  </p>
+  <p>This prints:</p>
+  <p class="code_plain">instance<br />
+    other_instance</p>
+  <p>In the first case, as <span class="inline2">self</span> changes to be the struct, the instance that is inside the <span class="inline2">with()</span> block becomes the previous scope and is stored in <span class="inline2">other</span>.</p>
+  <p>However in the second case, as <span class="inline2">self</span> remains the <span class="inline2">with()</span> instance, <span class="inline2">other</span> retains the scope before that, which is the base scope (<span class="inline2">&quot;other_instance&quot;</span>). You can visualise the hierarchy of scopes as such:</p>
+  <p class="code_plain">other_instance<br />
+     &gt; instance<br />
+       &gt; struct</p>
+  <p> </p>
   <h2>Instance Method</h2>
   <p>Using <span class="inline2">other</span> within another instance&#39;s <a href="../Method_Variables.htm">method</a> refers to the instance that called that method.</p>
   <p>For example, let&#39;s say <span class="inline2">Object2</span> has a method that references <span class="inline2">self</span> and <span class="inline2">other</span>. This method is then called in <span class="inline2">Object1</span>. Since the method was created in <span class="inline2">Object2</span>, it is <strong>bound</strong> to it and will always use the <span class="inline2">Object2</span> instance as the &quot;self&quot;, no matter which instance calls it. In such a case, the calling instance becomes <span class="inline2">other</span>.</p>
