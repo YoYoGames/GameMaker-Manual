@@ -4,7 +4,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>Applying Actions To Other Instances</title>
-  <meta name="generator" content="Adobe RoboHelp 2019" />
+  <meta name="generator" content="Adobe RoboHelp 2022" />
   <link rel="stylesheet" href="../../assets/css/default.css" type="text/css" />
   <script src="../../assets/scripts/main_script.js" type="module"></script>
   <meta name="rh-authors" content="Mark Alexander" />
@@ -16,11 +16,8 @@
   <!--<div class="body-scroll" style="top: 150px;">-->
   <h1>Applying Actions To Other Instances</h1>
   <p>Most actions in the GML Visual libraries have an option to apply the action in different ways. This is called setting the <strong>action scope</strong> and it can be one of several things:</p>
-  <p><img alt="GML Visual Applies To" class="center" src="../../assets/Images/Scripting_Reference/Drag_And_Drop/Overview/DnD_Applies_To.png" />Essentially what you are telling <span data-keyref="GameMaker Name">GameMaker</span> is the which instance should run the action. The default action scope
-    is <span class="inline">self</span>, which means that once the object is created as an instance in the room, that instance will run the action code. However this isn&#39;t always what you want, and you may want some actions to affect other, or even
-    all, instances in the room. This is where changing the action scope comes in.</p>
-  <p>The different scopes for performing actions are listed below, but it should be noted that changing the scope on an action in this way will only apply the new scope to that action <em>and not to subsequent actions in the chain</em>. If you want to apply
-    a change of action scope to multiple chained actions, then use the <a href="../Drag_And_Drop_Reference/Common/Apply_To...htm">Apply to...</a> action first.</p>
+  <p><img alt="GML Visual Applies To" class="center" src="../../assets/Images/Scripting_Reference/Drag_And_Drop/Overview/DnD_Applies_To.png" />Essentially what you are telling <span data-keyref="GameMaker Name">GameMaker</span> is the which instance should run the action. The default action scope is <span class="inline">self</span>, which means that once the object is created as an instance in the room, that instance will run the action code. However this isn&#39;t always what you want, and you may want some actions to affect other, or even all, instances in the room. This is where changing the action scope comes in.</p>
+  <p>The different scopes for performing actions are listed below, but it should be noted that changing the scope on an action in this way will only apply the new scope to that action <em>and not to subsequent actions in the chain</em>. If you want to apply a change of action scope to multiple chained actions, then use the <a href="../Drag_And_Drop_Reference/Common/Apply_To...htm">Apply to...</a> action first.</p>
   <p> </p>
   <p><img alt="Self Icon" class="icon" src="../../assets/Images/Scripting_Reference/Drag_And_Drop/Overview/i_Scope_Self.png" /><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down" href="#">Self</a></p>
   <div class="droptext" data-targetname="drop-down">
@@ -29,35 +26,25 @@
   </div>
   <p><img alt="Other Icon" class="icon" src="../../assets/Images/Scripting_Reference/Drag_And_Drop/Overview/i_Scope_Other.png" /><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down1" href="#">Other</a></p>
   <div class="droptext" data-targetname="drop-down1">
-    <p class="dropspot">The <span class="inline">other</span> scope has two main functions, and the value it returns will depend on where and how you use it. In the <strong>Collision Event</strong>, <span class="inline">other</span> will return the unique instance ID value
-      (a unique value that is used to distinguish individual instances of every object), so you can, for example, create a &quot;bullet&quot; instance and have a collision event with a &quot;player&quot; instance and in that use the <span class="inline">other</span>      scope to remove hit points from the &quot;player&quot; object and then return to <span class="inline">self</span> scope to destroy the &quot;bullet&quot; instance.</p>
-    <p class="dropspot">Outside of the collision event the <span class="inline">other</span> setting will behave as if it was set to <span class="inline">noone</span> unless it is being called from within a scoped block of actions. What this means is that if you change the
-      scope of a group of actions to a specific object, then while those actions are being called, the <span class="inline">other</span> scope will return the instance ID of the instance that initially called the action group. For example, you could run
-      an <a href="../Drag_And_Drop_Reference/Common/Apply_To...htm">Apply to...</a> action and then in the next code block set the scope to <span class="inline">other</span> to perform an action on the instance running the whole event block, and not the
-      instance that is being scoped in the apply to code blocks. The image below gives an example:</p>
-    <p class="dropspot"><img alt="GML Visual Scope" class="center" src="../../assets/Images/Scripting_Reference/Drag_And_Drop/Overview/DnD_Scope_Other.png" />In the image, we are checking for a mouse press in the instance, and if one is detected we change scope using the <strong>Apply To...</strong>      action. The next two action blocks are now being called from the &quot;obj_Player&quot; instance (if there is more than one then it will run for all of them) and so the object will change its sprite and then create an object at the other position,
-      ie: the position of the object that is running the event and detected the mouse press.</p>
+    <p class="dropspot">The <span class="inline">other</span> scope has two main functions, and the value it returns will depend on where and how you use it. In the <strong>Collision Event</strong>, <span class="inline">other</span> will return the instance handle, so you can, for example, create a &quot;bullet&quot; instance and have a collision event with a &quot;player&quot; instance and in that use the <span class="inline">other</span> scope to remove hit points from the &quot;player&quot; object and then return to <span class="inline">self</span> scope to destroy the &quot;bullet&quot; instance.</p>
+    <p class="dropspot">Outside of the collision event the <span class="inline">other</span> setting will behave as if it was set to <span class="inline">noone</span> unless it is being called from within a scoped block of actions. What this means is that if you change the scope of a group of actions to a specific object, then while those actions are being called, the <span class="inline">other</span> scope will return the instance ID of the instance that initially called the action group. For example, you could run an <a href="../Drag_And_Drop_Reference/Common/Apply_To...htm">Apply to...</a> action and then in the next code block set the scope to <span class="inline">other</span> to perform an action on the instance running the whole event block, and not the instance that is being scoped in the apply to code blocks. The image below gives an example:</p>
+    <p class="dropspot"><img alt="GML Visual Scope" class="center" src="../../assets/Images/Scripting_Reference/Drag_And_Drop/Overview/DnD_Scope_Other.png" />In the image, we are checking for a mouse press in the instance, and if one is detected we change scope using the <strong>Apply To...</strong> action. The next two action blocks are now being called from the &quot;obj_Player&quot; instance (if there is more than one then it will run for all of them) and so the object will change its sprite and then create an object at the other position, ie: the position of the object that is running the event and detected the mouse press.</p>
     <p class="dropspot"> </p>
   </div>
   <p><img alt="All Icon" class="icon" src="../../assets/Images/Scripting_Reference/Drag_And_Drop/Overview/i_Scope_All.png" /><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down2" href="#">All</a></p>
   <div class="droptext" data-targetname="drop-down2">
-    <p class="dropspot">When you scope an action for all, you are telling <span data-keyref="GameMaker Name">GameMaker</span> to run that block for <strong>every single active instance within the current room</strong>. For example creating a <a href="../Drag_And_Drop_Reference/Instance/Destroy_Object_Instance.htm">Destroy Object Instance</a> action
-      and setting its scope to <span class="inline">all</span> will cause every instance in the room to disappear, no matter what object they have been created from.</p>
+    <p class="dropspot">When you scope an action for all, you are telling <span data-keyref="GameMaker Name">GameMaker</span> to run that block for <strong>every single active instance within the current room</strong>. For example creating a <a href="../Drag_And_Drop_Reference/Instance/Destroy_Object_Instance.htm">Destroy Object Instance</a> action and setting its scope to <span class="inline">all</span> will cause every instance in the room to disappear, no matter what object they have been created from.</p>
     <p class="dropspot"> </p>
   </div>
   <p><img alt="Object Icon" class="icon" src="../../assets/Images/Scripting_Reference/Drag_And_Drop/Overview/i_Scope_Object.png" /><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down3" href="#">Object</a></p>
   <div class="droptext" data-targetname="drop-down3">
-    <p class="dropspot">An action can also be given an <strong>object</strong> as it&#39;s scope. What this means is that all instances of the given object will run that action at the same time it is called. So if you have 100 enemy instances in the room, for example, and
-      you want to set them all to point towards a specific point. You&#39;d call the <a href="../Drag_And_Drop_Reference/Movement/Set_Point_Direction.htm">Set Point Direction</a> and set the action scope to the object &quot;obj_Enemy&quot; and when it
-      is called, all instances of that object will change direction.</p>
+    <p class="dropspot">An action can also be given an <strong>object</strong> as it&#39;s scope. What this means is that all instances of the given object will run that action at the same time it is called. So if you have 100 enemy instances in the room, for example, and you want to set them all to point towards a specific point. You&#39;d call the <a href="../Drag_And_Drop_Reference/Movement/Set_Point_Direction.htm">Set Point Direction</a> and set the action scope to the object &quot;obj_Enemy&quot; and when it is called, all instances of that object will change direction.</p>
     <p class="dropspot"> </p>
   </div>
   <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down4" href="#">Expression</a></p>
   <div class="droptext" data-targetname="drop-down4">
-    <p class="dropspot">The Expression input field is for you to input the ID of a specific instance that you want the action to work on. It can be the unique ID value assigned to an instance from the Room Editor or it can be the ID of an instance that you&#39;ve stored
-      in a variable (where the variable would be the input value) or it can even be an expression using code, as shown in the image below:</p>
-    <p class="dropspot"><img alt="GML Visual Target" class="center" src="../../assets/Images/Scripting_Reference/Drag_And_Drop/Overview/DnD_Scope_Target.png" />In this case, an instance calls the <a href="../Drag_And_Drop_Reference/Instance/Set_Sprite.htm">Set Sprite</a> from
-      the instance created by the code given for the Expression. Note that in this case, the instance being created will run its Create Event first before the action is applied to it.</p>
+    <p class="dropspot">The Expression input field is for you to input the ID of a specific instance that you want the action to work on. It can be the unique ID value assigned to an instance from the Room Editor or it can be the handle of an instance that you&#39;ve stored in a variable (where the variable would be the input value) or it can even be an expression using code, as shown in the image below:</p>
+    <p class="dropspot"><img alt="GML Visual Target" class="center" src="../../assets/Images/Scripting_Reference/Drag_And_Drop/Overview/DnD_Scope_Target.png" />In this case, an instance calls the <a href="../Drag_And_Drop_Reference/Instance/Set_Sprite.htm">Set Sprite</a> from the instance created by the code given for the Expression. Note that in this case, the instance being created will run its Create Event first before the action is applied to it.</p>
     <p class="dropspot"> </p>
   </div>
   <p> </p>
@@ -70,7 +57,7 @@
         <div style="float:right">Next: <a href="Action_Block_Functions.htm">Action Block Scripts</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2021 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 GML Visual Applying Actions

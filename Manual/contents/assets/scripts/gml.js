@@ -1,5 +1,4 @@
 export default function(hljs) {
-
   const KEYWORDS = [
     "and",
     "begin",
@@ -37,10 +36,13 @@ export default function(hljs) {
     "with",
     "xor",
   ];
-
   const LITERALS = [
     "audiogroup_default", 
     "GM_is_sandboxed", 
+    "self", 
+    "other", 
+    "all", 
+    "noone", 
     "ANSI_CHARSET",
     "ARABIC_CHARSET",
     "BALTIC_CHARSET",
@@ -953,18 +955,15 @@ export default function(hljs) {
     "player_name",
     "player_type"
   ];
-
   /**
    * Regex for some sort of identifier - i.e, a valid name of something in code.
    */
   const VALID_IDENTIFIER_REG = /[a-zA-Z_][a-zA-Z0-9_]*/;
-
   /**
    * Regex for a dot separating some LHS and RHS expression with optional whitespace (as this is
    * supported in the engine.)
    */
   const DOT_ACCESSOR_REG = /\b\.\b/;
-
   /**
    * Various types of strings supported in the engine.
    */
@@ -983,9 +982,8 @@ export default function(hljs) {
       }
     ]
   };
-
   /**
-   * Various representations of numbers!
+   * Various representations of numbers
    */
   const NUMBER = {
     className: "literal",
@@ -997,7 +995,6 @@ export default function(hljs) {
       { match: /\b[0-9][0-9_.]*/ }
     ]
   };
-
   /**
    * Pre-processor modes for macro definitions and regions.
    */
@@ -1038,12 +1035,10 @@ export default function(hljs) {
       },
     ]
   };
-
   /**
    * A single-line comment.
    */
   const COMMENT_LINE = hljs.COMMENT('//', /\$|\n/);
-
   /**
    * Modes for the types of comments supported in GML.
    */
@@ -1053,7 +1048,6 @@ export default function(hljs) {
       hljs.C_BLOCK_COMMENT_MODE,
     ]
   };
-
   /**
    * Dot accessor usage with a special highlighting case for `global`.
    */
@@ -1089,7 +1083,6 @@ export default function(hljs) {
       }
     },
   ];
-
   /**
    * Function call sites, just looking for `<ident>(`. This creates false positives
    * for keywords such as `if (<condition>)`, so has lower priority in the mode `contains` list.
@@ -1104,7 +1097,6 @@ export default function(hljs) {
       1: "function"
     }
   };
-
   /**
    * The manual likes using `obj_` and such to define assets. Sneaky trick to make it look nicer :P
    */
@@ -1116,7 +1108,6 @@ export default function(hljs) {
       { begin: "obj_" },
     ]
   };
-
   /**
    * Expressions, which form part of a valid statement.
    */
@@ -1127,7 +1118,6 @@ export default function(hljs) {
     FUNCTION_CALL,
     USER_ASSET_CONSTANT
   ];
-
   const SWITCH_CASE = {
     begin: [
       /case/,
@@ -1139,7 +1129,6 @@ export default function(hljs) {
     },
     contains: EXPRESSION
   };
-
   /**
    * A struct variable declaration, of `<ident>:`
    */
@@ -1153,7 +1142,6 @@ export default function(hljs) {
       2: "variable-instance"
     },
   };
-
   /**
    * A function declaration matching for:
    * ```gml
@@ -1172,7 +1160,6 @@ export default function(hljs) {
       3: "function"
     }
   };
-
   /**
    * An enum definition in the form:
    * ```gml
@@ -1212,7 +1199,6 @@ export default function(hljs) {
       }
     ]
   };
-
   return {
     name: 'GML',
     case_insensitive: false, // language is case-sensitive
