@@ -58,7 +58,7 @@
     };</p>
   <p>You can see in the above code that you can define methods and use runtime functions in structs, and you can also use local and instance variables within the struct declaration.</p>
   <h3 id="inst_in_struct">Instance Variables in Struct Declaration?</h3>
-  <p>You&#39;ll notice in the above example that the struct variable &quot;g&quot; is being set to <span class="inline2"><a data-xref="{title}" href="../GML_Reference/Asset_Management/Sprites/Sprite_Instance_Variables/image_index.htm">image_index</a></span>, which is an instance variable. You might think that you&#39;d need to use the <a href="Instance_Keywords.htm">keyword</a> <span class="inline">other</span> in this case to get the instance variable, but this is not necessary. Essentially, when you define a struct<strong>, all member variables on the left-hand side of the colon &quot;:&quot; are the <em>struct</em> variables, and the values and variables on the right-hand side use the scope of whatever is defining the struct</strong> (in this case, an instance).</p>
+  <p>You&#39;ll notice in the above example that the struct variable &quot;g&quot; is being set to <span class="inline2"><a data-xref="{title}" href="../GML_Reference/Asset_Management/Sprites/Sprite_Instance_Variables/image_index.htm">image_index</a></span>, which is an instance variable. You might think that you&#39;d need to use the <a href="Instance_Keywords.htm">keyword</a> <span class="inline">other</span> in this case to get the instance variable, but this is not necessary. Essentially, when you define a struct<strong>, all member variables on the left-hand side of the colon &quot;:&quot; are the <em>struct</em> variables, and the values and variables on the right-hand side use the scope of whatever is defining the struct</strong> (in this case, an instance). Using <span class="inline2"><a href="Instance Keywords/self.htm">self</a></span> will also refer to the instance (or struct) that is defining the new struct.</p>
   <p>Let&#39;s look at a simple example to illustrate this. Say you want to define a struct with the variables &quot;x&quot; and &quot;y&quot; and you want to set them to the <span class="inline2"><a data-xref="{title}" href="../GML_Reference/Asset_Management/Instances/Instance_Variables/x.htm">x</a></span> and <span class="inline2"><a data-xref="{title}" href="../GML_Reference/Asset_Management/Instances/Instance_Variables/y.htm">y</a></span> of the instance defining the struct. In practice the code would look like this:</p>
   <p class="code">mystruct =<br />
     {<br />
@@ -73,9 +73,6 @@
         c : a + b<br />
     }</p>
   <p>The error occurs because the variables <span class="inline">a</span> and <span class="inline">b</span> are actually being evaluated at the scope of whatever is defining the struct (they are on the right-hand side of the colon <span class="inline2">:</span>), and are <em>not</em> the ones being defined within the struct itself.<strong></strong></p>
-  <p class="note" style="padding-left: 20px;"><span data-conref="../../assets/snippets/Tag_important.hts"> </span> You cannot use any built-in <strong>global variables</strong> as struct member names, e.g.: <span class="inline2"><a data-xref="{title}" href="../GML_Reference/General_Game_Control/game_id.htm">game_id</a></span>
-    <font face="menlo, consolas, monospace"><b> </b></font>or <span class="inline2"><a data-xref="{title}" href="../GML_Reference/Debugging/fps.htm">fps</a></span>. You can find a full list of these global variables on <a data-xref="{title}" href="Struct_Forbidden_Variables.htm">Struct Forbidden Variables</a>.
-  </p>
   <h3>Shorthand Initialisation of Variables With The Same Name</h3>
   <p>Struct variables that you initialise with the value of an existing variable of the same name (a local or instance variable), can be written using a shorthand notation. Instead of having to write:</p>
   <p class="code">var a = 12;<br />
@@ -153,7 +150,7 @@
     delete mystruct;
   </p>
   <h2 id="constr">Constructor Functions</h2>
-  <p>You can also use <a href="Script_Functions.htm">script functions</a> or <a href="Method_Variables.htm">methods</a> to create functions that can be used to generate new structs, which requires the use of the <span class="inline">constructor</span> keyword for the function and the <a href="Language_Features/new.htm"><span class="inline">new</span></a> operator when creating a struct from such a function. See the following function:</p>
+  <p>You can also use <a href="Script_Functions.htm">script functions</a> or <a href="Method_Variables.htm">methods</a> to create functions that can be used to generate new structs, which requires the use of the <span class="inline2">constructor</span> keyword for the function and the <a href="Language_Features/new.htm"><span class="inline2">new</span></a> operator when creating a struct from such a function. See the following function:</p>
   <p class="code">function Vector2(_x, _y) <strong>constructor</strong><br />
     {<br />
         x = _x;<br />
@@ -179,9 +176,10 @@
         }<br />
     }
   </p>
-  <p>Here we are creating a function called <span class="inline">Vector2</span> and telling <span data-keyref="GameMaker Name">GameMaker</span> that this is a function used for creating structs by adding the <span class="inline">constructor</span> keyword after its definition. You can then call this constructor function like this:</p>
+  <p>Here we are creating a function called <span class="inline2">Vector2</span> and telling <span data-keyref="GameMaker Name">GameMaker</span> that this is a function used for creating structs by adding the <span class="inline2">constructor</span> keyword after its definition. You can then call this constructor function with <a href="Language_Features/new.htm"><span class="inline2">new</span></a> (to create a <strong>new</strong> struct):</p>
   <p class="code">v2 = new Vector2(10, 10);</p>
-  <p>The variable <span class="inline">v2</span> will now contain a struct with the variables <span class="inline">x</span> and <span class="inline">y</span> and the <a href="Functions/Static_Variables.htm">static</a> <a href="Method_Variables.htm">method variable</a> <span class="inline">Add</span>.</p>
+  <p>The variable <span class="inline2">v2</span> will now contain a struct with the variables <span class="inline2">x</span> and <span class="inline2">y</span> and the <a href="Functions/Static_Variables.htm">static</a> <a href="Method_Variables.htm">method variable</a> <span class="inline2">Add</span>.</p>
+  <p class="note"><span data-conref="../../assets/snippets/Tag_note.hts"> </span> You cannot call a constructor function without the <span class="inline2">new</span> keyword and doing so will throw a fatal error.</p>
   <p>You can also make use of optional arguments in your constructor functions:</p>
   <p class="code">function Vector2(<strong>_x = 0, _y = 0</strong>) constructor<br />
     {<br />
@@ -242,7 +240,7 @@
   <p>You can use <span class="inline3_func"><a data-xref="{title}" href="../GML_Reference/Variable_Functions/is_instanceof.htm">is_instanceof</a></span> to check if a struct belongs to the given constructor, or has the constructor as a parent constructor.</p>
   <div data-conref="../../assets/snippets/is_instanceof_example.hts"> </div>
   <p>This functionality makes use of &quot;static structs&quot;. See: <a data-xref="{title}" href="Structs/Static_Structs.htm">Static Struct</a></p>
-  <h2>String Output</h2>
+  <h2 id="h">String Output</h2>
   <p>One final thing to mention about structs is that you can change what is output to the console from them for debugging. By default, calling the function <span class="inline3_func"><a data-xref="{title}" href="../GML_Reference/Debugging/show_debug_message.htm">show_debug_message</a></span> on a struct will output the contents of the struct (as shown above). However, it&#39;s possible to customise this message by adding a specifically named method to the struct called <span class="inline"><a id="A"></a>toString</span>:</p>
   <p class="code">mystruct =<br />
     {<br />
@@ -270,6 +268,7 @@
   </ul>
   <h2>Struct Functions</h2>
   <p>Finally, there are a number of runtime functions that you can use on structs to get the variables they contain as well as a few other things. You can find them under <a data-xref="{text}" href="../GML_Reference/Variable_Functions/Variable_Functions.htm#struct_functions">Struct Functions</a>.</p>
+  <p><a href="Struct_Forbidden_Variables.htm" style="display:none;">a</a></p>
   <p> </p>
   <p> </p>
   <div class="footer">
@@ -279,7 +278,7 @@
         <div style="float:right">Next: <a data-xref="{title}" href="Structs/Static_Structs.htm">Static Struct</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2023 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 Structs

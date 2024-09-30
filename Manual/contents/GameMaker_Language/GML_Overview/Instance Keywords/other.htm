@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>other</title>
+  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <link rel="stylesheet" type="text/css" href="../../../assets/css/default.css" />
+  <script src="../../../assets/scripts/main_script.js" type="module"></script>
+  <meta name="rh-authors" content="" />
+  <meta name="topic-comment" content="" />
+  <meta name="rh-index-keywords" content="other" />
+  <meta name="search-keywords" content="other" />
+  <meta name="template" content="assets/masterpages/Manual_Keyword_Page.htt" />
+</head>
+<body>
+  <h1><span data-field="title" data-format="default">other</span></h1>
+  <p><span class="inline2">other</span> has two definitions:</p>
+  <ul class="colour">
+    <li>In Collision events, <span class="inline2">other</span> refers to the &quot;other&quot; instance that collided with the current instance.</li>
+    <li>Anywhere else, this is the previous scope before the <span class="inline2"><a href="self.htm">self</a></span> changed, for example, the instance or struct that executed a <span class="inline2"><a data-xref="{title}" href="../Language_Features/with.htm">with</a></span> statement or called a bound method. As such it is only useful in those specific cases and outside of those cases it remains the same as <span class="inline2">self</span>.</li>
+  </ul>
+  <p><span class="inline2">other</span> has multiple ways that it can be used to reference a specific instance or struct: it can be used in a <span class="inline2"><a data-xref="{title}" href="../Language_Features/with.htm">with</a></span> statement, in a <a href="../../../The_Asset_Editors/Object_Properties/Object_Events.htm">collision event</a>, or in a function. This page is going to explain the last two use cases.</p>
+  <h2>Collision Event</h2>
+  <p>A collision event can only happen between <strong>two </strong>instances. You <i>can</i> have multiple collisions between multiple instances, but they are all resolved by <span data-keyref="GameMaker Name">GameMaker</span> on a 1-on-1 basis, with the &quot;self&quot; instance that has the collision event and the &quot;other&quot; instance that is colliding with it.</p>
+  <p>Imagine you have a player instance, multiple enemy instances and multiple bullet instances that the enemy can fire at you. You can assign each enemy a single bullet instance but with a different damage variable randomly assigned to it when created, for example:</p>
+  <p class="code">var bullet;<br />
+    bullet = instance_create_layer(x, y, &quot;Bullets&quot;, obj_Bullet);<br />
+    bullet.damage = 5 + irandom(5);<br />
+    bullet.speed = 8;<br />
+    bullet.direction = point_direction(x, y, obj_Player.x, obj_Player.y);</p>
+  <p>You can see how we set its variables using the dot notation as outlined in the section on <a href="../Addressing_Variables_In_Other_Instances.htm">Addressing Variables In Other Instances</a>. This will give each bullet instance a different damage value, but how will the player detect the damage that it has to take when it&#39;s hit by a bullet?</p>
+  <p>For this, the player will need to have a collision event with <span class="inline2">obj_Bullet</span>, and within that event use <span class="inline2">other</span> to read variables from the colliding bullet instance:</p>
+  <p class="code">hp -= other.damage;<br />
+    if (hp &lt;= 0) instance_destroy();</p>
+  <p>The above code will deduct the amount stored in the <i>other</i> instance&#39;s <span class="inline2">damage</span> variable from the player&#39;s <span class="inline2">hp</span> variable, then it will check to see if the <span class="inline2">hp</span> is lower than or equal to 0. If it is then it will destroy the player instance. Please note that the other instance must have the variable being checked or else an error will be thrown.</p>
+  <p class="note"><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> The Collision event is the only event that has a special meaning for the <span class="inline2">other</span> keyword. In all other events and scripts, the behaviour of <span class="inline2">other</span> will be defined by the context it is being used in (such as a <span class="inline2">with()</span> block, a function, struct declaration, etc.).</p>
+  <p>You can assign values to variables, or even create new ones, using <span class="inline2">other</span> in the collision event, like this:</p>
+  <p class="code">// add ten to the other instance&#39;s &quot;mana&quot; variable<br />
+    other.mana += 10;<br />
+    // set the other instance variable &quot;hit&quot; to true, creating the variable if it doesn&#39;t already exist<br />
+    other.hit = true;</p>
+  <h2 id="h">When &#39;other&#39; changes</h2>
+  <p>The page on <span class="inline2"><a data-xref="{title}" href="self.htm">self</a></span> contains a section on <a data-xref="{text}" href="self.htm#h">When &#39;self&#39; changes</a>.</p>
+  <p>This section will describe those cases in relation to how <span class="inline2">other</span> changes:</p>
+  <ul class="colour">
+    <li>Inside a <span class="inline3_func"><a data-xref="{title}" href="../Language_Features/with.htm">with</a></span> block, <span class="inline2">other</span> will be the instance or struct that called the <span class="inline2">with()</span> function</li>
+    <li>When calling a <a href="../Method_Variables.htm">method</a> that is bound to an instance or a struct, <span class="inline2">other</span> will be the instance or struct that called that method</li>
+    <li>When calling an unbound constructor function, <span class="inline2">other</span> will be the instance or struct that called that function. If the constructor is bound as a method, then <span class="inline2">other</span> will be the instance or struct to which the constructor method is bound.</li>
+    <li>When stored as a reference through a struct literal, covered below under &quot;<strong>&#39;other&#39; as a reference</strong>&quot;.</li>
+  </ul>
+  <h2>Struct Declaration</h2>
+  <p>Scope doesn&#39;t change inside a struct declaration, so <span class="inline2">other</span> refers to the same scope as <span class="inline2">self</span> (the <strong>current</strong> scope), meaning the struct or instance that&#39;s initialising the struct:</p>
+  <p class="code">var _struct =<br />
+    {<br />
+        parent_instance : other<br />
+    }<br />
+    <br />
+    show_debug_message(_struct.parent_instance == self);<br />
+    // This prints &#39;1&#39; (true) meaning that both sides refer to the same instance
+  </p>
+  <p>However, you do not need to use <span class="inline2">other</span> to read variables from the instance as any variables you reference directly will be read from that instance&#39;s scope, as described <a href="../Structs.htm#inst_in_struct">in this section</a> of the manual. You would only need to use this if you wanted to store a reference to that instance&#39;s struct.</p>
+  <h3 id="h1">&#39;other&#39; as a reference</h3>
+  <p>The page on <span class="inline2"><a data-xref="{title}" href="self.htm">self</a></span> contains a section on <a data-xref="{text}" href="self.htm#h1">&#39;self&#39; as a reference</a> with an example, which you should read before this section. This will cover that same example and how it would affect the <span class="inline2">other</span> reference.</p>
+  <p>Both rules covered on the aforementioned page regarding storing <span class="inline2">self</span> as a reference also apply to storing <span class="inline2">other</span> as a reference. However <span class="inline2">other</span> would be the previous <span class="inline2">self</span> as it would be if <span class="inline2">self</span> was stored.</p>
+  <p>Let&#39;s take that same example and replace <span class="inline2">self</span> with <span class="inline2">other</span>:</p>
+  <p class="code">name = &quot;instance&quot;;<br />
+    <br />
+    struct = {<br />
+        name : &quot;struct&quot;,<br />
+        other_ref : other,<br />
+        other_name : other.name<br />
+    }<br />
+    <br />
+    show_debug_message( struct.other_ref.name );<br />
+    show_debug_message( struct.other_name );
+  </p>
+  <p>This prints:</p>
+  <p class="code_plain">instance<br />
+    instance</p>
+  <p>The base scope in the code example is an instance, so with <span class="inline2">self</span> changing in <span class="inline2">other_ref</span> it stays as the instance scope (which was the &quot;previous&quot; scope) and for <span class="inline2">other_name</span> it also remains the instance scope as the <span class="inline2">self</span> there is unchanged and there is no previous scope before the instance (as it is the base scope).</p>
+  <p>However, what would happen in the second case if there were another scope before the instance scope?</p>
+  <p>We can answer that question by placing this code inside a <span class="inline2">with()</span> block:</p>
+  <p class="code">name = &quot;other_instance&quot;;<br />
+    <br />
+    with (inst)<br />
+    {<br />
+        name = &quot;instance&quot;;<br />
+    <br />
+        struct = {<br />
+            name : &quot;struct&quot;,<br />
+            other_ref : other,<br />
+            other_name : other.name<br />
+        }<br />
+        <br />
+        show_debug_message( struct.other_ref.name );<br />
+        show_debug_message( struct.other_name );<br />
+    }
+  </p>
+  <p>This prints:</p>
+  <p class="code_plain">instance<br />
+    other_instance</p>
+  <p>In the first case, as <span class="inline2">self</span> changes to be the struct, the instance that is inside the <span class="inline2">with()</span> block becomes the previous scope and is stored in <span class="inline2">other</span>.</p>
+  <p>However in the second case, as <span class="inline2">self</span> remains the <span class="inline2">with()</span> instance, <span class="inline2">other</span> retains the scope before that, which is the base scope (<span class="inline2">&quot;other_instance&quot;</span>). You can visualise the hierarchy of scopes as such:</p>
+  <p class="code_plain">other_instance<br />
+     &gt; instance<br />
+       &gt; struct</p>
+  <p> </p>
+  <h2>Instance Method</h2>
+  <p>Using <span class="inline2">other</span> within another instance&#39;s <a href="../Method_Variables.htm">method</a> refers to the instance that called that method.</p>
+  <p>For example, let&#39;s say <span class="inline2">Object2</span> has a method that references <span class="inline2">self</span> and <span class="inline2">other</span>. This method is then called in <span class="inline2">Object1</span>. Since the method was created in <span class="inline2">Object2</span>, it is <strong>bound</strong> to it and will always use the <span class="inline2">Object2</span> instance as the &quot;self&quot;, no matter which instance calls it. In such a case, the calling instance becomes <span class="inline2">other</span>.</p>
+  <p class="code">// In Object2<br />
+    my_method = function()<br />
+    {<br />
+        show_debug_message(object_get_name(self.object_index));<br />
+        show_debug_message(object_get_name(other.object_index));<br />
+    }<br />
+    <br />
+    // In Object1<br />
+    Object2.my_method();
+  </p>
+  <p>This would cause the instance to first print its own object name (&quot;Object2&quot;) and then the object name of the calling instance (&quot;Object1&quot;).</p>
+  <p>The same will apply to a method that is bound to a struct.</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div>Back: <a data-xref="{title}" href="../Instance_Keywords.htm">Instance Keywords</a></div>
+        <div>Next: <a data-xref="{title}" href="all.htm">all</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+other
+-->
+  <!-- TAGS
+other
+-->
+</body>
+</html>

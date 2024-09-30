@@ -90,11 +90,19 @@
   <p>This window shows debug information related to the audio playing in your game.</p>
   <p>The graph displays the most recent output buffer on the audio thread. This is the output signal that <span data-keyref="GameMaker Name">GameMaker</span> sends to the audio device, after all mixing and processing.</p>
   <p>The horizontal axis in this graph is the frame number in the buffer, and the vertical axis is the amplitude, typically ranging between -1 and 1.</p>
-  <p><img class="center" src="../../../assets/Images/Scripting_Reference/GML/Reference/Debug/debug_overlay_audio.png" />The list at the bottom shows you each sound &quot;source&quot; that is currently playing, or may potentially play a sound. The columns display the following values:</p>
+  <p><img class="center" src="../../../assets/Images/Scripting_Reference/GML/Reference/Debug/debug_overlay_audio.png" />The list at the bottom shows you each sound &quot;source&quot; that is currently playing or may potentially play a sound (including individual sources from <a href="../Asset_Management/Audio/Audio_Synchronisation/Audio_Synchronisation.htm">sync groups</a>). These appear coloured depending on the state of the source:</p>
+  <ul class="colour">
+    <li><strong>White</strong>: Sources that are currently playing.</li>
+    <li><strong>Red</strong>: Sources that have finished playing.</li>
+    <li><strong>Yellow</strong>: Sources that are paused.</li>
+    <li><strong>Magenta</strong>: Sources that are preparing to be played, waiting on internal conditions. This is a transient state and will not be visible for more than some milliseconds.</li>
+    <li><strong>Cyan</strong>: Sources that are stopping. This is a transient state and will not be visible for more than some milliseconds.</li>
+  </ul>
+  <p>The columns display the following values:</p>
   <ul class="colour">
     <li><strong>source</strong>: The ID of the source</li>
     <li><strong>buffer</strong>: The ID of the buffer attached to this source</li>
-    <li><strong>numProcessed</strong>: The number of queued buffers that the source has played through (which gets cleaned up at certain points)</li>
+    <li><strong>syncSource</strong>: The source that this source is synchronised to. This will be -1 for sources that are not synchronising to any source and for sources that are being synchronised to by others.</li>
     <li><strong>numQueued</strong>: The number of buffers that are queued on this source (including processed ones)</li>
     <li><strong>gain</strong>: The source gain as a 16-bit value (0-65535)</li>
     <li><strong>name</strong>: The name of the asset. Dynamically created assets (such as buffer sounds) will not show a name.</li>
@@ -120,6 +128,9 @@
     <li><strong>index in group</strong>: The index of the texture page in its texture group. A texture group can be stored on multiple texture pages when all the visual assets in it don&#39;t fit on a single texture page. Sprites marked as on a <a data-xref="{text}" href="../../../Settings/Texture_Information/Texture_Pages.htm#h">Separate Texture Page</a> also go on their own texture page.</li>
     <li><strong>num mips</strong>: The number of mipmap levels used by this texture. See <a data-xref="{title}" href="../Drawing/Mipmapping/Mipmapping.htm">Mipmapping</a> for more info.</li>
   </ul>
+  <h3>FlexPanel</h3>
+  <p>This shows the <a data-xref="{text}" href="../Flex_Panels/Flex_Panels.htm#h1">Flex Panel Preview</a> window, with a JSON editor on the left and a preview of the generated layout on the right.</p>
+  <p><img class="center" src="../../../assets/Images/Scripting_Reference/GML/Reference/Debug/debug_overlay_flexpanel.png" /></p>
   <h3 id="debug_view">DebugView</h3>
   <p>This toggles the visibility of all custom debug views created using <span class="inline3_func"><a data-xref="{title}" href="dbg_view.htm">dbg_view</a></span>.</p>
   <h2 id="debug_views">Views</h2>
@@ -190,6 +201,7 @@
     <li><a data-xref="{title}" href="dbg_slider.htm">dbg_slider</a></li>
     <li><a data-xref="{title}" href="dbg_slider_int.htm">dbg_slider_int</a></li>
     <li><a data-xref="{title}" href="dbg_sprite.htm">dbg_sprite</a></li>
+    <li><a data-xref="{title}" href="dbg_sprite_button.htm">dbg_sprite_button</a></li>
     <li><a data-xref="{title}" href="dbg_text.htm">dbg_text</a></li>
     <li><a data-xref="{title}" href="dbg_text_input.htm">dbg_text_input</a></li>
     <li><a data-xref="{title}" href="dbg_text_separator.htm">dbg_text_separator</a></li>
