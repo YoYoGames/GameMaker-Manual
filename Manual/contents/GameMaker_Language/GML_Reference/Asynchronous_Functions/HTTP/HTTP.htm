@@ -15,19 +15,70 @@
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
   <h1><span data-field="title" data-format="default">HTTP</span></h1>
-  <p>This section lists the different Asynchronous HTTP functions available in <span data-keyref="GameMaker Name">GameMaker</span>. These functions will generate an <a href="../../../../The_Asset_Editors/Object_Properties/Async_Events/HTTP.htm">Asynchronous HTTP Event</a> in all instances that have it:</p>
+  <p>This section lists the different Asynchronous HTTP functions available in <span data-keyref="GameMaker Name">GameMaker</span>.</p>
+  <p>HTTP stands for <a href="https://en.wikipedia.org/wiki/HTTP">Hypertext Transfer Protocol</a>, which is a protocol for communication on the World Wide Web. It is used when you browse the internet using a web browser, download files, log in to a website, interact with RESTful APIs, ... It has a variant named HTTPS (S indicating &quot;Secure&quot;).</p>
+  <p>HTTP <em>requests</em> are sent to a web server, which replies by sending back a <em>response</em>. A request uses one of several <em>methods</em>, of which GET and POST are the most common ones. Both the request and response may contain headers (a collection of key-value pairs) and a request body (the actual data to send). The response contains a status code indicating the status and can contain data (e.g. file contents).</p>
+  <p><span data-keyref="GameMaker Name">GameMaker</span> lets you create and send HTTP requests using the functions on this page. The response is returned in an <a href="../../../../The_Asset_Editors/Object_Properties/Async_Events/HTTP.htm">Asynchronous HTTP Event</a> in all instances that have it.</p>
+  <h2 id="request_functions">Request Functions</h2>
+  <p>The most general function is <span class="inline3_func"><a data-xref="{title}" href="http_request.htm">http_request</a></span>, which allows you to specify any request method as well as headers and data.</p>
+  <p>The other functions can be used for more specific requests:</p>
   <ul class="colour">
-    <li><a data-xref="{title}" href="http_request.htm">http_request</a></li>
-    <li><a data-xref="{title}" href="http_get.htm">http_get</a></li>
-    <li><a data-xref="{title}" href="http_get_file.htm">http_get_file</a></li>
-    <li><a data-xref="{title}" href="http_post_string.htm">http_post_string</a></li>
+    <li><span class="inline3_func"><a data-xref="{title}" href="http_get.htm">http_get</a></span> for a GET request</li>
+    <li><span class="inline3_func"><a data-xref="{title}" href="http_get_file.htm">http_get_file</a></span> to download a file using GET</li>
+    <li><span class="inline3_func"><a data-xref="{title}" href="http_post_string.htm">http_post_string</a></span> to make a HTTP request using POST</li>
   </ul>
-  <p>Note that: </p>
+  <h3 id="urls">URLs</h3>
+  <p>All request functions take a URL. The URL string: </p>
   <ul class="colour">
-    <li>You can use an IP address in the <span class="inline2">url</span> parameter of all these functions, e.g. <span class="inline2">&quot;http://1.1.1.1&quot;</span>.</li>
-    <li>The URL string must include the protocol, e.g. <span class="inline2">&quot;http://www.google.com&quot;</span> or <span class="inline2">&quot;https://www.google.com&quot;</span>.</li>
+    <li>must include the protocol, e.g. <span class="inline2">&quot;http://www.google.com&quot;</span> or <span class="inline2">&quot;https://www.google.com&quot;</span>.</li>
+    <li>can contain an IP address, e.g. <span class="inline2">&quot;http://1.1.1.1&quot;</span>.</li>
+    <li>can contain <a href="https://en.wikipedia.org/wiki/Query_string">query parameters</a>, e.g. <span class="inline2">&quot;http://www.example.com/examples?example_id={id}&quot;</span>.</li>
   </ul>
-  <h2>Connection Timeout</h2>
+  <h2 id="making_requests">Making Requests</h2>
+  <p>Let&#39;s look at how a general HTTP request is handled from start to end:</p>
+  <p class="code_heading">Mouse Left Pressed Event</p>
+  <p class="code">var _map_headers = ds_map_create();<br />
+    request_id = http_request(&quot;http://www.google.com&quot;, &quot;GET&quot;, _map_headers, &quot;&quot;);<br />
+    ds_map_destroy(_map_headers);</p>
+  <p class="code_heading">Async - HTTP Event</p>
+  <p class="code">if (async_load[? &quot;id&quot;] != request_id) { exit; }<br />
+    <br />
+    var _status = async_load[? &quot;status&quot;];<br />
+    if (_status &lt; 0)<br />
+    {<br />
+        // Error occurred<br />
+        <br />
+        exit;<br />
+    }<br />
+    <br />
+    if (_status == 1)<br />
+    {<br />
+        // Downloading<br />
+        <br />
+        exit;<br />
+    }<br />
+    <br />
+    if (_status == 0)<br />
+    {<br />
+        // Request completed!<br />
+        <br />
+        if (async_load[? &quot;http_status&quot;] == 200)<br />
+        {<br />
+            // Request was succesful<br />
+            <br />
+        }<br />
+    }
+  </p>
+  <p>In, for example, a Mouse Left Pressed Event the function <span class="inline3_func"><a data-xref="{title}" href="http_request.htm">http_request</a></span> is called. The request uses the <span class="inline2">&quot;GET&quot;</span> method to retrieve a webpage. No headers are passed and the request body is set to an empty string <span class="inline2">&quot;&quot;</span>.</p>
+  <p>The <a href="../../../../The_Asset_Editors/Object_Properties/Async_Events/HTTP.htm">Async HTTP event</a> is then triggered one or more times. In this event, the <span class="inline2"><a data-xref="{title}" href="../../../GML_Overview/Variables/Builtin_Global_Variables/async_load.htm">async_load</a></span>&#39;s <span class="inline2">&quot;id&quot;</span> key is first checked to see if it matches the <span class="inline2">request_id</span> stored earlier. If not, this event is not for the request made earlier and the code is exited. Next, the <span class="inline2">&quot;status&quot;</span> key is checked. This can hold one of three values: </p>
+  <ul class="colour">
+    <li>&lt; 0 : error</li>
+    <li>0 : request completed</li>
+    <li>1 : content is being downloaded</li>
+  </ul>
+  <p>While downloading content, the event will trigger multiple times, during which the <span class="inline2">&quot;status&quot;</span> key will hold the value 1. Finally, it runs a last time and <span class="inline2">async_load[?&quot;status&quot;]</span> will hold 0 or &lt; 0.</p>
+  <p>The last time the event triggers for this request, the <span class="inline2">&quot;status&quot;</span> key will hold 0. This value indicates the request has completed. The HTTP status is then checked. If it is 200 (indicating &quot;success&quot;), the data can be found in <span class="inline2">async_load[?&quot;result&quot;]</span>.</p>
+  <h2 id="connection_timeout">Connection Timeout</h2>
   <p>The asynchronous HTTP functions send a request to a server, which might take some time to respond. If the server takes too long to respond, the connection may time out. In <span data-keyref="GameMaker Name">GameMaker</span> this happens after <span data-keyref="HTTP_Timeout_Default">60000</span> ms by default.</p>
   <p>The following two functions can be used to get and change this value: </p>
   <ul class="colour">
@@ -43,6 +94,24 @@
     <li><a data-xref="{title}" href="http_set_request_crossorigin.htm">http_set_request_crossorigin</a></li>
   </ul>
   <p>In most cases these functions should not need to be used, but if the game is stored on a secured server - where certain assets may require basic authentication to be accessed and are generating security errors when loading - setting the cross-origin type for image requests to <span class="inline2">&quot;use-credentials&quot;</span> may be necessary (as opposed to the default <span class="inline2">&quot;anonymous&quot;</span> setting).</p>
+  <h2 id="func_ref">Function Reference</h2>
+  <h3>Requests</h3>
+  <ul class="colour">
+    <li><a data-xref="{title}" href="http_request.htm">http_request</a></li>
+    <li><a data-xref="{title}" href="http_get.htm">http_get</a></li>
+    <li><a data-xref="{title}" href="http_get_file.htm">http_get_file</a></li>
+    <li><a data-xref="{title}" href="http_post_string.htm">http_post_string</a></li>
+  </ul>
+  <h3>Timeouts</h3>
+  <ul class="colour">
+    <li><a data-xref="{title}" href="http_get_connect_timeout.htm">http_get_connect_timeout</a></li>
+    <li><a data-xref="{title}" href="http_set_connect_timeout.htm">http_set_connect_timeout</a></li>
+  </ul>
+  <h3>Cross-Domain</h3>
+  <ul class="colour">
+    <li><a data-xref="{title}" href="http_get_request_crossorigin.htm">http_get_request_crossorigin</a></li>
+    <li><a data-xref="{title}" href="http_set_request_crossorigin.htm">http_set_request_crossorigin</a></li>
+  </ul>
   <p> </p>
   <p> </p>
   <div class="footer">
