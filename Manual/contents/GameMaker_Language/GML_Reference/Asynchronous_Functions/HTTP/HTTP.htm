@@ -41,7 +41,7 @@
     request_id = http_request(&quot;http://www.google.com&quot;, &quot;GET&quot;, _map_headers, &quot;&quot;);<br />
     ds_map_destroy(_map_headers);</p>
   <p class="code_heading">Async - HTTP Event</p>
-  <p class="code">if (async_load[? &quot;id&quot;] != request_id) { exit; }<br />
+  <p class="code">if (async_load[? &quot;id&quot;] != request_id) exit;<br />
     <br />
     var _status = async_load[? &quot;status&quot;];<br />
     if (_status &lt; 0)<br />
@@ -69,15 +69,15 @@
         }<br />
     }
   </p>
-  <p>In, for example, a Mouse Left Pressed Event the function <span class="inline3_func"><a data-xref="{title}" href="http_request.htm">http_request</a></span> is called. The request uses the <span class="inline2">&quot;GET&quot;</span> method to retrieve a webpage. No headers are passed and the request body is set to an empty string <span class="inline2">&quot;&quot;</span>.</p>
-  <p>The <a href="../../../../The_Asset_Editors/Object_Properties/Async_Events/HTTP.htm">Async HTTP event</a> is then triggered one or more times. In this event, the <span class="inline2"><a data-xref="{title}" href="../../../GML_Overview/Variables/Builtin_Global_Variables/async_load.htm">async_load</a></span>&#39;s <span class="inline2">&quot;id&quot;</span> key is first checked to see if it matches the <span class="inline2">request_id</span> stored earlier. If not, this event is not for the request made earlier and the code is exited. Next, the <span class="inline2">&quot;status&quot;</span> key is checked. This can hold one of three values: </p>
+  <p>In this example, a <strong>Mouse Left Pressed</strong> event calls the function <span class="inline3_func"><a data-xref="{title}" href="http_request.htm">http_request</a></span>. The request uses the <span class="inline2">&quot;GET&quot;</span> method to retrieve a webpage. No headers are passed and the request body is set to an empty string <span class="inline2">&quot;&quot;</span>.</p>
+  <p>The <a href="../../../../The_Asset_Editors/Object_Properties/Async_Events/HTTP.htm">Async HTTP event</a> is then triggered one or more times. In this event, the <span class="inline2"><a data-xref="{title}" href="../../../GML_Overview/Variables/Builtin_Global_Variables/async_load.htm">async_load</a></span>&#39;s <span class="inline2">&quot;id&quot;</span> key is first checked to see if it matches the <span class="inline2">request_id</span> stored earlier. If not, this means the event was not triggered for the request made earlier and the code is exited. Next, the <span class="inline2">&quot;status&quot;</span> key is checked. This can hold one of three values: </p>
   <ul class="colour">
     <li>&lt; 0 : error</li>
     <li>0 : request completed</li>
     <li>1 : content is being downloaded</li>
   </ul>
-  <p>While downloading content, the event will trigger multiple times, during which the <span class="inline2">&quot;status&quot;</span> key will hold the value 1. Finally, it runs a last time and <span class="inline2">async_load[?&quot;status&quot;]</span> will hold 0 or &lt; 0.</p>
-  <p>The last time the event triggers for this request, the <span class="inline2">&quot;status&quot;</span> key will hold 0. This value indicates the request has completed. The HTTP status is then checked. If it is 200 (indicating &quot;success&quot;), the data can be found in <span class="inline2">async_load[?&quot;result&quot;]</span>.</p>
+  <p>While downloading content, the event will trigger multiple times, during which the <span class="inline2">&quot;status&quot;</span> key will hold the value 1. Finally, it runs a last time and <span class="inline2">async_load[? &quot;status&quot;]</span> will hold 0 or &lt; 0.</p>
+  <p>The last time the event triggers for this request, the <span class="inline2">&quot;status&quot;</span> key will hold 0. This value indicates the request has completed. The HTTP status is then checked. If it is 200 (indicating &quot;success&quot;), the data can be found in <span class="inline2">async_load[? &quot;result&quot;]</span>.</p>
   <h2 id="connection_timeout">Connection Timeout</h2>
   <p>The asynchronous HTTP functions send a request to a server, which might take some time to respond. If the server takes too long to respond, the connection may time out. In <span data-keyref="GameMaker Name">GameMaker</span> this happens after <span data-keyref="HTTP_Timeout_Default">60000</span> ms by default.</p>
   <p>The following two functions can be used to get and change this value: </p>
