@@ -18,6 +18,7 @@
   <p>This function connects to the specified URL in order to retrieve information in the form of a file.</p>
   <p>As this is an asynchronous function, <span data-keyref="GameMaker Name">GameMaker</span> will not block while waiting for a reply, but will keep on running unless it gets callback information. This information will be in the form of a string and will trigger an <b>Async HTTP Event</b> in any instance that has one defined in their object events.</p>
   <div data-conref="../../../../assets/snippets/Note_HTTP_Requests_CrossOrigin.hts"> </div>
+  <h2>Async Callback</h2>
   <p>This event will generate a &quot;callback&quot; which is picked up by any <a href="../../../../The_Asset_Editors/Object_Properties/Async_Events/HTTP.htm">HTTP Events</a>, in which case it will generate a <span data-keyref="Type_ID_DS_Map"><a href="../../Data_Structures/DS_Maps/ds_map_create.htm" target="_blank">DS Map</a></span> (more commonly known as a &quot;dictionary&quot;) that is exclusive to this event and is stored in the special variable <span class="inline2"><a data-xref="{title}" href="../../../GML_Overview/Variables/Builtin_Global_Variables/async_load.htm">async_load</a></span>. This DS map will contain different values depending on the data being returned, i.e.: the event will trigger multiple times as each packet of data is received so that you can show a progress bar, for example.</p>
   <div data-conref="../../../../assets/snippets/Note_HTTP_async_load_Contents.hts"> </div>
   <p> </p>
@@ -33,7 +34,7 @@
       <tr>
         <td>url</td>
         <td><span data-keyref="Type_String"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">String</a></span></td>
-        <td>The web address of the server that you wish to get the file from</td>
+        <td>The web address of the server that you wish to get the file from. See <a data-xref="{text}" href="HTTP.htm#urls">URLs</a></td>
       </tr>
       <tr>
         <td>local_target</td>
@@ -46,17 +47,17 @@
   <h4>Returns:</h4>
   <p class="code"><span data-keyref="Type_ID_Async_Event"><a href="../Asynchronous_Functions.htm" target="_blank">Async Request ID</a></span> (or -1 if something went wrong)</p>
   <p> </p>
-  <h4>Extended Example:</h4>
+  <h4>Example:</h4>
   <p>The <span class="inline3_func"><span data-field="title" data-format="default">http_get_file</span></span> function can be called from any event, and since it is asynchronous the callback can be almost instantaneous or could take several seconds. Calling the function is simple and would look something like this:</p>
   <p class="code">request_id = http_get_file(&quot;http://www.macsweeneygames.com/downloads/upgrade.zip&quot;, &quot;\Downloads\Upgrade.zip&quot;);</p>
-  <p>The above code will request a file from the given URL and set it to be downloaded to the local storage area (as specified in the HTML5 Game Options), in a directory &quot;Downloads&quot; with the given file name (this does not have to be the same as the source file name, but should use the same file extension). The <span class="inline2"><a data-xref="{title}" href="../../../GML_Overview/Variables/Builtin_Global_Variables/async_load.htm">async_load</a></span> map index will be stored in the variable <span class="inline2">file</span> so you can check for the correct callback in the Asynchronous Event, and if the save directory does not exist, it will be created. The Asynchronous Event triggered would be the <a data-xref="{title}" href="../../../../The_Asset_Editors/Object_Properties/Async_Events/HTTP.htm">HTTP</a> sub-event, and in that event you would have something like the following:</p>
+  <p>The above code will request a file from the given URL and set it to be downloaded to the local storage area (as specified in the HTML5 Game Options), in a directory &quot;Downloads&quot; with the given file name (this does not have to be the same as the source file name, but should use the same file extension). The <span class="inline2"><a data-xref="{title}" href="../../../GML_Overview/Variables/Builtin_Global_Variables/async_load.htm">async_load</a></span> map&#39;s <span class="inline2">&quot;id&quot;</span> will be stored in the variable <span class="inline2">request_id</span> so you can check for the correct callback in the Asynchronous Event, and if the save directory does not exist, it will be created. The Asynchronous Event triggered would be the <a data-xref="{title}" href="../../../../The_Asset_Editors/Object_Properties/Async_Events/HTTP.htm">HTTP</a> sub-event, and in that event you would have something like the following:</p>
   <p class="code_heading">Async HTTP Event</p>
-  <p class="code">if (ds_map_find_value(async_load, &quot;id&quot;) == request_id)<br />
+  <p class="code">if (async_load[? &quot;id&quot;] == request_id)<br />
     {<br />
-        var _status = ds_map_find_value(async_load, &quot;status&quot;);<br />
+        var _status = async_load[? &quot;status&quot;];<br />
         if (_status == 0)<br />
         {<br />
-            var _path = ds_map_find_value(async_load, &quot;result&quot;);<br />
+            var _path = async_load[? &quot;result&quot;];<br />
             var _files = zip_unzip(path, &quot;/NewContent/&quot;);<br />
             if (_files &gt; 0)<br />
             {<br />
@@ -64,7 +65,7 @@
             }<br />
         }<br />
     }</p>
-  <p>The above code will first check the <span class="inline2">&quot;id&quot;</span> of the DS Map that has been created, then check the status of the callback. If the value is equal to 0 (signalling success) the result from the callback will then be used along with the <span class="inline3_func"><a data-xref="{title}" href="../../File_Handling/Encoding_And_Hashing/zip_unzip.htm">zip_unzip</a></span> function to unzip the downloaded file to the given directory. If the unzip succeeds a global variable is set to <span class="inline2">true</span>.</p>
+  <p>The above code will first check the <span class="inline2">&quot;id&quot;</span> of the request, then check the status of the request. If the value is equal to 0 (signalling completed), the result will then be used along with the <span class="inline3_func"><a data-xref="{title}" href="../../File_Handling/Encoding_And_Hashing/zip_unzip.htm">zip_unzip</a></span> function to unzip the downloaded file to the given directory. If the unzip succeeds a global variable is set to <span class="inline2">true</span>.</p>
   <p> </p>
   <p> </p>
   <div class="footer">

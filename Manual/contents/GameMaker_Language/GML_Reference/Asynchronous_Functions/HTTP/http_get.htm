@@ -15,11 +15,10 @@
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
   <h1><span data-field="title" data-format="default">http_get</span></h1>
-  <p>This function connects to the specified URL in order to retrieve information.</p>
-  <p>As this is an asynchronous function, <span data-keyref="GameMaker Name">GameMaker</span> will not block while waiting for a reply, but will keep on running unless it gets callback information. This information will be in the form of a string and will trigger an <b>Async HTTP Event</b> in any instance that has one defined in its object events. You should also note that HTTP request parameters (the bits sometimes &quot;tacked on&quot; to the end of a URL when you submit a form on a web page) are perfectly acceptable when using this function, for example:</p>
-  <p class="code"><span data-field="title" data-format="default">http_get</span>(&quot;http://www.example.com/logon?username={name}&quot;);</p>
-  <p>will pass the string held in the variable <span class="inline2">name</span> to the server as well as retrieve the data from that URL. So, essentially, any time a simple, short piece of data needs to be passed from the client to the server, this would be a reasonable choice as the function to use.</p>
+  <p>This function sends a GET request to the specified URL in order to retrieve information.</p>
+  <p>This is an asynchronous function, so <span data-keyref="GameMaker Name">GameMaker</span> will not block while waiting for a reply, but will keep on running unless it gets callback information. This information will be in the form of a string and will trigger an <b>Async HTTP Event</b> in any instance that has one defined in its object events.</p>
   <div data-conref="../../../../assets/snippets/Note_HTTP_Requests_CrossOrigin.hts"> </div>
+  <h2>Async Callback</h2>
   <p>This function will generate multiple &quot;callbacks&quot; which are picked up by any <a href="../../../../The_Asset_Editors/Object_Properties/Async_Events/HTTP.htm">HTTP Events</a>. These will generate a <span data-keyref="Type_ID_DS_Map"><a href="../../Data_Structures/DS_Maps/ds_map_create.htm" target="_blank">DS Map</a></span> (more commonly known as a &quot;dictionary&quot;) that is exclusive to this event and is stored in the special variable <span class="inline2"><a data-xref="{title}" href="../../../GML_Overview/Variables/Builtin_Global_Variables/async_load.htm">async_load</a></span>. This DS map will contain different values depending on whether there is data being returned or not. For example, if you have requested a file, the event will trigger multiple times as each packet of data is received so that you can show a progress bar, for example.</p>
   <div data-conref="../../../../assets/snippets/Note_HTTP_async_load_Contents.hts"> </div>
   <p> </p>
@@ -35,7 +34,7 @@
       <tr>
         <td>url</td>
         <td><span data-keyref="Type_String"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">String</a></span></td>
-        <td>The web address of the server that you wish to get information from</td>
+        <td>The web address of the server that you wish to get information from. See <a data-xref="{text}" href="HTTP.htm#urls">URLs</a></td>
       </tr>
     </tbody>
   </table>
@@ -43,17 +42,17 @@
   <h4>Returns:</h4>
   <p class="code"><span data-keyref="Type_ID_Async_Event"><a href="../Asynchronous_Functions.htm" target="_blank">Async Request ID</a></span> (or -1 if something went wrong)</p>
   <p> </p>
-  <h4>Extended Example:</h4>
-  <p>The <span class="inline3_func"><span data-field="title" data-format="default">http_get</span></span> function can be called from any event, and since it&#39;s asynchronous the callback can be almost instantaneous or could take several seconds. Calling the function is simple and would look something like this:</p>
-  <p class="code">request_id = http_get(&quot;http://www.MacSweeneyGames.com/logon?username={name}&quot;);</p>
+  <h4>Example:</h4>
+  <p>The <span class="inline3_func"><span data-field="title" data-format="default">http_get</span></span> function can be called from any event, and since it&#39;s asynchronous the callback can be almost instantaneous or could take several seconds. Calling the function is simple and looks something like this:</p>
+  <p class="code">request_id = http_get($&quot;http://www.MacSweeneyGames.com/logon?username={name}&quot;);</p>
   <p>The above code will pass the string held in the variable <span class="inline2">name</span> to the given server as well as retrieve the data from that URL, triggering an Async Event which will contain the <span class="inline2"><a data-xref="{title}" href="../../../GML_Overview/Variables/Builtin_Global_Variables/async_load.htm">async_load</a></span> DS map (the <span class="inline2">async_load</span> map index will be stored in the variable <span class="inline2">request_id</span> so you can check for the correct callback). The Async Event triggered would be the <a data-xref="{title}" href="../../../../The_Asset_Editors/Object_Properties/Async_Events/HTTP.htm">HTTP</a> sub-event, and in that event you would have the following:</p>
   <p class="code_heading">Async HTTP Event</p>
-  <p class="code">if (ds_map_find_value(async_load, &quot;id&quot;) == request_id)<br />
+  <p class="code">if (async_load[? &quot;id&quot;] == request_id)<br />
     {<br />
         var _status = async_load[? &quot;status&quot;];<br />
         var _r_str = (_status == 0) ? async_load[? &quot;result&quot;] : &quot;null&quot;;<br />
     }</p>
-  <p>The above code first checks the ID of the async request, then assigns a value to <span class="inline2">_r_str</span> depending on the <span class="inline2">&quot;status&quot;</span> of the callback. If the value is equal to 0 (signalling success), the result from the callback is stored in a variable for future use, otherwise the variable is set to a default value (in this case <span class="inline2">&quot;null&quot;</span>).</p>
+  <p>The above code first checks the ID of the async request, then assigns a value to <span class="inline2">_r_str</span> depending on the <span class="inline2">&quot;status&quot;</span> of the callback. If the value is equal to 0 (signalling the request completed), the result from the callback is stored in a variable for future use, otherwise the variable is set to a default value (in this case <span class="inline2">&quot;null&quot;</span>).</p>
   <p> </p>
   <p> </p>
   <div class="footer">
