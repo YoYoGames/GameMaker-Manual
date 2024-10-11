@@ -15,12 +15,12 @@
 </head>
 <body>
   <h1><span data-field="title" data-format="default">method_call</span></h1>
-  <p>This function calls a <a href="../../GML_Overview/Method_Variables.htm">method</a> with the arguments taken from an array or a range in an array.</p>
-  <p>If the method needs no arguments then an empty argument array <span class="inline2">[]</span> can be passed.</p>
-  <p class="note"><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> This function works similarly to <span class="inline2"><a data-xref="{title}" href="../Asset_Management/Scripts/script_execute_ext.htm">script_execute_ext</a></span> but works with methods instead.</p>
+  <p>This function calls a <a href="../../GML_Overview/Method_Variables.htm">method</a> in its bound context, with the arguments taken from an array or a range in an array.</p>
+  <p>The <span class="inline2">array_args</span> parameter is optional and can be omitted if the method takes no arguments. If the parameter is provided, the range of elements can optionally be specified using the <span class="inline2">offset</span> and <span class="inline2">num_args</span> parameters.</p>
+  <p class="note"><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> You can use <span class="inline3_func"><a data-xref="{title}" href="../Asset_Management/Scripts/script_execute_ext.htm">script_execute_ext</a></span> to call a method in the context of the calling instance or struct instead of the bound context of the method.</p>
   <p> </p>
   <h4>Syntax:</h4>
-  <p class="code"><span data-field="title" data-format="default">method_call</span>(method, array_args, [offset], [num_args]);</p>
+  <p class="code"><span data-field="title" data-format="default">method_call</span>(method, [array_args], [offset], [num_args]);</p>
   <table>
     <colgroup>
       <col />
@@ -35,32 +35,32 @@
       </tr>
       <tr>
         <td>method</td>
-        <td><span data-keyref="Type_Method"><a href="../../../../GameMaker_Language/GML_Overview/Method_Variables.htm" target="_blank">Method</a></span></td>
+        <td><span data-keyref="Type_Method"><a href="../../GML_Overview/Method_Variables.htm" target="_blank">Method</a></span></td>
         <td>The method to call</td>
       </tr>
       <tr>
         <td>array_args</td>
-        <td><span data-keyref="Type_Array"><a href="../../../../GameMaker_Language/GML_Overview/Arrays.htm" target="_blank">Array</a></span></td>
-        <td>The array containing the arguments to pass into the method</td>
+        <td><span data-keyref="Type_Array"><a href="../../GML_Overview/Arrays.htm" target="_blank">Array</a></span></td>
+        <td><span data-conref="../../../assets/snippets/Tag_optional.hts"> </span> The array containing the arguments to pass into the method</td>
       </tr>
       <tr>
         <td>offset</td>
-        <td><span data-keyref="Type_Real"><a href="../../../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td><span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
         <td><span data-conref="../../../assets/snippets/Tag_optional.hts"> </span> The offset, or starting index, in the array. The item at this array index is the <em>first</em> argument for the method. Defaults to 0.<br />
-          Setting a negative value will count from the end of the array. The starting index will then be <span class="inline2">array_length(array) + offset</span>. See: <a data-xref="{text}" href="Array_Functions.htm#h1">Offset And Length</a></td>
+          Setting a negative value will count from the end of the array. The starting index will then be <span class="inline2">array_length(array_args) + offset</span>. See: <a data-xref="{text}" href="Array_Functions.htm#offset_and_length">Offset And Length</a></td>
       </tr>
       <tr>
         <td>num_args</td>
-        <td><span data-keyref="Type_Real"><a href="../../../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
-        <td><span data-conref="../../../assets/snippets/Tag_optional.hts"> </span> The number of elements to pass as an argument. A negative value will traverse the array backwards (i.e. in descending order of indices, e.g. 2, 1, 0 instead of 2, 3, 4). See: <a data-xref="{text}" href="Array_Functions.htm#h1">Offset And Length</a></td>
+        <td><span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td><span data-conref="../../../assets/snippets/Tag_optional.hts"> </span> The number of elements to pass as arguments. A negative value will traverse the array backwards (i.e. in descending order of indices, e.g. 2, 1, 0 instead of 2, 3, 4). See: <a data-xref="{text}" href="Array_Functions.htm#offset_and_length">Offset And Length</a></td>
       </tr>
     </tbody>
   </table>
   <p> </p>
   <h4>Returns:</h4>
-  <p class="code"><span data-keyref="Type_Any"><a href="../../../../GameMaker_Language/GML_Overview/Data_Types.htm#variable" target="_blank">Any</a></span> (the type returned by the method)</p>
+  <p class="code"><span data-keyref="Type_Any"><a href="../../GML_Overview/Data_Types.htm#variable" target="_blank">Any</a></span> (the type returned by the method)</p>
   <p> </p>
-  <h4>Example 1:</h4>
+  <h4>Example:</h4>
   <p class="code">struct_with_a_method = <br />
     {<br />
         show_message: function(message)<br />
@@ -71,7 +71,7 @@
     var _method = struct_with_a_method.show_message;<br />
     <span data-field="title" data-format="default">method_call</span>(_method, [&quot;Hello World!&quot;]);
   </p>
-  <p>The above code first defines a struct <span class="inline2">struct_with_a_method</span> that has a method <span class="inline2">show_message</span>. The method is then assigned to a temporary variable <span class="inline2">_method</span>. Next it is called using <span class="inline2"><span data-field="title" data-format="default">method_call</span></span> with an argument array with 1 item in it: the string <span class="inline2">&quot;Hello World!&quot;</span>. The <span class="inline2">show_message</span> function calls <span class="inline2"><a data-xref="{title}" href="../Debugging/show_debug_message.htm">show_debug_message</a></span> which outputs &quot;The message is: Hello World!&quot;.</p>
+  <p>The above code first defines a struct <span class="inline2">struct_with_a_method</span> that has a method <span class="inline3_func">show_message</span>. The method is then assigned to a temporary variable <span class="inline2">_method</span>. Next it is called using <span class="inline3_func"><span data-field="title" data-format="default">method_call</span></span> with an argument array with 1 item in it: the string <span class="inline2">&quot;Hello World!&quot;</span>. The <span class="inline3_func">show_message</span> function calls <span class="inline3_func"><a data-xref="{title}" href="../Debugging/show_debug_message.htm">show_debug_message</a></span> which outputs <span class="inline2">&quot;The message is: Hello World!&quot;</span>.</p>
   <p> </p>
   <p> </p>
   <div class="footer">
@@ -81,7 +81,7 @@
         <div>Next: <a data-xref="{title}" href="variable_struct_exists.htm">struct_exists</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2023 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 method_call
