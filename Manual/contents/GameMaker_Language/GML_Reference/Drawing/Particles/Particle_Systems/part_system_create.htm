@@ -41,8 +41,21 @@
   <p class="code"><span data-keyref="Type_ID_PartSys"><a href="part_system_create.htm" target="_blank">Particle System Instance</a></span></p>
   <p> </p>
   <h4>Example:</h4>
-  <p class="code">global.p_sys = <span data-field="title" data-format="default">part_system_create</span>();</p>
-  <p>This will create a new particle system and store the index in the global variable <span class="inline2">p_sys</span>.</p>
+  <p class="code_heading">Create Event</p>
+  <p class="code">part_sys = <span data-field="title" data-format="default">part_system_create</span>();<br />
+    part_emitter = part_emitter_create(part_sys);<br />
+    part_emitter_region(part_sys, part_emitter, 0, room_width, 0, room_height, ps_shape_rectangle, ps_distr_linear);<br />
+    part_type = part_type_create();<br />
+    part_type_shape(part_type, pt_shape_disk);<br />
+    <br />
+    part_emitter_stream(part_sys, part_emitter, part_type, 2);
+  </p>
+  <p class="code_heading">Clean Up Event</p>
+  <p class="code">part_system_destroy(part_sys);<br />
+    part_type_destroy(part_type);</p>
+  <p>The code above shows how to set up a basic particle system with an emitter and destroy it afterwards.</p>
+  <p>In the Create event, a particle system instance is created using <span class="inline3_func"><span data-field="title" data-format="default">part_system_create</span></span> and an emitter is added to it. The emitter is configured to emit particles all across the room using a linear distribution. After that, a particle type is created and its shape is set to a disk shape. Lastly, the particle emitter is set to emit two particles of the created type every frame.</p>
+  <p>In the Clean Up event, the particle system is destroyed with a call to <span class="inline3_func"><a data-xref="{title}" href="part_system_destroy.htm">part_system_destroy</a></span>, which also destroys the emitter. The particle type is destroyed separately using <span class="inline3_func"><a data-xref="{title}" href="../Particle_Types/part_type_destroy.htm">part_type_destroy</a></span>.</p>
   <p> </p>
   <p> </p>
   <div class="footer">
