@@ -3,11 +3,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <meta name="generator" content="Adobe RoboHelp 2022" />
   <title>call_later</title>
   <meta name="topic-status" content="Draft" />
   <link rel="stylesheet" type="text/css" href="../../../assets/css/default.css" />
-  <script src="../../../assets/scripts/main_script.js"></script>
+  <script src="../../../assets/scripts/main_script.js" type="module"></script>
   <meta name="template" content="../../../assets/masterpages/Manual_Keyword_Page.htt" />
   <meta name="rh-authors" content="Bart Teunis" />
   <meta name="topic-comment" content="Reference page for call_later" />
@@ -17,8 +17,9 @@
 <body>
   <h1>call_later</h1>
   <p>This function triggers a callback function after the specified time or after a certain interval. It does this by creating a <span data-keyref="Type_Resource_TimeSource">Time Source</span> (see <a data-xref="{title}" href="Time_Sources.htm">Time Sources</a>).</p>
-  <p>To cancel the callback function, see <a data-xref="{title}" href="call_cancel.htm">call_cancel</a>.</p>
-  <p class="note"><span class="important">IMPORTANT</span> While this function returns an actual time source ID, this ID cannot be used with the time source functions, as the time sources used by <a href="call_later.htm">call_later</a> and <a href="call_cancel.htm">call_cancel</a> are &quot;invisible&quot; - they will not appear as children of any built-in time sources and cannot be used with other time source functions. They are, however, included in the time source count returned by <a href="../Debugging/debug_event.htm">debug_event(&quot;ResourceCou<span class="inline"></span>nts&quot;)</a>.</p>
+  <p>Note that you do not need to clean up this <span data-keyref="Type_Resource_TimeSource">Time Source</span> yourself as <span data-keyref="GameMaker Name">GameMaker</span> will remove it from memory when it is no longer needed.</p>
+  <p>To cancel the callback function, see <span class="inline3_func"><a data-xref="{title}" href="call_cancel.htm">call_cancel</a></span>.</p>
+  <p class="note"><span class="important">IMPORTANT</span> While this function returns an actual time source, it cannot be used with the time source functions, as the time sources used by <span class="inline3_func"><a href="call_later.htm">call_later</a></span> and <span class="inline3_func"><a href="call_cancel.htm">call_cancel</a></span> are &quot;invisible&quot; - they will not appear as children of any built-in time sources and cannot be used with other time source functions. They are, however, included in the time source count returned by <a href="../Debugging/debug_event.htm">debug_event(&quot;ResourceCou<span class="inline"></span>nts&quot;)</a>.</p>
   <h2>Arguments</h2>
   <p>The following is a breakdown of this function&#39;s arguments: </p>
   <h3><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down2" href="#">Period</a></h3>
@@ -58,36 +59,38 @@
       </tr>
       <tr>
         <td>period</td>
-        <td><span data-keyref="Type_Real"><a href="../../../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td><span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
         <td>The period that the <span data-keyref="Type_Resource_TimeSource">Time Source</span> runs for, in the given units</td>
       </tr>
       <tr>
         <td>units</td>
-        <td><span data-keyref="Type_Constant_TimeSource_Unit"><a href="../../../../GameMaker_Language/GML_Reference/Time_Sources/Time_Source_Units.htm" target="_blank">Time Source Unit Constant</a></span></td>
+        <td><span data-keyref="Type_Constant_TimeSource_Unit"><a href="Time_Source_Units.htm" target="_blank">Time Source Unit Constant</a></span></td>
         <td>The units that the given period is in</td>
       </tr>
       <tr>
         <td>callback</td>
-        <td><span data-keyref="Type_Method"><a href="../../../../GameMaker_Language/GML_Overview/Method_Variables.htm" target="_blank">Method</a></span> or <span data-keyref="Type_Function_Script"><a href="../../../../GameMaker_Language/GML_Overview/Script_Functions.htm" target="_blank">Script Function</a></span></td>
+        <td><span data-keyref="Type_Method"><a href="../../GML_Overview/Method_Variables.htm" target="_blank">Method</a></span> or <span data-keyref="Type_Function_Script"><a href="../../GML_Overview/Script_Functions.htm" target="_blank">Script Function</a></span></td>
         <td>The method or script function to call after the specified time</td>
       </tr>
       <tr>
         <td>loop</td>
-        <td><span data-keyref="Type_Bool"><a href="../../../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">Boolean</a></span></td>
+        <td><span data-keyref="Type_Bool"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Boolean</a></span></td>
         <td><span class="optional">OPTIONAL</span> Whether to loop the <span data-keyref="Type_Resource_TimeSource">Time Source</span> (default is <span class="inline2">false</span>)</td>
       </tr>
     </tbody>
   </table>
   <p> </p>
   <h4>Returns:</h4>
-  <p class="code"><span data-keyref="Type_ID_TimeSource"><a href="../../../../GameMaker_Language/GML_Reference/Time_Sources/time_source_create.htm" target="_blank">Time Source ID</a></span></p>
+  <p class="code"><span data-keyref="Type_ID_TimeSource"><a href="time_source_create.htm" target="_blank">Time Source</a></span></p>
   <p> </p>
   <h4>Example 1:</h4>
   <p class="code">var _callback = function()<br />
     {<br />
         show_debug_message(&quot;Five seconds have passed!&quot;);<br />
     }<br />
-    var _handle = call_later(5, time_source_units_seconds, _callback);</p>
+    <br />
+    var _handle = call_later(5, time_source_units_seconds, _callback);
+  </p>
   <p>In this example, we create a callback function that shows a debug message after five seconds have passed. After that, the underlying <span data-keyref="Type_Resource_TimeSource">Time Source</span> is destroyed.</p>
   <h4>Example 2:</h4>
   <p class="code">var _create_enemy = function()<br />
@@ -99,8 +102,9 @@
     <br />
     var _handle = call_later(10, time_source_units_seconds, _create_enemy, true);
   </p>
-  <p>In this example, we create a callback function that creates a new enemy at a random position in the room. This function is then executed every 10 seconds by passing it to <a data-xref="{title}" href="call_later.htm">call_later</a>. The last argument is set to <span class="inline2"><span>true</span></span> so the function keeps getting called every 10 seconds.</p>
+  <p>In this example, we create a callback function that creates a new enemy at a random position in the room. This function is then executed every 10 seconds by passing it to <a data-xref="{title}" href="call_later.htm">call_later</a>. The last argument is set to <span class="inline2">true</span> so the function keeps getting called every 10 seconds.</p>
   <p>Use <a data-xref="{title}" href="call_cancel.htm">call_cancel</a> with the handle returned by <a data-xref="{title}" href="call_later.htm">call_later</a> to stop the <span data-keyref="Type_Resource_TimeSource">Time Source</span> and the calls to the callback.</p>
+  <p> </p>
   <p> </p>
   <div class="footer">
     <div class="buttons">
@@ -109,7 +113,7 @@
         <div>Next: <a data-xref="{title}" href="call_cancel.htm">call_cancel</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2022 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 call_later

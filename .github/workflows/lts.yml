@@ -14,7 +14,7 @@ jobs:
          name: "RoboHelp"
          runs-on: windows-2019
          steps:
-          - uses: aws-actions/configure-aws-credentials@v3
+          - uses: aws-actions/configure-aws-credentials@v4
             with:
               aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
               aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -22,7 +22,7 @@ jobs:
           - name: Enable git long paths to bypass path limit on Windows
             run: git config --system core.longpaths true
           - name: Check out the GMS2_Documentation repo
-            uses: actions/checkout@v3
+            uses: actions/checkout@v4
             with:
               path: Manual  
               token: ${{ secrets.GH_TOKEN }}
@@ -31,7 +31,7 @@ jobs:
             shell: cmd
             working-directory: Manual       
           - name: Upload robohelp zip file
-            uses: actions/upload-artifact@v2
+            uses: actions/upload-artifact@v4
             with:
                name: YoYoStudioRoboHelp
                path: output\RoboHelp\*.zip
