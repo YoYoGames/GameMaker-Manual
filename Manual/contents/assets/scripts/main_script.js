@@ -9,7 +9,6 @@
 	It also uses a new function escapeHTMLCustom()
 	C_LINE_COMMENT_MODE got another regex added for detecting <br>s
  */
-
 import gmljs from "./gml.js";
 
 var hljs = (function () {
@@ -81,7 +80,7 @@ var hljs = (function () {
         //.replace(/"/g, '&quot;')
         //.replace(/'/g, '&#x27;');
     }
-	
+  
     function escapeHTMLCustom(value) {
       return value
         .replace(/&/g, '&amp;')
@@ -2275,9 +2274,9 @@ var hljs = (function () {
           console.warn("https://github.com/highlightjs/highlight.js/issues/2886");
           console.warn(element);
         }
-		
+    
         node = element;
-		
+    
         // Replace <br [/]> with line breaks to make the parser's job easier.
         node.innerHTML = node.innerHTML
           .replaceAll(/\n(<br *\/*>)/g, '\n')
@@ -2559,23 +2558,115 @@ if (typeof exports === 'object' && typeof module !== 'undefined') { module.expor
 hljs.registerLanguage("gml", gmljs);
 
 document.addEventListener('DOMContentLoaded', (event) => {
-	// Turn return code blocks into plain blocks
-	 var h4s = document.getElementsByTagName("h4");
- 	if (h4s && h4s.length > 0) {
-  		var returns = [...h4s].filter(elm => elm.innerText == 'Returns:' || elm.innerText == 'Syntax:')
-		  if (returns && returns.length > 0) {
-			   returns.forEach((elm) => {
-				   if (elm.nextElementSibling) elm.nextElementSibling.className = "code_plain";
-			  });
- 		}
-	}
-	
-	// Highlight code blocks
-	hljs.configure({
-		 languages: ['gml'],
-		 cssSelector: 'p.code',
-		 ignoreUnescapedHTML: true,
-	});
-	
-	 hljs.highlightAll();
+  // Turn return code blocks into plain blocks
+   var h4s = document.getElementsByTagName("h4");
+  if (h4s && h4s.length > 0) {
+      var returns = [...h4s].filter(elm => elm.innerText == 'Returns:' || elm.innerText == 'Syntax:')
+      if (returns && returns.length > 0) {
+         returns.forEach((elm) => {
+           if (elm.nextElementSibling) elm.nextElementSibling.className = "code_plain";
+        });
+    }
+  }
+  
+  // Highlight code blocks
+  hljs.configure({
+     languages: ['gml'],
+     cssSelector: 'p.code',
+     ignoreUnescapedHTML: true,
+  });
+  
+   hljs.highlightAll();
 });
+
+
+// ----------------------------------------------------------------------------------------------
+// Language select dropdown (create and navigate)
+// ----------------------------------------------------------------------------------------------
+
+var myParent = document.body;
+
+//Create array of options to be added
+var array = [
+  { name: "English", code: "en" },
+  { name: "French", code: "fr" },
+  { name: "Spanish", code: "es" },
+  { name: "German", code: "de" },
+  { name: "Russian", code: "ru" },
+  { name: "Italian", code: "it" },
+  { name: "Polish", code: "pl" },
+  { name: "Brazilian", code: "br" },
+  { name: "Korean", code: "ko" },
+  { name: "Chinese", code: "zh" },
+  { name: "Japanese", code: "ja" }
+  ];
+
+//Create and append select list
+var selectList = document.createElement("select");
+selectList.id = "mySelect";
+myParent.insertBefore(selectList, myParent.firstChild);
+
+// are we on the main site???? if so then lets find the index of the current language
+var urlCurrent = new URL(window.location.href);
+if (urlCurrent.hostname.endsWith( ".gamemaker.io")) {
+  // lets get the language from the pathname
+  const folders = urlCurrent.pathname.split("/");
+  if (folders.length >= 2) {
+    var language = folders[1];
+    // find the language index from the 
+    for( var i=0; i<array.length; ++i) {
+      if (array[i].code == language) {
+        selectList.selectedIndex = i;
+        break;
+      } // end if
+    } // end for
+  } // end if
+} // end if
+
+//Create and append the options
+for (var i = 0; i < array.length; i++) {
+    var option = document.createElement("option");
+    option.value = JSON.stringify(array[i]);
+    option.text = array[i].name;
+    selectList.appendChild(option);
+} // end for
+
+selectList.addEventListener( "change", function(e) { 
+  //var tg = selectList.target.value;
+  //console.log("Hello entry " + tg.name + " " + tg.code + ", " + JSON.stringify(selectList)); 
+  var index = selectList.selectedIndex;
+  var entry = array[index];
+  var url = new URL(window.location.href);
+  var urlParams = url.searchParams;
+
+  // some logging for debugging
+  //console.log("Hello entry " + JSON.stringify(array[index]));   
+  //console.log("host " + url.hostname); 
+  //console.log("pathname " + url.pathname); 
+  //console.log("hash " + url.hash); 
+  //for( const [key, value] of urlParams) {
+  //  console.log(`${key} = ${value}`); 
+  //}
+
+  // check to see if this is localhost (i.e. we are testing locally)
+  if (!url.hostname.endsWith( ".gamemaker.io")) {
+    url.hostname = "manual.gamemaker.io";
+    url.protocol = "https";
+    url.port = "";
+    url.hash = `#t=${url.pathname.substring(1)}`;
+    url.pathname = `/beta/${entry.code}/`;
+  } // end if
+  else {
+    const folders = urlCurrent.pathname.split("/");
+    if (folders.length >= 2) {
+      folders[1] = entry.code;
+    }
+    url.pathname = `/${folders.join('/')}/`;    
+  }
+
+  console.log( `new url - ${url}`);
+  window.location.href = url;
+});
+
+
+
