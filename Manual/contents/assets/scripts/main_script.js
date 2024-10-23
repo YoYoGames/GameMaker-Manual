@@ -2606,6 +2606,14 @@ var selectList = document.createElement("select");
 selectList.id = "mySelect";
 myParent.insertBefore(selectList, myParent.firstChild);
 
+//Create and append the options
+for (var i = 0; i < array.length; i++) {
+    var option = document.createElement("option");
+    option.value = JSON.stringify(array[i]);
+    option.text = array[i].name;
+    selectList.appendChild(option);
+} // end for
+
 // are we on the main site???? if so then lets find the index of the current language
 if (window.location.hostname.endsWith( ".gamemaker.io")) {
   // lets get the language from the pathname
@@ -2621,14 +2629,6 @@ if (window.location.hostname.endsWith( ".gamemaker.io")) {
     } // end for
   } // end if
 } // end if
-
-//Create and append the options
-for (var i = 0; i < array.length; i++) {
-    var option = document.createElement("option");
-    option.value = JSON.stringify(array[i]);
-    option.text = array[i].name;
-    selectList.appendChild(option);
-} // end for
 
 selectList.addEventListener( "change", function(e) { 
   //var tg = selectList.target.value;
@@ -2655,12 +2655,10 @@ selectList.addEventListener( "change", function(e) {
   } // end if
   else {
     const folders = window.location.pathname.split("/");
-    console.log(JSON.stringify(folders));
     if (folders.length >= 3) {
       folders[2] = entry.code;
     } // end if
-    console.log(JSON.stringify(folders));
-    //window.location.pathname = `${folders.join('/')}`;
+    window.location.pathname = `${folders.join('/')}`;
   }
 
 });
