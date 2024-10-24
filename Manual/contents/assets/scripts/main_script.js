@@ -2632,6 +2632,14 @@ for (var i = 0; i < array.length; i++) {
     selectList.appendChild(option);
 } // end for
 
+//Create and append the options
+for (var i = 0; i < array.length; i++) {
+    var option = document.createElement("option");
+    option.value = JSON.stringify(array[i]);
+    option.text = array[i].name;
+    selectList.appendChild(option);
+} // end for
+
 // are we on the main site???? if so then lets find the index of the current language
 if (window.location.hostname.endsWith( ".gamemaker.io")) {
   // lets get the language from the pathname
