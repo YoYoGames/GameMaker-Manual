@@ -2606,13 +2606,20 @@ var selectList = document.createElement("select");
 selectList.id = "mySelect";
 myParent.insertBefore(selectList, myParent.firstChild);
 
+//Create and append the options
+for (var i = 0; i < array.length; i++) {
+    var option = document.createElement("option");
+    option.value = JSON.stringify(array[i]);
+    option.text = array[i].name;
+    selectList.appendChild(option);
+} // end for
+
 // are we on the main site???? if so then lets find the index of the current language
-var urlCurrent = new URL(window.location.href);
-if (urlCurrent.hostname.endsWith( ".gamemaker.io")) {
+if (window.location.hostname.endsWith( ".gamemaker.io")) {
   // lets get the language from the pathname
-  const folders = urlCurrent.pathname.split("/");
-  if (folders.length >= 2) {
-    var language = folders[1];
+  const folders = window.location.pathname.split("/");
+  if (folders.length >= 3) {
+    var language = folders[2];
     // find the language index from the 
     for( var i=0; i<array.length; ++i) {
       if (array[i].code == language) {
@@ -2623,21 +2630,13 @@ if (urlCurrent.hostname.endsWith( ".gamemaker.io")) {
   } // end if
 } // end if
 
-//Create and append the options
-for (var i = 0; i < array.length; i++) {
-    var option = document.createElement("option");
-    option.value = JSON.stringify(array[i]);
-    option.text = array[i].name;
-    selectList.appendChild(option);
-} // end for
-
 selectList.addEventListener( "change", function(e) { 
   //var tg = selectList.target.value;
   //console.log("Hello entry " + tg.name + " " + tg.code + ", " + JSON.stringify(selectList)); 
   var index = selectList.selectedIndex;
   var entry = array[index];
-  var url = new URL(window.location.href);
-  var urlParams = url.searchParams;
+  var url = window.location.href;
+  //var urlParams = url.searchParams;
 
   // some logging for debugging
   //console.log("Hello entry " + JSON.stringify(array[index]));   
@@ -2649,23 +2648,19 @@ selectList.addEventListener( "change", function(e) {
   //}
 
   // check to see if this is localhost (i.e. we are testing locally)
-  if (!url.hostname.endsWith( ".gamemaker.io")) {
-    url.hostname = "manual.gamemaker.io";
-    url.protocol = "https";
-    url.port = "";
-    url.hash = `#t=${url.pathname.substring(1)}`;
-    url.pathname = `/beta/${entry.code}/`;
+  if (!url.includes( ".gamemaker.io")) {
+    url = `https://manual.gamemaker.io/monthly/${entry.code}/#t=${window.location.pathname.substring(1)}`;
+    console.log( `new url - ${url}`);
+    window.location.href = url;
   } // end if
   else {
-    const folders = urlCurrent.pathname.split("/");
-    if (folders.length >= 2) {
-      folders[1] = entry.code;
-    }
-    url.pathname = `/${folders.join('/')}/`;    
+    const folders = window.location.pathname.split("/");
+    if (folders.length >= 3) {
+      folders[2] = entry.code;
+    } // end if
+    window.location.pathname = `${folders.join('/')}`;
   }
 
-  console.log( `new url - ${url}`);
-  window.location.href = url;
 });
 
 
