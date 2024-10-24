@@ -2603,88 +2603,90 @@ if (myParent == undefined) {
 	`;
 }
 
-//Create array of options to be added
-var array = [
-  { name: "English", code: "en" },
-  { name: "Français", code: "fr" },
-  { name: "Español", code: "es" },
-  { name: "Deutsch", code: "de" },
-  { name: "Русский", code: "ru" },
-  { name: "Italiano", code: "it" },
-  { name: "Polski", code: "pl" },
-  { name: "Português Brasileiro", code: "br" },
-  { name: "한국인", code: "ko" },
-  { name: "中国人", code: "zh" },
-  { name: "日本語", code: "ja" }
-];
+// Make sure it doesn't already exist
+var existingSelectList = window.parent.document.getElementById("mySelect");
 
-//Create and append select list
-var selectList = document.createElement("select");
-selectList.id = "mySelect";
-selectList.style = listStyle;
-myParent.insertBefore(selectList, myParent.lastChild.nextSibling);
+if (existingSelectList == undefined) {
+	//Create array of options to be added
+	var array = [
+	  { name: "English", code: "en" },
+	  { name: "Français", code: "fr" },
+	  { name: "Español", code: "es" },
+	  { name: "Deutsch", code: "de" },
+	  { name: "Русский", code: "ru" },
+	  { name: "Italiano", code: "it" },
+	  { name: "Polski", code: "pl" },
+	  { name: "Português Brasileiro", code: "br" },
+	  { name: "한국인", code: "ko" },
+	  { name: "中国人", code: "zh" },
+	  { name: "日本語", code: "ja" }
+	];
 
-//Create and append the options
-for (var i = 0; i < array.length; i++) {
-    var option = document.createElement("option");
-    option.value = JSON.stringify(array[i]);
-    option.text = array[i].name;
-    selectList.appendChild(option);
-} // end for
+	//Create and append select list
+	var selectList = document.createElement("select");
+	selectList.id = "mySelect";
+	selectList.style = listStyle;
+	myParent.insertBefore(selectList, myParent.lastChild.nextSibling);
 
-//Create and append the options
-for (var i = 0; i < array.length; i++) {
-    var option = document.createElement("option");
-    option.value = JSON.stringify(array[i]);
-    option.text = array[i].name;
-    selectList.appendChild(option);
-} // end for
+	//Create and append the options
+	for (var i = 0; i < array.length; i++) {
+		var option = document.createElement("option");
+		option.value = JSON.stringify(array[i]);
+		option.text = array[i].name;
+		selectList.appendChild(option);
+	} // end for
 
-// are we on the main site???? if so then lets find the index of the current language
-if (window.location.hostname.endsWith( ".gamemaker.io")) {
-  // lets get the language from the pathname
-  const folders = window.location.pathname.split("/");
-  if (folders.length >= 3) {
-    var language = folders[2];
-    // find the language index from the 
-    for( var i=0; i<array.length; ++i) {
-      if (array[i].code == language) {
-        selectList.selectedIndex = i;
-        break;
-      } // end if
-    } // end for
-  } // end if
-} // end if
+	// are we on the main site???? if so then lets find the index of the current language
+	if (window.location.hostname.endsWith( ".gamemaker.io")) {
+	  // lets get the language from the pathname
+	  const folders = window.location.pathname.split("/");
+	  if (folders.length >= 3) {
+		var language = folders[2];
+		// find the language index from the url
+		for( var i=0; i<array.length; ++i) {
+		  if (array[i].code == language) {
+			// put the current language first in the list
+			var child = selectList.children[i];
+			selectList.removeChild(child);
+			selectList.insertBefore(child, selectList.firstChild);
+			// select the first element
+			selectList.selectedIndex = 0;
+			break;
+		  } // end if
+		} // end for
+	  } // end if
+	} // end if
 
-selectList.addEventListener( "change", function(e) { 
-  //var tg = selectList.target.value;
-  //console.log("Hello entry " + tg.name + " " + tg.code + ", " + JSON.stringify(selectList)); 
-  var index = selectList.selectedIndex;
-  var entry = array[index];
-  var url = window.location.href;
-  //var urlParams = url.searchParams;
+	selectList.addEventListener( "change", function(e) { 
+	  //var tg = selectList.target.value;
+	  //console.log("Hello entry " + tg.name + " " + tg.code + ", " + JSON.stringify(selectList)); 
+	  var index = selectList.selectedIndex;
+	  var entry = array[index];
+	  var url = window.location.href;
+	  //var urlParams = url.searchParams;
 
-  // some logging for debugging
-  //console.log("Hello entry " + JSON.stringify(array[index]));   
-  //console.log("host " + url.hostname); 
-  //console.log("pathname " + url.pathname); 
-  //console.log("hash " + url.hash); 
-  //for( const [key, value] of urlParams) {
-  //  console.log(`${key} = ${value}`); 
-  //}
+	  // some logging for debugging
+	  //console.log("Hello entry " + JSON.stringify(array[index]));   
+	  //console.log("host " + url.hostname); 
+	  //console.log("pathname " + url.pathname); 
+	  //console.log("hash " + url.hash); 
+	  //for( const [key, value] of urlParams) {
+	  //  console.log(`${key} = ${value}`); 
+	  //}
 
-  // check to see if this is localhost (i.e. we are testing locally)
-  if (!url.includes( ".gamemaker.io")) {
-    url = `https://manual.gamemaker.io/monthly/${entry.code}/#t=${window.location.pathname.substring(1)}`;
-    console.log( `new url - ${url}`);
-    window.parent.location.href = url;
-  } // end if
-  else {
-    const folders = window.location.pathname.split("/");
-    if (folders.length >= 3) {
-      folders[2] = entry.code;
-    } // end if
-    window.parent.location.pathname = `${folders.join('/')}`;
-  }
+	  // check to see if this is localhost (i.e. we are testing locally)
+	  if (!url.includes( ".gamemaker.io")) {
+		url = `https://manual.gamemaker.io/monthly/${entry.code}/#t=${window.location.pathname.substring(1)}`;
+		console.log( `new url - ${url}`);
+		window.parent.location.href = url;
+	  } // end if
+	  else {
+		const folders = window.location.pathname.split("/");
+		if (folders.length >= 3) {
+		  folders[2] = entry.code;
+		} // end if
+		window.parent.location.pathname = `${folders.join('/')}`;
+	  }
 
-});
+	});
+}
