@@ -2681,7 +2681,7 @@ if (existingSelectList == undefined) {
 		window.parent.location.href = url;
 	  } // end if
 	  else {
-		const folders = window.location.pathname.split("/");
+		const folders = window.parent.location.pathname.split("/");
 		if (folders.length >= 3) {
 		  folders[2] = entry.code;
 		} // end if
