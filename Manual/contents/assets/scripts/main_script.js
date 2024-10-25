@@ -2591,7 +2591,7 @@ var listStyle = `float: right;
   padding: 8px;
   border-radius: 4px;`
 
-var myParent = window.parent.document.body.getElementsByClassName("header")[0];
+var myParent = window.parent.document.getElementsByClassName("header")[0];
 
 // No context view style and parent elm
 if (myParent == undefined) {
@@ -2603,25 +2603,25 @@ if (myParent == undefined) {
 	`;
 }
 
+//Create array of options to be added
+var array = [
+  { name: "English", code: "en" },
+  { name: "Français", code: "fr" },
+  { name: "Español", code: "es" },
+  { name: "Deutsch", code: "de" },
+  { name: "Русский", code: "ru" },
+  { name: "Italiano", code: "it" },
+  { name: "Polski", code: "pl" },
+  { name: "Português Brasileiro", code: "br" },
+  { name: "한국인", code: "ko" },
+  { name: "中国人", code: "zh" },
+  { name: "日本語", code: "ja" }
+];
+
 // Make sure it doesn't already exist
 var existingSelectList = window.parent.document.getElementById("mySelect");
 
 if (existingSelectList == undefined) {
-	//Create array of options to be added
-	var array = [
-	  { name: "English", code: "en" },
-	  { name: "Français", code: "fr" },
-	  { name: "Español", code: "es" },
-	  { name: "Deutsch", code: "de" },
-	  { name: "Русский", code: "ru" },
-	  { name: "Italiano", code: "it" },
-	  { name: "Polski", code: "pl" },
-	  { name: "Português Brasileiro", code: "br" },
-	  { name: "한국인", code: "ko" },
-	  { name: "中国人", code: "zh" },
-	  { name: "日本語", code: "ja" }
-	];
-
 	//Create and append select list
 	var selectList = document.createElement("select");
 	selectList.id = "mySelect";
@@ -2646,18 +2646,19 @@ if (existingSelectList == undefined) {
 		for( var i=0; i<array.length; ++i) {
 		  if (array[i].code == language) {
 			// put the current language first in the list
-			var child = selectList.children[i];
-			selectList.removeChild(child);
-			selectList.insertBefore(child, selectList.firstChild);
+			//var child = selectList.children[i];
+			//selectList.removeChild(child);
+			//selectList.insertBefore(child, selectList.firstChild);
 			// select the first element
-			selectList.selectedIndex = 0;
+			//selectList.selectedIndex = 0;
+			selectList.selectedIndex = i;
 			break;
 		  } // end if
 		} // end for
 	  } // end if
 	} // end if
 
-	selectList.addEventListener( "change", function(e) { 
+	selectList.addEventListener( "input", function(e) { 
 	  //var tg = selectList.target.value;
 	  //console.log("Hello entry " + tg.name + " " + tg.code + ", " + JSON.stringify(selectList)); 
 	  var index = selectList.selectedIndex;
@@ -2685,7 +2686,8 @@ if (existingSelectList == undefined) {
 		if (folders.length >= 3) {
 		  folders[2] = entry.code;
 		} // end if
-		window.parent.location.pathname = `${folders.join('/')}`;
+		var newpath = `${folders.join('/')}`;
+		window.parent.location.pathname = newpath;
 	  }
 
 	});
