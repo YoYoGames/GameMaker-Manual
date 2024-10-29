@@ -56,9 +56,36 @@
   <h4>Returns:</h4>
   <p class="code"><span data-keyref="Type_Any"><a href="../../../GML_Overview/Data_Types.htm#variable" target="_blank">Any</a></span> (Will depend on the return value from the function/script being called)</p>
   <p> </p>
-  <h4>Example:</h4>
+  <h4>Example 1: Basic Use</h4>
   <p class="code"><span data-field="title" data-format="default">script_execute_ext</span>(move_inst, move_array, floor(random(4)), 1);</p>
-  <p>The above example code will use <span class="inline3_func"><span data-field="title" data-format="default">script_execute_ext</span></span> to call the given function, supplying an array of four arguments, but only using one of them at random.</p>
+  <p>The above code will use <span class="inline3_func"><span data-field="title" data-format="default">script_execute_ext</span></span> to call the given function, supplying an array of four arguments, but only using one of them at random.</p>
+  <p> </p>
+  <h4>Example 2: Initialising Structs Using the Data in an Array</h4>
+  <p class="code">function Vector(_x=0, _y=0, _z=0) constructor<br />
+    {<br />
+        x = _x;<br />
+        y = _y;<br />
+        z = _z;<br />
+    }<br />
+    <br />
+    num_vectors = 100;<br />
+    arr_positions = array_create_ext(num_vectors * 3, function(_index) { return random_range(-4, 4); });<br />
+    <br />
+    arr_vectors = array_create(num_vectors);<br />
+    var i = 0;<br />
+    repeat(num_vectors)<br />
+    {<br />
+        arr_vectors[i] = {};<br />
+        with(arr_vectors[i])<br />
+        {<br />
+            script_execute_ext(Vector, other.arr_positions, i++ * 3, 3);<br />
+        }<br />
+    }
+  </p>
+  <p>The code example above shows how <span class="inline3_func"><span data-field="title" data-format="default">script_execute_ext</span></span> can be used to create an array of structs that take their parameters from the elements in an array.</p>
+  <p style="text-align: left; ">First, a simple constructor function <span class="inline2">Vector</span> is defined that accepts three parameters, one for each coordinate. Then, an array of 300 elements is created using <span class="inline3_func"><a data-xref="{title}" href="../../Variable_Functions/array_create_ext.htm">array_create_ext</a></span> and filled with random values between -4 and 4. The resulting array is stored in a variable <span class="inline2">arr_positions</span>.  Each triplet of numbers in the array represents a position, i.e. elements 0, 1 and 2 hold the first x, y and z values, elements 3, 4 and 5 the second, elements 6, 7 and 8 the next ones, and so on.</p>
+  <p style="text-align: left; ">Next, an array of 100 elements is created and stored in a variable <span class="inline2">arr_vectors</span>. Inside a <span class="inline2"><a data-xref="{title}" href="../../../GML_Overview/Language_Features/repeat.htm">repeat</a></span> loop every element is then initialised to a new empty struct <span class="inline2">{}</span>, the context is changed to that of the struct using a <span class="inline2"><a data-xref="{title}" href="../../../GML_Overview/Language_Features/with.htm">with</a></span> statement and the constructor is called from that context using <span class="inline3_func"><span data-field="title" data-format="default">script_execute_ext</span></span>. Every time the constructor is called it receives an (x, y, z) triplet as its parameters and turns the empty struct into a <span class="inline2">Vector</span> struct which has its x, y and z set to the triplet&#39;s values.</p>
+  <p style="text-align: left; ">After the code runs, the array <span class="inline2">arr_vectors</span> will contain 100 <span class="inline2">Vector</span> structs initialised from the values in the <span class="inline2">arr_positions</span> array.</p>
   <p> </p>
   <p> </p>
   <div class="footer">
