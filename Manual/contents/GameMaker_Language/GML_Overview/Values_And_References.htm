@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <title>Values and References</title>
+  <meta name="topic-status" content="Draft" />
+  <link rel="stylesheet" type="text/css" href="../../assets/css/default.css" />
+  <meta name="rh-authors" content="Bart Teunis" />
+  <meta name="topic-comment" content="A page describing the difference between values and references, pass by value vs pass by reference as well as related subjects." />
+  <meta name="template" content="../../assets/masterpages/Manual_Page.htt" />
+  <meta name="rh-index-keywords" content="Values And References" />
+  <meta name="search-keywords" content="value,reference,pass by value,pass by reference" />
+</head>
+<body>
+  <h1><span data-field="title" data-format="default">Values and References</span></h1>
+  <p>When you <a href="Variables_And_Variable_Scope.htm">create a variable</a> in <span data-keyref="GameMaker Name">GameMaker</span>, the value that the variable stores can be of one of multiple <a data-xref="{title}" href="Data_Types.htm">Data Types</a>. For example, a number would be a <b>Real</b> value, a piece of text would be a <strong>String</strong>, a list of values would be an <strong>Array</strong>, and so on.</p>
+  <p>Creating a value of any type places it in the system memory and makes it accessible through the variable. This is simple enough, however when you assign the value of an <em>existing variable</em> to another variable (<span class="inline2">a = b</span>), there are two ways that it can work:</p>
+  <ol>
+    <li>The value is copied, so the value stored in each variable is independent of the other</li>
+    <li>A reference is passed, so both variables point to the same value in the memory</li>
+  </ol>
+  <p>This is usually based on the complexity of the data type, where simple values like <strong>Reals</strong>, <strong>Strings</strong>, <strong>Booleans</strong>, etc. are always copied however larger structures like <strong>Arrays</strong>, <strong>Structs</strong>, <strong>Buffers</strong>, etc. are passed by reference.</p>
+  <h2 id="data_types">Data Types</h2>
+  <p>The following data types are passed by value, i.e. copied:</p>
+  <ul class="colour">
+    <li><span data-keyref="Type_Real"><a href="Data_Types.htm" target="_blank">Real</a></span></li>
+    <li><span data-keyref="Type_Bool"><a href="Data_Types.htm" target="_blank">Boolean</a></span></li>
+    <li><span data-keyref="Type_Real_int64"><a href="Data_Types.htm" target="_blank">int64 (signed 64-bit integer)</a></span></li>
+    <li><span data-keyref="Type_String"><a href="Data_Types.htm" target="_blank">String</a></span></li>
+  </ul>
+  <p>The following data types are passed by reference:</p>
+  <ul class="colour">
+    <li><span data-keyref="Type_Array"><a href="Arrays.htm" target="_blank">Array</a></span></li>
+    <li><span data-keyref="Type_Struct"><a href="Structs.htm" target="_blank">Struct</a></span></li>
+    <li>Everything referenced by a <span data-keyref="Type_Handle"><a href="Data_Types.htm" target="_blank">Handle</a></span> (including <span data-keyref="Type_ID_Instance"><a href="../GML_Reference/Asset_Management/Instances/Instance_Variables/id.htm" target="_blank">Object Instance</a></span>s, <a data-xref="{title}" href="../GML_Reference/Data_Structures/Data_Structures.htm">Data Structures</a>, etc.)</li>
+  </ul>
+  <h2 id="values_and_references">Values and References</h2>
+  <h3>Values</h3>
+  <p>If you assign a variable to a new one, its value is normally copied to a new location in memory. For example:</p>
+  <p class="code">a = 125;<br />
+    b = a;</p>
+  <p>First the variable <span class="inline2">a</span> is assigned the real value <span class="inline2">125</span>. This is stored somewhere in memory and can be accessed through <span class="inline2">a</span>.</p>
+  <p>Then the variable <span class="inline2">a</span> is assigned to a new variable <span class="inline2">b</span>. Its <em>value</em> is <em>copied</em> to a new location in memory, which becomes accessible through <span class="inline2">b</span>. At this point the number <span class="inline2">125</span> is stored in two different locations in memory, one accessible through <span class="inline2">a</span>, the other through <span class="inline2">b</span>. As a result, a change to <span class="inline2">a</span> does not change <span class="inline2">b</span> and vice versa. For example:</p>
+  <p class="code">a = 1000;<br />
+    show_debug_message(a);  // 1000<br />
+    show_debug_message(b);  // 125</p>
+  <p>This happens because real numbers are one of the data types in <span data-keyref="GameMaker Name">GameMaker</span> that are <em>passed by value</em>.</p>
+  <h3>References</h3>
+  <p>When the data type a variable holds is a reference, the value or data it refers to isn&#39;t copied and assigning the variable to another variable makes the other variable <em>refer to</em> the same location in memory (the reference is actually the value that&#39;s copied).</p>
+  <p>For example, arrays in <span data-keyref="GameMaker Name">GameMaker</span> are references. Let&#39;s say you define an array and store it in a variable <span class="inline2">c</span>:</p>
+  <p class="code">c = [1, 2, 3, 4, 5];</p>
+  <p>The variable <span class="inline2">c</span> now holds a <em>reference</em> to the array.</p>
+  <p>You can then assign <span class="inline2">c</span> to a new variable <span class="inline2">d</span>:</p>
+  <p class="code">d = c;</p>
+  <p>This assignment does <strong>not</strong> make a copy of the entire array in <span class="inline2">c</span> to assign to <span class="inline2">d</span>, but rather makes <span class="inline2">d</span> refer to the same array in memory. This is because arrays are a data type that&#39;s <em>passed by reference</em>.</p>
+  <p>This means that you can now access (and modify!) the array&#39;s first element through either <span class="inline2">c[0]</span> or <span class="inline2">d[0]</span>, the second element through <span class="inline2">c[1]</span> or <span class="inline2">d[1]</span> and so on. For example, after the following code has executed:</p>
+  <p class="code">c[0] = 5;<br />
+    d[1] = 4;<br />
+    c[2] = 3;<br />
+    d[3] = 2;<br />
+    c[4] = 1;</p>
+  <p>the variables <span class="inline2">c</span> and <span class="inline2">d</span> look as follows, with both of them pointing to the same array:</p>
+  <p class="code">show_debug_message(c);  // [5, 4, 3, 2, 1]<br />
+    show_debug_message(d);  // [5, 4, 3, 2, 1]</p>
+  <p>When working with references, you can use the comparison operator <span class="inline2">==</span> to check if two variables hold a reference to the same variable in memory: </p>
+  <p class="code">show_debug_message(c == d);  // true</p>
+  <h2 id="pass_by_value_and_pass_by_reference">Pass by Value and Pass by Reference</h2>
+  <p>The rules described above for passing one variable&#39;s value to another also apply to passing a variable into a function.</p>
+  <p>For example: </p>
+  <p class="code">function try_to_modify_value(_value, _new_value)<br />
+    {<br />
+        _value = _new_value;<br />
+    }<br />
+    <br />
+    function try_to_modify_array(_array, _new_value)<br />
+    {<br />
+        array_push(_array, _new_value);<br />
+    }<br />
+    <br />
+    var _val_orig = 48593;<br />
+    try_to_modify_value(_val, 75);<br />
+    show_debug_message(_val_orig);<br />
+    <br />
+    var _array_orig = [1, 2, 3];<br />
+    try_to_modify_array(_array, 100);<br />
+    show_debug_message(_array_orig);
+  </p>
+  <p>In the call to <span class="inline3_func">try_to_modify_value()</span>, the value stored in <span class="inline2">_val_orig</span> is assigned to the function parameter <span class="inline2">_value</span>. Since this value is 48593, i.e. of type <span data-keyref="Type_Real"><a href="Data_Types.htm" target="_blank">Real</a></span>, it is copied. The new value 75 is assigned to <span class="inline2">_value</span>, which goes &quot;out of scope&quot; after the function finishes. <span class="inline2">_val_orig</span> isn&#39;t changed at all and still holds the value 48593.</p>
+  <p>In the call to <span class="inline2">try_to_modify_array()</span>, the value stored in <span class="inline2">_array_orig</span> is assigned to the function parameter <span class="inline2">_array</span>. Since it is an <span data-keyref="Type_Array"><a href="Arrays.htm" target="_blank">Array</a></span>, its reference is copied and <span class="inline2">_array</span> therefore references the same array as <span class="inline2">_array_orig</span>. A new value of 100 is pushed onto the end of the array. The debug message that follows shows that this change modified the original array.</p>
+  <p class="note"><span data-conref="../../assets/snippets/Tag_note.hts"> </span> Arrays behave as if they&#39;re passed by value to a function if the legacy <a data-xref="{text}" href="Arrays.htm#copy_on_write">Copy on Write</a> behaviour is enabled in the <a data-xref="{title}" href="../../Settings/Game_Options.htm">Game Options</a>.</p>
+  <h2 id="notes">Notes</h2>
+  <h3>Referencing Basic Types</h3>
+  <p><span data-keyref="GameMaker Name">GameMaker</span> has no way of creating references to &quot;pass-by-value&quot; data types (which could then be modified in code). There is, however, <span class="inline3_func"><a data-xref="{title}" href="../GML_Reference/Variable_Functions/ref_create.htm">ref_create</a></span> which creates a reference for use <em>only</em> with <a data-xref="{title}" href="../GML_Reference/Debugging/The_Debug_Overlay.htm">The Debug Overlay</a>.</p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div>Back: <a data-xref="{title}" href="GML_Overview.htm">GML Code Overview</a></div>
+        <div>Next: <a data-xref="{title}" href="../../Additional_Information/Bitwise_Operators.htm">Bitwise Operators</a></div>
+      </div>
+    </div>
+    <h5><span data-conref="../../assets/snippets/Copyright_Notice_AutoUpdate.hts"> </span></h5>
+  </div>
+</body>
+</html>

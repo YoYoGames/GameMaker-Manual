@@ -37,7 +37,7 @@
       show_debug_message(_val);</p>
     <p class="dropspot">The output would show <span class="inline2">&quot;Hi!&quot;</span>.</p>
     <p class="dropspot">As you can see, you give the array a variable name and then a value in square brackets <span class="inline2">[ ]</span>, where the value is the position in the array to get the data from. So essentially, an array is a container with a number of slots to store values, and each position in the container has a specific number to identify it, which is what we put in the <span class="inline2">[ ]</span>. It&#39;s worth noting that the contents of an array <b>always start at 0</b> and can <i>never be negative</i><em>!</em></p>
-    <h3 class="dropspot">       Creating Arrays</h3>
+    <h3 class="dropspot" id="creating_arrays">Creating Arrays</h3>
     <p class="dropspot">We&#39;ve shown how to check an array for data, but how do we create the array to start with? First it has to be <i>initialised</i> before we can use it or <span data-keyref="GameMaker Name">GameMaker</span> will give us an error. Initialising an array just means that we give each slot of the array an initial value in preparation for it to be used elsewhere in the project code. This is important to remember as it means that you have to do a certain amount of planning before using arrays, but it is easy enough to initialise one using a repeat loop like this:</p>
     <p class="code">var i = 9;<br />
       <br />
@@ -54,12 +54,12 @@
     <p class="dropspot">This tells <span data-keyref="GameMaker Name">GameMaker</span> that the variable <span class="inline2">my_array</span> is an array, and you can then <a href="../GML_Reference/Variable_Functions/array_push.htm">add values</a> to it at any time in the future. However, if you try to access a value in an empty array then you will get an error.</p>
     <p class="dropspot">If you already know which items you want to put into the array, you can add comma-separated values between the brackets when declaring the array:</p>
     <p class="code">my_array = [&quot;Steve&quot;, 36, &quot;ST-3V3 - Steve Street&quot;];</p>
-    <h3 class="dropspot">       Array Bounds</h3>
+    <h3 class="dropspot" id="array_bounds">Array Bounds</h3>
     <p class="dropspot">You should always take care to only access valid array positions, as trying to access a value outside of an array will also give an error. For example, this will cause the project to crash when run:</p>
     <p class="code">my_array = array_create(5, 0);<br />
       var _val = my_array[6];</p>
     <p class="dropspot">The array was only initialised with 5 positions, but we&#39;ve tried to get position 7 - since arrays are numbered from 0, <span class="inline2">my_array[6]</span> is position 7 - therefore the game generates an error and crashes.</p>
-    <h3 class="dropspot">       Using Arrays</h3>
+    <h3 class="dropspot" id="using_arrays">Using Arrays</h3>
     <p class="dropspot">Now how do we use an array practically? Exactly the same as we would use a normal variable, as shown in the following examples:</p>
     <p class="code">// Add two array values together<br />
       total = array[0] + array[5];<br />
@@ -85,7 +85,7 @@
       draw_text(32, 32 + (i * 32), _total);
     </p>
     <p class="dropspot">The above code will add up all the values in our array, draw each one of them and then draw the total value at the end.</p>
-    <h3 class="dropspot">       Deleting Arrays</h3>
+    <h3 class="dropspot" id="deleting_arrays">Deleting Arrays</h3>
     <p class="dropspot">The last thing to mention about arrays is that you can delete an array simply by &quot;re-assigning&quot; the variable that defines it to a single value. This will free up the memory associated with all the positions and values for that array. For example:</p>
     <p class="code">// Create an array<br />
       for (var i = 9; i &gt; -1; --i)<br />
@@ -143,7 +143,7 @@
       array[0][0] = 1;
     </p>
     <p class="dropspot">In the above code, <span class="inline2" id="">array[0]</span> has 2 slots, <span class="inline2">array[1]</span> has 4 slots and <span class="inline2">array[2]</span> has 3 slots.</p>
-    <h3 class="dropspot">       Extended Example</h3>
+    <h3 class="dropspot">Extended Example</h3>
     <p class="dropspot">Here is one final example of how this may be used in an actual game: Say you want to spawn four different enemies at four different points in your game depending on a random value. Well, we can use an array with 2 dimensions to do this and save writing out a load of code.</p>
     <p class="dropspot">First we should initialise the array we are going to use in the Create event of our &quot;controller&quot; object (note the use of comments to remind you what each array entry does):</p>
     <p class="code">enemy[3][2] = 448;       //y position<br />
@@ -169,7 +169,7 @@
   </div>
   <p> </p>
   <p>Also see: <a data-xref="{title}" href="../GML_Reference/Variable_Functions/Array_Functions.htm">Array Functions</a><a data-xref="{text}" href="../GML_Reference/Variable_Functions/Variable_Functions.htm#h"> </a></p>
-  <h2>Arrays as Function Arguments</h2>
+  <h2 id="arrays_as_function_arguments">Arrays as Function Arguments</h2>
   <p>You can pass arrays into <a href="Script_Functions.htm">script functions</a> and <a href="Method_Variables.htm">method variables</a> as arguments, and modify those arrays anywhere inside the function. Doing so will modify the original arrays as well.</p>
   <p>For example, this function simply changes the first three elements of the array passed into it:</p>
   <p class="code">modify_array = function (array)<br />
@@ -186,7 +186,7 @@
     show_debug_message(my_array); // Prints [2, 4, 6];
   </p>
   <p>In previous <span data-keyref="GameMaker Name">GameMaker</span> versions, this was not the case, as modifying an array inside a function would create a copy instead. This <em>deprecated</em> behaviour can still be enabled if desired: read the &quot;<strong>Copy on Write</strong>&quot; section below for more information.</p>
-  <h2 id="h">Copy on Write</h2>
+  <h2 id="copy_on_write">Copy on Write</h2>
   <p>The Copy on Write behaviour is deprecated, and is only used when &quot;<strong>Enable Copy on Write behaviour for Arrays</strong>&quot; is enabled in the <a href="../../Settings/Game_Options.htm">General Game Options</a>. This section describes the behaviour of arrays when this option is enabled.</p>
   <p>As described in the previous section, arrays can be passed into functions as arguments. To do this, you simply have to specify the array variable (no need for each of the individual positions, nor the <span class="inline2">[ ]</span> brackets) and the entire array will be <b>passed by reference</b> into the function:</p>
   <p class="code">my_array = [1, 2, 4, 8, 16];<br />
