@@ -49,27 +49,32 @@
   <h2>Naming Rules</h2>
   <p>When forming variables in <b>GML</b> they must have a name that starts with a letter or the underscore symbol <span class="inline2">_</span> and can contain only letters, numbers, and the underscore symbol <span class="inline2">_</span> with a maximum length of 64 symbols. So, valid variable names are things like <span class="inline2">fish</span>, <span class="inline2">foo_bar</span>, <span class="inline2">num1</span>, or <span class="inline2">_str</span>, while invalid ones would be <span class="inline2">6fish</span>, <span class="inline2">foo bar</span>, or <span class="inline2">*num</span>.</p>
   <p>You cannot use the names of your assets (e.g. Sprites, Scripts, etc.) for your variables, unless you specify an instance or struct (or keywords like <a href="Variables/Global_Variables.htm"><span class="inline2">global</span></a>, <a href="Instance_Keywords.htm"><span class="inline2">self</span></a>) before such a name, e.g. if you have a script called <span class="inline2">Script1</span>, a variable called <span class="inline2">Script1</span> can be defined as <span class="inline2">self.Script1 = &lt;value&gt;;</span> in an instance or a struct. Doing this explicitly defines the scope of such a variable. For more information, see the section below.</p>
-  <h2>Variable Scope</h2>
-  <p>Variable scope tells which part of your code a variable belongs to, it is determined by where you first define it in your code. Variable scope also tells from where in your code you can access it. If you need to access variables that are in a different scope, you can change the scope.</p>
-  <h3>Changing Scope</h3>
-  <p>You can access variables in a different scope in two ways: </p>
+  <h2 id="h">Variable Scope</h2>
+  <p>Every variable in <span data-keyref="GameMaker Name">GameMaker</span> belongs to a scope. When any code is being executed, it has a &quot;current scope&quot; which determines what variables are accessible (i.e. to be read and modified).</p>
+  <p>The scope of a variable is determined by where you first define the variable, and from that point on, the variable belongs to that scope.</p>
+  <h3>Types of Scope</h3>
+  <p>By default, when you assign variables in <a data-xref="{title}" href="../../The_Asset_Editors/Object_Properties/Object_Events.htm">Object Events</a>, they&#39;re created as <strong>instance </strong>variables, however there are actually five main identifier types you can program with <span data-keyref="GameMaker Name">GameMaker</span>, each with its own <strong>scope</strong>.</p>
+  <p>The different kinds of identifiers and their scopes are all outlined in the following pages:</p>
   <ul class="colour">
-    <li>The dot operator, e.g. <span class="inline2">a.b</span>, which means &quot;the variable <span class="inline2">b</span> of <span class="inline2">a</span>&quot;.</li>
-    <li>The <a data-xref="{title}" href="Language_Features/with.htm">with</a> statement, e.g. <span class="inline2">with(a) {b = 10;}</span>, which means &quot;execute the following lines of code in <span class="inline2">a</span>&quot;.</li>
+    <li><a data-xref="{title}" href="Variables/Global_Variables.htm">Global Variables</a></li>
+    <li><a data-xref="{title}" href="Variables/Constants.htm">Constants</a></li>
+    <li><a data-xref="{title}" href="Variables/Instance_Variables.htm">Instance Variables</a></li>
+    <li><a data-xref="{title}" href="Functions/Static_Variables.htm">Static Variables</a></li>
+    <li><a data-xref="{title}" href="Variables/Local_Variables.htm">Local Variables</a></li>
+  </ul>
+  <p>Scopes are not entirely separated and some scopes are always accessible from other scopes, e.g. global variables and constants always being available. In case of <a data-xref="{title}" href="../../The_Asset_Editors/Object_Properties/Object_Events.htm">Object Events</a> being executed, you can visualise the accessible scopes as the following:</p>
+  <p><img class="center" src="../../assets/Images/Scripting_Reference/GML/Overview/scopes.png" /></p>
+  <p class="note"><span data-conref="../../assets/snippets/Tag_note.hts"> </span> *<a data-xref="{title}" href="Functions/Static_Variables.htm">Static Variables</a> are only available in the scopes of structs and functions.</p>
+  <h3>Changing Scope</h3>
+  <p>You can change the current scope temporarily to access variables from different scopes. This can mainly be done in two ways:</p>
+  <ul class="colour">
+    <li>The dot operator, e.g. <span class="inline2">a.b</span>, which means &quot;the variable <span class="inline2">b</span> of the scope <span class="inline2">a</span>&quot;.</li>
+    <li>The <a data-xref="{title}" href="Language_Features/with.htm">with</a> statement, e.g. <span class="inline2">with(a) {b = 10;}</span>, which means &quot;execute the following lines of code in the scope of <span class="inline2">a</span>&quot;.</li>
   </ul>
   <p>The variable <span class="inline2">a</span> can be either an instance or a struct. You can also use one of the <a data-xref="{title}" href="Instance_Keywords.htm">Instance Keywords</a> or the <span class="inline2">global</span> keyword.</p>
-  <p>See <a data-xref="{title}" href="Addressing_Variables_In_Other_Instances.htm">Addressing Variables In Other Instances</a> for detailed information.</p>
-  <h3>Types of Scope</h3>
-  <p>By default, when you assign variables in <a data-xref="{title}" href="../../The_Asset_Editors/Object_Properties/Object_Events.htm">Object Events</a>, you assign them to <strong>instance </strong>variables, however there are actually four other main variable types when you program with <span data-keyref="GameMaker Name">GameMaker</span>, each with its own <strong>scope</strong>.</p>
-  <p>The different kinds of variables and their scope are all outlined in the following pages:</p>
+  <p>Rules for the current scope changing are documented in <a data-xref="{text}" href="Instance Keywords/self.htm#h">When &#39;self&#39; changes</a>.</p>
   <ul class="colour">
-    <li><a data-xref="{title}" href="Variables/Local_Variables.htm">Local Variables</a></li>
-    <li><a data-xref="{title}" href="Variables/Instance_Variables.htm">Instance Variables</a></li>
-    <li><a data-xref="{title}" href="Variables/Global_Variables.htm">Global Variables</a></li>
-    <li><a data-xref="{title}" href="Functions/Static_Variables.htm">Static Variables</a></li>
-    <li><a data-xref="{title}" href="Variables/Constants.htm">Constants</a></li>
   </ul>
-  <p class="note"><span data-conref="../../assets/snippets/Tag_note.hts"> </span> Constants aren&#39;t &quot;true&quot; variables since they&#39;re replaced by their underlying value by the <a href="../../Introduction/Compiling.htm">Compiler</a> and don&#39;t exist as variables in-game.</p>
   <h2>Built-in Variables</h2>
   <p>The GameMaker Language has multiple different built-in variables that can have any of the above-mentioned scopes (except <i>local</i>). These variables are special as they are included by default as part of the objects and the rooms in the game world. Some built-in global variables are listed in the section mentioned above, and the different parts of the manual for sprites, rooms, objects, etc., also outline the built-in variables available in each case.</p>
   <p>Examples of built-in instance variables are:</p>
@@ -99,7 +104,7 @@
         <div style="float:right">Next: <a data-xref="{title}" href="Data_Types.htm">Data Types</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2023 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 variables
