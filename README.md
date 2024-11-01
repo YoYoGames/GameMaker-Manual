@@ -25,3 +25,5 @@ The second recommended way is to edit the HTML files directly, which are placed 
 2. Do not make changes to `<span data-keyref>` contents, these are RoboHelp variables and contents of these span tags should not be manually edited in the HTML files. The correct contents are inserted by RoboHelp when the manual is built (taken from the Manual/variable/Default.var file).
 
 3. If you need to change such an item, refer to the Manual/variable/Default.var file and modify the contents of a variable there (like fixing a link for a data type).
+
+4. Similarly, contents of `<span data-conref>` tags cannot be edited directly as they are snippets inserted when the manual is built. These are taken from Manual/contents/assets/snippets/.
