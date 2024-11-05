@@ -40,6 +40,16 @@
   <p class="note"><span data-conref="../../assets/snippets/Tag_note.hts"> </span> Defining a function in an Object&#39;s event using either syntax will make the function only available in the context of its instance (i.e. using the script function syntax will <strong>not</strong> make the function globally available unless it is in a Script asset).</p>
   <p class="note"><span data-conref="../../assets/snippets/Tag_note.hts"> </span> A function defined in an Object&#39;s event using the script function syntax will be available to its instances throughout their lifetime, even when the event has not run yet. For example, defining a script function in the Alarm 0 event will make the function available to call in the Create event, regardless of when that alarm event runs (or whether it runs at all).</p>
   <p>So, keep in mind that - in general - we will always be referring to functions that have <em>not </em>been defined with a script index when we are talking about methods and method variables.</p>
+  <p>The syntax for defining a method inside a <strong>struct literal</strong> is similar to the first syntax above, however the <span class="inline2">=</span> is replaced by a <span class="inline2">:</span> as required by struct literals:</p>
+  <p class="code">struct =<br />
+    {<br />
+        func : function( parameter1, parameter2, ... )<br />
+        {<br />
+            statement1;<br />
+            ...<br />
+        }<br />
+    }</p>
+  <h3>Method Scoping</h3>
   <p>A method created in an instance or a struct will be <strong>bound</strong> to that instance or struct, which means that during the execution of that method, the <span class="inline2"><a href="Instance Keywords/self.htm">self</a></span> variable will refer to the instance or struct that the method is bound to, no matter where the method is being called from, and all variables will be read from and applied to that instance or struct. This bound instance or struct can be changed with the <span class="inline3_func"><a data-xref="{title}" href="../GML_Reference/Variable_Functions/method.htm">method</a></span> function.</p>
   <p class="note"><span data-conref="../../assets/snippets/Tag_note.hts"> </span> A function defined with the script function syntax will not be bound to its current context. Its <a href="../GML_Reference/Variable_Functions/method_get_self.htm">bound self</a> will return <span class="inline2">&quot;undefined&quot;</span> until <a href="../GML_Reference/Variable_Functions/method.htm">changed</a>.</p>
   <p>Below you can see three simple examples of creating a method variable using different scopes:</p>
@@ -75,6 +85,7 @@
     vec = create_vec(x, y, mouse_x, mouse_y);
   </p>
   <p>Variables created within a function will follow the same rules as normal and will be scoped according to the keyword used or the scope of the function call. In the above example, we use <span class="inline">var</span> so the array variable is in the <em>local </em>scope of the function. If we didn&#39;t use the keyword, then the variable would have been created in the scope of the instance that created the function.</p>
+  <h3>Optional Arguments</h3>
   <p>Methods, just like script functions, can also take optional arguments that have default values for when they&#39;re not passed in:</p>
   <p class="code">create_attachment = function(_attachment, <strong>_x = x</strong>, <strong>_y = y</strong>)<br />
     {<br />
