@@ -86,7 +86,8 @@
     </p>
     <p class="dropspot">The above code will add up all the values in our array, draw each one of them and then draw the total value at the end.</p>
     <h3 class="dropspot" id="deleting_arrays">Deleting Arrays</h3>
-    <p class="dropspot">The last thing to mention about arrays is that you can delete an array simply by &quot;re-assigning&quot; the variable that defines it to a single value. This will free up the memory associated with all the positions and values for that array. For example:</p>
+    <p class="dropspot">The <a href="../GML_Reference/Garbage_Collection/Garbage_Collection.htm">Garbage Collector</a> will automatically clean up arrays that lose references, i.e. no active variables point to the array now. This means that setting a variable that holds an array to <em>any other value</em> will eventually make the garbage collector remove the array from memory (assuming it was the only reference to the array).</p>
+    <p class="dropspot">Setting a variable holding an array to <span class="inline2">undefined</span> will however prioritise the clean up of the array so the garbage collector removes it in the next collection cycle. Here is an example:</p>
     <p class="code">// Create an array<br />
       for (var i = 9; i &gt; -1; --i)<br />
       {<br />
@@ -94,9 +95,9 @@
       }<br />
       <br />
       // Delete the array<br />
-      a = -1;
+      a = undefined;
     </p>
-    <p class="dropspot">If the array has multiple dimensions (see below), they will all be cleaned up too, and note that when you create arrays in instances, these do not need to be cleaned up when the instance is removed from the game, as they will be removed automatically by the <a class="glossterm" data-glossterm="garbage collector" href="#">garbage collector</a> on Destroy or Room End. However, if any of the array positions hold references to <em>dynamic</em> assets, such as particle systems, buffers, or data structures, then these <em>will</em> need to be destroyed before the array is deleted, the instance is destroyed or the room ends.</p>
+    <p class="dropspot">If the array has multiple dimensions (see below), they will all be cleaned up too. Note that when you create arrays in instances, these do not need to be cleaned up when the instance is removed from the game, as they will be removed automatically by the <a class="glossterm" data-glossterm="garbage collector" href="#">garbage collector</a> on Destroy or Room End (as long as the only references to the array were in the instance). However, if any of the array positions hold references to <em>dynamic</em> assets, such as particle systems, buffers, or data structures, then these <em>will</em> need to be destroyed before the array is deleted, the instance is destroyed or the room ends.</p>
     <p class="dropspot"> </p>
   </div>
   <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down2" href="#">Multi-Dimensional Arrays</a></p>
