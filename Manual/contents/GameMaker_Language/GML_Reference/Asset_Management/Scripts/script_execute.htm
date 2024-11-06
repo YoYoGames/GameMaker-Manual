@@ -47,9 +47,34 @@
   <h4>Returns:</h4>
   <p class="code"><span data-keyref="Type_Any"><a href="../../../GML_Overview/Data_Types.htm#variable" target="_blank">Any</a></span> (Will depend on the return value from the script/function being called)</p>
   <p> </p>
-  <h4>Example:</h4>
+  <h4>Example 1: Basic Use</h4>
   <p class="code"><span data-field="title" data-format="default">script_execute</span>(choose(move_up, move_down, move_left, move_right), irandom(5));</p>
-  <p>The above example code calls <span class="inline3_func"><span data-field="title" data-format="default">script_execute</span></span> to choose one of four user-defined functions (in this case related to movement) and passes a random integer to it as the first argument.</p>
+  <p>The above code calls <span class="inline3_func"><span data-field="title" data-format="default">script_execute</span></span> to choose one of four user-defined functions (in this case related to movement) and passes a random integer to it as the first argument.</p>
+  <p> </p>
+  <h4>Example 2: Calling a Constructor Function</h4>
+  <p class="code">function StructA() constructor<br />
+    {<br />
+        a = 1;<br />
+        b = 2;<br />
+        c = &quot;Hello&quot;;<br />
+    }<br />
+    function StructB() constructor<br />
+    {<br />
+        d = 3;<br />
+        e = 4;<br />
+        f = &quot;!&quot;;<br />
+    }<br />
+    <br />
+    the_struct = {};<br />
+    with(the_struct)<br />
+    {<br />
+        <span data-field="title" data-format="default">script_execute</span>(StructA);<br />
+        <span data-field="title" data-format="default">script_execute</span>(StructB);<br />
+    }<br />
+    show_debug_message($&quot;{instanceof(the_struct)} -&gt; {the_struct}&quot;);
+  </p>
+  <p>The above code shows how to call a constructor function using <span class="inline3_func"><span data-field="title" data-format="default">script_execute</span></span>.</p>
+  <p style="text-align: left; ">First, two constructor functions are defined. Then an empty struct is created and stored in a variable <font face="menlo, consolas, monospace"><span class="inline2">the_struct</span></font>. The scope is then changed to that of <span class="inline2">the_struct</span> using a <span class="inline2">with</span> statement and inside it <span class="inline3_func"><span data-field="title" data-format="default">script_execute</span></span> is called twice: once with <span class="inline2">StructA</span> and once with <span class="inline2">StructB</span>. After the two calls to <span class="inline3_func"><span data-field="title" data-format="default">script_execute</span></span>, <span class="inline2">the_struct</span> has the variables of <span class="inline2">StructA</span> and <span class="inline2">StructB</span> and is an instance of <span class="inline2">StructB</span>.</p>
   <p> </p>
   <p> </p>
   <div class="footer">
