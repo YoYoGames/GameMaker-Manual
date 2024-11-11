@@ -17,33 +17,51 @@
   <h1><span data-field="title" data-format="default">Matrix Functions</span></h1>
   <p>A matrix is a collection of numbers arranged into a fixed number of rows and columns.</p>
   <p>Usually the numbers are real numbers, but that doesn&#39;t always have to be the case. The following image shows in general how a matrix is constructed with four rows and four columns:</p>
-  <p><img alt="Matrix example image" class="center" height="178" src="../../../../assets/Images/Scripting_Reference/GML/Reference/Maths/Matrix_Example.png" width="309" />The top row is row 1, the leftmost column is column 1, and this matrix is a 4x4 matrix because it has four rows and four columns (other sized matrices can be constructed). In describing matrices, the format is always rows / columns, and each number that makes up a matrix is called an <i>element</i> of the matrix. The elements in a matrix have specific locations, described by their row and column position where the upper left corner of the matrix is row 1 column 1. In the above matrix example, the element at row 1 col 1 is the value &quot;1&quot;. The element at row 2 column 3 is the value &quot;4.8&quot;.</p>
-  <p class="note"><span data-conref="../../../../assets/snippets/Tag_important.hts"> </span> Matrices do not have their own datatype in <span data-keyref="GameMaker Name">GameMaker</span> and are always stored in <a data-xref="{title}" href="../../../GML_Overview/Arrays.htm">Arrays</a>.</p>
+  <p><img alt="Matrix example image" class="center" src="../../../../assets/Images/Scripting_Reference/GML/Reference/Maths/Matrix_Example.png" />The top row is row 1, the leftmost column is column 1, and this matrix is a 4x4 matrix because it has four rows and four columns (other sized matrices can be constructed). In describing matrices, the format is always rows / columns, and each number that makes up a matrix is called an <i>element</i> of the matrix. The elements in a matrix have specific locations, described by their row and column position where the upper left corner of the matrix is row 1 column 1. In the above matrix example, the element at row 1 col 1 is the value 1. The element at row 2 column 3 is the value 4.8.</p>
+  <p>Matrices are very important for many things but are used most in dealing with 3D space, for example they can be used for setting the camera view or for translating or transforming a model.</p>
+  <p><span data-keyref="GameMaker Name">GameMaker</span> has a number of functions that deal with matrices, including the <span class="inline3_func">matrix_build*</span> functions which create a matrix of a certain type, functions to perform matrix math and the functions <span class="inline3_func"><a data-xref="{title}" href="matrix_get.htm">matrix_get</a></span> and <span class="inline3_func"><a data-xref="{title}" href="matrix_set.htm">matrix_set</a></span> that allow you to get or set the matrix that&#39;s currently used for drawing. Finally, there are the matrix stack functions that can be used, for example, when working with hierarchical transformations (e.g. skeletal animation).</p>
+  <h3 id="storage">Storage</h3>
+  <p>Matrices do not have their own datatype in <span data-keyref="GameMaker Name">GameMaker</span> and are always stored in <a data-xref="{title}" href="../../../GML_Overview/Arrays.htm">Arrays</a>.</p>
+  <div data-conref="../../../../assets/snippets/Note_Matrix_Column_Major.hts"> </div>
+  <p>Alternatively, you can create a matrix yourself by creating a 16-element array. Note, however, that when splitting the initialisation of the matrix over multiple lines, every line represents a column rather than a row: </p>
+  <p class="code">the_matrix = <br />
+    [<br />
+        1, 0, 0, 0,    // Col 1<br />
+        0, 1, 0, 0,    // Col 2<br />
+        0, 0, 1, 0,    // Col 3<br />
+        x, y, z, 1     // Col 4<br />
+    ];</p>
   <h2 id="func_ref">Function Reference</h2>
-  <h3 id="func_ref_general">General Matrix Functions</h3>
-  <p>Matrices are very important for many things but are used most in dealing with 3D space, for example they can be used for setting the camera view or for translating or transforming a model. The following functions exist for dealing with matrices in <span data-keyref="GameMaker Name">GameMaker</span>:</p>
+  <h3 id="func_ref_modifying_builtin_matrices">Modifying Built-in Matrices</h3>
   <ul class="colour">
-    <li><a href="matrix_get.htm">matrix_get</a></li>
-    <li><a href="matrix_set.htm">matrix_set</a></li>
-    <li><a href="matrix_build.htm">matrix_build</a></li>
-    <li><a href="matrix_multiply.htm">matrix_multiply</a></li>
-    <li><a href="matrix_build_identity.htm">matrix_build_identity</a></li>
-    <li><a href="matrix_build_lookat.htm">matrix_build_lookat</a></li>
-    <li><a href="matrix_build_projection_ortho.htm">matrix_build_projection_ortho</a></li>
-    <li><a href="matrix_build_projection_perspective.htm">matrix_build_projection_perspective</a></li>
-    <li><a href="matrix_build_projection_perspective_fov.htm">matrix_build_projection_perspective_fov</a></li>
-    <li><a href="matrix_transform_vertex.htm">matrix_transform_vertex</a></li>
+    <li><a data-xref="{title}" href="matrix_get.htm">matrix_get</a></li>
+    <li><a data-xref="{title}" href="matrix_set.htm">matrix_set</a></li>
+  </ul>
+  <h3 id="func_ref_matrix_math">Matrix Math</h3>
+  <ul class="colour">
+    <li><a data-xref="{title}" href="matrix_multiply.htm">matrix_multiply</a></li>
+    <li><a data-xref="{title}" href="matrix_inverse.htm">matrix_inverse</a></li>
+    <li><a data-xref="{title}" href="matrix_transform_vertex.htm">matrix_transform_vertex</a></li>
+  </ul>
+  <h3 id="func_ref_building_matrices">Building Matrices</h3>
+  <ul class="colour">
+    <li><a data-xref="{title}" href="matrix_build.htm">matrix_build</a></li>
+    <li><a data-xref="{title}" href="matrix_build_identity.htm">matrix_build_identity</a></li>
+    <li><a data-xref="{title}" href="matrix_build_lookat.htm">matrix_build_lookat</a></li>
+    <li><a data-xref="{title}" href="matrix_build_projection_ortho.htm">matrix_build_projection_ortho</a></li>
+    <li><a data-xref="{title}" href="matrix_build_projection_perspective.htm">matrix_build_projection_perspective</a></li>
+    <li><a data-xref="{title}" href="matrix_build_projection_perspective_fov.htm">matrix_build_projection_perspective_fov</a></li>
   </ul>
   <h3 id="func_ref_stack">Matrix Stack Functions</h3>
   <p>The following functions are for using a matrix <strong>stack</strong>, which is similar to a <span data-keyref="Type_ID_DS_Stack"><a href="../../Data_Structures/DS_Stacks/ds_stack_create.htm" target="_blank">DS Stack</a></span>, but designed for use only with matrices. This is a handy way to apply multiple matrix operations (like transforms) one after another when creating a 3D scene.</p>
   <div data-conref="../../../../assets/snippets/Note_Matrix_Stack_Size.hts"> </div>
   <ul class="colour">
-    <li><a href="matrix_stack_is_empty.htm">matrix_stack_is_empty</a></li>
-    <li><a href="matrix_stack_clear.htm">matrix_stack_clear</a></li>
-    <li><a href="matrix_stack_set.htm">matrix_stack_set</a></li>
-    <li><a href="matrix_stack_push.htm">matrix_stack_push</a></li>
-    <li><a href="matrix_stack_pop.htm">matrix_stack_pop</a></li>
-    <li><a href="matrix_stack_top.htm">matrix_stack_top</a></li>
+    <li><a data-xref="{title}" href="matrix_stack_is_empty.htm">matrix_stack_is_empty</a></li>
+    <li><a data-xref="{title}" href="matrix_stack_clear.htm">matrix_stack_clear</a></li>
+    <li><a data-xref="{title}" href="matrix_stack_set.htm">matrix_stack_set</a></li>
+    <li><a data-xref="{title}" href="matrix_stack_push.htm">matrix_stack_push</a></li>
+    <li><a data-xref="{title}" href="matrix_stack_pop.htm">matrix_stack_pop</a></li>
+    <li><a data-xref="{title}" href="matrix_stack_top.htm">matrix_stack_top</a></li>
   </ul>
   <p> </p>
   <p> </p>
