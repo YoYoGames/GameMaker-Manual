@@ -15,7 +15,7 @@
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
   <h1><span data-field="title" data-format="default">Method Variables</span></h1>
-  <p>A method variable is essentially a variable that has had a function assigned to it, &quot;binding&quot; the function to an instance and enabling you to use the variable to refer to the function - much like you use a <a href="Runtime_Functions.htm">runtime function name</a> to refer to a built-in GML function. The variable used can be <em>local</em>, <em>instance</em> or <em>global</em> in scope (see <a href="Variables_And_Variable_Scope.htm">here</a> for more information on variable scope).</p>
+  <p>A method variable is essentially a variable that has had a function assigned to it, &quot;binding&quot; the function to an instance or struct and enabling you to use the variable to refer to the function - much like you use a <a href="Runtime_Functions.htm">runtime function name</a> to refer to a built-in GML function. The variable used can be <em>local</em>, <em>instance</em> or <em>global</em> in scope (see <a href="Variables_And_Variable_Scope.htm">here</a> for more information on variable scope).</p>
   <p>Also see: <a data-xref="{title}" href="Script_Functions_vs_Methods.htm">Script Functions vs. Methods</a></p>
   <h2>Creating Methods</h2>
   <p>The syntax for creating a method variable is as follows:</p>
@@ -34,11 +34,24 @@
     <span>    ...</span><br />
     <span>}</span>
   </p>
-  <p class="note"><span data-conref="../../assets/snippets/Tag_note.hts"> </span> To create a function in GML Visual, use <a data-xref="{title}" href="../../Drag_And_Drop/Drag_And_Drop_Reference/Common/Declare_A_New_Function.htm">Declare A New Function</a>.</p>
-  <p>In general, however, you would use the <em>first </em>form for methods, and the second form for defining <a href="Script_Functions.htm">script functions</a>, since the second form will also assign a script index to the function name while the first form will be a &quot;true&quot; method (and require the use of the <a href="Variables/Global_Variables.htm">global</a> prefix if used to define a scripted function).</p>
-  <p class="note"><span data-conref="../../assets/snippets/Tag_note.hts"> </span> You can check this by using both forms in project and then calling the runtime function <span class="inline3_func"><a data-xref="{title}" href="../GML_Reference/Variable_Functions/typeof.htm">typeof</a></span> on each of them. One will be classed as a &quot;number&quot; - since it returns a script reference - and the other will be classed as a &quot;method&quot;.</p>
-  <p>So, keep in mind that - in general - we will always be referring to functions that have <em>not </em>been defined with a script index when we are talking about methods and method variables. </p>
+  <p class="note"><span data-conref="../../assets/snippets/Tag_note.hts"> </span> To create a function in <span data-keyref="GML_Visual">GML Visual</span>, use <a data-xref="{title}" href="../../Drag_And_Drop/Drag_And_Drop_Reference/Common/Declare_A_New_Function.htm">Declare A New Function</a>.</p>
+  <p>In general, however, you would use the <em>first </em>form for methods, and the second form for defining <a href="Script_Functions.htm">script functions</a>, since the second form will also assign a script index to the function while the first form will be a &quot;true&quot; method.</p>
+  <p class="note"><span data-conref="../../assets/snippets/Tag_note.hts"> </span> You can check this by using both forms in a script and then calling the runtime function <span class="inline3_func"><a data-xref="{title}" href="../GML_Reference/Variable_Functions/typeof.htm">typeof</a></span> on each of them. One will be classed as a &quot;ref&quot; - since it returns a script function reference - and the other will be classed as a &quot;method&quot;.</p>
+  <p class="note"><span data-conref="../../assets/snippets/Tag_note.hts"> </span> Defining a function in an Object&#39;s event using either syntax will make the function only available in the context of its instance (i.e. using the script function syntax will <strong>not</strong> make the function globally available unless it is in a Script asset).</p>
+  <p class="note"><span data-conref="../../assets/snippets/Tag_note.hts"> </span> A function defined in an Object&#39;s event using the script function syntax will be available to its instances throughout their lifetime, even when the event has not run yet. For example, defining a script function in the Alarm 0 event will make the function available to call in the Create event, regardless of when that alarm event runs (or whether it runs at all).</p>
+  <p>So, keep in mind that - in general - we will always be referring to functions that have <em>not </em>been defined with a script index when we are talking about methods and method variables.</p>
+  <p>The syntax for defining a method inside a <strong>struct literal</strong> is similar to the first syntax above, however the <span class="inline2">=</span> is replaced by a <span class="inline2">:</span> as required by struct literals:</p>
+  <p class="code">struct =<br />
+    {<br />
+        func : function( parameter1, parameter2, ... )<br />
+        {<br />
+            statement1;<br />
+            ...<br />
+        }<br />
+    }</p>
+  <h3>Method Scoping</h3>
   <p>A method created in an instance or a struct will be <strong>bound</strong> to that instance or struct, which means that during the execution of that method, the <span class="inline2"><a href="Instance Keywords/self.htm">self</a></span> variable will refer to the instance or struct that the method is bound to, no matter where the method is being called from, and all variables will be read from and applied to that instance or struct. This bound instance or struct can be changed with the <span class="inline3_func"><a data-xref="{title}" href="../GML_Reference/Variable_Functions/method.htm">method</a></span> function.</p>
+  <p class="note"><span data-conref="../../assets/snippets/Tag_note.hts"> </span> A function defined with the script function syntax will not be bound to its current context. Its <a href="../GML_Reference/Variable_Functions/method_get_self.htm">bound self</a> will return <span class="inline2">&quot;undefined&quot;</span> until <a href="../GML_Reference/Variable_Functions/method.htm">changed</a>.</p>
   <p>Below you can see three simple examples of creating a method variable using different scopes:</p>
   <p class="code">// Local<br />
     var _debug = function(message)<br />
@@ -59,7 +72,7 @@
     }
   </p>
   <p>Notice that in the above code, the various parameters that are given as inputs for the function are all named and these names are what should be used within the function to refer to the different inputs. Also note that you can use the <span class="inline"><a href="Language_Features/return.htm">return</a></span> statement to return a value from a function for use elsewhere in your code, and that a function with <em>no</em> return value defined, will return <span class="inline">undefined</span> by default.</p>
-  <p>While the variable will be in the chosen scope, the actual function will be bound to the scope that it was initially defined in. For example, <a href="Script_Functions.htm">script functions</a> are all global scope and &quot;unbound&quot; (ie: they are not associated with any instances), but if you have a script function that creates another function as a method variable within it and then you call this script function from an instance, the function used within the script will <strong>be bound to the instance as a method</strong>.</p>
+  <p>While the variable will be in the chosen scope, the actual function will be bound to the scope that it was initially defined in. For example, <a href="Script_Functions.htm">script functions</a> are all global scope and &quot;unbound&quot; (i.e.: they are not associated with any instances), but if you have a script function that creates another function as a method variable within it and then you call this script function from an instance, the function used within the script will <strong>be bound to the instance as a method</strong>.</p>
   <p>Once created, the method variable can be used just as you would a runtime function or a script function, for example:</p>
   <p class="code">create_vec = function(_x1, _y1, _x2, _y2);<br />
     {<br />
@@ -72,6 +85,7 @@
     vec = create_vec(x, y, mouse_x, mouse_y);
   </p>
   <p>Variables created within a function will follow the same rules as normal and will be scoped according to the keyword used or the scope of the function call. In the above example, we use <span class="inline">var</span> so the array variable is in the <em>local </em>scope of the function. If we didn&#39;t use the keyword, then the variable would have been created in the scope of the instance that created the function.</p>
+  <h3>Optional Arguments</h3>
   <p>Methods, just like script functions, can also take optional arguments that have default values for when they&#39;re not passed in:</p>
   <p class="code">create_attachment = function(_attachment, <strong>_x = x</strong>, <strong>_y = y</strong>)<br />
     {<br />
@@ -80,6 +94,10 @@
   <p>The above function takes three arguments, where the last two are optional. If they are not passed in when the function is called, then they&#39;ll use the instance&#39;s <span class="inline">x</span> and <span class="inline">y</span> coordinates by default.</p>
   <p>Note that if an argument is not passed in, and it does not have a default value, then it will be equal to <span class="inline">undefined</span>.</p>
   <p>Methods can also make use of static variables, which maintain their values throughout every function call. Please <a href="Functions/Static_Variables.htm">read this page</a> for more information.</p>
+  <h3 id="h">Methods Are Structs</h3>
+  <p><span data-keyref="GameMaker Name">GameMaker</span> stores methods as structs, where each &quot;method struct&quot; holds a reference to the script function to call and the struct or instance to which it is bound. You can get the script function behind a method by calling <span class="inline3_func"><a href="../GML_Reference/Variable_Functions/method_get_index.htm">method_get_index</a></span> and its bound struct or instance with <span class="inline3_func"><a href="../GML_Reference/Variable_Functions/method_get_self.htm">method_get_self</a></span>.</p>
+  <p><strong>Methods being structs is irrelevant in most cases</strong> as you would call them as functions and pass them into other functions that take methods - you would not use them as structs. However this detail can be important in a few edge cases, for example with the <a data-xref="{title}" href="Structs/Static_Structs.htm">Static Struct</a>, as each function in <span data-keyref="GameMaker Name">GameMaker</span> has a static struct and each struct can have its own static struct that forms the <a data-xref="{text}" href="Structs/Static_Structs.htm#h">Static Chain</a>. However the static struct functionality for method structs is <strong>disabled</strong> so you can directly access the static struct of the function behind it. Calling <span class="inline3_func"><a data-xref="{title}" href="../GML_Reference/Variable_Functions/static_get.htm">static_get</a></span> will give you the static struct for the function behind the method and calling <span class="inline3_func"><a data-xref="{title}" href="../GML_Reference/Variable_Functions/static_set.htm">static_set</a></span> on a method will do nothing.</p>
+  <h2>Function Reference</h2>
   <p>Below we list a few helper functions associated with method variables:</p>
   <ul class="colour">
     <li><a href="../GML_Reference/Variable_Functions/is_method.htm">is_method</a></li>
@@ -88,6 +106,7 @@
     <li><a href="../GML_Reference/Variable_Functions/method_get_index.htm">method_get_index</a></li>
     <li><a href="../GML_Reference/Variable_Functions/method_call.htm">method_call</a></li>
   </ul>
+  <p> </p>
   <p> </p>
   <p> </p>
   <p> </p>

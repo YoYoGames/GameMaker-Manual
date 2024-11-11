@@ -14,13 +14,12 @@
 </head>
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
-  <h1>Script Functions And Variables</h1>
-  <p>Script assets are essentially a collection of one or more user defined functions or variables that you write yourself as snippets of code in the <a href="../../The_Asset_Editors/Scripts.htm">Script Editor</a>. The functions you define in a script can resolve expressions, return values or do anything else that the GameMaker Language permits, just like the built in <a href="Runtime_Functions.htm">runtime functions</a>.</p>
+  <h1><span data-field="title" data-format="default">Script Functions And Variables</span></h1>
+  <p>Script assets are essentially a collection of one or more user-defined functions or variables that you write yourself as snippets of code in <a data-xref="{title}" href="../../The_Asset_Editors/Scripts.htm">The Script Editor</a>. The functions you define in a script can resolve expressions, return values or do anything else that the GameMaker Language permits, just like the built-in <a data-xref="{title}" href="Runtime_Functions.htm">Runtime Functions</a>.</p>
   <p>Script functions should generally be used if you have a block of code that you use in more than one place or object, or when you want a block of code to be used across multiple objects in a modular fashion. Using scripts to define functions means that you can change the function just once when required and the change will be &quot;picked up&quot; by every object that has a call to the function.</p>
   <p>Scripts can also be very handy from an organisational point of view, as they permit you to create groups of functions that belong to a certain category - for example, you might have several functions all related to collisions between instances in your game, so you would create a &quot;<span class="inline">Collision_Functions</span>&quot; script and store all these functions together in it.</p>
-  <p>Also see: <a data-xref="{title}" href="Script_Functions_vs_Methods.htm">Script Functions vs. Methods</a></p>
   <h2>Creating Functions</h2>
-  <p>When creating a script with functions in it, the functions must be created using the following formats:</p>
+  <p>When creating a <span data-keyref="Type_Asset_Script"><a href="../../The_Asset_Editors/Scripts.htm" target="_blank">Script Asset</a></span> with functions in it, the functions can be created using the following formats:</p>
   <p class="code"><span>function name( parameter1, parameter2, ... )<br />
       {</span><br />
     <span>    statement1;</span><br />
@@ -36,13 +35,14 @@
     <span>    ...</span><br />
     <span>}</span>
   </p>
-  <p class="note"><span data-conref="../../assets/snippets/Tag_tip.hts"> </span> To create a function in GML Visual, use <a data-xref="{title}" href="../../Drag_And_Drop/Drag_And_Drop_Reference/Common/Declare_A_New_Function.htm">Declare A New Function</a>. Enable its &quot;Temp&quot; option to create a method variable (second syntax shown above).</p>
-  <p>In general, however, you would use the <em>first </em>form for script functions as it will define the function as specifically being a script function, meaning that it will be <strong>global </strong>in <a href="Variables_And_Variable_Scope.htm">scope</a>, be assigned a <strong>script index</strong>, and not require the <span class="inline">global</span> prefix to identify it since the compiler will recognise it as a script function.</p>
-  <p>Using the second form will instead be generating a global scope <a href="Method_Variables.htm">method variable</a>, and as such it will <em>not </em>be recognised as a script function by the IDE and will require the use of the <span class="inline">global</span> prefix when being referenced in your code.</p>
-  <p class="note"><span class="note">NOTE</span> You can check this by using both forms in a script and then calling the runtime function <a href="../GML_Reference/Variable_Functions/typeof.htm">typeof()</a> on each of them. One will be classed as a &quot;number&quot; - since it returns a script index ID - and the other will be classed as a &quot;method&quot;.</p>
+  <p class="note"><span data-conref="../../assets/snippets/Tag_tip.hts"> </span> To create a function in <span data-keyref="GML_Visual">GML Visual</span>, use <a data-xref="{title}" href="../../Drag_And_Drop/Drag_And_Drop_Reference/Common/Declare_A_New_Function.htm">Declare A New Function</a>. Enable its &quot;Temp&quot; option to create a method variable (second syntax shown above).</p>
+  <p>In general, however, you would use the <em>first </em>form for script functions as it will define the function as specifically being a script function, meaning that it will be <strong>global </strong>in <a href="Variables_And_Variable_Scope.htm">scope</a>, be assigned a <strong>script index</strong>, and not require the <span class="inline2">global</span> prefix to identify it since the compiler will recognise it as a script function.</p>
+  <p>Using the second form will instead generate a global scope <a href="Method_Variables.htm">method variable</a>, and as such it will <em>not </em>be recognised as a script function by the IDE and will require the use of the <span class="inline">global</span> prefix when being referenced in your code. Related: <a data-xref="{title}" href="Script_Functions_vs_Methods.htm">Script Functions vs. Methods</a></p>
+  <p class="note"><span data-conref="../../assets/snippets/Tag_note.hts"> </span> You can check this by using both forms in a script and then calling the runtime function <a href="../GML_Reference/Variable_Functions/typeof.htm">typeof()</a> on each of them. One will be classed as a &quot;ref&quot; - since it returns a script function reference - and the other will be classed as a &quot;method&quot;.</p>
+  <p>This rule also applies when a function or method is created in an Object&#39;s event, however in that case the created script function (with the first syntax) will not be global and will only be available in the instance&#39;s context. See <a data-xref="{title}" href="Method_Variables.htm">Method Variables</a> for more information.</p>
   <h2>Parameters/Arguments</h2>
   <p>You can define your own parameters/arguments for a function, which will be available to the function as local variables and can be used for any purpose within that function:</p>
-  <p class="code">function move(<strong>spd, dir</strong>)<br />
+  <p class="code">function move(<strong>spd, dir</strong>)<br />
     {<br />
         speed = <strong>spd</strong>;<br />
         direction = <strong>dir</strong>;<br />
@@ -80,7 +80,7 @@
         direction = dir;<br />
     }</p>
   <p>If the <span class="inline">dir</span> argument is not passed in when calling the above function, then its value will default to <span class="inline">90</span>, moving the instance in an upward direction.</p>
-  <p class="note"><span class="tip">TIP</span> You can omit arguments from function calls and they will default to <span class="inline">undefined</span> (or the default value for that argument as defined by the function).<br />
+  <p class="note"><span data-conref="../../assets/snippets/Tag_tip.hts"> </span> You can omit arguments from function calls and they will default to <span class="inline">undefined</span> (or the default value for that argument as defined by the function).<br />
     <br />
     For example, writing <span class="inline">my_func(0,,,1)</span> is the same as writing <span class="inline">my_func(0, undefined, undefined, 1)</span>.
   </p>
@@ -103,7 +103,7 @@
     // Prints: [10] obj_player: Player Shot
   </p>
   <h2>JSDoc</h2>
-  <p>We also recommend that you add comments to define the properties of the function (see the section on <a href="../../The_Asset_Editors/Code_Editor_Properties/JSDoc_Script_Comments.htm">JSDoc Comments</a> for more details), such that a simple script would look like this:</p>
+  <p>We also recommend that you add comments to define the properties of the function (see the section on <a data-xref="{title}" href="../../The_Asset_Editors/Code_Editor_Properties/JSDoc_Script_Comments.htm">JSDoc Script Comments</a> for more details), such that a simple script would look like this:</p>
   <p class="code">/// @function                 log(message);<br />
     /// @param {string}  message  The message to show<br />
     /// @description              Show a message whenever the function is called.<br />
@@ -137,7 +137,7 @@
   <p>To call a script function from within a piece of code, just use it the same way as when calling any runtime function - that is, write the function name with the parameter values in parentheses. So, the above script would be called like this:</p>
   <p class="code">if (keyboard_check_pressed(vk_enter))<br />
     {<br />
-        val = scr_sqr(amount);<br />
+        val = sqr_calc(amount);<br />
     }</p>
   <p class="note"><span data-conref="../../assets/snippets/Tag_note.hts"> </span> When using your own functions from scripts in the code editor, you can press<span> <img alt="F1 Icon" class="icon" height="20" src="../../assets/Images/Icons/Icon_f1.png" width="55" /></span> or click the middle mouse button <span><img alt="MMB Icon" class="icon" src="../../assets/Images/Icons/Icon_MMB.png" /> </span>on the function name to open the script that contains it for editing directly.</p>
   <h2>Script Names vs. Function Names</h2>
@@ -186,7 +186,7 @@
     {<br />
         // Do something else<br />
     }</p>
-  <p>In the above case, not only have we defined the functions <span class="inline">Foo</span> and <span class="inline">Bar</span> but also the variable <span class="inline">blah</span> and all of them are considered to have been created in the <b>global</b> scope. The functions don&#39;t need the <span class="inline">global</span> keyword to be recognized as the compiler understands that these functions are part of the script, but if you wanted to access <span class="inline">blah</span> then you would need to do:</p>
+  <p>In the above case, not only have we defined the functions <span class="inline">Foo</span> and <span class="inline">Bar</span> but also the variable <span class="inline">blah</span> and all of them are considered to have been created in the <b>global</b> scope. The functions don&#39;t need the <span class="inline">global</span> keyword to be recognised as the compiler understands that these functions are part of the script, but if you wanted to access <span class="inline">blah</span> then you would need to do:</p>
   <p class="code">val = global.blah;</p>
   <p>That said, we recommend that you <b>always explicitly type global variables</b> when creating them in scripts to prevent any issues later. Scripts are also an ideal place to define any <strong>Macros</strong> or <strong>Enums</strong> (<a href="Variables/Constants.htm">constants</a>), as adding them to a script outside of a function also means that they will be created for use before the game code actually starts running. Below is an example of a script that is creating different global scope values for a game:</p>
   <p class="code">/// Initialise All Global Scope Values And Constants<br />
@@ -224,7 +224,7 @@
     }
   </p>
   <p>So, scripts can be used to generate macros, enums and global variables before the game starts so they are ready for use at any time, and they can also be used to create &quot;unbound&quot; methods (user-defined functions) that can be used in your game like GML runtime functions.</p>
-  <p>One final thing to note about script functions is that if you are developing for <strong>Web </strong>(ie: targeting <strong>HTML5</strong>), then there is an additional function protocol that you can use when adding functions to scripts, which is to prefix a function name with <span class="inline">gmcallback_</span>, for example:</p>
+  <p>One final thing to note about script functions is that if you are developing for <strong>Web </strong>(i.e.: targeting <strong>HTML5</strong>), then there is an additional function protocol that you can use when adding functions to scripts, which is to prefix a function name with <span class="inline">gmcallback_</span>, for example:</p>
   <p class="code">gmcallback_create_button</p>
   <p>Using the above function name would mean that the function <span class="inline">gmcallback_create_button()</span> will not be obfuscated and so can be used in JavaScript extensions and other areas of your game, for example, when using the <a href="../GML_Reference/Web_And_HTML5/Web_And_HTML5.htm"><span class="inline">clickable_*</span></a> functions.</p>
   <h2>Static Variables</h2>

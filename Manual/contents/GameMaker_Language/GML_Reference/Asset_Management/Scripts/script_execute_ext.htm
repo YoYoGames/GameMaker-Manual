@@ -15,8 +15,11 @@
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
   <h1><span data-field="title" data-format="default">script_execute_ext</span></h1>
-  <p>This function works similarly to the function <span class="inline3_func"><a data-xref="{title}" href="script_execute.htm">script_execute</a></span> but allows you to pass the arguments required for the function/script as an <a href="../../../GML_Overview/Arrays.htm">array</a>.</p>
-  <p>You can also pass two optional arguments to the function to specify an offset into the array to get the arguments from, as well as the number of arguments to use from the array (this must be a maximum of array_length - offset).</p>
+  <p>This function calls a <span data-keyref="Type_Function_Script"><a href="../../../GML_Overview/Script_Functions.htm" target="_blank">Script Function</a></span> or <span data-keyref="Type_Method"><a href="../../../GML_Overview/Method_Variables.htm" target="_blank">Method</a></span>, with the given arguments passed as an <span data-keyref="Type_Array"><a href="../../../GML_Overview/Arrays.htm" target="_blank">Array</a></span>.</p>
+  <p><span>It calls the script function or method you pass it in the context of the<span> </span></span><b data-stringify-type="bold">calling instance or struct</b>. T<span>o call a method in its bound context, use <span class="inline3_func"><a data-xref="{title}" href="../../Variable_Functions/method_call.htm">method_call</a></span>.</span></p>
+  <p>You can also pass two optional arguments to the function to specify an <span class="inline2">offset</span> into the array to get the arguments from, as well as the number of arguments <span class="inline2">num_args</span> to use from the array (this must be a maximum of <span class="inline2">array_length(array_args) - offset</span>).</p>
+  <p class="note" style="text-align: left; "><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> Use <span class="inline3_func"><a data-xref="{title}" href="script_execute.htm">script_execute</a></span> to pass the call arguments as individual parameters instead of an array.</p>
+  <div data-conref="../../../../assets/snippets/script_execute_usage_notes.hts"> </div>
   <p> </p>
   <h4>Syntax:</h4>
   <p class="code"><span data-field="title" data-format="default">script_execute_ext</span>(scr, [array_args], [offset], [num_args]);</p>
@@ -29,23 +32,23 @@
       </tr>
       <tr>
         <td>scr</td>
-        <td><span data-keyref="Type_Asset_Script"><a href="../../../../The_Asset_Editors/Scripts.htm" target="_blank">Script Asset</a></span> or <span data-keyref="Type_Function_Script"><a href="../../../GML_Overview/Script_Functions.htm" target="_blank">Script Function</a></span></td>
-        <td>The function/script that you want to call</td>
+        <td><span data-keyref="Type_Function_Script"><a href="../../../GML_Overview/Script_Functions.htm" target="_blank">Script Function</a></span> or <span data-keyref="Type_Method"><a href="../../../GML_Overview/Method_Variables.htm" target="_blank">Method</a></span> or <span data-keyref="Type_Asset_Script"><a href="../../../../The_Asset_Editors/Scripts.htm" target="_blank">Script Asset</a></span></td>
+        <td>The function/script or method that you want to call. See <a data-xref="{title}" href="../../../GML_Overview/Script_Functions_vs_Methods.htm">Script Functions vs. Methods</a></td>
       </tr>
       <tr>
         <td>array_args</td>
         <td><span data-keyref="Type_Array"><a href="../../../GML_Overview/Arrays.htm" target="_blank">Array</a></span></td>
-        <td><span data-conref="../../../../assets/snippets/Tag_optional.hts"> </span> The array containing the arguments for the function/script. Can be omitted if the function/script takes no arguments.</td>
+        <td><span data-conref="../../../../assets/snippets/Tag_optional.hts"> </span> The array containing the arguments. Can be omitted if the function/script takes no arguments.</td>
       </tr>
       <tr>
-        <td>[offset]</td>
+        <td>offset</td>
         <td><span data-keyref="Type_Real"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
-        <td><span data-conref="../../../../assets/snippets/Tag_optional.hts"> </span> The offset into the argument array</td>
+        <td><span data-conref="../../../../assets/snippets/Tag_optional.hts"> </span> The offset into the argument array. See <a data-xref="{text}" href="../../Variable_Functions/Array_Functions.htm#offset_and_length">Offset And Length</a></td>
       </tr>
       <tr>
-        <td>[num_args]</td>
+        <td>num_args</td>
         <td><span data-keyref="Type_Real"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
-        <td><span data-conref="../../../../assets/snippets/Tag_optional.hts"> </span> The number of arguments to use (from the offset onwards)</td>
+        <td><span data-conref="../../../../assets/snippets/Tag_optional.hts"> </span> The number of arguments to use (from the offset onwards). See <a data-xref="{text}" href="../../Variable_Functions/Array_Functions.htm#offset_and_length">Offset And Length</a></td>
       </tr>
     </tbody>
   </table>
@@ -53,9 +56,37 @@
   <h4>Returns:</h4>
   <p class="code"><span data-keyref="Type_Any"><a href="../../../GML_Overview/Data_Types.htm#variable" target="_blank">Any</a></span> (Will depend on the return value from the function/script being called)</p>
   <p> </p>
-  <h4>Example:</h4>
+  <h4>Example 1: Basic Use</h4>
   <p class="code"><span data-field="title" data-format="default">script_execute_ext</span>(move_inst, move_array, floor(random(4)), 1);</p>
-  <p>The above example code will use <span class="inline3_func"><span data-field="title" data-format="default">script_execute_ext</span></span> to call the given function, supplying an array of four arguments, but only using one of them at random.</p>
+  <p>The above code will use <span class="inline3_func"><span data-field="title" data-format="default">script_execute_ext</span></span> to call the given function, supplying an array of four arguments, but only using one of them at random.</p>
+  <p> </p>
+  <h4>Example 2: Initialising Structs Using the Data in an Array</h4>
+  <p class="code">function Vector(_x=0, _y=0, _z=0) constructor<br />
+    {<br />
+        x = _x;<br />
+        y = _y;<br />
+        z = _z;<br />
+    }<br />
+    <br />
+    num_vectors = 100;<br />
+    arr_positions = array_create_ext(num_vectors * 3, function(_index) { return random_range(-4, 4); });<br />
+    <br />
+    arr_vectors = array_create(num_vectors);<br />
+    var i = 0;<br />
+    repeat(num_vectors)<br />
+    {<br />
+        arr_vectors[i] = {};<br />
+        with(arr_vectors[i])<br />
+        {<br />
+            script_execute_ext(Vector, other.arr_positions, i * 3, 3);<br />
+        }<br />
+        i++;<br />
+    }
+  </p>
+  <p>The code example above shows how <span class="inline3_func"><span data-field="title" data-format="default">script_execute_ext</span></span> can be used to create an array of structs that take their parameters from the elements in an array.</p>
+  <p style="text-align: left; ">First, a simple constructor function <span class="inline2">Vector</span> is defined that accepts three parameters, one for each coordinate. Then, an array of 300 elements is created using <span class="inline3_func"><a data-xref="{title}" href="../../Variable_Functions/array_create_ext.htm">array_create_ext</a></span> and filled with random values between -4 and 4. The resulting array is stored in a variable <span class="inline2">arr_positions</span>.  Each triplet of numbers in the array represents a position, i.e. elements 0, 1 and 2 hold the first x, y and z values, elements 3, 4 and 5 the second, elements 6, 7 and 8 the next ones, and so on.</p>
+  <p style="text-align: left; ">Next, an array of 100 elements is created and stored in a variable <span class="inline2">arr_vectors</span>. Inside a <span class="inline2"><a data-xref="{title}" href="../../../GML_Overview/Language_Features/repeat.htm">repeat</a></span> loop every element is then initialised to a new empty struct <span class="inline2">{}</span>, the context is changed to that of the struct using a <span class="inline2"><a data-xref="{title}" href="../../../GML_Overview/Language_Features/with.htm">with</a></span> statement and the constructor is called from that context using <span class="inline3_func"><span data-field="title" data-format="default">script_execute_ext</span></span>. Every time the constructor is called it receives an (x, y, z) triplet as its parameters and turns the empty struct into a <span class="inline2">Vector</span> struct which has its x, y and z set to the triplet&#39;s values.</p>
+  <p style="text-align: left; ">After the code runs, the array <span class="inline2">arr_vectors</span> will contain 100 <span class="inline2">Vector</span> structs initialised from the values in the <span class="inline2">arr_positions</span> array.</p>
   <p> </p>
   <p> </p>
   <div class="footer">
@@ -65,7 +96,7 @@
         <div style="float:right">Next: <a data-xref="{title}" href="script_exists.htm">script_exists</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2023 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 script_execute_ext
