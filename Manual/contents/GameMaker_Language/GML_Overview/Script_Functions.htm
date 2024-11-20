@@ -6,7 +6,7 @@
   <title>Script Functions And Variables</title>
   <meta name="generator" content="Adobe RoboHelp 2022" />
   <link rel="stylesheet" href="../../assets/css/default.css" type="text/css" />
-  <script src="../../assets/scripts/main_script.js"></script>
+  <script src="../../assets/scripts/main_script.js" type="module"></script>
   <meta name="rh-authors" content="Gurpreet S. Matharoo" />
   <meta name="topic-comment" content="Page outlining the use of scripts to create functions and global variables and macros" />
   <meta name="rh-index-keywords" content="Script Functions And Variables" />
@@ -29,14 +29,14 @@
     <span>}</span>
   </p>
   <p>or:</p>
-  <p class="code"><span><span>name = </span>function( parameter1, parameter2, ... )</span><br />
+  <p class="code">name = function( parameter1, parameter2, ... )<br />
     <span>{</span><br />
     <span>    statement1;</span><br />
     <span>    statement2;</span><br />
     <span>    ...</span><br />
     <span>}</span>
   </p>
-  <p class="note">To create a function in GML Visual, use <a data-xref="{title}" href="../../Drag_And_Drop/Drag_And_Drop_Reference/Common/Declare_A_New_Function.htm">Declare A New Function</a>. Enable its &quot;Temp&quot; option to create a method variable (second syntax shown above).</p>
+  <p class="note"><span data-conref="../../assets/snippets/Tag_tip.hts"> </span> To create a function in GML Visual, use <a data-xref="{title}" href="../../Drag_And_Drop/Drag_And_Drop_Reference/Common/Declare_A_New_Function.htm">Declare A New Function</a>. Enable its &quot;Temp&quot; option to create a method variable (second syntax shown above).</p>
   <p>In general, however, you would use the <em>first </em>form for script functions as it will define the function as specifically being a script function, meaning that it will be <strong>global </strong>in <a href="Variables_And_Variable_Scope.htm">scope</a>, be assigned a <strong>script index</strong>, and not require the <span class="inline">global</span> prefix to identify it since the compiler will recognise it as a script function.</p>
   <p>Using the second form will instead be generating a global scope <a href="Method_Variables.htm">method variable</a>, and as such it will <em>not </em>be recognised as a script function by the IDE and will require the use of the <span class="inline">global</span> prefix when being referenced in your code.</p>
   <p class="note"><span class="note">NOTE</span> You can check this by using both forms in a script and then calling the runtime function <a href="../GML_Reference/Variable_Functions/typeof.htm">typeof()</a> on each of them. One will be classed as a &quot;number&quot; - since it returns a script index ID - and the other will be classed as a &quot;method&quot;.</p>
@@ -124,7 +124,7 @@
     <br />
     function sqr_calc(val)<br />
     {<br />
-        if !is_real(val)<br />
+        if (!is_real(val))<br />
         {<br />
             return 0;<br />
         }<br />
@@ -134,13 +134,15 @@
   </p>
   <p>Note that if you create a script function with <em>no</em> return value then in your code check for one, you will get the value <span class="inline">undefined</span> by default.</p>
   <p>To call a script function from within a piece of code, just use it the same way as when calling any runtime function - that is, write the function name with the parameter values in parentheses. So, the above script would be called like this:</p>
-  <p class="code">if keyboard_check_pressed(vk_enter)<br />
+  <p class="code">if (keyboard_check_pressed(vk_enter))<br />
     {<br />
         val = scr_sqr(amount);<br />
     }</p>
   <p class="note"><span data-conref="../../assets/snippets/Tag_note.hts"> </span> When using your own functions from scripts in the code editor, you can press<span> <img alt="F1 Icon" class="icon" height="20" src="../../assets/Images/Icons/Icon_f1.png" width="55" /></span> or click the middle mouse button <span><img alt="MMB Icon" class="icon" src="../../assets/Images/Icons/Icon_MMB.png" /> </span>on the function name to open the script that contains it for editing directly.</p>
   <h2>Script Names vs. Function Names</h2>
-  <p>It is important to understand that script <i>names</i> are <b>independent of the functions that they contain</b>, so you can name your scripts in a more &quot;common sense&quot; way, ie: all your AI functions could go in a script &quot;<span class="inline">Enemy_AI</span>&quot; (following the standard asset naming conventions of alpha-numeric characters and the under-bar &quot;_&quot; only). However, you can still call scripts in your game - and you can name scripts the same as a function that you define in them - which can give rise to a issues due to the way that <span data-keyref="GameMaker Name">GameMaker</span> stores asset references. To give an example consider this code, called from an instance:</p>
+  <p>It is important to understand that script <i>names</i> are <b>independent of the functions that they contain</b>, so you can name your scripts in a more &quot;common sense&quot; way, i.e.: all your AI functions could go in a script &quot;<span class="inline">Enemy_AI</span>&quot; and contain functions like <span class="inline2">ai_target_pos()</span>, <span class="inline2">ai_alert_level()</span>, <span class="inline2">ai_state()</span>, etc.</p>
+  <p>However, you can still name a script the same as a function that you define in it and call the script, e.g. if you want one function per script (which can be useful for making reusable libraries so all functions are shown in the Asset Browser). When doing this, it is important to understand how script references behave to avoid code errors, due to the way <span data-keyref="GameMaker Name">GameMaker</span> stores asset references.</p>
+  <p>For example, consider this code, called from an instance&#39;s event:</p>
   <p class="code">function indirectCall(func, arg)<br />
     {<br />
         func(arg);<br />
@@ -148,16 +150,22 @@
     <br />
     indirectCall(myscript, arg);
   </p>
-  <p>The above code is attempting to call a script called &quot;myscript&quot; within a method, which in this case will fail. This is because the in-line function is actually using the <em>index</em> for the script asset and <strong>not </strong>actually calling the script function - eg: if the script index resolves to &quot;4&quot;, essentially the function is calling <span class="inline">4(arg);</span>, which makes no sense. The code should instead be structured in one of the following two ways:</p>
-  <p class="code">function indirectCall(func, arg)<br />
+  <p>The above code is attempting to call a script called <span class="inline2">myscript</span> within a method, which in this case will fail. This is because the inline function is actually using the <em>index</em> for the script asset and <strong>not </strong>actually calling the script function - e.g.: if the script index resolves to &quot;4&quot;, essentially the function is calling <span class="inline2">4(arg)</span>, which makes no sense.</p>
+  <p>Here are two things you can do to work around this:</p>
+  <ol>
+    <li>Convert the script index into a <a data-xref="{title}" href="../GML_Reference/Variable_Functions/method.htm">method</a> before passing it as an argument</li>
+    <li>Use <span class="inline3_func"><a data-xref="{title}" href="../GML_Reference/Asset_Management/Scripts/script_execute.htm">script_execute</a></span> to call the passed script reference</li>
+  </ol>
+  <p>Both ways are shown below:</p>
+  <p class="code">// 1<br />
+    function indirectCall(func, arg)<br />
     {<br />
         func(arg);<br />
     }<br />
     <br />
     indirectCall(method(undefined, myscript), arg);<br />
     <br />
-    // OR<br />
-    <br />
+    // 2<br />
     function indirectCall(func, arg)<br />
     {<br />
         script_execute(func, arg);<br />
@@ -165,7 +173,6 @@
     <br />
     indirectCall(myscript, arg);
   </p>
-  <p>This is important to note, especially when working with legacy projects where scripts contain one single function, and the function is named the same as the script. However, you really should <em>never</em> do this, and your scripts should be named independently of the functions they contain.</p>
   <div data-conref="../../assets/snippets/Script_empty_reference_error.hts"> </div>
   <h2>Script Scope</h2>
   <p>This leads us to the final and most important thing to know about scripts and the functions they contain: scripts are parsed on a <b>global</b> level and will be <strong>compiled at the very start of the game</strong>. This means that <em>technically</em> all functions in a script are &quot;unbound&quot; <a href="Method_Variables.htm">method variables</a>, and any variables declared outside of a function in the script will be considered <a href="Variables/Global_Variables.htm">global variables</a>. For example, consider this script:</p>
@@ -230,7 +237,7 @@
         <div style="float:right">Next: <a href="Method_Variables.htm">Method Variables</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2023 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 Script Functions

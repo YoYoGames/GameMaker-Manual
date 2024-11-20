@@ -4,9 +4,9 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>debug_event</title>
-  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <meta name="generator" content="Adobe RoboHelp 2022" />
   <link rel="stylesheet" href="../../../assets/css/default.css" type="text/css" />
-  <script src="../../../assets/scripts/main_script.js"></script>
+  <script src="../../../assets/scripts/main_script.js" type="module"></script>
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Reference page for debug_event" />
   <meta name="rh-index-keywords" content="debug_event" />
@@ -15,14 +15,14 @@
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
   <h1><span data-field="title" data-format="default">debug_event</span></h1>
-  <p>This function generates a custom debug event that will be shown in the Graph View of the debugger when a game is being run in <a href="../../../Introduction/Debugging.htm">Debug Mode</a>. If you require messages to be displayed when <i>not</i> in debug mode, use <span class="inline2"><a data-xref="{title}" href="show_debug_message.htm">show_debug_message</a></span>.</p>
+  <p>This function generates a custom debug event that will be shown in the Graph View of <a data-xref="{title}" href="../../../IDE_Tools/The_Debugger.htm">The Debugger</a> when a game is being run in <a href="../../../Introduction/Debugging.htm">Debug Mode</a>. If you require messages to be displayed when <i>not</i> in debug mode, use <span class="inline3_func"><a data-xref="{title}" href="show_debug_message.htm">show_debug_message</a></span>.</p>
   <p>The function will also take five reserved strings to help perform debugging using external applications like Visual Studio. These strings are:</p>
   <ul class="colour">
-    <li>&quot;<span class="inline">OutputDebugOn</span>&quot; - This enables a call to <span class="inline">OutputDebugString</span> for the <b>Windows</b> target, which means that all debug output - everything you see in the Output window - can be viewed by Visual Studio or by 3rd party apps.</li>
+    <li>&quot;<span class="inline">OutputDebugOn</span>&quot; - This enables a call to <span class="inline">OutputDebugString</span> for the <b>Windows</b> target, which means that all debug output - everything you see in <a data-xref="{title}" href="../../../Introduction/The_Output_Window.htm">The Output Window</a> - can be viewed by Visual Studio or by 3rd party apps.</li>
     <li>&quot;<span class="inline">OutputDebugOff</span>&quot; - Disables the behaviour described above.</li>
     <li>&quot;<span class="inline">BreakOnError</span>&quot; - This option is for <b>Windows YYC</b> builds only, and means that projects will <i>not</i> display the usual code error screen if the runtime detects an error, but instead just carry on and crash. This allows you to see the stack trace within Visual Studio if debugging.</li>
-    <li>&quot;<span class="inline">ResourceCounts</span>&quot; - Lists all the currently active resources, such as Data Structures, Time Sources, Surfaces, etc. Also returns a struct (info given below).</li>
-    <li>&quot;<span class="inline">DumpMemory</span>&quot; - Gives information on the current memory usage. Also returns a struct (info given below).</li>
+    <li>&quot;<span class="inline">ResourceCounts</span>&quot; - Lists all the currently active resources, such as Data Structures, Time Sources, Surfaces, etc. Also returns a struct (info given below). Set the optional <span class="inline2">silent</span> argument to <span class="inline2">true</span> to only return the struct.</li>
+    <li>&quot;<span class="inline">DumpMemory</span>&quot; - Gives information on the current memory usage. Also returns a struct (info given below). Set the optional <span class="inline2">silent</span> argument to <span class="inline2">true</span> to only return the struct.</li>
   </ul>
   <p> </p>
   <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down" href="#">ResourceCounts</a></p>
@@ -91,14 +91,13 @@
       <li class="dropspot"><span class="inline2">free</span>: How much allocated memory is unused</li>
       <li class="dropspot"><span class="inline2">peakUsage</span>: The highest amount of memory your game used since it was started</li>
     </ul>
-    <p class="dropspot">The way these values are measured is different on each platform.</p>
+    <p class="dropspot">The way these values are measured is different on each platform. Note that this can only show the memory that the runner is in control of, and so the values here may be different than e.g. the values shown in the OS, which may sometimes be higher, as some systems may add overhead that this function cannot track in a platform-agnostic manner.</p>
     <ul class="colour">
     </ul>
   </div>
   <p> </p>
-  <p> </p>
   <h4>Syntax:</h4>
-  <p class="code"><span data-field="title" data-format="default">debug_event</span>(string)</p>
+  <p class="code"><span data-field="title" data-format="default">debug_event</span>(string, [silent]);</p>
   <table>
     <tbody>
       <tr>
@@ -108,23 +107,32 @@
       </tr>
       <tr>
         <td>string</td>
-        <td><span data-keyref="Type_String"><a href="../../../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">String</a></span></td>
-        <td>The custom debug event string to use.</td>
+        <td><span data-keyref="Type_String"><a href="../../GML_Overview/Data_Types.htm" target="_blank">String</a></span></td>
+        <td>The custom debug event string to use or one of the five reserved strings.</td>
+      </tr>
+      <tr>
+        <td>silent</td>
+        <td><span data-keyref="Type_Bool"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Boolean</a></span></td>
+        <td><span data-conref="../../../assets/snippets/Tag_optional.hts"> </span> This parameter makes the function silently return the result to the runner in a struct rather than printing the value to the console. Defaults to <span class="inline2">false</span>.</td>
       </tr>
     </tbody>
   </table>
   <p> </p>
   <h4>Returns:</h4>
-  <p class="code"><span data-keyref="Type_Struct"><a href="../../../../GameMaker_Language/GML_Overview/Structs.htm" target="_blank">Struct</a></span> (for some options) or <span data-keyref="Type_Void">N/A</span></p>
+  <p class="code"><span data-keyref="Type_Struct"><a href="../../GML_Overview/Structs.htm" target="_blank">Struct</a></span> (for some options) or <span data-keyref="Type_Void">N/A</span></p>
   <p> </p>
-  <h4><b>Example:</b></h4>
-  <p class="code">if !surface_exists(global.EffectsSurface)<br />
+  <h4><b>Example 1: Custom String</b></h4>
+  <p class="code">if (!surface_exists(global.EffectsSurface))<br />
     {<br />
         <span data-field="title" data-format="default">debug_event</span>(&quot;Recreating Effects Surface&quot;);<br />
         global.EffectsSurface = surface_create(room_width, room_height);<br />
     }</p>
   <p>The above code checks to see if a surface exists and if it does not, a debug event is triggered in the graph view of the debugger (the game must have been run in Debug Mode for this to be visible) and the surface is recreated.</p>
   <p> </p>
+  <h4>Example 2: Reserved Strings</h4>
+  <p class="code">var _counts = <span data-field="title" data-format="default">debug_event</span>(&quot;ResourceCounts&quot;);</p>
+  <p>The above code triggers a debug event with the message &quot;ResourceCounts&quot;. As this is a reserved string, resource counts are output to the console and also returned in a struct. This struct is stored in a temporary variable <span class="inline2">_counts</span>. To suppress the output to the console, set the second parameter to <span class="inline2">true</span>: </p>
+  <p class="code">var _counts = <span data-field="title" data-format="default">debug_event</span>(&quot;ResourceCounts&quot;, true);</p>
   <p> </p>
   <p> </p>
   <div class="footer">
@@ -134,7 +142,7 @@
         <div style="float:right">Next: <a data-xref="{title}" href="debug_get_callstack.htm">debug_get_callstack</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2022 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 debug_event

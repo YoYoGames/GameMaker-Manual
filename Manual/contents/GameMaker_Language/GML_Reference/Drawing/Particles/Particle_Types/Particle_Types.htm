@@ -4,9 +4,9 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>Particle Types</title>
-  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <meta name="generator" content="Adobe RoboHelp 2022" />
   <link rel="stylesheet" href="../../../../../assets/css/default.css" type="text/css" />
-  <script src="../../../../../assets/scripts/main_script.js"></script>
+  <script src="../../../../../assets/scripts/main_script.js" type="module"></script>
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Reference section for the Particle Type functions and variables" />
   <meta name="rh-index-keywords" content="" />
@@ -16,7 +16,10 @@
   <!--<div class="body-scroll" style="top: 150px;">-->
   <h1><span data-field="title" data-format="default">Particle Types</span></h1>
   <p>Particles are the graphic effects that can be created by the use of particle systems in a game. The particles that you define using these functions can be used in any system that you create and the normal procedure would be to define all your particles once at the start of a game and store their index values in global variables. These global variables can then be used to burst, emit or create particles at any time throughout the game. You can also create, use and then destroy particles as needed if memory is an issue or if you wish many different types but only at specific points in your game. Whatever you choose, particles are a very versatile resource!</p>
-  <p>Particles need to be created and have their index stored in a variable so that all further particle routines can access them correctly. The following functions are used to create, check for, clear and destroy particle types:</p>
+  <div data-conref="../../../../../assets/snippets/Note_tip_use_particle_system_editor.hts"> </div>
+  <p class="note"><span data-conref="../../../../../assets/snippets/Tag_note.hts"> </span> Some particle properties have an <span class="inline2">*_incr</span> and <span class="inline2">*_wiggle</span> parameter; changing these will affect <em>existing</em> particles of the given particle type. This gives you a limited way to influence existing particles in a particle system.</p>
+  <p> </p>
+  <p>Particles are created from particle types, which need to be created and have their index stored in a variable so that all further particle routines can access them correctly. The following functions are used to create, check for, clear and destroy particle types: </p>
   <ul class="colour">
     <li><a href="part_type_exists.htm">part_type_exists</a></li>
     <li><a href="part_type_create.htm">part_type_create</a></li>
@@ -24,17 +27,20 @@
     <li><a href="part_type_clear.htm">part_type_clear</a></li>
   </ul>
   <p> </p>
-  <p>Once you have created your particle type you should give it a <i>shape</i>. This can be one of the 14 built in shapes which are 64x64 pixel sprites with alpha blending, or you can use your own sprites which can be animated, static or use random sub-images. The following functions define the visual base shape of each particle:</p>
+  <p>Once you have created your particle type you should give it a <i>shape</i>. This can be one of the 14 built-in shapes which are 64x64 pixel sprites with alpha blending, or you can use your own sprites which can be animated, static, random sub-images or a specific sub-image. The following functions define the visual base shape of each particle:</p>
   <ul class="colour">
     <li><a href="part_type_shape.htm">part_type_shape</a></li>
     <li><a href="part_type_sprite.htm">part_type_sprite</a></li>
+    <li><a data-xref="{title}" href="part_type_subimage.htm">part_type_subimage</a></li>
   </ul>
   <p> </p>
-  <p>The following image shows the 14 built in particle types that you can choose from:</p>
+  <p>The following image shows the 14 built-in particle types that you can choose from:</p>
   <p><img alt="The different built-in particle sprites" class="center" src="../../../../../assets/Images/Scripting_Reference/GML/Reference/Drawing/Particle_Sprites.png" />Once you have chosen the sprite for the particle type (either a default shape or your own) you can indicate the size and scale of it. The size can be specified as a range and all particles will be created with a size chosen from within the given range. The scale is the &quot;base&quot; value for the x and y axis scale of the particle <i>before</i> any size variations are added and the following functions are used to control these values:</p>
   <ul class="colour">
     <li><a href="part_type_size.htm">part_type_size</a></li>
-    <li><a href="part_type_scale.htm">part_type_scale</a></li>
+    <li><a data-xref="{title}" href="part_type_size_x.htm">part_type_size_x</a></li>
+    <li><a data-xref="{title}" href="part_type_size_y.htm">part_type_size_y</a></li>
+    <li><a data-xref="{title}" href="part_type_scale.htm">part_type_scale</a></li>
   </ul>
   <p> </p>
   <p>Particles can also have an orientation and motion. As with most particle functions, the speed, direction and orientation are resolved as a random value that is selected from a given range and can be set with the following functions:</p>
@@ -59,14 +65,12 @@
     <li><a href="part_type_blend.htm">part_type_blend</a></li>
   </ul>
   <p> </p>
-  <p>Particles exist on-screen for a limited amount of time and this is called their &quot;lifetime&quot;. Particle lifetimes are measured in steps and (like previous functions) this is expressed as a range of values from which the particle will be given a specific lifetime. There are also a couple of interesting functions which can be used to make particles generate <i>other</i> particles, either each step or when they &quot;die&quot; (ie: Are removed from the screen), but be very careful with these functions as they can quickly create thousands of particles and crash the game! The functions that set lifetime and step or death emitting are as follows:</p>
+  <p>Particles exist on-screen for a limited amount of time and this is called their &quot;lifetime&quot;. Particle lifetimes are measured in steps and (like previous functions) this is expressed as a range of values from which the particle will be given a specific lifetime. There are also a couple of interesting functions which can be used to make particles generate <i>other</i> particles, either each step or when they &quot;die&quot; (i.e.: Are removed from the screen), but be very careful with these functions as they can quickly create thousands of particles and crash the game! The functions that set lifetime and step or death emitting are as follows:</p>
   <ul class="colour">
     <li><a href="part_type_life.htm">part_type_life</a></li>
     <li><a href="part_type_step.htm">part_type_step</a></li>
     <li><a href="part_type_death.htm">part_type_death</a></li>
   </ul>
-  <p> </p>
-  <p>It is worth noting that creating particles through code can often be a laborious and time-consuming process due to the large number of parameters that can be changed and tweaked. For that reason it is recommended that you search around and get a hold of some type of <b>Particle Designer</b> (or make one yourself!) to take the drudgery out of particle creation.</p>
   <p> </p>
   <p> </p>
   <div class="footer">
@@ -76,7 +80,7 @@
         <div style="float:right">Next: <a href="../Particle_Emitters/Particle_Emitters.htm">Particle Emitters</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2021 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 Particle Types

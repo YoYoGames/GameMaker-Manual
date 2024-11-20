@@ -4,9 +4,9 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>surface_copy_part</title>
-  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <meta name="generator" content="Adobe RoboHelp 2022" />
   <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
-  <script src="../../../../assets/scripts/main_script.js"></script>
+  <script src="../../../../assets/scripts/main_script.js" type="module"></script>
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Reference for surface_copy_part" />
   <meta name="rh-index-keywords" content="surface_copy_part" />
@@ -14,12 +14,12 @@
 </head>
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
-  <h1>surface_copy_part</h1>
-  <p>This function simply takes the image from one surface and copies it onto another one at the specified local position within that surface (where the (0,0) position is the top left corner of the destination surface). You can specify a local x and y position to copy from as well as the width and height of the section. Please note that these are coordinates based on the <i>surface size</i> and not on the position at which the surface is being drawn in the room. If the destination surface already has information this will be overwritten by the copy, and the function does <i>not</i> change the source surface in any way.</p>
-  <p class="note"><b></b><b>NOTE</b>: When working with surfaces there is the possibility that they can cease to exist at any time due to them being stored in texture memory. You should <b>ALWAYS</b> check that a surface exists using <span style="font-size:1px;"><a href="surface_exists.htm"><span class="inline">surface_exists()</span></a></span> before referencing them directly.</p>
+  <h1><span data-field="title" data-format="default">surface_copy_part</span></h1>
+  <p>This function simply takes the image from one surface and copies it onto another one at the specified local position within that surface (where the (0, 0) position is the top left corner of the destination surface). You can specify a local x and y position to copy from as well as the width and height of the section. Please note that these are coordinates based on the <i>surface size</i> and not on the position at which the surface is being drawn in the room. If the destination surface already has information this will be overwritten by the copy, and the function does <i>not</i> change the source surface in any way.<b></b></p>
+  <div data-conref="../../../../assets/snippets/Note_Surface_Check_If_Exists.hts"> </div>
   <p> </p>
   <h4>Syntax:</h4>
-  <p class="code">surface_copy_part(destination, x, y, source, xs, ys, ws, hs);</p>
+  <p class="code"><span data-field="title" data-format="default">surface_copy_part</span>(destination, x, y, source, xs, ys, ws, hs);</p>
   <table>
     <tbody>
       <tr>
@@ -29,42 +29,42 @@
       </tr>
       <tr>
         <td>destination</td>
-        <td><span data-keyref="Type_ID_Surface">Surface ID</span></td>
-        <td>The ID of the surface to copy the other surface to.</td>
+        <td><span data-keyref="Type_ID_Surface"><a href="surface_create.htm" target="_blank">Surface</a></span></td>
+        <td>The surface to copy the other surface to.</td>
       </tr>
       <tr>
         <td>x</td>
-        <td><span data-keyref="Type_Real">Real</span></td>
+        <td><span data-keyref="Type_Real"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
         <td>The x position to copy to.</td>
       </tr>
       <tr>
         <td>y</td>
-        <td><span data-keyref="Type_Real">Real</span></td>
+        <td><span data-keyref="Type_Real"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
         <td>The y position to copy to.</td>
       </tr>
       <tr>
         <td>source</td>
-        <td><span data-keyref="Type_ID_Surface">Surface ID</span></td>
-        <td>The ID of the surface to be copied.</td>
+        <td><span data-keyref="Type_ID_Surface"><a href="surface_create.htm" target="_blank">Surface</a></span></td>
+        <td>The surface to be copied.</td>
       </tr>
       <tr>
         <td>xs</td>
-        <td><span data-keyref="Type_Real">Real</span></td>
+        <td><span data-keyref="Type_Real"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
         <td>The x position in the source surface to copy from.</td>
       </tr>
       <tr>
         <td>ys</td>
-        <td><span data-keyref="Type_Real">Real</span></td>
+        <td><span data-keyref="Type_Real"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
         <td>The y position in the source surface to copy from.</td>
       </tr>
       <tr>
         <td>ws</td>
-        <td><span data-keyref="Type_Real">Real</span></td>
+        <td><span data-keyref="Type_Real"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
         <td>The width of the area in the source surface to copy from.</td>
       </tr>
       <tr>
         <td>hs</td>
-        <td><span data-keyref="Type_Real">Real</span></td>
+        <td><span data-keyref="Type_Real"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
         <td>The height of the area in the source surface to copy from.</td>
       </tr>
     </tbody>
@@ -74,16 +74,19 @@
   <p class="code"><span data-keyref="Type_Void">N/A</span></p>
   <p> </p>
   <h4>Example:</h4>
-  <p class="code">if view_current == 0<br />
+  <p class="code">if (view_current == 0)<br />
     {<br />
-        surface_copy_part(surf, 0, 0, temp_surf, 0, 0, view_xview[1] - mouse_x, view_yview[1] - mouse_y);<br />
+        var _cam1_x = camera_get_view_x(view_camera[1]);<br />
+        var _cam1_y = camera_get_view_y(view_camera[1]);<br />
+    <br />
+        surface_copy_part(surf, 0, 0, temp_surf, 0, 0, _cam1_x - mouse_x, _cam1_y - mouse_y);<br />
     }<br />
     else<br />
     {<br />
         draw_surface(surf, 0, 0);<br />
-    }</p>
-  <p>The above code will check the current view being drawn and if it is view[0] it copies the surface indexed in the variable &quot;temp_surf&quot; onto the surface indexed in the variable &quot;surf&quot;. The area copied corresponds to a rectangle formed by the relative position of the mouse within the surface as it would be drawn in view[1]. If the current view is anything other than view[0] the surface &quot;surf&quot; is drawn to the screen.</p>
-  <p> </p>
+    }
+  </p>
+  <p>The above code checks the current view being drawn. If it&#39;s view[0] it copies the surface indexed in the variable <span class="inline2">temp_surf</span> onto the surface indexed in the variable <span class="inline2">surf</span>. The area copied corresponds to a rectangle formed by the relative position of the mouse within the surface as it would be drawn in view[1]. If the current view is anything other than view[0] the surface <span class="inline2">surf</span> is drawn to the screen.</p>
   <p> </p>
   <p> </p>
   <div class="footer">
@@ -93,7 +96,7 @@
         <div style="float:right">Next: <a href="surface_depth_disable.htm">surface_depth_disable</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2022 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 surface_copy_part
