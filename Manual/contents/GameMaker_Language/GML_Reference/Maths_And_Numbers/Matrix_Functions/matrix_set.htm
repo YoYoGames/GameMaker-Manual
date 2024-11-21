@@ -4,7 +4,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>matrix_set</title>
-  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <meta name="generator" content="Adobe RoboHelp 2022" />
   <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
   <script src="../../../../assets/scripts/main_script.js" type="module"></script>
   <meta name="rh-authors" content="Mark Alexander" />
@@ -14,13 +14,19 @@
 </head>
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
-  <h1>matrix_set</h1>
-  <p>This function takes an <a href="../../../GML_Overview/Arrays.htm">array</a> of 16 values, corresponding to a given 4x4 matrix type, where elements [0 - 3] would be row 1, elements [4 -7] would be row 2, etc... (see the image on the <a href="Matrix_Functions.htm">main page</a>). You can create such a matrix using the <a href="matrix_build.htm"><span class="inline">matrix_build()</span></a> or <a href="matrix_get.htm"><span class="inline">matrix_get()</span></a> functions or simply building the array yourself and passing that into the function. The available matrix types are <i>view</i>, <i>projection</i> and <i>world</i>, for which you would use one of the following constants:</p>
-  <table>
+  <h1><span data-field="title" data-format="default">matrix_set</span></h1>
+  <p>This function sets the current matrix of the given type to the given matrix.</p>
+  <p>The available matrix types are <em>world</em>, <i>view</i>, and <i>projection</i>, which are represented by the following constants:</p>
+  <table style="caption-side: top">
+    <caption>Matrix Type Constant</caption>
     <tbody>
       <tr>
         <th>Constant</th>
         <th>Description</th>
+      </tr>
+      <tr>
+        <td><span class="inline">matrix_world</span></td>
+        <td>The current world matrix</td>
       </tr>
       <tr>
         <td><span class="inline">matrix_view</span></td>
@@ -30,15 +36,18 @@
         <td><span class="inline">matrix_projection</span></td>
         <td>The current projection matrix</td>
       </tr>
-      <tr>
-        <td><span class="inline">matrix_world</span></td>
-        <td>The current world matrix</td>
-      </tr>
     </tbody>
   </table>
+  <p>You can create a matrix using the <span class="inline2"><a href="Matrix_Functions.htm#func_ref_building_matrices" title="Building Matrices">matrix_build*</a></span> functions or simply build the array yourself and pass that into the function.</p>
+  <p>The built-in functions that you can use for the various types of matrices are:</p>
+  <ul class="colour">
+    <li>World matrix: <span class="inline3_func"><a data-xref="{title}" href="matrix_build.htm">matrix_build</a></span>, <span class="inline3_func"><a data-xref="{title}" href="matrix_build_identity.htm">matrix_build_identity</a></span></li>
+    <li>View matrix: <span class="inline3_func"><a data-xref="{title}" href="matrix_build_lookat.htm">matrix_build_lookat</a></span></li>
+    <li>Projection matrix: <span class="inline3_func"><a data-xref="{title}" href="matrix_build_projection_ortho.htm">matrix_build_projection_ortho</a></span>, <span class="inline3_func"><a data-xref="{title}" href="matrix_build_projection_perspective.htm">matrix_build_projection_perspective</a></span>, <span class="inline3_func"><a data-xref="{title}" href="matrix_build_projection_perspective_fov.htm">matrix_build_projection_perspective_fov</a></span></li>
+  </ul>
   <p> </p>
   <h4>Syntax:</h4>
-  <p class="code">matrix_set(type, matrix);</p>
+  <p class="code"><span data-field="title" data-format="default">matrix_set</span>(type, matrix);</p>
   <table>
     <tbody>
       <tr>
@@ -48,12 +57,12 @@
       </tr>
       <tr>
         <td>type</td>
-        <td><span data-keyref="Type_Constant_Matrix_Type">Matrix Type Constant</span></td>
+        <td><span data-keyref="Type_Constant_Matrix_Type"><a href="matrix_get.htm" target="_blank">Matrix Type Constant</a></span></td>
         <td>The type of matrix to get the values of (see the <i>constants</i> listed above)</td>
       </tr>
       <tr>
         <td>matrix</td>
-        <td><span data-keyref="Type_Array_Matrix">Matrix Array</span></td>
+        <td><span data-keyref="Type_Array_Matrix"><a href="Matrix_Functions.htm" target="_blank">Matrix</a></span></td>
         <td>The matrix data as an array</td>
       </tr>
     </tbody>
@@ -63,19 +72,24 @@
   <p class="code"><span data-keyref="Type_Void">N/A</span></p>
   <p> </p>
   <h4>Example:</h4>
-  <p class="code">matrix_set(matrix_world, m_array);</p>
-  <p>The above code will set the values of the current world matrix to those stored in the array matrix &quot;m_array&quot;.</p>
-  <p> </p>
+  <p class="code_heading">Draw Event</p>
+  <p class="code">var _world_matrix = matrix_build(x, y, 0, 0, 0, image_angle, 1, 1, 1);<br />
+    <span data-field="title" data-format="default">matrix_set</span>(matrix_world, _world_matrix);<br />
+    draw_sprite(sprite_index, 0, 0, 0);<br />
+    matrix_set(matrix_world, matrix_build_identity());
+  </p>
+  <p>The above code draws an instance&#39;s sprite at its position by changing the world matrix.</p>
+  <p>First, a world matrix is created with <span class="inline3_func"><a data-xref="{title}" href="matrix_build.htm">matrix_build</a></span> which first does a rotation about <span class="inline2"><a data-xref="{title}" href="../../Asset_Management/Sprites/Sprite_Instance_Variables/image_angle.htm">image_angle</a></span> degrees and then moves to the position given by <span class="inline2"><a data-xref="{title}" href="../../Asset_Management/Instances/Instance_Variables/x.htm">x</a></span> and <span class="inline2"><a data-xref="{title}" href="../../Asset_Management/Instances/Instance_Variables/y.htm">y</a></span>. Next, the world matrix is set to this matrix in a call to <span class="inline3_func"><span data-field="title" data-format="default">matrix_set</span></span> and the <span class="inline2"><a data-xref="{title}" href="../../Asset_Management/Sprites/Sprite_Instance_Variables/sprite_index.htm">sprite_index</a></span> of the instance executing the Draw event is drawn with <span class="inline3_func"><a data-xref="{title}" href="../../Drawing/Sprites_And_Tiles/draw_sprite.htm">draw_sprite</a></span> (note that the x and y passed to this function must be 0, since it is the world matrix that moves the sprite to the instance&#39;s (x, y) position!). Finally, the world matrix is reset to an identity matrix in another call to <span class="inline3_func"><span data-field="title" data-format="default">matrix_set</span></span>.</p>
   <p> </p>
   <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a href="Matrix_Functions.htm">Matrix Functions</a></div>
-        <div style="float:right">Next: <a href="matrix_build.htm">matrix_build</a></div>
+        <div style="float:left">Back: <a data-xref="{title}" href="Matrix_Functions.htm">Matrix Functions</a></div>
+        <div style="float:right">Next: <a data-xref="{title}" href="matrix_multiply.htm">matrix_multiply</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2022 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 matrix_set
