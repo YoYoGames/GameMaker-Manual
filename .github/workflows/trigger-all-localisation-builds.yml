@@ -1,0 +1,69 @@
+name: Trigger-Localisation-Builds
+
+on:
+  workflow_dispatch:
+     inputs:
+      Language:
+        description: "Select All languages to build"
+        required: false
+        type: choice
+        options:
+         - ALL
+         - SINGLE
+      BUILD_TYPE:
+        description: "Select individual language to build"
+        required: true
+        type: choice
+        options:
+          - main
+          - lts
+          - build
+      COUNTRY:
+        description: "Select individual Country to build"
+        required: false
+        type: choice
+        options:
+          - PT-BR
+          - DE
+          - ES
+          - FR
+          - IT
+          - JA
+          - KO
+          - PL
+          - RU
+          - ZH    
+
+jobs:
+
+  Trigger-Localisation-Builds-All_Repo:
+     name: "Trigger-Localisation-Builds-All Repo"
+     runs-on: ubuntu-22.04
+     if: ${{ github.event.inputs.Language == 'ALL' }}
+     strategy:
+      matrix:
+        language: [PT-BR, DE, ES, FR, IT, JA, KO, PL, RU, ZH]
+     steps:
+      - name: Invoke Localisation Workflows for All repos
+        uses: benc-uk/workflow-dispatch@v1
+        with:
+          workflow: ${{ github.event.inputs.BUILD_TYPE }}.yml
+          repo: YoYoGames/GameMaker-Manual-${{ matrix.language }}
+          token: ${{ secrets.GH_TOKEN }} 
+        continue-on-error: false     
+
+  Trigger-Localisation-Builds-Single-Repo:
+    name: "Trigger-Localisation-Builds-Single-Repo"
+    runs-on: ubuntu-22.04  
+    if: ${{ github.event.inputs.Language == 'SINGLE' }}      
+    steps:
+      - name: Invoke Localisation Workflow for Single repo
+        uses: benc-uk/workflow-dispatch@v1
+        with:
+          workflow: ${{ github.event.inputs.BUILD_TYPE }}.yml
+          repo: YoYoGames/GameMaker-Manual-${{ github.event.inputs.COUNTRY }}
+          token: ${{ secrets.GH_TOKEN }} 
+        continue-on-error: false
+
+
+                                                                       
