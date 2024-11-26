@@ -967,6 +967,11 @@ export default function(hljs) {
   const DOT_ACCESSOR_REG = /\b\.\b/;
 
   /**
+   * Expressions, which form part of a valid statement.
+   */
+  const EXPRESSION = [];
+
+  /**
    * A template string substitution. `contains` is filled in after `EXPRESSION` is defined due to
    * nesting.
    */
@@ -975,7 +980,7 @@ export default function(hljs) {
     end: /}/,
     beginScope: "literal",
     endScope: "literal",
-    // contains: EXPRESSION
+    contains: EXPRESSION
   };
 
   /**
@@ -1041,7 +1046,7 @@ export default function(hljs) {
       }
     ]
   };
-  
+
   /**
    * Various representations of numbers
    */
@@ -1176,17 +1181,14 @@ export default function(hljs) {
   };
 
   /**
-   * Expressions, which form part of a valid statement.
+   * A ternary expression, matching partial ternary as `? <EXPRESSION> :`.
+   * Effectively exists to prevent {@link STRUCT_LITERAL_MEMBER} from stealing `<EXPRESSION> :`.
    */
-  const EXPRESSION = [
-    STRING,
-    PROP_ACCESS,
-    NUMBER,
-    FUNCTION_CALL,
-    USER_ASSET_CONSTANT
-  ];
-
-  STRING_SUBSTITUTION.contains = EXPRESSION;
+  const TERNARY = {
+    begin: /\?/,
+    end: /:/,
+    contains: EXPRESSION
+  };
 
   const SWITCH_CASE = {
     begin: [
@@ -1273,6 +1275,15 @@ export default function(hljs) {
     ]
   };
 
+  EXPRESSION.push(
+    STRING,
+    TERNARY,
+    PROP_ACCESS,
+    NUMBER,
+    FUNCTION_CALL,
+    USER_ASSET_CONSTANT
+  );
+
   return {
     name: 'GML',
     case_insensitive: false, // language is case-sensitive
@@ -1292,6 +1303,7 @@ export default function(hljs) {
         // Prevent keywords being taken by function calls.
         beginKeywords: KEYWORDS.join(" ")
       },
+      TERNARY,
       STRUCT_LITERAL_MEMBER,
       FUNCTION_DECLARATION,
       FUNCTION_CALL,
