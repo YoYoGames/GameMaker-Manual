@@ -1041,6 +1041,7 @@ export default function(hljs) {
       }
     ]
   };
+  
   /**
    * Various representations of numbers
    */
@@ -1054,6 +1055,7 @@ export default function(hljs) {
       { match: /\b[0-9][0-9_.]*/ }
     ]
   };
+
   /**
    * Pre-processor modes for macro definitions and regions.
    */
@@ -1094,10 +1096,12 @@ export default function(hljs) {
       },
     ]
   };
+
   /**
    * A single-line comment.
    */
   const COMMENT_LINE = hljs.COMMENT('//', /\$|\n/);
+
   /**
    * Modes for the types of comments supported in GML.
    */
@@ -1107,6 +1111,7 @@ export default function(hljs) {
       hljs.C_BLOCK_COMMENT_MODE,
     ]
   };
+
   /**
    * Dot accessor usage with a special highlighting case for `global`.
    */
@@ -1142,6 +1147,7 @@ export default function(hljs) {
       }
     },
   ];
+
   /**
    * Function call sites, just looking for `<ident>(`. This creates false positives
    * for keywords such as `if (<condition>)`, so has lower priority in the mode `contains` list.
@@ -1156,6 +1162,7 @@ export default function(hljs) {
       1: "function"
     }
   };
+
   /**
    * The manual likes using `obj_` and such to define assets. Sneaky trick to make it look nicer :P
    */
@@ -1167,6 +1174,7 @@ export default function(hljs) {
       { begin: "obj_" },
     ]
   };
+
   /**
    * Expressions, which form part of a valid statement.
    */
@@ -1191,6 +1199,7 @@ export default function(hljs) {
     },
     contains: EXPRESSION
   };
+  
   /**
    * A struct variable declaration, of `<ident>:`
    */
@@ -1204,6 +1213,7 @@ export default function(hljs) {
       2: "variable-instance"
     },
   };
+
   /**
    * A function declaration matching for:
    * ```gml
@@ -1222,6 +1232,7 @@ export default function(hljs) {
       3: "function"
     }
   };
+
   /**
    * An enum definition in the form:
    * ```gml
@@ -1261,6 +1272,7 @@ export default function(hljs) {
       }
     ]
   };
+
   return {
     name: 'GML',
     case_insensitive: false, // language is case-sensitive
