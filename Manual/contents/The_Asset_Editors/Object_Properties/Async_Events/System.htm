@@ -18,60 +18,86 @@
   <p><img alt="System Event" class="center" src="../../../assets/Images/Asset_Editors/Async_System.png" />This event can only be triggered by a <a class="glossterm" data-glossterm="callback" href="#">callback</a> from a system level event (such as the detection of a gamepad or the automatic signing in to Xbox Live) and it will return a <a href="../../../GameMaker_Language/GML_Reference/Data_Structures/DS_Maps/DS_Maps.htm">DS Map</a> stored in the variable <span class="inline2"><a data-xref="{title}" href="../../../GameMaker_Language/GML_Overview/Variables/Builtin_Global_Variables/async_load.htm">async_load</a></span>, containing different key/value pairs depending on the system level event that triggered the callback. These events are:</p>
   <h2>Game Pads</h2>
   <p>When this event is triggered for a gamepad being connected or disconnected it will return one of the following key/value pairs in the <span class="inline">async_load</span> map:</p>
-  <ul class="dropspotlist">
-    <li class="dropspot">&quot;<span class="inline">event_type</span>&quot; - the type of system event received, which will be one of the following strings:<br />
+  <ul class="colour">
+    <li>&quot;<span class="inline">event_type</span>&quot; - the type of system event received, which will be one of the following strings:
       <ul>
         <li><span>&quot;<span class="inline">gamepad discovered</span>&quot; - happens when the system reports a new gamepad has been connected</span></li>
         <li><span>&quot;<span class="inline">gamepad lost</span>&quot; - happens when the system has lost connection to a gamepad</span></li>
       </ul>
     </li>
-    <li class="dropspot">&quot;<span class="inline">pad_index</span>&quot; - the index of the pad that has been added or removed</li>
+    <li>&quot;<span class="inline">pad_index</span>&quot; - the index of the pad that has been added or removed</li>
   </ul>
   <p>This event now permits you to move all your gamepad checking logic from the Step Event or an Alarm event into the System Event and only run it when it&#39;s actually required.</p>
   <p class="note"><b><span data-conref="../../../assets/snippets/Tag_important.hts"> </span> </b>This event will NOT be triggered unless you have at least one <a href="../../../GameMaker_Language/GML_Reference/Game_Input/GamePad_Input/Gamepad_Input.htm"><span class="inline">gamepad_*</span></a> function or <a href="../../../Drag_And_Drop/Drag_And_Drop_Reference/Gamepad/Gamepad_Actions.htm">GML Visual action</a> in your game code. The runner will only initialise the gamepad sub-system when the functions are used in the project, so if they aren&#39;t present, adding/removing gamepads will not trigger the System Event.</p>
   <h2>Virtual Keyboards</h2>
   <p>When this event is triggered for a virtual keyboard being opened or closed it will return the following key/value pairs in the <span class="inline2"><a data-xref="{title}" href="../../../GameMaker_Language/GML_Overview/Variables/Builtin_Global_Variables/async_load.htm">async_load</a></span> map:</p>
-  <ul class="dropspotlist">
-    <li class="dropspot">&quot;<span class="inline">event_type</span>&quot; - the type of system event received, which will be &quot;<span class="inline">virtual keyboard status</span>&quot; for virtual keyboards.</li>
-    <li class="dropspot">&quot;<span class="inline">screen_height</span>&quot; - the height of the virtual keyboard (in pixels). This will be 0 if the keyboard is invisible.</li>
-    <li class="dropspot">&quot;<span class="inline">keyboard_status</span>&quot; - the current status of the keyboard, returned as one of the following strings:
+  <ul class="colour">
+    <li>&quot;<span class="inline">event_type</span>&quot; - the type of system event received, which will be &quot;<span class="inline">virtual keyboard status</span>&quot; for virtual keyboards.</li>
+    <li>&quot;<span class="inline">screen_height</span>&quot; - the height of the virtual keyboard (in pixels). This will be 0 if the keyboard is invisible.</li>
+    <li>&quot;<span class="inline">keyboard_status</span>&quot; - the current status of the keyboard, returned as one of the following strings:
       <ul>
-        <li>&quot;hiding&quot;</li>
-        <li>&quot;hidden&quot;</li>
-        <li>&quot;showing&quot;</li>
-        <li>&quot;visible&quot;</li>
+        <li><span class="inline">&quot;hiding&quot;</span></li>
+        <li><span class="inline">&quot;hidden&quot;</span></li>
+        <li><span class="inline">&quot;showing&quot;</span></li>
+        <li><span class="inline">&quot;visible&quot;</span></li>
       </ul>
     </li>
   </ul>
   <p>See <a data-xref="{title}" href="../../../GameMaker_Language/GML_Reference/Game_Input/Virtual_Keys_And_Keyboards/Virtual_Keys_And_Keyboards.htm">Virtual Keys And Virtual Keyboards</a> for more information on the virtual keyboard.</p>
   <h2>Audio System Status</h2>
   <p>This event type is specifically for use when working with the HTML5 target, as it will be triggered every time the Web Audio context status changes. This means that if you have, for example, a piece of looping background music, then you can pause it or stop and restart it, based on this event triggering. This can be checked by looking for the following key/value pair in the <span class="inline2"><a data-xref="{title}" href="../../../GameMaker_Language/GML_Overview/Variables/Builtin_Global_Variables/async_load.htm">async_load</a></span> map:</p>
-  <ul class="dropspotlist">
-    <li class="dropspot">&quot;<span class="inline">event_type</span>&quot; - the type of system event received, which will be the string &quot;<span class="inline">audio_system_status</span>&quot; if the audio system has initialised or the context has changed.</li>
+  <ul class="colour">
+    <li>&quot;<span class="inline">event_type</span>&quot; - the type of system event received, which will be the string &quot;<span class="inline">audio_system_status</span>&quot; if the audio system has initialised or the context has changed.</li>
   </ul>
   <p>If this event type is triggered, then there will be an additional key in the <span class="inline2"><a data-xref="{title}" href="../../../GameMaker_Language/GML_Overview/Variables/Builtin_Global_Variables/async_load.htm">async_load</a></span> map:</p>
-  <ul class="dropspotlist">
-    <li class="dropspot">&quot;<span class="inline">status</span>&quot; - The status of the audio system, which will be one of the following two strings</li>
-    <li class="dropspot">&quot;<span class="inline">available</span>&quot; - The audio system is initialised and available to play sounds</li>
-    <li class="dropspot">&quot;<span class="inline">unavailable</span>&quot; - The audio system is not initialised, or the context is not currently running, and so can&#39;t play sounds (all sound playing functions will return <span class="inline2">-1</span>)</li>
+  <ul class="colour">
+    <li>&quot;<span class="inline">status</span>&quot; - The status of the audio system, which will be one of the following two strings:
+      <ul>
+        <li>&quot;<span class="inline">available</span>&quot; - The audio system is initialised and available to play sounds</li>
+        <li>&quot;<span class="inline">unavailable</span>&quot; - The audio system is not initialised, or the context is not currently running, and so can&#39;t play sounds (all sound playing functions will return <span class="inline2">-1</span>)</li>
+      </ul>
+    </li>
   </ul>
   <p>For more information on the specific functions available for audio, please see <a data-xref="{title}" href="../../../GameMaker_Language/GML_Reference/Asset_Management/Audio/Audio.htm">Audio</a>.</p>
   <p class="note"><b><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> </b>While this event is designed for use with the HTML5 target, it will also be triggered on all other platforms, but on everything (except HTML5) it will only be triggered once on Game Start when the audio engine is first initialised.</p>
   <h2>Misc. Events</h2>
+  <h3>App Focus</h3>
   <p>On mobile targets (Android, iOS and tvOS), an event is triggered when the app is brought back into focus. Its <span class="inline2"><a data-xref="{title}" href="../../../GameMaker_Language/GML_Overview/Variables/Builtin_Global_Variables/async_load.htm">async_load</a></span> map contains a single key:</p>
   <ul class="colour">
     <li><span class="inline">&quot;event_type&quot;</span> : <span class="inline">&quot;onResume&quot;</span></li>
   </ul>
+  <h3>Display Layout</h3>
+  <p>On Android and iOS, an event is triggered <span>when the display layout changes</span>:</p>
+  <ul class="colour">
+    <li><span class="inline">&quot;event_type&quot;</span> : <span class="inline">&quot;DisplayLayoutInfo&quot;</span></li>
+  </ul>
+  <p>The <span class="inline2"><a data-xref="{title}" href="../../../GameMaker_Language/GML_Overview/Variables/Builtin_Global_Variables/async_load.htm">async_load</a></span> map will hold additional keys if this event type is triggered:</p>
+  <ul class="colour">
+    <li><span class="inline">&quot;safeinsettop&quot;</span></li>
+    <li><span class="inline">&quot;safeinsetleft&quot;</span></li>
+    <li><span class="inline">&quot;safeinsetbottom&quot;</span></li>
+    <li><span class="inline">&quot;safeinsetright&quot;</span></li>
+  </ul>
+  <p><span>These hold the distance from the edge that it is safe to display in (i.e. where no system UI will cover your game).</span></p>
+  <p>Additionally, on Android only, the following entries may be returned:</p>
+  <ul class="colour">
+    <li><span class="inline">&quot;boundrects&quot;</span> - A JSON-encoded array, where each object holds left, right, top and bottom coordinates of a bounding rectangle. This array can be empty.</li>
+    <li><span class="inline">&quot;waterfallinsettop&quot;</span></li>
+    <li><span class="inline">&quot;waterfallinsetleft&quot;</span></li>
+    <li><span class="inline">&quot;waterfallinsetbottom&quot;</span></li>
+    <li><span class="inline">&quot;waterfallinsetright&quot;</span></li>
+  </ul>
+  <p>The waterfall inset values are only present on devices that have a waterfall display<span>.</span></p>
   <p> </p>
   <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a href="../Async_Events.htm">Async Events</a></div>
-        <div style="float:right">Next: <a href="Audio_Playback.htm">Audio Playback</a></div>
+        <div style="float:left">Back: <a data-xref="{title}" href="../Async_Events.htm">Async Events</a></div>
+        <div style="float:right">Next: <a data-xref="{title}" href="Audio_Playback.htm">Audio Playback</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2023 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 Asynchronous System
