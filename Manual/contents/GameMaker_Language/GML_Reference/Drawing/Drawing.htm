@@ -15,7 +15,33 @@
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
   <h1><span data-field="title" data-format="default">Drawing</span></h1>
-  <p>This section contains all the functions related to drawing within the game room, as well as for controlling <i>how</i> things will be drawn (blending, alpha, culling, etc.). There are a great number of different functions for drawing, and they are split over the following categories to make it easier to find what you need:</p>
+  <p>This section contains all functions related to drawing within your game as well as for controlling <i>how</i> things will be drawn (blending, alpha, culling, etc.).</p>
+  <p>Drawing in <span data-keyref="GameMaker Name">GameMaker</span> happens at the end of the frame, after all other events (see <a data-xref="{title}" href="../../../The_Asset_Editors/Object_Properties/Event_Order.htm">Event Order</a>). In this draw cycle <span data-keyref="GameMaker Name">GameMaker</span> performs a series of events in a specific order.</p>
+  <p>Everything that you draw eventually needs to be drawn to the <a class="glossterm" data-glossterm="display buffer" href="#">display buffer</a> in order to be visible on screen. By default, <span data-keyref="GameMaker Name">GameMaker</span> does not directly draw to the display buffer, however, but rather to a surface: the <a data-xref="{text}" href="Surfaces/Surfaces.htm#application_surface">Application Surface</a>. This is the default drawing target when drawing in the regular Draw events (Draw, Draw Begin and Draw End).</p>
+  <p class="note"><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> See the <a data-xref="{title}" href="../../../The_Asset_Editors/Object_Properties/Draw_Events.htm">Draw Events</a> page for detailed information on how <span data-keyref="GameMaker Name">GameMaker</span> draws everything during a frame.</p>
+  <h2 id="drawing_targets">Drawing Targets</h2>
+  <p><span data-keyref="GameMaker Name">GameMaker</span> always draws to a drawing target and changes it automatically at certain points in the draw cycle, resetting it afterwards. The drawing target can be one of the following:</p>
+  <ul class="colour">
+    <li>The display buffer:
+      <ol>
+        <li>In the Pre-Draw and Post-Draw events (see <a data-xref="{title}" href="../../../The_Asset_Editors/Object_Properties/Draw_Events.htm">Draw Events</a>)</li>
+        <li>In regular Draw events, if you&#39;ve disabled the application surface (see <span class="inline3_func"><a data-xref="{title}" href="Surfaces/application_surface_enable.htm">application_surface_enable</a></span>) and haven&#39;t set a custom surface</li>
+      </ol>
+    </li>
+    <li>A surface:
+      <ol>
+        <li>The <a data-xref="{text}" href="Surfaces/Surfaces.htm#application_surface">Application Surface</a>, if enabled</li>
+        <li>A view surface, if set for a view with <span class="inline2"><a data-xref="{title}" href="../Cameras_And_Display/Cameras_And_Viewports/view_surface_id.htm">view_surface_id</a></span></li>
+        <li>A custom surface created with <span class="inline3_func"><a data-xref="{title}" href="Surfaces/surface_create.htm">surface_create</a></span></li>
+      </ol>
+    </li>
+  </ul>
+  <p><span data-keyref="GameMaker Name">GameMaker</span> sets the drawing target to the application surface automatically after all instances have executed their Pre-Draw event and resets it to the display buffer before all instances execute their Post-Draw event.</p>
+  <p>At any point in a Draw event you can create your own custom surface with <span class="inline3_func"><a data-xref="{title}" href="Surfaces/surface_create.htm">surface_create</a></span>, set it as the drawing target with <span class="inline3_func"><a data-xref="{title}" href="Surfaces/surface_set_target.htm">surface_set_target</a></span>, draw to it and reset the target afterwards with <span class="inline3_func"><a data-xref="{title}" href="Surfaces/surface_reset_target.htm">surface_reset_target</a></span>. See <a data-xref="{title}" href="Surfaces/Surfaces.htm">Surfaces</a> for more information.</p>
+  <h3>The Application Surface</h3>
+  <p>This is the default drawing target that <span data-keyref="GameMaker Name">GameMaker</span> draws to in the regular Draw events. You can choose to not draw it automatically with <span class="inline3_func"><a data-xref="{title}" href="Surfaces/application_surface_draw_enable.htm">application_surface_draw_enable</a></span> or disable it entirely with <span class="inline3_func"><a data-xref="{title}" href="Surfaces/application_surface_enable.htm">application_surface_enable</a></span>. When the application surface is disabled, everything is drawn directly to the display buffer.</p>
+  <h2>Reference</h2>
+  <p><span data-keyref="GameMaker Name">GameMaker</span> comes with a great number of different functions for drawing. To make it easier to find what you need the functions are split over the following categories:</p>
   <ul class="colour">
     <li><a data-xref="{title}" href="Colour_And_Alpha/Colour_And_Alpha.htm">Colour And Alpha</a></li>
     <li><a data-xref="{title}" href="GPU_Control/GPU_Control.htm">GPU Control</a></li>
@@ -38,7 +64,6 @@
     <li><a href="draw_enable_drawevent.htm">draw_enable_drawevent</a></li>
     <li><a href="draw_flush.htm">draw_flush</a></li>
   </ul>
-  <p> </p>
   <p> </p>
   <p> </p>
   <div class="footer">
