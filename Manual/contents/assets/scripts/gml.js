@@ -1,5 +1,4 @@
 export default function(hljs) {
-
   const KEYWORDS = [
     "and",
     "begin",
@@ -37,10 +36,13 @@ export default function(hljs) {
     "with",
     "xor",
   ];
-
   const LITERALS = [
     "audiogroup_default", 
     "GM_is_sandboxed", 
+    "self", 
+    "other", 
+    "all", 
+    "noone", 
     "ANSI_CHARSET",
     "ARABIC_CHARSET",
     "BALTIC_CHARSET",
@@ -437,6 +439,7 @@ export default function(hljs) {
     "iap_storeload_failed",
     "iap_storeload_ok",
     "iap_unavailable",
+    "infinity",
     "input_type",
     "kbv_autocapitalize_characters",
     "kbv_autocapitalize_none",
@@ -953,12 +956,10 @@ export default function(hljs) {
     "player_name",
     "player_type"
   ];
-
   /**
    * Regex for some sort of identifier - i.e, a valid name of something in code.
    */
   const VALID_IDENTIFIER_REG = /[a-zA-Z_][a-zA-Z0-9_]*/;
-
   /**
    * Regex for a dot separating some LHS and RHS expression with optional whitespace (as this is
    * supported in the engine.)
@@ -966,26 +967,88 @@ export default function(hljs) {
   const DOT_ACCESSOR_REG = /\b\.\b/;
 
   /**
+   * Expressions, which form part of a valid statement.
+   */
+  const EXPRESSION = [];
+
+  /**
+   * A template string substitution. `contains` is filled in after `EXPRESSION` is defined due to
+   * nesting.
+   */
+  const STRING_SUBSTITUTION = {
+    begin: /{/,
+    end: /}/,
+    beginScope: "literal",
+    endScope: "literal",
+    contains: EXPRESSION
+  };
+
+  /**
+   * A template string substitution for use with the older `string()` optional args with `"{0}"`,
+   * etc.
+   */
+  const STRING_NUMERICAL_SUBSTITUTION = {
+    match: /{[0-9]+}/,
+    scope: "literal"
+  };
+
+  /**
+   * An escape sequence in a string.
+   */
+  const STRING_ESCAPE = {
+    scope: "literal",
+    variants: [
+      { match: /\\u[a-fA-F0-9]{1,6}/ },
+      { match: /\\[^\n]/ }
+    ]
+  };
+
+  /**
    * Various types of strings supported in the engine.
    */
   const STRING = {
     variants: [
-      hljs.QUOTE_STRING_MODE,
+      {
+        begin: /\$"/,
+        end: "\"",
+        beginScope: "string",
+        endScope: "string",
+        contains: [
+          STRING_ESCAPE,
+          STRING_SUBSTITUTION,
+          {
+            match: /[^\n"{]/,
+            scope: "string"
+          }
+        ]
+      },
       {
         scope: "string",
         begin: "@'",
-        end: "'"
+        end: "'",
+        contains: [STRING_NUMERICAL_SUBSTITUTION]
       },
       {
         scope: "string",
         begin: "@\"",
-        end: "\""
+        end: "\"",
+        contains: [STRING_NUMERICAL_SUBSTITUTION]
+      },
+      {
+        scope: "string",
+        begin: /"/,
+        end: /"/,
+        illegal: "\\n",
+        contains: [
+          STRING_ESCAPE, 
+          STRING_NUMERICAL_SUBSTITUTION
+        ]
       }
     ]
   };
 
   /**
-   * Various representations of numbers!
+   * Various representations of numbers
    */
   const NUMBER = {
     className: "literal",
@@ -1118,15 +1181,14 @@ export default function(hljs) {
   };
 
   /**
-   * Expressions, which form part of a valid statement.
+   * A ternary expression, matching partial ternary as `? <EXPRESSION> :`.
+   * Effectively exists to prevent {@link STRUCT_LITERAL_MEMBER} from stealing `<EXPRESSION> :`.
    */
-  const EXPRESSION = [
-    STRING,
-    PROP_ACCESS,
-    NUMBER,
-    FUNCTION_CALL,
-    USER_ASSET_CONSTANT
-  ];
+  const TERNARY = {
+    begin: /\?/,
+    end: /:/,
+    contains: EXPRESSION
+  };
 
   const SWITCH_CASE = {
     begin: [
@@ -1139,7 +1201,7 @@ export default function(hljs) {
     },
     contains: EXPRESSION
   };
-
+  
   /**
    * A struct variable declaration, of `<ident>:`
    */
@@ -1213,6 +1275,15 @@ export default function(hljs) {
     ]
   };
 
+  EXPRESSION.push(
+    STRING,
+    TERNARY,
+    PROP_ACCESS,
+    NUMBER,
+    FUNCTION_CALL,
+    USER_ASSET_CONSTANT
+  );
+
   return {
     name: 'GML',
     case_insensitive: false, // language is case-sensitive
@@ -1232,6 +1303,7 @@ export default function(hljs) {
         // Prevent keywords being taken by function calls.
         beginKeywords: KEYWORDS.join(" ")
       },
+      TERNARY,
       STRUCT_LITERAL_MEMBER,
       FUNCTION_DECLARATION,
       FUNCTION_CALL,

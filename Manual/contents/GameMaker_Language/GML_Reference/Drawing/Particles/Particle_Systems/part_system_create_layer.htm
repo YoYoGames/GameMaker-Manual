@@ -16,8 +16,8 @@
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
   <h1><span data-field="title" data-format="default">part_system_create_layer</span></h1>
-  <p>This function creates a new particle system on a given layer and returns its unique index number.</p>
-  <p>You give the unique layer ID as returned by the function <span class="inline3_func"><a data-xref="{title}" href="../../../Asset_Management/Rooms/General_Layer_Functions/layer_create.htm">layer_create</a></span> or the name of the layer to use as a string - for example &quot;instance_layer&quot; - and then flag the system as being persistent or not.</p>
+  <p>This function creates a new particle system on the given layer and returns its handle.</p>
+  <p>You give the unique layer ID as returned by the function <span class="inline3_func"><a data-xref="{title}" href="../../../Asset_Management/Rooms/General_Layer_Functions/layer_create.htm">layer_create</a></span> or the name of the layer to use as a string - for example <span class="inline2">&quot;instance_layer&quot;</span> - and then flag the system as being persistent or not.</p>
   <p>Optionally you can provide a <span data-keyref="Type_Asset_ParticleSystem"><a href="../../../../../The_Asset_Editors/Particle_Systems.htm" target="_blank">Particle System Asset</a></span> created using <a data-xref="{title}" href="../../../../../The_Asset_Editors/Particle_Systems.htm">The Particle System Editor</a>. Doing so will create the system defined in that asset, with all of its emitters.</p>
   <p>A system not flagged as persistent is automatically destroyed at the end of the room it was created in (this is the same as if you had called the function <span class="inline3_func"><a data-xref="{title}" href="part_system_destroy.htm">part_system_destroy</a></span> and will also destroy any emitters associated with the system). However, when flagged as persistent, the system will be carried to the next room when the room is changed, and if the following room does <i>not</i> have a layer with the same name or depth as the one assigned, then a new layer will be created for the system that is persisting across the rooms, and it will be named the same as the original layer. When changing rooms, if there is another layer in the following rooms with the same name, then the persisted instance will be assigned to the layer with that name <i>regardless of the depth of the layer</i>. Finally, if a persisted system moves to a room with a layer at the same depth as the layer the system was created on, it will <i>not</i> be assigned to this layer, but instead a new layer will be created at the same depth (with the same name as the original layer).</p>
   <p class="note"><span data-conref="../../../../../assets/snippets/Tag_important.hts"> </span> If you flag the particle system as persistent, it will need to be cleaned up manually using <span class="inline3_func"><a data-xref="{title}" href="part_system_destroy.htm">part_system_destroy</a></span> when not in use, otherwise you risk a memory leak that will negatively impact your final game.</p>
@@ -39,7 +39,7 @@
       <tr>
         <td>persistent</td>
         <td><span data-keyref="Type_Bool"><a href="../../../../GML_Overview/Data_Types.htm" target="_blank">Boolean</a></span></td>
-        <td>Flag the particle system as persistent (set to <span class="inline">true</span>) or not (set to <span class="inline">false</span>)</td>
+        <td>Flag the particle system as persistent (set to <span class="inline2">true</span>) or not (set to <span class="inline2">false</span>)</td>
       </tr>
       <tr>
         <td>partsys</td>
@@ -53,8 +53,8 @@
   <p class="code"><span data-keyref="Type_ID_PartSys"><a href="part_system_create.htm" target="_blank">Particle System Instance</a></span></p>
   <p> </p>
   <h4>Example:</h4>
-  <p class="code">global.p_sys = <span data-field="title" data-format="default">part_system_create_layer</span>(&quot;effects_layer&quot;, true, ps_Explosion);</p>
-  <p>The above code will create a new particle system on the given layer from the <span class="inline2">ps_Explosion</span> asset, and flag it as persisting over subsequent rooms. The ID for the particle system is stored in a global scope variable <span class="inline2">p_sys</span> for future reference.</p>
+  <p class="code">global.part_sys = <span data-field="title" data-format="default">part_system_create_layer</span>(&quot;effects_layer&quot;, true, ps_explosion);</p>
+  <p>The above code creates a new particle system on the given layer from the <span class="inline2">ps_explosion</span> asset, and flags it as persisting over subsequent rooms. The ID of the particle system is stored in a global scope variable <span class="inline2">part_sys</span> for future reference.</p>
   <p> </p>
   <p> </p>
   <div class="footer">

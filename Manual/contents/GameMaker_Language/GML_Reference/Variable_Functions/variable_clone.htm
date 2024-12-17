@@ -17,13 +17,16 @@
   <h1><span data-field="title" data-format="default">variable_clone</span></h1>
   <p>This function clones the value you pass it and returns the new clone.</p>
   <p>It clones nested structs and arrays up to a given depth (<span data-keyref="Const_Data_Clone_Depth">128</span> by default), which you can override by providing the optional <span class="inline2">depth</span> parameter.</p>
-  <p class="note"><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> When cloning a struct created using a Constructor, the new struct will also be an instance of the original Constructor.</p>
-  <p class="note"><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> When cloning a struct that contains a method whose <span class="inline2">self</span> exists within the struct being cloned, a copy of the function will be created and bound to the new struct, mirroring the relationships of the original.<br />
-    <br />
-    When cloning a method whose <span class="inline2">self</span> does <em>not</em> exist in the struct being cloned, the new method will be unbound, i.e. <a href="method_get_self.htm">its self</a> will be <span class="inline2">undefined</span>.
-  </p>
-  <p class="note"><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> The built-in <a data-xref="{title}" href="../Data_Structures/Data_Structures.htm">Data Structures</a> and <a data-xref="{title}" href="../Asset_Management/Instances/Instances.htm">Instances</a> are <em>not</em> cloned; for this type of variable the actual value (data structure reference or instance handle, respectively) is copied.</p>
-  <p class="note"><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> Built-in structs, such as the structs related to sequences and animation curves, cannot be cloned using this function.</p>
+  <h3>Usage Notes</h3>
+  <ul class="colour">
+    <li>When cloning a struct created using a constructor, the new struct will also be an instance of the original constructor.</li>
+    <li><span>When cloning a struct that contains a method whose<span> &quot;</span></span><span>self&quot;</span><span><span> </span>exists in the struct being cloned, the clone of the method in the new struct will be rebound to the clone of the original &quot;self&quot; in the new struct, mirroring the relationships of the original.</span><br />
+      <br />
+      If the method&#39;s &quot;self&quot; does <em>not</em> exist in the struct being cloned, the clone of the method is bound to the original &quot;self&quot;.
+    </li>
+    <li>The built-in <a data-xref="{title}" href="../Data_Structures/Data_Structures.htm">Data Structures</a> and <a data-xref="{title}" href="../Asset_Management/Instances/Instances.htm">Instances</a> are <em>not</em> cloned; for this type of variable the actual value (data structure reference or instance handle, respectively) is copied.</li>
+    <li>Built-in structs, such as the structs related to sequences and animation curves, cannot be cloned using this function.</li>
+  </ul>
   <p> </p>
   <h4>Syntax:</h4>
   <p class="code"><span data-field="title" data-format="default">variable_clone</span>(value[, depth]);</p>
@@ -55,10 +58,26 @@
   <h4>Returns:</h4>
   <p class="code"><span data-keyref="Type_Any"><a href="../../GML_Overview/Data_Types.htm#variable" target="_blank">Any</a></span></p>
   <p> </p>
-  <h4>Example:</h4>
+  <h4>Example 1: Basic Use</h4>
   <p class="code">var _the_original = {a: &quot;some text&quot;, b: [1, 2, 3, 4, 5], c: 6};<br />
     var _the_clone = <span data-field="title" data-format="default">variable_clone</span>(_the_original);</p>
   <p>The above code first defines a temporary struct variable <span class="inline2">_the_original</span>. A clone is then created from this variable using <span class="inline3_func"><span data-field="title" data-format="default">variable_clone</span></span>. The new variable is stored in another variable <span class="inline2">_the_clone</span>.</p>
+  <p> </p>
+  <h4>Example 2: Cloning Methods</h4>
+  <p class="code">the_struct = <br />
+    {<br />
+        my_value: 12,<br />
+        my_method: function() { show_debug_message($&quot;My value is: {my_value}&quot;); }<br />
+    }<br />
+    <br />
+    the_new_struct = <span data-field="title" data-format="default">variable_clone</span>(the_struct);<br />
+    the_new_struct.my_value = 24;<br />
+    <br />
+    the_struct.my_method();<br />
+    the_new_struct.my_method();
+  </p>
+  <p>The above code example shows an example where <span class="inline3_func"><span data-field="title" data-format="default">variable_clone</span></span> is used to copy a struct that contains a method.</p>
+  <p>First, a struct with two variables is defined: a variable <span class="inline2">my_value</span> that stores the value <span class="inline2">12</span> and a variable <span class="inline2">my_method</span> that stores a method bound to this struct. The struct is stored in a variable <span class="inline2">the_struct</span>. Next, the struct is cloned, including the method it contains. Since the method is bound to the struct itself, its &quot;self&quot; exists in the struct being cloned and the &quot;self&quot; of its clone is rebound to the clone of the original &quot;self&quot; struct. The new struct&#39;s <span class="inline2">my_value</span> variable is then set to <span class="inline2">24</span>. Finally, the method of each struct is called. Calling the original struct&#39;s method outputs <span class="inline2">12</span>, calling the cloned struct&#39;s method outputs <span class="inline2">24</span>.</p>
   <p> </p>
   <p> </p>
   <div class="footer">

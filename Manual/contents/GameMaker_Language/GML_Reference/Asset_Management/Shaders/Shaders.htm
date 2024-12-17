@@ -30,11 +30,12 @@
     colour_to_set = shader_get_uniform(sShaderDemo5, &quot;f_Colour2&quot;);</p>
   <p>Once you have the uniform handles, they can then be set in the shader code for the <b>Draw Event</b> like this:</p>
   <p class="code">shader_set(sShaderDemo5);<br />
-    shader_set_uniform_f(colour_to_find, 1,1,1 );<br />
-    shader_set_uniform_f(colour_to_set, 1,0,0 );<br />
-    draw_sprite(sprite_index,image_index,x+24, y);<br />
+    shader_set_uniform_f(colour_to_find, 1, 1, 1);<br />
+    shader_set_uniform_f(colour_to_set, 1, 0, 0);<br />
+    draw_sprite(sprite_index, image_index, x + 24, y);<br />
     shader_reset();</p>
-  <p>One final thing to note is that although shaders are accepted across all platforms, they are still device specific and if the hardware or software of the device cannot use shaders then you will get an error. Therefore you are recommended to check that the shader has been compiled before setting uniforms or using the shader itself by using <span class="inline3_func"><a data-xref="{title}" href="shader_is_compiled.htm">shader_is_compiled</a></span>, like this:</p>
+  <p>One final thing to note is that although shaders are accepted across all platforms, they are still device specific and if the hardware or software of the device cannot use shaders then you will get an error. To check this you can call the function <span class="inline3_func"><a data-xref="{title}" href="shaders_are_supported.htm">shaders_are_supported</a></span>, which returns whether the hardware supports shaders.</p>
+  <p>Even though your game can be run specific shaders may not have been compiled for a variety of reasons. Therefore, you are recommended to check that the shader is compiled before setting uniforms or using the shader itself by using <span class="inline3_func"><a data-xref="{title}" href="shader_is_compiled.htm">shader_is_compiled</a></span>, like this:</p>
   <p class="code">if (shader_is_compiled(myShader))<br />
     {<br />
         shader_set(myShader);<br />
@@ -42,7 +43,8 @@
         shader_reset();<br />
     }<br />
     else show_debug_message(&quot;Shader failed&quot;);</p>
-  <p>As an extra check you can also call the function <span class="inline3_func"><a data-xref="{title}" href="shaders_are_supported.htm">shaders_are_supported</a></span> to see if the hardware even supports shaders. In general you&#39;d do these checks on game start and store the results as a <a href="../../../GML_Overview/Variables/Global_Variables.htm">global variable</a> to then check later.</p>
+  <p>The reasons why a shader could not be compiled can vary, depending on the shader language used on the target platform and what that language supports or doesn&#39;t, according to its specification.</p>
+  <p>In general you&#39;d do these checks on game start and store the results as a <a href="../../../GML_Overview/Variables/Global_Variables.htm">global variable</a> to then check later.</p>
   <p>It is important to note that <span data-keyref="GameMaker Name">GameMaker</span> also supports some conditional compile <b>Macros</b> which can be used within GLSL ES shaders so they can perform alternative code on specific supported platforms. The macros and the platforms they will be generated on are shown in the table below:</p>
   <p> </p>
   <table>
@@ -88,7 +90,7 @@
   <ul class="colour">
     <li><a data-xref="{title}" href="../../../../Additional_Information/Guide_To_Using_Shaders.htm">Guide To Using Shaders</a></li>
   </ul>
-  <p> </p>
+  <h2>Function Reference</h2>
   <p>The following functions are available for drawing and setting shaders:</p>
   <ul class="colour">
     <li><a data-xref="{title}" href="shader_get_name.htm">shader_get_name</a></li>
@@ -108,7 +110,7 @@
     <li><a data-xref="{title}" href="shader_current.htm">shader_current</a></li>
   </ul>
   <p> </p>
-  <p>We also have a special function which defines a global state for all shaders:</p>
+  <p>We also have a special function which defines a global state for all built-in shaders:</p>
   <ul>
     <li><a data-xref="{title}" href="shader_enable_corner_id.htm">shader_enable_corner_id</a></li>
   </ul>
@@ -132,7 +134,7 @@
   <p> </p>
   <p>While this manual will <b>not</b> cover any of the OpenGL shader functions and variables, it does contain a list of the ones that are unique to <span data-keyref="GameMaker Name">GameMaker</span>. These constants are not part of the OpenGL specification for shaders and are supplied to simplify the integration of shaders within your projects.</p>
   <ul class="colour">
-    <li><a data-xref="{title}" href="Shader_Constants.htm">Shader Uniforms</a></li>
+    <li><a data-xref="{title}" href="Shader_Constants.htm">Built-In Shader Constants</a></li>
   </ul>
   <p> </p>
   <p>Finally, <span data-keyref="GameMaker Name">GameMaker</span> permits you to define your own <b>Vertex Formats</b> from which you can create your own custom primitives. This can greatly speed up shader operations or can be used to extend their capabilities and create surprising effects. You can find information on this in the following sections:</p>

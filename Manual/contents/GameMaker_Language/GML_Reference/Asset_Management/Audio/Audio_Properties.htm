@@ -92,17 +92,22 @@
       <tr>
         <td>Result</td>
         <td style="">G<sub>asset</sub> * G<sub>group</sub> * G<sub>emitter</sub> * G<sub>instance</sub></td>
-        <td style="">P<sub>asset</sub> * P<sub>emitter</sub> * P<sub>instance</sub></td>
+        <td style="">P<sub>asset</sub> * P<sub>emitter</sub> * P<sub>instance</sub> (might be clipped, see <a data-xref="{text}" href="Audio_Properties.htm#pitch">Pitch</a>)</td>
         <td>Asset-level offset unless instance-level offset is passed to the <span class="inline2">audio_play_sound_*</span> functions</td>
         <td>M<sub>emitter</sub> &amp; M<sub>instance</sub> (bitwise AND, see <a data-xref="{title}" href="../../../../Additional_Information/Bitwise_Operators.htm">Bitwise Operators</a>)</td>
       </tr>
     </tbody>
   </table>
   <div data-conref="../../../../assets/snippets/Note_Audio_Device_OS_Might_Normalise_Audio.hts"> </div>
-  <h2>Notes</h2>
+  <h2 id="notes">Notes</h2>
+  <h3 id="gain">Gain</h3>
   <div data-conref="../../../../assets/snippets/Note_Sound_Editor_Volume_Is_Asset_Gain.hts"> </div>
   <p>This can still be changed in-game later by calling <span class="inline2"><a data-xref="{title}" href="audio_sound_gain.htm">audio_sound_gain</a></span> with the sound <em>asset</em> ID as the argument: </p>
-  <p class="code">audio_sound_gain(snd_Explode, 0, 0);  // Set the asset-level gain to 0 (new instances of this sound play muted)</p>
+  <p class="code">audio_sound_gain(snd_Explode, 0, 0);  // Set the asset-level gain to 0 (new and existing instances of this sound are muted)</p>
+  <h3 id="pitch">Pitch</h3>
+  <p>The resulting <em>source</em> pitch has a lower limit of <span data-keyref="Const_Audio_Pitch_Min">1/256</span> (-8 octaves) for all sounds. It has an upper limit dependent on the compression type of the sound - uncompressed sounds have an upper limit of <span data-keyref="Const_Audio_Pitch_Max_Uncompressed">256</span> (+8 octaves), but compressed sounds have a limit of <span data-keyref="Const_Audio_Pitch_Max_Compressed">4</span> (+2 octaves).</p>
+  <p>If the source pitch is clipped, a warning message will be printed to the console. If the source pitch is clipped on the upper bound for a compressed sound, a note will also be printed to the console pointing out that they have a lower upper limit than uncompressed sounds.</p>
+  <p class="note" dir="auto"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> On HTML5, uncompressed sounds and compressed sounds have the same range of <span class="inline2"><span data-keyref="Const_Audio_Pitch_Min">1/256</span></span> to <span class="inline2"><span data-keyref="Const_Audio_Pitch_Max_HTML5">256</span></span>. Because of this, there is no specific warning for clipping a compressed sound on the upper bound.</p>
   <p> </p>
   <p> </p>
   <div class="footer">

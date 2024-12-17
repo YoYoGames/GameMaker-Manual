@@ -17,7 +17,7 @@
   <h1><span data-field="title" data-format="default">buffer_set_surface</span></h1>
   <p>This function writes information from a buffer to a given surface.</p>
   <p>Both the buffer and the surface must have been created previously, and the buffer&#39;s size must be equal to or greater than the surface&#39;s size. If the buffer is smaller than the surface, the function will silently fail.</p>
-  <p>The surface you are writing to must have the same <a href="../Drawing/Surfaces/surface_create.htm">format</a> as the surface that was written into the buffer. Keep in mind that it can&#39;t be guaranteed that a surface saved into a buffer on one platform will be read correctly on another platform, even if both surfaces use the same format.</p>
+  <p>The surface you are writing to must have the same <a href="../Drawing/Surfaces/surface_create.htm">format</a> as the surface that was <a href="buffer_get_surface.htm">written into the buffer</a>. Keep in mind that it can&#39;t be guaranteed that a surface saved into a buffer on one platform will be read correctly on another platform, even if both surfaces use the same format.</p>
   <p>You can provide an offset into the buffer to start reading from. Reading will always start at the beginning of the buffer plus the offset value and <em>not</em> at the current seek position plus the offset value.</p>
   <p> </p>
   <h4>Syntax:</h4>
@@ -51,8 +51,20 @@
   <p class="code"><span data-keyref="Type_Void">N/A</span></p>
   <p> </p>
   <h4>Example:</h4>
-  <p class="code"><span data-field="title" data-format="default">buffer_set_surface</span>(buff, application_surface, 0);</p>
-  <p>The above code will copy all the data stored in the buffer indexed in the variable <span class="inline2">buff</span> to the application surface with no offset.</p>
+  <p class="code">if (!surface_exists(surf1))<br />
+    {<br />
+        surf1 = surface_create(200, 200);<br />
+        surface_set_target(surf1);<br />
+        draw_clear_alpha(c_white, 0);<br />
+        surface_reset_target();<br />
+        <br />
+        if (buffer_exists(buff1))<br />
+        {<br />
+            buffer_set_surface(buff1, surf1, 0)<br />
+        }<br />
+    }</p>
+  <p>This checks if a surface doesn&#39;t exist and in that case, creates it and then clears it. Then it checks if a buffer exists and copies the data from that buffer into the surface.</p>
+  <p>This example assumes that the formats of the new surface and the surface stored into the buffer <strong>are the same</strong>. In this case it uses the default <span class="inline2">surface_rgba8unorm</span> format as shown in the example for <span class="inline3_func"><a data-xref="{title}" href="buffer_get_surface.htm">buffer_get_surface</a></span>, read the example on that page for information on correctly storing surface data into a buffer.</p>
   <p> </p>
   <p> </p>
   <div class="footer">

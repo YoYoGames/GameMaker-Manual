@@ -4,7 +4,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>array_equals</title>
-  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <meta name="generator" content="Adobe RoboHelp 2022" />
   <link rel="stylesheet" href="../../../assets/css/default.css" type="text/css" />
   <script src="../../../assets/scripts/main_script.js" type="module"></script>
   <meta name="rh-authors" content="Mark Alexander" />
@@ -15,30 +15,39 @@
 </head>
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
-  <h1>array_equals</h1>
-  <p>With this function you can check to see if two arrays are equal (equivalent or the same). You give the two arrays to check, and the function will return <span class="inline">true</span> if they are equal (either equivalent or the same) or <span class="inline">false</span> if they are not. Note that this is <i>not</i> the same as checking if two arrays are the same using ==, which will not check to see if the two arrays hold equivalent values, but only to see if the arrays are referencing the same initial array. For example:</p>
-  <p class="code">var a = [1,2,3,4];<br />
-    var b = [1,2,3,4];<br />
-    <br />
-    if (a == b)<br />
-    {<br />
-        show_debug_message( &quot;This will never fire, as a and b do not reference the SAME array&quot; );<br />
-    }<br />
-    <br />
-    if (array_equals(a, b))<br />
-    {<br />
-        show_debug_message( &quot;This will fire as both arrays contain similar values&quot; );<br />
-    }
-  </p>
-  <p>Note that there are some constants that may not be equal to themselves, which can make this function fail. Here is an example:</p>
-  <p class="code">if (array_equals([NaN], [NaN]))<br />
-    {<br />
-        show_debug_message( &quot;This will never fire as NaN cannot be equal to itself&quot; );<br />
-    }</p>
-  <p>See the <a data-xref="{text}" href="../../../Additional_Information/Type_Tables.htm#h">Equality Table</a> for more information.</p>
+  <h1><span data-field="title" data-format="default">array_equals</span></h1>
+  <p>This function checks if two arrays are equal (equivalent or the same).</p>
+  <p>You give the two arrays to check, and the function will return <span class="inline2">true</span> if they are equal (either equivalent or the same) or <span class="inline2">false</span> if they are not.</p>
+  <p>The check is performed recursively, i.e. nested arrays are checked as well.</p>
+  <h3>Usage Notes</h3>
+  <ul class="colour">
+    <li>This is <i>not</i> the same as checking if two arrays are the same using <span class="inline2">==</span>, which will not check if the two arrays hold equivalent values, but only if the arrays are referencing the same initial array. For example:
+      <p class="code">var a = [1, 2, 3, 4];<br />
+        var b = [1, 2, 3, 4];<br />
+        <br />
+        if (a == b)<br />
+        {<br />
+            show_debug_message( &quot;This will never fire, as a and b do not reference the SAME array&quot; );<br />
+        }<br />
+        <br />
+        if (array_equals(a, b))<br />
+        {<br />
+            show_debug_message( &quot;This will fire as both arrays contain similar values&quot; );<br />
+        }
+      </p>
+    </li>
+    <li>If an array element stores a reference to, e.g. a struct or an instance, the function doesn&#39;t compare the contents of those, but rather checks if both references refer to the same thing in memory. See <a data-xref="{title}" href="../../GML_Overview/Values_And_References.htm">Values and References</a></li>
+    <li>There are some constants that may not be equal to themselves, which can make this function fail. Here is an example:
+      <p class="code">if (array_equals([NaN], [NaN]))<br />
+        {<br />
+            show_debug_message( &quot;This will never fire as NaN cannot be equal to itself&quot; );<br />
+        }</p>
+      See the <a data-xref="{text}" href="../../../Additional_Information/Type_Tables.htm#h">Equality Table</a> for more information.
+    </li>
+  </ul>
   <p> </p>
   <h4>Syntax:</h4>
-  <p class="code">array_equals(var1, var2);</p>
+  <p class="code"><span data-field="title" data-format="default">array_equals</span>(var1, var2);</p>
   <table>
     <tbody>
       <tr>
@@ -48,38 +57,58 @@
       </tr>
       <tr>
         <td>var1</td>
-        <td><span data-keyref="Type_Array"><a href="../../../../GameMaker_Language/GML_Overview/Arrays.htm" target="_blank">Array</a></span></td>
+        <td><span data-keyref="Type_Array"><a href="../../GML_Overview/Arrays.htm" target="_blank">Array</a></span></td>
         <td>The first array.</td>
       </tr>
       <tr>
         <td>var2</td>
-        <td><span data-keyref="Type_Array"><a href="../../../../GameMaker_Language/GML_Overview/Arrays.htm" target="_blank">Array</a></span></td>
+        <td><span data-keyref="Type_Array"><a href="../../GML_Overview/Arrays.htm" target="_blank">Array</a></span></td>
         <td>The second array.</td>
       </tr>
     </tbody>
   </table>
   <p> </p>
   <h4>Returns:</h4>
-  <p class="code"><span data-keyref="Type_Bool"><a href="../../../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">Boolean</a></span></p>
+  <p class="code"><span data-keyref="Type_Bool"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Boolean</a></span></p>
   <p> </p>
-  <h4>Example:</h4>
-  <p class="code">if (!array_equals(inventory_array, item_array)) <br />
+  <h4>Example 1: Basic Use</h4>
+  <p class="code">var _array1 = [1, 2, 3, 4, 5];<br />
+    var _array2 = [1, 2, 5, 4, 3];<br />
+    <br />
+    if (!array_equals(_array2, _array1))<br />
     {<br />
-        var len = array_length(inventory_array);<br />
-        array_copy(item_array, 0, inventory_array, 0, len);<br />
-    }</p>
-  <p>The above code will check two arrays to see if they hold equivalent values, and if they do not then the code will copy the entire contents of the array &quot;inventory_array&quot; to the array &quot;item_array&quot;.</p>
+        var _len = array_length(_array1);<br />
+        array_copy(_array2, 0, _array1, 0, _len);<br />
+    }<br />
+    <br />
+    show_debug_message(_array1);<br />
+    show_debug_message(_array2);
+  </p>
+  <p>The above code checks two arrays to see if they hold equivalent values. If they don&#39;t, the code will copy the entire contents of the array <span class="inline2">_array1</span> to the array <span class="inline2">_array2</span>. Both arrays are output in a debug message showing their contents are identical after the copy.</p>
   <p> </p>
+  <h4>Example 2: Nested Arrays and References</h4>
+  <p class="code">var _the_struct = {a: 84, b: 38};<br />
+    <br />
+    var _array1 = [_the_struct, 5, &quot;hello&quot;, [&quot;this&quot;, &quot;that&quot;]];<br />
+    var _array2 = [_the_struct, 5, &quot;hello&quot;, [&quot;this&quot;, &quot;that&quot;]];<br />
+    var _array3 = [{a: 84, b: 38}, 5, &quot;hello&quot;, [&quot;this&quot;, &quot;that&quot;]];<br />
+    <br />
+    show_debug_message($&quot;_array1 equals _array2: {array_equals(_array1, _array2)}&quot;);<br />
+    show_debug_message($&quot;_array1 equals _array3: {array_equals(_array1, _array3)}&quot;);
+  </p>
+  <p>The above code shows a comparison between arrays that hold another array and a struct.</p>
+  <p>Three arrays <span class="inline2">_array1</span>, <span class="inline2">_array2</span> and <span class="inline2">_array3</span> are defined, each holding the exact same variables. Each array stores a struct in the first element that has a variable <span class="inline2">a</span> set to 84 and a variable <span class="inline2">b</span> set to 38. The first two arrays <span class="inline2">_array1</span> and <span class="inline2">_array2</span> reference the same struct, <span class="inline2">_array3</span> doesn&#39;t.</p>
+  <p>Next, <span class="inline2">_array1</span> and <span class="inline2">_array2</span> as well as <span class="inline2">_array1</span> and <span class="inline2">_array3</span> are compared using <span class="inline3_func"><span data-field="title" data-format="default">array_equals</span></span> and the results are output in a debug message. <span class="inline2">_array1</span> equals <span class="inline2">_array2</span> since both arrays hold identical contents. <span class="inline2">_array1</span> doesn&#39;t equal <span class="inline2">_array3</span>, however. While the struct in <span class="inline2">_array3</span> does have the same contents, it doesn&#39;t reference the same struct as <span class="inline2">_array1</span> and <span class="inline2">_array2</span>. <span class="inline3_func"><span data-field="title" data-format="default">array_equals</span></span> compares arrays recursively but doesn&#39;t follow references, instead it compares the references.</p>
   <p> </p>
   <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
         <div style="float:left">Back: <a data-xref="{title}" href="Array_Functions.htm">Array Functions</a></div>
-        <div style="float:right">Next: <a href="array_get.htm">array_get</a></div>
+        <div style="float:right">Next: <a data-xref="{title}" href="array_get.htm">array_get</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2022 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 array_equals

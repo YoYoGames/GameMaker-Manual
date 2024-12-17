@@ -20,12 +20,7 @@
   <div data-conref="../../../../assets/snippets/Note_layer_depth_range.hts"> </div>
   <p class="note"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> This function behaves differently when you call it after calling a room-changing function in the same event. See the note on <span class="inline3_func"><a data-xref="{title}" href="../Rooms/room_goto.htm">room_goto</a></span> for details.</p>
   <p>This function returns the <span class="inline2"><a data-xref="{title}" href="Instance_Variables/id.htm">id</a></span> of the new instance which can then be stored in a variable and used to access that instance. Note that this function will also call the <a href="../../../../The_Asset_Editors/Object_Properties/Object_Events.htm">Create Event</a> of the instance being created <i>before</i> continuing with the code or actions for the event that called the function.</p>
-  <h2>Optional Struct</h2>
-  <p>The last argument, <span class="inline2">var_struct</span>, is optional and takes a struct containing additional variables for the new instance.</p>
-  <p>Variables from this struct are applied to the new instance <em>before</em> its Create event runs, but <em>after</em> its <a href="../../../../The_Asset_Editors/Object_Properties/Object_Variables.htm">Variable Definitions</a> are set.</p>
-  <p>This means that the values from that struct are readable in the Create event of the new instance. See <strong>Example 2</strong> at the bottom.</p>
-  <p>Values applied to the new instance through this struct can be of any type, including <a href="../../../GML_Overview/Method_Variables.htm">method</a> variables. <a href="Instance_Variables/Instance_Variables.htm">Built-in variables</a> can be changed as well.</p>
-  <p class="note"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> Variables from the struct are &quot;shallow-copied&quot; to the new instance, meaning any arrays, structs, and other resources are copied by reference and not duplicated.</p>
+  <div data-conref="../../../../assets/snippets/Note_instance_create_Optional_Struct.hts"> </div>
   <p> </p>
   <h4>Syntax:</h4>
   <p class="code"><span data-field="title" data-format="default">instance_create_depth</span>(x, y, depth, obj, [var_struct]);</p>
@@ -68,13 +63,13 @@
   <p class="code"><span data-keyref="Type_ID_Instance"><a href="Instance_Variables/id.htm" target="_blank">Object Instance</a></span></p>
   <p> </p>
   <h4>Example 1:</h4>
-  <p class="code">var inst = <span data-field="title" data-format="default">instance_create_depth</span>(x, y, -100, obj_Bullet);<br />
-    with (inst)<br />
+  <p class="code">var _inst = <span data-field="title" data-format="default">instance_create_depth</span>(x, y, -100, obj_bullet);<br />
+    with (_inst)<br />
     {<br />
         speed = other.shoot_speed;<br />
         direction = other.image_angle;<br />
     }</p>
-  <p>The above code creates a new instance of the object <span class="inline2">obj_bullet</span> at <span class="inline2">-100</span> depth, and stores the instance ID in a variable. This variable is then used to assign <span class="inline">speed</span> and <span class="inline">direction</span> to the new instance.</p>
+  <p>The above code creates a new instance of the object <span class="inline2">obj_bullet</span> at <span class="inline2">-100</span> depth, and stores the instance ID in a variable. This variable is then used to assign <span class="inline2">speed</span> and <span class="inline2">direction</span> to the new instance.</p>
   <p>This will first create the instance, run its Create event, and <em>then</em> assign values to its variables.</p>
   <p>If you want to assign some variables <em>before</em> the Create event runs, see the example below.</p>
   <p> </p>

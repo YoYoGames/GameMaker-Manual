@@ -46,11 +46,12 @@
     YYAndroidGradleEnd<br />
     YYAndroidGradleAndroid<br />
     YYAndroidGradleDependencies <br />
-    YYAndroidGradleProperties<span class="misspell-word"><br />
-      <bdi>YYAndroidBuildTypesRelease</bdi></span><br />
+    YYAndroidGradleProperties<br />
+    <bdi>YYAndroidBuildTypesRelease</bdi><br />
     YYAndroidManifestAttributes<br />
     YYAndroidManifestApplicationAttributes<br />
     YYAndroidManifestActivityAttributes<br />
+    YYAndroidManifestManifestInject<br />
     YYAndroidManifestActivityInject<br />
     YYAndroidManifestApplicationInject<br />
     YYAndroidStringValuesInjection<br />
@@ -129,39 +130,39 @@
                 <span>FILE_DIR<br />
                   <span>SRC_DIR<br />
                     <span>OUTPUT_DIR<br />
-                      <span><span class="misspell-word">CLASSPATH</span><br />
+                      <span>CLASSPATH<br />
                         <br />
                         // Project Information<br />
-                        <span><span class="misspell-word">YYAndroidPackageName</span><br />
-                          <span><span class="misspell-word">YYAndroidPackageDomain</span><br />
-                            <span><span class="misspell-word">YYAndroidPackageCompany</span><br />
-                              <span><span class="misspell-word">YYAndroidPackageProduct</span><br />
-                                <span><span class="misspell-word">YYAndroidDisplayName</span><br />
-                                  <span><span class="misspell-word">YYAndroidMajorVersion</span><br />
-                                    <span><span class="misspell-word">YYAndroidMinorVersion</span><br />
-                                      <span><span class="misspell-word">YYAndroidBuildVersion</span><br />
-                                        <span class="misspell-word">YYAndroidMinSDKVersion</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span>
+                        <span>YYAndroidPackageName<br />
+                          <span>YYAndroidPackageDomain<br />
+                            <span>YYAndroidPackageCompany<br />
+                              <span>YYAndroidPackageProduct<br />
+                                <span>YYAndroidDisplayName<br />
+                                  <span>YYAndroidMajorVersion<br />
+                                    <span>YYAndroidMinorVersion<br />
+                                      <span>YYAndroidBuildVersion<br />
+                                        YYAndroidMinSDKVersion</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span>
   </p>
   <h3 id="h1">Conditional Injection</h3>
   <p>You can inject code conditionally, depending on the value of one of the <a data-xref="{text}" href="../Extensions.htm#extension_options">Extension Options</a>.</p>
-  <p>Inside a code injection group, use <span class="inline2">toInject</span> with the required option in <span class="inline2">condition</span>:</p>
+  <p>Inside a code injection group, use <span class="inline2">toExpand</span> with the required option in <span class="inline2">condition</span>:</p>
   <p class="code">&lt;YYIosPlist&gt;<br />
      <br />
-    &lt;toInject condition=&#39;${YYEXTOPT_MyExtension_ShouldInject}&#39;&gt;<br />
+    &lt;toExpand condition=&#39;${YYEXTOPT_MyExtension_ShouldInject}&#39;&gt;<br />
     ...<br />
-    &lt;/toInject&gt;<br />
+    &lt;/toExpand&gt;<br />
      <br />
     &lt;/YYIosPlist&gt;</p>
-  <p>This will only inject the code between the <span class="inline2">toInject</span> tags when the option <span class="inline2">YYEXTOPT_MyExtension_ShouldInject</span> is <span class="inline2">true</span>. The option should be of the <strong>Boolean</strong> type.</p>
+  <p>This will only inject the code between the <span class="inline2">toExpand</span> tags when the option <span class="inline2">YYEXTOPT_MyExtension_ShouldInject</span> is <span class="inline2">true</span>. The option should be of the <strong>Boolean</strong> type.</p>
   <p>You can also check against a specific value by specifying it in the <span class="inline2">match</span> attribute:</p>
   <p class="code">&lt;YYIosPlist&gt;<br />
      <br />
-    &lt;toInject condition=&#39;${YYEXTOPT_MyExtension_ShouldInject}&#39; match=&#39;FooBar&#39;&gt;<br />
+    &lt;toExpand condition=&#39;${YYEXTOPT_MyExtension_ShouldInject}&#39; match=&#39;FooBar&#39;&gt;<br />
     &lt;string&gt;This content is injected IF condition == match&lt;/string&gt;<br />
-    &lt;/toInject&gt;<br />
+    &lt;/toExpand&gt;<br />
      <br />
     &lt;/YYIosPlist&gt;</p>
-  <p>This will only inject the code between the <span class="inline2">toInject</span> tags when the option <span class="inline2">YYEXTOPT_MyExtension_ShouldInject</span> is equal to <span class="inline2">&quot;FooBar&quot;</span>. This allows you to match against a value of any type, as this check is done at compile time when all extension option values are provided as strings.</p>
+  <p>This will only inject the code between the <span class="inline2">toExpand</span> tags when the option <span class="inline2">YYEXTOPT_MyExtension_ShouldInject</span> is equal to <span class="inline2">&quot;FooBar&quot;</span>. This allows you to match against a value of any type, as this check is done at compile time when all extension option values are provided as strings.</p>
   <p>Also see: <a data-xref="{text}" href="Creating_An_Extension.htm#h2">Using Extension Options</a></p>
   <h3>Usage Tips</h3>
   <ul class="colour">
@@ -183,7 +184,8 @@
   <p class="note"><span data-conref="../../assets/snippets/Tag_important.hts"> </span> You can create your own tags for this use. Such custom tags must start with <span class="inline2">YYAndroid</span>.</p>
   <p>The <span class="inline2">${YYAndroidMyInjectionTag}</span> part here will be replaced with the contents of the <span class="inline2">&lt;YYAndroidMyInjectionTag&gt; &lt;/YYAndroidMyInjectionTag&gt;</span> group from the extension&#39;s Code Injection window.</p>
   <h3>Custom Files</h3>
-  <p>You can create a folder called &quot;ProjectFiles&quot; in the folder of your extension (alongside its <span class="inline2">.yy</span> file). Any files placed in this folder will be moved to the root of the generated Android project at compile time, and can also take injection tags as described above.</p>
+  <p>You can create a folder called &quot;<strong>AndroidSource</strong>&quot; in the folder of your extension (alongside its <span class="inline2">.yy</span> file) and another folder inside that called &quot;<strong>ProjectFiles</strong>&quot;. Any files placed in this folder will be moved to the root of the generated Android project at compile time, and can also take injection tags as described above.</p>
+  <p>For example, let&#39;s say you want to place the file <span class="inline2">google-services.json</span> into your Android project using the extension <span class="inline2">Extension1</span>, then the final path for that file in your <span data-keyref="GameMaker Name">GameMaker</span> project will be <span class="inline2">&lt;project_directory&gt;/extensions/Extension1/AndroidSource/ProjectFiles</span>.</p>
   <h2>Source Files</h2>
   <p>Once you have set this up correctly, you will need to add the files required for your extension package to work. To do this you need to click on the buttons at the bottom, either <em>Add SDK</em> or <em>Add Source</em> and then browse to the files you wish to add. Added files will be stored in the <span class="inline">AndroidSource</span> directory along with your extension. You can open this location at any time by right clicking <img alt="RMB Icon" class="icon" src="../../assets/Images/Icons/Icon_RMB.png" /> on the extension and selecting <em>Open in Explorer</em>.</p>
   <p>For information on your creating native extensions for Android, see <a href="Extended_Examples.htm">Source Examples</a>.</p>
