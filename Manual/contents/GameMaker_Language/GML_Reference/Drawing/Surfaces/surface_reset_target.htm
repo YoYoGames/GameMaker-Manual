@@ -26,8 +26,9 @@
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
   <h1 id="h"><span data-field="title" data-format="default">surface_reset_target</span></h1>
-  <p>This function resets all further drawing from the target surface back to the screen.</p>
-  <p>Please note that to start drawing to a surface you must first have called the function <span class="inline3_func"><a data-xref="{text}" href="surface_set_target.htm#h">surface_set_target</a></span> and then this one after you have finished, <i>for each surface target that you have set</i> or else nothing will be drawn on the screen as all further drawing (even in other instances) will be done on the surface. You should also realise that nothing will be seen if the surface itself is not drawn on the screen in the draw event of an instance.</p>
+  <p>This function resets all further drawing from the current surface back to the previous draw target.</p>
+  <p>The previous target can be another surface (the <a href="application_surface.htm" title="application_surface">application surface</a>, a <a href="../../Cameras_And_Display/Cameras_And_Viewports/view_surface_id.htm" title="view_surface_id">view surface,</a> a <a href="surface_create.htm" title="surface_create()">custom surface</a>) or the <a class="glossterm" data-glossterm="display buffer" href="#">display buffer</a>, depending on where the call to the corresponding <span class="inline3_func"><a data-xref="{title}" href="surface_set_target.htm">surface_set_target</a></span> was made. See: <a data-xref="{text}" href="../Drawing.htm#drawing_targets">Draw Targets</a></p>
+  <p>Please note that to start drawing to a surface you must first have called the function <span class="inline3_func"><a data-xref="{text}" href="surface_set_target.htm#h">surface_set_target</a></span> and then this one after you have finished, <i>for each surface target that you have set</i> or else nothing will be drawn on the screen as all further drawing (even in other instances) will be done on the surface. You should also realise that nothing will be seen if the surface itself is not drawn on the screen in the Draw event of an instance.</p>
   <div data-conref="../../../../assets/snippets/Note_Surface_Function_Silently_Fails.hts"> </div>
   <p> </p>
   <h4>Syntax:</h4>
@@ -40,7 +41,7 @@
   <p class="code">if (view_current == 0)<br />
     {<br />
         surface_set_target(surf);<br />
-        with (obj_Effect)<br />
+        with (obj_effect)<br />
         {<br />
             draw_self();<br />
         }<br />
@@ -50,14 +51,14 @@
     {<br />
         draw_surface(surf, 0, 0);<br />
     }</p>
-  <p>The above code will check to see which view is currently being drawn, and if it is view[0] it sets the draw target to a surface and draws all instances of the object <span class="inline2">obj_Effect</span> before resetting the draw target again. If the view is not view[0] the surface is drawn to the screen.</p>
+  <p>The above code checks to see which view is currently being drawn, and if it is view[0] it sets the draw target to a surface and draws all instances of the object <span class="inline2">obj_effect</span> before resetting the draw target again. If the view is not view[0] the surface is drawn to the screen.</p>
   <p> </p>
   <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a href="Surfaces.htm">Surfaces</a></div>
-        <div style="float:right">Next: <a href="surface_copy.htm">surface_copy</a></div>
+        <div style="float:left">Back: <a data-xref="{title}" href="Surfaces.htm">Surfaces</a></div>
+        <div style="float:right">Next: <a data-xref="{title}" href="surface_copy.htm">surface_copy</a></div>
       </div>
     </div>
     <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
