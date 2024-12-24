@@ -19,29 +19,48 @@
   <p>A very handy tool you have at your disposal when editing your code is the use of <strong>Code Snippets</strong>.</p>
   <p>These are pre-made blocks of code you can insert into your code at any time. A snippet can have <em>placeholders</em>, where you can insert expressions while entering the snippet.</p>
   <h2>Using Snippets</h2>
-  <p>In <a data-xref="{title}" href="../The_Text_Editor.htm">The Code Editor</a>, code snippets are inserted through <a data-xref="{title}" href="Feather_Features.htm">Code Completion</a>. For example, writing <span class="inline2">for</span> will show its snippet in the <a data-xref="{text}" href="Feather_Features.htm#h3">Candidate Window</a>, and pressing <span class="shortcut">enter</span> will insert that snippet.</p>
+  <p>In <a data-xref="{title}" href="../The_Text_Editor.htm">The Code Editor (Beta)</a>, code snippets are inserted through <a data-xref="{title}" href="Feather_Features.htm">Code Completion</a>. For example, writing <span class="inline2">for</span> will show its snippet in the <a data-xref="{text}" href="Feather_Features.htm#h3">Candidate Window</a>, and pressing <span class="shortcut">enter</span> will insert that snippet.</p>
   <p><video src="../../assets/Images/The_IDE/Code Editor/Snippets_CE2.mp4" width="366" height="134" controls="" class="center"></video></p>
   <p>Inserting a snippet will highlight its first placeholder. After entering text into that placeholder, press <span class="shortcut">tab</span> to cycle through each placeholder until you have gone through all of them.</p>
   <h3>Custom Snippets</h3>
-  <p>You can also define your own code snippets if you want to. Before doing this, you&#39;ll need to create a file called &quot;<span class="inline">snippets.txt</span>&quot; in one of the following directories:</p>
+  <p>You can also define your own code snippets if you want to. Before doing this, you&#39;ll need to create a file with the extension <span class="inline2">.tmSnippet</span> in one of the following directories:</p>
   <ul class="colour">
     <li>Windows: <span class="inline">%ProgramData%\<span class="inline"><span data-keyref="GameMaker_Paths_Directory_Name">GameMakerStudio2</span></span>\User\</span></li>
     <li>macOS: <span class="inline">/Users/Shared/<span><span class="inline"><span data-keyref="GameMaker_Paths_Directory_Name">GameMakerStudio2</span></span></span>/User/</span></li>
     <li>Ubuntu: <span><span class="inline">./var/opt/<span data-keyref="GameMaker_Paths_Directory_Name">GameMakerStudio2</span>/</span>  <em>OR</em>   <span class="inline">~/.local/share/<span><span class="inline"><span data-keyref="GameMaker_Paths_Directory_Name">GameMakerStudio2</span></span></span></span></span></li>
   </ul>
   <p>This folder is <em>not </em>modified during any update to <span data-keyref="GameMaker Name">GameMaker</span>, so your edited file will remain intact (but any edits to the base snippets file in the install directory will be reverted).</p>
-  <p>Once the file is created in the User directory, you can edit it with any text editor following these rules:</p>
+  <p>Each <span class="inline2">.tmSnippet</span> file must contain one snippet. The following rules must be followed for the file:</p>
+  <ul class="colour">
+    <li> </li>
+  </ul>
+  <ul class="colour">
+    <li>Hotkeys for your snippets can be assigned in the <a data-xref="{title}" href="../../Setting_Up_And_Version_Information/IDE_Preferences/Redefine_Keys_Preferences.htm">Redefine Keys Preferences</a> under the &quot;Text Editor&quot; section. They will be created as unbound by default.</li>
+  </ul>
+  <p>These snippets must follow a specific format where:</p>
+  <ul class="colour">
+    <li>All code is on a single line</li>
+    <li>You use &quot;<span class="inline">\n</span>&quot; for a newline</li>
+    <li>You place tab stops with numbers after <span class="inline2">$</span>, e.g. <span class="inline2">$0</span> for the first tab stop, <span class="inline2">$1</span> for the second, etc.</li>
+    <li>Tab stops can contain placeholder text, e.g. <span class="inline2">{$0:insert_function_name}();</span>. A tab stop may be surrounded with <span class="inline2">{}</span> to define placeholder boundaries.</li>
+  </ul>
+  <p>More rules about the snippet syntax can be <a href="https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#snippet_syntax">found here</a>. If the legacy <span class="inline2">snippets.txt</span> file (described in the section below) is found in the <strong>User</strong> directory, all contained snippets will automatically be converted to <span class="inline2">.tmSnippet</span> files when the IDE is started.</p>
+  <h2><span data-keyref="Code_Editor1_Name">Legacy Code Editor</span></h2>
+  <p>When using the <span data-keyref="Code_Editor1_Name">Legacy Code Editor</span>, you can press <span class="inline">F4</span> to open the code snippet pop-up:</p>
+  <p><img alt="Code Snippets Window" class="center" src="../../assets/Images/Asset_Editors/CodeSnippets_IDE.png" />From this window you can select with the mouse the snippet to use, or you can press the associated hotkey listed on the right. This will add the snippet to your code for editing.</p>
+  <p>Snippets for the <span data-keyref="Code_Editor1_Name">Legacy Code Editor</span> can be created in the same directories listed above, but instead in a <span class="inline2">snippets.txt</span> file.</p>
+  <p>The following rules must be followed for the snippets file:</p>
   <ul class="colour">
     <li>Each snippet has to be on a separate line (there should be no blank lines)</li>
     <li>Each snippet must start with the name of the snippet (which is what is shown in the menu) followed by a colon &quot;<span class="inline">:</span>&quot;, e.g.:</li>
   </ul>
   <p class="code" style="margin-left: 100px">Instance Create:</p>
   <p style="margin-left: 60px">After the colon you add your snippet of code:</p>
-  <p class="code" style="margin-left: 100px">Instance Create:instance_create_layer(x, y, |layer|, object);</p>
+  <p class="code" style="margin-left: 100px">Instance Create:instance_create_layer(x, y, {$0:layer}, object);</p>
   <ul class="colour">
     <li>Hotkeys for your snippets can be assigned in the <a data-xref="{title}" href="../../Setting_Up_And_Version_Information/IDE_Preferences/Redefine_Keys_Preferences.htm">Redefine Keys Preferences</a> under the &quot;Text Editor&quot; section. They will be created as unbound by default.</li>
   </ul>
-  <p>The code that you add must also follow a specific format where:</p>
+  <p>These snippets must follow a specific format where:</p>
   <ul class="colour">
     <li>All code is on a single line</li>
     <li>You use &quot;<span class="inline">$</span>&quot; for a newline
@@ -58,9 +77,6 @@
     <li>Ubuntu: <span class="inline">/opt/GameMaker/x86_64/TextEditor/snippets.txt</span></li>
   </ul>
   <p><img alt="Code Snippets Example" class="center" src="../../assets/Images/Asset_Editors/CodeSnippets_Example.png" /></p>
-  <h2><span data-keyref="Code_Editor1_Name">Legacy Code Editor</span></h2>
-  <p>When using the <span data-keyref="Code_Editor1_Name">Legacy Code Editor</span>, you can press <span class="inline">F4</span> to open the code snippet pop-up:</p>
-  <p><img alt="Code Snippets Window" class="center" src="../../assets/Images/Asset_Editors/CodeSnippets_IDE.png" />From this window you can select with the mouse the snippet to use, or you can press the associated hotkey listed on the right. This will add the snippet to your code for editing.</p>
   <p> </p>
   <p> </p>
   <div class="footer">
