@@ -42,18 +42,61 @@
     other.hit = true;</p>
   <h2 id="h">When &#39;other&#39; changes</h2>
   <p>The page on <span class="inline2"><a data-xref="{title}" href="self.htm">self</a></span> contains a section on <a data-xref="{text}" href="self.htm#h">When &#39;self&#39; changes</a>.</p>
-  <p>This section will describe those cases in relation to how <span class="inline2">other</span> changes:</p>
+  <p>This section describes those cases in relation to how <span class="inline2">other</span> changes:</p>
   <ul class="colour">
     <li>Inside a <span class="inline3_func"><a data-xref="{title}" href="../Language_Features/with.htm">with</a></span> block, <span class="inline2">other</span> will be the instance or struct that called the <span class="inline2">with()</span> function</li>
+  </ul>
+  <p class="code">value = 40;<br />
+    <br />
+    var _struct = {<br />
+        value : 99<br />
+    }<br />
+    <br />
+    with (_struct) <br />
+    {<br />
+        show_debug_message(other.value); // Prints 40<br />
+    }
+  </p>
+  <ul class="colour">
+    <li>Using dot notation on a struct or instance (<span class="inline2">struct.variable</span>)</li>
     <li>When calling a <a href="../Method_Variables.htm">method</a> that is bound to an instance or a struct, <span class="inline2">other</span> will be the instance or struct that called that method</li>
+  </ul>
+  <p class="code">value = 40;<br />
+    <br />
+    var _struct = instance_create_depth(0, 0, 0, Object2, {<br />
+        value : 99,<br />
+        func : function () {<br />
+            return other.value;<br />
+        }<br />
+    });<br />
+    <br />
+    var _func = _struct.func;<br />
+    <br />
+    show_message(_func()); // Prints 40
+  </p>
+  <ul class="colour">
+    <li>In the above case, calling <span class="inline2">_struct.func()</span> directly would return <span class="inline2">99</span>, as the scope first changes to <span class="inline2">_struct</span> due to dot notation, and then it changes again when the bound method is called, making the <span class="inline2">other</span> the previous scope at the moment the method is called, which is the struct (with <span class="inline2">value</span> set to <span class="inline2">99</span>)</li>
     <li>When calling an unbound constructor function, <span class="inline2">other</span> will be the instance or struct that called that function. If the constructor is bound as a method, then <span class="inline2">other</span> will be the instance or struct to which the constructor method is bound.</li>
+  </ul>
+  <p class="code">value = 40;<br />
+    <br />
+    item = function () constructor {<br />
+        value = 99;<br />
+        <br />
+        copied_value = other.value;<br />
+    }<br />
+    <br />
+    my_item = new item();<br />
+    show_debug_message(my_item.copied_value); // Prints 40
+  </p>
+  <ul class="colour">
     <li>When stored as a reference through a struct literal, covered below under &quot;<strong>&#39;other&#39; as a reference</strong>&quot;.</li>
   </ul>
   <h3 id="legacy_other_behaviour">Legacy other Behaviour</h3>
   <p>In previous versions of <span data-keyref="GameMaker Name">GameMaker</span> <span class="inline2">other</span> only changed in the following cases: </p>
   <ul class="colour">
-    <li>As part of the <span class="inline2">with</span> statement.</li>
-    <li>When <span class="inline2">new</span> is called when a constructor is executed <span class="inline2">other</span> is set to the <span class="inline2">self</span> at the point that <span class="inline2">new</span> was called.</li>
+    <li>As part of the <span class="inline2">with</span> statement</li>
+    <li>When <span class="inline2">new</span> is called when a constructor is executed <span class="inline2">other</span> is set to the <span class="inline2">self</span> at the point that <span class="inline2">new</span> was called</li>
   </ul>
   <p>This behaviour can be enabled by the <a href="../../../Settings/Game_Options.htm#legacy_other_behaviour">Legacy Other Behaviour</a> game option.</p>
   <h2>Struct Declaration</h2>
