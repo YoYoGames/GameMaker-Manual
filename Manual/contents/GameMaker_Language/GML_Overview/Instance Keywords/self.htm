@@ -24,12 +24,42 @@
     }</p>
   <p>In this example you can see that we have a <i>local</i> variable called <span class="inline2">val</span> and we want it to set the <i>instance</i> variable with the same name in the newly created object instance. To identify the instance variable correctly and tell <span data-keyref="GameMaker Name">GameMaker</span> to set it in the instance calling the code block, we use the <span class="inline2">self</span> keyword.</p>
   <p><span class="inline2">self</span> is used in the same way with <a href="../Structs.htm">structs</a> to reference member variables of the struct. It can also be used within constructor functions to reference the struct being generated from the constructor.</p>
+  <p class="note"><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> Due to compatibility reasons, converting <span class="inline2">self</span> into a <a data-xref="{title}" href="../../GML_Reference/Strings/string.htm">string</a> will return -1.</p>
   <h2 id="h">When &#39;self&#39; changes</h2>
-  <p>Within an event, the current <span class="inline2">self</span> will change in the following situations:</p>
+  <p>Within an event or script, the current <span class="inline2">self</span> will change in the following situations:</p>
   <ul class="colour">
     <li>Inside a <span class="inline3_func"><a data-xref="{title}" href="../Language_Features/with.htm">with</a></span> block, as shown above</li>
-    <li>When calling a <a href="../Method_Variables.htm">method</a> that is bound to an instance or a struct, the <span class="inline2">self</span> during the execution of that function will be the instance or struct to which the method is bound</li>
+    <li>Using dot notation on a struct or instance (<span class="inline2">struct.variable</span>)</li>
+    <li>When calling a <a href="../Method_Variables.htm">method</a> that is bound to an instance or a struct, the <span class="inline2">self</span> during the execution of that method will be the instance or struct to which the method is bound</li>
+  </ul>
+  <p class="code">value = 40;<br />
+    <br />
+    var _struct = instance_create_depth(0, 0, 0, Object2, {<br />
+        value : 99,<br />
+        func : function () {<br />
+            return self.value;<br />
+        }<br />
+    });<br />
+    <br />
+    var _func = _struct.func;<br />
+    <br />
+    show_message(_func()); // Prints 99
+  </p>
+  <ul class="colour">
     <li>When calling a constructor function, <span class="inline2">self</span> will refer to the new struct that is being generated as a result of that function.</li>
+  </ul>
+  <p class="code">value = 40;<br />
+    <br />
+    item = function () constructor {<br />
+        value = 99;<br />
+        <br />
+        copied_value = self.value;<br />
+    }<br />
+    <br />
+    my_item = new item();<br />
+    show_debug_message(my_item.copied_value); // Prints 99
+  </p>
+  <ul class="colour">
     <li>When stored as a reference through a struct literal, covered below under &quot;<strong>&#39;self&#39; as a reference</strong>&quot;.</li>
   </ul>
   <p>In all of these cases, when <span class="inline2">self</span> changes to a new scope, <span class="inline2"><a href="other.htm">other</a></span> will be set to be the previous scope. The only exception is when a bound constructor method is called. This is described more in <a data-xref="{text}" href="other.htm#h">When &#39;other&#39; changes</a>.</p>
