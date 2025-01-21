@@ -39,8 +39,12 @@
       The benefit of doing a unity build is that builds are faster but the down side is that it does a <i>full</i> build each time so even if you change a single part of the code it will build everything again without using any cached files. This has been added specifically for the Xbox One export using the YYC although it can be called for other builds (<b>YYC only</b>). For more information on unity builds, please see <a href="https://buffered.io/posts/the-magic-of-unity-builds/" target="_blank">here</a>.
     </li>
     <li>&quot;<strong>AllowReentrantStatic</strong>&quot; - This pragma reverts static initialisation to the old re-entrant initialisation behaviour of <span data-keyref="GameMaker Name">GameMaker</span> versions up to 2024.8. It is a project-wide setting and so cannot be put around code sections. The following code enables this old behaviour: 
-      <p class="code"><span data-field="title" data-format="default">gml_pragma</span>( &quot;AllowReentrantStatic&quot;, true);</p>
+      <p class="code"><span data-field="title" data-format="default">gml_pragma</span>(&quot;AllowReentrantStatic&quot;, true);</p>
       <p><span data-conref="../../../assets/snippets/Tag_warning.hts"> </span> You should only use this in existing projects that make use of the old behaviour. <span data-condition="Export:Beta"><a data-xref="{title}" href="../../../Settings/Runner_Details/GMRT_(GameMaker_Runtime).htm">GMRT (GameMaker Runtime)</a> will no longer allow it.</span></p>
+    </li>
+    <li>&quot;<strong>MarkTagAsUsed</strong>&quot; - When &quot;<strong>Automatically remove unused assets when compiling</strong>&quot; is enabled in the <a data-xref="{title}" href="../../../Settings/Game_Options.htm">Game Options</a>, any unused assets are stripped from the compiled game. This can break games that dynamically load assets at runtime. With this pragma you can mark the <a data-xref="{text}" href="../../../Introduction/The_Asset_Browser.htm#h" title="tags">Tags</a> that should not be stripped and any assets with the assigned tags will always be present in the compiled game package.
+      <p class="code">gml_pragma(&quot;MarkTagAsUsed&quot;, &quot;used&quot;);<br />
+        gml_pragma(&quot;MarkTagAsUsed&quot;, &quot;multiple&quot;, &quot;tags&quot;, &quot;can&quot;, &quot;be&quot;, &quot;specified&quot;);</p>
     </li>
   </ul>
   <p class="note"><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> The first argument to the <span class="inline3_func"><span data-field="title" data-format="default">gml_pragma</span></span> function <b>must be a compile-time string constant</b> and not a variable.</p>
