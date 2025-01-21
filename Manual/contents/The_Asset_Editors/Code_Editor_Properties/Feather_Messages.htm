@@ -4,7 +4,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="generator" content="Adobe RoboHelp 2022" />
-  <title>Feather Messages</title>
+  <title>Feather Rules</title>
   <meta name="topic-status" content="Draft" />
   <link rel="stylesheet" type="text/css" href="../../assets/css/default.css" />
   <meta name="template" content="../../assets/masterpages/Manual_Page.htt" />
@@ -14,8 +14,27 @@
   <meta name="rh-index-keywords" content="directive,directives,feather" />
 </head>
 <body>
-  <h1><span data-field="title" data-format="default">Feather Messages</span></h1>
-  <p> </p>
+  <h1><span data-field="title" data-format="default">Feather Rules</span></h1>
+  <p>This page contains descriptions of all Feather rules that are shown under <a data-xref="{text}" href="../../Setting_Up_And_Version_Information/IDE_Preferences/Feather_Settings.htm#s3">Message Severity</a> in the <a data-xref="{title}" href="../../Setting_Up_And_Version_Information/IDE_Preferences/Feather_Settings.htm">Feather Preferences</a>.</p>
+  <p><img class="center" src="../../assets/Images/Setup_And_Version/Preferences/Feather/FeatherPrefs_NamingRules.png" /></p>
+  <h2>Rules</h2>
+  <h3>GM1000 - No enclosing loop from which to break.</h3>
+  <p>The keyword &#39;break&#39; must be used inside the body of a loop statement such as &#39;while&#39;, &#39;for&#39;, &#39;repeat&#39;, or &#39;with&#39;.<br />
+    Usage outside of a loop statement is not possible and results in a Compile Error.</p>
+  <h4>Example</h4>
+  <p class="code">var _items = get_items();<br />
+    var i = 0;<br />
+    repeat (array_length(_items))<br />
+    {<br />
+        var _item = _items[i++];<br />
+        if (_item == undefined)<br />
+            break; // Good!<br />
+                <br />
+        // ... Some logic here ...<br />
+    }<br />
+        <br />
+    break; // GM1000 - No loop to break from.</p>
+  <p>Correcting this error requires identifying where the break statement was intended to go and moving it to the correct location. In the above example there was no loop to break from and thus the fix is to simply remove the last &#39;break&#39; statement.</p>
   <p> </p>
   <p> </p>
   <p> </p>
