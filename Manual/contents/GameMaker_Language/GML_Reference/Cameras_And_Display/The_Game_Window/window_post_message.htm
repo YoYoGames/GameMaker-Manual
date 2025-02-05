@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>window_post_message</title>
+  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
+  <script src="../../../../assets/scripts/main_script.js" type="module"></script>
+  <meta name="rh-authors" content="Gurpreet S. Matharoo" />
+  <meta name="topic-comment" content="Reference page for window_post_message" />
+  <meta name="rh-index-keywords" content="window_center" />
+  <meta name="search-keywords" content="window_center" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1><span data-field="title" data-format="default">window_post_message</span></h1>
+  <p>This function is for the <strong>GX.games</strong> target and is used to send a message to the host window containing the game. It takes a string which is sent to the host <span class="inline2">iframe</span>.</p>
+  <h3>Host Webpage</h3>
+  <p>The host webpage should contain the game within an <span class="inline2">iframe</span> (as shown in the example below). If an <span class="inline2">iframe</span> is not found, the message will be sent back to the runner.</p>
+  <p>In a script on the same page, you can use <span class="inline2">window.addEventListener(&#39;message&#39;, &lt;function&gt;&#39;)</span> to listen for messages sent from the runner using <span class="inline3_func"><span data-field="title" data-format="default">window_post_message</span></span>. The argument received in the callback contains an <span class="inline2">origin</span> variable with a URL and a <span class="inline2">data</span> variable with the string received.</p>
+  <p>From the same webpage, you can call the <span class="inline2">.contentWindow.postMessage()</span> function on your <span class="inline2">iframe</span> element to send a string or object to the runner. This is received by the runner in an <strong>Async System</strong> event as described in the next section.</p>
+  <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down" href="#">Example HTML</a></p>
+  <div class="droptext" data-targetname="drop-down">
+    <p class="dropspot">The following is example HTML code (inside a <span class="inline2">body</span> tag) containing the game in an <span class="inline2">iframe</span>, with a button for sending data to the runner and an event listener for receiving messages and logging them to the console.</p>
+    <p class="code">&lt;!-- The iframe running the game, the link is from a webserver hosting the game&#39;s html file --&gt;<br />
+      <br />
+      &lt;iframe id=&quot;gameframe&quot; sandbox=&quot;allow-same-origin allow-scripts allow-popups allow-forms&quot; src=&quot;http://127.0.0.1:51264/runner.html?game=BLANK_GAME_13&quot; name=&quot;&quot; width=&quot;1366&quot; height=&quot;768&quot; frameborder=&quot;0&quot; marginheight=&quot;0&quot; scrolling=&quot;no&quot;&gt;&lt;/iframe&gt;<br />
+      <br />
+      &lt;!-- The button used to send data to the runner --&gt;<br />
+      <br />
+      &lt;button type=&quot;button&quot; onclick=&quot;document.getElementById(&#39;gameframe&#39;).contentWindow.postMessage(&#39;Hello this is a message from your host window&#39;,&#39;*&#39;)&quot;&gt;Post Message&lt;/button&gt;<br />
+      <br />
+      &lt;!-- A script that creates a listener for the runner&#39;s messages --&gt;<br />
+      <br />
+      &lt;script type=&quot;text/javascript&quot;&gt;<br />
+      window.addEventListener(&#39;message&#39;, function(e) {<br />
+        console.log(e.origin);<br />
+        alert(&quot;MessageReceived:&quot;+e.data);<br />
+      }, false);<br />
+      &lt;/script&gt;
+    </p>
+  </div>
+  <h3>Async System event</h3>
+  <p>Messages sent by the host webpage are received in the <a href="../../../../The_Asset_Editors/Object_Properties/Async_Events/System.htm">Async System</a> event. The <span class="inline2">async_load</span> DS map in the event will contain the following variables:</p>
+  <ul class="colour">
+    <li><span class="inline2">&quot;event_type&quot;</span>: <span class="inline2">&quot;post_message_received&quot;</span></li>
+    <li><span class="inline2">&quot;origin&quot;</span>: The origin of the received message, <span class="inline2">undefined</span> if not valid</li>
+    <li><span class="inline2">&quot;data&quot;</span>: The received string, <span class="inline2">undefined</span> if not valid. If the host webpage sent a data object, this will be a JSON string representing that data, which can be converted to structs/arrays using <span class="inline3_func"><a data-xref="{title}" href="../../File_Handling/Encoding_And_Hashing/json_parse.htm">json_parse</a></span>.</li>
+  </ul>
+  <p> </p>
+  <h4>Syntax:</h4>
+  <p class="code"><span data-field="title" data-format="default">window_post_message</span>(data);</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>Argument</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>data</td>
+        <td><span data-keyref="Type_String"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">String</a></span></td>
+        <td>The string to send</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>Returns:</h4>
+  <p class="code"><span data-keyref="Type_Void">N/A</span></p>
+  <p> </p>
+  <h4>Example: Sending data</h4>
+  <p class="code">if (keyboard_check_released(vk_space))<br />
+    {<br />
+        var data = {<br />
+            &quot;action&quot;: &quot;score&quot;,<br />
+            &quot;score&quot;: 10<br />
+        };<br />
+    <br />
+        window_post_message(json_stringify(data));<br />
+    }
+  </p>
+  <p>When <span class="shortcut">space</span> is pressed, this will create a struct and send a JSON string of that struct to the host window.</p>
+  <p> </p>
+  <h4>Example: Receiving data</h4>
+  <p class="code">if (async_load[? &quot;event_type&quot;] == &quot;post_message_received&quot;)<br />
+    {<br />
+        var _origin = async_load[? &quot;origin&quot;];<br />
+        <br />
+        if (_origin != undefined)<br />
+        {<br />
+            show_debug_message(&quot;Message received from: &quot; + string(_origin));<br />
+        }<br />
+        <br />
+        var _data = async_load[? &quot;data&quot;];    <br />
+        <br />
+        if (_data != undefined)<br />
+        {<br />
+            show_debug_message(&quot;Message received: &quot; + string(_data));<br />
+        }<br />
+    }</p>
+  <p>When a message is received, this prints the <span class="inline2">origin</span> and <span class="inline2">data</span> variables to the output log, only if they are not <span class="inline2">undefined</span>.</p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Back: <a href="../The_Game_Window/The_Game_Window.htm">The Game Window</a></div>
+        <div style="float:right">Next: <a href="../The_Game_Window/window_handle.htm">window_handle</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2025 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+window_center
+-->
+  <!-- TAGS
+window_center
+-->
+</body>
+</html>
