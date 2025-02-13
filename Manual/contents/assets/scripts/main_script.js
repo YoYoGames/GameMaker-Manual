@@ -2614,8 +2614,8 @@ var array = [
   { name: "Italiano", code: "it" },
   { name: "Polski", code: "pl" },
   { name: "Português Brasileiro", code: "br" },
-  { name: "한국인", code: "ko" },
-  { name: "中国人", code: "zh" },
+  { name: "한국어", code: "ko" },
+  { name: "中文", code: "zh" },
   { name: "日本語", code: "ja" }
 ];
 
