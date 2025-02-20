@@ -17,8 +17,12 @@
   <!--<div class="body-scroll" style="top: 150px;">-->
   <h1><span data-field="title" data-format="default">asset_get_index</span></h1>
   <p>This function gets the handle for a game asset from its name.</p>
-  <p>If the asset is not found, the function will return a value of -1, otherwise it will return the handle for the asset being checked. This handle can then be used in other functions as you would any other handle, like <span class="inline2"><a data-xref="{title}" href="../Sprites/Sprite_Instance_Variables/sprite_index.htm">sprite_index</a></span> or <span class="inline2"><a data-xref="{title}" href="../Paths/Path_Variables/path_index.htm">path_index</a></span>, for example. Please note that although this function can be used to reference assets from strings (see example below), you should always make sure that the asset exists before using it otherwise you may get errors that will crash your game.</p>
-  <p class="note"><span data-conref="../../../../assets/snippets/Tag_important.hts"> </span> When &quot;<strong>Automatically remove unused assets when compiling</strong>&quot; is enabled (which it is by default) attempting to get an asset using its name will return -1 if that asset is not referenced directly elsewhere in your project. To load assets dynamically using this function you must disable the game option or use <span class="inline2"><a data-xref="{title}" href="../../OS_And_Compiler/gml_pragma.htm">gml_pragma</a>(&quot;MarkTagAsUsed&quot;, &lt;tags&gt;)</span> with a tag assigned to the assets to be loaded.</p>
+  <p>If the asset is not found, the function will return a value of -1, otherwise it will return the handle for the asset being checked. This handle can then be used in other functions as you would any other handle, like <span class="inline2"><a data-xref="{title}" href="../Sprites/Sprite_Instance_Variables/sprite_index.htm">sprite_index</a></span> or <span class="inline2"><a data-xref="{title}" href="../Paths/Path_Variables/path_index.htm">path_index</a></span>, for example.</p>
+  <h3>Usage Notes</h3>
+  <ul class="colour">
+    <li>Although this function can be used to reference assets from strings (see the first example below), you should always make sure that the asset exists before using it. Otherwise, you may get errors that will crash your game.</li>
+    <li>If the only reference to an asset in your code is through this function (as a string) then the asset will not be known to the compiler, which will remove it if <strong>Automatically remove unused assets when compiling</strong> is enabled in the <a data-xref="{title}" href="../../../../Settings/Game_Options.htm">Game Options</a> (the default). Consequently, the asset will not be found at runtime and the function will return -1. To prevent this you can assign this asset a tag in <a data-xref="{title}" href="../../../../Introduction/The_Asset_Browser.htm">The Asset Browser</a> and mark all assets with this tag as &quot;used&quot; using the &quot;MarkTagAsUsed&quot; <span class="inline3_func"><a data-xref="{title}" href="../../OS_And_Compiler/gml_pragma.htm">gml_pragma</a></span>. See the second example.</li>
+  </ul>
   <p> </p>
   <h4>Syntax:</h4>
   <p class="code"><span data-field="title" data-format="default">asset_get_index</span>(name);</p>
@@ -40,22 +44,33 @@
   <h4>Returns:</h4>
   <p class="code"><span data-keyref="Type_Asset"><a href="../../../../The_Asset_Editors/The_Asset_Editors.htm" target="_blank">Asset</a></span> (any asset type)</p>
   <p> </p>
-  <h4>Example:</h4>
-  <p class="code">var obj = asset_get_index(&quot;obj_Enemy_&quot; + string(global.Level));<br />
+  <h4>Example 1: Basic Use</h4>
+  <p class="code">var _obj = asset_get_index(&quot;obj_enemy_&quot; + string(global.level));<br />
     <br />
-    if (object_exists(obj))<br />
+    if (object_exists(_obj))<br />
     {<br />
-        instance_create_layer(random(room_width), random(room_height), &quot;Enemy_Layer&quot;, obj);<br />
+        instance_create_layer(random(room_width), random(room_height), &quot;Enemy_Layer&quot;, _obj);<br />
     }
   </p>
   <p>The above code will get an object asset from a string, and if that asset exists, create an instance of the object in the game.</p>
+  <p> </p>
+  <h4>Example 2: &quot;MarkTagAsUsed&quot; pragma</h4>
+  <p class="code_heading">Script Asset</p>
+  <p class="code">gml_pragma(&quot;MarkTagAsUsed&quot;, &quot;include_me&quot;);</p>
+  <p class="code_heading">Create Event</p>
+  <p class="code">var _index = irandom(7);<br />
+    my_sprite = asset_get_index($&quot;spr_npc_{_index}&quot;);</p>
+  <p class="code_heading">Draw Event</p>
+  <p class="code">draw_sprite(my_sprite, 0, x, y);</p>
+  <p>The above code first marks all assets with an <span class="inline2">&quot;include_me&quot;</span> tag as &quot;used&quot; in a call to <span class="inline3_func"><a data-xref="{title}" href="../../OS_And_Compiler/gml_pragma.htm">gml_pragma</a></span> in a script asset. In an object&#39;s Create event, a random number from 0 to 7 is chosen for the current instance with <span class="inline3_func"><a data-xref="{title}" href="../../Maths_And_Numbers/Number_Functions/irandom.htm">irandom</a></span> and <span class="inline3_func"><span data-field="title" data-format="default">asset_get_index</span></span> is called to retrieve the NPC sprite with that suffix number. Finally, in the Draw event, the chosen sprite is drawn at the instance&#39;s position.<br />
+    For this code to work correctly the project must contain 8 sprite assets named <span class="inline2">spr_npc_0</span>, <span class="inline2">spr_npc_1</span>, <span class="inline2">spr_npc_2</span>, ..., <span class="inline2">spr_npc_7</span>, each of them tagged <span class="inline2">&quot;include_me&quot;</span>. In this case the <span class="inline3_func"><a data-xref="{title}" href="../Sprites/Sprite_Manipulation/sprite_exists.htm">sprite_exists</a></span> check isn&#39;t needed and can be left out.</p>
   <p> </p>
   <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a href="Assets_And_Tags.htm">Assets And Tags</a></div>
-        <div style="float:right">Next: <a href="asset_get_type.htm">asset_get_type</a></div>
+        <div style="float:left">Back: <a data-xref="{title}" href="Assets_And_Tags.htm">Assets And Tags</a></div>
+        <div style="float:right">Next: <a data-xref="{title}" href="asset_get_type.htm">asset_get_type</a></div>
       </div>
     </div>
     <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2025 All Rights Reserved</span></h5>
