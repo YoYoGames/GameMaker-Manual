@@ -16,38 +16,11 @@
   <!--<div class="body-scroll" style="top: 150px;">-->
   <h1><span data-field="title" data-format="default">Guide To Using Buffers</span></h1>
   <p>A buffer (in programming) is basically a space within the system memory that is used to store small packets of data for just about anything (for example: data transfer, collisions, colour data, etc.). Since it is held in system memory it is very fast to access, and a buffer would generally be used for very short-term storage, like receiving network information before processing it, or for storing a checkpoint in your game (this is explained in the example given further down the page).</p>
-  <p><img alt="Buffer Memory" class="center" src="../assets/Images/Scripting_Reference/Additional_Information/Buffer_Memory.png" />Buffers are created by allocating a space in the system memory, calculated in <a class="glossterm" data-glossterm="byte" href="#">byte</a> <span class="glossextra">s</span>, which is then reserved for your game as long as your game is running or until you delete the buffer using the appropriate function (you can find all the GML buffer functions listed <a href="../GameMaker_Language/GML_Reference/Buffers/Buffers.htm">here</a>). This means that even when your game is not in focus (for example, on a mobile device when you take a call the game will be put into the background) the buffer will still exist, however if the game is closed or re-started the buffer will be lost.</p>
+  <p><img alt="Buffer Memory" class="center" height="163" src="../assets/Images/Scripting_Reference/Additional_Information/Buffer_Memory.png" width="480" />Buffers are created by allocating a space in the system memory, calculated in <a class="glossterm" data-glossterm="byte" href="#">byte</a> <span class="glossextra">s</span>, which is then reserved for your game as long as your game is running or until you delete the buffer using the appropriate function (you can find all the GML buffer functions listed <a href="../GameMaker_Language/GML_Reference/Buffers/Buffers.htm">here</a>). This means that even when your game is not in focus (for example, on a mobile device when you take a call the game will be put into the background) the buffer will still exist, however if the game is closed or re-started the buffer will be lost.</p>
   <p class="note"><span data-conref="../assets/snippets/Tag_note.hts"> </span> Restarting the game will not clear or delete the buffer! But it will prevent any further access to the previously created buffer as the ID handle will have been lost, causing a memory leak which will crash your game eventually. So, when re-starting a game, remember to delete any buffers first.</p>
   <p><span data-keyref="GameMaker Name">GameMaker</span> permits the creation of four different buffer types. The reason for this is that buffers are designed to be a highly optimised temporary storage medium, and as such you should create a buffer that is appropriate to the type of data that you wish it to store, otherwise you could get errors or cause a bottleneck in your code. Before explaining this further, let&#39;s look at the four available buffer types (defined as <strong>constants </strong>in GML):</p>
   <p> </p>
-  <table>
-    <tbody>
-      <tr>
-        <th>Constant</th>
-        <th>Description</th>
-      </tr>
-      <tr>
-        <td><span class="inline">buffer_fixed</span></td>
-        <td><br />
-          A buffer of a fixed size in bytes. The size is set when the buffer is created and cannot be changed again.</td>
-      </tr>
-      <tr>
-        <td><span class="inline">buffer_grow</span></td>
-        <td><br />
-          A buffer that will <i>grow</i> dynamically as data is added. You create it with an initial size (which should be an approximation of the size of the data expected to be stored), and then it will expand to accept further data that overflows this initial size.</td>
-      </tr>
-      <tr>
-        <td><span class="inline">buffer_wrap</span></td>
-        <td><br />
-          A buffer where the data will <i>wrap</i>. When the data being added reaches the limit of the buffer size, the overwrite will be placed back at the start of the buffer, and further writing will continue from that point.</td>
-      </tr>
-      <tr>
-        <td><span class="inline">buffer_fast</span></td>
-        <td><br />
-          This is a special &quot;stripped down&quot; buffer that is extremely fast to read/write to. However it can only be used with <span class="inline"><span class="inline">buffer_u8</span></span> data types, and must be 1 byte aligned. (Information on <b>data types</b> and <b>byte alignment</b> can be found further down this page).</td>
-      </tr>
-    </tbody>
-  </table>
+  <div data-conref="../assets/snippets/Table_Buffer_Type_Constant.hts"> </div>
   <p> </p>
   <p>Those are the buffer types available to you when using <span data-keyref="GameMaker Name">GameMaker</span>, and which one you choose will greatly depend on the use you wish to put it to. For example, a grow buffer would be used for storing a &quot;snapshot&quot; of data to create a save game since you do not know the actual amount of data that is going to be placed in it, or a fast buffer would be used when you know that the values you are working with are all between 0 and 255 or -128 and 127, for example when processing <a class="glossterm" data-glossterm="ARGB" href="#">ARGB</a> data from an image.</p>
   <p><img alt="Buffer Types" class="center" src="../assets/Images/Scripting_Reference/Additional_Information/Buffer_Types.png" />When creating a buffer, you should always try to create it to a size that is appropriate to the type, with the general rule being that it should be created to accommodate the maximum size of data that it is to store, and if in doubt, use a grow buffer to prevent overwrite errors.</p>
@@ -55,7 +28,7 @@
   <p class="code">player_buffer = buffer_create(16384, buffer_fixed, 2);</p>
   <p><br />
     That would create a fixed buffer of 16384 bytes and byte-aligned to 2, with the function returning a buffer handle that is stored in a variable for later referencing of this buffer.</p>
-  <p>When reading and writing data to a buffer, you do it in &quot;chunks&quot; of data defined by their &quot;data type&quot;. The &quot;data type&quot; sets the number of bytes allocated within the buffer for the value being written, and it is essential that you get this correct otherwise you will get some very strange results (or even errors) for your code.</p>
+  <p>When reading and writing data to a buffer, you do it in &quot;chunks&quot; of data defined by their &quot;data type&quot;. The &quot;data type&quot; sets the number of bytes allocated within the buffer for the value being written, and it is essential that you get this correct, otherwise you will get some very strange results (or even errors) for your code.</p>
   <p>Buffers are written to (and read from) <strong>sequentially</strong>, in that one piece of data is written after another, with each piece of data being of a set type. This means that you should ideally be aware of what data you are writing to the buffer at all times. These data types are defined in GML by the following constants:</p>
   <div data-conref="../assets/snippets/buffer_data_type_constants.hts"> </div>
   <p>So, say you have created a buffer and you want to write information to it, then you would use something like the following code:</p>
@@ -136,7 +109,7 @@
         <div style="float:right">Next: <a href="Bitwise_Operators.htm">Bitwise Operators</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2025 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 Buffers
