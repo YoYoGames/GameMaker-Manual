@@ -36,13 +36,34 @@
     <li>Use <a href="../The_Asset_Editors/Sounds.htm">Sound</a> assets in <a data-xref="{title}" href="../The_Asset_Editors/Sequences.htm">The Sequence Editor</a></li>
     <li>Use <a href="../The_Asset_Editors/Tile_Sets.htm">Tile Set</a> assets in <a data-xref="{title}" href="../The_Asset_Editors/Rooms.htm">The Room Editor</a></li>
   </ul>
-  <p>Assets from Prefab Collections will not be visible in the Asset Browser or in the Asset Explorers from any editors. They either have to be dragged from the Prefab Library or be referenced in code.</p>
+  <p>Assets from Prefab Collections will not be visible in the Asset Browser or in the Asset Explorers from any editors. They either have to be dragged from the Prefab Library or be used in code (only when the project has a reference to the Collection, see the section below).</p>
   <p class="note"><span data-conref="../assets/snippets/Tag_note.hts"> </span> If you use assets from a Collection in your project and then delete the package for that Collection, you will get a &quot;<strong>Resource load failure</strong>&quot; error window on opening the project in the IDE and potential errors at runtime.</p>
-  <h2>Prefab Overrides</h2>
-  <p>Selecting a Prefab Asset will display it in <a data-xref="{title}" href="The_Inspector.htm">The Inspector</a>, where you can override the following properties (which applies only to your current project):</p>
+  <h3>Referencing Prefab Assets In Code</h3>
+  <p>For Prefab assets to be used in code, your project needs to have a reference to that Prefab Collection. This is done by either making use of one of its assets through the IDE, which adds a reference to the Prefab Collection in your project, or by manually adding a reference through the right-click menu in the Prefab Library (&quot;<strong>Add Collection Reference</strong>&quot;).</p>
+  <p>Once your project has a reference to a Prefab Collection, you can use any assets from that Collection in your project&#39;s code. However there may be cases where either your project or other referenced Collections have assets with the same name, in which case you can target an asset from a specific Collection using the following syntax:</p>
+  <p class="code_plain">::package-version::asset</p>
+  <p class="note"><span data-conref="../assets/snippets/Tag_tip.hts"> </span> You can get the package ID by clicking on a Collection in the Prefab Library window and copying it from the Inspector.</p>
+  <p>You can pick and choose the details to specify using this syntax, e.g. you may specify just the package without a version, specify only the major version, or specify everything.</p>
+  <p>For example, say you&#39;re trying to use <span class="inline2">spr_ui_heart</span> from <span class="inline2">io.gamemaker.uiicons</span>:</p>
   <ul class="colour">
-    <li>The Texture Group setting on Sprite, Tile Set and Font assets</li>
-    <li>The Audio Group setting and attributes on Sound assets</li>
+    <li><span class="inline2">spr_ui_heart</span>: Simply writing the asset name will pull the asset from the Collection that the project has a reference to, assuming there are no name collisions with other assets in the project or other referenced Collections.</li>
+    <li><span class="inline2">::uiicons::spr_ui_heart</span>: This will pull the asset from any referenced Collection that has <span class="inline2">uiicons</span> as the last part of its package ID (e.g. <span class="inline2">io.gamemaker.uiicons</span> or <span class="inline2">io.community.uiicons</span>).</li>
+    <li><span class="inline2">::io.gamemaker.uiicons::spr_ui_heart</span>: This will pull specifically from the <span class="inline2">io.gamemaker.uiicons</span> package, useful in case there are multiple Collections that end with the same name.</li>
+    <li><span class="inline2">::io.gamemaker.uiicons-1::spr_ui_heart</span>: This will pull from a version of the Collection that has 1 as its major version, so e.g. it may pull <span class="inline2">1.0.0</span>, <span class="inline2">1.0.3</span> or <span class="inline2">1.2.0</span> etc.</li>
+    <li><span class="inline2">::io.gamemaker.uiicons-1.0.3::spr_ui_heart</span>: This specifies the full package ID and version to ensure there are no possible name collisions.</li>
+  </ul>
+  <p>Note that your project <strong>must</strong> have a reference to the version of the Collection you are trying to pull from. If the specified asset is not found in the specified Collection, you will get a compile error.</p>
+  <h3>Referencing Code Symbols</h3>
+  <p>Scripts included in Prefab Collections may export <a href="../GameMaker_Language/GML_Overview/Variables/Constants.htm">Enums</a>, <a href="../GameMaker_Language/GML_Overview/Variables/Constants.htm">Macros</a> and <a href="../GameMaker_Language/GML_Overview/Script_Functions.htm">Script Functions</a> using the following syntax:</p>
+  <p class="code">#export symbol1,symbol2,symbol3,...</p>
+  <p>Any project that has a reference to such a Collection can use the exported symbols in code, e.g. to make use of an Enum/Macro or call a Script Function.</p>
+  <h2>Prefab Overrides</h2>
+  <p>Selecting a Prefab asset will display it in <a data-xref="{title}" href="The_Inspector.htm">The Inspector</a>, where you can apply a tag with the <img src="../assets/Images/Icons/Icon_Tag.png" /> button (these tags are shared with <a data-xref="{title}" href="../Introduction/The_Asset_Browser.htm">The Asset Browser</a>).</p>
+  <p>You can also override the following properties in the Inspector for the selected Prefab asset (which applies only to your current project):<em></em></p>
+  <ul class="colour">
+    <li>The Texture Group setting in Sprite, Tile Set and Font assets</li>
+    <li>The Audio Group setting and attributes in Sound assets</li>
+    <li><a data-xref="{text}" href="../The_Asset_Editors/Extensions.htm#extension_options">Extension Options</a> in Extension assets</li>
   </ul>
   <h2>Prefab Library Features</h2>
   <p>The Prefab Library window is divided into the following sections:</p>
@@ -50,7 +71,18 @@
   <p>The Folder List section contains the following parts:</p>
   <ul class="colour">
     <li><strong>Search Bar</strong>: This lets you search for any assets across all of the Prefab Collections that you have added from the <a data-xref="{title}" href="Package_Manager.htm">Package Manager</a>.</li>
-    <li><strong>Sort/Filter</strong>: This menu lets you switch between A-Z and Z-A sorting in both views of the Prefab Library. You can also enable Favourites so only assets that you have marked as favourite are visible. Additionally you can filter assets by type, so e.g. you only see sprites, sounds, or any other type(s) of asset you&#39;re looking for, or filter by used collections or used prefab assets only.</li>
+    <li><strong>Sort/Filter</strong>: This menu gives you the following options for sorting and filtering Prefabs:
+      <ul>
+        <li><strong>A-Z</strong>/<strong>Z-A</strong>: Change the alphabetical sorting of Collections and Prefab assets</li>
+        <li><strong>Used Collections</strong>: Only show the Collections that have been used</li>
+        <li><strong>Used Prefabs Only</strong>: Only show the Prefab assets that have been used</li>
+        <li><strong>Recent Prefabs</strong>: Only show Prefab assets that have been used recently</li>
+        <li><strong>Favourites</strong>: Only show the Prefab assets that have been favourited</li>
+        <li><strong>Authors</strong>: Filter by author</li>
+        <li><strong>Asset Type</strong>: Filter by asset type, so only the selected asset types are shown</li>
+        <li><strong>Tags</strong>: Filter by tag</li>
+      </ul>
+    </li>
     <li><strong>View Menu</strong>: This lets you switch between the following views that affect how the Prefab Library is displayed:
       <ul>
         <li><strong>Horizontal View</strong>: This is the default view. It displays the folder list on the left and the content view on the right.</li>
