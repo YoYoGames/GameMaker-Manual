@@ -21,6 +21,7 @@
   <p>This defines a root node with child nodes nested within it (and further child nodes within child nodes).</p>
   <h2>Property List</h2>
   <p>The properties that you can define in the struct or JSON string are listed below. The rest of the page describes each property in detail.</p>
+  <p>Structs retrieved for nodes (e.g. <span class="inline3_func"><a data-xref="{title}" href="Function_Reference/flexpanel_node_get_child.htm">flexpanel_node_get_child</a></span> or <span class="inline3_func"><a data-xref="{title}" href="../Asset_Management/Rooms/UI_Layers/layer_get_flexpanel_node.htm">layer_get_flexpanel_node</a></span>) using <span class="inline3_func"><a data-xref="{title}" href="Function_Reference/flexpanel_node_get_struct.htm">flexpanel_node_get_struct</a></span> will include the same variables listed below.</p>
   <ul class="colour">
     <li><span class="inline2">name</span></li>
     <li><span class="inline2">data</span></li>
@@ -48,6 +49,8 @@
     <li><span class="inline2">start</span>, <span class="inline2">end</span></li>
     <li><span class="inline2">horizontal</span>, <span class="inline2">vertical</span></li>
     <li><span class="inline2">position</span>, <span class="inline2">positionType</span></li>
+    <li><span class="inline2">layerElements</span></li>
+    <li><span class="inline2">clipContent</span></li>
   </ul>
   <p>The sections below describe what type of values you can pass for each property.</p>
   <p class="note"><span data-conref="../../../assets/snippets/Tag_important.hts"> </span> Each property also has GML functions for setting and getting that property for a node. However, the types of values that a setter function accepts may be different from the type of value you can give it in the struct/JSON. Ensure you read the page for the function you are trying to use for information on its argument types.</p>
@@ -224,6 +227,63 @@
     <li><span class="inline2">&quot;flex&quot;</span> (default): The default layout behaviour.</li>
     <li><span class="inline2">&quot;none&quot;</span>: Disables the node. This effectively functions as the node being removed from the tree, as it&#39;s not included in any calculations.</li>
   </ul>
+  <h3>Layer Elements</h3>
+  <p class="note">Struct properties: <span class="inline2">layerElements</span></p>
+  <p>The <span class="inline2">layerElements</span> property is included for a node when the structure is part of a <a href="../../../The_Asset_Editors/Room_Properties/UI_Layers.htm">UI layer</a>, returned using <span class="inline3_func"><a data-xref="{title}" href="../Asset_Management/Rooms/UI_Layers/layer_get_flexpanel_node.htm">layer_get_flexpanel_node</a></span>. This is an array that contains a struct for each asset element placed under the node, e.g. an Object Instance, Sprite, Text etc.</p>
+  <p>Each struct in the array can contain the following properties:</p>
+  <p class="note"><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> The variables described below are <strong>read-only</strong>. To change the properties of an Asset Element, use the appropriate <a href="../Asset_Management/Rooms/Rooms.htm#room_layers_elements">layer element functions</a>.</p>
+  <ul class="colour">
+    <li style="text-align: left;">type, which can be <span class="inline2">&quot;Instance&quot;</span>, <span class="inline2">&quot;Sprite&quot;</span>, <span class="inline2">&quot;Text&quot;</span>, <span class="inline2">&quot;Sequence&quot;</span></li>
+    <li>elementOrder (Real): Draw order</li>
+    <li><strong>Flex properties</strong>:
+      <ul>
+        <li>flexVisible (Boolean)</li>
+        <li>flexAnchor (String): this can be &quot;TopLeft&quot;, &quot;TopCentre&quot;, &quot;TopRight&quot;, &quot;MiddleLeft&quot;, &quot;MiddleCentre&quot;, &quot;MiddleRight&quot;, &quot;BottomLeft&quot;, &quot;BottomCentre&quot;, or &quot;BottomRight&quot;</li>
+        <li>flexStretchWidth, flexStretchHeight, flexTileHorizontal, flexTileVertical, flexStretchKeepAspect (Booleans)</li>
+      </ul>
+    </li>
+    <li><strong>Object Instance properties</strong>:
+      <ul>
+        <li>instanceObjectIndex (Object Handle)</li>
+        <li>instanceId (Instance Handle)</li>
+        <li>elementId (Element Handle): Element of the instance in the layer</li>
+        <li>instanceVariables (Struct): Contains the Variable Definitions set up for the object, with the variable name as the key and the variable value as the key value</li>
+        <li>instanceOffsetX, instanceOffsetY, instanceScaleX, instanceScaleY, instanceAngle, instanceImageSpeed, instanceImageIndex (Real)</li>
+        <li>instanceColour (Colour)</li>
+      </ul>
+    </li>
+    <li><strong>Sprite properties</strong>: 
+      <ul>
+        <li>spriteIndex (Sprite Handle)</li>
+        <li>elementId (Element Handle): Element of the sprite in the layer</li>
+        <li>spriteImageSpeed, spriteImageIndex, spriteAngle, spriteOffsetX, spriteOffsetY, spriteScaleX, spriteScaleY (Real)</li>
+        <li>spriteColour (Colour)</li>
+        <li>spriteSpeedType (<span data-keyref="Type_Constant_Sprite_Speed"><a href="../Asset_Management/Sprites/Sprite_Information/sprite_get_speed_type.htm" target="_blank">Sprite Speed Constant</a></span>)</li>
+      </ul>
+    </li>
+    <li><strong>Text properties</strong>:
+      <ul>
+        <li>textFontIndex (Font Handle)</li>
+        <li>elementId (Element Handle): Element of the text in the layer</li>
+        <li>textOffsetX, textOffsetY, textScaleX, textScaleY, textAngle, textColour, textOriginX, textOriginY (Real)</li>
+        <li>textText (String)</li>
+        <li>textAlignment, textCharacterSpacing, textLineSpacing, textFrameWidth, textFrameHeight (Real)</li>
+        <li>textWrap (Boolean)</li>
+      </ul>
+    </li>
+    <li><strong>Sequence properties</strong>: 
+      <ul>
+        <li>sequenceIndex (Sequence Handle)</li>
+        <li>elementId (Element Handle): Element of the sequence in the layer</li>
+        <li>sequenceHeadPosition, sequenceAngle, sequenceOffsetX, sequenceOffsetY, sequenceScaleX, sequenceScaleY, sequenceImageSpeed (Real)</li>
+        <li>sequenceSpeedType (<span data-keyref="Type_Constant_Sprite_Speed"><a href="../Asset_Management/Sprites/Sprite_Information/sprite_get_speed_type.htm" target="_blank">Sprite Speed Constant</a></span>)</li>
+        <li>sequenceColour (Colour)</li>
+      </ul>
+    </li>
+  </ul>
+  <h3>Clip Content</h3>
+  <p class="note">Struct properties: <span class="inline2">clipContent</span></p>
+  <p>A boolean that stores whether contents of the node should clip rendering to the node area.</p>
   <p> </p>
   <p> </p>
   <!--</div>-->
@@ -234,7 +294,7 @@
         <div>Next: <a data-xref="{title}" href="Function_Reference/section_index.htm">Flex Panel Functions</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2025 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 Flex_Panels_Styling
