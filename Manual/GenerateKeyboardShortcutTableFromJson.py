@@ -61,6 +61,11 @@ def get_combo_string(combo, replace_in_names=[]):
                 combo_string = combo_string.replace(item[0], item[1])
     return combo_string
 
+def get_unique_id(name):
+    """Get a unique ID for the given name, in lowercase and with spaces replaced by underscores"""
+    
+    return name.lower().replace(" ", "_")
+
 # Default install directory names
 install_dirs = {
     "dev": "GameMaker-Dev",
@@ -171,7 +176,7 @@ for location in shortcuts_per_location:
         desc = name if name_as_desc else sc['description']
         html += "<tr>"
         # html += "<td>" + name + "</td>"
-        html += "<td>" + "<br />".join(sc['win_combo']) + "</td>"
+        html += "<td><p id=\"" + get_unique_id(name) + "\">" + "<br />".join(sc['win_combo']) + "</p></td>"
         html += "<td>" + "<br />".join(sc['mac_combo']) + "</td>"
         html += "<td>" + location + "</td>"
         html += "<td>" + desc + "</td>"
