@@ -18,6 +18,7 @@
   <p>UI layers let you define <a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Flex_Panels/Flex_Panels.htm">Flex Panels</a> and place sprites, objects and text within them to create responsive user interfaces that are drawn on top of your game, useful for creating HUDs and menus.</p>
   <p>You can add a UI layer in <a data-xref="{title}" href="../Rooms.htm">The Room Editor</a> through the <img class="icon" height="22" src="../../assets/Images/Icons/Icon_Add_Layer.png" width="21" /> &quot;<strong>Create Layer</strong>&quot; menu:</p>
   <p><img class="center" src="../../assets/Images/Asset_Editors/Editor_Room_UI_CreateLayer.png" />All UI layers are contained in the global &quot;<strong>UI Folder</strong>&quot;, which will be created when you add your first UI layer. The UI Folder (and every UI layer inside it) is shared among all rooms in your project, so UI layers are displayed throughout your game regardless of which room is active.</p>
+  <p class="note"><span data-conref="../../assets/snippets/Tag_note.hts"> </span> The UI Folder is not a layer itself despite appearing in the Layers panel. It only exists in the editor to group all UI layers under one menu and cannot be retrieved and operated on as a layer at runtime.</p>
   <p><img class="center" src="../../assets/Images/Asset_Editors/UILayers/UIL_Example.png" />Once you add a UI layer, you can choose whether it should appear on the main game display or inside your viewports separately. You can then add Flex Panels inside the layer and place elements inside Flex Panels.</p>
   <div class="minitoc" data-minitoc-targetid="drop-down" data-type="minitoc" style="">
     <p class="minitoc-caption" data-close-text="" data-expanded="true" data-open-text="Contents" data-type="minitoc-caption" href="#" style="">Mini TOC (placeholder)</p>
@@ -91,9 +92,9 @@
   <p>As Object Instances can be placed in UI Layers, the following behaviours for them are different from regular Instance layers:</p>
   <ul class="colour">
     <li>The <a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Asset_Management/Instances/Instance_Variables/x.htm">x</a> and <a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Asset_Management/Instances/Instance_Variables/y.htm">y</a> position variables return the position of the instance on the <a href="../Object_Properties/Draw_Events.htm">GUI layer</a> or viewport instead of inside the room area, i.e. they are unaffected by cameras and stick to their positions on the on-screen GUI or viewport area. The same applies to the <span class="inline2">bbox_*</span> variables.</li>
-    <li>All Mouse events for instances in &quot;Display&quot; layers work with the instance&#39;s mask on the GUI layer, so you can use the Left Pressed, Mouse Enter etc. events to detect mouse interaction with the instance when it is placed on a UI layer. Instances on &quot;Viewport&quot; layers do not support Mouse events.
+    <li>All Mouse events for instances on UI layers work with the mouse coordinates in the UI space (GUI layer or viewport), so you can use the Left Pressed, Mouse Enter etc. events to detect mouse interaction with the instance when it is placed on a UI layer.
       <ul>
-        <li>You can also use an instance&#39;s x/y position or <span class="inline2">bbox_*</span> variables to do manual checks against the mouse on the GUI layer, using the <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Game_Input/Device_Input/device_mouse_x_to_gui.htm">device_mouse_x_to_gui</a></span> / <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Game_Input/Device_Input/device_mouse_y_to_gui.htm">device_mouse_y_to_gui</a></span> functions.</li>
+        <li><span data-conref="../../assets/snippets/Tag_tip.hts"> </span> For instances on &quot;Display&quot; UI layers, you can use the x/y position or <span class="inline2">bbox_*</span> variables to do manual checks against the mouse using the <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Game_Input/Device_Input/device_mouse_x_to_gui.htm">device_mouse_x_to_gui</a></span> / <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Game_Input/Device_Input/device_mouse_y_to_gui.htm">device_mouse_y_to_gui</a></span> functions.</li>
       </ul>
     </li>
     <li>The Draw event will draw to the same space where the UI instance is present, i.e. either the viewport or the GUI layer, to the same &quot;depth&quot; as defined for the instance in the Element List.</li>
@@ -147,9 +148,9 @@
   <h3>Element Properties</h3>
   <p><img class="center" src="../../assets/Images/Asset_Editors/UILayers/UIL_ElementProps.png" />For elements of all asset types, you can change the alignment, set the anchor for rotation, change the position, scale, rotation, colour, frame and animation speed.</p>
   <p>The &quot;<strong>Fill Container</strong>&quot; settings allow the element to be stretched to fit its containing Flex Panel either on one of the axes or both axes. You can choose whether to maintain aspect ratio or not. These settings can be set to stretch and maintain aspect ratio by default through the <a href="../../Setting_Up_And_Version_Information/IDE_Preferences/Room_Editor_Preferences.htm">Preferences</a>.</p>
-  <p>You can also tile the element throughout the containing Flex Panel.</p>
   <p>You will see some extra options based on the asset type:</p>
   <ul class="colour">
+    <li><strong>Sprites</strong>: You can choose to tile the sprite horizontally, vertically or in both directions.</li>
     <li><strong>Objects</strong>: You can modify the Variable Definitions of the instance and apply Creation Code.</li>
     <li><strong>Text (Fonts)</strong>: You can set text properties such as alignment, various spacing values and wrapping.</li>
   </ul>
