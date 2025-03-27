@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>sprite_get_convex_hull</title>
+  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <link rel="stylesheet" type="text/css" href="../../../../../assets/css/default.css" />
+  <script src="../../../../../assets/scripts/main_script.js" type="module"></script>
+  <meta name="rh-authors" content="" />
+  <meta name="topic-comment" content="" />
+  <meta name="rh-index-keywords" content="sprite_get_convex_hull" />
+  <meta name="search-keywords" content="sprite_get_convex_hull" />
+  <meta name="template" content="assets/masterpages/Manual_Keyword_Page.htt" />
+</head>
+<body>
+  <h1><span data-field="title" data-format="default">sprite_get_convex_hull</span></h1>
+  <p>This function generates the points of a convex hull for the given sprite or one of its subimages and returns them as an array containing the points as (x, y) pairs.</p>
+  <p>The sprite can be one added through <a data-xref="{title}" href="../../../../../Introduction/The_Asset_Browser.htm">The Asset Browser</a>, or one added at runtime, using <span class="inline3_func"><a data-xref="{title}" href="../Sprite_Manipulation/sprite_add.htm">sprite_add</a></span> or one of the <a href="../Sprite_Manipulation/Sprite_Manipulation.htm#func_ref_creating_modifying_sprites">other functions for creating sprites at runtime</a>.</p>
+  <p>The convex hull is a set of points that surround the sprite&#39;s pixels as closely as possible. Any &quot;holes&quot; in the sprite are included in the convex hull.</p>
+  <figure><img class="center" src="../../../../../assets/Images/Scripting_Reference/GML/Reference/Sprites/convex_hull_examples.png" />
+    <figcaption>Different sprites with their convex hull shape. The red dots mark the shape&#39;s points.</figcaption>
+  </figure>
+  <p>The returned array contains the (x, y) coordinates of the points in pairs, e.g., element 0 holds the x coordinate of the first point and element 1 its y coordinate, element 2 holds the x coordinate of the second point and element 3 its y coordinate, etc.</p>
+  <p class="note"><span data-conref="../../../../../assets/snippets/Tag_note.hts"> </span> The function returns the points in <em>counterclockwise</em> order. If you use these points to create a polygon fixture for use with the physics engine you need to pass them in reverse order to specify them in <em>clockwise</em> order. See <span class="inline3_func"><a data-xref="{title}" href="../../../Physics/Fixtures/physics_fixture_add_point.htm">physics_fixture_add_point</a></span>.</p>
+  <p> </p>
+  <h4>Syntax:</h4>
+  <p class="code"><span data-field="title" data-format="default">sprite_get_convex_hull</span>(sprite, [max_pts]);</p>
+  <table>
+    <colgroup>
+      <col />
+      <col />
+      <col />
+    </colgroup>
+    <tbody>
+      <tr>
+        <th>Argument</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>sprite</td>
+        <td><span data-keyref="Type_Asset_Sprite"><a href="../../../../../The_Asset_Editors/Sprites.htm" target="_blank">Sprite Asset</a></span></td>
+        <td>The sprite to generate the convex hull of</td>
+      </tr>
+      <tr>
+        <td>max_pts</td>
+        <td><span data-keyref="Type_Real"><a href="../../../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td><span data-conref="../../../../../assets/snippets/Tag_optional.hts"> </span> The maximum number of points to return in the array or no maximum if not specified (<span>as many points as it takes to generate the shape)</span></td>
+      </tr>
+      <tr>
+        <td>subimg</td>
+        <td><span data-keyref="Type_Real"><a href="../../../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td><span data-conref="../../../../../assets/snippets/Tag_optional.hts"> </span> The subimage of the sprite (defaults to 0)</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>Returns:</h4>
+  <p class="code"><span data-keyref="Type_Array"><a href="../../../../GML_Overview/Arrays.htm" target="_blank">Array</a></span></p>
+  <p> </p>
+  <h4>Example 1: Basic Use</h4>
+  <p class="code">var _arr_coordinates = <span data-field="title" data-format="default">sprite_get_convex_hull</span>(sprite_index);</p>
+  <p>The above code gets the convex hull of the calling instance&#39;s <span class="inline2"><a data-xref="{title}" href="../Sprite_Instance_Variables/sprite_index.htm">sprite_index</a></span> and assigns the result to a temporary variable <span class="inline2">_arr_coordinates</span>.</p>
+  <p> </p>
+  <h4>Example 2: Creating a Polygon Fixture</h4>
+  <p class="code_heading">Create Event</p>
+  <p class="code">var _arr_coordinates = <span data-field="title" data-format="default">sprite_get_convex_hull</span>(spr_rock);<br />
+    var _num_points = array_length(_arr_coordinates)/2;<br />
+    var _fix = physics_fixture_create();<br />
+    physics_fixture_set_density(_fix, 0);<br />
+    physics_fixture_set_polygon_shape(_fix);<br />
+    for(var i = _num_points-1;i &gt;= 0;i--)<br />
+    {<br />
+        var _x = _arr_coordinates[i * 2];<br />
+        var _y = _arr_coordinates[i * 2 + 1];<br />
+        physics_fixture_add_point(_fix, _x, _y);<br />
+    }<br />
+    fix_bound = physics_fixture_bind(_fix, id);<br />
+    physics_fixture_delete(_fix);</p>
+  <p>The above code shows how to create a polygon fixture out of the convex hull of a sprite.</p>
+  <p>First, the convex hull of a sprite <span class="inline2">spr_rock</span> is obtained using <span class="inline3_func"><span data-field="title" data-format="default">sprite_get_convex_hull</span></span> and stored in a variable <span class="inline2">_arr_coordinates</span>. As the array contains an x and y coordinate for every point, the number of points is the array&#39;s length divided by 2. This value is stored in another variable <span class="inline2">_num_points</span>.</p>
+  <p>Next, a fixture is created and its density set to 0. The fixture&#39;s shape is then set to a polygon shape and the points are added in a <span class="inline2"><a data-xref="{title}" href="../../../../GML_Overview/Language_Features/for.htm">for</a></span> loop. Note that the points are added in reverse order since the points of polygon fixtures need to be defined <em>in clockwise order</em>.</p>
+  <p>Finally, the fixture is bound to the instance running the code and deleted. The bound fixture is stored in an instance variable <span class="inline2">fix_bound</span> in order to keep track of it so it can be properly cleaned up later on.</p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div>Back: <a data-xref="{title}" href="../Sprites.htm">Sprites</a></div>
+        <div>Next: <a data-xref="{title}" href="sprite_get_nineslice.htm">sprite_get_nineslice</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2025 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+sprite_get_convex_hull
+-->
+  <!-- TAGS
+sprite_get_convex_hull
+-->
+</body>
+</html>
