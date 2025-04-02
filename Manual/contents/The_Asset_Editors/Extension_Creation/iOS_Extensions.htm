@@ -59,30 +59,98 @@
   <h2>Code Injection</h2>
   <p>Code Injection can be used for iOS/tvOS extensions in the same way as described on the Android Extensions page: see <a data-xref="{text}" href="Android_Extensions.htm#h">Code Injection</a>.</p>
   <p>The following tags are available for the iOS and tvOS platforms:</p>
-  <p class="code">YYIosPlist<br />
-    YYIosEntitlements<br />
-    YYIosCocoaPods<br />
-    YYIosCocoaPodsDependencies<br />
-    YYIosBuildRules<br />
-    YYIosBuildSettingsInjection<br />
-    YYIosScriptPhase<br />
-    YYIosCFBundleURLSchemesArray<br />
-    YYIosLSApplicationQueriesSchemesArray<br />
-    YYIosPrivacyManifest<br />
-    YYIosLaunchActionCommandLineArguments<br />
-    YYIosBridgeHeader<br />
-    <br />
-    YYTvosPlist<br />
-    YYTvosEntitlements<br />
-    YYTvosCocoaPods<br />
-    YYTvosCocoaPodsDependencies<br />
-    YYTvosBuildRules<br />
-    YYTvosBuildSettingsInjection<br />
-    YYTvosScriptPhase<br />
-    YYTvosCFBundleURLSchemesArray<br />
-    YYTvosLSApplicationQueriesSchemesArray<br />
-    YYTvosPrivacyManifest
-  </p>
+  <table id="ios_tvos_code_injection_tags" style="caption-side: top">
+    <caption>iOS / tvOS Code Injection Tags</caption>
+    <colgroup>
+      <col style="width:50%" />
+      <col style="width:50%" />
+    </colgroup>
+    <tbody>
+      <tr>
+        <th>Tag</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <th colspan="2">info.plist</th>
+      </tr>
+      <tr>
+        <td><span class="inline">YYIosPlist<br />
+            YYTvosPlist</span></td>
+        <td>This tag&#39;s contents are appended to the project&#39;s plist file.</td>
+      </tr>
+      <tr>
+        <td><span class="inline">YYIosCFBundleURLSchemesArray<br />
+            YYTvosCFBundleURLSchemesArray</span></td>
+        <td>This tag contains the contents of the &quot;CFBundleURLSchemes&quot; array.</td>
+      </tr>
+      <tr>
+        <td><span class="inline">YYIosLSApplicationQueriesSchemesArray<br />
+            YYTvosLSApplicationQueriesSchemesArray</span></td>
+        <td>This tag contains the contents of the &quot;LSApplicationQueriesSchemes&quot; array.</td>
+      </tr>
+      <tr>
+        <th colspan="2">Entitlements</th>
+      </tr>
+      <tr>
+        <td><span class="inline">YYIosEntitlements<br />
+            YYTvosEntitlements</span></td>
+        <td>This tag&#39;s contents are inserted into the entitlements file.</td>
+      </tr>
+      <tr>
+        <th colspan="2">CocoaPods</th>
+      </tr>
+      <tr>
+        <td><span class="inline">YYIosCocoaPods<br />
+            YYTvosCocoaPods</span></td>
+        <td>This tag&#39;s contents are inserted into the podfile.</td>
+      </tr>
+      <tr>
+        <td><span class="inline">YYIosCocoaPodsDependencies<br />
+            YYTvosCocoaPodsDependencies</span></td>
+        <td>This tag&#39;s contents are inserted into the podfile.</td>
+      </tr>
+      <tr>
+        <th colspan="2">project.pbxproj</th>
+      </tr>
+      <tr>
+        <td><span class="inline">YYIosBuildRules<br />
+            YYTvosBuildRules</span></td>
+        <td>This tag&#39;s contents are inserted into the build rules of the Xcode project.</td>
+      </tr>
+      <tr>
+        <td><span class="inline">YYIosBuildSettingsInjection<br />
+            YYTvosBuildSettingsInjection</span></td>
+        <td>This tag&#39;s contents are inserted into the Xcode project&#39;s &quot;buildSettings&quot; section.</td>
+      </tr>
+      <tr>
+        <td><span class="inline">YYIosScriptPhase<br />
+            YYTvosScriptPhase</span></td>
+        <td>This tag&#39;s contents hold the shell script&#39;s code to be executed.</td>
+      </tr>
+      <tr>
+        <th colspan="2">Privacy Manifest</th>
+      </tr>
+      <tr>
+        <td><span class="inline">YYIosPrivacyManifest<br />
+            YYTvosPrivacyManifest</span></td>
+        <td>This tag&#39;s contents are inserted into the privacy manifest file.</td>
+      </tr>
+      <tr>
+        <th colspan="2">xcscheme</th>
+      </tr>
+      <tr>
+        <td><span class="inline">YYIosLaunchActionCommandLineArguments</span></td>
+        <td>The contents of this tag are inserted into the launch action&#39;s &quot;CommandLineArguments&quot; section.</td>
+      </tr>
+      <tr>
+        <th colspan="2">Bridging Header</th>
+      </tr>
+      <tr>
+        <td><span class="inline">YYIosBridgeHeader</span></td>
+        <td>The contents of this tag are inserted into the bridging header file.</td>
+      </tr>
+    </tbody>
+  </table>
   <p>The runtime location where the code is injected will depend on the type of the tag:</p>
   <table>
     <colgroup>
@@ -95,15 +163,15 @@
         <th style="">Injection Path</th>
       </tr>
       <tr>
+        <td style=""><b>info.plist</b></td>
+        <td style="">{RUNTIME}\ios\TemplateProject\${YYXCodeProjName}\<br />
+          Supporting Files\<span>${YYXCodeProjName}-Info.plist</span></td>
+      </tr>
+      <tr>
         <td style=""><b>Entitlements</b></td>
         <td style="">{RUNTIME}\ios\TemplateProject\${YYXCodeProjName}\<br />
           <span>${YYXCodeProjName}.entitlements</span>
         </td>
-      </tr>
-      <tr>
-        <td style=""><b>info.plist</b></td>
-        <td style="">{RUNTIME}\ios\TemplateProject\${YYXCodeProjName}\<br />
-          Supporting Files\<span>${YYXCodeProjName}-Info.plist</span></td>
       </tr>
       <tr>
         <td style=""><strong>infoPlist.strings</strong></td>
@@ -124,9 +192,13 @@
         <td style=""><strong>PrivacyManifest</strong></td>
         <td style=""><span>{RUNTIME}\ios\TemplateProject\${YYXCodeProjName}\Supporting Files\PrivacyInfo.xcprivacy</span></td>
       </tr>
+      <tr>
+        <td style=""><strong>Bridging Header</strong></td>
+        <td style=""><span>{RUNTIME}\ios\TemplateProject\${YYXCodeProjName}\Supporting Files\Bridging-Header.h</span></td>
+      </tr>
     </tbody>
   </table>
-  <p class="note"><strong></strong><span data-conref="../../assets/snippets/Tag_note.hts"> </span> These paths are only for VM. For YYC, injected code will go into the <span class="inline">{RUNTIME}\yyc\</span> directory, where the paths may or may not be equivalent to those for VM.</p>
+  <p class="note"><strong></strong><span data-conref="../../assets/snippets/Tag_note.hts"> </span> These paths are only for VM. For YYC, injected code will go into the <span class="inline2">{RUNTIME}\yyc\</span> directory, where the paths may or may not be equivalent to those for VM.</p>
   <p>You can also inject tags conditionally. See: <a data-xref="{text}" href="Android_Extensions.htm#h1">Conditional Injection</a></p>
   <h3>Injecting Values</h3>
   <p>You can insert various values into your injected code. This follows the <span class="inline2">${NAME}</span> syntax, where <span class="inline2">NAME</span> can be any of the following:</p>
@@ -169,11 +241,11 @@
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a href="../Extensions.htm">The Extension Editor</a></div>
+        <div style="float:left">Back: <a data-xref="{title}" href="../Extensions.htm">The Extension Editor</a></div>
         <div style="float:right">Next: <a data-xref="{title}" href="HTML5_Extensions.htm">HTML5 Code Injection</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2025 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 iOS Extensions
