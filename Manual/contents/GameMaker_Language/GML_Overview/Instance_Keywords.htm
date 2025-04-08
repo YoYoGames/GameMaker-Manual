@@ -22,7 +22,39 @@
     <li><a data-xref="{title}" href="Instance Keywords/all.htm">all</a></li>
     <li><a data-xref="{title}" href="Instance Keywords/noone.htm">noone</a></li>
   </ul>
-  <p class="note"><span data-conref="../../assets/snippets/Tag_note.hts"> </span> The given keywords are represented by <strong>negative integer values</strong> internally, so care must be taken when assigning or checking variable values against or with these keywords, as you may get unexpected results later as <span data-keyref="GameMaker Name">GameMaker</span> interprets the value you have used as something else. You should also note that using the integer values directly instead of the keywords in your code is <b>not recommended at all</b> and could cause issues later on.</p>
+  <h2 id="h">Legacy Values</h2>
+  <p>These variables have historically stored negative integer values which helps <span data-keyref="GameMaker Name">GameMaker</span> identify which keyword is being used. This is referenced in the following table:</p>
+  <table style="width: 616.5px;">
+    <colgroup>
+      <col />
+      <col />
+    </colgroup>
+    <tbody>
+      <tr>
+        <th style="">Variable</th>
+        <th>Value</th>
+      </tr>
+      <tr>
+        <td style=""><strong>self</strong></td>
+        <td>-1</td>
+      </tr>
+      <tr>
+        <td style=""><strong>other</strong></td>
+        <td>-2</td>
+      </tr>
+      <tr>
+        <td style=""><strong>all</strong></td>
+        <td>-3</td>
+      </tr>
+      <tr>
+        <td style=""><strong>noone</strong></td>
+        <td>-4</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>Due to compatibility reasons, these variables still refer to these values before the actual struct or instance it refers to is resolved. These values may appear in some cases, e.g. converting <span class="inline2">self</span> into a <a data-xref="{title}" href="../GML_Reference/Strings/string.htm">string</a> will result in <span class="inline2">&quot;-1&quot;</span> and inversely, using <span class="inline2">-1</span> in places where a scope is expected will refer to <span class="inline2">self</span>.</p>
+  <p>This can be seen in a <span class="inline3_func"><a data-xref="{title}" href="Language_Features/with.htm">with</a></span> block, where if you pass <span class="inline2">-1</span> the block is executed on <span class="inline2">self</span>. This may be unintentional when a <a href="Data_Types.htm">Handle</a> is passed with a value of <span class="inline2">-1</span>, where the expectation would be the <span class="inline3_func"><a data-xref="{title}" href="Language_Features/with.htm">with</a></span> block not executing however it executes on <span class="inline2">self</span> due to this legacy behaviour.</p>
+  <p class="note"><span data-conref="../../assets/snippets/Tag_important.hts"> </span> You <strong>should not</strong> use the numeric values of these keywords directly, always reference each keyword by its name.</p>
   <p> </p>
   <p> </p>
   <div class="footer">
@@ -32,7 +64,7 @@
         <div style="float:right">Next: <a data-xref="{title}" href="Evaluation_Order.htm">Evaluation Order</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2025 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 Instance Keywords

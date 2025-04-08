@@ -19,29 +19,92 @@
   <p>A very handy tool you have at your disposal when editing your code is the use of <strong>Code Snippets</strong>.</p>
   <p>These are pre-made blocks of code you can insert into your code at any time. A snippet can have <em>placeholders</em>, where you can insert expressions while entering the snippet.</p>
   <h2>Using Snippets</h2>
-  <p>In <a data-xref="{title}" href="../The_Text_Editor.htm">The Code Editor</a>, code snippets are inserted through <a data-xref="{title}" href="Feather_Features.htm">Code Completion</a>. For example, writing <span class="inline2">for</span> will show its snippet in the <a data-xref="{text}" href="Feather_Features.htm#h3">Candidate Window</a>, and pressing <span class="shortcut">enter</span> will insert that snippet.</p>
+  <p>In <a data-xref="{title}" href="../The_Text_Editor.htm">Code Editor 2 (Beta)</a>, code snippets are inserted through <a data-xref="{title}" href="Feather_Features.htm">Code Completion</a>. For example, writing <span class="inline2">for</span> will show its snippet in the <a data-xref="{text}" href="Feather_Features.htm#h3">Candidate Window</a>, and pressing <span class="shortcut">enter</span> will insert that snippet.</p>
   <p><video src="../../assets/Images/The_IDE/Code Editor/Snippets_CE2.mp4" width="366" height="134" controls="" class="center"></video></p>
   <p>Inserting a snippet will highlight its first placeholder. After entering text into that placeholder, press <span class="shortcut">tab</span> to cycle through each placeholder until you have gone through all of them.</p>
   <h3>Custom Snippets</h3>
-  <p>You can also define your own code snippets if you want to. Before doing this, you&#39;ll need to create a file called &quot;<span class="inline">snippets.txt</span>&quot; in one of the following directories:</p>
+  <p>You can define your own code snippets. Before doing this, you&#39;ll need to create a file with the extension <span class="inline2">.tmSnippet</span> in one of the following directories:</p>
   <ul class="colour">
     <li>Windows: <span class="inline">%ProgramData%\<span class="inline"><span data-keyref="GameMaker_Paths_Directory_Name">GameMakerStudio2</span></span>\User\</span></li>
     <li>macOS: <span class="inline">/Users/Shared/<span><span class="inline"><span data-keyref="GameMaker_Paths_Directory_Name">GameMakerStudio2</span></span></span>/User/</span></li>
     <li>Ubuntu: <span><span class="inline">./var/opt/<span data-keyref="GameMaker_Paths_Directory_Name">GameMakerStudio2</span>/</span>  <em>OR</em>   <span class="inline">~/.local/share/<span><span class="inline"><span data-keyref="GameMaker_Paths_Directory_Name">GameMakerStudio2</span></span></span></span></span></li>
   </ul>
-  <p>This folder is <em>not </em>modified during any update to <span data-keyref="GameMaker Name">GameMaker</span>, so your edited file will remain intact (but any edits to the base snippets file in the install directory will be reverted).</p>
-  <p>Once the file is created in the User directory, you can edit it with any text editor following these rules:</p>
+  <p>This folder is <em>not </em>modified during any update to <span data-keyref="GameMaker Name">GameMaker</span>, so your edited file will remain intact.</p>
+  <p>Each <span class="inline2">.tmSnippet</span> file must contain one snippet. This is an example snippet file (you can copy this to create your own snippets):</p>
+  <p class="code">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;<br />
+    &lt;!DOCTYPE plist PUBLIC &quot;-//Apple Computer//DTD PLIST 1.0//EN&quot; &quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;&gt;<br />
+    &lt;plist version=&quot;1.0&quot;&gt;<br />
+    &lt;dict&gt;<br />
+        &lt;key&gt;content&lt;/key&gt;<br />
+        &lt;string&gt;CONTENT&lt;/string&gt;<br />
+        &lt;key&gt;name&lt;/key&gt;<br />
+        &lt;string&gt;NAME&lt;/string&gt;<br />
+        &lt;key&gt;scope&lt;/key&gt;<br />
+        &lt;string&gt;source.gml&lt;/string&gt;<br />
+        &lt;key&gt;uuid&lt;/key&gt;<br />
+        &lt;string&gt;UUID&lt;/string&gt;<br />
+        &lt;key&gt;tabTrigger&lt;/key&gt;<br />
+        &lt;string&gt;Inc&lt;/string&gt;<br />
+    &lt;/dict&gt;<br />
+    &lt;/plist&gt;</p>
+  <p>This is a basic XML with some keys (with the names &quot;content&quot;, &quot;name&quot;, &quot;scope&quot; etc.):</p>
+  <ul class="colour">
+    <li><strong>content</strong>: The snippet content. Must follow the <strong>snippet syntax</strong> defined below.</li>
+    <li><strong>name</strong>: The name of the snippet that shows up in the editor&#39;s auto-complete.</li>
+    <li><strong>scope</strong>: The language this snippet is associated with. (Default: GML)</li>
+    <li><strong>uuid</strong>: This must be replaced with a new UUID. You can use a <a href="https://www.uuidgenerator.net">UUID generator</a>.</li>
+  </ul>
+  <p>Hotkeys for your snippets can be assigned in the <a data-xref="{title}" href="../../Setting_Up_And_Version_Information/IDE_Preferences/Redefine_Keys_Preferences.htm">Redefine Keys Preferences</a> under the &quot;Code Editor 2&quot; section. They will be created as unbound by default.</p>
+  <h3>Snippet Syntax</h3>
+  <p>The snippet content must follow a specific format where:</p>
+  <ul class="colour">
+    <li>All code is on a single line</li>
+    <li>You use &quot;<span class="inline">\n</span>&quot; for a newline</li>
+    <li>You place tab stops with numbers after <span class="inline2">$</span>, e.g. <span class="inline2">$0</span> for the first tab stop, <span class="inline2">$1</span> for the second, etc.</li>
+    <li>Tab stops can contain placeholder text, e.g. <span class="inline2">{$0:insert_function_name}();</span>. A tab stop may be surrounded with <span class="inline2">{}</span> to define placeholder boundaries (e.g. the <span class="inline2">()</span> is not part of the placeholder in the example).</li>
+  </ul>
+  <p>You can use the following variables in your snippets:</p>
+  <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down" href="#">Snippet Variables</a></p>
+  <div class="droptext" data-targetname="drop-down">
+    <ul class="colour">
+      <li class="dropspot"><span class="inline2">CLIPBOARD</span>: Contents of the clipboard</li>
+      <li class="dropspot"><span class="inline2">WORKSPACE_NAME</span>: Name of current <a href="../../Additional_Information/Project_Format.htm">project</a> (<span class="inline2">*.yyp</span> filename without extension)</li>
+      <li class="dropspot"><span class="inline2">WORKSPACE_FOLDER</span>: Path to the <span class="inline2">*.yyp</span></li>
+      <li class="dropspot"><span class="inline2">CURSOR_INDEX</span>: Column-1</li>
+      <li class="dropspot"><span class="inline2">CURSOR_NUMBER</span>: Column</li>
+      <li class="dropspot"><span class="inline2">CURRENT_YEAR</span>: Year in format <span class="inline2">yyyy</span></li>
+      <li class="dropspot"><span class="inline2">CURRENT_YEAR_SHORT</span>: Year in format <span class="inline2">yy</span></li>
+      <li class="dropspot"><span class="inline2">CURRENT_MONTH</span>: Month in format <span class="inline2">MM</span></li>
+      <li class="dropspot"><span class="inline2">CURRENT_MONTH_NAME</span>: Month in format <span class="inline2">M</span></li>
+      <li class="dropspot"><span class="inline2">CURRENT_MONTH_NAME_SHORT</span>: Month in format <span class="inline2">MMM</span></li>
+      <li class="dropspot"><span class="inline2">CURRENT_HOUR</span>: Hour in format <span class="inline2">HH</span></li>
+      <li class="dropspot"><span class="inline2">CURRENT_MINUTE</span>: Minutes in format <span class="inline2">mm</span></li>
+      <li class="dropspot"><span class="inline2">CURRENT_SECOND</span>: Seconds in format <span class="inline2">ss</span></li>
+      <li class="dropspot"><span class="inline2">CURRENT_SECONDS_UNIX</span>: Current UNIX Timestamp (not UTC)</li>
+      <li class="dropspot"><span class="inline2">CURRENT_TIMEZONE_OFFSET</span>: Time zone in format <span class="inline2">+HHMM</span></li>
+      <li class="dropspot"><span class="inline2">RANDOM</span>: A random base 10 integer between inclusive 100000-999999</li>
+      <li class="dropspot"><span class="inline2">RANDOM_HEX</span>: A random base 16 integer between inclusive 0x111111-0xFFFFFF (excluding leading 0x)</li>
+      <li class="dropspot"><span class="inline2">UUID</span>: A new GUIDv4 in lower case with hyphens format</li>
+    </ul>
+  </div>
+  <p>More rules about the snippet syntax can be <a href="https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#snippet_syntax">found here</a>, including more variables that can be used in your snippets.</p>
+  <p>If the legacy <span class="inline2">snippets.txt</span> file (described in the section below) is found in the <strong>User</strong> directory, all contained snippets will automatically be converted to <span class="inline2">.tmSnippet</span> files when the IDE is started.</p>
+  <h2><span data-keyref="Code_Editor1_Name">Legacy Code Editor</span></h2>
+  <p>When using the <span data-keyref="Code_Editor1_Name">Legacy Code Editor</span>, you can press <span class="inline">F4</span> to open the code snippet pop-up:</p>
+  <p><img alt="Code Snippets Window" class="center" src="../../assets/Images/Asset_Editors/CodeSnippets_IDE.png" />From this window you can select with the mouse the snippet to use, or you can press the associated hotkey listed on the right. This will add the snippet to your code for editing.</p>
+  <p>Snippets for the <span data-keyref="Code_Editor1_Name">Legacy Code Editor</span> can be created in the same directories listed above, but instead in a <span class="inline2">snippets.txt</span> file containing all snippets.</p>
+  <p>The following rules must be followed for the snippets file:</p>
   <ul class="colour">
     <li>Each snippet has to be on a separate line (there should be no blank lines)</li>
     <li>Each snippet must start with the name of the snippet (which is what is shown in the menu) followed by a colon &quot;<span class="inline">:</span>&quot;, e.g.:</li>
   </ul>
   <p class="code" style="margin-left: 100px">Instance Create:</p>
   <p style="margin-left: 60px">After the colon you add your snippet of code:</p>
-  <p class="code" style="margin-left: 100px">Instance Create:instance_create_layer(x, y, |layer|, object);</p>
+  <p class="code" style="margin-left: 100px">Instance Create:instance_create_layer(x, y, {$0:layer}, object);</p>
   <ul class="colour">
     <li>Hotkeys for your snippets can be assigned in the <a data-xref="{title}" href="../../Setting_Up_And_Version_Information/IDE_Preferences/Redefine_Keys_Preferences.htm">Redefine Keys Preferences</a> under the &quot;Text Editor&quot; section. They will be created as unbound by default.</li>
   </ul>
-  <p>The code that you add must also follow a specific format where:</p>
+  <p>These snippets must follow a specific format where:</p>
   <ul class="colour">
     <li>All code is on a single line</li>
     <li>You use &quot;<span class="inline">$</span>&quot; for a newline
@@ -58,15 +121,12 @@
     <li>Ubuntu: <span class="inline">/opt/GameMaker/x86_64/TextEditor/snippets.txt</span></li>
   </ul>
   <p><img alt="Code Snippets Example" class="center" src="../../assets/Images/Asset_Editors/CodeSnippets_Example.png" /></p>
-  <h2><span data-keyref="Code_Editor1_Name">Legacy Code Editor</span></h2>
-  <p>When using the <span data-keyref="Code_Editor1_Name">Legacy Code Editor</span>, you can press <span class="inline">F4</span> to open the code snippet pop-up:</p>
-  <p><img alt="Code Snippets Window" class="center" src="../../assets/Images/Asset_Editors/CodeSnippets_IDE.png" />From this window you can select with the mouse the snippet to use, or you can press the associated hotkey listed on the right. This will add the snippet to your code for editing.</p>
   <p> </p>
   <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a href="../Scripts.htm">The Script Editor</a></div>
+        <div style="float:left">Back: <a data-xref="{title}" href="../The_Text_Editor.htm">Code Editor 2 (Beta)</a></div>
         <div style="float:right">Next: <a data-xref="{title}" href="Editing_Text.htm">Editing Code</a></div>
       </div>
     </div>

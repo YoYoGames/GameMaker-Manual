@@ -4,7 +4,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>os_request_permission</title>
-  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <meta name="generator" content="Adobe RoboHelp 2022" />
   <link rel="stylesheet" href="../../../assets/css/default.css" type="text/css" />
   <script src="../../../assets/scripts/main_script.js" type="module"></script>
   <meta name="rh-authors" content="Mark Alexander" />
@@ -14,12 +14,19 @@
 </head>
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
-  <h1>os_request_permission</h1>
-  <p>With this function you can request a specific permission. You supply the permission to request as a string using the format &quot;<span class="inline">android.permission.&lt;permission&gt;</span>&quot;, so to request the <span class="inline">RECORD_AUDIO</span> permission (for example) you would call:</p>
-  <p class="code">os_request_permission(&quot;android.permission.RECORD_AUDIO&quot;);</p>
-  <p>This function is for the Android target only.</p>
-  <p>You can request multiple permissions at once by passing multiple arguments into the function.</p>
-  <p>This will later trigger a <a href="../../../The_Asset_Editors/Object_Properties/Async_Events/System.htm">System Asynchronous Event</a> where the built in <a href="../../GML_Overview/Variables/Builtin_Global_Variables/async_load.htm"><span class="inline">async_load</span></a> DS map will contain the following key/value pairs:</p>
+  <h1><span data-field="title" data-format="default">os_request_permission</span></h1>
+  <p>This function requests the OS for a specific permission.</p>
+  <p>It is used on two different targets:</p>
+  <ul class="colour">
+    <li>On Android you supply the permission to request as a string using the format &quot;<span class="inline2">android.permission.&lt;permission&gt;&quot;</span>, so to request, for example, the <span class="inline2">RECORD_AUDIO</span> permission you would call:</li>
+  </ul>
+  <p class="code"><span data-field="title" data-format="default">os_request_permission</span>(&quot;android.permission.RECORD_AUDIO&quot;);</p>
+  <ul>
+    <li>On GX.games you can use this function to request access to orientation information, though only on certain browsers (see <a data-xref="{title}" href="../Game_Input/Device_Input/Device_Input.htm">Device Input</a>). <span>This permission request has to be made in response to a user press, so will only take place the first time the app is clicked after the call to <span class="inline3_func"><span data-field="title" data-format="default">os_request_permission</span></span> is made.</span> In this case you request the permission <span class="inline2">&quot;DeviceMotion&quot;</span>:</li>
+  </ul>
+  <p class="code"><span data-field="title" data-format="default">os_request_permission</span>(&quot;DeviceMotion&quot;);</p>
+  <p class="note"><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> You can request multiple permissions at once by passing multiple arguments into the function.</p>
+  <p>The function will later trigger a <a href="../../../The_Asset_Editors/Object_Properties/Async_Events/System.htm">System Asynchronous Event</a> where the built-in <span class="inline2"><a data-xref="{title}" href="../../GML_Overview/Variables/Builtin_Global_Variables/async_load.htm">async_load</a></span> DS map will contain the following key/value pairs:</p>
   <ul class="colour">
     <li>&quot;<b>type</b>&quot;: This will be the string <span class="inline2">&quot;permission_request_result&quot;</span>, used to identify the type of event triggered.</li>
     <li>&quot;<b>&lt;permission&gt;</b>&quot;: This will be a permission requested by the function, as a string. You will get keys for all the permissions you requested in the original function call.<br />
@@ -43,7 +50,10 @@
       </tr>
     </tbody>
   </table>
-  <p>It is worth noting that the following permission are supported natively by <span data-keyref="GameMaker Name">GameMaker</span>, but are considered &quot;dangerous&quot; by Google and as such they <i>must</i> be explicitly requested (note too that some permissions can be requested using the <a href="../../../Settings/Game_Options/Android.htm">Android Game Options</a> without the need for this function):</p>
+  <ul class="colour">
+    <li><span class="inline">&quot;response&quot;</span>: This is only returned for the <span class="inline2">&quot;DeviceMotion&quot;</span> permission. It holds the string value returned by the request.</li>
+  </ul>
+  <p>It is worth noting that the following permissions are supported natively by <span data-keyref="GameMaker Name">GameMaker</span>, but are considered &quot;dangerous&quot; by Google and as such they <i>must</i> be explicitly requested (note too that some permissions can be requested using the <a href="../../../Settings/Game_Options/Android.htm">Android Game Options</a> without the need for this function):</p>
   <ul class="colour">
     <li><span class="inline">android.permission.WRITE_EXTERNAL_STORAGE</span></li>
     <li><span class="inline">android.permission.READ_PHONE_STATE</span></li>
@@ -52,7 +62,7 @@
   <p>For more information on app permissions, please see the <a href="https://developer.android.com/guide/topics/permissions/overview" target="_blank">Android Documentation</a>.</p>
   <p> </p>
   <h4>Syntax:</h4>
-  <p class="code">os_request_permission(permissions...)</p>
+  <p class="code"><span data-field="title" data-format="default">os_request_permission</span>(permissions...)</p>
   <table>
     <tbody>
       <tr>
@@ -62,7 +72,7 @@
       </tr>
       <tr>
         <td>permissions</td>
-        <td><span data-keyref="Type_String"><a href="../../../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">String</a></span></td>
+        <td><span data-keyref="Type_String"><a href="../../GML_Overview/Data_Types.htm" target="_blank">String</a></span></td>
         <td>The permission(s) to request. Request multiple permissions by adding more arguments.</td>
       </tr>
     </tbody>
@@ -86,24 +96,24 @@
     <br />
     if (os_check_permission(_write) &amp;&amp; os_check_permission(_read))<br />
     {<br />
-        MobileMedia_Share_Open(&quot;Title!&quot;, &quot;image/gif&quot;, file);<br />
+        MobileUtils_Share_Open(&quot;Title!&quot;, &quot;image/gif&quot;, file);<br />
     }<br />
     else<br />
     {<br />
         os_request_permission(_write, _read);<br />
     }
   </p>
-  <p>This function checks if the user has permissions for reading from and writing to external storage. If it&#39;s allowed, it runs an extension function to operate using those permissions. However if either of those permissions are not allowed, it calls <span class="inline2">os_request_permission()</span> to request both permissions at once.</p>
+  <p>This function checks if the user has permissions for reading from and writing to external storage. If it&#39;s allowed, it runs an extension function to operate using those permissions. However, if either of those permissions are not allowed, it calls <span class="inline3_func"><span data-field="title" data-format="default">os_request_permission</span></span> to request both permissions at once.</p>
   <p> </p>
   <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a href="OS_And_Compiler.htm">OS And Compiler</a></div>
-        <div style="float:right">Next: <a href="GM_build_date.htm">GM_build_date</a></div>
+        <div style="float:left">Back: <a data-xref="{title}" href="OS_And_Compiler.htm">OS And Compiler</a></div>
+        <div style="float:right">Next: <a data-xref="{title}" href="GM_build_date.htm">GM_build_date</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2022 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2025 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 os_request_permission
