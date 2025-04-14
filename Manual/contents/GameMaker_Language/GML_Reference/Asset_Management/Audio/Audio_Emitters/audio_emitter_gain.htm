@@ -15,14 +15,14 @@
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
   <h1><span data-field="title" data-format="default">audio_emitter_gain</span></h1>
-  <p>This function sets the maximum gain (volume) for the sound.</p>
+  <p>This function sets the maximum gain (volume) for the emitter.</p>
   <p>The perceived volume for a sound can change depending on the <a href="audio_emitter_falloff.htm">fall-off value</a> and the position it has relative to the <i>listener</i>, but by setting the gain with this function, the full volume will never exceed the specified gain value. The image below illustrates how gain affects the volume of the emitter when fall-off is greater than 0:</p>
   <p><img alt="Audio Gain Diagram" class="center" src="../../../../../assets/Images/Scripting_Reference/GML/Reference/Audio/Audio_Gain.png" />This function will change the volume of the sound while it is being played as well all subsequent sounds played through the given emitter. Note that on some platforms you can have a gain of greater than 1, although a value of 1 is considered &quot;full volume&quot; and anything greater may introduce audio clipping or distortion.</p>
   <p class="note"><span data-conref="../../../../../assets/snippets/Tag_note.hts"> </span> The final volume will also be influenced by the global audio gain that has been set by the function <span class="inline3_func"><a data-xref="{title}" href="../audio_master_gain.htm">audio_master_gain</a></span>.</p>
   <div data-conref="../../../../../assets/snippets/Note_Audio_Device_OS_Might_Normalise_Audio.hts"> </div>
   <p> </p>
   <h4>Syntax:</h4>
-  <p class="code"><span data-field="title" data-format="default">audio_emitter_gain</span>(emitter, gain);</p>
+  <p class="code"><span data-field="title" data-format="default">audio_emitter_gain</span>(emitter, gain, [time]);</p>
   <table>
     <tbody>
       <tr>
@@ -40,6 +40,11 @@
         <td><span data-keyref="Type_Real"><a href="../../../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
         <td>The maximum gain (default 1).</td>
       </tr>
+      <tr>
+        <td>time</td>
+        <td><span data-keyref="Type_Real"><a href="../../../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td><span data-conref="../../../../../assets/snippets/Tag_optional.hts"> </span> The length of the change in gain in milliseconds. Defaults to 0 (instantaneous change) if not passed.</td>
+      </tr>
     </tbody>
   </table>
   <p> </p>
@@ -50,27 +55,27 @@
   <p class="code">if (up)<br />
     {<br />
         gain += 0.05;<br />
-        if gain &gt;= 1 up = false;<br />
+        if (gain &gt;= 1) up = false;<br />
     }<br />
     else<br />
     {<br />
-        gain += 0.05;<br />
-        if gain &lt;= 0 up = true;<br />
+        gain -= 0.05;<br />
+        if (gain &lt;= 0) up = true;<br />
     }<br />
     <br />
     audio_emitter_gain(s_emit, gain);
   </p>
-  <p>The above code sets the variable &quot;gain&quot; to different values and then uses that same variable to set the gain of the emitter indexed in the variable &quot;s_emit&quot;.</p>
+  <p>The above code sets the variable <span class="inline2">gain</span> to different values and then uses that same variable to set the gain of the emitter indexed in the variable <span class="inline2">s_emit</span>.</p>
   <p> </p>
   <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a href="Audio_Emitters.htm">Audio Emitters</a></div>
-        <div style="float:right">Next: <a href="audio_emitter_pitch.htm">audio_emitter_pitch</a></div>
+        <div style="float:left">Back: <a data-xref="{title}" href="Audio_Emitters.htm">Audio Emitters</a></div>
+        <div style="float:right">Next: <a data-xref="{title}" href="audio_emitter_pitch.htm">audio_emitter_pitch</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2025 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 audio_emitter_gain
