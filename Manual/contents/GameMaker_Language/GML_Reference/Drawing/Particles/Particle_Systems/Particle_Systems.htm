@@ -15,10 +15,29 @@
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
   <h1><span data-field="title" data-format="default">Particle Systems</span></h1>
-  <p>Before you can create particles you need to create a particle system. This is a &quot;container&quot; where you place your particles and emitters (if you need them) ready for use, and you can put as many or as few particles into any one system as you think necessary, and you can have as many systems as you think necessary too. However, it is always better to keep this number as small as possible due to the fact that each system, emitter and particle takes up memory and having too many of them may slow your game down or cause problems. For example, if you need some effects to appear above instances, and other effects to appear below instances, you would create two systems and set their depths to get the desired effect, with all particles that are added to each system being drawn at the depth you specify.</p>
+  <p>Before you can create particles you need to create a particle system. This is a &quot;container&quot; where you place your particles and emitters (if you need them) ready for use, and you can put as many or as few particles into any one system as you think necessary, and you can have as many systems as you think necessary too. However, it is always better to keep this number as small as possible since every system, emitter and particle takes up memory and having too many of them may slow your game down or cause problems. For example, if you need some effects to appear above instances, and other effects to appear below instances, you would create two systems and set their depths to get the desired effect, with all particles that are added to each system being drawn at the depth you specify.</p>
   <p>Since a particle system is a dynamically created resource, you must create it and store the returned handle in a variable to reference the system in all further function calls, and it is very important that you also destroy the system when it is no longer needed or else you will have a memory leak that will slow down and eventually crash your game. It is also worth noting that particle systems will live on forever after they are created, even if the handle is no longer stored. So even if you change room or restart the game, the systems and the particles will remain, and be visible, in all further rooms so you better make sure you destroy them once you no longer need them.</p>
   <div data-conref="../../../../../assets/snippets/Note_tip_use_particle_system_editor.hts"> </div>
-  <h2 id="h">Copy GML to Clipboard</h2>
+  <h2>Creating a Particle System</h2>
+  <p>To create an empty particle system instance in code you can use <span class="inline3_func"><a data-xref="{title}" href="part_system_create.htm">part_system_create</a></span> or <span class="inline3_func"><a data-xref="{title}" href="part_system_create_layer.htm">part_system_create_layer</a></span>:</p>
+  <p class="code">ps = part_system_create();</p>
+  <p>This creates an particle system instance with no particles or emitters in it.</p>
+  <p class="note"><span data-conref="../../../../../assets/snippets/Tag_important.hts"> </span> These functions return a particle system <em>instance</em>, which should not be confused with a particle system <em>asset</em> that you create in <a data-xref="{title}" href="../../../../../The_Asset_Editors/Particle_Systems.htm">The Particle System Editor</a>.</p>
+  <p>You then create particle types and add emitters to the particle system instance that spawn particles of the type:</p>
+  <p class="code">pt = part_type_create();<br />
+    part_type_shape(pt, pt_shape_flare);<br />
+    <br />
+    pe = part_emitter_create(ps);<br />
+    part_emitter_region(ps, pe, 0, 200, 0, 200, ps_shape_rectangle, ps_distr_linear);
+  </p>
+  <p>To make the emitter continuously stream particles you can use <span class="inline3_func"><a data-xref="{title}" href="../Particle_Emitters/part_emitter_stream.htm">part_emitter_stream</a></span>:</p>
+  <p class="code">part_emitter_stream(ps, pe, pt, 1);</p>
+  <p>Defining a particle system instance entirely in code like this can be a lot of work, though there are ways to initialise it from an asset created in <a data-xref="{title}" href="../../../../../The_Asset_Editors/Particle_Systems.htm">The Particle System Editor</a>.</p>
+  <h3>Creating from a Particle System Asset</h3>
+  <p>Instead of defining a particle system in code, you can pass a particle system asset to <span class="inline3_func"><a data-xref="{title}" href="part_system_create.htm">part_system_create</a></span> / <span class="inline3_func"><a data-xref="{title}" href="part_system_create_layer.htm">part_system_create_layer</a></span>:</p>
+  <p class="code">ps = part_system_create(ps_my_particle_asset);</p>
+  <p>This creates a new particle system instance and initialises it according to how you set up the particle system asset in the Particle System Editor.</p>
+  <h3 id="h">Copy GML to Clipboard</h3>
   <p>Using <a data-xref="{title}" href="../../../../../The_Asset_Editors/Particle_Systems.htm">The Particle System Editor</a>&#39;s <strong>Copy GML to Clipboard</strong> button <img class="icon" src="../../../../../assets/Images/Icons/Icon_GML_To_Clipboard.png" /> you can generate the <span data-keyref="GML_Code">GML Code</span> needed to create a particle system that&#39;s identical to the one you created. The code could, for example, go in an object&#39;s Create event: </p>
   <p class="code_heading">Create Event</p>
   <p class="code">var _ps = part_system_create();<br />
@@ -43,12 +62,13 @@
     <br />
     part_system_position(_ps, room_width/2, room_height/2);
   </p>
-  <p>As the above code shows, emitters start streaming particles if you&#39;ve configured them to be in <strong>Stream</strong> mode. By default, the particle system&#39;s position is set to the center of the room.</p>
+  <p>As the above code shows, emitters start streaming particles if you&#39;ve configured them to be in <strong>Stream</strong> mode. By default, the particle system&#39;s position is set to the centre of the room.</p>
   <p class="note"><span data-conref="../../../../../assets/snippets/Tag_important.hts"> </span> The particle system, emitters and types have to be destroyed manually (e.g. in the Clean Up event) to prevent memory leaks. Since emitters exist within systems, destroying a particle system destroys its emitters automatically.</p>
   <h2 id="func_ref">Function Reference</h2>
   <h3 id="func_ref_general">Setting Up</h3>
   <ul class="colour">
-    <li><a href="part_system_exists.htm">part_system_exists</a></li>
+    <li><a data-xref="{title}" href="part_system_exists.htm">part_system_exists</a></li>
+    <li><a data-xref="{title}" href="part_system_get_info.htm">part_system_get_info</a></li>
     <li><a href="part_system_create.htm">part_system_create</a></li>
     <li><a href="part_system_create_layer.htm">part_system_create_layer</a></li>
     <li><a href="part_system_get_layer.htm">part_system_get_layer</a></li>
