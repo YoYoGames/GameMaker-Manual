@@ -229,36 +229,6 @@
   <p>Using the above function name would mean that the function <span class="inline">gmcallback_create_button()</span> will not be obfuscated and so can be used in JavaScript extensions and other areas of your game, for example, when using the <a href="../GML_Reference/Web_And_HTML5/Web_And_HTML5.htm"><span class="inline">clickable_*</span></a> functions.</p>
   <h2>Static Variables</h2>
   <p>Functions can also make use of static variables, which maintain their values throughout every function call. Please <a href="Functions/Static_Variables.htm">read this page</a> for more information.</p>
-  <h2>Notes</h2>
-  <p>This section contains miscellaneous usage notes regarding functions.</p>
-  <ul class="colour">
-    <li>If a function, defined in an event, contains a call to another function that was defined in the same event, without specifying a scope (e.g. <span class="inline2">self</span>), the call will be made to the function defined in the event, even if the variable it is assigned to was later overridden with a new function. To call whichever function is assigned to the instance variable at the time of the function call, specify the <span class="inline2">self</span> scope when calling (e.g. <span class="inline2">self.function()</span>). See the following example:</li>
-  </ul>
-  <p class="code">// Create event<br />
-    function overridden()<br />
-    {<br />
-        show_debug_message(&quot;i&#39;m the original&quot;);<br />
-    }<br />
-    <br />
-    call_overridden = function()<br />
-    {<br />
-        overridden();<br />
-    }<br />
-    <br />
-    // Room Start event<br />
-    function overridden()<br />
-    {<br />
-        show_debug_message(&quot;i&#39;ve been overridden&quot;);<br />
-    }<br />
-    <br />
-    // Key Press - Space<br />
-    call_overridden();<br />
-    overridden();<br />
-    <br />
-    // call_overridden() will print &quot;i&#39;m the original&quot; to the log, calling the original function defined in the same event as call_overridden<br />
-    // overridden() will print &quot;i&#39;ve been overridden&quot; as it is referring to whichever function is stored in the overridden instance variable<br />
-    // Calling self.overridden() inside call_overridden changes the first logged message to &quot;i&#39;ve been overridden&quot;
-  </p>
   <p> </p>
   <p> </p>
   <p> </p>
