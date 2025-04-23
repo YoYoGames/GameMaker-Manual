@@ -35,9 +35,9 @@
     <span>}</span>
   </p>
   <p class="note"><span data-conref="../../assets/snippets/Tag_note.hts"> </span> To create a function in <span data-keyref="GML_Visual">GML Visual</span>, use <a data-xref="{title}" href="../../Drag_And_Drop/Drag_And_Drop_Reference/Common/Declare_A_New_Function.htm">Declare A New Function</a>.</p>
-  <p>In general, however, you would use the <em>first </em>form for methods, and the second form for defining <a href="Script_Functions.htm">script functions</a>, since the second form will also assign a script index to the function while the first form will be a &quot;true&quot; method.</p>
+  <p>It is recommended that you should use the <em>first </em>form for methods, and the second form for defining <a href="Script_Functions.htm">script functions</a>, since the second form will also assign a script index to the function while the first form will be a &quot;true&quot; method. Using the second form introduces differences that are covered in <a data-xref="{text}" href="Script_Functions_vs_Methods.htm#h">Overridden Script Functions</a>.</p>
+  <p>Defining a function in an Object&#39;s event using either syntax will make the function only available in the context of its instance (i.e. using the script function syntax will <strong>not</strong> make the function globally available unless it is in a Script asset).</p>
   <p class="note"><span data-conref="../../assets/snippets/Tag_note.hts"> </span> You can check this by using both forms in a script and then calling the runtime function <span class="inline3_func"><a data-xref="{title}" href="../GML_Reference/Variable_Functions/typeof.htm">typeof</a></span> on each of them. One will be classed as a &quot;ref&quot; - since it returns a script function reference - and the other will be classed as a &quot;method&quot;.</p>
-  <p class="note"><span data-conref="../../assets/snippets/Tag_note.hts"> </span> Defining a function in an Object&#39;s event using either syntax will make the function only available in the context of its instance (i.e. using the script function syntax will <strong>not</strong> make the function globally available unless it is in a Script asset).</p>
   <p class="note"><span data-conref="../../assets/snippets/Tag_note.hts"> </span> A function defined in an Object&#39;s event using the script function syntax will be available to its instances throughout their lifetime, even when the event has not run yet. For example, defining a script function in the Alarm 0 event will make the function available to call in the Create event, regardless of when that alarm event runs (or whether it runs at all).</p>
   <p>So, keep in mind that - in general - we will always be referring to functions that have <em>not </em>been defined with a script index when we are talking about methods and method variables.</p>
   <p>The syntax for defining a method inside a <strong>struct literal</strong> is similar to the first syntax above, however the <span class="inline2">=</span> is replaced by a <span class="inline2">:</span> as required by struct literals:</p>
@@ -94,6 +94,24 @@
   <p>The above function takes three arguments, where the last two are optional. If they are not passed in when the function is called, then they&#39;ll use the instance&#39;s <span class="inline">x</span> and <span class="inline">y</span> coordinates by default.</p>
   <p>Note that if an argument is not passed in, and it does not have a default value, then it will be equal to <span class="inline">undefined</span>.</p>
   <p>Methods can also make use of static variables, which maintain their values throughout every function call. Please <a href="Functions/Static_Variables.htm">read this page</a> for more information.</p>
+  <h3>Method Overriding</h3>
+  <p>Methods created inside instances or structs can be overridden later by assigning a new function to the same variable, e.g. in the same event in a child object:</p>
+  <p class="code">// obj_parent Create event<br />
+    say_hello = function()<br />
+    {<br />
+       show_message(&quot;I am the parent!&quot;);<br />
+    }<br />
+    <br />
+    // obj_child Create event<br />
+    event_inherited();<br />
+    <br />
+    say_hello = function()<br />
+    {<br />
+       show_message(&quot;I am the child!&quot;);<br />
+    }
+  </p>
+  <p>All calls to <span class="inline2">say_hello</span> in <span class="inline2">obj_child</span> will print <span class="inline2">&quot;I am the child!&quot;</span>.</p>
+  <p>Also see: <a data-xref="{text}" href="Script_Functions_vs_Methods.htm#h">Overridden Script Functions</a></p>
   <h3 id="h">Methods Are Structs</h3>
   <p><span data-keyref="GameMaker Name">GameMaker</span> stores methods as structs, where each &quot;method struct&quot; holds a reference to the script function to call and the struct or instance to which it is bound. You can get the script function behind a method by calling <span class="inline3_func"><a href="../GML_Reference/Variable_Functions/method_get_index.htm">method_get_index</a></span> and its bound struct or instance with <span class="inline3_func"><a href="../GML_Reference/Variable_Functions/method_get_self.htm">method_get_self</a></span>.</p>
   <p><strong>Methods being structs is irrelevant in most cases</strong> as you would call them as functions and pass them into other functions that take methods - you would not use them as structs. However this detail can be important in a few edge cases, for example with the <a data-xref="{title}" href="Structs/Static_Structs.htm">Static Struct</a>, as each function in <span data-keyref="GameMaker Name">GameMaker</span> has a static struct and each struct can have its own static struct that forms the <a data-xref="{text}" href="Structs/Static_Structs.htm#h">Static Chain</a>. However the static struct functionality for method structs is <strong>disabled</strong> so you can directly access the static struct of the function behind it. Calling <span class="inline3_func"><a data-xref="{title}" href="../GML_Reference/Variable_Functions/static_get.htm">static_get</a></span> will give you the static struct for the function behind the method and calling <span class="inline3_func"><a data-xref="{title}" href="../GML_Reference/Variable_Functions/static_set.htm">static_set</a></span> on a method will do nothing.</p>
@@ -117,7 +135,7 @@
         <div style="float:right">Next: <a data-xref="{title}" href="Script_Functions_vs_Methods.htm">Script Functions vs. Methods</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2025 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 Script Functions
