@@ -144,12 +144,12 @@
     file_text_write_string(_file, struct_json);<br />
     file_text_close(_file);</p>
   <p>Or the buffer functions: </p>
-  <p class="code">var _buff = buffer_create(<span>16384</span><span>,<span> </span></span><span>buffer_fixed, 1</span>);<br />
-    buffer_write(buffer_text, struct_json);<br />
-    buffer_save(&quot;struct_as_json.json&quot;);<br />
+  <p class="code">var _buff = buffer_create(<span>512</span><span>,<span> </span></span><span>buffer_grow, 1</span>);<br />
+    buffer_write(_buff, buffer_text, struct_json);<br />
+    buffer_save(_buff, &quot;struct_as_json.json&quot;);<br />
     buffer_delete(_buff);</p>
   <p>You can also send the JSON string over a network or store it somewhere else (e.g. in a text field in a database).</p>
-  <p>The following text is the output: </p>
+  <p>The following text is the output:</p>
   <p class="code">{&quot;test&quot;:&quot;this&quot;,&quot;val&quot;:[&quot;that&quot;,&quot;another thing&quot;,{&quot;value&quot;:&quot;a nested struct&quot;}]}</p>
   <p>By default, <span class="inline3_func"><a data-xref="{title}" href="../GameMaker_Language/GML_Reference/File_Handling/Encoding_And_Hashing/json_stringify.htm">json_stringify</a></span> writes the JSON <em>linearised</em>. In this case everything is placed on the same line, with no space in between and no indentation added. This format is useful when every byte counts, though it is not particularly readable.</p>
   <h3 id="prettify">Prettify</h3>
@@ -237,11 +237,11 @@
     v2 = vectors[1];<br />
     v3 = vectors[2];<br />
     v4 = vectors[3];</p>
-  <p>The structs have now been read back from the JSON string, but they are entirely new structs that don&#39;t belong to a constructor anymore. The structs were <span class="inline2">Vector</span> structs in the original instance of the game, but aren&#39;t anymore. At least, not &quot;officially&quot;, as you&#39;ll see with a call to the function <span class="inline3_func"><a data-xref="{title}" href="../GameMaker_Language/GML_Reference/Variable_Functions/instanceof.htm">instanceof</a></span>: </p>
-  <p class="code">instanceof(v1, Vector);  // false<br />
-    instanceof(v2, Vector);  // false<br />
-    instanceof(v3, Vector);  // false<br />
-    instanceof(v4, Vector);  // false</p>
+  <p>The structs have now been read back from the JSON string, but they are entirely new structs that don&#39;t belong to a constructor anymore. The structs were <span class="inline2">Vector</span> structs in the original instance of the game, but aren&#39;t anymore. At least, not &quot;officially&quot;, as you&#39;ll see with a call to the function <span class="inline3_func"><a data-xref="{title}" href="../GameMaker_Language/GML_Reference/Variable_Functions/is_instanceof.htm">is_instanceof</a></span>: </p>
+  <p class="code">is_instanceof(v1, Vector);  // false<br />
+    is_instanceof(v2, Vector);  // false<br />
+    is_instanceof(v3, Vector);  // false<br />
+    is_instanceof(v4, Vector);  // false</p>
   <p>To tell <span data-keyref="GameMaker Name">GameMaker</span> that each of these structs should, once again, belong to the <span class="inline2">Vector</span> constructor, you can use the function <span class="inline3_func"><a data-xref="{title}" href="../GameMaker_Language/GML_Reference/Variable_Functions/static_set.htm">static_set</a></span>: </p>
   <p class="code">var _static_vec = static_get(Vector);<br />
     static_set(v1, _static_vec);<br />
@@ -250,10 +250,10 @@
     static_set(v4, _static_vec);</p>
   <p>By using <span class="inline3_func"><a data-xref="{title}" href="../GameMaker_Language/GML_Reference/Variable_Functions/static_set.htm">static_set</a></span> on the structs you first detach them from the static as a simple &quot;data&quot; struct and reattach them to the static chain as &quot;child&quot; structs of the static struct of <span class="inline2">Vector</span>. Since you can access all static members of the hierarchy of static structs (or constructors) a struct belongs to, this way you give the structs access to <span class="inline2">Vector</span>&#39;s <a data-xref="{text}" href="../GameMaker_Language/GML_Overview/Structs/Static_Structs.htm#h">Static Chain</a>, restoring their behaviour.</p>
   <p>From here on, <span class="inline2">v1</span> to <span class="inline2">v4</span> <em>are</em> instances of <span class="inline2">Vector</span>!</p>
-  <p class="code">instanceof(v1, Vector);  // true!<br />
-    instanceof(v2, Vector);  // true!<br />
-    instanceof(v3, Vector);  // true!<br />
-    instanceof(v4, Vector);  // true!</p>
+  <p class="code">is_instanceof(v1, Vector);  // true!<br />
+    is_instanceof(v2, Vector);  // true!<br />
+    is_instanceof(v3, Vector);  // true!<br />
+    is_instanceof(v4, Vector);  // true!</p>
   <p>And you can use them like any other <span class="inline2">Vector</span> struct: </p>
   <p class="code">v1.add(v2).add(v3);<br />
     v5 = Vector.sum(v1, v1);</p>
