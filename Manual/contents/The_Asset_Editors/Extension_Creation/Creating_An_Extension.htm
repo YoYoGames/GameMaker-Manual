@@ -111,6 +111,18 @@
   <p class="note"><span data-conref="../../assets/snippets/Tag_note.hts"> </span> You can use the extension version number in <a data-xref="{title}" href="../../Settings/Runner_Details/Compiler_Batch_Files.htm">Compiler Batch Files / Scripts</a> as well, using the name <span class="inline2">GMEXT_&lt;ExtensionName&gt;_version</span>.</p>
   <p class="note"><span data-conref="../../assets/snippets/Tag_note.hts"> </span> You cannot use extension options from an extension different from the current one.</p>
   <p>Extension options will only be available at runtime if the extension has functions that are used at runtime. However, options will always be exported to the INI file (if the option is enabled) and batch scripts regardless of the extension&#39;s use.</p>
+  <p>To retrieve an extension option's value directly within your native code (e.g., in your Android Java or iOS Objective-C extension files), you can use the following functions:</p>
+  <p class="code"> //Android (Java)
+    String stringOptionValue = RunnerJNILib.extOptGetString("ExtensionName", "OptionName");<br />
+    double realOptionValue = RunnerJNILib.extOptGetReal("ExtensionName", "OptionName");<br />
+    <br />
+    //iOS (Objective-C)<br />
+    extern "C" const char* extOptGetString(char* _ext, char* _opt);<br />
+    extern "C" double extOptGetReal(char* _ext, char* _opt);<br />
+    <br />
+    NSString* stringOptionValue = [NSString stringWithUTF8String: extOptGetString((char*)"ExtensionName", (char*)"OptionName")];<br />
+    double realOptionValue = extOptGetReal((char*)"ExtensionName", (char*)"OptionName");<br />
+  </p>
   <h2>Proxy Files</h2>
   <p>When working with multiple target platforms, it is worth noting that you can create a single extension with only one set of functions/macros which will work on <em>all </em>platforms. This is achieved by adding only one of the link libraries to your game as an extension and placing the other(s) into the list of <strong>Proxy Files</strong> in the <strong>Extension Properties</strong> window.</p>
   <p><img class="center" src="../../assets/Images/Asset_Editors/Editor_Extensions_ProxyFiles.png" />For example, say you have a Windows extension with the <span class="inline"> <strong>dll </strong></span>&quot;<span class="inline">Haggis.dll</span>&quot;. You would simply replicate this <span class="inline"> <strong>dll</strong></span> as a Mac <span class="inline"> <strong>DyLib</strong></span>, naming it &quot;<span class="inline"><strong>libHaggis.dylib</strong></span>&quot; and making sure that the internal function names match those of the original Windows <span class="inline"> <strong>dll</strong></span>. This <strong> <span class="inline">DyLib</span> </strong>would then be added into the Proxy Files and set to export when the game is run on the Mac target, and <span data-keyref="GameMaker Name">GameMaker</span> will automatically use it when the extension functions are called.</p>
