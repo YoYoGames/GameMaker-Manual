@@ -129,7 +129,7 @@ for fpath in fpaths:
                         "name": name,
                         "description": shortcut['Description'] if ('Description' in shortcut) else "",
                         "win_combo": combo_strings,
-                        "mac_combo": []
+                        "mac_combo": combo_strings
                         # "Localisation": combo['Localisation']
             }
 
@@ -141,11 +141,14 @@ for fpath in fpaths:
 
                     # Get this shortcut's Mac combo(s)
                     cbo = override['Combo']
-                    combos = [cbo] if type(cbo) is not list else cbo
-                    combo_strings = [get_combo_string(combo, replace_in_names=[("Windows", "Command")]) for combo in combos]
+                    if not cbo:
+                        shortcuts[name]['mac_combo'] = []    # "empty" override
+                    else:
+                        combos = [cbo] if type(cbo) is not list else cbo
+                        combo_strings = [get_combo_string(combo, replace_in_names=[("Windows", "Command")]) for combo in combos]
 
-                    # Assign to final output
-                    shortcuts[name]['mac_combo'] = combo_strings
+                        # Assign to final output
+                        shortcuts[name]['mac_combo'] = combo_strings
 
             # Store name of shortcut under all its locations
             loc = input['Source']
