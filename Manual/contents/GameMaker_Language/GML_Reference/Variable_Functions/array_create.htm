@@ -19,9 +19,9 @@
   <p>With this function you can create an array of the given size.</p>
   <p>You tell the function the length of the array to create, and it will return the &quot;handle&quot; for the array which you can then assign to a variable.</p>
   <p>Arrays created in this way will have each entry initialised to 0 unless you specify an (optional) initialisation value. If you do supply the extra value for initialising the array, then all indices within the new array will be set to that instead of 0, but note that the function will have a greater performance overhead in this case.</p>
-  <p class="note"><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> To initialise each entry of the array using a function, you can use <span class="inline3_func"><a data-xref="{title}" href="array_create_ext.htm">array_create_ext</a></span>.</p>
+  <p class="note"><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> If the initialisation value is a reference (e.g. a struct or an array), every array element will hold this same reference and therefore reference the same thing in memory due to the way <span data-keyref="GameMaker Name">GameMaker</span> handles <a data-xref="{title}" href="../../GML_Overview/Values_And_References.htm">Values and References</a>. To initialise each entry with a unique copy of this value instead of a reference, you can use a function with <span class="inline3_func"><a data-xref="{title}" href="array_create_ext.htm">array_create_ext</a></span>.</p>
   <h4>Syntax:</h4>
-  <p class="code"><span data-field="title" data-format="default">array_create</span>(size, [value]);</p>
+  <p class="code"><span data-field="title" data-format="default">array_create</span>(size, [value])</p>
   <table>
     <tbody>
       <tr>
@@ -45,9 +45,24 @@
   <h4>Returns:</h4>
   <p class="code"><span data-keyref="Type_Array"><a href="../../GML_Overview/Arrays.htm" target="_blank">Array</a></span></p>
   <p> </p>
-  <h4>Example:</h4>
+  <h4>Example 1: Basic Use</h4>
   <p class="code">instance_array = <span data-field="title" data-format="default">array_create</span>(100, noone);</p>
-  <p>The above code will create a new array of 100 entries, each one set to the keyword <span class="inline2"><a data-xref="{title}" href="../../GML_Overview/Instance Keywords/noone.htm">noone</a></span>, and then assign it to the variable <span class="inline2">instance_array</span>.</p>
+  <p>The above code will create a new array of 100 entries, each one set to the keyword <span class="inline2"><a data-xref="{title}" href="../../GML_Overview/Instance Keywords/noone.htm">noone</a></span>, and then assign it to a variable <span class="inline2">instance_array</span>.</p>
+  <p> </p>
+  <h4>Example 2: Creating a 2D Array With all Elements Initialised to a Simple Value</h4>
+  <p class="code">the_array = <span data-field="title" data-format="default">array_create</span>(100);<br />
+    <br />
+    var i = 0;<br />
+    repeat(100)<br />
+    {<br />
+        the_array[i++] = <span data-field="title" data-format="default">array_create</span>(100, &quot;the_value&quot;);<br />
+    }
+  </p>
+  <p>The above code creates a 2D array and initialises all elements to a simple value different from 0.</p>
+  <p>First, a 1D array of 100 elements is created with a first call to <span class="inline3_func"><span data-field="title" data-format="default">array_create</span></span>. This array is assigned to a variable <span class="inline2">the_array</span>. Next, in a <span class="inline2"><a data-xref="{title}" href="../../GML_Overview/Language_Features/repeat.htm">repeat</a></span> loop every array element is assigned a value that is a new array, also created with <span class="inline3_func"><span data-field="title" data-format="default">array_create</span></span>. After the code has executed the variable <span class="inline2">the_array</span> holds a 100x100 2D array in which every element is set to the string <span class="inline2">&quot;the_value&quot;</span>.</p>
+  <p>Note that the following line of code:</p>
+  <p class="code">the_array = <span data-field="title" data-format="default">array_create</span>(100, <span data-field="title" data-format="default">array_create</span>(100, &quot;the_value&quot;));</p>
+  <p>does <em>not</em> create a proper 100x100 2D array with 10000 unique elements. Instead, this code creates an array of 100 elements, where each of the elements <a href="../../GML_Overview/Values_And_References.htm" title="Values and References">references</a> the array passed as the initialisation value. Because of this, assigning a different value to, e.g., <span class="inline2">the_array[2][25]</span> also changes <span class="inline2">the_array[0][25]</span>, <span class="inline2">the_array[1][25]</span>, <span class="inline2">the_array[3][25]</span> and so on.</p>
   <p> </p>
   <p> </p>
   <div class="footer">
