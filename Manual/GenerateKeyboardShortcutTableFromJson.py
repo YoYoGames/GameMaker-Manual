@@ -2,7 +2,7 @@
 ###
 ### Provide the full directory path to the .json file as the command line argument.
 ### The output HTML file will also be placed there.
-### For example: CMD > python GenerateKeyboardShortcutTableFromJson.py "C:/Users/Dev/GitHub/GameMaker-Manual/Manual/" -name_as_desc -env beta
+### For example: CMD > python GenerateKeyboardShortcutTableFromJson.py "C:/Users/Dev/GitHub/GameMaker-Manual/Manual/" -env prod
 ###
 ### You can provide a few optional arguments: 
 ### 
