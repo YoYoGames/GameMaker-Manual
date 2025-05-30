@@ -18,7 +18,8 @@
   <p>This function shows a custom debug message in <a data-xref="{title}" href="../../../Introduction/The_Output_Window.htm">The Output Window</a> and <a data-xref="{title}" href="The_Debug_Overlay.htm">The Debug Overlay</a> at runtime.</p>
   <p>The syntax of this function is identical to that of the <span class="inline2"><a data-xref="{title}" href="../Strings/string.htm">string</a></span> function; aside from a single argument it can also take a <a data-xref="{text}" href="../Strings/string.htm#h">Format String</a> with placeholders and additional arguments to replace the placeholders with.</p>
   <div data-conref="../../../assets/snippets/String_conversion_rules.hts"> </div>
-  <p>Debug messages shown with this function will be shown in the <a href="../../../Introduction/The_Output_Window.htm">Compiler Output Window</a> at the bottom of the IDE as well as in the <a href="../../../IDE_Tools/The_Debugger.htm">Graph View</a> of the debugger when running the game in Debug Mode. If you only want to see messages in Debug Mode then you should probably be using <a href="debug_event.htm"><span class="inline">debug_event()</span></a> instead.</p>
+  <p>Debug messages shown with this function will be shown in the <a href="../../../Introduction/The_Output_Window.htm">Compiler Output Window</a> at the bottom of the IDE as well as in the <a href="../../../IDE_Tools/The_Debugger.htm">Graph View</a> of the debugger when running the game in Debug Mode. If you only want to see messages in Debug Mode then you should probably be using <span class="inline3_func"><a data-xref="{title}" href="debug_event.htm">debug_event</a></span> instead.</p>
+  <p class="note"><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> See <a data-xref="{title}" href="../Strings/Strings.htm">Strings</a> for the reference on the various ways in which you can add variables to strings.</p>
   <p> </p>
   <h4>Syntax:</h4>
   <p class="code"><span data-field="title" data-format="default">show_debug_message</span>(value_or_format [, value1, value2, ... max_val]);</p>
@@ -31,12 +32,12 @@
       </tr>
       <tr>
         <td>value_or_format</td>
-        <td><span data-keyref="Type_Any"><a href="GameMaker_Language/GML_Overview/Data_Types.htm#variable" target="_blank">Any</a></span> (if value) or <span data-keyref="Type_String"><a href="GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">String</a></span> (if format)</td>
+        <td><span data-keyref="Type_Any"><a href="../../GML_Overview/Data_Types.htm#variable" target="_blank">Any</a></span> (if value) or <span data-keyref="Type_String"><a href="../../GML_Overview/Data_Types.htm" target="_blank">String</a></span> (if format)</td>
         <td>The value to be turned into a string.</td>
       </tr>
       <tr>
         <td>[, value1, value2, ... max_val]</td>
-        <td><span data-keyref="Type_Any"><a href="GameMaker_Language/GML_Overview/Data_Types.htm#variable" target="_blank">Any</a></span></td>
+        <td><span data-keyref="Type_Any"><a href="../../GML_Overview/Data_Types.htm#variable" target="_blank">Any</a></span></td>
         <td><span data-conref="../../../assets/snippets/Tag_optional.hts"> </span> The values to be inserted at the placeholder positions.</td>
       </tr>
     </tbody>
@@ -45,24 +46,42 @@
   <h4>Returns:</h4>
   <p class="code"><span data-keyref="Type_Void">N/A</span></p>
   <p> </p>
-  <h4><b>Example:</b></h4>
-  <p class="code">if (!instance_exists(obj_Exit)) <br />
+  <h4>Example 1: Basic Use</h4>
+  <p class="code"><span data-field="title" data-format="default">show_debug_message</span>(&quot;Starting...&quot;);<br />
+    <span data-field="title" data-format="default">show_debug_message</span>([3, 2, 1]);<br />
+    <span data-field="title" data-format="default">show_debug_message</span>(&quot;Display Width:&quot; + string(display_get_width()));<br />
+    <span data-field="title" data-format="default">show_debug_message</span>($&quot;Display Height: {display_get_height()}&quot;);
+  </p>
+  <p>The above code shows a few calls to <span class="inline3_func"><span data-field="title" data-format="default">show_debug_message</span></span>, where each call uses a different way to create the string that is output by the function. The first call to the function takes a string literal as the parameter, the second call takes an array, which can automatically be converted to its string representation, the third call takes a concatenation of a string and a variable converted to string using the <span class="inline3_func"><a data-xref="{title}" href="../Strings/string.htm">string</a></span> function and the last one takes a template string.</p>
+  <p> </p>
+  <h4><b>Example 2: Format String</b></h4>
+  <p class="code"><span data-field="title" data-format="default">show_debug_message</span>(&quot;Instances:&quot;);<br />
+    for(var i = 0;i &lt; instance_count;i++)<br />
     {<br />
-        show_debug_message(&quot;Exit not created!&quot;);<br />
-        show_debug_message(&quot;Error Num: {0}&quot;, global.error);<br />
-        game_end();<br />
+        var _id = instance_id[i];<br />
+        var _obj = object_get_name(_id.object_index);<br />
+        var _x = _id.x;<br />
+        var _y = _id.y;<br />
+        <span data-field="title" data-format="default">show_debug_message</span>(&quot;{0} ({1}) at ({2}, {3})&quot;, _id, _obj, _x, _y);<br />
     }</p>
-  <p>The above code checks to see if an instance exists and if it does not, a debug message is shown in the compile window and the game is ended.</p>
+  <p>The above code outputs a debug message for every active instance in the room, using a format string that determines how the information is displayed.</p>
+  <p>In a <span class="inline2"><a data-xref="{title}" href="../../GML_Overview/Language_Features/for.htm">for</a></span> loop the <span class="inline2"><a data-xref="{title}" href="../Asset_Management/Instances/instance_id.htm">instance_id</a></span> array is looped through and a few variables are retrieved for every instance in it: its <span class="inline2"><a data-xref="{title}" href="../Asset_Management/Instances/Instance_Variables/id.htm">id</a></span>, its <span class="inline2"><a data-xref="{title}" href="../Asset_Management/Objects/object_index.htm">object_index</a></span> (replaced with the more readable <a href="../Asset_Management/Objects/object_get_name.htm">object name</a>) and its <span class="inline2"><a data-xref="{title}" href="../Asset_Management/Instances/Instance_Variables/x.htm">x</a></span> and <span class="inline2"><a data-xref="{title}" href="../Asset_Management/Instances/Instance_Variables/y.htm">y</a></span>. <span class="inline3_func"><span data-field="title" data-format="default">show_debug_message</span></span> is then called with a format string as the first parameter and the values to be inserted into it are passed as the next parameters.</p>
+  <p>The output will look as follows:</p>
+  <p class="code">Instances:<br />
+    ref instance 100000 (obj_enemy) at (832, 256)<br />
+    ref instance 100001 (obj_player) at (960, 544)<br />
+    ref instance 100002 (obj_enemy) at (128, 480)<br />
+    ref instance 100003 (obj_enemy) at (640, 576)</p>
   <p> </p>
   <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a href="Debugging.htm">Debugging</a></div>
+        <div style="float:left">Back: <a data-xref="{title}" href="Debugging.htm">Debugging</a></div>
         <div style="float:right">Next: <a data-xref="{title}" href="../Strings/show_debug_message_ext.htm">show_debug_message_ext</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2023 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2025 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 show_debug_message
