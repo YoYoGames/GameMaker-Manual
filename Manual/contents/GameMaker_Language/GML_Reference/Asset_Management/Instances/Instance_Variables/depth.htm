@@ -15,17 +15,21 @@
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
   <h1><span data-field="title" data-format="default">depth</span></h1>
-  <p>When you create an object you can assign it an initial <i>depth</i> which defines how the instances of that object will be drawn in the room when the game is being played and this variable can be used to get and to change that depth value while the game is running. You would normally not need to use this variable as you should be setting instances to be added to discreet <a href="layer.htm">layers</a>, which in turn are set to a specific depth, but it may be that you want to change the depth of an instance using this value, in which case a &quot;temporary layer&quot; will be created specifically for the instance at the given depth. Note that when no instances are on the same depth then this temporary layer will be removed from memory (unlike regular layers which will remain even if they have nothing on them).</p>
-  <p class="note"><span data-conref="../../../../../assets/snippets/Tag_important.hts"> </span> When you modify the <span class="inline2"><span data-field="title" data-format="default">depth</span></span>
-    <font face="menlo, consolas, monospace"><b> </b></font>variable and <span data-keyref="GameMaker Name">GameMaker</span> manages the layers, the built-in <span class="inline2"><span style="font-size:1px;"><a href="layer.htm"><span class="inline">layer</span></a></span></span> variable will hold an invalid layer handle (<span class="inline2">-1</span>) instead of a valid one, since managed layers cannot be manipulated through code.
-  </p>
-  <div data-conref="../../../../../assets/snippets/Note_Depth_Values_Are_Approximate.hts"> </div>
+  <p>This <strong>built-in variable</strong> stores the depth of the instance.</p>
+  <p>You would normally not need to use this variable as you should be setting instances to be added to discreet <a href="layer.htm">layers</a>, which in turn are set to a specific depth, but it may be that you want to change the depth of an instance using this value, in which case a &quot;temporary layer&quot; will be created specifically for the instance at the given depth. Note that when no instances are on the same depth then this temporary layer will be removed from memory (unlike regular layers which will remain even if they have nothing on them).</p>
   <p>In <span data-keyref="GameMaker Name">GameMaker</span> the lower the depth value for an instance, the &quot;closer to the camera&quot; that instance will be drawn, while a higher depth value means that the instance will be drawn &quot;further away from the camera&quot;, i.e.: -1000 is drawn on top of -100, which is drawn on top of 0, and so on.</p>
-  <p><img alt="Depth sorting example image" class="center" src="../../../../../assets/Images/Scripting_Reference/GML/Reference/Instances/depth_image.png" />Note that instances that have the <b>same</b> depth may be drawn <b>above <i>or</i> below one another</b> regardless of how it appears in <a data-xref="{title}" href="../../../../../The_Asset_Editors/Rooms.htm">The Room Editor</a>. This is not guaranteed to be consistent between target platforms as it will depend on the graphics device in use. If you want to guarantee that something is drawn over or under everything else, you should always set the depth (or layer) explicitly.</p>
-  <p>Also note that there is a minimum (<span data-keyref="Const_Depth_Min">-16000</span>) and maximum (<span data-keyref="Const_Depth_Max">16000</span>) depth value outside of which instances will not be drawn, although they will still exist and process events.</p>
-  <p class="note"><span data-conref="../../../../../assets/snippets/Tag_important.hts"> </span> The minimum and maximum depth values are approximate. As a result, when you set the draw depth to a value close to these limits, what you&#39;re drawing might not be drawn.</p>
-  <p class="note"><span data-conref="../../../../../assets/snippets/Tag_note.hts"> </span> You <b>cannot</b> set the depth of an instance in its Draw event (all other events are fine). You can, however, set the depth at which to draw things in <a data-xref="{title}" href="../../../../../The_Asset_Editors/Object_Properties/Draw_Events.htm">Draw Events</a> using <span class="inline3_func"><a data-xref="{title}" href="../../../Drawing/GPU_Control/gpu_set_depth.htm">gpu_set_depth</a></span>.</p>
-  <p>Keep in mind that modifying the depth of an instance may change which <a href="../../../../../The_Asset_Editors/Room_Properties/Filters_and_Effects.htm">Filters &amp; Effects</a> are applied on it, as changing the depth to be lower than an FX layer&#39;s depth will no longer apply its effect on the instance.</p>
+  <p><img alt="Depth sorting example image" class="center" src="../../../../../assets/Images/Scripting_Reference/GML/Reference/Instances/depth_image.png" />Note that instances that have the <b>same</b> depth may be drawn <b>above <i>or</i> below one another</b> regardless of how they appear in <a data-xref="{title}" href="../../../../../The_Asset_Editors/Rooms.htm">The Room Editor</a>. This is not guaranteed to be consistent between target platforms as it will depend on the graphics device in use. If you want to guarantee that something is drawn over or under everything else, you should always set the depth (or layer) explicitly.</p>
+  <div data-conref="../../../../../assets/snippets/Note_Depth_Values_Are_Approximate.hts"> </div>
+  <h3>Usage Notes</h3>
+  <ul class="colour">
+    <li>You <b>cannot</b> set the depth of an instance in its Draw event (all other events are fine). You can, however, set the depth at which to draw things in <a data-xref="{title}" href="../../../../../The_Asset_Editors/Object_Properties/Draw_Events.htm">Draw Events</a> using <span class="inline3_func"><a data-xref="{title}" href="../../../Drawing/GPU_Control/gpu_set_depth.htm">gpu_set_depth</a></span>.</li>
+    <li>There is a minimum (<span data-keyref="Const_Depth_Min">-16000</span>) and maximum (<span data-keyref="Const_Depth_Max">16000</span>) depth value outside of which instances will not be drawn, although they will still exist and process events.</li>
+    <li>You can assign a floating point value as the <span data-field="title" data-format="default">depth</span>, though the decimals will have no effect as <span data-keyref="GameMaker Name">GameMaker</span> truncates the value (i.e. removes the decimal part). Depth is treated as an as integer number internally.</li>
+    <li>When you modify the <span class="inline2"><span data-field="title" data-format="default">depth</span></span>
+      <font face="menlo, consolas, monospace"><b> </b></font>variable and <span data-keyref="GameMaker Name">GameMaker</span> manages the layers, the built-in <span class="inline2"><span style="font-size:1px;"><a href="layer.htm"><span class="inline">layer</span></a></span></span> variable will hold an invalid layer handle (<span class="inline2">-1</span>) instead of a valid one, since managed layers cannot be manipulated through code.
+    </li>
+    <li>Modifying the depth of an instance may change which <a href="../../../../../The_Asset_Editors/Room_Properties/Filters_and_Effects.htm">Filters &amp; Effects</a> are applied on it, as changing the depth to be lower than an FX layer&#39;s depth will no longer apply its effect on the instance.</li>
+  </ul>
   <p> </p>
   <h4>Syntax:</h4>
   <p class="code"><span data-field="title" data-format="default">depth</span></p>
@@ -44,8 +48,8 @@
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a href="Instance_Variables.htm">Instance Variables</a></div>
-        <div style="float:right">Next: <a href="layer.htm">layer</a></div>
+        <div style="float:left">Back: <a data-xref="{title}" href="Instance_Variables.htm">Built-In Instance Variables</a></div>
+        <div style="float:right">Next: <a data-xref="{title}" href="layer.htm">layer</a></div>
       </div>
     </div>
     <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2025 All Rights Reserved</span></h5>
