@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>texturegroup_add</title>
+  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <link rel="stylesheet" type="text/css" href="../../../../assets/css/default.css" />
+  <script src="../../../../assets/scripts/main_script.js" type="module"></script>
+  <meta name="rh-authors" content="" />
+  <meta name="topic-comment" content="" />
+  <meta name="rh-index-keywords" content="texturegroup_add" />
+  <meta name="search-keywords" content="texturegroup_add" />
+  <meta name="template" content="assets/masterpages/Manual_Keyword_Page.htt" />
+</head>
+<body>
+  <h1><span data-field="title" data-format="default">texturegroup_add</span></h1>
+  <p>This function adds a new <a href="../../../../Settings/Texture_Information/Dynamic_Textures.htm">Dynamic Texture Group</a> to the game from the given image file(s) and the sprite information given as a struct.</p>
+  <p>The first argument is the name of the Texture Group to be created.</p>
+  <p>For the second argument, you may pass either one file name or an array containing multiple file names. The image file(s) can be any bitmap file format. For file access rules see: <a data-xref="{text}" href="../../../../Additional_Information/The_File_System.htm#h1">Accessing File Areas</a></p>
+  <p>The last argument must be a struct or a JSON string providing information on the sprites contained in the new Texture Group. This struct or JSON object must have the following format:</p>
+  <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down" href="#">Struct Format</a></p>
+  <div class="droptext" data-targetname="drop-down">
+    <ul class="colour">
+      <li class="dropspot"><span class="inline2">sprites</span>: The struct/JSON must contain a struct named <span class="inline2">sprites</span>.<br />
+        <br />
+        The <span class="inline2">sprites</span> struct may contain one struct per sprite to be added to the Texture Group. The name of each sprite struct is used as the name of the sprite asset that is created. For example, a sprite from the struct passed into this function would be accessed as <span class="inline2">struct.sprites.sprite_name</span>.
+        <ul>
+          <li class="dropspot">Each sprite struct <strong>must </strong>contain the following members:
+            <ul>
+              <li class="dropspot"><span class="inline2">width</span>: The width of the sprite in pixels</li>
+              <li class="dropspot"><span class="inline2">height</span>: The height of the sprite in pixels</li>
+              <li class="dropspot"><span class="inline2">frames</span>: An array of structs, where each struct defines a frame in the sprite. Each frame struct may contain the following members:
+                <ul>
+                  <li class="dropspot"><span class="inline2">x</span> (<em>REQUIRED</em>): The x position of the frame within the texture, in pixels</li>
+                  <li class="dropspot"><span class="inline2">y</span> (<em>REQUIRED</em>): The y position of the frame within the texture, in pixels</li>
+                  <li class="dropspot"><span class="inline2">w</span>: The width of the frame within the texture, in pixels</li>
+                  <li class="dropspot"><span class="inline2">h</span>: The height of the frame within the texture, in pixels</li>
+                  <li class="dropspot"><span class="inline2">x_offset</span>: The x offset for this frame within the sprite in pixels (only if frame has been cropped)</li>
+                  <li class="dropspot"><span class="inline2">y_offset</span>: The y offset for this frame within the sprite in pixels (only if frame has been cropped)</li>
+                  <li class="dropspot"><span class="inline2">crop_width</span>: The width for this frame within the sprite in pixels (only if frame has been cropped)</li>
+                  <li class="dropspot"><span class="inline2">crop_height</span>: The height for this frame within the sprite in pixels (only if frame has been cropped)</li>
+                  <li class="dropspot"><span class="inline2">original_width</span>: The original width for this frame within the sprite in pixels (only if frame has been scaled)</li>
+                  <li class="dropspot"><span class="inline2">original_height</span>: The original height for this frame within the sprite in pixels (only if frame has been scaled)</li>
+                  <li class="dropspot"><span class="inline2">tp</span>: The index of the image file from the array provided to the function, to point to the correct texture. Used only when multiple files are provided and the frame comes from a texture file after the first.</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li class="dropspot">Each sprite struct can also contain the following optional members:
+            <ul>
+              <li class="dropspot"><span class="inline2">xoffset</span>, <span class="inline2">yoffset</span>: The x and y origin in pixels</li>
+              <li class="dropspot"><span class="inline2">bbox_left</span>, <span class="inline2">bbox_right</span>, <span class="inline2">bbox_top</span>, <span class="inline2">bbox_bottom</span>: Bounding box values in pixels</li>
+              <li class="dropspot"><span class="inline2">bbox_kind</span>: The type of bounding box as a <span data-keyref="Type_Constant_Bbox_Kind"><a target="_blank" href="../../Asset_Management/Sprites/Sprite_Manipulation/sprite_collision_mask.htm">Bounding Box Kind (Shape) Constant</a></span></li>
+              <li class="dropspot"><span class="inline2">frame_speed</span>: Animation speed</li>
+              <li class="dropspot"><span class="inline2">frame_type</span>: Animation speed type of the sprite as a <span data-keyref="Type_Constant_Sprite_Speed"><a target="_blank" href="../../Asset_Management/Sprites/Sprite_Information/sprite_get_speed_type.htm">Sprite Speed Constant</a></span></li>
+              <li class="dropspot"><span class="inline2">rotated_bounds</span>: Boolean for whether the sprite supports a rotating rectangular collision mask</li>
+              <li class="dropspot"><span class="inline2">mask</span>: An array of bits for the mask (single frame)</li>
+              <li class="dropspot"><span class="inline2">masks</span>: An array of arrays containing bits for the masks (per frame)</li>
+              <li class="dropspot"><span class="inline2">nineslice</span>: A struct describing the Nine Slice information for the sprite, containing the following members:
+                <ul>
+                  <li class="dropspot"><span class="inline2">left</span>, <span class="inline2">right</span>, <span class="inline2">top</span>, <span class="inline2">bottom</span>: The edge positions within the sprite</li>
+                  <li class="dropspot"><span class="inline2">tilemode_left</span>, <span class="inline2">tilemode_right</span>, <span class="inline2">tilemode_top</span>, <span class="inline2">tilemode_bottom</span>, <span class="inline2">tilemode_centre</span>: The <span data-keyref="Type_Constant_Nineslice_Slice_Type"><a target="_blank" href="../../Asset_Management/Sprites/Nine_Slice_Struct.htm">Tile Mode Constant</a></span> for each edge and the centre</li>
+                </ul>
+              </li>
+              <li class="dropspot"><span class="inline2">messages</span>: An array of structs describing the broadcast messages for this sprite. Each struct contains:
+                <ul>
+                  <li class="dropspot"><span class="inline2">frame</span>: The frame time</li>
+                  <li class="dropspot"><span class="inline2">message</span>: The broadcast message string</li>
+                </ul>
+              </li>
+              <li class="dropspot"><span class="inline2">frame_info</span>: An array of structs describing information about the frames in the sprite
+                <ul>
+                  <li class="dropspot"><span class="inline2">frame</span>: The frame time</li>
+                  <li class="dropspot"><span class="inline2">duration</span>: The frame duration</li>
+                  <li class="dropspot"><span class="inline2">image_index</span>: The image index to use for this frame</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+  <p>The Texture Group created can later be deleted using <span class="inline3_func"><a data-xref="{title}" href="texturegroup_delete.htm">texturegroup_delete</a></span>.</p>
+  <p class="note"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> This function is not supported on HTML5.</p>
+  <p class="note"><span data-conref="../../../../assets/snippets/Tag_important.hts"> </span> The texture will be <strong>unloaded</strong> after being created and can be loaded with <span class="inline3_func"><a data-xref="{title}" href="texturegroup_load.htm">texturegroup_load</a></span> or when a sprite from it is first drawn.</p>
+  <p class="note"> <span data-conref="../../../../assets/snippets/Tag_tip.hts"> </span> The &quot;<strong>Preview</strong>&quot; option in the Graphics Game Options for your target will open a folder with a preview of the Texture Pages for your target. This folder will also contain a <span class="inline2">asset_layout_info.json</span> file with JSON info that can be passed into this function as a string. This way you can set up Texture Pages temporarily in the IDE and use the JSON info from this file to load those Texture Pages at runtime using this function, so that e.g. you don&#39;t have to figure out the frame coordinates, width etc. yourself.</p>
+  <p> </p>
+  <h4>Syntax:</h4>
+  <p class="code"><span data-field="title" data-format="default">texturegroup_add</span>(groupname, filename_or_array, struct_or_json);</p>
+  <table>
+    <colgroup>
+      <col />
+      <col />
+      <col />
+    </colgroup>
+    <tbody>
+      <tr>
+        <th>Argument</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>groupname</td>
+        <td><span data-keyref="Type_String"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">String</a></span></td>
+        <td>The name of the texture group</td>
+      </tr>
+      <tr>
+        <td>filename_or_array</td>
+        <td><span data-keyref="Type_String"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">String</a></span> or <span data-keyref="Type_Array"><a href="../../../GML_Overview/Arrays.htm" target="_blank">Array</a></span></td>
+        <td>The file name or array of file names to load</td>
+      </tr>
+      <tr>
+        <td>struct_or_json</td>
+        <td><span data-keyref="Type_Struct"><a href="../../../GML_Overview/Structs.htm" target="_blank">Struct</a></span> or <span data-keyref="Type_String"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">String</a></span></td>
+        <td>A struct or JSON string describing the sprite data</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>Returns:</h4>
+  <p class="code"><span data-keyref="Type_Void">N/A</span></p>
+  <p> </p>
+  <h4>Example:</h4>
+  <p class="code">var _sprite_data = {<br />
+        sprites : <br />
+        {        <br />
+            blue_guy : <br />
+            {<br />
+                width : 116,<br />
+                height : 128,<br />
+                frames :<br />
+                [ <br />
+                    { x : 116*0, y : 128*0 },<br />
+                    { x : 116*1, y : 128*0 },<br />
+                    { x : 116*2, y : 128*0 },<br />
+                    { x : 116*3, y : 128*0 },<br />
+                    { x : 116*4, y : 128*0 },<br />
+                    { x : 116*5, y : 128*0 },<br />
+                ],<br />
+            },<br />
+            red_guy :<br />
+            {<br />
+                width : 116,<br />
+                height : 128,<br />
+                frame_speed : 8,<br />
+                frames :<br />
+                [ <br />
+                    { x : 116*0, y : 128*1 },<br />
+                    { x : 116*1, y : 128*1 },<br />
+                    { x : 116*2, y : 128*1 },<br />
+                    { x : 116*3, y : 128*1 },<br />
+                    { x : 116*4, y : 128*1 },<br />
+                    { x : 116*5, y : 128*1 },<br />
+                ],<br />
+            }<br />
+        }<br />
+    };<br />
+    <br />
+    texturegroup_add(&quot;MyTextureGroup&quot;, &quot;image.png&quot;, _sprite_data);<br />
+    <br />
+    var _sprites = texturegroup_get_sprites(&quot;MyTextureGroup&quot;);
+  </p>
+  <p>This first sets up a struct with data for two sprites. Each sprite struct contains its width, height and a frames array with positions for the frames relative to the texture page.</p>
+  <p>The function is then called with the Texture Group&#39;s name, the file name to be loaded (in this case, from the <a data-xref="{title}" href="../../../../Settings/Included_Files.htm">Included Files</a>) and the previously created struct is passed in.</p>
+  <p>Then <span class="inline3_func"><a data-xref="{title}" href="texturegroup_get_sprites.htm">texturegroup_get_sprites</a></span> is called on the new Texture Group which returns an array of the sprites included in that group. The sprites from the array can now be used anywhere.</p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div>Back: <a data-xref="{title}" href="section_index.htm">Section Index</a></div>
+        <div>Next: <a data-xref="{title}" href="texturegroup_delete.htm">texturegroup_delete</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2025 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+texturegroup_add
+-->
+  <!-- TAGS
+texturegroup_add
+-->
+</body>
+</html>
