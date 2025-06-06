@@ -2279,6 +2279,7 @@ var hljs = (function () {
     
         // Replace <br [/]> with line breaks to make the parser's job easier.
         node.innerHTML = node.innerHTML
+          .trim()
           .replaceAll(/\n(<br *\/*>)/g, '\n')
           .replaceAll(/(<br *\/*>)\n/g, '\n')
           .replaceAll(/(<br *\/*>)/g, '\n');
