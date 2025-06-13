@@ -15,28 +15,28 @@
 </head>
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
-  <h1>skeleton_bone_state_get</h1>
-  <p>Your skeletal animation is made up of a number of &quot;bones&quot;, which you will have defined and given names to in your animation program, and this function can be used to get certain data for the named bone at any time. Note that this data refers to the <b>current</b> pose for the skeleton, depending on the animation set used, and the function requires a previously created <a href="../../../../Data_Structures/DS_Maps/DS_Maps.htm">DS map</a>, which will then have the following keys and their equivalent values after calling the function:</p>
+  <h1><span data-field="title" data-format="default">skeleton_bone_state_get</span></h1>
+  <p>Your skeletal animation is made up of a number of &quot;bones&quot;, which you will have defined and given names to in your animation program, and this function can be used to get certain data for the named bone at any time. Note that this data refers to the <b>current</b> pose for the skeleton, depending on the animation set used, and the function requires a previously created <span data-keyref="Type_ID_DS_Map"><a href="../../../../Data_Structures/DS_Maps/ds_map_create.htm" target="_blank">DS Map</a></span>, which will then have the following keys and their equivalent values after calling the function:</p>
   <ul class="colour">
     <li><b>&quot;x&quot;:</b> The local x position of the bone relative to the parent bone.</li>
     <li><b>&quot;y&quot;:</b> The local y position of the bone relative to the parent bone.</li>
     <li><b>&quot;angle&quot;:</b> The local rotation of the bone relative to the parent bone.</li>
     <li><b>&quot;xscale&quot;:</b> The local horizontal scale of the bone, in reference to the parent bone.</li>
     <li><b>&quot;yscale&quot;:</b> The local vertical scale of the bone, in reference to the parent bone.</li>
-    <li><b>&quot;worldScaleX&quot;:</b> The magnitude (always positive) of the world scale X (this is a <i>read only</i> value).</li>
-    <li><b>&quot;worldScaleY&quot;:</b> The magnitude (always positive) of the world scale Y (this is a <i>read only</i> value).</li>
-    <li><b>&quot;worldAngleX&quot;:</b> The world rotation for the X axis (this is a <i>read only</i> value).</li>
-    <li><b>&quot;worldAngleY&quot;:</b> The world rotation for the Y axis (this is a <i>read only</i> value).</li>
-    <li><b>&quot;worldX&quot;:</b> The world X position (this is a <i>read only</i> value).</li>
-    <li><b>&quot;worldY&quot;:</b> The world Y position (this is a <i>read only</i> value).</li>
+    <li><b>&quot;worldScaleX&quot;:</b> The magnitude (always positive) of the world scale X (this is a <i>read-only</i> value).</li>
+    <li><b>&quot;worldScaleY&quot;:</b> The magnitude (always positive) of the world scale Y (this is a <i>read-only</i> value).</li>
+    <li><b>&quot;worldAngleX&quot;:</b> The world rotation for the X axis (this is a <i>read-only</i> value).</li>
+    <li><b>&quot;worldAngleY&quot;:</b> The world rotation for the Y axis (this is a <i>read-only</i> value).</li>
+    <li><b>&quot;worldX&quot;:</b> The world X position (this is a <i>read-only</i> value).</li>
+    <li><b>&quot;worldY&quot;:</b> The world Y position (this is a <i>read-only</i> value).</li>
     <li><b>&quot;appliedAngle&quot;:</b> This is the local rotation used to pose the skeleton bones.</li>
     <li><b>&quot;parent&quot;:</b> The name (a string) of the parent bone.</li>
   </ul>
-  <p>The map data returned is similar to that returned for the default pose when you use <a href="skeleton_bone_state_get.htm"><span class="inline">skeleton_bone_data_get()</span></a>, only now you have the extra &quot;world&quot; keys. These refer to the position of the bone relative to the <i>root</i> (origin) of the skeletal animation sprite, and the returned values do not take into consideration any scaling or rotation that has been done by setting the built-in sprite variables like <span class="inline">image_xscale</span> or <span class="inline">image_angle</span>. The world values are <i>read only</i> and cannot be set.</p>
+  <p>The map data returned is similar to that returned for the default pose when you use <span class="inline3_func"><a data-xref="{title}" href="skeleton_bone_data_get.htm">skeleton_bone_data_get</a></span>, only now you have the extra &quot;world&quot; keys. These refer to the position of the bone relative to the <i>root</i> (origin) of the skeletal animation sprite, and the returned values do not take into consideration any scaling or rotation that has been done by setting the built-in sprite variables like <span class="inline2"><a data-xref="{title}" href="../../Sprite_Instance_Variables/image_xscale.htm">image_xscale</a></span> or <span class="inline2"><a data-xref="{title}" href="../../Sprite_Instance_Variables/image_angle.htm">image_angle</a></span>. The world values are <i>read-only</i> and cannot be set.</p>
   <p><span data-conref="../../../../../../assets/snippets/Spine_data_update.hts"> </span></p>
   <p> </p>
   <h4>Syntax:</h4>
-  <p class="code">skeleton_bone_state_get(bone, map);</p>
+  <p class="code"><span data-field="title" data-format="default">skeleton_bone_state_get</span>(bone, map);</p>
   <table>
     <tbody>
       <tr>
@@ -62,28 +62,27 @@
   <p class="code"><span data-keyref="Type_Void">N/A</span></p>
   <p> </p>
   <h4>Example:</h4>
-  <p class="code">var map = ds_map_create();<br />
-    skeleton_bone_state_get(&quot;head&quot;, map);<br />
-    var xx = ds_map_find_value(map, &quot;worldX&quot;);<br />
-    var yy = ds_map_find_value(map, &quot;worldY&quot;);<br />
-    var deltax = mouse_x - (x + xx);<br />
-    var deltay = mouse_y - (y + yy);<br />
-    var angle = -radtodeg(arctan2(deltay, deltax));<br />
-    ds_map_replace(map, &quot;angle&quot;, angle);<br />
-    skeleton_bone_state_set(&quot;head&quot;, map);<br />
-    ds_map_destroy(map);</p>
+  <p class="code">var _map = ds_map_create();<br />
+    skeleton_bone_state_get(&quot;head&quot;, _map);<br />
+    var _xx = ds_map_find_value(_map, &quot;worldX&quot;);<br />
+    var _yy = ds_map_find_value(_map, &quot;worldY&quot;);<br />
+    var _deltax = mouse_x - (x + _xx);<br />
+    var _deltay = mouse_y - (y + _yy);<br />
+    var _angle = -darctan2(_deltay, _deltax);<br />
+    ds_map_replace(_map, &quot;angle&quot;, _angle);<br />
+    skeleton_bone_state_set(&quot;head&quot;, _map);<br />
+    ds_map_destroy(_map);</p>
   <p>The above code creates a DS map and then populates it with the data from the bone named &quot;head&quot;. It then extracts the world position for the bone, and uses that data to set the &quot;angle&quot; of the bone to track the mouse position in the game.</p>
-  <p> </p>
   <p> </p>
   <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a href="Bones.htm">Bones</a></div>
-        <div style="float:right">Next: <a href="skeleton_bone_state_set.htm">skeleton_bone_state_set</a></div>
+        <div style="float:left">Back: <a data-xref="{title}" href="Bones.htm">Bones</a></div>
+        <div style="float:right">Next: <a data-xref="{title}" href="skeleton_bone_state_set.htm">skeleton_bone_state_set</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2025 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 skeleton_bone_state_get
