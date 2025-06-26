@@ -1855,28 +1855,25 @@
     draw_set_alpha(0.5);<br />
     draw_self();<br />
     draw_set_alpha(1);</p>
-  <h3>GM2064 [av]- Variable &#39;{0}&#39; does not exist in object&#39;s Variable Definitions.</h3>
-  <p>This message is shown when you create a new instance of an object using one of the instance_create_* functions and attempt to access variables that aren’t defined in the object’s Variable Definitions when assigning to the optional variable struct.</p>
+  <h3>GM2064 - Variable &#39;{0}&#39; does not exist in object&#39;s Variable Definitions.</h3>
+  <p>This message is shown when you create a new instance of an object using one of the <span class="inline2">instance_create_*</span> functions and attempt to access variables that aren’t defined in the object’s Variable Definitions when assigning to the optional variable struct.</p>
   <p>In the variable struct you can access variables from any scope, though in instance scope the only variables that exist at this point are the ones defined in the Variable Definitions.</p>
   <p>Important: object variables don’t belong to the object but are initialised in every new instance created from that object. The first point in your code where you can access these variables is the var struct.</p>
+  <p><img class="center" src="../../assets/Images/The_IDE/Code Editor/Feather_Rules/var_def_none.png" /></p>
   <h4>Example</h4>
-  <p class="code">/// Variable [aw]Definitions<br />
-    // Empty!<br />
-    <br />
-    /// Create Event<br />
+  <p class="code">/// Create Event<br />
     ins_companion = instance_create_layer(x, y, layer, obj_companion, {<br />
         intro_message: message<br />
-    });
+    });<br />
+    <br />
+    // The message variable does not exist
   </p>
   <p>Variables can only be accessed when they’ve first been defined. In the example above, the object doesn’t have any variables defined but an attempt is made to access an instance variable named message. In order to fix this, the variable has to be defined in the object variables.</p>
-  <p class="code">/// Variable Definitions<br />
-    message List [&quot;Hey!&quot;, &quot;Hi!&quot;, &quot;I&#39;m your companion!&quot;]<br />
-    <br />
-    /// Create Event<br />
+  <p><img class="center" src="../../assets/Images/The_IDE/Code Editor/Feather_Rules/var_def_message.png" /></p>
+  <p class="code">/// Create Event<br />
     ins_companion = instance_create_layer(x, y, layer, obj_companion, {<br />
         intro_message: message<br />
-    });
-  </p>
+    });</p>
   <p> </p>
   <p> </p>
   <div class="footer">
