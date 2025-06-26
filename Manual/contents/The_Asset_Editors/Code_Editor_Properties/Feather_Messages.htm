@@ -17,6 +17,7 @@
   <h1><span data-field="title" data-format="default">Feather Rules</span></h1>
   <p>This page contains descriptions of all Feather rules that are shown under <a data-xref="{text}" href="../../Setting_Up_And_Version_Information/IDE_Preferences/Feather_Settings.htm#s3">Message Severity</a> in the <a data-xref="{title}" href="../../Setting_Up_And_Version_Information/IDE_Preferences/Feather_Settings.htm">Feather Preferences</a>.</p>
   <p><img class="center" src="../../assets/Images/Setup_And_Version/Preferences/Feather/FeatherPrefs_NamingRules.png" /></p>
+  <p>Hit <span class="shortcut">CTRL+F</span> to look for the rule you want to read about.</p>
   <h2>Rules</h2>
   <h3>GM1000 - No enclosing loop from which to break.</h3>
   <p>The keyword &#39;break&#39; must be used inside the body of a loop statement such as &#39;while&#39;, &#39;for&#39;, &#39;repeat&#39;, or &#39;with&#39;.</p>
@@ -48,7 +49,8 @@
     continue; // GM1001 - No loop to continue from.</p>
   <p>Correcting this error requires identifying where the continue statement was intended to go and moving it to the correct location. In the above example there was no loop to continue from and thus the fix is to simply remove the last &#39;continue&#39; statement.</p>
   <h3>GM1002 - globalvar does not support inline initializers.</h3>
-  <p>When using &#39;globalvar&#39;s you must split the declaration and initialization of its value. This is contrast to local variables which can be declared and initialized in the same statement (e.g. `var _width = 100;`). Attempting to initialize a globalvar inline in this manner is invalid syntax and results in a Compile Error.</p>
+  <p>When using &#39;globalvar&#39;s you must split the declaration and initialization of its value. This is contrast to local variables which can be declared and initialized in the same statement (e.g. `var _width = 100;`).</p>
+  <p>Attempting to initialize a globalvar inline in this manner is invalid syntax and results in a Compile Error.</p>
   <h4>Example</h4>
   <p class="code">globalvar gameManager = new GameManager(); // GM1002 - globalvar does not support inline initializers.</p>
   <p>Correcting this error requires splitting the declaration and initialization statements. The above example can be fixed by rewriting it as so:</p>
@@ -73,11 +75,13 @@
         Orange,<br />
         Apple = 10 // Good!<br />
     }<br />
+    <br />
     // Approach 2<br />
     #macro FRUIT_UNKNOWN     -1<br />
     #macro FRUIT_BANANA     0<br />
     #macro FRUIT_ORANGE     1<br />
-    #macro FRUIT_APPLE     &quot;apple&quot;</p>
+    #macro FRUIT_APPLE     &quot;apple&quot;
+  </p>
   <h3>GM1004 - The enum value &#39;ENUM MEMBER NAME&#39; has already been previously defined in the enum &#39;ENUM NAME&#39;.</h3>
   <p>Enum members must be uniquely named, duplicate names will result in a Compile Error.</p>
   <p> </p>
@@ -128,6 +132,7 @@
   <h4>Example</h4>
   <p class="code">var _foo = 1234;<br />
     _foo = 4321; // Good!<br />
+    <br />
     function get_random_item()<br />
     {<br />
         // TODO Return an actual random item...<br />
@@ -136,10 +141,13 @@
             name: &quot;Sword&quot;<br />
         };<br />
     }<br />
-    get_random_item() = &quot;Shield&quot;; // GM1007 - Left-hand side of an assignment must be a variable</p>
+    <br />
+    get_random_item() = &quot;Shield&quot;; // GM1007 - Left-hand side of an assignment must be a variable
+  </p>
   <p>Typically, this error is the result of a typo or oversight. Sometimes it’s the result of a misunderstanding of how data flows through a program. If this is the case, take a step back and think about what you’re trying to communicate to the CPU.[a]</p>
   <p class="code">var _foo = 1234;<br />
     _foo = 4321; // Good!<br />
+    <br />
     function get_random_item()<br />
     {<br />
         // TODO Return an actual random item...<br />
@@ -148,9 +156,11 @@
             name: &quot;Sword&quot;<br />
         };<br />
     }<br />
+    <br />
     get_random_item() = { name: &quot;Shield&quot; }; // Bad! Return values are not variables<br />
     get_random_item().name = &quot;Shield&quot;; // Good!<br />
-    vk_space = vk_tab; // Bad! Constants are not variables and cannot change</p>
+    vk_space = vk_tab; // Bad! Constants are not variables and cannot change
+  </p>
   <h3>GM1008 - The variable &#39;BUILT-IN VARIABLE&#39; is readonly and cannot be assigned to.</h3>
   <p>Attempting to assign a value to a read-only built-in variable is not allowed. These variables can be read and assigned to other variables or used in expressions, but cannot have their value directly modified.</p>
   <h4>Example</h4>
@@ -169,8 +179,10 @@
   <p class="code">// Find all *.doc files that are readonly archives<br />
     var _attribs = fa_readonly + fa_archive; // Warn!<br />
     var _fileName = file_find_first(&quot;/User Content/*.doc&quot;, _attribs);<br />
+    <br />
     // Go to the next room<br />
-    room_goto(room + 1); // Warn!</p>
+    room_goto(room + 1); // Warn!
+  </p>
   <p>In the above example we have 2 problems: Adding constants that are meant to be flags, and adding 1 to the current room ID to find the next room. The tricky bit is that this code might just work! But it’s brittle and unrelated changes to the Runner or even your Game Project might break this code! Why?</p>
   <p>Bitfield Constants</p>
   <p>When it comes to constants used as bit field flags you should use the Bitwise OR operation `|` instead of the Arithmetic Add operation. If we were to consider `fa_readonly` as 0b0001 and `fa_archive` as 0b0010 and we added (0b0001 + 0b0010 = 0b0011) these two together we would get the same result as if we or’d the values (0b0001 | 0b0010 = 0b0011). However, if for some reason the value of `fa_readonly` changed to be 0b0011 with two set bits instead of one (perhaps it’s a mask field, or represents two other values together) then we will suddenly end up with an incorrect value and our code will stop working. (0b0011 + 0b0001 = 0b0100, and 0b0011 | 0b0001 = 0b0011).</p>
@@ -179,8 +191,10 @@
   <p class="code">// Find all *.doc files that are readonly archives<br />
     var _attribs = fa_readonly | fa_archive; // Good!<br />
     var _fileName = file_find_first(&quot;/User Content/*.doc&quot;, _attribs);<br />
+    <br />
     // Go to the next room<br />
-    room_goto_next(); // Good!</p>
+    room_goto_next(); // Good!
+  </p>
   <h3>GM1010 - Cannot perform OPERATOR operation between types &#39;TYPE&#39; and &#39;TYPE&#39;.</h3>
   <p>This indicates that the specified operation is invalid in such a way that no result can be produced and instead result in either a runtime or compile time error. You may see this error between some type and `Undefined` or `Unset`. If Feather is unable to determine the type of a variable (or the variable is genuinely unset) then this error will appear.</p>
   <p>TODO Provide the resolvement table for GM1011, GM1010 and GM1009[d][e]</p>
@@ -226,11 +240,13 @@
             hp -= atk; // Error! &#39;atk&#39; is in the original scope!<br />
         attack *= 2; // Error! Typo&#39;d &#39;atk&#39; as &#39;attack&#39;<br />
     }<br />
+    <br />
     // Script - Item<br />
     function Item(_name, _value) constructor {<br />
         name = _name;<br />
         value = _value;<br />
     }<br />
+    <br />
     // Create - objInventory<br />
     hp = 100;<br />
     items = [];<br />
@@ -239,6 +255,7 @@
     var _shield = new Item(&quot;Shield&quot;, 10);<br />
     _shield.defense = 10;<br />
     array_push(items, _shield);<br />
+    <br />
     // Collision - par_mob<br />
     var _dmg = other.dmg;<br />
     var _len = array_length(items);<br />
@@ -246,7 +263,9 @@
         var _item = items[i];<br />
         _dmg -= _item.defense; // Error! &#39;defense&#39; is conditionally defined<br />
     }<br />
-    hp -= max(0, _dmg);</p>
+    <br />
+    hp -= max(0, _dmg);
+  </p>
   <p>Correcting this issue depends on which of the aforementioned conditions applies to your situation.</p>
   <p>NOTE - Maybe split this code block up in the Manual so it’s not confusing what’s going on here![g]</p>
   <p class="code">// Create event<br />
@@ -257,12 +276,14 @@
             hp -= other.atk; // Fix! Reference &#39;other.atk&#39;<br />
         atk *= 2; // Fix! Rename to &#39;atk&#39;<br />
     }<br />
+    <br />
     // Script - Item<br />
     function Item(_name, _value) constructor {<br />
         name = _name;<br />
         value = _value;<br />
         defense = 0; // Possible Fix! Declare a default value<br />
     }<br />
+    <br />
     // Create - objInventory<br />
     hp = 100;<br />
     items = [];<br />
@@ -271,6 +292,7 @@
     var _shield = new Item(&quot;Shield&quot;, 10);<br />
     _shield.defense = 10;<br />
     array_push(items, _shield);<br />
+    <br />
     // Collision - par_mob<br />
     var _dmg = other.dmg;<br />
     var _len = array_length(items);<br />
@@ -282,10 +304,10 @@
             _dmg -= _item.defense; // Feather knows this variable exists now<br />
         }<br />
     }<br />
-    hp -= max(0, _dmg);</p>
+    hp -= max(0, _dmg);
+  </p>
   <h3>GM1014 - The enum &#39;ENUM&#39; does not contain the value &#39;IDENTIFIER&#39;.</h3>
   <p>This error is raised when an Enum Member is referenced which does not exist.</p>
-  <p> </p>
   <p>This could indicate that:</p>
   <h4>Example</h4>
   <p class="code">enum Fruit {<br />
@@ -310,7 +332,6 @@
     var _underRatedFruit = Fruit.Cantaloupe; // Fix! No longer typo&#39;d</p>
   <h3>GM1015 - Cannot divide or modulo expression by 0.</h3>
   <p>This error is raised when you directly divide or modulo by 0.</p>
-  <p> </p>
   <p>Note: GM1015 is NOT raised if 0 is stored in a variable and then you divide by that variable; Feather does not track the individual values of variables, only the types of variables.</p>
   <h4>Example</h4>
   <p class="code">var _hp = 100;<br />
@@ -337,8 +358,10 @@
     function make_game() {<br />
         // Deprecated in favor of writing more code to do that same thing!<br />
     }<br />
+    <br />
     username = get_string(&quot;Username:&quot;, &quot;&quot;); // Suggestion!<br />
-    make_game(); // Suggestion!</p>
+    make_game(); // Suggestion!
+  </p>
   <p>Find the alternative functions or approach to use, and refactor your code to do that instead.</p>
   <p>NOTE - We should probably direct people to forums.gamemaker.io, google, and other resources to figure out what the alternative approaches are since there’s no simple answer here…[h]</p>
   <p class="code">usernameId = get_string_async(&quot;Username:&quot;, &quot;&quot;); // Fix!</p>
@@ -395,13 +418,17 @@
   <p>This message indicates that you’re using a built-in variable that is deprecated.</p>
   <p>Deprecation means that while the variable is still available for usage, it is planned to be removed in the future. Typically when something is deprecated a superior approach exists and is intended to be used instead. You should research what the alternative is and use that instead to avoid your code from breaking when you update GameMaker to newer versions.</p>
   <h4>Example</h4>
-  <p class="code">if (debug_mode) {    show_debug_message(&quot;Debug output&quot;); }</p>
+  <p class="code">if (debug_mode) {<br />
+       show_debug_message(&quot;Debug output&quot;);<br />
+    }</p>
   <p>Replace the variable with a custom variable or a macro, depending on what works best in the specific case.</p>
   <p class="code">/// Solution 1<br />
     debug_enabled = true;<br />
     if (debug_enabled) { show_debug_message(&quot;Debug output&quot;); }<br />
+    <br />
     /// Solution 2<br />
-    debug_event(&quot;Debug output&quot;);  // No debug message, but shows in debug graph</p>
+    debug_event(&quot;Debug output&quot;);  // No debug message, but shows in debug graph
+  </p>
   <h3>GM1025 - A number literal was unexpected at this time.</h3>
   <p>This message is shown when you use a number literal outside of an expression where it cannot be used. It can occur when:</p>
   <h4>Example</h4>
@@ -411,8 +438,10 @@
   <p class="code">colour = #AEF033;</p>
   <h3>GM1026 - Left-hand side of postfix expression must be a variable.</h3>
   <p>This message is shown when you use a postfix increment (var++) or decrement operator (var—) on something that is not a variable. More precisely, it must be possible to assign to that which you’d normally write on the left-hand side of the equivalent equation:</p>
-  <p>var = var + 1;  // Equivalent of var++; - Variable can be written to and so can go on the left-hand side</p>
-  <p>pi = pi + 1;      // Equivalent of pi++; - Constant cannot be written to so cannot go on left-hand side[i]</p>
+  <p class="code">var = var + 1;  // Equivalent of var++; - Variable can be written to and so can go on the left-hand side<br />
+    <br />
+    pi = pi + 1;      // Equivalent of pi++; - Constant cannot be written to so cannot go on left-hand side[i]
+  </p>
   <h4>Example</h4>
   <p class="code">pi++;    // GM1026 Cannot increment a constant<br />
     // OR:<br />
@@ -517,8 +546,8 @@
     }<br />
     function getRandomNumber2() { // no jsdoc here<br />
         if (irandom(100) &lt; 50)<br />
-    return 0; // Return type is established here as &#39;Real&#39;<br />
-    return &quot;1&quot;; // GM1035!<br />
+            return 0; // Return type is established here as &#39;Real&#39;<br />
+        return &quot;1&quot;; // GM1035!<br />
     }</p>
   <p>The fix for this is to either update your jsdoc accordingly, or to rewrite your code to ensure that the same type is returned from all return statements.</p>
   <p class="code">/// @returns {string}<br />
@@ -527,8 +556,8 @@
     }<br />
     function getRandomNumber2() { // no jsdoc here<br />
         if (irandom(100) &lt; 50)<br />
-    return 0; // Return type is established here as &#39;Real&#39;<br />
-    return 1; // Fix!<br />
+            return 0; // Return type is established here as &#39;Real&#39;<br />
+        return 1; // Fix!<br />
     }</p>
   <h3>GM1036 - Array cannot be indexed in this way.</h3>
   <p>This message is shown if you index into an array with either 0 indices, or too many indices for the dimensionality of the array. Keep in mind that the 2d array syntax is deprecated in favor of staggered array indexing.</p>
@@ -553,8 +582,10 @@
   <h4>Example</h4>
   <p class="code">/// Script Asset: Debug<br />
     #macro dbg show_debug_message<br />
+    <br />
     /// Script Asset: Utility<br />
-    #macro dbg show_debug_message</p>
+    #macro dbg show_debug_message
+  </p>
   <p>Remove all duplicate macro definitions until there is one left.</p>
   <p class="code">/// Script Asset: Debug<br />
     #macro dbg show_debug_message</p>
@@ -562,9 +593,20 @@
   <p>This message indicates that the argument array variable and argument0-argument15 variables are used together in a function. The former is used in functions that support a variable number of arguments, the latter is used when you know the number of arguments in advance. In any function, you should only ever use one of the two.</p>
   <p>See: argument</p>
   <h4>Example</h4>
-  <p class="code">function func() {    var _a = argument0;    var _b = argument[1]; }</p>
+  <p class="code">function func() {<br />
+       var _a = argument0;<br />
+       var _b = argument[1];<br />
+    }</p>
   <p>Change all argument[n]/argumentn variables to the same type of referencing, depending on what’s needed in the function.</p>
-  <p class="code">function func() {    var _a = argument0;    var _b = argument1; } // OR: function func() {    var _a = argument[0];    var _b = argument[1]; }</p>
+  <p class="code">function func() {<br />
+       var _a = argument0;<br />
+       var _b = argument1;<br />
+    }<br />
+    // OR:<br />
+    function func() {<br />
+       var _a = argument[0];<br />
+       var _b = argument[1];<br />
+    }</p>
   <h3>GM1041 - The type &#39;TYPE&#39; appears where the type &#39;TYPE&#39; is expected.</h3>
   <p>This message is shown when you pass an argument to a function call’s parameter of a different type. For example, passing a `Id.Instance` to a `String` parameter.</p>
   <h4>Example</h4>
@@ -607,15 +649,20 @@
   <h4>Example</h4>
   <p class="code">// Store a real number in my_var<br />
     my_var = 5;<br />
+    <br />
     // Next store a string in my_var<br />
-    my_var = &quot;I&#39;m a string&quot;;  // type reassignment!</p>
+    my_var = &quot;I&#39;m a string&quot;;  // type reassignment!
+  </p>
   <p>This issue can be fixed in multiple ways, it depends on what you’re trying to do in your code. If the string has a different purpose in your code you could store it in a different variable with an appropriate name.</p>
   <p class="code">// Store a real number in my_var<br />
     my_var = 5;<br />
+    <br />
     // Store a new real number in my_var<br />
     my_var = 100;<br />
+    <br />
     // Store a string in a new variable my_string<br />
-    my_string = &quot;I&#39;m a string&quot;;</p>
+    my_string = &quot;I&#39;m a string&quot;;
+  </p>
   <h3>GM1044 - Constant is expected to be one of the following: {0}</h3>
   <p>This message is shown whenever one constant from a group of constants is expected as an argument and you’ve provided a value that’s not in that group. Examples of these groups of constants are the Mouse Button Constants, the Game Speed Constants and the Primitive Type Constants. A constant from another group or a real number may accidentally work but it is not good practice to use them. Using the right constant in the right place helps increase the readability of your code.</p>
   <h4>Example</h4>
@@ -623,19 +670,23 @@
     if mouse_check_button_pressed(mb_midle)<br />
     {<br />
     }<br />
+    <br />
     // Example 2<br />
     if mouse_check_button_pressed(vk_left)<br />
     {<br />
-    }</p>
+    }
+  </p>
   <p>If this was caused by a typo, then fixing the typo fixes it. In other cases the constant needs to be changed to a valid one.</p>
   <p class="code">// Example 1<br />
     if mouse_check_button_pressed(mb_middle)<br />
     {<br />
     }<br />
+    <br />
     // Example 2<br />
     if mouse_check_button_pressed(mb_left)<br />
     {<br />
-    }</p>
+    }
+  </p>
   <h3>GM1045 - Type &#39;{0}&#39; differs from type &#39;{1}&#39; specified in jsdoc.</h3>
   <p>This message is shown when Feather detects that the type of a variable in your code doesn’t correspond to the type the JSDoc says that variable should be.</p>
   <p>This can happen when you write the JSDoc already, but decide to change the code afterwards. In that case, the JSDoc will no longer be up to date and needs to be changed to reflect the changes.</p>
@@ -695,18 +746,28 @@
   <p>See the section on Macros on the Constants page for more info.</p>
   <h4>Example</h4>
   <p class="code">randomise();<br />
+    <br />
     #macro NEW_COLOR make_color_rgb(random(255), random(255), random(255));<br />
+    <br />
     draw_primitive_begin(pr_trianglelist);<br />
+    <br />
     repeat(3) draw_vertex_color(random(room_width), random(room_height), NEW_COLOR, 1);    // Issue!<br />
-    draw_primitive_end();</p>
+    <br />
+    draw_primitive_end();
+  </p>
   <p>Inserting the macro into the function call inserts a semicolon right after the third argument. This is incorrect, since this semicolon marks the end of the statement while the function still needs an additional parameter and also has to be closed with a parenthesis. Removing the semicolon at the end of the macro fixes the issue.</p>
   <p class="code">// The semicolon that gets inserted with the macro causes a syntax error:<br />
     // draw_vertex_color(random(room_width), random(room_height), make_color_rgb(random(255), random(255), random(255));, 1);<br />
     randomise();<br />
+    <br />
     #macro NEW_COLOR make_color_rgb(random(255), random(255), random(255))<br />
+    <br />
     draw_primitive_begin(pr_trianglelist);<br />
+    <br />
     repeat(3) draw_vertex_color(random(room_width), random(room_height), NEW_COLOR, 1);    // Fixed!<br />
-    draw_primitive_end();</p>
+    <br />
+    draw_primitive_end();
+  </p>
   <h3>GM1052 - The delete operator can only act on a variable of type &#39;struct&#39;.</h3>
   <p>The new and delete operators are specifically for use with structs. Instances are destroyed using instance_destroy, arrays are garbage-collected once they’re no longer referenced and other resource types have their own functions to handle deleting/freeing them (a *_destroy or *_free function).</p>
   <p class="code">values = [2, 403, 202, 303, 773, 573];<br />
@@ -849,15 +910,19 @@
   <p class="code">/// Draw Event<br />
     gpu_set_blendmode(bm_add);<br />
     draw_self();<br />
+    <br />
     /// Draw GUI Event<br />
-    draw_text(5, 5, $&quot;Score: {score}&quot;);</p>
+    draw_text(5, 5, $&quot;Score: {score}&quot;);
+  </p>
   <p>The code in the example intends to draw an instance with added blending in its normal Draw event and with normal blending in its Draw GUI event. However, no call to reset the blend mode back to bm_normal is made in the Draw event and so the text in the Draw GUI event is also drawn using additive blending. Another call to gpu_set_blendmode needs to be added at the end of the Draw event to reset the blending back to bm_normal.</p>
   <p class="code">/// Draw Event<br />
     gpu_set_blendmode(bm_add);<br />
     draw_self();<br />
     gpu_set_blendmode(bm_normal);<br />
+    <br />
     /// Draw GUI Event<br />
-    draw_text(5, 5, $&quot;Score: {score}&quot;);</p>
+    draw_text(5, 5, $&quot;Score: {score}&quot;);
+  </p>
   <h3>GM2001 [x]- Floating point comparison on integer division, use the &#39;/&#39; operator instead.</h3>
   <p>Mandatory Description</p>
   <h4>Example</h4>
@@ -876,33 +941,41 @@
   <p class="code">/// Draw Event<br />
     shader_set(sh_fancy_lighting);<br />
     vertex_submit(vb_my_world_model, pr_trianglelist, -1);<br />
+    <br />
     /// Draw GUI Event<br />
-    draw_text(5, 5, &quot;World 1&quot;);  // Also drawn using sh_fancy_lighting</p>
+    draw_text(5, 5, &quot;World 1&quot;);  // Also drawn using sh_fancy_lighting
+  </p>
   <p>The call to shader_set should be accompanied with a call to shader_reset.</p>
   <p class="code">/// Draw Event<br />
     shader_set(sh_fancy_lighting);<br />
     vertex_submit(vb_my_world_model, pr_trianglelist, -1);<br />
     shader_reset();<br />
+    <br />
     /// Draw GUI Event<br />
-    draw_text(5, 5, &quot;World 1&quot;);</p>
+    draw_text(5, 5, &quot;World 1&quot;);
+  </p>
   <h3>GM2004 - This for statement does not use its index and can be written as a repeat statement instead.</h3>
   <p>This message indicates that the for statement has a loop counter that is never used to index, for example, an array. When the number of iterations is known in advance and doesn’t depend on a condition the for loop doesn’t need a counter and can be replaced by a repeat statement.</p>
   <h4>Example</h4>
   <p class="code">randomise();<br />
     var _num_elements = 20;<br />
     array = [];<br />
+    <br />
     for(var i = 0;i &lt; _num_elements;i++)<br />
     {<br />
         array_push(array, irandom(100));<br />
-    }</p>
+    }
+  </p>
   <p>The for loop in the example code above doesn’t use its index. In this specific situation, the function used (array_push) automatically appends to the end of the array so the index doesn’t have to be provided explicitly.</p>
   <p class="code">randomise();<br />
     var _num_elements = 20;<br />
     array = [];<br />
+    <br />
     repeat(_num_elements)<br />
     {<br />
         array_push(array, irandom(100));<br />
-    }</p>
+    }
+  </p>
   <h3>GM2005 - Not all code paths call surface_reset_target() before end of script.</h3>
   <p>This error indicates that you changed the draw target with a call to surface_set_target but haven’t set it back with a call to surface_reset_target in all situations.</p>
   <h4>Example</h4>
@@ -911,19 +984,23 @@
     {<br />
         sf_canvas = surface_create(512, 512);<br />
     }<br />
+    <br />
     surface_set_target(sf_canvas);<br />
     draw_clear_alpha(c_white, 0);<br />
-    draw_rectangle(4, 4, 40, 40);</p>
+    draw_rectangle(4, 4, 40, 40);
+  </p>
   <p>In the example code above the drawing target is still set to sf_canvas after the block of code has executed. Further draw commands will also draw to this surface. A call to surface_reset_target is needed at the end to reset the drawing target.</p>
   <p class="code">/// Draw Event<br />
     if (!surface_exists(sf_canvas))<br />
     {<br />
         sf_canvas = surface_create(512, 512);<br />
     }<br />
+    <br />
     surface_set_target(sf_canvas);<br />
     draw_clear_alpha(c_white, 0);<br />
     draw_rectangle(4, 4, 40, 40);<br />
-    surface_reset_target();</p>
+    surface_reset_target();
+  </p>
   <h3>GM2006 [z]- The draw function &#39;{0}&#39; is potentially called outside of a valid context.</h3>
   <p>Mandatory Description</p>
   <h4>Example</h4>
@@ -940,16 +1017,19 @@
   <p>This message is shown when you start another vertex batch with a call to vertex_begin before having called vertex_end for the current batch. Every call to vertex_begin must be followed by a call to vertex_end before a next call to vertex_begin.</p>
   <h4>Example</h4>
   <p class="code">vertex_begin(vb, format);<br />
+    <br />
     // vertex_position_3d(...)<br />
     // vertex_color(...)<br />
     // vertex_texcoord(...)<br />
     // etc.<br />
     vertex_begin(vb, format);    // Error!<br />
+    <br />
     // vertex_position_3d(...)<br />
     // vertex_color(...)<br />
     // vertex_texcoord(...)<br />
     // etc.<br />
-    vertex_end(vb);</p>
+    vertex_end(vb);
+  </p>
   <p>In the example above two calls to vertex_begin follow each other without a call to vertex_end in between them. Adding a call to vertex_end in between fixes the issue.</p>
   <p class="code">vertex_begin(vb, format);<br />
     // vertex_position_3d(...)<br />
@@ -958,11 +1038,13 @@
     // etc.<br />
     vertex_end(vb);              // End the current one first!<br />
     vertex_begin(vb, format);    // Only then start a new one!<br />
+    <br />
     // vertex_position_3d(...)<br />
     // vertex_color(...)<br />
     // vertex_texcoord(...)<br />
     // etc.<br />
-    vertex_end(vb);</p>
+    vertex_end(vb);
+  </p>
   <h3>GM2009 - Closing a vertex batch without opening a vertex batch.</h3>
   <p>This message is shown when you close a vertex batch with a call to vertex_end before starting the batch with a call to vertex_begin. You first need to start the vertex batch with a call to vertex_begin, then add vertex data according to the vertex format for the desired number of vertices and finally close the batch with a call to vertex_end.</p>
   <h4>Example</h4>
@@ -982,22 +1064,26 @@
     vertex_format_add_position_3d();<br />
     format = vertex_format_end();<br />
     vb = vertex_create_buffer();<br />
+    <br />
     vertex_begin(vb, format);<br />
     vertex_end(vb);<br />
     vertex_format_add_position_3d(vb, x, y, 0);<br />
     vertex_format_add_position_3d(vb, x + 100, y, 0);<br />
-    vertex_format_add_position_3d(vb, x, y + 100, 0);</p>
+    vertex_format_add_position_3d(vb, x, y + 100, 0);
+  </p>
   <p>In the code example above, the function calls to write positions to the vertex buffer come after vertex_end. To fix this they need to be moved between vertex_begin and vertex_end.</p>
   <p class="code">/// Create Event<br />
     vertex_format_begin();<br />
     vertex_format_add_position_3d();<br />
     format = vertex_format_end();<br />
     vb = vertex_create_buffer();<br />
+    <br />
     vertex_begin(vb, format);<br />
     vertex_format_add_position_3d(vb, x, y, 0);<br />
     vertex_format_add_position_3d(vb, x + 100, y, 0);<br />
     vertex_format_add_position_3d(vb, x, y + 100, 0);<br />
-    vertex_end(vb);</p>
+    vertex_end(vb);
+  </p>
   <h3>GM2011 - Not all code paths call vertex_end() before the end of the script.</h3>
   <p>This message indicates that you started writing vertex data to a vertex buffer but haven’t properly finished writing the data with a closing call to vertex_end. Every call to vertex_begin should be accompanied by a call to vertex_end. To write data to a vertex buffer you should do the following:</p>
   <h4>Example</h4>
@@ -1007,8 +1093,10 @@
     vertex_position_3d(vb, 0, 0, 0);<br />
     vertex_colour(vb, c_white, 1);<br />
     // Etc.<br />
+    <br />
     /// Draw Event<br />
-    vertex_submit(vb, pr_pointlist, -1);</p>
+    vertex_submit(vb, pr_pointlist, -1);
+  </p>
   <p>In the code example above, the vertex buffer isn’t properly finished because a call to vertex_end is missing. This needs to be added to fix the issue.</p>
   <p class="code">/// Create Event<br />
     vb = vertex_create_buffer();<br />
@@ -1017,8 +1105,10 @@
     vertex_colour(vb, c_white, 1);<br />
     // Etc.<br />
     vertex_end(vb);<br />
+    <br />
     /// Draw Event<br />
-    vertex_submit(vb, pr_pointlist, -1);</p>
+    vertex_submit(vb, pr_pointlist, -1);
+  </p>
   <h3>GM2012 - Opening another vertex format before closing a previous vertex format.</h3>
   <p>This message is shown when you begin a new vertex format with vertex_format_begin before finishing the previous one with a call to vertex_format_end. A vertex format must always be closed before starting a new one.</p>
   <h4>Example</h4>
@@ -1086,7 +1176,9 @@
   <h4>Example</h4>
   <p class="code">/// Create Event<br />
     ammo_initialised = false;<br />
+    <br />
     /// Begin Step Event<br />
+    <br />
     /// Step Event<br />
     if (!ammo_initialised)<br />
     {<br />
@@ -1099,12 +1191,15 @@
         // Collect ammo<br />
         ammo++;<br />
         instance_destroy(_ins_ammo);<br />
-    }</p>
+    }
+  </p>
   <p>This issue is fixed by moving the declaration of the variable to the object’s Create event.</p>
   <p class="code">/// Create Event<br />
     ammo = 0;<br />
+    <br />
     /// Begin Step Event<br />
     // Do something with ammo here<br />
+    <br />
     /// Step Event<br />
     var _ins_ammo = instance_place(x, y, obj_ammo);<br />
     if (_ins_ammo != noone)<br />
@@ -1112,7 +1207,8 @@
         // Collect ammo<br />
         ammo++;<br />
         instance_destroy(_ins_ammo);<br />
-    }</p>
+    }
+  </p>
   <h3>GM2017 - Inconsistent naming. Recommended name is &#39;{0}&#39;.</h3>
   <p>This message is shown when Feather encounters a name in your code that’s not named according to the naming rules as defined under Feather Settings &gt; Naming Rules. This can be asset names, names of variables in a particular scope (local, instance, etc.) as well as function, constructor, enum and macro names.</p>
   <p>Note that Feather will check against your own naming rules when you customise them in the Feather preferences.</p>
@@ -1124,10 +1220,12 @@
         medium,<br />
         large<br />
     }<br />
+    <br />
     function Show()<br />
     {<br />
         show_debug_message(&quot;Here it is!&quot;);<br />
-    }</p>
+    }
+  </p>
   <p>The code in the example above contains a few names that aren’t named according to Feather’s default naming rules. To make them consistent with these rules, the code should be changed to the following:</p>
   <p class="code">var _s = spr_sprite;<br />
     enum SIZE<br />
@@ -1136,10 +1234,12 @@
         MEDIUM,<br />
         LARGE<br />
     }<br />
+    <br />
     function show()<br />
     {<br />
         show_debug_message(&quot;Here it is!&quot;);<br />
-    }</p>
+    }
+  </p>
   <h3>GM2018 [ab]- Potentially dangerous variable declaration.</h3>
   <p>Mandatory Description</p>
   <h4>Example</h4>
@@ -1152,15 +1252,19 @@
   <p class="code">/// Draw GUI Begin Event<br />
     draw_set_valign(fa_bottom);<br />
     draw_text(5, room_height-5, &quot;In the bottom-left corner&quot;);<br />
+    <br />
     /// Draw GUI Event<br />
-    draw_text(5, 5, &quot;In the top-left corner&quot;);</p>
+    draw_text(5, 5, &quot;In the top-left corner&quot;);
+  </p>
   <p>In the above code example, the vertical text alignment is set to bottom-aligned and some text is drawn in the Draw GUI Begin event. The text alignment isn’t reset to fa_top, however, which causes text in the Draw GUI Event that follows it to be drawn mostly offscreen. This is because it is drawn bottom-aligned at a position in the top-left corner of the window. Resetting the vertical text alignment back to fa_top fixes the issue.</p>
   <p class="code">/// Draw GUI Begin Event<br />
     draw_set_valign(fa_bottom);<br />
     draw_text(5, room_height-5, &quot;In the bottom-left corner&quot;);<br />
     draw_set_valign(fa_top);<br />
+    <br />
     /// Draw GUI Event<br />
-    draw_text(5, 5, &quot;In the top-left corner&quot;);</p>
+    draw_text(5, 5, &quot;In the top-left corner&quot;);
+  </p>
   <h3>GM2020 - all cannot be referenced in this way.</h3>
   <p>This message is shown when you attempt to reference the keyword all in the dot operator. The keyword all can be used in a with statement to indicate that it should loop through all instances, but it cannot be used with the dot operator to change a variable in all instances at the same time.</p>
   <h4>Example</h4>
@@ -1181,8 +1285,10 @@
   <p class="code">global.debug_enabled = true;<br />
     // OR<br />
     global[$&quot;debug_enabled&quot;] = true;<br />
+    <br />
     /// Script Asset<br />
-    debug_enabled = true;</p>
+    debug_enabled = true;
+  </p>
   <h3>GM2022 - Return value of a pure function is not being used.</h3>
   <p>This message indicates that you’ve called a function that doesn’t change anything and just returns a value, but the value isn’t assigned to a variable.</p>
   <h4>Example</h4>
@@ -1212,15 +1318,19 @@
   <p class="code">/// Draw GUI Begin Event<br />
     draw_set_halign(fa_right);<br />
     draw_text(room_width-5, 5, &quot;In the top-right corner&quot;);<br />
+    <br />
     /// Draw GUI Event<br />
-    draw_text(5, 5, &quot;In the top-left corner&quot;);</p>
+    draw_text(5, 5, &quot;In the top-left corner&quot;);
+  </p>
   <p>In the example code above, the horizontal text alignment is set to right-aligned and some text is drawn in the Draw GUI Begin event. However, the text alignment isn’t reset to fa_left, which causes text in the Draw GUI Event that follows it to be drawn mostly offscreen. This is because it is drawn right-aligned at a position in the top-left corner of the window. Resetting the horizontal text alignment back to fa_left fixes the issue.</p>
   <p class="code">/// Draw GUI Begin Event<br />
     draw_set_halign(fa_right);<br />
     draw_text(room_width-5, 5, &quot;In the top-right corner&quot;);<br />
     draw_set_halign(fa_left);<br />
+    <br />
     /// Draw GUI Event<br />
-    draw_text(5, 5, &quot;In the top-left corner&quot;);</p>
+    draw_text(5, 5, &quot;In the top-left corner&quot;);
+  </p>
   <h3>GM2027 [ae]- Opening another primitive before closing a previous primitive.</h3>
   <p>This message is shown when you open another primitive using draw_primitive_begin without closing the current primitive with a call to draw_primitive_end.</p>
   <p>A primitive is always drawn with a call to draw_primitive_begin, followed by multiple calls to one of the draw_vertex* functions and finally a call to draw_primitive_end.</p>
@@ -1255,8 +1365,10 @@
   <p>Calling draw_primitive_begin before draw_primitive_end fixes this issue.</p>
   <p class="code">/// Draw Event<br />
     draw_primitive_begin(pr_linelist);<br />
+    <br />
     // draw_vertex, draw_vertex_colour, etc.<br />
-    draw_primitive_end();</p>
+    draw_primitive_end();
+  </p>
   <h3>GM2029 [ag]- The function &#39;{0}&#39; cannot be called outside of a draw_primitive_begin()/draw_primitive_end() block.</h3>
   <p>This message is shown when you use one of the draw_vertex* functions outside of draw_primitive_begin/draw_primitive_end. These functions add vertices when drawing a primitive and only do something when called between draw_primitive_begin and draw_primitive_end.</p>
   <h4>Example</h4>
@@ -1279,6 +1391,7 @@
   <p class="code">/// Draw Event<br />
     var _condition = (irandom(100) &lt; 50);<br />
     draw_primitive_begin(pr_linelist);<br />
+    <br />
     if (_condition)<br />
     {<br />
         // draw_vertex, draw_vertex_colour, etc.<br />
@@ -1286,11 +1399,13 @@
     }<br />
     {<br />
         // draw_vertex, draw_vertex_colour, etc.<br />
-    }</p>
+    }
+  </p>
   <p>In the example above one of two possible code paths is followed, where each draws a different shape. The if case ends with a call to draw_primitive_end, though the else case is missing that call. Also adding it to the else case is one possible fix, though the clean and more robust way to fix the issue is to move it outside of the if-else statement.</p>
   <p class="code">/// Draw Event<br />
     var _condition = (irandom(100) &lt; 50);<br />
     draw_primitive_begin(pr_linelist);<br />
+    <br />
     if (_condition)<br />
     {<br />
         // draw_vertex, draw_vertex_colour, etc.<br />
@@ -1298,7 +1413,9 @@
     {<br />
         // draw_vertex, draw_vertex_colour, etc.<br />
     }<br />
-    draw_primitive_end();  // Call no longer depends on if-else condition!</p>
+    <br />
+    draw_primitive_end();  // Call no longer depends on if-else condition!
+  </p>
   <h3>GM2031 - Opening another File Find before closing a previous File Find.</h3>
   <p>This message is shown when you start another File Find with file_find_first without closing the previous one with file_find_close. You can only perform one File Find at a time and one needs to be closed before another can be opened.</p>
   <h4>Example</h4>
@@ -1308,7 +1425,9 @@
     {<br />
         _file2 = file_find_first(&quot;/game_data/*.json&quot;, fa_none);<br />
     }<br />
-    file_find_close();</p>
+    <br />
+    file_find_close();
+  </p>
   <p class="code">var _look_for_description = true;<br />
     var _file = file_find_first(&quot;/gamedata/*.bin&quot;, fa_none);<br />
     file_find_close();<br />
@@ -1329,38 +1448,44 @@
   <h4>Example</h4>
   <p class="code">fnames = [];<br />
     var _fname = file_find_first(&quot;*.txt&quot;, fa_none);<br />
+    <br />
     while(_fname != &quot;&quot;)<br />
     {<br />
         array_push(fnames, _fname);<br />
         _fname = file_find_next();<br />
     }<br />
+    <br />
     file_find_close();<br />
-    file_find_next();</p>
+    file_find_next();
+  </p>
   <p>The second file_find_next is called outside of the calls to file_find_first and file_find_close. It should be removed to fix the issue.</p>
   <p class="code">fnames = [];<br />
     var _fname = file_find_first(&quot;*.txt&quot;, fa_none);<br />
+    <br />
     while(_fname != &quot;&quot;)<br />
     {<br />
         array_push(fnames, _fname);<br />
         _fname = file_find_next();<br />
     }<br />
-    file_find_close();</p>
+    <br />
+    file_find_close();
+  </p>
   <h3>GM2034 - Not all code paths call file_find_close() before the end of the script.</h3>
   <p>This message indicates that a call to file_find_close may not be encountered. Ideally, the call to file_find_close should occur in the same scope as the call to file_find_first.</p>
-  <p>// Not:</p>
-  <p>var _file = file_find_first(“*.*”, fa_none);</p>
-  <p>if (_file != “”)</p>
-  <p>{</p>
-  <p>    file_find_next();</p>
-  <p>    file_find_close();</p>
-  <p>}</p>
-  <p>//</p>
-  <p>var _file = file_find_first(“*.*”, fa_none);</p>
-  <p>if (_file != “”)</p>
-  <p>{</p>
-  <p>    file_find_next();</p>
-  <p>}</p>
-  <p>file_find_close();[aj]</p>
+  <p class="code">// Not:<br />
+    var _file = file_find_first(“*.*”, fa_none);<br />
+    if (_file != “”)<br />
+    {<br />
+        file_find_next();<br />
+        file_find_close();<br />
+    }<br />
+    //<br />
+    var _file = file_find_first(“*.*”, fa_none);<br />
+    if (_file != “”)<br />
+    {<br />
+        file_find_next();<br />
+    }<br />
+    file_find_close();[aj]</p>
   <h4>Example</h4>
   <p class="code">fnames = [];<br />
     var _fname = file_find_first(&quot;*.txt&quot;, fa_none);<br />
@@ -1400,8 +1525,10 @@
         draw_text(x, y, name);<br />
     }<br />
     gpu_pop_state();<br />
+    <br />
     /// Draw GUI Event<br />
-    draw_text(5, 5, $&quot;Instances: {instance_count}&quot;);  // All good!</p>
+    draw_text(5, 5, $&quot;Instances: {instance_count}&quot;);  // All good!
+  </p>
   <h3>GM2036 [ak]- Allocated resource not released.</h3>
   <p>Mandatory Description</p>
   <h4>Example</h4>
@@ -1425,28 +1552,36 @@
   <h4>Example</h4>
   <p class="code">/// my_function<br />
     show_debug_message(&quot;My function calling!&quot;);<br />
+    <br />
     /// Create Event<br />
-    my_function();</p>
+    my_function();
+  </p>
   <p>If the script contains code that makes it act like a function, it should be moved inside a new script function in the script. The new script function gets the name of the script asset and the script asset gets renamed to a descriptive name that describes well what it contains (a group of functions, a collection of (global) variables, a collection of macros, etc.)</p>
   <p class="code">/// Functions (Script Asset)<br />
     function my_function()<br />
     {<br />
         show_debug_message(&quot;My function calling!&quot;);<br />
     }<br />
+    <br />
     /// Create Event<br />
-    my_function();</p>
+    my_function();
+  </p>
   <h3>GM2040 - Call to event_inherited() in object with no parent event.</h3>
   <p>This message is shown when you call the function event_inherited in an object that either has no parent object or that has no ancestor in its parent-child hierarchy that defines the event.</p>
   <h4>Example</h4>
   <p class="code">/// obj_parent<br />
     // No Room Start event<br />
+    <br />
     /// obj_child.Room_Start<br />
-    event_inherited();</p>
+    event_inherited();
+  </p>
   <p>In the code example, an object obj_child has an object obj_parent as its parent object. The parent object doesn’t define a Room Start event yet the child object does and calls event_inherited. The call to event_inherited can be removed, or it can be commented out in case the event might get added later in the parent object.</p>
   <p class="code">/// obj_parent<br />
     // No Room Start event<br />
+    <br />
     /// obj_child.Room_Start<br />
-    event_inherited();</p>
+    event_inherited();
+  </p>
   <h3>GM2041 [an]- Not all code paths call gpu_push_state() before end of script.</h3>
   <p>This message indicates that gpu_push_state isn’t called in all possible situations.</p>
   <h4>Example</h4>
@@ -1486,6 +1621,7 @@
     // Didn&#39;t come across variable definition yet<br />
     i = 0;<br />
     var i = 34;<br />
+    <br />
     // Attempting to access after the variable&#39;s gone out of scope<br />
     if (something_occurred)<br />
     {<br />
@@ -1493,12 +1629,15 @@
         // remains &quot;in scope&quot; between these curly braces<br />
         var _msg = &quot;Something happened!&quot;;<br />
     }<br />
+    <br />
     // Variable went out of scope after the closing curly brace<br />
-    _msg = &quot;test&quot;;</p>
+    _msg = &quot;test&quot;;
+  </p>
   <p>Make sure to always define local variables before accessing them. In case of the if statement the variable can simply be declared before the if statement so it stays in scope the entire time and can also be accessed from within the if statement.</p>
   <p class="code">// Fix for access before it&#39;s defined<br />
     var i = 0;<br />
     i = 34;<br />
+    <br />
     // Fix for access after the variable&#39;s gone out of scope<br />
     var _msg;<br />
     if (something_occurred)<br />
@@ -1506,8 +1645,10 @@
         // Variable can be accessed and modified from within if<br />
         _msg = &quot;Something happened!&quot;;<br />
     }<br />
+    <br />
     // Variable is still in scope now<br />
-    _msg = &quot;test&quot;;</p>
+    _msg = &quot;test&quot;;
+  </p>
   <h3>GM2044 - Local variable &#39;{0}&#39; is already declared.</h3>
   <p>This message is shown when you declare a local variable with the same name of a local variable that already exists.</p>
   <h4>Example</h4>
@@ -1520,13 +1661,15 @@
         array[i--] = irandom(100);<br />
     }<br />
     var i = 0;<br />
+    <br />
     // Situation 2: redeclared in a nested loop<br />
     for(var i = 0;i &lt; 50;i++)<br />
     {<br />
         for(var i = 0;i &lt; 50;i++)<br />
         {<br />
         }<br />
-    }</p>
+    }
+  </p>
   <p>In the above example two situations are shown. In the first situation the local variable is declared and used in a repeat loop. After that, it is redeclared. In this case, it suffices to keep only the first declaration and change the other one to an assignment since the variable already exists at that point. In the second situation the same variable name is accidentally used for both loop counters in a nested for loop. This will cause the variable to increment not only in the outer loop but also in the inner loop. To fix this, the inner loop counter variable should be renamed.</p>
   <p class="code">// Situation 1: declared again<br />
     var i = 0;<br />
@@ -1537,13 +1680,15 @@
         array[i--] = irandom(100);<br />
     }<br />
     i = 0;<br />
+    <br />
     // Situation 2: redeclared in a nested loop<br />
     for(var i = 0;i &lt; 50;i++)<br />
     {<br />
         for(var j = 0;j &lt; 50;j++)<br />
         {<br />
         }<br />
-    }</p>
+    }
+  </p>
   <h3>GM2045 [ao]- Local variable &#39;{0}&#39; is unset before reading it.</h3>
   <p>Mandatory Description</p>
   <h4>Example</h4>
@@ -1555,6 +1700,7 @@
   <h4>Example</h4>
   <p class="code">/// Create Event<br />
     sf = -1;<br />
+    <br />
     /// Draw Event<br />
     if (!surface_exists(sf))<br />
     {<br />
@@ -1563,11 +1709,13 @@
     surface_set_target(sf);<br />
     draw_clear_alpha(c_blue, 1);<br />
     draw_circle(50, 50, 20, false);<br />
-    vertex_submit(vb, pr_trianglelist, surface_get_texture(sf));</p>
+    vertex_submit(vb, pr_trianglelist, surface_get_texture(sf));
+  </p>
   <p>In the code example above, a surface is created and drawn to in the Draw event. The surface is set as the drawing target but the drawing target isn’t reset properly. A vertex buffer is then submitted with the surface texture used as the texture. However, the drawing target is still set to the surface itself and the vertex buffer will be rendered to the surface.</p>
   <p>Adding a call to surface_reset_target after drawing to the surface fixes the issue.</p>
   <p class="code">/// Create Event<br />
     sf = -1;<br />
+    <br />
     /// Draw Event<br />
     if (!surface_exists(sf))<br />
     {<br />
@@ -1577,7 +1725,8 @@
     draw_clear_alpha(c_blue, 1);<br />
     draw_circle(50, 50, 20, false);<br />
     surface_reset_target();<br />
-    vertex_submit(vb, pr_trianglelist, surface_get_texture(sf));</p>
+    vertex_submit(vb, pr_trianglelist, surface_get_texture(sf));
+  </p>
   <h3>GM2047 - Unreachable code.</h3>
   <p>This message is shown when a part of your code cannot be reached in any way because the logic always prevents it from happening. For example, when the expression inside an if statement always evaluates to false, the code inside that if statement will never be executed.</p>
   <h4>Example</h4>
@@ -1594,15 +1743,19 @@
   <p class="code">/// Draw Event<br />
     gpu_set_blendenable(false);<br />
     vertex_submit(vb, pr_trianglelist, tex);<br />
+    <br />
     /// Draw GUI Event<br />
-    draw_text(5, 5, &quot;Hello!&quot;);  // Text isn&#39;t drawn correctly</p>
+    draw_text(5, 5, &quot;Hello!&quot;);  // Text isn&#39;t drawn correctly
+  </p>
   <p>To fix this issue you need to re-enable alpha blending with another call to gpu_set_blendenable.</p>
   <p class="code">/// Draw Event<br />
     gpu_set_blendenable(false);<br />
     vertex_submit(vb, pr_trianglelist, tex);<br />
     gpu_set_blendenable(true);<br />
+    <br />
     /// Draw GUI Event<br />
-    draw_text(5, 5, &quot;Hello!&quot;);  // Text is drawn correctly again</p>
+    draw_text(5, 5, &quot;Hello!&quot;);  // Text is drawn correctly again
+  </p>
   <h3>GM2049 - Not all code paths call gpu_set_zfunc(cmpfunc_lessequal) before the end of the script.</h3>
   <p>This message indicates that you’ve changed the function for z-testing but haven’t set it back to the default cmpfunc_lessequal again. When depth testing is enabled with a call to gpu_set_ztestenable(true), by default a pixel that’s written to the depth buffer is considered closer when its z value is less or equal (cmpfunc_lessequal) than the current depth value for that pixel.</p>
   <h4>Example</h4>
@@ -1637,8 +1790,10 @@
     shader_set(sh_lighting);<br />
     vertex_submit(vb_static_geometry, pr_trianglelist, -1);<br />
     shader_reset();<br />
+    <br />
     /// Draw GUI Event<br />
-    draw_text(5, 5, &quot;World 1&quot;);</p>
+    draw_text(5, 5, &quot;World 1&quot;);
+  </p>
   <p>In order to fix this issue the cullmode needs to be properly reset to cull_noculling or to the value that it had before.</p>
   <p class="code">/// Draw Event<br />
     gpu_set_cullmode(cull_clockwise);<br />
@@ -1695,31 +1850,39 @@
   <h4>Example</h4>
   <p class="code">/// Create Event<br />
     tex = sprite_get_texture(spr_texpage, 0);<br />
+    <br />
     /// Draw Event<br />
     gpu_set_texfilter(true);<br />
-    vertex_submit(vb_world, pr_trianglelist, tex);</p>
+    vertex_submit(vb_world, pr_trianglelist, tex);
+  </p>
   <p>After the call to gpu_set_texfilter and all draw commands that follow it you need to reset texture filtering to false, the default setting.</p>
   <p class="code">/// Create Event<br />
     tex = sprite_get_texture(spr_texpage, 0);<br />
+    <br />
     /// Draw Event<br />
     gpu_set_texfilter(true);<br />
     vertex_submit(vb_world, pr_trianglelist, tex);<br />
-    gpu_set_texfilter(false);</p>
+    gpu_set_texfilter(false);
+  </p>
   <h3>GM2056 - Not all code paths call gpu_set_texrepeat(false) before the end of the script.</h3>
   <p>This message indicates that you’ve changed the texture repeat setting to true but haven’t changed it back to false afterwards. By default, texture repeating is set to disabled for all texture samplers.</p>
   <h4>Example</h4>
   <p class="code">/// Create Event<br />
     tex = sprite_get_texture(spr_texpage, 0);<br />
+    <br />
     /// Draw Event<br />
     gpu_set_texrepeat(true);<br />
-    vertex_submit(vb_world, pr_trianglelist, tex);</p>
+    vertex_submit(vb_world, pr_trianglelist, tex);
+  </p>
   <p>After the call to gpu_set_texrepeat and all draw commands that follow it you should reset the texture repeat to false, the default setting.</p>
   <p class="code">/// Create Event<br />
     tex = sprite_get_texture(spr_texpage, 0);<br />
+    <br />
     /// Draw Event<br />
     gpu_set_texrepeat(true);<br />
     vertex_submit(vb_world, pr_trianglelist, tex);<br />
-    gpu_set_texrepeat(false);</p>
+    gpu_set_texrepeat(false);
+  </p>
   <h3>GM2057 [aq]- Allocated resource is never destroyed before the end of the script.</h3>
   <p>Mandatory Description</p>
   <h4>Example</h4>
@@ -1781,17 +1944,21 @@
   <h4>Example</h4>
   <p class="code">/// Variable [aw]Definitions<br />
     // Empty!<br />
+    <br />
     /// Create Event<br />
     ins_companion = instance_create_layer(x, y, layer, obj_companion, {<br />
         intro_message: message<br />
-    });</p>
+    });
+  </p>
   <p>Variables can only be accessed when they’ve first been defined. In the example above, the object doesn’t have any variables defined but an attempt is made to access an instance variable named message. In order to fix this, the variable has to be defined in the object variables.</p>
   <p class="code">/// Variable Definitions<br />
     message List [&quot;Hey!&quot;, &quot;Hi!&quot;, &quot;I&#39;m your companion!&quot;]<br />
+    <br />
     /// Create Event<br />
     ins_companion = instance_create_layer(x, y, layer, obj_companion, {<br />
         intro_message: message<br />
-    });</p>
+    });
+  </p>
   <p> </p>
   <p> </p>
   <div class="footer">
