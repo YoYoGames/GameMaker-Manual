@@ -2585,6 +2585,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
 // Language select dropdown (create and navigate)
 // ----------------------------------------------------------------------------------------------
 var createLanguageMenu = function () {
+// Dont open in mobile view unless it's non-context view
+var desktopToc = window.parent.document.getElementsByClassName("functionbar sidebar-opened")[0];
+var nonContext = window.parent.document.getElementById("rh-topic-header");
+if (desktopToc == undefined && nonContext == undefined) return;
+
 // Create default style (full context view) and get parent elm
 var listStyle = `
   background-color: #333;
@@ -2598,7 +2603,7 @@ var myParent = window.parent.document.getElementsByClassName("header")[0];
 // No context view style and parent elm
 var isNoContext = false;
 if (myParent == undefined) {
-	myParent = window.parent.document.getElementById("rh-topic-header");
+	myParent = nonContext;
 	/*listStyle += `
   margin-right: 11px;
   margin-bottom: 11px;
@@ -2735,7 +2740,7 @@ var listStyle = `
 
 var myParent = window.parent.document.getElementsByClassName("header")[0];
 myParent = window.parent.document.getElementById("dropParent");
-
+if (myParent == undefined) return;
 // No context view style and parent elm
 /*if (myParent == undefined) {
 	myParent = window.parent.document.getElementById("rh-topic-header");
