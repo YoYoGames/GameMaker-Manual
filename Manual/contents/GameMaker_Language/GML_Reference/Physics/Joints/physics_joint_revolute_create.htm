@@ -16,6 +16,7 @@
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
   <h1><span data-field="title" data-format="default">physics_joint_revolute_create</span></h1>
+  <p>This function creates a revolute joint between two physics instances.</p>
   <p>A revolute joint forces two bodies to share a common anchor point (often called a hinge point) and the joint has a single degree of freedom - the relative rotation of the two bodies around this point. To specify a revolute you need to provide two instances and a single anchor point in the room, as you can see in the image provided:</p>
   <p><img alt="Revolute joint anchor points illustration" class="center" src="../../../../assets/Images/Scripting_Reference/GML/Reference/Physics/revolute_joint_image_1.png" />If you look at the image, you can see that the two instances have been created to overlap and at the point where they are touching, we have defined a revolute joint. Now, this joint can be limited in its freedom of rotation thanks to the &quot;ang_min_limit&quot; and &quot;ang_max_limit&quot; values. How does this work? Well, let&#39;s look at another image:</p>
   <p><img alt="Revolute joint angle limits illustration" class="center" src="../../../../assets/Images/Scripting_Reference/GML/Reference/Physics/revolute_joint_image_2.png" />As you can see, angles in the physics world are <i>not</i> the same as the standard <span data-keyref="GameMaker Name">GameMaker</span> angles where right is 0 degrees and then it goes anti-clockwise so that up is 90, left is 180, and down is 270. No, when dealing with the revolute joint, the 0 degrees axis runs from the joint position to the origin of the second instance defined by the function and the angles are then calculated in a clockwise direction. If you switch on angle limiting, the limits are defined as being relative to this 0 degree axis and the limit range <i>should include zero</i>, otherwise the joint will lurch when the room begins. Finally, you can define the joint as having a motor or not. This means that when uninfluenced by a collision the joint will move in a direction, which is defined by the motor speed with a positive number being clockwise and a negative number being anti-clockwise. The &quot;max_motor_torque&quot; argument is for limiting the speed of the rotation so that you don&#39;t get a perpetually accelerating motor and to limit the influence that a collision may have on the rotation. In this way you can use a joint motor to simulate joint friction by setting joint speed to zero and maximum torque to some small, but significant value. The motor will try to prevent the joint from rotating, but will yield to a significant load.</p>
@@ -68,7 +69,7 @@
       <tr>
         <td>max_motor_torque</td>
         <td><span data-keyref="Type_Real"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
-        <td>Sets the maximum motor torque used to achieve the desired motor speed (in Newtons per meter)</td>
+        <td>Sets the maximum motor torque used to achieve the desired motor speed (in newton per meter)</td>
       </tr>
       <tr>
         <td>motor_speed</td>
