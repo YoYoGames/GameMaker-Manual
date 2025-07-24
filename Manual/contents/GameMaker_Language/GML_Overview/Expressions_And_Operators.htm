@@ -90,7 +90,10 @@
     <p class="code">message = &quot;Hello &quot; + &quot;World&quot;;</p>
     <p class="dropspot">This operator also has a shortened version <span class="inline2">+=</span>, which combines the concatenation with an assignment to the left operand. For example:</p>
     <p class="code">message += &quot;!&quot;;</p>
-    <p class="dropspot">An error will occur if you try to concatenate a string using <span class="inline2">+</span> with a different data type. For the concatenation to work without error you need to convert the other data type to string first, for example using the <span class="inline3_func"><a data-xref="{title}" href="../GML_Reference/Strings/string.htm">string</a></span> function:</p>
+    <p class="dropspot">Note that string concatenation is performed when the operand on the left-hand side of the <span class="inline2">+</span> is a string. If this is the case, <span data-keyref="GameMaker Name">GameMaker</span> will automatically attempt to convert the operand on the right-hand side of the <span class="inline2">+</span> to a string as well. For example:</p>
+    <p class="code">description = &quot;Count to &quot; + 10;</p>
+    <p class="dropspot">This automatic conversion is called <em>implicit</em> conversion because you don&#39;t tell <span data-keyref="GameMaker Name">GameMaker</span> that it needs to be a string; since the left operand is a string the right operand must also become a string. Implicit conversion will work on any data type that can be converted to string. See the <span class="inline3_func"><a data-xref="{title}" href="../GML_Reference/Strings/string.htm">string</a></span> page for detailed conversion rules.</p>
+    <p class="dropspot">You can also convert the operand on the right to a string <em>explicitly</em>, for example by using the <span class="inline3_func"><a data-xref="{title}" href="../GML_Reference/Strings/string.htm">string</a></span> function:</p>
     <p class="code">description = &quot;Count to &quot; + string(10);</p>
     <p class="dropspot"> </p>
   </div>
@@ -147,10 +150,10 @@
     <p class="dropspot"> </p>
   </div>
   <h2 id="expression_grouping">Expression Grouping</h2>
-  <p><i></i>As values in all expressions you can use numbers, variables, or functions that return a value, and sub-expressions can be placed between brackets too. All operators work for real number values, but <em>comparisons </em>also work for strings and the &quot;<strong>+</strong>&quot; operator can be used to concatenate strings.</p>
-  <p>When doing multiple operations in a single expression, it is <b>very important</b> that you use brackets <span class="inline">()</span> to separate out the order of operation, as different platforms may perform them differently if not explicitly stated in this way. For example, consider the following code:</p>
+  <p><i></i>As values in all expressions you can use numbers, variables, or functions that return a value, and sub-expressions can be placed between brackets too. All operators work for real number values, but <em>comparisons </em>also work for strings and the <span class="inline2">+</span> operator can be used to concatenate strings.</p>
+  <p>When doing multiple operations in a single expression, it is <b>very important</b> that you use brackets <span class="inline2">()</span> to separate out the order of operation, as different platforms may perform them differently if not explicitly stated in this way. For example, consider the following code:</p>
   <p class="code">a = b == c || d;</p>
-  <p>The different target compilers will perform the operations in different orders since they are not explicitly shown, giving rise to &quot;odd&quot; results that you may not expect when you play your game. to avoid this, use the <span class="inline">()</span> to separate out the parts, like this:</p>
+  <p>The different target compilers will perform the operations in different orders since they are not explicitly shown, giving rise to &quot;odd&quot; results that you may not expect when you play your game. to avoid this, use the <span class="inline2">()</span> to separate out the parts, like this:</p>
   <p class="code">a = (b == c || d);   //better<br />
     a = ((b == c) || d); //best</p>
   <h2 id="statement_grouping">Statement Grouping</h2>
@@ -163,7 +166,7 @@
     <br />
     if my_var == your_var then <strong>++</strong>their_var;
   </p>
-  <p>Now, you can tell looking at the code that one of those is a bit stupid, but that&#39;s because we know what we are wanting to achieve and what we want to happen, but the compiler doesn&#39;t. All it sees is two variables with the ++ operator between them so it has to choose which one to apply it to. Therefore, you should <strong>always explicitly bracket expressions, operations and statements</strong>. The correct version of the above code should be:</p>
+  <p>Now, you can tell looking at the code that one of those is a bit stupid, but that&#39;s because we know what we are wanting to achieve and what we want to happen, but the compiler doesn&#39;t. All it sees is two variables with the <span class="inline2">++</span> operator between them so it has to choose which one to apply it to. Therefore, you should <strong>always explicitly bracket expressions, operations and statements</strong>. The correct version of the above code should be:</p>
   <p class="code">if (my_var == your_var)<br />
     {<br />
         ++their_var;<br />
@@ -180,7 +183,7 @@
         x = 23 * ((2 + 4) / sin(y));<br />
         b = (x &lt; 5) &amp;&amp; !((x == 2) || (x == 4));<br />
     }</p>
-  <p>One final thing to note is that there are also some expression &quot;shortcuts&quot; called <b>accessors</b> for use with certain <a href="../GML_Reference/Data_Structures/Data_Structures.htm">Data Structures</a> and <a href="Arrays.htm">Arrays</a>. These enable you to add, or replace data within these formats quickly and easily and without the use of any function calls. For full details, please see the following page:</p>
+  <p>One final thing to note is that there are also some expression &quot;shortcuts&quot; called <b>accessors</b> for use with certain <a data-xref="{title}" href="../GML_Reference/Data_Structures/Data_Structures.htm">Data Structures</a> and <a data-xref="{title}" href="Arrays.htm">Arrays</a>. These enable you to add, or replace data within these formats quickly and easily and without the use of any function calls. For full details, please see the following page:</p>
   <ul class="colour">
     <li><a data-xref="{title}" href="Accessors.htm">Accessors</a></li>
   </ul>
