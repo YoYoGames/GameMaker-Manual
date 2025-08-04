@@ -16,11 +16,17 @@
   <!--<div class="body-scroll" style="top: 150px;">-->
   <h1><span data-field="title" data-format="default">Gamepad Input</span></h1>
   <p><b></b><span data-keyref="GameMaker Name">GameMaker</span> has a number of dedicated functions that can be used to detect both analog and digital controls from multiple connected gamepads. These functions work similar to the <a href="../Device_Input/Device_Input.htm">Device Inputs</a>, in that you can detect up to four different XInput gamepads that are connected (and up to 8 DirectInput gamepads) and deal with the input from each one using the same functions.</p>
-  <p>Note that when a gamepad is plugged in to your device (or it is removed) then an asynchronous <a data-xref="{title}" href="../../../../The_Asset_Editors/Object_Properties/Async_Events/System.htm">System</a> event is triggered where you can deal with the situation using the appropriate functions.</p>
   <p class="note"><span data-conref="../../../../assets/snippets/Tag_important.hts"> </span> It is recommended to read the <strong>Gamepad Movement</strong> example on <a data-xref="{title}" href="../../../../Quick_Start_Guide/Movement_And_Controls.htm">Movement And Controls</a> to understand how gamepads can be detected and used.</p>
-  <p>The gamepad &quot;slots&quot; are indexed from 0 upwards, and the actual slot that a gamepad gets assigned will depend on a variety of factors, not least of which is the OS that the project is running on. On the <strong>Windows</strong> target, slots 0 - 3 inclusive are <i>only for Xinput gamepads</i>, i.e.: Xbox controllers and compatibles. However, you can also check slots 4 - 11 inclusive for <i>DirectInput</i> gamepads, which means you can detect many other models of controller when connected through these slots. On other platforms, pads may be detected on <em>any</em> slot that the OS has assigned it, which could slot 3 or slot 20 or more. For example, <strong>Android</strong> devices will store bluetooth gamepads in a slot and then reserve that slot for that gamepad in the future, whether it&#39;s connected or not, so you <em>cannot</em> assume that a single connected gamepad is connected to slot 0, as this will probably not be the case.</p>
-  <p>Due to this, it is recommended to use the Async <a data-xref="{title}" href="../../../../The_Asset_Editors/Object_Properties/Async_Events/System.htm">System</a> event to detect connected gamepads instead of checking indices directly.</p>
-  <p>It is worth noting that when using DirectInput gamepads on Windows, or generic gamepads on other platforms, the constants given below <strong>may not match exactly the buttons that you expect when they are pressed</strong>, due to the fragmented and non-standardised way that the API is implemented by controller manufacturers. Because of this, it is recommended that you have some kind of gamepad setup screen in your games where people can redefine the gamepad buttons based on input from any connected device to mitigate any issues (there are gamepad &quot;mapping&quot; functions that can help with this on Windows Desktop, Ubuntu, macOS, and Android targets, while on all others you would need to do this yourself using code).</p>
+  <h2>Detecting Gamepads</h2>
+  <p>When a gamepad is plugged into your device (or when it is removed), an Async <a data-xref="{title}" href="../../../../The_Asset_Editors/Object_Properties/Async_Events/System.htm">System</a> event is triggered which allows you to deal with the situation using the appropriate functions. Its event type is either <span class="inline2">&quot;gamepad discovered&quot;</span> or <span class="inline2">&quot;gamepad lost&quot;</span> and when a gamepad is connected, it is assigned a slot index, which is returned in <span class="inline2"><a data-xref="{title}" href="../../../GML_Overview/Variables/Builtin_Global_Variables/async_load.htm">async_load</a></span>&#39;s <span class="inline2">&quot;pad_index&quot;</span> member. This event is also triggered at game start for gamepads that are already plugged in.</p>
+  <div data-conref="../../../../assets/snippets/Note_Async_System_Gamepad_Event.hts"> </div>
+  <p>Gamepad &quot;slots&quot; are indexed from 0 upwards, and the actual slot that a gamepad gets assigned will depend on a variety of factors, not least of which is the OS that the game is running on:</p>
+  <ul class="colour">
+    <li>On the <strong>Windows</strong> target, slots 0 - 3 inclusive are <i>only for XInput gamepads</i>, i.e.: Xbox controllers and compatibles. However, you can also check slots 4 - 11 inclusive for <i>DirectInput gamepads</i>, which means you can detect many other models of controller when connected through these slots.</li>
+    <li>On other platforms, gamepads may be detected on <em>any</em> slot that the OS has assigned it, which could be slot 3, slot 20 or higher. For example, <strong>Android</strong> devices will store Bluetooth gamepads in a slot and then reserve that slot for that gamepad in the future, whether it&#39;s connected or not, so you <em>cannot</em> assume that a single connected gamepad is connected to slot 0, as this will probably not be the case.</li>
+  </ul>
+  <p>While it is possible to check indices directly using <span class="inline3_func"><a data-xref="{title}" href="gamepad_is_connected.htm">gamepad_is_connected</a></span>, it is recommended, due to the above, to use the Async <a data-xref="{title}" href="../../../../The_Asset_Editors/Object_Properties/Async_Events/System.htm">System</a> event to detect connected gamepads instead.</p>
+  <p>It is worth noting that DirectInput gamepads are run in <i>cooperative mode</i> which means that your game only has access to them when it is the foreground application, which in turn will cause DirectInput controllers to be &quot;lost&quot; if the game loses focus and then &quot;found&quot; again when it comes back into focus (this can be detected in the <a data-xref="{title}" href="../../../../The_Asset_Editors/Object_Properties/Async_Events/System.htm">System</a> event and dealt with). Similarly, no input from gamepads will be detected while the game is not in focus, and we recommend that you use the function <span class="inline3_func"><a data-xref="{title}" href="../../OS_And_Compiler/os_is_paused.htm">os_is_paused</a></span> or <span class="inline3_func"><a data-xref="{title}" href="../../Cameras_And_Display/The_Game_Window/window_has_focus.htm">window_has_focus</a></span> to detect this and pause the game or something similar as any button being held down at the time the game loses focus will maintain the held down state until the game regains focus.</p>
   <h2>Input Constants</h2>
   <p>When working with the gamepad functions, input can come from <strong>axes</strong>, <strong>buttons</strong> or <strong>hats</strong>, which <span data-keyref="GameMaker Name">GameMaker</span> will assign to the following built-in constants (note that &quot;hats&quot; are generally only detected on non-standard controllers):</p>
   <div data-conref="../../../../assets/snippets/Gamepad_button_constants.hts"> </div>
@@ -98,66 +104,71 @@
       </tr>
     </tbody>
   </table>
-  <p class="note"><span class="note">NOTE</span> The gamepad&#39;s <strong>orientation</strong> is a <a href="https://en.wikipedia.org/wiki/Quaternion" title="Quaternion">Quaternion</a>, which is why it has four values (X, Y, Z and W).<br />
+  <p class="note"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> The gamepad&#39;s <strong>orientation</strong> is a <a href="https://en.wikipedia.org/wiki/Quaternion" title="Quaternion">Quaternion</a>, which is why it has four values (X, Y, Z and W).<br />
     <br />
-    * These constants are only supported on PS4 and PS5, and when used on other platforms the input functions will return <span class="inline">0</span>, even when using a DualSense gamepad.
+    * These constants are only supported on PS4 and PS5, and when used on other platforms the input functions will return <span class="inline2">0</span>, even when using a DualSense gamepad.
   </p>
   <p>To better understand exactly what part of the controller each constant represents, you can refer to the following image of a standard XInput gamepad:</p>
   <p><img alt="Xinput gamepad illustration" class="center" src="../../../../assets/Images/Scripting_Reference/GML/Reference/Game_Input/GamePad.png" /></p>
-  <h2>Functions</h2>
-  <p>Below you can find a list of all the gamepad functions:</p>
-  <ul class="colour">
-    <li><a href="gamepad_is_supported.htm">gamepad_is_supported</a></li>
-    <li><a href="gamepad_is_connected.htm">gamepad_is_connected</a></li>
-    <li><a href="gamepad_get_guid.htm">gamepad_get_guid</a></li>
-    <li><a href="gamepad_get_device_count.htm">gamepad_get_device_count</a></li>
-    <li><a href="gamepad_get_description.htm">gamepad_get_description</a></li>
-    <li><a href="gamepad_get_button_threshold.htm">gamepad_get_button_threshold</a></li>
-    <li><a href="gamepad_get_axis_deadzone.htm">gamepad_get_axis_deadzone</a></li>
-    <li><a href="gamepad_get_option.htm">gamepad_get_option</a></li>
-    <li><a href="gamepad_set_button_threshold.htm">gamepad_set_button_threshold</a></li>
-    <li><a href="gamepad_set_axis_deadzone.htm">gamepad_set_axis_deadzone</a></li>
-    <li><a href="gamepad_set_vibration.htm">gamepad_set_vibration</a></li>
-    <li><a href="gamepad_set_colour.htm">gamepad_set_colour</a></li>
-    <li><a href="gamepad_set_option.htm">gamepad_set_option</a></li>
-    <li><a href="gamepad_axis_count.htm">gamepad_axis_count</a></li>
-    <li><a href="gamepad_axis_value.htm">gamepad_axis_value</a></li>
-    <li><a href="gamepad_button_check.htm">gamepad_button_check</a></li>
-    <li><a href="gamepad_button_check_pressed.htm">gamepad_button_check_pressed</a></li>
-    <li><a href="gamepad_button_check_released.htm">gamepad_button_check_released</a></li>
-    <li><a href="gamepad_button_count.htm">gamepad_button_count</a></li>
-    <li><a href="gamepad_button_value.htm">gamepad_button_value</a></li>
-    <li><a href="gamepad_hat_count.htm">gamepad_hat_count</a></li>
-    <li><a href="gamepad_hat_value.htm">gamepad_hat_value</a></li>
-  </ul>
-  <p> </p>
-  <p>The following gamepad functions also exist and are used for remapping the built-in constants to the direct physical inputs of a given gamepad. These functions are only for the Windows Desktop, Ubuntu, macOS, and Android target platforms and on Windows, they will only be valid for DirectInput devices. While <span data-keyref="GameMaker Name">GameMaker</span> comes with mappings for a number of different gamepads based on <a href="https://github.com/gabomdq/SDL_GameControllerDB" target="_blank">SDL Gamepad Controller DB</a>, however due to the huge number of controller types and brands out there, it is impossible to map the GML constants to the correct inputs for every make and model, so with these functions you have the possibility to create your own custom mappings.</p>
-  <ul class="colour">
-    <li><a href="gamepad_get_mapping.htm">gamepad_get_mapping</a></li>
-    <li><a href="gamepad_test_mapping.htm">gamepad_test_mapping</a></li>
-    <li><a href="gamepad_remove_mapping.htm">gamepad_remove_mapping</a></li>
-  </ul>
-  <p> </p>
-  <p>It is worth noting that DirectInput gamepads are run in <i>cooperative mode</i> which means that your game only has access to them when it is the foreground application, which in turn will cause DirectInput controllers to be &quot;lost&quot; if the game loses focus and then &quot;found&quot; again when it comes back into focus (this can be detected in the System Event and dealt with). Similarly, no input from gamepads will be detected while the game is not in focus, and we recommend that you use the function <span class="inline3_func"><a data-xref="{title}" href="../../OS_And_Compiler/os_is_paused.htm">os_is_paused</a></span> or <span class="inline3_func"><a data-xref="{title}" href="../../Cameras_And_Display/The_Game_Window/window_has_focus.htm">window_has_focus</a></span> to detect this and pause the game or something similar as any button being held down at the time the game loses focus will maintain the held down state until the game regains focus.</p>
-  <p>Finally, there is one function for updating the list of connected gamepad devices on Android:</p>
-  <ul class="colour">
-    <li><a data-xref="{title}" href="gamepad_enumerate.htm">gamepad_enumerate</a></li>
-  </ul>
-  <h2>Compatibility</h2>
+  <p>It is worth noting that when using DirectInput gamepads on Windows, or generic gamepads on other platforms, the constants given above <strong>may not match exactly the buttons that you expect when they are pressed</strong>, due to the fragmented and non-standardised way that the API is implemented by controller manufacturers. Because of this, it is recommended that you have some kind of gamepad setup screen in your games where people can redefine the gamepad buttons based on input from any connected device to mitigate any issues (there are <a href="Gamepad_Input.htm#func_ref_custom_mappings">gamepad &quot;mapping&quot; functions</a> that can help with this on Windows Desktop, Ubuntu, macOS, and Android targets, while on all others you would need to do this yourself using code).</p>
+  <h2>Mapping Database</h2>
+  <p><span data-keyref="GameMaker Name">GameMaker</span> comes with mappings for a number of different gamepads based on <a href="https://github.com/gabomdq/SDL_GameControllerDB" target="_blank">SDL Gamepad Controller DB</a> which are used for remapping the built-in constants to the direct physical inputs of a given gamepad. If you want to support other gamepads you can do this by adding a custom <span class="inline2">gamecontrollerdb.txt</span> file to the <a data-xref="{title}" href="../../../../Settings/Included_Files.htm">Included Files</a>.</p>
+  <p>It is, however, impossible to map the GML constants to the correct inputs for every make and model due to the huge number of controller types and brands out there. If you need a custom mapping for an unknown gamepad you can set one with <span class="inline3_func"><a data-xref="{title}" href="gamepad_test_mapping.htm">gamepad_test_mapping</a></span> and remove it with <span class="inline3_func"><a data-xref="{title}" href="gamepad_remove_mapping.htm">gamepad_remove_mapping</a></span>. See the <a href="Gamepad_Input.htm#func_ref_custom_mappings">custom mapping functions</a>.</p>
+  <h2>Platform Compatibility</h2>
   <p>The following list shows current compatibility across the platforms (note that this will change with future updates):</p>
   <ul class="colour">
     <li><strong>Windows </strong>is fully supported with up to a maximum of 12 connected devices permitted at once (numbered from 0 to 11, with 0 - 3 being XInput devices and 4 - 11 being DirectInput). Remapping of controller constants is also permitted.</li>
-    <li><strong></strong><span><strong>macOS</strong> is supported with up to a maximum of 4 connected devices permitted at once. Be aware that when submitting to the macOS App Store the choice of gamepads allowed by Apple is quite limited, but in testing on your own machine or if you&#39;re not submitting to the App Store, then a large number of modern pads are allowed (and you can use GameMaker&#39;s gamepad-mapping functions to make even more pads work for your game)</span>. The &quot;Build for Mac App Store&quot; option in Mac Game Options needs to be OFF for pad support to work.</li>
-    <li><strong>Ubuntu </strong>does also support Gamepad input, but you may need to install additional libraries from the Ubuntu repository. You can do this easily by opening a command line terminal and typing the following (this will install GUI support for the joystick/gamepad as well as the joystick/gamepad API itself - remapping of controller constants is <i>not</i> permitted):
+    <li><strong></strong><span><strong>macOS</strong> is supported with up to a maximum of 4 connected devices permitted at once. Be aware that when submitting to the macOS App Store the choice of gamepads allowed by Apple is quite limited, but in testing on your own machine or if you&#39;re not submitting to the App Store, then a large number of modern pads are allowed (and you can use <span data-keyref="GameMaker Name">GameMaker</span>&#39;s gamepad mapping functions to make even more pads work for your game)</span>. The &quot;Build for Mac App Store&quot; option in <a href="../../../../Settings/Game_Options/macOS.htm">macOS Game Options</a> needs to be OFF for pad support to work.</li>
+    <li><strong>Ubuntu </strong>also supports gamepad input, but you may need to install additional libraries from the Ubuntu repository. You can do this easily by opening a command line terminal and typing the following (this will install GUI support for the joystick/gamepad as well as the joystick/gamepad API itself - remapping of controller constants is <i>not</i> permitted):
       <p class="code">sudo apt-get install jstest-gtk<br />
         sudo apt-get install joystick</p>
     </li>
     <li><strong>HTML5 </strong>games using gamepads are supported by most major browsers, except <i>Safari</i>. Remapping of controller constants is <i>not</i> permitted.</li>
-    <li>Web browsers will only detect gamepads when a button is pressed or an axis is moved, so they may not be available at the immediate start of the game. This applies to the <strong>GX.games</strong> and <strong>HTML </strong>target platforms.</li>
+    <li>Web browsers will only detect gamepads when a button is pressed or an axis is moved, so they may not be available at the immediate start of the game. This applies to the <strong>GX.games</strong> and <strong>HTML5 </strong>target platforms.</li>
     <li>Gamepad support also extends to <strong>iOS </strong>with the iCade cabinet. The left axis maps to the stick controller (although the input is digital, not analogue), the four &quot;face&quot; buttons map to the cabinet front buttons, and the four shoulder buttons map to those at the back of the cabinet.</li>
-    <li><strong>Android </strong>export supports NYKO controllers and generic Bluetooth controllers, but only when they are enabled, meaning that you will have to tick the iCade/Bluetooth option in the <a href="../../../../Settings/Game_Options/Android.htm">General</a> section of the Android Game Options. They require API level 12 for them to work fully and it should be noted that <span data-keyref="GameMaker Name">GameMaker</span> will register as connected any Bluetooth devices that your device is paired with, whether or not it&#39;s actually connected. Therefore this should be taken into account when assigning and checking &quot;slots&quot;. Note that the remapping of controller constants is also permitted.</li>
+    <li><strong>Android </strong>export supports NYKO controllers and generic Bluetooth controllers, but only when they are enabled, meaning that you will have to tick the iCade/Bluetooth option in the &quot;General&quot; section of the <a href="../../../../Settings/Game_Options/Android.htm">Android Game Options</a>. They require API level 12 for them to work fully and it should be noted that <span data-keyref="GameMaker Name">GameMaker</span> will register as connected any Bluetooth devices that your device is paired with, whether or not it&#39;s actually connected. Therefore, this should be taken into account when assigning and checking &quot;slots&quot;. Note that the remapping of controller constants is also permitted.</li>
     <li>On <strong>PlayStation</strong>, if you want to use the touch pad tracking you need to use the <a href="../Device_Input/Device_Input.htm"><span class="inline2">device_mouse_*</span></a> buttons. Remapping of controller constants is <i>not</i> permitted.</li>
-    <li>On, <strong>Xbox One </strong>and <strong>Nintendo Switch</strong> targets, gamepads are fully supported, but remapping of controller constants is <i>not</i> permitted.</li>
+    <li>On <strong>Xbox One </strong>and <strong>Nintendo Switch</strong> targets, gamepads are fully supported, but remapping of controller constants is <i>not</i> permitted.</li>
+  </ul>
+  <h2 id="func_ref">Functions</h2>
+  <h3 id="func_ref_general">General</h3>
+  <ul class="colour">
+    <li><a data-xref="{title}" href="gamepad_is_supported.htm">gamepad_is_supported</a></li>
+    <li><a data-xref="{title}" href="gamepad_is_connected.htm">gamepad_is_connected</a></li>
+    <li><a data-xref="{title}" href="gamepad_get_device_count.htm">gamepad_get_device_count</a></li>
+    <li><a data-xref="{title}" href="gamepad_enumerate.htm">gamepad_enumerate</a></li>
+  </ul>
+  <h3 id="func_ref_info_config">Info &amp; Config</h3>
+  <ul class="colour">
+    <li><a data-xref="{title}" href="gamepad_get_guid.htm">gamepad_get_guid</a></li>
+    <li><a data-xref="{title}" href="gamepad_get_description.htm">gamepad_get_description</a></li>
+    <li><a data-xref="{title}" href="gamepad_get_button_threshold.htm">gamepad_get_button_threshold</a></li>
+    <li><a data-xref="{title}" href="gamepad_get_axis_deadzone.htm">gamepad_get_axis_deadzone</a></li>
+    <li><a data-xref="{title}" href="gamepad_get_option.htm">gamepad_get_option</a></li>
+    <li><a data-xref="{title}" href="gamepad_set_button_threshold.htm">gamepad_set_button_threshold</a></li>
+    <li><a data-xref="{title}" href="gamepad_set_axis_deadzone.htm">gamepad_set_axis_deadzone</a></li>
+    <li><a data-xref="{title}" href="gamepad_set_vibration.htm">gamepad_set_vibration</a></li>
+    <li><a data-xref="{title}" href="gamepad_set_colour.htm">gamepad_set_colour</a></li>
+    <li><a data-xref="{title}" href="gamepad_set_option.htm">gamepad_set_option</a></li>
+    <li><a data-xref="{title}" href="gamepad_axis_count.htm">gamepad_axis_count</a></li>
+    <li><a data-xref="{title}" href="gamepad_button_count.htm">gamepad_button_count</a></li>
+    <li><a data-xref="{title}" href="gamepad_hat_count.htm">gamepad_hat_count</a></li>
+  </ul>
+  <h3 id="func_ref_checking_input">Checking Input</h3>
+  <ul class="colour">
+    <li><a data-xref="{title}" href="gamepad_button_check.htm">gamepad_button_check</a></li>
+    <li><a data-xref="{title}" href="gamepad_button_check_pressed.htm">gamepad_button_check_pressed</a></li>
+    <li><a data-xref="{title}" href="gamepad_button_check_released.htm">gamepad_button_check_released</a></li>
+    <li><a data-xref="{title}" href="gamepad_button_value.htm">gamepad_button_value</a></li>
+    <li><a data-xref="{title}" href="gamepad_axis_value.htm">gamepad_axis_value</a></li>
+    <li><a data-xref="{title}" href="gamepad_hat_value.htm">gamepad_hat_value</a></li>
+  </ul>
+  <h3 id="func_ref_custom_mappings">Custom Mappings</h3>
+  <p class="note"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> These functions are only for the Windows Desktop, Ubuntu, macOS, and Android target platforms. On Windows, they are only valid for DirectInput devices.</p>
+  <ul class="colour">
+    <li><a data-xref="{title}" href="gamepad_get_mapping.htm">gamepad_get_mapping</a></li>
+    <li><a data-xref="{title}" href="gamepad_test_mapping.htm">gamepad_test_mapping</a></li>
+    <li><a data-xref="{title}" href="gamepad_remove_mapping.htm">gamepad_remove_mapping</a></li>
   </ul>
   <p> </p>
   <p> </p>
@@ -168,7 +179,7 @@
         <div style="float:right">Next: <a href="../Virtual_Keys_And_Keyboards/Virtual_Keys_And_Keyboards.htm">Virtual Keys and Virtual Keyboards</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2025 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 Gamepad Input Functions

@@ -15,7 +15,7 @@
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
   <h1><span data-field="title" data-format="default">Structs &amp; Constructors</span></h1>
-  <p>A <strong><a id="struct"></a>struct </strong>is a variable that holds a collection of other variables. The variables that a struct holds can be of any <a href="Data_Types.htm">data type</a> previously mentioned and these variables can be read from and written to after the initial struct declaration, and you can also add more variables to a struct after it has been declared.</p>
+  <p>A <strong><a id="struct"></a>struct </strong>is a variable that holds a collection of other variables. The variables can be of any <a href="Data_Types.htm">data type</a> previously mentioned and are stored in no particular order in the struct. They can be read from and written to after the initial struct declaration, and you can also add more variables to a struct after it has been declared.</p>
   <p class="note"><span data-conref="../../assets/snippets/Tag_note.hts"> </span> There are subtle differences between <span data-field="title" data-format="default">Structs &amp; Constructors</span> and <a data-xref="{title}" href="../../Quick_Start_Guide/Objects_And_Instances.htm">Objects And Instances</a>. See <a data-xref="{text}" href="Structs.htm#constructors_structs_vs_objects_instances">Constructors &amp; Structs vs. Objects &amp; Instances</a> for more info.</p>
   <p>The variables used in a struct should follow the usual variable naming scheme, i.e.: they cannot start with a number and should only be made up of alphanumeric characters and the underscore &quot;_&quot; character, and also note that the contents of a struct are <em>independent of the instance or function that created it</em>, and as such you can - if you wish - use built-in variable names such as <span class="inline2"><a data-xref="{title}" href="../GML_Reference/Asset_Management/Sprites/Sprite_Instance_Variables/image_index.htm">image_index</a></span> or <span class="inline2"><a data-xref="{title}" href="../GML_Reference/Asset_Management/Instances/Instance_Variables/x.htm">x</a></span> and <span class="inline2"><a data-xref="{title}" href="../GML_Reference/Asset_Management/Instances/Instance_Variables/y.htm">y</a></span>.</p>
   <p>After the initial creation, structs have no processing overhead while they exist, although they <i>will</i> take up space in memory. The struct syntax is as follows:</p>
@@ -242,6 +242,31 @@
   <p>You can use <span class="inline3_func"><a data-xref="{title}" href="../GML_Reference/Variable_Functions/is_instanceof.htm">is_instanceof</a></span> to check if a struct belongs to the given constructor, or has the constructor as a parent constructor.</p>
   <div data-conref="../../assets/snippets/is_instanceof_example.hts"> </div>
   <p>This functionality makes use of &quot;static structs&quot;. See: <a data-xref="{title}" href="Structs/Static_Structs.htm">Static Struct</a></p>
+  <h2 id="h1">Constructor Tags</h2>
+  <p>Constructor functions defined in <a href="../../The_Asset_Editors/Scripts.htm">Script Assets</a> are assigned <a href="../../Introduction/The_Asset_Browser.htm#h">tags</a> at compile time:</p>
+  <ul class="colour">
+    <li>Every constructor function gets a <span class="inline2">@@constructor</span> tag</li>
+    <li>Every inheriting/child constructor function gets a <span class="inline2">@@parent=&lt;name&gt;</span> tag where <span class="inline2">&lt;name&gt;</span> is the name of the parent constructor function</li>
+  </ul>
+  <p>This can be used to check whether a script function is a constructor, and if so, whether it has a parent constructor.</p>
+  <p>These tags can be retrieved using <span class="inline3_func"><a data-xref="{title}" href="../GML_Reference/Asset_Management/Assets_And_Tags/asset_get_tags.htm">asset_get_tags</a></span> by passing in the constructor function&#39;s handle:</p>
+  <p class="code">function parent_func() constructor<br />
+    {}<br />
+    <br />
+    function child_func() : parent_func() constructor<br />
+    {}<br />
+    <br />
+    show_debug_message( asset_get_tags(parent_func, asset_script) );   // Print tags for parent_func<br />
+    show_debug_message( asset_get_tags(child_func, asset_script) );    // Print tags for child_func
+  </p>
+  <p>This will print the following to the Output Log:</p>
+  <p class="code_plain">[ &quot;@@constructor&quot; ]<br />
+    [ &quot;@@constructor&quot;,&quot;@@parent=parent_func&quot; ]</p>
+  <p>This shows that <span class="inline2">parent_func</span> is a constructor and <span class="inline2">child_func</span> is a constructor with <span class="inline2">parent_func</span> as its parent.</p>
+  <p>Inversely, all defined constructor functions can be retrieved using <span class="inline3_func"><a data-xref="{title}" href="../GML_Reference/Asset_Management/Assets_And_Tags/tag_get_asset_ids.htm">tag_get_asset_ids</a></span>:</p>
+  <p class="code">show_debug_message( tag_get_asset_ids(&quot;@@constructor&quot;, asset_script) )</p>
+  <p>This prints the available constructor functions to the Output Log:</p>
+  <p class="code_plain">[ ref script parent_func,ref script child_func ]</p>
   <h2 id="h">String Output</h2>
   <p>One final thing to mention about structs is that you can change what is output to the console from them for debugging. By default, calling the function <span class="inline3_func"><a data-xref="{title}" href="../GML_Reference/Debugging/show_debug_message.htm">show_debug_message</a></span> on a struct will output the contents of the struct (as shown above). However, it&#39;s possible to customise this message by adding a specifically named method to the struct called <span class="inline"><a id="A"></a>toString</span>:</p>
   <p class="code">mystruct =<br />
@@ -280,7 +305,7 @@
         <div style="float:right">Next: <a data-xref="{title}" href="Structs/Static_Structs.htm">Static Struct</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2025 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 Structs

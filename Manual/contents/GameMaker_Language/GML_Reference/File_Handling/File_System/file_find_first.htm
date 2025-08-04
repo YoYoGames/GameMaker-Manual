@@ -15,9 +15,9 @@
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
   <h1><span data-field="title" data-format="default">file_find_first</span></h1>
-  <p>This function will return the name of the first file that satisfies the mask and the attributes. If no such file exists, then an empty string is returned.</p>
-  <p>The mask can contain a path with wildcards, for example <span class="inline2">C:\temp\*.doc</span>.</p>
-  <p>The attributes give the additional files you want to see, so the normal files are always returned when they satisfy the mask. You can add up the following constants to see the type of files you want (using <span class="inline2">|</span>). If you do not wish to add any attributes, use 0 or <span class="inline">fa_none</span>.</p>
+  <p>This function returns the name of the first file that satisfies the mask and attributes, or an empty string <span class="inline2">&quot;&quot;</span> if no such file exists.</p>
+  <p>The mask can contain a path with wildcards, for example <span class="inline2">C:/temp/*.doc</span>.</p>
+  <p>The attributes give the additional files you want to see, so the normal files are always returned when they satisfy the mask. You can add up the following constants to see the type of files you want (using <span class="inline2">|</span>). If you do not wish to add any attributes, use 0 or <span class="inline2">fa_none</span>.</p>
   <table>
     <colgroup>
       <col />
@@ -61,12 +61,12 @@
       </tr>
     </tbody>
   </table>
-  <p>Attributes can only be used on Windows. For all other platforms, use 0 or <span class="inline">fa_none</span>.<b></b></p>
+  <p>Attributes can only be used on Windows. For all other platforms, use 0 or <span class="inline2">fa_none</span>.<b></b></p>
   <div data-conref="../../../../assets/snippets/Note_Warning_GM_FileSystem_Sandboxed.hts"> </div>
   <div data-conref="../../../../assets/snippets/Note_wont_work_on_html5_and_gx.hts"> </div>
   <p> </p>
   <h4>Syntax:</h4>
-  <p class="code"><span data-field="title" data-format="default">file_find_first</span>(mask, attr);</p>
+  <p class="code"><span data-field="title" data-format="default">file_find_first</span>(mask, attr)</p>
   <table>
     <tbody>
       <tr>
@@ -77,12 +77,12 @@
       <tr>
         <td>mask</td>
         <td><span data-keyref="Type_String"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">String</a></span></td>
-        <td>The mask to use for searching.</td>
+        <td>The mask to use for searching</td>
       </tr>
       <tr>
         <td>attr</td>
         <td><span data-keyref="Type_Constant_File_Attribute"><a href="file_find_first.htm" target="_blank">File Attribute Constant</a></span>(s)</td>
-        <td>The specific file attribute to look for.</td>
+        <td>The specific file attribute(s) to look for</td>
       </tr>
     </tbody>
   </table>
@@ -91,38 +91,38 @@
   <p class="code"><span data-keyref="Type_String"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">String</a></span></p>
   <p> </p>
   <h4>Example:</h4>
-  <p class="code">if (directory_exists(&quot;\User Content&quot;))<br />
+  <p class="code">if (directory_exists(&quot;/User Content&quot;))<br />
     {<br />
         fileA = file_find_first(&quot;/User Content/*.doc&quot;, fa_readonly);<br />
         fileB = file_find_next();<br />
         fileC = file_find_next();<br />
         file_find_close();<br />
     }</p>
-  <p>This code checks if the specified directory exists and if it does, goes there and returns the first &quot;read only&quot; <span class="inline">.doc</span> file found. It then looks for two more files and closes the file finder.</p>
-  <p>You can look for any number of files using a <a href="../../../GML_Overview/Language_Features/while.htm">while</a> loop:</p>
-  <p class="code">var files = [];<br />
-    var file_name = file_find_first(&quot;/User Content/*.doc&quot;, fa_readonly);<br />
+  <p>This code checks if the specified directory exists and if it does, goes there and returns the first &quot;read-only&quot; <span class="inline2">.doc</span> file found. It then looks for two more files and closes the file finder.</p>
+  <p>You can look for any number of files using a <a data-xref="{title}" href="../../../GML_Overview/Language_Features/while.htm">while</a> loop:</p>
+  <p class="code">var _files = [];<br />
+    var _file_name = file_find_first(&quot;/User Content/*.doc&quot;, fa_readonly);<br />
     <br />
-    while (file_name != &quot;&quot;)<br />
+    while (_file_name != &quot;&quot;)<br />
     {<br />
-        array_push(files, file_name);<br />
+        array_push(_files, _file_name);<br />
     <br />
-        file_name = file_find_next();<br />
+        _file_name = file_find_next();<br />
     }<br />
     <br />
     file_find_close();
   </p>
-  <p>The above code creates an empty array to store all the file names that were found, and starts looking for read only <span class="inline">.doc</span> files. If that file name is not an empty string, it pushes it into the <span class="inline">files</span> array, and then attempts to find the next file. The loop will keep repeating until an empty string is found (meaning there are no more matching files), which is when it ends the loop and closes the file finder at the end.</p>
+  <p>The above code creates an empty array to store all the file names that were found, and starts looking for read-only <span class="inline2">.doc</span> files. If that file name is not an empty string, it pushes it into the <span class="inline2">_files</span> array, and then attempts to find the next file. The loop will keep repeating until an empty string is returned (meaning there are no more matching files), which is when it ends the loop and closes the file finder at the end.</p>
   <p> </p>
   <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a href="File_System.htm">File System</a></div>
-        <div style="float:right">Next: <a href="file_find_next.htm">file_find_next</a></div>
+        <div style="float:left">Back: <a data-xref="{title}" href="File_System.htm">File System</a></div>
+        <div style="float:right">Next: <a data-xref="{title}" href="file_find_next.htm">file_find_next</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2025 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 file_find_first

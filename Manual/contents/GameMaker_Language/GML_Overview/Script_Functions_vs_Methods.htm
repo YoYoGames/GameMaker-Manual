@@ -16,7 +16,7 @@
 </head>
 <body>
   <h1><span data-field="title" data-format="default">Script Functions vs. Methods</span></h1>
-  <p>This page covers essential information about using script functions vs. methods.</p>
+  <p>This page covers essential information about using <a href="Script_Functions.htm">script functions</a> vs. <a href="Method_Variables.htm">methods</a>.</p>
   <h2>Basic Difference</h2>
   <p>A <a href="Script_Functions.htm">script function</a> is created with this syntax:</p>
   <p class="code">function name()<br />
@@ -28,8 +28,8 @@
     {<br />
         code;<br />
     }</p>
-  <p>You should use the first syntax in scripts, to create global functions that can be called from anywhere in your game. Execution of script functions retains the scope that was in use when the function was called.</p>
-  <p>You should use the second syntax when creating functions in <a href="Structs.htm">structs/constructors</a> and instances. This syntax creates a variable containing a method that is bound to the struct or instance that created the function and always uses that scope during execution.</p>
+  <p>You should use the first syntax in <a href="../../The_Asset_Editors/Scripts.htm">Script assets</a>, to create global functions that can be called from anywhere in your game. Execution of script functions retains the scope that was in use when the function was called.</p>
+  <p>You should use the second syntax when creating functions in <a href="Structs.htm">structs/constructors</a> and instances. This syntax creates a method variable containing a function that is bound to the struct or instance that created the function and always uses that scope during execution.</p>
   <h2>Direct Calls</h2>
   <p>You can call both script functions and methods directly by using parentheses <span class="inline2">()</span>,  just like a <a href="Runtime_Functions.htm">runtime function</a>:</p>
   <p class="code">// Create the function<br />
@@ -41,7 +41,33 @@
     // Call the function<br />
     reset_x();
   </p>
-  <p>You can also use the function <a href="../GML_Reference/Asset_Management/Scripts/script_execute.htm"><span class="inline">script_execute()</span></a> to run a script function.</p>
+  <p>You can also use the function <a href="../GML_Reference/Asset_Management/Scripts/script_execute.htm"><span class="inline2">script_execute()</span></a> to run a script function.</p>
+  <h2 id="h">Overridden Script Functions</h2>
+  <p>Calls to script functions are optimised at a compiler level. This may result in function overrides not being respected if script functions are defined inside Objects.</p>
+  <p>Consider the following example code for a parent object and a child object:</p>
+  <p class="code">/// obj_parent: Create event<br />
+    function talk()<br />
+    {<br />
+       say_hello();<br />
+    }<br />
+    function say_hello()<br />
+    {<br />
+       show_message(&quot;I am the parent!&quot;);<br />
+    }<br />
+    <br />
+    /// obj_child: Create event<br />
+    event_inherited();<br />
+    <br />
+    function say_hello()<br />
+    {<br />
+       show_message(&quot;I am the child!&quot;);<br />
+    }<br />
+    <br />
+    talk();
+  </p>
+  <p>Since <span class="inline2">talk</span> is called inside the child, you would expect it to call the overridden <span class="inline2">say_hello</span> from the child. However since the functions are defined with the script function syntax, it will instead call the parent&#39;s <span class="inline2">say_hello</span> and print <span class="inline2">&quot;I am the parent!&quot;</span>, as it calls the defined script function with that name directly without looking up the function assigned to the variable.</p>
+  <p>This is easily fixed by using the method variable syntax, i.e. <span class="inline2">say_hello = function()</span>, to define all your functions inside the Objects, as recommended at the start of this page. This way all calls are done through the method variable and the function assigned to the variable is called.</p>
+  <p>Alternatively, you can explicitly call the method variable using <span class="inline2">self</span>, e.g. <span class="inline2">self.say_hello()</span> so it always calls whichever function is assigned to the variable at the time of the call, instead of the defined script function with the same name.</p>
   <h2>Indirect Calls: Methods</h2>
   <p>You can store a reference to a method in another variable, to call it later through that different variable:</p>
   <p class="code">// Create method<br />
@@ -91,7 +117,7 @@
         <div>Next: <a data-xref="{title}" href="Functions/Static_Variables.htm">Static Variables</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2025 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 Script Functions vs. Methods

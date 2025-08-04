@@ -21,14 +21,17 @@
   <ul class="colour">
     <li>When a buffer is created, it is automatically cleared and filled to 0.</li>
     <li>The &quot;size&quot; argument of the buffer functions always refers to the size <i>in bytes</i> of the buffer.</li>
-    <li>The &quot;alignment&quot; argument refers to how data is stored within a buffer. If your alignment is set to say, 4, and you write a single piece of data which is 1 byte in size then do a <span class="inline3_func"><a data-xref="{title}" href="buffer_tell.htm">buffer_tell</a></span>, you&#39;ll get an offset of 1. However, if you write another piece of data, also 1 byte in size, then do a <span class="inline3_func"><a data-xref="{title}" href="buffer_tell.htm">buffer_tell</a></span>, you&#39;ll get an offset of 5 as the alignment has &quot;padded&quot; the data to that size. Alignment only affects <i>where</i> things are written to, so if you do a <span class="inline3_func"><a data-xref="{title}" href="buffer_tell.htm">buffer_tell</a></span> after you write something, it&#39;ll return the current write position which immediately follows the data you&#39;ve written. Note, however, that if you then write another piece of data, internally the buffer will move the write position along to the next multiple of the alignment size before actually writing the piece of data.</li>
+    <li>The &quot;alignment&quot; argument refers to how data is stored within a buffer. If your alignment is set to say, 4, and you write a single piece of data which is 1 byte in size then do a <span class="inline3_func"><a data-xref="{title}" href="buffer_tell.htm">buffer_tell</a></span>, you&#39;ll get an offset of 1. However, if you write another piece of data, also 1 byte in size, then do a <span class="inline3_func"><a data-xref="{title}" href="buffer_tell.htm">buffer_tell</a></span>, you&#39;ll get an offset of 5 as the alignment has &quot;padded&quot; the data to that size. Alignment only affects <i>where</i> things are written to, so if you do a <span class="inline3_func"><a data-xref="{title}" href="buffer_tell.htm">buffer_tell</a></span> after you write something, it&#39;ll return the current write position which immediately follows the data you have written. Note, however, that if you then write another piece of data, internally the buffer will move the write position along to the next multiple of the alignment size before actually writing the piece of data.</li>
     <li>When dealing with &quot;offset&quot;, this is the value <i>in bytes</i> to offset the data by within the given buffer. So if your buffer is 2 byte aligned and you want to skip the first 4 aligned places, you would have an offset of <span class="inline">2 * 4 bytes</span>.</li>
     <li>Some of the buffer functions also create a new buffer (like <span class="inline3_func"><a data-xref="{title}" href="buffer_load.htm">buffer_load</a></span> for example). Remember that these buffers will also need to be removed from memory when not in use using the <span class="inline3_func"><a data-xref="{title}" href="buffer_delete.htm">buffer_delete</a></span> function.</li>
-    <li>The memory used for creating buffers is <i>system memory</i> so even when the game doesn&#39;t have focus, any data stored in a buffer should be safe, however if the app is closed or restarted then it will be lost.</li>
+    <li>The memory used for creating buffers is <i>system memory</i> so even when the game doesn&#39;t have focus, any data stored in a buffer should be safe. If the app is closed or restarted, however, it will be lost.</li>
+    <li>The &quot;used size&quot; of a buffer starts out at 0 for a buffer created with <span class="inline3_func"><a data-xref="{title}" href="buffer_create.htm">buffer_create</a></span> and is updated when you write to the buffer. It is set to the actual size of the data for a buffer that you load externally (using, e.g., <span class="inline3_func"><a data-xref="{title}" href="buffer_load.htm">buffer_load</a></span>). The used size can be manually changed using <span class="inline3_func"><a data-xref="{title}" href="buffer_set_used_size.htm">buffer_set_used_size</a></span>.</li>
+    <li>A buffer of type <span class="inline2">buffer_grow</span> is automatically resized when you write data beyond its initial size. The new size of the buffer in memory will be greater than the actual size needed to store this extra data. The actual size used can be retrieved with <span class="inline3_func"><a data-xref="{title}" href="buffer_get_used_size.htm">buffer_get_used_size</a></span>.</li>
+    <li>If you need a buffer of an exact size you can use a grow buffer that you write to until it reaches the exact size and then copy the right amount of bytes to a new buffer with <span class="inline3_func"><a data-xref="{title}" href="buffer_copy.htm">buffer_copy</a></span> that is exactly the size you want and delete the grow buffer.</li>
   </ul>
   <p>The following pages explain how buffers work within the context of <span data-keyref="GameMaker Name">GameMaker</span> and contain a couple of code examples for those users that are unsure of how to use them:</p>
   <ul class="colour">
-    <li><a href="../../../Additional_Information/Guide_To_Using_Buffers.htm">Using Buffers</a></li>
+    <li><a data-xref="{title}" href="../../../Additional_Information/Guide_To_Using_Buffers.htm">Guide To Using Buffers</a></li>
     <li><a data-xref="{title}" href="Transferring_Data_Between_Buffers.htm">Transferring Data Between Buffers</a></li>
   </ul>
   <p class="note"><span data-conref="../../../assets/snippets/Tag_important.hts"> </span> When you create a buffer, a reference to the new buffer is returned. After the buffer is destroyed, we recommend that you set the variable that holds a buffer reference to <span class="inline2">-1</span>.</p>
@@ -54,6 +57,7 @@
     <li><a href="buffer_resize.htm">buffer_resize</a></li>
     <li><a href="buffer_sizeof.htm">buffer_sizeof</a></li>
     <li><a href="buffer_set_used_size.htm">buffer_set_used_size</a></li>
+    <li><a data-xref="{title}" href="buffer_get_used_size.htm">buffer_get_used_size</a></li>
     <li><a href="buffer_copy.htm">buffer_copy</a></li>
     <li><a data-xref="{title}" href="buffer_copy_stride.htm">buffer_copy_stride</a></li>
     <li><a href="buffer_copy_from_vertex_buffer.htm">buffer_copy_from_vertex_buffer</a></li>
@@ -117,7 +121,7 @@
         <div style="float:right">Next: <a data-xref="{title}" href="../OS_And_Compiler/OS_And_Compiler.htm">OS And Compiler</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2025 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 Buffers

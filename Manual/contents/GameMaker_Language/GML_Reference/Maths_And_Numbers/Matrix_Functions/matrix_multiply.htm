@@ -15,14 +15,14 @@
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
   <h1><span data-field="title" data-format="default">matrix_multiply</span></h1>
-  <p>This function multiplies two matrices together to create a new matrix and returns the new matrix.</p>
+  <p>This function multiplies two matrices together to create a new matrix and returns the result as a new matrix, or optionally writes the result to an existing matrix that you specify.</p>
   <p>The order of the matrices in the multiplication affects the result. This function multiplies the two matrices you pass it in the following order: </p>
   <p class="code">result = matrix2 * matrix1;</p>
   <p>To know the order in which the transforms held by these matrices are applied this needs to be read from right to left, i.e. the <span class="inline2">result</span> matrix <em>first</em> applies the transform stored in <span class="inline2">matrix1</span> and <em>then</em> the transform stored in <span class="inline2">matrix2</span>.</p>
   <p class="note"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> You cannot use a matrix constant as an argument with this function, so if you wish to multiply the (for example) view matrix with a custom matrix that you have built, you must first call <span class="inline3_func"><a data-xref="{title}" href="matrix_get.htm">matrix_get</a></span> and assign the view matrix values to an array variable, then multiply it by your custom matrix, and then set the chosen matrix (view, projection or world).</p>
   <p> </p>
   <h4>Syntax:</h4>
-  <p class="code"><span data-field="title" data-format="default">matrix_multiply</span>(matrix1, matrix2);</p>
+  <p class="code"><span data-field="title" data-format="default">matrix_multiply</span>(matrix1, matrix2, [result_matrix]);</p>
   <table>
     <tbody>
       <tr>
@@ -40,6 +40,11 @@
         <td><span data-keyref="Type_Array_Matrix"><a href="Matrix_Functions.htm" target="_blank">Matrix</a></span></td>
         <td>The second matrix to use (storing the second transformation to apply)</td>
       </tr>
+      <tr>
+        <td>result_matrix</td>
+        <td><span data-keyref="Type_Array_Matrix"><a href="Matrix_Functions.htm" target="_blank">Matrix</a></span></td>
+        <td><span data-conref="../../../../assets/snippets/Tag_optional.hts"> </span> An existing matrix in which to store the result. If this argument isn&#39;t specified, the function returns the result as a new matrix.</td>
+      </tr>
     </tbody>
   </table>
   <p> </p>
@@ -47,12 +52,24 @@
   <p class="code"><span data-keyref="Type_Array_Matrix"><a href="Matrix_Functions.htm" target="_blank">Matrix</a></span></p>
   <p> </p>
   <h4>Example 1: Basic Use</h4>
-  <p class="code">var v_matrix = matrix_get(matrix_view);<br />
-    var new_matrix = matrix_multiply(v_matrix, my_matrix);<br />
-    matrix_set(matrix_view, new_matrix);</p>
+  <p class="code">var _v_matrix = matrix_get(matrix_view);<br />
+    var _new_matrix = matrix_multiply(_v_matrix, my_matrix);<br />
+    matrix_set(matrix_view, _new_matrix);</p>
   <p>The above code gets the current view matrix, multiplies that with a custom matrix and sets the view matrix to the resulting matrix.</p>
   <p> </p>
-  <h4>Example 2: Drawing a Rectangle Relative to a Circle</h4>
+  <h4>Example 2: Using an Existing Matrix to Store the Result</h4>
+  <p class="code_heading">Create Event</p>
+  <p class="code">mat_result = matrix_build_identity();<br />
+    <br />
+    mat_one = matrix_build(0, 0, 10, 0, 0, 90, 1, 1, 1);<br />
+    mat_two = matrix_build(10, 0, 4, 30, 45, 0, 1, 1, 1);
+  </p>
+  <p class="code_heading">Step Event</p>
+  <p class="code">mat_one[12] = 100 + lengthdir_x(100, current_time/100);<br />
+    matrix_multiply(mat_one, mat_two, mat_result);</p>
+  <p>This code creates an identity matrix and two other matrices in the Create event to be used for a matrix multiplication. In the Step event, the matrix element at array index 12 is set to a new value and <span class="inline3_func"><span data-field="title" data-format="default">matrix_multiply</span></span> is called with the two matrices. The existing matrix <span class="inline2">mat_result</span> is used to store the result, which saves the need to create a new matrix on every call to the function.</p>
+  <p> </p>
+  <h4>Example 3: Drawing a Rectangle Relative to a Circle</h4>
   <p class="code_heading">Draw Event</p>
   <p class="code">var _mat_child_local = matrix_build(100, 100, 0, 0, 0, current_time/2, 1, 1, 1);<br />
     var _mat_parent_global = matrix_build(x, y, 0, 0, 0, current_time/12 + dsin(current_time/4) * 30, 1, 1, 1);<br />
@@ -77,7 +94,7 @@
         <div style="float:right">Next: <a data-xref="{title}" href="matrix_inverse.htm">matrix_inverse</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2025 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 matrix_multiply

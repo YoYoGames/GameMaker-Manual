@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>UI Layers</title>
+  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <link rel="stylesheet" href="../../assets/css/default.css" type="text/css" />
+  <script src="../../assets/scripts/main_script.js" type="module"></script>
+  <meta name="rh-authors" content="Gurpreet S. Matharoo" />
+  <meta name="topic-comment" content="Page covering the UI Layers functionality of the Room Editor" />
+  <meta name="rh-index-keywords" content="Rooms - UI Layers" />
+  <meta name="search-keywords" content="ui,ui layer,flex,flex panels,gui layer" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1><span data-field="title" data-format="default">UI Layers</span></h1>
+  <p>UI layers let you define <a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Flex_Panels/Flex_Panels.htm">Flex Panels</a> and place sprites, objects and text within them to create responsive user interfaces that are drawn on top of your game, useful for creating HUDs and menus.</p>
+  <p>You can add a UI layer in <a data-xref="{title}" href="../Rooms.htm">The Room Editor</a> through the <img class="icon" height="22" src="../../assets/Images/Icons/Icon_Add_Layer.png" width="21" /> &quot;<strong>Create Layer</strong>&quot; menu:</p>
+  <p><img class="center" src="../../assets/Images/Asset_Editors/Editor_Room_UI_CreateLayer.png" />All UI layers are contained in the global &quot;<strong>UI Folder</strong>&quot;, which will be created when you add your first UI layer. The UI Folder (and every UI layer inside it) is shared among all rooms in your project, so UI layers are displayed throughout your game regardless of which room is active.</p>
+  <p><img class="center" src="../../assets/Images/Asset_Editors/UILayers/UIL_Example.png" />Once you add a UI layer, you can choose whether it should appear on the main game display or inside your viewports separately. You can then add Flex Panels inside the layer and place <a href="UI_Element_Propert.htm">elements</a> inside Flex Panels.</p>
+  <div class="minitoc" data-minitoc-targetid="drop-down" data-type="minitoc" style="">
+    <p class="minitoc-caption" data-close-text="" data-expanded="true" data-open-text="Contents" data-type="minitoc-caption" href="#" style="">Mini TOC (placeholder)</p>
+    <ol class="minitoc-list" data-from-selector="h2" data-to-selector="h4" data-type="minitoc-list" style="">
+      <li>Heading</li>
+    </ol>
+  </div>
+  <h2>How To Use</h2>
+  <p>You can follow the basic steps below to create your UI with UI layers:</p>
+  <ol class="colour">
+    <li>Add your first UI layer and add Flex Panels within it to create a structure</li>
+    <li>Set the <a href="UI_Element_Propert.htm">properties</a> of your UI layer and Flex Panels from the Inspector and the canvas, to determine how they are aligned and sized</li>
+    <li>Place Object Instances in your Flex Panels to enable runtime interaction</li>
+    <li>Place Sprites or Font assets to set up the visuals of your Flex Panels</li>
+    <li>Enable or disable a UI layer at runtime using <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Asset_Management/Rooms/General_Layer_Functions/layer_set_visible.htm">layer_set_visible</a></span></li>
+  </ol>
+  <p>At runtime, you can get the root <span data-keyref="Type_ID_FlexPanel_Node"><a href="../../GameMaker_Language/GML_Reference/Flex_Panels/Function_Reference/flexpanel_create_node.htm" target="_blank">Flex Panel Node</a></span> of a UI layer by calling <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Asset_Management/Rooms/UI_Layers/layer_get_flexpanel_node.htm">layer_get_flexpanel_node</a></span>. Any of the <a href="../../GameMaker_Language/GML_Reference/Flex_Panels/Function_Reference/section_index.htm">Flex Panel functions</a> can be called on the returned node.</p>
+  <h2>UI Folder</h2>
+  <p>The UI folder contains all the UI layers in your project and is shared among all rooms.</p>
+  <p>The UI folder is not a layer itself despite appearing in the Layers panel. It only exists in the editor to group all UI layers under one menu and cannot be retrieved or operated on as a layer at runtime.</p>
+  <p>Right-clicking on the UI folder displays the following options:</p>
+  <p><img class="center" src="../../assets/Images/Asset_Editors/UILayers/UIL_folder_RMBmenu.png" /></p>
+  <ul class="colour">
+    <li><strong>Create New UI Layer</strong>: This creates a new UI layer.</li>
+    <li><strong>Delete UI Folder</strong>: This deletes the UI folder, deleting all of the UI layers created in the project.</li>
+  </ul>
+  <h2>Layer Structure</h2>
+  <p>UI layers make use of <a href="../../GameMaker_Language/GML_Reference/Flex_Panels/Flex_Panels.htm">Flex Panels</a> for containing assets. UI layers themselves are Flex Panels, which can hold other Flex Panels and each Flex Panel can hold one or more assets.</p>
+  <p>Flex Panels can hold <a href="../Objects.htm">Objects</a>, <a href="../Sprites.htm">Sprites</a>, <a href="../Sequences.htm">Sequences</a>, <a href="../Fonts.htm">Fonts</a> and other Flex Panels. You can drag such assets into the canvas or into the Element List, any such asset will always be added inside a new Flex Panel with &quot;auto&quot; size unless you are holding <span class="shortcut">CTRL/CMD</span> (this behaviour can be reversed in the <a href="../../Setting_Up_And_Version_Information/IDE_Preferences/Room_Editor_Preferences.htm">Preferences</a>).</p>
+  <p>When dragging an asset into the Canvas, you can place it inside a particular UI layer or Flex Panel by dropping it inside its area. When placed outside of such areas, you will be prompted to create a new UI layer, which you can set to automatically create or ignore in the <a href="../../Setting_Up_And_Version_Information/IDE_Preferences/Room_Editor_Preferences.htm">Preferences</a>.</p>
+  <p><img class="center" src="../../assets/Images/Asset_Editors/UILayers/UIL_Example1.png" />In the above example, a UI layer holds a Flex Panel which then holds three child Flex Panels. Each child Flex Panel contains a sprite. In the canvas, the sprites are displayed in a row with gaps between them, based on the settings of the parent Flex Panel.</p>
+  <p><img class="center" src="../../assets/Images/Asset_Editors/UILayers/UIL_Parents.png" />Each element in the canvas will display a label. Clicking on the label will display its parent containers above the label, where you can click on a parent label to select its entry in the Element List.</p>
+  <h2>Element List</h2>
+  <p>When the UI Folder is selected, the Element List displays all the UI layers in your project. Here you can search for elements and change the orientation of the window.</p>
+  <p><img class="center" src="../../assets/Images/Asset_Editors/UILayers/UIL_ElementList.png" /></p>
+  <p>The list first displays any UI Layers that have &quot;<strong>Game View</strong>&quot; set to &quot;<strong>Display</strong>&quot;, and those with &quot;<strong>Game View</strong>&quot; set to &quot;<strong>Viewports</strong>&quot; are displayed under the &quot;<strong>Viewports</strong>&quot; header. UI layers can be made invisible by clicking on the <img class="icon" src="../../assets/Images/Icons/Icon_Eye.png" /> eye icon and locked with the <img class="icon" height="21" src="../../assets/Images/Icons/Icon_Padlock.png" width="21" /> button.</p>
+  <p>You can drag your layers, Flex Panels or assets to place them inside, above or below another item in the list. The order of the elements in this list affects their draw order, e.g. an item above another in the list will also be drawn above it in-game.</p>
+  <p>Asset elements inside Flex Panels will have a <img class="icon" src="../../assets/Images/Icons/Icon_Tick_Check.png" /> checkbox next to them to enable/disable the element.</p>
+  <p class="note"><span data-conref="../../assets/snippets/Tag_note.hts"> </span> Disabling an Object Instance will deactivate it so none of its events run. The same applies when the UI layer containing the instance is set to invisible with the <img class="icon" src="../../assets/Images/Icons/Icon_Eye.png" /> button or the <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Asset_Management/Rooms/General_Layer_Functions/layer_set_visible.htm">layer_set_visible</a></span> function.</p>
+  <p>Right-clicking on any item in this list will show the following menu:</p>
+  <p><img class="center" src="../../assets/Images/Asset_Editors/UILayers/UIL_RMB.png" /></p>
+  <ul class="colour">
+    <li><strong>Add UI Layer</strong>: Adds a new UI Layer. If you right-clicked on a UI layer with &quot;<strong>Game View</strong>&quot; set to &quot;<strong>Viewports</strong>&quot; (or a child of such a layer), the new UI layer will be created as a viewport layer. The name of each UI layer must be unique.</li>
+    <li><strong>Add Flex Panel</strong>: Adds a new Flex Panel under the selected item.</li>
+    <li><strong>Add Folder</strong>: Adds a new folder, this is only used for organisational purposes.</li>
+    <li><strong>General options</strong>: You can rename the item, cut/copy/paste, duplicate and delete it.</li>
+    <li><strong>Show Instance/Asset names first</strong>: Change whether asset elements should display their asset names or instance names first in the list.</li>
+    <li><strong>List options</strong>: Here you can expand/collapse all children under the item or all items in the list, and select all items.</li>
+  </ul>
+  <h2 id="h">Toolbox</h2>
+  <p>Using UI layers will enable the following extra options in the Room Toolbox:</p>
+  <p><img class="center" src="../../assets/Images/Asset_Editors/UILayers/UIL_Toolbox.png" /></p>
+  <ul class="colour">
+    <li><img class="icon" src="../../assets/Images/Icons/Icon_UIL_Canvas.png" /> <strong>Toggle UI canvas preview</strong>: This enables a canvas that is used to display your UI layers. Your UI layers will be previewed at the size set in this menu -- you may set a custom size or choose from one of the given presets. You can change the orientation and set an offset. Enable &quot;Clip Contents&quot; to ensure only elements inside the canvas area are drawn.<br />
+      <br />
+      When this option is enabled, the canvas preview area can be resized within the room canvas by clicking and dragging your mouse from one of the edges or corners.<br />
+      <br />
+      <span data-conref="../../assets/snippets/Tag_note.hts"> </span> These options are only provided for preview in the canvas and do not affect how UI layers appear in-game.
+    </li>
+    <li><img class="icon" src="../../assets/Images/Icons/Icon_UIL_Nodes.png" /> <strong>Show UI Layer node outlines</strong>: This enables outlines for all UI layers and Flex Panels that display the area taken up by each layer/panel. Each layer/panel in the Element List displays a colour that corresponds to the colour of its outline in the Room Canvas.</li>
+  </ul>
+  <p>In the Layer Toolbox, the <img class="icon" src="../../assets/Images/Icons/Icon_TextButton.png" /> button will appear allowing you to place text items in the canvas.</p>
+  <h2 id="h2">Canvas Editing</h2>
+  <p>Any Asset Elements placed inside UI layers (e.g. sprites, objects, etc.) can be moved and resized in the canvas as normal, just like you can in other layer types. Asset elements are always placed relative to their parent Flex Panels.</p>
+  <p>Flex Panels can also be moved and resized in the canvas, however this may be restricted depending on the Flex Panel settings. For example, you can only move Flex Panels that are set to &quot;<strong>Absolute</strong>&quot; as other position types dictate the position of the panel according to the parent panel. You cannot resize Flex Panels that have the size set to &quot;<strong>Auto</strong>&quot; as their size is automatically determined.</p>
+  <p><video class="center" src="../../assets/Images/Asset_Editors/UILayers/canvastools_1.mp4" width="524" height="421" controls=""></video></p>
+  <p>You can also adjust the padding (blue) and margin (green) of a Flex Panel by clicking and dragging the coloured selectors inside or outside each of its edges, respectively:</p>
+  <p><video class="center" src="../../assets/Images/Asset_Editors/UILayers/canvastools_margin.mp4" width="524" height="421" controls=""></video></p>
+  <p>Holding <span class="shortcut">ALT</span> modifies the opposite edge at the same time. Clicking on the margin/padding selector opens a text box where you can enter an exact value for the margin/padding.</p>
+  <p>You can also drag a Flex Panel to change its position within the parent Flex Panel, in relation to its siblings. While dragging such a panel, you may hold <span class="shortcut">R</span> to move the panel out to be placed into a different container, or hold <span class="shortcut">C</span> to clone/duplicate the panel:</p>
+  <p><video src="../../assets/Images/Asset_Editors/UILayers/canvastools_reorder.mp4" width="524" height="421" controls="" class="center"></video></p>
+  <p>Use of the <span class="shortcut">R</span> and <span class="shortcut">C</span> modifiers is also permitted when moving a Flex Panel with an &quot;<strong>Absolute</strong>&quot; position type.</p>
+  <h3 id="h1">Selection Rules</h3>
+  <p>The following rules are followed when clicking on a Flex Panel for selection:</p>
+  <ul class="colour">
+    <li>Within a UI layer, clicking always selects the most top-level Flex Panel found under the mouse cursor (i.e. the first parent container)
+      <ul>
+        <li>Clicking while holding <span class="shortcut">ALT</span> selects the deepest Flex Panel under the mouse cursor</li>
+        <li>This behaviour can be changed from the UI layer preferences under the <a data-xref="{title}" href="../../Setting_Up_And_Version_Information/IDE_Preferences/Room_Editor_Preferences.htm">Room Editor Preferences</a>. Enabling the &quot;<strong>Canvas selection selects deepest element by default</strong>&quot; option makes every click select the deepest Flex Panel or element it can find.</li>
+      </ul>
+    </li>
+    <li>Double-clicking while a Flex Panel is selected selects the next Flex Panel in the hierarchy that is under the mouse cursor</li>
+    <li>Right-clicking in the canvas displays a menu with all of the Flex Panels under the mouse cursor from the top level to the deepest, where you can choose the Flex Panel to select for manipulation</li>
+  </ul>
+  <h2>Runtime Information</h2>
+  <p>For information regarding the behaviour of UI Layers and its contents at runtime, see: <a data-xref="{title}" href="UI_Layers_At_Runtime.htm">UI Layers At Runtime</a></p>
+  <ul class="colour">
+  </ul>
+  <h2>Inspector Properties</h2>
+  <p>You can select a UI layer, Flex Panel or Asset Element in the Element List and its properties will be shown in the Inspector.</p>
+  <p>For details on the editable properties, see: <a data-xref="{title}" href="UI_Element_Propert.htm">UI Element Properties</a></p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Back: <a href="../Rooms.htm">The Room Editor</a></div>
+        <div style="float:right">Next: <a data-xref="{title}" href="../../Settings/The_Room_Manager.htm">The Room Manager</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2025 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+UI Layers
+-->
+  <!-- TAGS
+rooms_uil
+-->
+</body>
+</html>

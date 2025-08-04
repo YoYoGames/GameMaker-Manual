@@ -15,19 +15,29 @@
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
   <h1><span data-field="title" data-format="default">sprite_add</span></h1>
-  <p>With this function you can add an image as a sprite, loading it from an external source where the image file to be loaded should <b>always</b> be in either <span class="inline">*.png</span>, <span class="inline">*.gif</span>, <span class="inline">*.jpg/jpeg</span> or <span class="inline">*.json</span> format (<span class="inline">*.json</span> files are used for loading <a href="../Skeletal_Animation/Skeletal_Animation.htm">skeleton animation sprites</a> made with Spine). The function returns the new sprite handle which must then be used in all further code that relates to the sprite.</p>
-  <p>If you use this function with HTML5 or are getting an image from a URL, this function will also generate an <a data-xref="{title}" href="../../../../../The_Asset_Editors/Object_Properties/Async_Events/Image_Loaded.htm">Image Loaded</a> asynchronous event.</p>
-  <p>All images that are to be turned into animated sprites - except for <span class="inline">*.gif</span> (see below) - should have a <a href="../../../../../The_Asset_Editors/Sprite_Properties/Sprite_Strips.htm">strip</a> format (see the image below) and it will be split into the number of sub-images specified in the <span class="inline2">imgnum</span> argument, following the rule <b>sprite width = strip width / sub images</b>.</p>
-  <p><img alt="Example Sprite Strip" class="center" src="../../../../../assets/Images/Scripting_Reference/GML/Reference/Sprites/spr_strip.png" /></p>
+  <p>This function adds an image as a sprite and returns the handle of the new sprite.</p>
+  <p>The image can be specified in two different ways in the <span class="inline2">fname</span> parameter:</p>
+  <ul class="colour">
+    <li>As a path to an external image file, which should have a format that is either one of <span class="inline">*.png</span>, <span class="inline">*.gif</span>, <span class="inline">*.jpg/jpeg</span>, or <span class="inline">*.json</span> (used for loading <a href="../Skeletal_Animation/Skeletal_Animation.htm">skeleton animation sprites</a> made with Spine). ASTC files can be imported on platforms that support the format including Android and iOS.</li>
+    <li>As a <a href="https://developer.mozilla.org/en-US/docs/Web/URI/Schemes/data">data URL</a> in the format <span class="inline2">&quot;data:&lt;media-type&gt;;base64,&lt;base64_encoded_binary_file_data&gt;&quot;</span>, where the data of the image file is embedded in the string, encoded in <a href="https://en.wikipedia.org/wiki/Base64">base64</a></li>
+  </ul>
+  <p>All images that are to be turned into animated sprites - except for <span class="inline">*.gif</span> - should have a <a href="../../../../../The_Asset_Editors/Sprite_Properties/Sprite_Strips.htm">strip</a> format:</p>
+  <p><img alt="Example Sprite Strip" class="center_shadow" src="../../../../../assets/Images/Asset_Editors/PlayerSprite_strip5.png" /></p>
+  <p>An image in this format will be split into the number of sub-images specified in the <span class="inline2">imgnum</span> argument, following the rule <b>sprite width = strip width / sub images</b>.</p>
   <p>When <span class="inline2">removeback</span> is enabled, the alpha channel of the source image is ignored and <span data-keyref="GameMaker Name">GameMaker</span> picks the colour of the <em>bottom left</em> pixel in the image to be the &quot;background colour&quot;. All pixels matching that colour are made transparent and all other pixels remain opaque, even those that were previously transparent. In the vast majority of cases, you will not need to use this and can keep it at <span class="inline2">false</span>.</p>
-  <p>If you do enable the <span class="inline2">removeback</span> argument, you may also want <span data-keyref="GameMaker Name">GameMaker</span> to smooth the edges of the sprite by setting the &quot;smooth&quot; argument to <span class="inline2">true</span>. All this does is create a semi-transparent border around the edges of the sprite after it has had its background removed.</p>
-  <p>Finally you can also specify the x and y <i>origin</i> for the sprite. This is the point where the sprite is &quot;fixed&quot; onto the instance that uses it, and is always calculated as relative to the (0,0) top left corner of one sprite sub-image. So, for example, a sprite that is 32 x 32 pixels with these values set to (16,16) will have its origin in the center.</p>
-  <p>If you are adding a <span class="inline">*.gif</span> format image, then you only need to specify the filename and image number (which should be 1 for the first frame) and can leave all the other arguments as 0, noting that <b>only the first image of the GIF will be loaded</b>. For <span class="inline">*.json</span> sprites, the image number should be 1, and the &quot;removeback&quot; and &quot;smooth&quot; settings will be ignored.</p>
-  <p>By default all new sprites have their bounding boxes calculated automatically (the exact bounding box will depend on the size and transparency of the sprite), however you may wish to customise this, in which case you should also use the function <span class="inline3_func"><a data-xref="{title}" href="sprite_collision_mask.htm">sprite_collision_mask</a></span>.</p>
+  <p>If you do enable the <span class="inline2">removeback</span> argument, you may also want <span data-keyref="GameMaker Name">GameMaker</span> to smooth the edges of the sprite by setting the <span class="inline2">smooth</span> argument to <span class="inline2">true</span>. All this does is create a semi-transparent border around the edges of the sprite after it has had its background removed.</p>
+  <p>Finally you can also specify the x and y <i>origin</i> for the sprite. This is the point where the sprite is &quot;fixed&quot; onto the instance that uses it, and is always calculated as relative to the (0, 0) top left corner of one sprite sub-image. So, for example, a sprite that is 32 x 32 pixels with these values set to (16, 16) will have its origin in the centre.</p>
+  <p>If you are adding a <span class="inline">*.gif</span> format image you only need to specify the filename and image number (which should be 1 for the first frame) and can leave all the other arguments as 0, noting that <b>only the first image of the GIF will be loaded</b>. For <span class="inline">*.json</span> sprites, the image number should be 1, and the <span class="inline2">removeback</span> and <span class="inline2">smooth</span> settings will be ignored.</p>
+  <p>By default, all new sprites have their bounding boxes calculated automatically (the exact bounding box will depend on the size and transparency of the sprite). You may, however, wish to customise this, in which case you should also use the function <span class="inline3_func"><a data-xref="{title}" href="sprite_collision_mask.htm">sprite_collision_mask</a></span>.</p>
   <p>It should be noted that the memory used when adding a sprite in this way will be larger than you may expect. This is because <span data-keyref="GameMaker Name">GameMaker</span> will store the sprite as a texture page <i>and</i> it will also be stored in GPU memory, so the total memory will be larger than would be expected for an image file of the same sprite.</p>
+  <div data-conref="../../../../../assets/snippets/Note_File_Handling_Limitations.hts"> </div>
   <p class="note"><b><span data-conref="../../../../../assets/snippets/Tag_note.hts"> </span></b> When you load a sprite into <span data-keyref="GameMaker Name">GameMaker</span> you must remember to remove it again (with <span class="inline3_func"><a data-xref="{title}" href="sprite_delete.htm">sprite_delete</a></span>) when no longer needed, otherwise there is risk of a memory leak which will slow down and eventually crash your game.</p>
-  <p class="note"><b><span data-conref="../../../../../assets/snippets/Tag_note.hts"> </span></b> On <b>iOS</b>, if you are loading an included file from a folder, i.e. with a path something like <span class="inline2">&quot;Backgrounds/background1.png&quot;</span>, you do NOT need to include the folder as part of the path and simply supplying the file name is sufficient. On all other platforms you must supply the folder(s) as part of the path to the file.</p>
-  <p class="note"><b><span data-conref="../../../../../assets/snippets/Tag_note.hts"> </span></b> On <b>HTML5</b>, if you are loading a sprite from a secure server you may need to set the cross-origin type and use a relative path instead of an absolute path. See <span class="inline3_func"><a data-xref="{title}" href="../../../Asynchronous_Functions/HTTP/http_set_request_crossorigin.htm">http_set_request_crossorigin</a></span> for more details.</p>
+  <h3>Platform-specific notes</h3>
+  <ul class="colour">
+    <li>If you use this function on <strong>HTML5</strong> or are getting an image from a URL, this function will not block code execution and load the image asynchronously instead, generating an <a data-xref="{title}" href="../../../../../The_Asset_Editors/Object_Properties/Async_Events/Image_Loaded.htm">Image Loaded</a> asynchronous event when complete.</li>
+    <li>On <b>HTML5</b>, if you are loading a sprite from a secure server you may need to set the cross-origin type and use a relative path instead of an absolute path. See <span class="inline3_func"><a data-xref="{title}" href="../../../Asynchronous_Functions/HTTP/http_set_request_crossorigin.htm">http_set_request_crossorigin</a></span> for more details.</li>
+    <li>On <b>iOS</b>, if you are loading an included file from a folder, i.e. with a path something like <span class="inline2">&quot;Backgrounds/background1.png&quot;</span>, you do <strong>not</strong> need to include the folder as part of the path and simply supplying the file name is sufficient. On all other platforms you must supply the folder(s) as part of the path to the file.</li>
+  </ul>
   <p> </p>
   <h4>Syntax:</h4>
   <p class="code"><span data-field="title" data-format="default">sprite_add</span>(fname, imgnumb, removeback, smooth, xorig, yorig);</p>
@@ -41,32 +51,32 @@
       <tr>
         <td>fname</td>
         <td><span data-keyref="Type_String"><a href="../../../../GML_Overview/Data_Types.htm" target="_blank">String</a></span></td>
-        <td>The name (a string file path) of the file to add.</td>
+        <td>The name (a file path) of the file to add or a data URL with the image data embedded in the string (encoded in <a href="https://en.wikipedia.org/wiki/Base64">base64</a>)</td>
       </tr>
       <tr>
         <td>imgnum</td>
         <td><span data-keyref="Type_Real"><a href="../../../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
-        <td>Use to indicate the number of sub-images (1 for a single image or for a <span class="inline">*.gif</span>).</td>
+        <td>The number of sub-images (1 for a single image or for a <span class="inline">*.gif</span>)</td>
       </tr>
       <tr>
         <td>removeback</td>
         <td><span data-keyref="Type_Bool"><a href="../../../../GML_Overview/Data_Types.htm" target="_blank">Boolean</a></span></td>
-        <td>Indicates whether to make all pixels with the background colour (left-bottom pixel) transparent.</td>
+        <td>Indicates whether to make all pixels with the background colour (bottom left pixel) transparent</td>
       </tr>
       <tr>
         <td>smooth</td>
         <td><span data-keyref="Type_Bool"><a href="../../../../GML_Overview/Data_Types.htm" target="_blank">Boolean</a></span></td>
-        <td>Indicates whether to smooth the edges if transparent.</td>
+        <td>Indicates whether to smooth the edges if transparent</td>
       </tr>
       <tr>
         <td>xorig</td>
         <td><span data-keyref="Type_Real"><a href="../../../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
-        <td>Indicate the x position of the origin in the sprite.</td>
+        <td>Indicates the x position of the origin in the sprite</td>
       </tr>
       <tr>
         <td>yorig</td>
         <td><span data-keyref="Type_Real"><a href="../../../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
-        <td>Indicate the y position of the origin in the sprite.</td>
+        <td>Indicates the y position of the origin in the sprite</td>
       </tr>
     </tbody>
   </table>
@@ -74,9 +84,18 @@
   <h4>Returns:</h4>
   <p class="code"><span data-keyref="Type_Asset_Sprite"><a href="../../../../../The_Asset_Editors/Sprites.htm" target="_blank">Sprite Asset</a></span></p>
   <p> </p>
-  <h4>Example:</h4>
-  <p class="code">spr = <span data-field="title" data-format="default">sprite_add</span>(&quot;player_5.png&quot;, 16, false, false, 0, 0);</p>
-  <p>The above code loads a sprite into the game and stores its index in the variable <span class="inline2">spr</span>.</p>
+  <h4>Example 1: Adding from an External Image File</h4>
+  <p class="code">sprite = <span data-field="title" data-format="default">sprite_add</span>(&quot;player_5.png&quot;, 5, false, false, 0, 0);</p>
+  <p>The above code loads a sprite into the game and stores its handle in the variable <span class="inline2">sprite</span>.</p>
+  <p> </p>
+  <h4>Example 2: Adding from a Data URL</h4>
+  <p class="code_heading">Create Event</p>
+  <p class="code">var _sprite_data = &quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAUCAYAAADskT9PAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAGYktHRAD/AP8A/6C9p5MAAAJMSURBVEjHpZY9a9tQFIYfOVo8GApCptQUF5zFyHRpqKEfk6dCBk8JBA0dM2UNxbMxWTPlBxiBS4YMBk8tBNqAjJeGGC01tJQUI3Gh0KFDbdTBlrj6sOuPAwIj3fO+5/G950gK0fBZPZQ11q4k4jfLVYySmlg0HE0YiimGthM+r3c/pxWxNkAgsJZ5ELEiNgLIbGoeJ19X42r/JYCvAuGD4WgSTRbTiJAckthWAOoig6GYYhzszn6//4qh7USM5fXbAGTSqpLNAYyD3VBsOJokxJYByLmBsVFSw/UZQJkfiDDRcgcJA8sdRIQajg0LWnEdgOAfUBqOHUnUHucjlywUM98KQN4CxXIH9GyHi7OThMDF2Qk92wnE4+QbAyzsLfHDpWc7ALyplkORJaFY7sB/Zf9dCNC+vOaT+yUCIBfgN8tV2t497cvr0BiYFWI7CE/QLFdpOLbPf0bxqgDhFJsPBoajCe0/92i6FhX0BGa2sGwUzwCk3AiApCFvgRI3D1pEFpLNgzWxIjYGSJ0DRkmlVSkiPIHwBK1KcdkoTgCY2QLCE6nmQQtGRvH49bOZQP8mLADAzBYiTsFo1d5WZzek9ksAUOTd3XcAWpXiwrOiAsrx6bkPcJTfo5PTORx5CWOATk6nIsYcn57LZ8jfBiDxPq/VTbyfvwC47XcBePp8HwD90QM+XLXjhw/m3wFH+T3unjzk8LdHWnRyOpVvY3lQKakbGze67Xf9Wt1kSSgAljvway9MPhLmh1Grm+iANYNa2sI+6V82i+5vlf8PdPOSxUhSaQMAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjUtMDItMTRUMTc6NTI6MTYrMDA6MDBakr7yAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDI1LTAyLTE0VDE3OjUyOjE2KzAwOjAwK88GTgAAACh0RVh0ZGF0ZTp0aW1lc3RhbXAAMjAyNS0wMi0xNFQxNzo1MjoxNiswMDowMHzaJ5EAAAAASUVORK5CYII=&quot;;<br />
+    sprite_index = <span data-field="title" data-format="default">sprite_add</span>(_sprite_data, 2, false, false, 0, 0);<br />
+    image_speed = 0.08;</p>
+  <p>The above code shows how to add an animated character sprite from a data URL and assign it as an instance&#39;s sprite.</p>
+  <p>In an object&#39;s Create event a data URL string is first assigned to a temporary variable <span class="inline2">_sprite_data</span>. Then <span class="inline3_func"><span data-field="title" data-format="default">sprite_add</span></span> is called with this string passed as the <span class="inline2">fname</span> argument. The number of sub-images in the sprite is set to 2, the <span class="inline2">removeback</span> and <span class="inline2">smooth</span> parameters are set to <span class="inline2">false</span> and the sprite&#39;s origin is set to (0, 0). The new sprite is set as the instance&#39;s <span class="inline2"><a data-xref="{title}" href="../Sprite_Instance_Variables/sprite_index.htm">sprite_index</a></span> and its <span class="inline2"><a data-xref="{title}" href="../Sprite_Instance_Variables/image_speed.htm">image_speed</a></span> is adjusted.</p>
+  <p class="note"><span data-conref="../../../../../assets/snippets/Tag_tip.hts"> </span> See the second code example on the <span class="inline3_func"><a data-xref="{title}" href="../../../Buffers/buffer_base64_encode.htm">buffer_base64_encode</a></span> page for an example on how to convert an image file to a data URL.</p>
   <p> </p>
   <p> </p>
   <div class="footer">
@@ -86,7 +105,7 @@
         <div style="float:right">Next: <a data-xref="{title}" href="sprite_add_ext.htm">sprite_add_ext</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2025 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 sprite_add
