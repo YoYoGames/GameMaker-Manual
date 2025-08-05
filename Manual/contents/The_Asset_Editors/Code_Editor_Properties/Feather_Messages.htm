@@ -1,0 +1,1944 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <title>Feather Messages</title>
+  <meta name="topic-status" content="Draft" />
+  <link rel="stylesheet" type="text/css" href="../../assets/css/default.css" />
+  <meta name="template" content="../../assets/masterpages/Manual_Page.htt" />
+  <meta name="rh-authors" content="Gurpreet S. Matharoo" />
+  <meta name="topic-comment" content="Reference page listing all Feather messages" />
+  <meta name="search-keywords" content="feather,rules,messages" />
+  <meta name="rh-index-keywords" content="feather,rules,messages" />
+</head>
+<body>
+  <h1><span data-field="title" data-format="default">Feather Messages</span></h1>
+  <p>This page contains descriptions of all Feather rules that are shown under <a data-xref="{text}" href="../../Setting_Up_And_Version_Information/IDE_Preferences/Feather_Settings.htm#s3">Message Severity</a> in the <a data-xref="{title}" href="../../Setting_Up_And_Version_Information/IDE_Preferences/Feather_Settings.htm">Feather Preferences</a>.</p>
+  <p><img class="center" src="../../assets/Images/Setup_And_Version/Preferences/Feather/FeatherPrefs_Severity.png" /></p>
+  <p>Hit <span class="shortcut">CTRL+F</span> on this page to find the rule you want to read about.</p>
+  <h2>Rules</h2>
+  <h3>GM1000 - No enclosing loop from which to break.</h3>
+  <p>The keyword <span class="inline2"><a data-xref="{title}" href="../../GameMaker_Language/GML_Overview/Language_Features/break.htm">break</a></span> must be used inside the body of a loop statement such as <span class="inline2"><a data-xref="{title}" href="../../GameMaker_Language/GML_Overview/Language_Features/while.htm">while</a></span>, <span class="inline2"><a data-xref="{title}" href="../../GameMaker_Language/GML_Overview/Language_Features/for.htm">for</a></span>, <span class="inline2"><a data-xref="{title}" href="../../GameMaker_Language/GML_Overview/Language_Features/repeat.htm">repeat</a></span>, or <span class="inline2"><a data-xref="{title}" href="../../GameMaker_Language/GML_Overview/Language_Features/with.htm">with</a></span>.</p>
+  <p>Usage outside of a loop statement is not possible and results in a Compile Error.</p>
+  <h4>Example</h4>
+  <p class="code">var _items = get_items();<br />
+    var i = 0;<br />
+    repeat (array_length(_items))<br />
+    {<br />
+        var _item = _items[i++];<br />
+        if (_item == undefined)<br />
+            break; // Good!<br />
+        // ... Some logic here ...<br />
+    }<br />
+    break; // GM1000 - No loop to break from.</p>
+  <p>Correcting this error requires identifying where the <span class="inline2">break</span> statement was intended to go and moving it to the correct location. In the above example there was no loop to break from and thus the fix is to simply remove the last <span class="inline2">break</span> statement.</p>
+  <h3>GM1001 - No enclosing loop from which to continue.</h3>
+  <p>The keyword <span class="inline2"><a data-xref="{title}" href="../../GameMaker_Language/GML_Overview/Language_Features/continue.htm">continue</a></span> must be used inside the body of a loop statement such as <span class="inline2"><a data-xref="{title}" href="../../GameMaker_Language/GML_Overview/Language_Features/while.htm">while</a></span>, <span class="inline2"><a data-xref="{title}" href="../../GameMaker_Language/GML_Overview/Language_Features/for.htm">for</a></span>, <span class="inline2"><a data-xref="{title}" href="../../GameMaker_Language/GML_Overview/Language_Features/repeat.htm">repeat</a></span>, or <span class="inline2"><a data-xref="{title}" href="../../GameMaker_Language/GML_Overview/Language_Features/with.htm">with</a></span>.</p>
+  <p>Usage outside of a loop statement is not possible and results in a Compile Error.</p>
+  <p class="code">var _items = get_items();<br />
+    var i = 0;<br />
+    repeat (array_length(_items))<br />
+    {<br />
+        var _item = _items[i++];<br />
+        if (_item == undefined)<br />
+            continue; // Good!<br />
+        // ... Some logic here ...<br />
+    }<br />
+    continue; // GM1001 - No loop to continue from.</p>
+  <p>Correcting this error requires identifying where the <span class="inline2">continue</span> statement was intended to go and moving it to the correct location. In the above example there was no loop to continue from and thus the fix is to simply remove the last <span class="inline2">continue</span> statement.</p>
+  <h3>GM1002 - globalvar does not support inline initializers.</h3>
+  <p>When using <span class="inline2">globalvar</span>&#39;s you must split the declaration and initialization of its value. This is in contrast to local variables which can be declared and initialized in the same statement (e.g. <span class="inline2">var _width = 100;</span>).</p>
+  <p>Attempting to initialize a globalvar inline in this manner is invalid syntax and results in a Compile Error.</p>
+  <h4>Example</h4>
+  <p class="code">globalvar gameManager = new GameManager(); // GM1002 - globalvar does not support inline initializers.</p>
+  <p>Correcting this error requires splitting the declaration and initialization statements. The above example can be fixed by rewriting it as so:</p>
+  <p class="code">globalvar gameManager;<br />
+    gameManager = new GameManager();</p>
+  <h3>GM1003 - Enum assignment must be integer assignment.</h3>
+  <p>When declaring the members of an <a href="../../GameMaker_Language/GML_Overview/Variables/Constants.htm#enumhead">enum</a> you can assign specific integer values to the members. You cannot assign any other type of value to these members however. Attempting to do so will result in a Compile Error.</p>
+  <h4>Example</h4>
+  <p class="code">enum FRUIT<br />
+    {<br />
+        UNKNOWN = -1, // Good!<br />
+        BANANA,<br />
+        ORANGE,<br />
+        APPLE = &quot;apple&quot; // GM1003 - Enum assignment must be integer assignment.<br />
+    }</p>
+  <p>Correcting this error requires changing the assigned value to an integer in some way. If your code requires a value type other than <span data-keyref="Type_Real"><a href="../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">Real</a></span> for some reason then you may want to investigate using macros instead.</p>
+  <p class="code">// Approach 1<br />
+    enum FRUIT<br />
+    {<br />
+        UNKNOWN = -1, // Good!<br />
+        BANANA,<br />
+        ORANGE,<br />
+        APPLE = 10 // Good!<br />
+    }<br />
+    <br />
+    // Approach 2<br />
+    #macro FRUIT_UNKNOWN     -1<br />
+    #macro FRUIT_BANANA     0<br />
+    #macro FRUIT_ORANGE     1<br />
+    #macro FRUIT_APPLE     &quot;apple&quot;
+  </p>
+  <h3>GM1004 - The enum value &#39;ENUM MEMBER NAME&#39; has already been previously defined in the enum &#39;ENUM NAME&#39;.</h3>
+  <p><a href="../../GameMaker_Language/GML_Overview/Variables/Constants.htm#enumhead">Enum</a> members must be uniquely named, duplicate names will result in a Compile Error.</p>
+  <h4>Example</h4>
+  <p class="code">enum FRUIT<br />
+    {<br />
+        APPLE, // Good!<br />
+        APPLE, // GM1004 The enum value &#39;APPLE&#39; has already been previously defined in the enum &#39;FRUIT&#39;<br />
+    }</p>
+  <p>Typically, this error is the result of a typo of oversight. Removing the duplicate declaration will fix the issue.</p>
+  <p class="code">enum FRUIT<br />
+    {<br />
+        APPLE, // Good!<br />
+    }</p>
+  <h3>GM1005 - Argument must be provided.</h3>
+  <p>A function&#39;s parameter is required, yet an argument was not passed. While some parameters are optional (denoted with [square brackets]), most are required. When no argument is passed to these parameters, a compile error occurs.</p>
+  <h4>Example</h4>
+  <p class="code">draw_set_color(); // GM1005 - Argument must be provided.</p>
+  <p>Typically, this error is the result of an oversight. Providing the missing argument will fix the issue.</p>
+  <p class="code">draw_set_color(c_black); // Good!</p>
+  <h3>GM1006 - The enum &#39;ENUM NAME&#39; has already been previously declared.</h3>
+  <p><a href="../../GameMaker_Language/GML_Overview/Variables/Constants.htm#enumhead">Enums</a> must be uniquely named, duplicate names will result in a compile error.</p>
+  <h4>Example</h4>
+  <p class="code">enum FRUIT {<br />
+        APPLE,<br />
+        ORANGE,<br />
+        BLUEBERRY<br />
+    }<br />
+    enum FRUIT // GM1006 - The enum &#39;FRUIT&#39; has already been previously declared.<br />
+    {<br />
+        APPLE,<br />
+        ORANGE,<br />
+        CHERRY<br />
+    }</p>
+  <p>Typically, this error is the result of an oversight. Removing the duplicate declaration, merging members of applicable will fix the issue. If the enums are intended to be different but names conflict, consider a different name for the new enum.</p>
+  <p class="code">enum FRUIT<br />
+    {<br />
+        APPLE,<br />
+        ORANGE,<br />
+        BLUEBERRY,<br />
+        CHERRY<br />
+    }</p>
+  <h3>GM1007 - Left-hand side of an assignment must be a variable.</h3>
+  <p>The assignment operator <span class="inline2">=</span> requires that the left-hand side of the statement be a variable. Constants, and other non-variables cannot be logically assigned to. E.g. <span class="inline2">1 = 2</span> is not a mathematically valid statement.</p>
+  <p>A variable assignment stores the value on the right-hand side of the <span class="inline2">=</span> sign somewhere in the computer&#39;s memory and makes it accessible in code through the name that you write on the left. If the variable already exists, the assignment will replace its contents with the new value on the right-hand side. Instances, structs, functions, constants and asset IDs are all non-variables and cannot be assigned to. You can, however, assign a value to one of the variables of an instance, struct or function.</p>
+  <p>For more info on variable assignment see <a data-xref="{title}" href="../../GameMaker_Language/GML_Overview/Variables_And_Variable_Scope.htm">Variables And Variable Scope</a>.</p>
+  <h4>Example</h4>
+  <p class="code">var _foo = 1234;<br />
+    _foo = 4321; // Good!<br />
+    <br />
+    function get_random_item()<br />
+    {<br />
+        return<br />
+        {<br />
+            name: &quot;Sword&quot;<br />
+        };<br />
+    }<br />
+    <br />
+    get_random_item() = &quot;Shield&quot;; // GM1007 - Left-hand side of an assignment must be a variable
+  </p>
+  <p>Typically, this error is the result of a typo or oversight. Sometimes it&#39;s the result of a misunderstanding of how data flows through a program. If this is the case, take a step back and think about what you&#39;re trying to communicate to the CPU.</p>
+  <p class="code">var _foo = 1234;<br />
+    _foo = 4321; // Good!<br />
+    <br />
+    function get_random_item()<br />
+    {<br />
+        return<br />
+        {<br />
+            name: &quot;Sword&quot;<br />
+        };<br />
+    }<br />
+    <br />
+    get_random_item() = { name: &quot;Shield&quot; }; // Bad! Return values are not variables<br />
+    get_random_item().name = &quot;Shield&quot;; // Good!<br />
+    vk_space = vk_tab; // Bad! Constants are not variables and cannot change
+  </p>
+  <h3>GM1008 - The variable &#39;BUILT-IN VARIABLE&#39; is readonly and cannot be assigned to.</h3>
+  <p>Attempting to assign a value to a read-only built-in variable is not allowed. These variables can be read and assigned to other variables or used in expressions, but cannot have their value directly modified.</p>
+  <h4>Example</h4>
+  <p class="code">working_directory = @&quot;PlayerData&quot;; // Bad! working_directory is readonly<br />
+    var _file = file_find_first(working_directory + @&quot;\Screenshots\*.png&quot;, fa_archive);<br />
+    // ...</p>
+  <p style="text-align: left; ">Since read-only variables cannot be directly assigned to the fix will depend on what your intention with setting the variable is. In the above example, we intend to find all the files in a directory <span class="inline2">&quot;PlayerData\Screenshots\&quot;</span> relative to our <span class="inline2">working_directory</span>. For this we can just use a local variable instead.</p>
+  <p class="code">var _playerdata_directory = working_directory + @&quot;PlayerData&quot;;<br />
+    var _file = file_find_first(_playerdata_directory + @&quot;\Screenshots\*.png&quot;, fa_archive);<br />
+    // ...</p>
+  <h3>GM1009 - Operation OPERATOR between types &#39;TYPE&#39; and &#39;TYPE&#39; may result in unexpected behavior or an error during runtime.</h3>
+  <p>This indicates that the specified operation, while valid, may not have the result or behaviour that is expected. You may see this when adding reals to constant or asset types; which is an abuse of these types. Constant values are intended to be used in very specific ways, and asset IDs are not safely modifiable.</p>
+  <div data-conref="../../assets/snippets/Feather_rule_only_shown_when_strict_mode.hts"> </div>
+  <h4>Example</h4>
+  <p class="code">// Find all *.doc files that are readonly archives<br />
+    var _attribs = fa_readonly + fa_archive; // Warn!<br />
+    var _filename = file_find_first(&quot;/User Content/*.doc&quot;, _attribs);<br />
+    <br />
+    // Go to the next room<br />
+    room_goto(room + 1); // Warn!
+  </p>
+  <p>In the above example we have 2 problems: Adding constants that are meant to be flags, and adding 1 to the current room ID to find the next room. The tricky bit is that this code might just work! But it&#39;s brittle and unrelated changes to the Runner or even your Game Project might break this code! Why?</p>
+  <p><strong>Bitfield Constants</strong></p>
+  <p>When it comes to constants used as bit field flags you should use the Bitwise OR operation <span class="inline2">|</span> instead of the Arithmetic Add operation <span class="inline2">+</span>. If we were to consider <span class="inline2">fa_readonly</span> as <span class="inline2">0b0001</span> and <span class="inline2">fa_archive</span> as <span class="inline2">0b0010</span> and we added (<span class="inline2">0b0001 + 0b0010 = 0b0011</span>) these two together we would get the same result as if we or&#39;d the values (<span class="inline2">0b0001 | 0b0010 = 0b0011</span>). However, if for some reason the value of <span class="inline2">fa_readonly</span> changed to be <span class="inline2">0b0011</span> with two set bits instead of one (perhaps it&#39;s a mask field, or represents two other values together) then we will suddenly end up with an incorrect value and our code will stop working. (<span class="inline2">0b0011 + 0b0001 = 0b0100</span>, and <span class="inline2">0b0011 | 0b0001 = 0b0011</span>).</p>
+  <p><strong>Mutating Asset IDs</strong></p>
+  <p>Assets such as Rooms, Sprites and Objects are assigned an ordinal index number when your game is compiled. Which means that each asset is given a unique number that increments by 1 from 0. This may lead you to believe that if you wanted to get the next or previous room, for example, you can simply add or subtract 1 from the current room. However, the order that the rooms are in is different from the asset ID, perhaps you created the rooms out of order and then rearranged them, perhaps the method by which the compiler determines the asset IDs changes. In either of these instances your code would break. Instead you should use functions provided by the Runner for these specific tasks.</p>
+  <p class="code">// Find all *.doc files that are readonly archives<br />
+    var _attribs = fa_readonly | fa_archive; // Good!<br />
+    var _filename = file_find_first(&quot;/User Content/*.doc&quot;, _attribs);<br />
+    <br />
+    // Go to the next room<br />
+    room_goto_next(); // Good!
+  </p>
+  <h3>GM1010 - Cannot perform OPERATOR operation between types &#39;TYPE&#39; and &#39;TYPE&#39;.</h3>
+  <p>This indicates that the specified operation is invalid in such a way that no result can be produced and instead result in either a runtime or compile time error. You may see this error between some type and <span class="inline2">undefined</span> or unset. If Feather is unable to determine the type of a variable (or the variable is genuinely unset) then this error will appear.</p>
+  <div data-conref="../../assets/snippets/Feather_rule_only_shown_when_strict_mode.hts"> </div>
+  <h4>Example</h4>
+  <p class="code">var _item1 = { price: 10 };<br />
+    var _item2 = { price: 20 };<br />
+    var _diff = _item2 - _item1; // Error!<br />
+    var _a, _b = 1234;<br />
+    var _c = _a + _b; // Error!</p>
+  <p>This will require rewriting your code such that the intention is conveyed in valid operations. In the above example we intended to get the difference in price between 2 items. We can instead subtract the <span class="inline2">price</span> variables, which are of type <span data-keyref="Type_Real"><a href="../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">Real</a></span>, instead of the structs themselves.</p>
+  <p class="code">var _item1 = { price: 10 };<br />
+    var _item2 = { price: 20 };<br />
+    var _diff = _item2.price - _item1.price; // Good!<br />
+    var _a = 4321, _b = 1234;<br />
+    var _c = _a + _b; // Good!</p>
+  <h3>GM1011 - Implicit cast of type &#39;TYPE&#39; to &#39;Bool&#39; may result in unexpected behavior or an error during runtime.</h3>
+  <p>A common shorthand for if statement conditionals is to exclude the <span class="inline2">== false</span> or <span class="inline2">== true</span> from a boolean logic comparison. In GML doing so implicitly casts the conditional to a Boolean and compares it to <span class="inline2">true</span>. Some types cannot be converted to Boolean and will result in a runtime error. The type <span class="inline2">Unset</span> is special and indicates that you&#39;ve declared a variable but never assigned a value to it, no operation is valid on <span class="inline2">Unset</span>.</p>
+  <div data-conref="../../assets/snippets/Feather_rule_only_shown_when_strict_mode.hts"> </div>
+  <p>See: <a data-xref="{title}" href="../../GameMaker_Language/GML_Overview/Language_Features/If_Else_and_Conditional_Operators.htm">if / else and Conditional Operators</a></p>
+  <h4>Example</h4>
+  <p class="code">var _a = true;<br />
+    var _b = 1234;<br />
+    var _c = [];<br />
+    var _d;<br />
+    if (_a) { } // Good!<br />
+    if (_b) { } // Good!<br />
+    if (_c) { } // Error!<br />
+    if (_d) { } // Error!</p>
+  <p>The solution is typically to be explicit about your comparisons.</p>
+  <ul class="colour">
+    <li>String, Array, Function, Struct, Id, Asset, Constant – <span class="inline2">!= undefined</span></li>
+    <li>Bool – <span class="inline2">== true</span>, or implicit cast still valid</li>
+    <li>Real – <span class="inline2">&gt; 0</span>, or implicit cast still valid (though discouraged)</li>
+    <li>Unset – Assign a value to it!</li>
+  </ul>
+  <p class="code">var _a = true;<br />
+    var _b = 1234;<br />
+    var _c = [];<br />
+    var _d;<br />
+    if (_a == true) { } // Good!<br />
+    if (_a) { } // Good!<br />
+    if (_b &gt; 0) { } // Good!<br />
+    if (_b) { } // Good!<br />
+    if (_c != undefined) { } // Good!<br />
+    _d = true; // Assign a value to change from Unset<br />
+    if (_d) { } // Good!</p>
+  <h3>GM1012 - Malformed variable addressing expression.</h3>
+  <p>The dot operator is used to access a variable that exists in another scope. These dot operators can be chained together or exist alone, in either occurrence this is known in GML as a &quot;variable addressing expression&quot;, as it is an expression that gives a variable&#39;s address. Usually the left-hand side of this expression is a variable or constant containing an Object Asset, Instance ID, or Struct. Other types cannot be on the left-hand side because they do not contain variables.</p>
+  <h4>Example</h4>
+  <p class="code">var _a = { name: &quot;GameMaker&quot; };<br />
+    var _b = _a.name; // Good!<br />
+    var _c = obj_manager.name; // Good!<br />
+    var _d = &quot;name&quot;.length; // Error!</p>
+  <p>Correcting this error depends on what is on the left-hand side of the expression. You likely intended to reference a variable from an Object Asset, Instance, or Struct but either typo&#39;d the name or your variable contains a different type than was expected.</p>
+  <p class="code">var _d = string_length(&quot;name&quot;); // Good!</p>
+  <h3>GM1013 - Reference to variable &#39;IDENTIFIER&#39; which has not been previously declared in &#39;IDENTIFIER&#39;.</h3>
+  <p>This error indicates that the specified variable cannot be found in the referenced scope.</p>
+  <div data-conref="../../assets/snippets/Feather_rule_only_shown_when_strict_mode.hts"> </div>
+  <p>This could indicate that:</p>
+  <p class="code">// Create event<br />
+    var atk = 1;<br />
+    if (atk &lt; 50) {    // Error! &#39;atk&#39; is a local variable in Create<br />
+        with (other) {<br />
+            hp -= atk; // Error! &#39;atk&#39; is in the original scope!<br />
+        }<br />
+        <br />
+        attack *= 2;   // Error! Typo&#39;d &#39;atk&#39; as &#39;attack&#39;<br />
+    }<br />
+    <br />
+    // Script - Item<br />
+    function Item(_name, _value) constructor {<br />
+        name = _name;<br />
+        value = _value;<br />
+    }<br />
+    <br />
+    // Create - objInventory<br />
+    hp = 100;<br />
+    items = [];<br />
+    var _sword = new Item(&quot;Sword&quot;, 10);<br />
+    array_push(items, _sword);<br />
+    var _shield = new Item(&quot;Shield&quot;, 10);<br />
+    _shield.defense = 10;<br />
+    array_push(items, _shield);<br />
+    <br />
+    // Collision - par_mob<br />
+    var _dmg = other.dmg;<br />
+    var _len = array_length(items);<br />
+    for (var i = 0; i &lt; _len; ++i) {<br />
+        var _item = items[i];<br />
+        _dmg -= _item.defense; // Error! &#39;defense&#39; is conditionally defined<br />
+    }<br />
+    <br />
+    hp -= max(0, _dmg);
+  </p>
+  <p>Correcting this issue depends on which of the aforementioned conditions applies to your situation.</p>
+  <p class="code">// Create event<br />
+    atk = 1; // Fix! Make this an instance variable by removing &#39;var&#39;<br />
+    // Collision - par_mob<br />
+    if (atk &lt; 50) { // Good!<br />
+        with (other) {<br />
+            hp -= other.atk; // Fix! Reference &#39;other.atk&#39;<br />
+        }<br />
+        <br />
+        atk *= 2; // Fix! Rename to &#39;atk&#39;<br />
+    }<br />
+    <br />
+    // Script - Item<br />
+    function Item(_name, _value) constructor {<br />
+        name = _name;<br />
+        value = _value;<br />
+        defense = 0; // Possible Fix! Declare a default value<br />
+    }<br />
+    <br />
+    // Create - objInventory<br />
+    hp = 100;<br />
+    items = [];<br />
+    var _sword = new Item(&quot;Sword&quot;, 10);<br />
+    array_push(items, _sword);<br />
+    var _shield = new Item(&quot;Shield&quot;, 10);<br />
+    _shield.defense = 10;<br />
+    array_push(items, _shield);<br />
+    <br />
+    // Collision - par_mob<br />
+    var _dmg = other.dmg;<br />
+    var _len = array_length(items);<br />
+    for (var i = 0; i &lt; _len; ++i) {<br />
+        var _item = items[i];<br />
+        _dmg -= _item.defense; // Fix! &#39;defense&#39; has default value<br />
+        // Or Possible Fix! Check variable exists (not as recommended)<br />
+        if (struct_exists(_item, &quot;defense&quot;)) {<br />
+            _dmg -= _item.defense; // Feather knows this variable exists now<br />
+        }<br />
+    }<br />
+    <br />
+    hp -= max(0, _dmg);
+  </p>
+  <h3>GM1014 - The enum &#39;ENUM&#39; does not contain the value &#39;IDENTIFIER&#39;.</h3>
+  <p>This error is raised when an Enum Member is referenced which does not exist.</p>
+  <p>This could indicate that:</p>
+  <h4>Example</h4>
+  <p class="code">enum FRUIT {<br />
+        NONE,<br />
+        ORANGE,<br />
+        APPLE,<br />
+        CANTALOUPE,<br />
+        SIZEOF<br />
+    }<br />
+    var _best_fruit = FRUIT.KIWI; // Error! KIWI is not defined<br />
+    var _underrated_fruit = FRUIT.CANALOPE; // Error! CANTALOUPE is typo&#39;d</p>
+  <p>Correcting this issue depends on which of the aforementioned conditions applies to your situation.</p>
+  <p class="code">enum FRUIT {<br />
+        NONE,<br />
+        ORANGE,<br />
+        APPLE,<br />
+        CANTALOUPE,<br />
+        KIWI, // Fix! Define KIWI<br />
+        SIZEOF<br />
+    }<br />
+    var _best_fruit = FRUIT.KIWI; // Good!<br />
+    var _underrated_fruit = FRUIT.CANTALOUPE; // Fix! No longer typo&#39;d</p>
+  <h3>GM1015 - Cannot divide or modulo expression by 0.</h3>
+  <p>This error is raised when you directly divide or modulo by 0.</p>
+  <p>Note: GM1015 is NOT raised if 0 is stored in a variable and then you divide by that variable; Feather does not track the individual values of variables, only the types of variables.</p>
+  <h4>Example</h4>
+  <p class="code">var _hp = 100;<br />
+    _hp /= 0; // Error! Cannot divide by 0<br />
+    _hp %= 0; // Error! Cannot modulo by 0</p>
+  <p>The solution is to use any number other than 0.</p>
+  <p class="code">var _hp = 100;<br />
+    _hp /= 100; // Good!<br />
+    _hp %= 100; // Good!</p>
+  <h3>GM1016 - A boolean literal was unexpected at this time.</h3>
+  <p>This message indicates that a boolean value (<span class="inline2">true</span> or <span class="inline2">false</span>) has appeared outside of a conditional or expression. Typically you would only see these kinds of values used in <span class="inline2">if</span> statements and friends.</p>
+  <h4>Example</h4>
+  <p class="code">true; // Error! A lone true without a conditional</p>
+  <p>Use boolean values in a way that the compiler understands. For example:</p>
+  <p class="code">var _a = true; // Good! Right-hand side is an expression<br />
+    var _b = true ? 1 : 0; // Good! Right-hand side is an expression<br />
+    if (true) {<br />
+        // Good! Appears inside a conditional<br />
+    }</p>
+  <h3>GM1017 - The function &#39;FUNCTION NAME&#39; is deprecated and usage is discouraged.</h3>
+  <p>This message indicates that you are using either a built-in function or user-defined function that is deprecated. Deprecation means that while the function, variable, or feature is still available for usage that it is planned to be removed in the future. Typically when something is deprecated a superior approach exists and is intended to be used instead. You should research what the alternative is and use that instead to avoid your code from breaking when you update <span data-keyref="GameMaker Name">GameMaker</span> to newer versions.</p>
+  <p>Note that user-defined functions can also be marked as deprecated using the <span class="inline2">@deprecated</span> tag.</p>
+  <h4>Example</h4>
+  <p class="code">// @deprecated<br />
+    function make_game() {<br />
+        // Deprecated in favour of writing more code to do that same thing!<br />
+    }<br />
+    <br />
+    username = get_string(&quot;Username:&quot;, &quot;&quot;); // Suggestion!<br />
+    make_game(); // Suggestion!
+  </p>
+  <p>Find the alternative functions or approach to use, and refactor your code to do that instead.</p>
+  <p class="code">username = get_string_async(&quot;Username:&quot;, &quot;&quot;); // Fix!</p>
+  <h3>GM1019 - The function &#39;FUNCTION NAME&#39; takes no more than NUMBER arguments but NUMBER are provided.</h3>
+  <p>This message is shown when more arguments are passed to a function than that function takes, including optional parameters (if they exist).</p>
+  <p>There are essentially two reasons you might run into this problem:</p>
+  <ul class="colour">
+    <li>You&#39;re nesting function calls and missed a closing parenthesis <span class="inline2">)</span></li>
+    <li>You have miscounted your arguments</li>
+  </ul>
+  <p>The solution to fixing either of these is to refactor your code to reflect your actual intentions.</p>
+  <h4>Example</h4>
+  <p class="code">var _dmg = clamp(lerp(dmg1, dmg2, 0.5, 0, 100)); // Error!</p>
+  <p>In the above example we have accidentally put the closing parenthesis for <span class="inline2">lerp</span> in the wrong place.</p>
+  <p class="code">var _dmg = clamp(lerp(dmg1, dmg2, 0.5), 0, 100); // Fix!</p>
+  <h3>GM1020 - The function &#39;FUNCTION NAME&#39; takes no less than NUMBER arguments but NUMBER are provided.</h3>
+  <p>This message is shown when less arguments are passed to a function than that function takes.</p>
+  <p>Possible causes can be:</p>
+  <ul class="colour">
+    <li>You&#39;re nesting function calls and missed a closing parenthesis <span class="inline2">)</span></li>
+    <li>You have miscounted your arguments</li>
+  </ul>
+  <h4>Example</h4>
+  <p class="code">var _dmg = clamp(lerp(dmg1, dmg2), 0.5, 0, 100); // Error!</p>
+  <p>The closing parenthesis for <span class="inline2">lerp</span> is in the wrong place.  Placing it after the 0.5 value instead fixes the error.</p>
+  <p class="code">var _dmg = clamp(lerp(dmg1, dmg2, 0.5), 0, 100); // Fix!</p>
+  <h3>GM1021 - The function or script &#39;FUNCTION/SCRIPT NAME&#39; does not exist.</h3>
+  <p>This message is shown when a call to a non-existent script or function is made. This may be shown if you typo the function name, or have deleted the function.</p>
+  <h4>Example</h4>
+  <p class="code">function make_game(_genre) { /* ... */ }<br />
+    make_gaem(&quot;RPG&quot;); // GM1021<br />
+    var _x = clam(x, 0, 100); // GM1021</p>
+  <p>Correct any typos, and ensure the functions you&#39;re trying to call exist.</p>
+  <p class="code">function make_game(_genre) { /* ... */ }<br />
+    make_game(&quot;RPG&quot;); // Fix!<br />
+    var _x = clamp(x, 0, 100); // Fix!</p>
+  <h3>GM1022 - An assignment was expected at this time.</h3>
+  <p>This message is shown when a variable name is written as the left-hand side of an assignment and isn&#39;t followed by the assignment operator <span class="inline2">=</span>.</p>
+  <p>Note that this does not apply to the <span class="inline2">var</span> statement, as <span class="inline2">var a;</span> suffices as a declaration.</p>
+  <h4>Example</h4>
+  <p class="code">username                                // Error!<br />
+    // OR<br />
+    username;                               // Error!</p>
+  <p>An identifier cannot stand on its own in a statement. The issue can be fixed by using it in an assignment or by calling it as a function (in case it refers to a valid script function).</p>
+  <p class="code">username = get_string(&quot;Username:&quot;, &quot;&quot;); // Valid Assignment!<br />
+    username(); // Function Call is also possible</p>
+  <h3>GM1023 - The constant &#39;BUILT-IN CONSTANT&#39; is deprecated and usage is discouraged.</h3>
+  <p>This message indicates that you&#39;re using a built-in constant that is deprecated.</p>
+  <p>Deprecation means that while the constant is still available for usage, it is planned to be removed in the future. Typically when something is deprecated a superior approach exists and is intended to be used instead. You should research what the alternative is and use that instead to avoid your code from breaking when you update <span data-keyref="GameMaker Name">GameMaker</span> to newer versions.</p>
+  <h4>Example</h4>
+  <p class="code">if (os_type == os_win32) { // GM1023 - Constant &#39;os_win32&#39; is deprecated<br />
+        global.config = 0;<br />
+    }<br />
+    else if (os_type == os_macosx) {<br />
+        global.config = 1;<br />
+        global.config = 2;<br />
+    }</p>
+  <p>Depending on the constant, a replacement may be available. Check the manual to see if the page mentions this replacement. For the above example, the modern constant is <span class="inline2">os_windows</span> (as to not imply a difference between detection of 32-bit and 64-bit Windows).</p>
+  <p class="code">if (os_type == os_windows) {<br />
+        global.config = 0;<br />
+    }<br />
+    else if (os_type == os_macosx) {<br />
+        global.config = 1;<br />
+        global.config = 2;<br />
+    }</p>
+  <h3>GM1024 - The built-in variable &#39;BUILT-IN VARIABLE&#39; is deprecated and usage is discouraged.</h3>
+  <p>This message indicates that you&#39;re using a built-in variable that is deprecated.</p>
+  <p>Deprecation means that while the variable is still available for usage, it is planned to be removed in the future. Typically when something is deprecated a superior approach exists and is intended to be used instead. You should research what the alternative is and use that instead to avoid your code from breaking when you update <span data-keyref="GameMaker Name">GameMaker</span> to newer versions.</p>
+  <h4>Example</h4>
+  <p class="code">/// Create Event<br />
+    score = 0;<br />
+    <br />
+    /// Step Event<br />
+    var _ins = instance_position(mouse_x, mouse_y, obj_balloon);<br />
+    if (_ins != noone)<br />
+    {<br />
+        score++;<br />
+        instance_destroy(_ins);<br />
+    }
+  </p>
+  <p>Replace the variable with a custom variable or a macro, depending on what works best in the specific case.</p>
+  <p class="code">/// Create Event<br />
+    points = 0;<br />
+    <br />
+    /// Step Event<br />
+    var _ins = instance_position(mouse_x, mouse_y, obj_balloon);<br />
+    if (_ins != noone)<br />
+    {<br />
+        points++;<br />
+        instance_destroy(_ins);<br />
+    }
+  </p>
+  <h3>GM1025 - A number literal was unexpected at this time.</h3>
+  <p>This message is shown when you use a number literal outside of an expression where it cannot be used. It can occur when:</p>
+  <ul class="colour">
+    <li>A number literal is on its own in a statement</li>
+    <li>A number literal is used as the left-hand side of an assignment</li>
+  </ul>
+  <h4>Example</h4>
+  <p class="code">#AEF033 // Error! Lone number literal<br />
+    // OR:<br />
+    #AEF033; // Error! Lone number literal<br />
+    // OR:<br />
+    0xFFDE31 = &quot;value&quot;; // Error! Left-hand side is not a variable</p>
+  <p>The number literal has to be used as a function parameter or as the right-hand side of an assignment.</p>
+  <p class="code">colour = #AEF033;</p>
+  <h3>GM1026 - Left-hand side of postfix expression must be a variable.</h3>
+  <p>This message is shown when you use a postfix increment (<span class="inline2">var++</span>) or decrement operator (<span class="inline2">var--</span>) on something that is not a variable. More precisely, it must be possible to assign to that which you&#39;d normally write on the left-hand side of the equivalent equation:</p>
+  <p class="code">vari = vari + 1;    // Equivalent of vari++; - Variable can be written to and so can go on the left-hand side<br />
+    <br />
+    pi = pi + 1;      // Equivalent of pi++; - Constant cannot be written to so cannot go on left-hand side
+  </p>
+  <h4>Example</h4>
+  <p class="code">pi++;    // GM1026 Cannot increment a constant<br />
+    // OR:<br />
+    show_debug_message--; // GM1026 Cannot decrement a function name</p>
+  <p>In the code example, <span class="inline2">pi</span> is a constant and cannot be changed by definition. <span class="inline2">show_debug_message()</span> is a function and is not a number which can be incremented/decremented. If you want to perform these operations you must first ensure the value is assigned to a variable.</p>
+  <p class="code">var _pi = pi;<br />
+    _pi++;</p>
+  <h3>GM1027 - A string literal was unexpected at this time.</h3>
+  <p>This message is shown when a string literal exists outside of a valid expression.</p>
+  <h4>Example</h4>
+  <p class="code">&quot;this is a string&quot; // GM1027! A lone string!</p>
+  <p>The string literal should be assigned to a variable, or compared to a variable, or passed as an argument to a function call.</p>
+  <p class="code">text = &quot;this is a string&quot;;<br />
+    if (text == &quot;this is a string&quot;)<br />
+    {<br />
+        show_debug_message(&quot;this is a string&quot;);<br />
+    }</p>
+  <h3>GM1028 - Accessor is intended for type of &#39;TYPE&#39; but &#39;TYPE&#39; appears instead.</h3>
+  <p>This message is shown when you address an element of a data structure using the accessor syntax and don&#39;t use the right operator for the data structure&#39;s type. Each type of data structure has its own accessor symbol that is used with it. See <a data-xref="{title}" href="../../GameMaker_Language/GML_Overview/Accessors.htm">Accessors</a> for the full list.</p>
+  <div data-conref="../../assets/snippets/Feather_rule_only_shown_when_strict_mode.hts"> </div>
+  <p>Possible causes of this error can be:</p>
+  <ul class="colour">
+    <li>You&#39;ve accidentally used the wrong accessor for the type of data structure you&#39;re accessing.</li>
+    <li>You forgot the accessor symbol. In this case the lookup is interpreted as an array lookup.</li>
+  </ul>
+  <h4>Example</h4>
+  <p class="code">lst_instances = ds_list_create();<br />
+    if (instance_place_list(x, y, obj_enemy, lst_instances, true))<br />
+    {<br />
+        var _ins = lst_instances[? 0]; // GM1028! Wrong accessor<br />
+        show_debug_message($&quot;The closest instance is {real(_ins)}.&quot;);<br />
+    }</p>
+  <p>In the code example above, a DS list is populated with instances of an object <span class="inline2">obj_enemy</span>. When there are any instances in the list, the first one is accessed. The pipe character <span class="inline2">|</span> is for accessing DS lists, however the list is incorrectly accessed with a <span class="inline2">?</span>, which is for DS maps. Changing the operator fixes the issue by addressing the data structure using the correct accessor.</p>
+  <p class="code">lst_instances = ds_list_create();<br />
+    if (instance_place_list(x, y, obj_enemy, lst_instances, true))<br />
+    {<br />
+        var _ins = lst_instances[| 0]; // Good!<br />
+        show_debug_message($&quot;The closest instance is {real(_ins)}.&quot;);<br />
+    }</p>
+  <h3>GM1029 - Potentially dangerous or unintended implicit cast from &#39;TYPE&#39; to &#39;TYPE&#39;.</h3>
+  <p>This message is shown when you pass an argument to a function parameter whose type differs from the type expected, but can and will be converted to the expected. While legal, this tends to be unfavourable code as the runtime does its best guess as to how the data should be converted which may lead to unexpected bugs or errors. For example, passing the string <span class="inline2">&quot;1234&quot;</span> to <span class="inline2">draw_sprite()</span>&#39;s 3rd parameter <span class="inline2">x</span> is legal, the runtime will convert the String to the Real of the same value. However, if the string value could not convert to a type Real value then you would encounter a runtime error. The cast is implicit since the runtime does it for you instead of you calling the <span class="inline2">real()</span> built-in function, and it&#39;s dangerous because it may or may not crash at runtime depending on how sanitary you keep your data.</p>
+  <div data-conref="../../assets/snippets/Feather_rule_only_shown_when_strict_mode.hts"> </div>
+  <h4>Example</h4>
+  <p class="code">var _x = &quot;1234&quot;;<br />
+    var _y = &quot;4321&quot;;<br />
+    draw_sprite(sprite_index, image_index, _x, _y); // GM1029</p>
+  <p>The fix for this message is to either make the cast explicit using one of the built-in functions (e.g. <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Strings/string.htm">string</a></span>, <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Variable_Functions/real.htm">real</a></span>, etc.) or to rewrite the code so that you do not depend on the dangerous usage of that data type.</p>
+  <p class="code">var _x = 1234;<br />
+    var _y = y;<br />
+    draw_sprite(sprite_index, image_index, _x, real(_y)); // Fix!</p>
+  <h3>GM1030 - The identifier &#39;BUILT-IN VARIABLE/CONSTANT&#39; is reserved and cannot be used as a variable name.</h3>
+  <p>Some identifier names are reserved by the compiler and runtime and cannot be used in local or static variable declarations. Keep in mind that in Constructor Function scopes some built-in variables are actually available for usage since they do not resolve to a built-in in those places. These tend to be built-in variables that modify some property of an Object such as <span class="inline2">sprite_index</span>, or <span class="inline2">x</span> and <span class="inline2">y</span>.</p>
+  <h4>Example</h4>
+  <p class="code">var image_index = 1; // GM1030<br />
+    function SpriteData() constructor {<br />
+        var image_index = 1; // Good!<br />
+    }</p>
+  <p>The fix is to find another, non-conflicting name to use for your variable instead.</p>
+  <p class="code">var _image_index = 1; // Fix!<br />
+    function SpriteData() constructor {<br />
+         var image_index = 1; // Good!<br />
+    }</p>
+  <h3>GM1031 - The name &#39;IDENTIFIER&#39; is an asset or constant and cannot be assigned to.</h3>
+  <p>This message is shown when you try to assign a value to an asset or a constant. Assets and constants cannot be changed and are meant to be used stand alone on the right-hand side of statements, in conditionals, or in expressions.</p>
+  <h4>Example</h4>
+  <p class="code">obj_control = 75; // GM1035! Cannot assign value to Asset type<br />
+    pi = 1.618; // GM1035! Cannot assign value to constant</p>
+  <p>Depending on the intention, either the name of the variable to be assigned to can be changed or the asset or constant should be moved to the right-hand side of the assignment.</p>
+  <p class="code">control = 75;<br />
+    value = pi;</p>
+  <h3>GM1032 - No references to arguments INDEX, … but references argument INDEX</h3>
+  <p>This message is shown when referencing an argument in a function via the argument0..argument15 built-in variables, and one or more indices have been skipped. While the arguments may be referenced in any order all indices 0..n must be referenced at least once; where n is the number of arguments in your function. If the code changes so that it no longer accesses e.g. <span class="inline2">argument0</span>, all other arguments need to be changed; <span class="inline2">argument1</span> becomes <span class="inline2">argument0</span>, <span class="inline2">argument2</span> becomes <span class="inline2">argument1</span>, etc.</p>
+  <p>See: <a data-xref="{title}" href="../../GameMaker_Language/GML_Overview/Variables/Builtin_Global_Variables/argument.htm">argument</a></p>
+  <h4>Example</h4>
+  <p class="code">function args() {<br />
+        var _x = argument0;<br />
+        var _y = argument2; // GM1032! Missing reference to argument1<br />
+    }</p>
+  <p>Replace the argument# variable with the first unused argument# variable.</p>
+  <p class="code">function args() {<br />
+        var _x = argument0;<br />
+        var _y = argument1; // Fix!<br />
+    }</p>
+  <h3>GM1033 - Possibly unintended or misplaced semicolon.</h3>
+  <p>This message is shown when there is a semicolon in the code that might be unnecessary at that position.</p>
+  <h4>Example</h4>
+  <p class="code">var _a = 3434;;</p>
+  <p>The double semicolon is not needed and can be removed.</p>
+  <p class="code">var _a = 3434;</p>
+  <h3>GM1034 - Argument cannot be referenced outside of script or function.</h3>
+  <p>This message indicates that one of the built-in variables <span class="inline2">argument0</span> - <span class="inline2">argument15</span> or the built-in variable argument (<span class="inline2">argument[0]</span>, <span class="inline2">argument[1]</span>, etc.) has been referenced outside of the scope of a function or script. These built-in variables are only legal inside functions, i.e. inside the opening and closing curly braces.</p>
+  <h4>Example</h4>
+  <p class="code">function args()<br />
+    {<br />
+        <br />
+    }<br />
+    var _first_parameter = argument[0];<br />
+    var _second_parameter = argument[1];</p>
+  <p>In this case the reference of the built-in variables is intended, they should be moved inside the curly braces. If the references aren&#39;t intended to be used, they should be removed.</p>
+  <p class="code">function args()<br />
+    {<br />
+        var _first_parameter = argument[0];<br />
+        var _second_parameter = argument[1];<br />
+    }</p>
+  <h3>GM1035 - Return type differs from previously established return type.</h3>
+  <p>This message is shown when your JSDoc differs from the type returned in code or if Feather determines that you&#39;ve returned multiple different non-compatible types from the same function. A non-compatible type would be something like Real, and String both being returned from the same function. Where something like Real, and Undefined might be compatible since <span class="inline2">undefined</span> is commonly used to indicate no result. Returning different types of data is sometimes a valid strategy but it is typically dangerous since consuming code may assume that only one type of data will be returned, which may result in runtime errors or strange behaviour in the calling code.</p>
+  <div data-conref="../../assets/snippets/Feather_rule_only_shown_when_strict_mode.hts"> </div>
+  <h4>Example</h4>
+  <p class="code">/// @returns {real}<br />
+    function get_random_number() {<br />
+        return &quot;1&quot;; // GM1035!<br />
+    }<br />
+    function get_random_number2() { // no JSDoc here<br />
+        if (irandom(100) &lt; 50)<br />
+            return 0; // Return type is established here as &#39;Real&#39;<br />
+        return &quot;1&quot;; // GM1035!<br />
+    }</p>
+  <p>The fix for this is to either update your JSDoc accordingly, or to rewrite your code to ensure that the same type is returned from all return statements.</p>
+  <p class="code">/// @returns {string}<br />
+    function get_random_number() {<br />
+        return &quot;1&quot;; // Fixed! But maybe rename the function!<br />
+    }<br />
+    function get_random_number2() { // no JSDoc here<br />
+        if (irandom(100) &lt; 50)<br />
+            return 0; // Return type is established here as &#39;Real&#39;<br />
+        return 1; // Fix!<br />
+    }</p>
+  <h3>GM1036 - Array cannot be indexed in this way.</h3>
+  <p>This message is shown if you index into an array with either 0 indices, or too many indices for the dimensionality of the array. Keep in mind that the 2D array syntax is deprecated in favour of staggered array indexing.</p>
+  <h4>Example</h4>
+  <p class="code">function choose2d() {<br />
+        var _x = irandom(argument_count);<br />
+        var _y = irandom(argument_count);<br />
+        return argument[_x, _y]; // GM1036! argument array is not 2d<br />
+    }<br />
+    var _arr = [ 1, 2, 3, 4 ];<br />
+    var _idx = _arr[]; // GM1036!</p>
+  <p>The fix for this issue is to either provide the index, or to rethink how you&#39;re accessing the array.</p>
+  <p class="code">function choose2d(_arr) {<br />
+        var _x = irandom(array_height_2d(_arr));<br />
+        var _y = irandom(array_length_2d(_arr));<br />
+        return _arr[_x, _y]; // Fix! Keep in mind this syntax is deprecated<br />
+    }<br />
+    var _arr = [ 1, 2, 3, 4 ];<br />
+    var _idx = _arr[0]; // Fix!</p>
+  <h3>GM1038 - Macro with this name has been previously declared.</h3>
+  <p>This message indicates that you defined a macro with the same name before, somewhere in your code. Project-wide search (<span class="shortcut">Ctrl+Alt+F</span>) can be useful in this case to check how many occurrences of the macro are in your project. Look for <span class="inline2">#macro &lt;macro_name&gt;</span> to find all definitions of this macro.</p>
+  <h4>Example</h4>
+  <p class="code">/// Script Asset: Debug<br />
+    #macro dbg show_debug_message<br />
+    <br />
+    /// Script Asset: Utility<br />
+    #macro dbg show_debug_message
+  </p>
+  <p>Remove all duplicate macro definitions until there is one left.</p>
+  <p class="code">/// Script Asset: Debug<br />
+    #macro dbg show_debug_message</p>
+  <h3>GM1040 - argument# and argument[#] referencing cannot be mixed.</h3>
+  <p>This message indicates that the <span class="inline2">argument</span> array variable and <span class="inline2">argument0</span> - <span class="inline2">argument15</span> variables are used together in a function. The former is used in functions that support a variable number of arguments, the latter is used when you know the number of arguments in advance. In any function, you should only ever use one of the two.</p>
+  <p>See: <a data-xref="{title}" href="../../GameMaker_Language/GML_Overview/Variables/Builtin_Global_Variables/argument.htm">argument</a></p>
+  <h4>Example</h4>
+  <p class="code">function func()<br />
+    {<br />
+       var _a = argument0;<br />
+       var _b = argument[1];<br />
+    }</p>
+  <p>Change all argument[n]/argumentn variables to the same type of referencing, depending on what&#39;s needed in the function.</p>
+  <p class="code">function func()<br />
+    {<br />
+       var _a = argument0;<br />
+       var _b = argument1;<br />
+    }<br />
+    // OR:<br />
+    function func()<br />
+    {<br />
+       var _a = argument[0];<br />
+       var _b = argument[1];<br />
+    }</p>
+  <h3>GM1041 - The type &#39;TYPE&#39; appears where the type &#39;TYPE&#39; is expected.</h3>
+  <p>This message is shown when you pass an argument to a function call&#39;s parameter of a different type. For example, passing a <span class="inline2">Id.Instance</span> to a <span class="inline2">String</span> parameter.</p>
+  <h4>Example</h4>
+  <p class="code">var _inst = instance_create_depth(x, y, -100, &quot;obj_player&quot;); // GM1041!</p>
+  <p>The fix is to determine what the correct type to pass to the parameter is, and rewrite your code accordingly.</p>
+  <p class="code">var _inst = instance_create_depth(x, y, -100, obj_player); // Fix!</p>
+  <h3>GM1042 - Parameter name &#39;PARAMETER&#39; differs from &#39;PARAMETER&#39; specified in jsdoc.</h3>
+  <p>This message is shown when there is a difference between a function&#39;s parameter name in the JSDoc and its corresponding parameter name in the argument list. This could have a couple of causes:</p>
+  <ul class="colour">
+    <li>There is a typo in the variable name in the JSDoc or in the argument list.</li>
+    <li>You renamed the parameter name in the argument list but not in the JSDoc or vice versa.</li>
+  </ul>
+  <h4>Example</h4>
+  <p class="code">/// @func sum(_v1, _v2);<br />
+    /// @desc This function returns the sum of two 3-component vectors<br />
+    /// @arg {Array&lt;Real&gt;} _v1 The first vector<br />
+    /// @arg {Array&lt;Real&gt;} _v2 The second vector<br />
+    function sum(_v, _v2)<br />
+    {<br />
+        return [<br />
+            _v1[0] + _v2[0],<br />
+            _v1[1] + _v2[1],<br />
+            _v1[2] + _v2[2]<br />
+        ];<br />
+    }</p>
+  <p>To fix this issue you need to change the incorrectly named variable to the correct one to make sure both names correspond.</p>
+  <p class="code">/// @func sum(_v1, _v2);<br />
+    /// @desc This function returns the sum of two 3-component vectors<br />
+    /// @arg {Array&lt;Real&gt;} _v1 The first vector<br />
+    /// @arg {Array&lt;Real&gt;} _v2 The second vector<br />
+    function sum(_v1, _v2)<br />
+    {<br />
+        return [<br />
+            _v1[0] + _v2[0],<br />
+            _v1[1] + _v2[1],<br />
+            _v1[2] + _v2[2]<br />
+        ];<br />
+    }</p>
+  <h3>GM1043 - Potentially unintentional type reassignment from &#39;{0}&#39; to &#39;{1}&#39;.</h3>
+  <p>This message is shown when you assign a new value to an existing variable and the type of the new value is different from the type that the variable currently holds.</p>
+  <p>This may not cause any issues, though it could make it more difficult to interpret your GML code correctly when you use the same variable name multiple times.</p>
+  <p>It is good practice to keep the data type that you store in a variable constant, even though <span data-keyref="GameMaker Name">GameMaker</span> doesn&#39;t enforce this in any way.</p>
+  <div data-conref="../../assets/snippets/Feather_rule_only_shown_when_strict_mode.hts"> </div>
+  <h4>Example</h4>
+  <p class="code">// Store a real number in my_var<br />
+    my_var = 5;<br />
+    <br />
+    // Next store a string in my_var<br />
+    my_var = &quot;I&#39;m a string&quot;;  // type reassignment!
+  </p>
+  <p>This issue can be fixed in multiple ways, it depends on what you&#39;re trying to do in your code. If the string has a different purpose in your code you could store it in a different variable with an appropriate name.</p>
+  <p class="code">// Store a real number in my_var<br />
+    my_var = 5;<br />
+    <br />
+    // Store a new real number in my_var<br />
+    my_var = 100;<br />
+    <br />
+    // Store a string in a new variable my_string<br />
+    my_string = &quot;I&#39;m a string&quot;;
+  </p>
+  <h3>GM1044 - Constant is expected to be one of the following: {0}</h3>
+  <p>This message is shown whenever one constant from a group of constants is expected as an argument and you&#39;ve provided a value that&#39;s not in that group. Examples of these groups of constants are the Mouse Button Constants, the Game Speed Constants and the Primitive Type Constants. A constant from another group or a real number may accidentally work but it is not good practice to use them. Using the right constant in the right place helps increase the readability of your code.</p>
+  <h4>Example</h4>
+  <p class="code">// Example 1<br />
+    if mouse_check_button_pressed(mb_midle)<br />
+    {<br />
+    }<br />
+    <br />
+    // Example 2<br />
+    if mouse_check_button_pressed(vk_left)<br />
+    {<br />
+    }
+  </p>
+  <p>If this was caused by a typo, then fixing the typo fixes it. In other cases the constant needs to be changed to a valid one.</p>
+  <p class="code">// Example 1<br />
+    if mouse_check_button_pressed(mb_middle)<br />
+    {<br />
+    }<br />
+    <br />
+    // Example 2<br />
+    if mouse_check_button_pressed(mb_left)<br />
+    {<br />
+    }
+  </p>
+  <h3>GM1045 - Type &#39;{0}&#39; differs from type &#39;{1}&#39; specified in jsdoc.</h3>
+  <p>This message is shown when Feather detects that the type of a variable in your code doesn&#39;t correspond to the type the JSDoc says that variable should be.</p>
+  <p>This can happen when you write the JSDoc already, but decide to change the code afterwards. In that case, the JSDoc will no longer be up to date and needs to be changed to reflect the changes.</p>
+  <h4>Example</h4>
+  <p class="code">/// @func return_something()<br />
+    /// @desc This function returns something<br />
+    ///<br />
+    /// @returns {Id.Instance} A new instance<br />
+    ///<br />
+    function return_something()<br />
+    {<br />
+        return &quot;something&quot;;<br />
+    }</p>
+  <p>In the code example above the JSDoc says the function returns an instance ID, but the code actually returns a string. If this is the intent, the type in the JSDoc needs to be changed to <span class="inline2">String</span> to reflect that. If not, the code needs to be changed so it returns an instance.</p>
+  <p class="code">/// @func return_something()<br />
+    /// @desc This function returns something<br />
+    ///<br />
+    /// @returns {String} The string &quot;something&quot;<br />
+    ///<br />
+    function return_something()<br />
+    {<br />
+        return &quot;something&quot;;<br />
+    }</p>
+  <h3>GM1050 - The identifier &#39;{0}&#39; is declared as a local variable and cannot be accessed in this way.</h3>
+  <p>This message is shown when you attempt to access a local variable (defined with the <span class="inline2">var</span> keyword) using the dot operator. The dot operator accesses a different scope, though local variables are already in the current scope.</p>
+  <h4>Example</h4>
+  <p class="code">/// Create Event<br />
+    var _condition = false;<br />
+    if (self._condition)    // Error! Variable is local...<br />
+    {<br />
+    }</p>
+  <p>A local (or temporary) variable should always be used without a prefix that refers to a scope. The scope of local variables is always the current block of code.</p>
+  <p class="code">var _condition = false;<br />
+    if (_condition)<br />
+    {<br />
+    }</p>
+  <h3>GM1051 - Macro expressions should not be terminated with a &#39;;&#39; semicolon.</h3>
+  <p>This message is shown when you end a macro definition with a semicolon. Macros can go anywhere in your code and are replaced by their value. Any semicolons in the macro&#39;s value are also inserted and may end up in places where they cause a syntax error.</p>
+  <p>See the section on Macros on the <a data-xref="{title}" href="../../GameMaker_Language/GML_Overview/Variables/Constants.htm">Constants</a> page for more info.</p>
+  <h4>Example</h4>
+  <p class="code">randomise();<br />
+    <br />
+    #macro NEW_COLOR make_color_rgb(random(255), random(255), random(255));<br />
+    <br />
+    draw_primitive_begin(pr_trianglelist);<br />
+    <br />
+    repeat(3)<br />
+    {<br />
+        draw_vertex_color(random(room_width), random(room_height), NEW_COLOR, 1);    // Issue!<br />
+    }<br />
+    <br />
+    draw_primitive_end();
+  </p>
+  <p>Inserting the macro into the function call leads to a semicolon being inserted right after the third argument. This is incorrect, since this semicolon marks the end of the statement while the function call still needs an additional parameter and also has to be closed with a parenthesis. Removing the semicolon at the end of the macro fixes the issue.</p>
+  <p class="code">// The semicolon that gets inserted as part of the macro causes a syntax error:<br />
+    // draw_vertex_color(random(room_width), random(room_height), make_color_rgb(random(255), random(255), random(255));, 1);<br />
+    randomise();<br />
+    <br />
+    #macro NEW_COLOR make_color_rgb(random(255), random(255), random(255))<br />
+    <br />
+    draw_primitive_begin(pr_trianglelist);<br />
+    <br />
+    repeat(3)<br />
+    {<br />
+        draw_vertex_color(random(room_width), random(room_height), NEW_COLOR, 1);    // Fixed!<br />
+    }<br />
+    <br />
+    draw_primitive_end();
+  </p>
+  <h3>GM1052 - The delete operator can only act on a variable of type &#39;struct&#39;.</h3>
+  <p>The <span class="inline2"><a data-xref="{title}" href="../../GameMaker_Language/GML_Overview/Language_Features/new.htm">new</a></span> and <span class="inline2"><a data-xref="{title}" href="../../GameMaker_Language/GML_Overview/Language_Features/delete.htm">delete</a></span> operators are specifically for use with structs. Instances are destroyed using <span class="inline2">instance_destroy()</span>, arrays are garbage-collected once they&#39;re no longer referenced and other resource types have their own functions to handle deleting/freeing them (a <span class="inline2">*_destroy</span> or <span class="inline2">*_free</span> function).</p>
+  <p class="code">values = [2, 403, 202, 303, 773, 573];<br />
+    delete values;</p>
+  <p>To fix this the appropriate function or method should be used which, for arrays, is setting the variable to <span class="inline2">undefined</span>.</p>
+  <p class="code">values = undefined;</p>
+  <h3>GM1054 - Cannot inherit from non-existent function &#39;{0}&#39;.</h3>
+  <p>This message is shown when the constructor that a constructor is inheriting from doesn&#39;t exist. Possible causes are:</p>
+  <ul class="colour">
+    <li>The constructor to inherit from still needs to be defined.</li>
+    <li>The function must be marked as a constructor by adding the <span class="inline2">constructor</span> keyword.</li>
+    <li>There is a typo in the inherited constructor name.</li>
+  </ul>
+  <p>See: <a data-xref="{title}" href="../../GameMaker_Language/GML_Overview/Structs.htm">Structs &amp; Constructors</a></p>
+  <h4>Example</h4>
+  <p class="code">function vec2() : vec()<br />
+    {<br />
+    }</p>
+  <p>The code example above attempts to create an inherited constructor function, but some things are missing. First, the constructor to inherit from, <span class="inline2">vec</span>, isn&#39;t defined yet. Second, the function isn&#39;t marked as a constructor with the <span class="inline2">constructor</span> keyword. To fix the error the parent constructor should be defined and the <span class="inline2">constructor</span> keyword be added to both.</p>
+  <p class="code">function vec() constructor {}<br />
+    function vec2() : vec() constructor<br />
+    {<br />
+    }</p>
+  <h3>GM1055 - Cannot mix argument# and named parameters.</h3>
+  <p>This message indicates that you&#39;ve used one of the argumentn variables while the function parameters are defined as named parameters. For every function either one or the other should be used.</p>
+  <h4>Example</h4>
+  <p class="code">function func(_a, _b, _c) {<br />
+        show_debug_message($&quot;{argument0}, {argument1}, {argument2}&quot;);<br />
+    }</p>
+  <p>In the code example above the parameters are already defined as named parameters. Replacing the occurrences of <span class="inline2">argument0</span> - <span class="inline2">argument2</span> in the function body fixes this issue. <span class="inline2">argument0</span> is replaced with <span class="inline2">_a</span>, <span class="inline2">argument1</span> is replaced with <span class="inline2">_b</span> and <span class="inline2">argument2</span> is replaced with <span class="inline2">_c</span>. So every argument is replaced with the named argument at the corresponding index.</p>
+  <p class="code">function func(_a, _b, _c) {<br />
+        show_debug_message($&quot;{_a}, {_b}, {_c}&quot;);<br />
+    }</p>
+  <h3>GM1056 - Bad practice to declare non-optional parameter after an optional parameter.</h3>
+  <p>This message is shown when you list optional parameters before non-optional parameters. As a consequence, in order to use the default value of those optional parameters it&#39;s necessary to omit the argument. All optional parameters should go at the end of the parameter list.</p>
+  <p>See the section on <a data-xref="{text}" href="../../GameMaker_Language/GML_Overview/Script_Functions.htm#h">Optional Arguments</a> on the <a data-xref="{title}" href="../../GameMaker_Language/GML_Overview/Script_Functions.htm">Script Functions And Variables</a> page.</p>
+  <h4>Example</h4>
+  <p class="code">function func(arg1, arg2, arg3=7, arg4)<br />
+    {<br />
+    }<br />
+    func(4, 5, , 8);  // the third parameter has to be omitted to use the default value</p>
+  <p>This can be fixed by changing the order of the function parameters such that all optional parameters and their default values go at the end of the parameter list.</p>
+  <p class="code">function func(arg1, arg2, arg4, arg3=7)<br />
+    {<br />
+    }<br />
+    func(4, 5, 8);</p>
+  <h3>GM1058 - Cannot &#39;new&#39; the identifier &#39;{0}&#39; as it is not a constructor function.</h3>
+  <p>This message is shown when you try to call the <span class="inline2"><a data-xref="{title}" href="../../GameMaker_Language/GML_Overview/Language_Features/new.htm">new</a></span> operator with a valid function name that&#39;s not marked as a constructor.</p>
+  <h4>Example</h4>
+  <p class="code">function item()<br />
+    {<br />
+    }<br />
+    sword = new item();</p>
+  <p>In order to fix this error the constructor keyword must be added to the function definition.</p>
+  <p class="code">function item() constructor<br />
+    {<br />
+    }<br />
+    sword = new item();</p>
+  <h3>GM1059 - The parameter &#39;{0}&#39; has been previously declared.</h3>
+  <p>This message is shown when the same parameter name occurs multiple times in a function&#39;s parameter list.</p>
+  <h4>Example</h4>
+  <p class="code">function func(_param1, _param2, _param1)<br />
+    {<br />
+    }</p>
+  <p>Depending on what is intended, the parameter should either be removed or renamed.</p>
+  <p class="code">// Option 1: Remove double<br />
+    function func(_param1, _param2)<br />
+    {<br />
+    }<br />
+    // Option 2: Rename the parameter<br />
+    function func(_param1, _param2, _param3)<br />
+    {<br />
+    }</p>
+  <h3>GM1060 - Dangerous call to variable of type &#39;{0}&#39;.</h3>
+  <p>Shown when you try to call something that is not a function.</p>
+  <h4>Example</h4>
+  <p class="code">my_function = 100;<br />
+    my_function();<br />
+    my_function = pi;<br />
+    my_function();</p>
+  <h3>GM1062 - Malformed type &#39;{0}&#39; in jsdoc.</h3>
+  <p>This message indicates that Feather is unable to parse a parameter or return type in the function&#39;s JSDoc. The supported syntax is given on the <a data-xref="{title}" href="Feather_Data_Types.htm">Feather Data Types</a> page.</p>
+  <h4>Example</h4>
+  <p class="code">/// @function func(_param1, _param2, _param3)<br />
+    /// @desc This function does something<br />
+    /// @param {Array[String} _param1 This is parameter 1<br />
+    /// @param {String Array[String]} _param2 This is parameter 2<br />
+    /// @param {Id Instance} _param3 This is parameter 3<br />
+    function func(_param1, _param2, _param3)<br />
+    {<br />
+        show_debug_message(&quot;The parameters are: {0}, {1} and {2}&quot;, _param1, _param2, _param3);<br />
+    }</p>
+  <p>The JSDoc types in the code example above can be corrected as follows:</p>
+  <p class="code">/// @function func(_param1, _param2, _param3)<br />
+    /// @desc This function does something<br />
+    /// @param {Array[String]} _param1 This is parameter 1<br />
+    /// @param {String,Array[String]} _param2 This is parameter 2<br />
+    /// @param {Id.Instance} _param3 This is parameter 3<br />
+    function func(_param1, _param2, _param3)<br />
+    {<br />
+        show_debug_message(&quot;The parameters are: {0}, {1} and {2}&quot;, _param1, _param2, _param3);<br />
+    }</p>
+  <h3>GM1063 - Ternary may yield differing types &#39;{0}&#39; and &#39;{1}&#39;.</h3>
+  <p>This message is shown when a ternary operator returns a type of value in the true case that&#39;s different from the type in the false case or vice versa. As a consequence, the variable that&#39;s assigned to may receive a different type, depending on the outcome of the condition.</p>
+  <h4>Example</h4>
+  <p class="code">/// Create Event<br />
+    tex = (texture_defined) ? sprite_get_texture(sprite_index, 0) : -1;<br />
+    <br />
+    /// Draw Event<br />
+    vertex_submit(vb, pr_trianglelist, tex);
+  </p>
+  <p>This can be fixed by explicitly converting the type returned in one of the cases to the type of the other case.</p>
+  <h3>GM1064 - Redeclaration of global function &#39;{0}&#39; originally declared in &#39;{1}&#39;.</h3>
+  <p>This message indicates that you&#39;ve already declared a global function with the same name in another script asset.</p>
+  <h4>Example</h4>
+  <p class="code">/// Script1<br />
+    function make_game()<br />
+    {<br />
+    }<br />
+    <br />
+    /// Script2<br />
+    function make_game()<br />
+    {<br />
+    }
+  </p>
+  <p>One of the function definitions should be removed so that only one remains in the global namespace. If you want to create two functions with the same name then it is possible to create them as static functions within two different functions. The functions in which you define the static functions then act as a namespace.</p>
+  <p class="code">/// Script1<br />
+    function make_game()<br />
+    {<br />
+    }</p>
+  <h3>GM1100 - Syntax Error</h3>
+  <p>This message indicates a general syntax error in your code. Syntax errors cover a range of possible errors related to the syntax of your code.</p>
+  <h4>Example</h4>
+  <p class="code">var _this * something;<br />
+    = 48;</p>
+  <h3>GM2000 - Not all code paths call gpu_set_blendmode(bm_normal) before the end of the script.</h3>
+  <p>This message is shown when you change the blend mode to a value different from <span class="inline2">bm_normal</span> with a call to <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Drawing/GPU_Control/gpu_set_blendmode.htm">gpu_set_blendmode</a></span> but don&#39;t change it back to <span class="inline2">bm_normal</span> afterwards. After drawing something with a different blend mode it is important to set blending back to normal so everything that&#39;s drawn after it is drawn correctly.</p>
+  <h4>Example</h4>
+  <p class="code">/// Draw Event<br />
+    gpu_set_blendmode(bm_add);<br />
+    draw_self();<br />
+    <br />
+    /// Draw GUI Event<br />
+    draw_text(5, 5, $&quot;Score: {score}&quot;);
+  </p>
+  <p>The code in the example intends to draw an instance with added blending in its normal Draw event and some text with normal blending in its Draw GUI event. However, no call to reset the blend mode back to <span class="inline2">bm_normal</span> is made in the Draw event and so the text in the Draw GUI event is also drawn using additive blending. Another call to <span class="inline3_func">gpu_set_blendmode</span> needs to be added at the end of the Draw event to reset the blending back to <span class="inline2">bm_normal</span>.</p>
+  <p class="code">/// Draw Event<br />
+    gpu_set_blendmode(bm_add);<br />
+    draw_self();<br />
+    gpu_set_blendmode(bm_normal);<br />
+    <br />
+    /// Draw GUI Event<br />
+    draw_text(5, 5, $&quot;Score: {score}&quot;);
+  </p>
+  <h3>GM2003 - Not all code paths call shader_reset() before end of script.</h3>
+  <p>This error is shown when a call to the function <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Asset_Management/Shaders/shader_reset.htm">shader_reset</a></span> is missing after drawing using a custom shader (set with <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Asset_Management/Shaders/shader_set.htm">shader_set</a></span>). When the shader isn&#39;t set back to the default shader after drawing using a custom shader, everything that&#39;s drawn after that is also drawn using that shader.</p>
+  <h4>Example</h4>
+  <p class="code">/// Draw Event<br />
+    shader_set(sh_fancy_lighting);<br />
+    vertex_submit(vb_my_world_model, pr_trianglelist, -1);<br />
+    <br />
+    /// Draw GUI Event<br />
+    draw_text(5, 5, &quot;World 1&quot;);  // Also drawn using sh_fancy_lighting
+  </p>
+  <p>The call to <span class="inline3_func">shader_set</span> should be accompanied with a call to <span class="inline3_func">shader_reset</span>.</p>
+  <p class="code">/// Draw Event<br />
+    shader_set(sh_fancy_lighting);<br />
+    vertex_submit(vb_my_world_model, pr_trianglelist, -1);<br />
+    shader_reset();<br />
+    <br />
+    /// Draw GUI Event<br />
+    draw_text(5, 5, &quot;World 1&quot;);
+  </p>
+  <h3>GM2004 - This for statement does not use its index and can be written as a repeat statement instead.</h3>
+  <p>This message indicates that the <span class="inline2"><a data-xref="{title}" href="../../GameMaker_Language/GML_Overview/Language_Features/for.htm">for</a></span> statement has a loop counter that is never used, e.g. to index an array. When the number of iterations is known in advance and doesn&#39;t depend on a condition the for loop doesn&#39;t need a counter and can be replaced by a <span class="inline2"><a data-xref="{title}" href="../../GameMaker_Language/GML_Overview/Language_Features/repeat.htm">repeat</a></span> statement.</p>
+  <h4>Example</h4>
+  <p class="code">randomise();<br />
+    var _num_elements = 20;<br />
+    array = [];<br />
+    <br />
+    for(var i = 0;i &lt; _num_elements;i++)<br />
+    {<br />
+        array_push(array, irandom(100));<br />
+    }
+  </p>
+  <p>The for loop in the example code above doesn&#39;t use its index. In this specific situation, the function used (<span class="inline2">array_push()</span>) automatically appends to the end of the array so the index doesn&#39;t have to be provided explicitly.</p>
+  <p class="code">randomise();<br />
+    var _num_elements = 20;<br />
+    array = [];<br />
+    <br />
+    repeat(_num_elements)<br />
+    {<br />
+        array_push(array, irandom(100));<br />
+    }
+  </p>
+  <h3>GM2005 - Not all code paths call surface_reset_target() before end of script.</h3>
+  <p>This error indicates that you changed the draw target with a call to <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Drawing/Surfaces/surface_set_target.htm">surface_set_target</a></span> but haven&#39;t set it back with a call to <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Drawing/Surfaces/surface_reset_target.htm">surface_reset_target</a></span> in all situations.</p>
+  <p>See: <a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Drawing/Surfaces/Surfaces.htm">Surfaces</a></p>
+  <h4>Example</h4>
+  <p class="code">/// Draw Event<br />
+    if (!surface_exists(sf_canvas))<br />
+    {<br />
+        sf_canvas = surface_create(512, 512);<br />
+    }<br />
+    <br />
+    surface_set_target(sf_canvas);<br />
+    draw_clear_alpha(c_white, 0);<br />
+    draw_rectangle(4, 4, 40, 40);
+  </p>
+  <p>In the example code above the drawing target is still set to <span class="inline2">sf_canvas</span> after the block of code has executed. Further draw commands will also draw to this surface. A call to <span class="inline3_func">surface_reset_target()</span> is needed at the end to reset the drawing target.</p>
+  <p class="code">/// Draw Event<br />
+    if (!surface_exists(sf_canvas))<br />
+    {<br />
+        sf_canvas = surface_create(512, 512);<br />
+    }<br />
+    <br />
+    surface_set_target(sf_canvas);<br />
+    draw_clear_alpha(c_white, 0);<br />
+    draw_rectangle(4, 4, 40, 40);<br />
+    surface_reset_target();
+  </p>
+  <h3>GM2007 - var expression should be terminated with a &#39;;&#39; (semicolon.)</h3>
+  <p>This message indicates that a semicolon <span class="inline2">;</span> is missing at the end of a <span class="inline2">var</span> statement. Local variables can be declared without immediately assigning them a value, but this declaration needs to be terminated with a semicolon.</p>
+  <h4>Example</h4>
+  <p class="code">var a</p>
+  <p>A semicolon needs to be added at the end of the statement to fix this.</p>
+  <p class="code">var a;</p>
+  <h3>GM2008 - Opening another vertex batch before closing a previous vertex batch.</h3>
+  <p>This message is shown when you start another vertex batch with a call to <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Drawing/Primitives/vertex_begin.htm">vertex_begin</a></span> before having called <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Drawing/Primitives/vertex_end.htm">vertex_end</a></span> for the current batch. Every call to <span class="inline3_func">vertex_begin()</span> must be followed by a call to <span class="inline3_func">vertex_end()</span> before a next call to <span class="inline3_func">vertex_begin()</span>.</p>
+  <h4>Example</h4>
+  <p class="code">vertex_begin(vb, format);<br />
+    <br />
+    // vertex_position_3d(...)<br />
+    // vertex_color(...)<br />
+    // vertex_texcoord(...)<br />
+    // etc.<br />
+    vertex_begin(vb, format);    // Error!<br />
+    <br />
+    // vertex_position_3d(...)<br />
+    // vertex_color(...)<br />
+    // vertex_texcoord(...)<br />
+    // etc.<br />
+    vertex_end(vb);
+  </p>
+  <p>In the example above two calls to <span class="inline3_func">vertex_begin()</span> follow each other without a call to <span class="inline3_func">vertex_end()</span> between them. Adding a call to <span class="inline3_func">vertex_end()</span> in between fixes the issue.</p>
+  <p class="code">vertex_begin(vb, format);<br />
+    // vertex_position_3d(...)<br />
+    // vertex_color(...)<br />
+    // vertex_texcoord(...)<br />
+    // etc.<br />
+    vertex_end(vb);              // End the current one first!<br />
+    <br />
+    vertex_begin(vb, format);    // Only then start a new one!<br />
+    // vertex_position_3d(...)<br />
+    // vertex_color(...)<br />
+    // vertex_texcoord(...)<br />
+    // etc.<br />
+    vertex_end(vb);
+  </p>
+  <h3>GM2009 - Closing a vertex batch without opening a vertex batch.</h3>
+  <p>This message is shown when you close a vertex batch with a call to <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Drawing/Primitives/vertex_end.htm">vertex_end</a></span> before starting the batch with a call to <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Drawing/Primitives/vertex_begin.htm">vertex_begin</a></span>. You first need to start the vertex batch with a call to <span class="inline3_func">vertex_begin()</span>, then add vertex data according to the vertex format for the desired number of vertices and finally close the batch with a call to <span class="inline3_func">vertex_end()</span>.</p>
+  <h4>Example</h4>
+  <p class="code">vertex_end(vb);</p>
+  <p>In the example code above a vertex batch is closed using <span class="inline3_func">vertex_end()</span> without ever being opened. The fix is to add a call to <span class="inline3_func">vertex_begin()</span> and add data for the vertices before the call to <span class="inline3_func">vertex_end()</span>.</p>
+  <p class="code">vertex_begin(vb, format);<br />
+    // vertex_position_3d(...)<br />
+    // vertex_color(...)<br />
+    // vertex_texcoord(...)<br />
+    // etc.<br />
+    vertex_end(vb);</p>
+  <h3>GM2010 - The function &#39;{0}&#39; cannot be called outside of a vertex_begin()/vertex_end() block.</h3>
+  <p>This message is shown when you&#39;re attempting to call a function that writes vertex data outside of <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Drawing/Primitives/vertex_begin.htm">vertex_begin</a></span> / <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Drawing/Primitives/vertex_end.htm">vertex_end</a></span>. Vertex data can only be added after first calling <span class="inline3_func">vertex_begin()</span> and before calling <span class="inline3_func">vertex_end()</span>.</p>
+  <h4>Example</h4>
+  <p class="code">/// Create Event<br />
+    vertex_format_begin();<br />
+    vertex_format_add_position_3d();<br />
+    format = vertex_format_end();<br />
+    vb = vertex_create_buffer();<br />
+    <br />
+    vertex_begin(vb, format);<br />
+    vertex_end(vb);<br />
+    vertex_position_3d(vb, x, y, 0);<br />
+    vertex_position_3d(vb, x + 100, y, 0);<br />
+    vertex_position_3d(vb, x, y + 100, 0);
+  </p>
+  <p>In the code example above, the function calls to write positions to the vertex buffer come after <span class="inline3_func">vertex_end()</span>. To fix this they need to be moved between <span class="inline3_func">vertex_begin()</span> and <span class="inline3_func">vertex_end()</span>.</p>
+  <p class="code">/// Create Event<br />
+    vertex_format_begin();<br />
+    vertex_format_add_position_3d();<br />
+    format = vertex_format_end();<br />
+    vb = vertex_create_buffer();<br />
+    <br />
+    vertex_begin(vb, format);<br />
+    vertex_position_3d(vb, x, y, 0);<br />
+    vertex_position_3d(vb, x + 100, y, 0);<br />
+    vertex_position_3d(vb, x, y + 100, 0);<br />
+    vertex_end(vb);
+  </p>
+  <h3>GM2011 - Not all code paths call vertex_end() before the end of the script.</h3>
+  <p>This message indicates that you started writing vertex data to a vertex buffer but haven&#39;t properly finished writing the data with a closing call to <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Drawing/Primitives/vertex_end.htm">vertex_end</a></span>. Every call to <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Drawing/Primitives/vertex_begin.htm">vertex_begin</a></span> should be accompanied by a call to <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Drawing/Primitives/vertex_end.htm">vertex_end</a></span>. To write data to a vertex buffer you should do the following:</p>
+  <h4>Example</h4>
+  <p class="code">/// Create Event<br />
+    vb = vertex_create_buffer();<br />
+    vertex_begin(vb, format);<br />
+    vertex_position_3d(vb, 0, 0, 0);<br />
+    vertex_colour(vb, c_white, 1);<br />
+    // Etc.<br />
+    <br />
+    /// Draw Event<br />
+    vertex_submit(vb, pr_pointlist, -1);
+  </p>
+  <p>In the code example above, the vertex buffer isn&#39;t properly finished because a call to <span class="inline3_func">vertex_end()</span> is missing. This needs to be added to fix the issue.</p>
+  <p class="code">/// Create Event<br />
+    vb = vertex_create_buffer();<br />
+    vertex_begin(vb, format);<br />
+    vertex_position_3d(vb, 0, 0, 0);<br />
+    vertex_colour(vb, c_white, 1);<br />
+    // Etc.<br />
+    vertex_end(vb);<br />
+    <br />
+    /// Draw Event<br />
+    vertex_submit(vb, pr_pointlist, -1);
+  </p>
+  <h3>GM2012 - Opening another vertex format before closing a previous vertex format.</h3>
+  <p>This message is shown when you begin a new vertex format with <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Drawing/Primitives/vertex_format_begin.htm">vertex_format_begin</a></span> before finishing the previous one with a call to <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Drawing/Primitives/vertex_format_end.htm">vertex_format_end</a></span>. A vertex format must always be closed before starting a new one.</p>
+  <h4>Example</h4>
+  <p class="code">/// Create Event<br />
+    vertex_format_begin();<br />
+    vertex_format_begin();<br />
+    vertex_format_add_position_3d();<br />
+    format1 = vertex_format_end();<br />
+    vertex_format_add_position_3d();<br />
+    vertex_format_add_texcoord();<br />
+    format2 = vertex_format_end();</p>
+  <p>In the example code above, one vertex format definition is nested inside another one. As a result, a vertex format is being defined while another one&#39;s definition hasn&#39;t finished. To fix this, all vertex formats should be defined one after the other:</p>
+  <p class="code">/// Create Event<br />
+    vertex_format_begin();<br />
+    vertex_format_add_position_3d();<br />
+    format1 = vertex_format_end();<br />
+    <br />
+    vertex_format_begin();<br />
+    vertex_format_add_position_3d();<br />
+    vertex_format_add_texcoord();<br />
+    format2 = vertex_format_end();
+  </p>
+  <h3>GM2013 - Closing a vertex format without opening a vertex format.</h3>
+  <p>This message is shown when you close a vertex format with <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Drawing/Primitives/vertex_format_end.htm">vertex_format_end</a></span> without first having called <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Drawing/Primitives/vertex_format_begin.htm">vertex_format_begin</a></span>.</p>
+  <h4>Example</h4>
+  <p class="code">/// Create Event<br />
+    format = vertex_format_end();</p>
+  <p>The code example above closes the vertex format without ever having started it with a call to <span class="inline3_func">vertex_format_begin()</span>. The vertex format should be opened with a call to this function and at least one vertex attribute should be added to it using one of the <span class="inline2">vertex_format_add_*</span> functions.</p>
+  <p class="code">/// Create Event<br />
+    vertex_format_begin();<br />
+    vertex_format_add_position_3d();<br />
+    format = vertex_format_end();</p>
+  <h3>GM2014 - The function &#39;{0}&#39; cannot be called outside of a vertex_format_begin()/vertex_format_end() block.</h3>
+  <p>The <span class="inline2">vertex_format_add_*</span> functions can only be called between a call to <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Drawing/Primitives/vertex_format_begin.htm">vertex_format_begin</a></span> and <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Drawing/Primitives/vertex_format_end.htm">vertex_format_end</a></span>. The function <span class="inline3_func">vertex_format_begin()</span> starts the vertex format, calls to <span class="inline3_func">vertex_format_add_*</span> define the vertex format&#39;s attributes and the function <span class="inline3_func">vertex_format_end()</span> ends the definition of the vertex format and returns it.</p>
+  <h4>Example</h4>
+  <p class="code">/// Create Event<br />
+    vertex_format_add_position_3d();<br />
+    vertex_format_add_colour();<br />
+    vertex_format_add_texcoord();<br />
+    vertex_format_begin();<br />
+    format = vertex_format_end();</p>
+  <p>In the code example above, the <span class="inline3_func">vertex_format_add_*</span> functions are called before the call to <span class="inline3_func">vertex_format_begin()</span> that begins the actual definition of a vertex format. These functions always go between <span class="inline3_func">vertex_format_begin()</span> and <span class="inline3_func">vertex_format_end()</span>. Moving the call to <span class="inline3_func">vertex_format_begin()</span> before the first <span class="inline2">vertex_format_add_*</span> call fixes the issue.</p>
+  <p class="code">/// Create Event<br />
+    vertex_format_begin();<br />
+    vertex_format_add_position_3d();<br />
+    vertex_format_add_colour();<br />
+    vertex_format_add_texcoord();<br />
+    format = vertex_format_end();</p>
+  <h3>GM2015 - Not all code paths call vertex_format_end() before the end of the script.</h3>
+  <p>This message is shown when you started the definition of a vertex format with <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Drawing/Primitives/vertex_format_begin.htm">vertex_format_begin</a></span> but haven&#39;t finished it with a call to <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Drawing/Primitives/vertex_format_end.htm">vertex_format_end</a></span>. The call to <span class="inline3_func">vertex_format_end()</span> returns the actual vertex format.</p>
+  <h4>Example</h4>
+  <p class="code">/// Create Event<br />
+    vertex_format_begin();<br />
+    vertex_format_add_position_3d();<br />
+    vertex_format_add_colour();<br />
+    vertex_format_add_texcoord();</p>
+  <p>A vertex format definition isn&#39;t complete without a call to <span class="inline3_func">vertex_format_end()</span> that returns the format. This needs to be added to fix the issue.</p>
+  <p class="code">/// Create Event<br />
+    vertex_format_begin();<br />
+    vertex_format_add_position_3d();<br />
+    vertex_format_add_colour();<br />
+    vertex_format_add_texcoord();<br />
+    format = vertex_format_end();</p>
+  <h3>GM2016 - Instance variable &#39;{0}&#39; declared outside of Create event, declare with &#39;var&#39; or move to Create event.</h3>
+  <p>This message is shown when you declare an <a href="../../GameMaker_Language/GML_Overview/Variables/Instance_Variables.htm" title="Instance Variables">instance variable</a> outside of the Create event. Instance variables should always be created in the Create event to guarantee that you&#39;ll be able to access them in all other events.</p>
+  <p>When you don&#39;t define instance variables in the Create event, you might at one point run into a situation where that variable doesn&#39;t exist yet. For example, when you first define the instance variable in the Step event and only use it in the Step event, this won&#39;t cause problems. Though when you later decide to add a Begin Step event to the object and attempt to access the variable there, an error will be thrown when your game runs. This is because Begin Step events run before Step events and the first Step event hasn&#39;t run yet when the first Begin Step event runs.</p>
+  <h4>Example</h4>
+  <p class="code">/// Create Event<br />
+    ammo_initialised = false;<br />
+    <br />
+    /// Begin Step Event<br />
+    <br />
+    /// Step Event<br />
+    if (!ammo_initialised)<br />
+    {<br />
+        ammo = 0;<br />
+        ammo_initialised = true;<br />
+    }<br />
+    var _ins_ammo = instance_place(x, y, obj_ammo);<br />
+    if (_ins_ammo != noone)<br />
+    {<br />
+        // Collect ammo<br />
+        ammo++;<br />
+        instance_destroy(_ins_ammo);<br />
+    }
+  </p>
+  <p>This issue is fixed by moving the declaration of the variable to the object&#39;s Create event.</p>
+  <p class="code">/// Create Event<br />
+    ammo = 0;<br />
+    <br />
+    /// Begin Step Event<br />
+    // Do something with ammo here<br />
+    <br />
+    /// Step Event<br />
+    var _ins_ammo = instance_place(x, y, obj_ammo);<br />
+    if (_ins_ammo != noone)<br />
+    {<br />
+        // Collect ammo<br />
+        ammo++;<br />
+        instance_destroy(_ins_ammo);<br />
+    }
+  </p>
+  <h3>GM2017 - Inconsistent naming. Recommended name is &#39;{0}&#39;.</h3>
+  <p>This message is shown when Feather encounters a name in your code that&#39;s not named according to the naming rules as defined under Feather Settings &gt; Naming Rules. The names can be asset names, names of variables in a particular scope (local, instance, etc.) as well as function, constructor, enum and macro names.</p>
+  <p>Note that Feather will check against your own naming rules when you customise them in the <a data-xref="{title}" href="../../Setting_Up_And_Version_Information/IDE_Preferences/Feather_Settings.htm">Feather Preferences</a>.</p>
+  <h4>Example</h4>
+  <p class="code">var s = sprSprite;<br />
+    enum size<br />
+    {<br />
+        small,<br />
+        medium,<br />
+        large<br />
+    }<br />
+    <br />
+    function Show()<br />
+    {<br />
+        show_debug_message(&quot;Here it is!&quot;);<br />
+    }
+  </p>
+  <p>The code in the example above contains a few names that aren&#39;t named according to Feather&#39;s default naming rules. To make them consistent with these rules, the code should be changed to the following:</p>
+  <p class="code">var _s = spr_sprite;<br />
+    enum SIZE<br />
+    {<br />
+        SMALL,<br />
+        MEDIUM,<br />
+        LARGE<br />
+    }<br />
+    <br />
+    function show()<br />
+    {<br />
+        show_debug_message(&quot;Here it is!&quot;);<br />
+    }
+  </p>
+  <h3>GM2019 - Not all code paths call draw_set_valign(fa_top) before the end of the script.</h3>
+  <p>This warning message indicates that you changed the vertical text alignment to a value different from the default (<span class="inline2">fa_top</span>) but haven&#39;t changed it back afterwards.</p>
+  <h4>Example</h4>
+  <p class="code">/// Draw GUI Begin Event<br />
+    draw_set_valign(fa_bottom);<br />
+    draw_text(5, room_height-5, &quot;In the bottom-left corner&quot;);<br />
+    <br />
+    /// Draw GUI Event<br />
+    draw_text(5, 5, &quot;In the top-left corner&quot;);
+  </p>
+  <p>In the above code example, the vertical text alignment is set to bottom-aligned and some text is drawn in the Draw GUI Begin event. The text alignment isn&#39;t reset to <span class="inline2">fa_top</span>, however, which causes text in the Draw GUI Event that follows it to be drawn mostly offscreen. This is because it is drawn bottom-aligned at a position in the top-left corner of the window. Resetting the vertical text alignment back to <span class="inline2">fa_top</span> fixes the issue.</p>
+  <p class="code">/// Draw GUI Begin Event<br />
+    draw_set_valign(fa_bottom);<br />
+    draw_text(5, room_height-5, &quot;In the bottom-left corner&quot;);<br />
+    draw_set_valign(fa_top);<br />
+    <br />
+    /// Draw GUI Event<br />
+    draw_text(5, 5, &quot;In the top-left corner&quot;);
+  </p>
+  <h3>GM2020 - all cannot be referenced in this way.</h3>
+  <p>This message is shown when you attempt to reference the keyword <span class="inline2"><a data-xref="{title}" href="../../GameMaker_Language/GML_Overview/Instance Keywords/all.htm">all</a></span> in the dot operator. The keyword <span class="inline2">all</span> can be used in a <span class="inline2"><a data-xref="{title}" href="../../GameMaker_Language/GML_Overview/Language_Features/with.htm">with</a></span> statement to indicate that it should loop through all instances, but it cannot be used with the dot operator to change a variable in all instances at the same time.</p>
+  <h4>Example</h4>
+  <p class="code">all.x = 200;</p>
+  <p>The fix for this issue is to use the keyword <span class="inline2">all</span> in a <span class="inline2">with</span> statement.</p>
+  <p class="code">with (all)<br />
+    {<br />
+        x = 200;<br />
+    }</p>
+  <h3>GM2022 - Return value of a pure function is not being used.</h3>
+  <p>This message indicates that you&#39;ve called a <a class="glossterm" data-glossterm="pure" href="#">pure</a> function, which doesn&#39;t change anything and only returns a value, without using its return value. The return value can be used by assigning it to a variable, using it in an expression or by passing it as a parameter in a function call.</p>
+  <h4>Example</h4>
+  <p class="code">variable_get_hash(&quot;member&quot;);<br />
+    choose(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;);<br />
+    make_colour_rgb(255, 255, 0);</p>
+  <p>The return value needs be used in the code in order to fix the issue.</p>
+  <p class="code">var _hash = variable_get_hash(&quot;member&quot;);<br />
+    if (choose(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;) == &quot;a&quot;) { show_debug_message(&quot;Good choice!&quot;); }<br />
+    draw_set_colour(make_colour_rgb(255, 255, 0));</p>
+  <h3>GM2023 - Evaluation order of function calls in argument list not guaranteed between platforms.</h3>
+  <p>This message is shown when there are multiple function calls in the argument list when calling a function. When a function is called, the arguments are not necessarily initialised in the order they&#39;re defined in the argument list. As a consequence, when the arguments contain function calls, those function calls may not execute in the order you&#39;d expect. In some specific cases, such as when a function reads data sequentially, this can give unexpected results.</p>
+  <h4>Example</h4>
+  <p class="code">vertex_position_3d(vb, buffer_read(buff, buffer_f32), buffer_read(buff, buffer_f32), buffer_read(buff, buffer_f32));<br />
+    /// z will be x, y will be y, x will be z<br />
+    /// since the buffer_read&#39;s are called in order last to first</p>
+  <p>To make sure the assignments are done in the correct order you call the functions and assign the result of each of them to a temporary variable before calling the actual function. Then call the actual function and pass the temporary variables as the arguments.</p>
+  <p class="code">var _x = buffer_read(buff, buffer_f32);<br />
+    var _y = buffer_read(buff, buffer_f32);<br />
+    var _z = buffer_read(buff, buffer_f32);<br />
+    vertex_position_3d(vb, _x, _y, _z);</p>
+  <h3>GM2025 - Reference to non-existent event &#39;{0}&#39;.</h3>
+  <p>Shown when a <a href="../../GameMaker_Language/GML_Reference/Asset_Management/Objects/Object_Events/event_user.htm">user event</a> is called but that user event does not exist in the object.</p>
+  <h3>GM2026 - Not all code paths call draw_set_halign(fa_left) before the end of the script.</h3>
+  <p>This message indicates that you changed the horizontal text alignment to a value different from the default (<span class="inline2">fa_left</span>) but haven&#39;t changed it back afterwards.</p>
+  <h4>Example</h4>
+  <p class="code">/// Draw GUI Begin Event<br />
+    draw_set_halign(fa_right);<br />
+    draw_text(room_width-5, 5, &quot;In the top-right corner&quot;);<br />
+    <br />
+    /// Draw GUI Event<br />
+    draw_text(5, 5, &quot;In the top-left corner&quot;);
+  </p>
+  <p>In the example code above, the horizontal text alignment is set to right-aligned and some text is drawn in the Draw GUI Begin event. However, the text alignment isn&#39;t reset to <span class="inline2">fa_left</span>, which causes text in the Draw GUI Event that follows it to be drawn mostly offscreen. This is because it is drawn right-aligned at a position in the top-left corner of the window. Resetting the horizontal text alignment back to <span class="inline2">fa_left</span> fixes the issue.</p>
+  <p class="code">/// Draw GUI Begin Event<br />
+    draw_set_halign(fa_right);<br />
+    draw_text(room_width-5, 5, &quot;In the top-right corner&quot;);<br />
+    draw_set_halign(fa_left);<br />
+    <br />
+    /// Draw GUI Event<br />
+    draw_text(5, 5, &quot;In the top-left corner&quot;);
+  </p>
+  <h3>GM2027 - Opening another primitive before closing a previous primitive.</h3>
+  <p>This message is shown when you open another primitive using <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Drawing/Primitives/draw_primitive_begin.htm">draw_primitive_begin</a></span> without closing the current primitive with a call to <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Drawing/Primitives/draw_primitive_end.htm">draw_primitive_end</a></span>.</p>
+  <p>A primitive is always drawn with a call to <span class="inline3_func">draw_primitive_begin()</span>, followed by multiple calls to one of the <span class="inline2">draw_vertex*</span> functions and finally a call to <span class="inline3_func">draw_primitive_end()</span>.</p>
+  <h4>Example</h4>
+  <p class="code">/// Draw Event<br />
+    draw_primitive_begin(pr_linestrip);<br />
+    draw_vertex(0, 0);<br />
+    draw_vertex(10, 0);<br />
+    draw_vertex(0, 10);<br />
+    draw_primitive_begin(pr_linestrip);<br />
+    draw_vertex(10, 0);<br />
+    draw_vertex(20, 0);<br />
+    draw_vertex(10, 10);<br />
+    draw_primitive_end();</p>
+  <p>The first primitive is missing a <span class="inline3_func">draw_primitive_end()</span> call after the calls to <span class="inline3_func">draw_vertex()</span>. Adding it fixes the issue.</p>
+  <p class="code">/// Draw Event<br />
+    draw_primitive_begin(pr_linestrip);<br />
+    draw_vertex(0, 0);<br />
+    draw_vertex(10, 0);<br />
+    draw_vertex(0, 10);<br />
+    draw_primitive_end();<br />
+    <br />
+    draw_primitive_begin(pr_linestrip);<br />
+    draw_vertex(10, 0);<br />
+    draw_vertex(20, 0);<br />
+    draw_vertex(10, 10);<br />
+    draw_primitive_end();
+  </p>
+  <h3>GM2028 - Closing a primitive without opening a primitive.</h3>
+  <p>This message indicates that you made a call to <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Drawing/Primitives/draw_primitive_end.htm">draw_primitive_end</a></span> to close a primitive, but haven&#39;t opened a primitive first with a call to <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Drawing/Primitives/draw_primitive_begin.htm">draw_primitive_begin</a></span>.</p>
+  <h4>Example</h4>
+  <p class="code">/// Draw Event<br />
+    draw_primitive_end();  // Which primitive to close?</p>
+  <p>Calling <span class="inline3_func">draw_primitive_begin()</span> before <span class="inline3_func">draw_primitive_end()</span> fixes this issue.</p>
+  <p class="code">/// Draw Event<br />
+    draw_primitive_begin(pr_linelist);<br />
+    <br />
+    // draw_vertex, draw_vertex_colour, etc.<br />
+    <br />
+    draw_primitive_end();
+  </p>
+  <h3>GM2029 - The function &#39;{0}&#39; cannot be called outside of a draw_primitive_begin()/draw_primitive_end() block.</h3>
+  <p>This message is shown when you use one of the <span class="inline2">draw_vertex*</span> functions outside of  <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Drawing/Primitives/draw_primitive_begin.htm">draw_primitive_begin</a></span> / <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Drawing/Primitives/draw_primitive_end.htm">draw_primitive_end</a></span>. These functions add vertices when drawing a primitive and only do something when called between <span class="inline3_func">draw_primitive_begin()</span> and <span class="inline3_func">draw_primitive_end()</span>.</p>
+  <h4>Example</h4>
+  <p class="code">/// Draw Event<br />
+    draw_vertex(room_width/4, room_height/4);<br />
+    draw_vertex(room_width/2, room_height/4);<br />
+    draw_vertex(room_width/4, room_height/2);<br />
+    draw_primitive_begin(pr_trianglelist);<br />
+    draw_primitive_end();</p>
+  <p>In the code example, the calls to <span class="inline3_func">draw_vertex()</span> need to be moved between the calls to <span class="inline3_func">draw_primitive_begin()</span> and <span class="inline3_func">draw_primitive_end()</span>.</p>
+  <p class="code">/// Draw Event<br />
+    draw_primitive_begin(pr_trianglelist);<br />
+    draw_vertex(room_width/4, room_height/4);<br />
+    draw_vertex(room_width/2, room_height/4);<br />
+    draw_vertex(room_width/4, room_height/2);<br />
+    draw_primitive_end();</p>
+  <h3>GM2030 - Not all code paths call draw_primitive_end() before the end of the script.</h3>
+  <p>This message indicates that a call to <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Drawing/Primitives/draw_primitive_end.htm">draw_primitive_end</a></span> is missing in at least one place in your code. This can happen when you draw, for example, different vertices based on an if-else condition and you added the call to <span class="inline3_func">draw_primitive_end()</span> to the if case, but not to the else case.</p>
+  <h4>Example</h4>
+  <p class="code">/// Draw Event<br />
+    var _condition = (irandom(100) &lt; 50);<br />
+    draw_primitive_begin(pr_linelist);<br />
+    <br />
+    if (_condition)<br />
+    {<br />
+        // draw_vertex, draw_vertex_colour, etc.<br />
+        draw_primitive_end();<br />
+    }<br />
+    else<br />
+    {<br />
+        // draw_vertex, draw_vertex_colour, etc.<br />
+    }
+  </p>
+  <p>In the example above one of two possible code paths is followed, where each draws a different shape. The if case ends with a call to <span class="inline3_func">draw_primitive_end()</span>, though the else case is missing that call. Adding it to the else case is one possible fix, though the clean and more robust way to fix the issue is to move it outside of the if-else statement.</p>
+  <p class="code">/// Draw Event<br />
+    var _condition = (irandom(100) &lt; 50);<br />
+    draw_primitive_begin(pr_linelist);<br />
+    <br />
+    if (_condition)<br />
+    {<br />
+        // draw_vertex, draw_vertex_colour, etc.<br />
+    }<br />
+    else<br />
+    {<br />
+        // draw_vertex, draw_vertex_colour, etc.<br />
+    }<br />
+    <br />
+    draw_primitive_end();  // Call no longer depends on if-else condition!
+  </p>
+  <h3>GM2031 - Opening another File Find before closing a previous File Find.</h3>
+  <p>This message is shown when you start another File Find with <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/File_Handling/File_System/file_find_first.htm">file_find_first</a></span> without closing the previous one with <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/File_Handling/File_System/file_find_close.htm">file_find_close</a></span>. You can only perform one File Find at a time and one needs to be closed before another can be opened.</p>
+  <h4>Example</h4>
+  <p class="code">var _look_for_description = true;<br />
+    var _file = file_find_first(&quot;/game_data/*.bin&quot;, fa_none);<br />
+    if (_look_for_description)<br />
+    {<br />
+        _file2 = file_find_first(&quot;/game_data/*.json&quot;, fa_none);<br />
+    }<br />
+    <br />
+    file_find_close();
+  </p>
+  <p>In the code example above a second file find is started with <span class="inline3_func">file_find_first()</span> before the current file find is properly closed if a variable <span class="inline2">_look_for_description</span> is set to <span class="inline2">true</span>. To properly fix the issue the first file find needs to be closed before the <span class="inline2">if</span> statement is checked and the second file find needs to be closed inside the <span class="inline2">true</span> case of the <span class="inline2">if</span> statement (at the same level as the call to <span class="inline3_func">file_find_first()</span>).</p>
+  <p class="code">var _look_for_description = true;<br />
+    var _file = file_find_first(&quot;/game_data/*.bin&quot;, fa_none);<br />
+    file_find_close();<br />
+    if (_look_for_description)<br />
+    {<br />
+        _file2 = file_find_first(&quot;/game_data/*.json&quot;, fa_none);<br />
+        file_find_close();<br />
+    }</p>
+  <h3>GM2032 - Closing a File Find without opening a File Find.</h3>
+  <p>This message is shown when you call <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/File_Handling/File_System/file_find_close.htm">file_find_close</a></span> when no File Find is currently open (i.e. no call to <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/File_Handling/File_System/file_find_first.htm">file_find_first</a></span> was made).</p>
+  <h4>Example</h4>
+  <p class="code">file_find_close();</p>
+  <p>A call to <span class="inline3_func">file_find_first()</span> should be added if the intention is to do a File Find.</p>
+  <p class="code">file_find_first(&quot;*.json&quot;, fa_none);<br />
+    file_find_close();</p>
+  <h3>GM2033 - The function &#39;{0}&#39; cannot be called outside of a file_find_first()/file_find_close() block.</h3>
+  <p>This message indicates that the given function can only go between a call to <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/File_Handling/File_System/file_find_first.htm">file_find_first</a></span> and a call to <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/File_Handling/File_System/file_find_close.htm">file_find_close</a></span>.</p>
+  <h4>Example</h4>
+  <p class="code">fnames = [];<br />
+    var _fname = file_find_first(&quot;*.txt&quot;, fa_none);<br />
+    <br />
+    while(_fname != &quot;&quot;)<br />
+    {<br />
+        array_push(fnames, _fname);<br />
+        _fname = file_find_next();<br />
+    }<br />
+    <br />
+    file_find_close();<br />
+    file_find_next();
+  </p>
+  <p>The second <span class="inline3_func">file_find_next()</span> is called outside of the calls to <span class="inline3_func">file_find_first()</span> and <span class="inline3_func">file_find_close()</span>. It needs to be removed to fix the issue.</p>
+  <p class="code">fnames = [];<br />
+    var _fname = file_find_first(&quot;*.txt&quot;, fa_none);<br />
+    <br />
+    while(_fname != &quot;&quot;)<br />
+    {<br />
+        array_push(fnames, _fname);<br />
+        _fname = file_find_next();<br />
+    }<br />
+    <br />
+    file_find_close();
+  </p>
+  <h3>GM2034 - Not all code paths call file_find_close() before the end of the script.</h3>
+  <p>This message indicates that a call to <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/File_Handling/File_System/file_find_close.htm">file_find_close</a></span> may not be encountered. Ideally, the call to <span class="inline3_func">file_find_close()</span> should occur in the same scope as the call to <span class="inline3_func">file_find_first()</span>.</p>
+  <h4>Example</h4>
+  <p class="code">fnames = [];<br />
+    var _fname = file_find_first(&quot;*.txt&quot;, fa_none);<br />
+    while(_fname != &quot;&quot;)<br />
+    {<br />
+        array_push(fnames, _fname);<br />
+        _fname = file_find_next();<br />
+    }</p>
+  <p>In the code example, a call to <span class="inline3_func">file_find_close()</span> is missing. This needs to be added to fix the issue.</p>
+  <p class="code">fnames = [];<br />
+    var _fname = file_find_first(&quot;*.txt&quot;, fa_none);<br />
+    while(_fname != &quot;&quot;)<br />
+    {<br />
+        array_push(fnames, _fname);<br />
+        _fname = file_find_next();<br />
+    }<br />
+    file_find_close();</p>
+  <h3>GM2035 - Not all code paths call gpu_pop_state() before end of script.</h3>
+  <p>This message indicates that there are situations where <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Drawing/GPU_Control/gpu_pop_state.htm">gpu_pop_state</a></span> isn&#39;t called, depending on your game&#39;s logic. This can occur when you have logic in your code where, for example, the <span class="inline2">if</span> case contains a call to <span class="inline3_func">gpu_pop_state</span> but the <span class="inline2">else</span> case doesn&#39;t. Depending on whether the expression inside the if statement evaluates to <span class="inline2">true</span> or <span class="inline2">false</span> the function may not get called.</p>
+  <h4>Example</h4>
+  <p class="code">/// Draw End Event<br />
+    gpu_push_state();<br />
+    gpu_set_blendmode(bm_add);<br />
+    if (show_name)<br />
+    {<br />
+        draw_text(x, y, name);<br />
+        gpu_pop_state();<br />
+    }<br />
+    /// Draw GUI Event<br />
+    draw_text(5, 5, $&quot;Instances: {instance_count}&quot;);</p>
+  <p>In the code example, the GPU&#39;s current state is pushed onto the stack and the blend mode is then changed to <span class="inline2">bm_add</span>. The GPU&#39;s state is then set back to the previous one, but only if an instance variable is <span class="inline2">true</span>. This has consequences for the subsequent Draw GUI Event. The call to <span class="inline3_func">gpu_pop_state</span> needs to be moved out of the <span class="inline2">if</span> statement so it always executes.</p>
+  <p class="code">/// Draw End Event<br />
+    gpu_push_state();<br />
+    gpu_set_blendmode(bm_add);<br />
+    if (show_name)<br />
+    {<br />
+        draw_text(x, y, name);<br />
+    }<br />
+    gpu_pop_state();<br />
+    <br />
+    /// Draw GUI Event<br />
+    draw_text(5, 5, $&quot;Instances: {instance_count}&quot;);  // All good!
+  </p>
+  <h3>GM2039 - Call to execute a global script resource like a function is deprecated.</h3>
+  <p>This message is shown when you call a script asset as a function. A script asset is not meant to be executed directly as a function. While the behaviour is still included in <span data-keyref="GameMaker Name">GameMaker</span>, it is only there to support legacy code.</p>
+  <h4>Example</h4>
+  <p class="code">/// my_function<br />
+    show_debug_message(&quot;my_function calling!&quot;);  // Function call. Debug message is shown already!<br />
+    <br />
+    /// Create Event<br />
+    my_function();                               // Debug message is shown again!
+  </p>
+  <p>If a script asset contains code that should be its own function, this code should be moved inside a new function definition inside the script. The new function gets the name of the script asset and the script asset can be renamed to a descriptive name that describes well what it contains (a group of functions, a collection of (global) variables, a collection of macros, etc.).</p>
+  <p class="code">/// Functions (Script Asset)<br />
+    function my_function()<br />
+    {<br />
+        show_debug_message(&quot;my_function calling!&quot;);  // Function call as part of function definition. Nothing is shown (yet)!<br />
+    }<br />
+    <br />
+    /// Create Event<br />
+    my_function();                                   // Actual function call, debug message is shown (only) at the intented time!
+  </p>
+  <h3>GM2040 - Call to event_inherited() in object with no parent event.</h3>
+  <p>This message is shown when you call the function <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Asset_Management/Objects/Object_Events/event_inherited.htm">event_inherited</a></span> in an object that either has no parent object or that has no ancestor in its parent-child hierarchy that defines the event.</p>
+  <h4>Example</h4>
+  <p class="code">/// obj_parent<br />
+    // No Room Start event<br />
+    <br />
+    /// obj_child.Room_Start<br />
+    event_inherited();
+  </p>
+  <p>In the code example, an object <span class="inline2">obj_child</span> has an object <span class="inline2">obj_parent</span> as its parent object. The parent object doesn&#39;t define a Room Start event yet the child object does and calls <span class="inline3_func">event_inherited()</span>. The call to <span class="inline3_func">event_inherited()</span> can be removed, or it can be commented out in case the event might get added later in the parent object.</p>
+  <p class="code">/// obj_parent<br />
+    // No Room Start event<br />
+    <br />
+    /// obj_child.Room_Start<br />
+    event_inherited();
+  </p>
+  <h3>GM2042 - Inconsistent stack depth for gpu_push_state()/gpu_pop_state() blocks. All branches should call these functions an equal number of times.</h3>
+  <p>This message indicates that <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Drawing/GPU_Control/gpu_push_state.htm">gpu_push_state</a></span> is called a different number of times than <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Drawing/GPU_Control/gpu_pop_state.htm">gpu_pop_state</a></span>. Every call to <span class="inline3_func">gpu_push_state</span> must be accompanied by a call to <span class="inline3_func">gpu_pop_state</span>.</p>
+  <h4>Example</h4>
+  <p class="code">/// Draw Event<br />
+    // Situation 1<br />
+    gpu_push_state();<br />
+    gpu_push_state();<br />
+    // draw something<br />
+    gpu_pop_state();<br />
+    <br />
+    // Situation 2<br />
+    gpu_push_state();<br />
+    // draw_something<br />
+    gpu_pop_state();<br />
+    gpu_pop_state();
+  </p>
+  <p>Every call to <span class="inline3_func">gpu_push_state</span> in the code above must have a corresponding call to <span class="inline3_func">gpu_pop_state</span>. Assuming that two stack pushes were meant in the first case and a single stack push in the second case, the code can be fixed as follows:</p>
+  <p class="code">/// Draw Event<br />
+    // Situation 1<br />
+    gpu_push_state();<br />
+    gpu_push_state();<br />
+    // draw something<br />
+    gpu_pop_state();<br />
+    gpu_pop_state();<br />
+    <br />
+    // Situation 2<br />
+    gpu_push_state();<br />
+    // draw_something<br />
+    gpu_pop_state();
+  </p>
+  <h3>GM2043 - Attempting to access the local variable &#39;{0}&#39; outside of the scope it was defined in.</h3>
+  <p>This warning is shown when you access a local variable either before it&#39;s defined or after it&#39;s gone out of scope.</p>
+  <h4>Example</h4>
+  <p class="code">// Attempt to access before it&#39;s defined<br />
+    // Didn&#39;t come across variable definition yet<br />
+    i = 0;<br />
+    var i = 34;<br />
+    <br />
+    // Attempting to access after the variable&#39;s gone out of scope<br />
+    if (something_occurred)<br />
+    {<br />
+        // Variable is defined inside curly braces,<br />
+        // remains &quot;in scope&quot; between these curly braces<br />
+        var _msg = &quot;Something happened!&quot;;<br />
+    }<br />
+    <br />
+    // Variable went out of scope after the closing curly brace<br />
+    _msg = &quot;test&quot;;
+  </p>
+  <p>You should make sure to always define local variables before accessing them. In case of the <span class="inline2">if</span> statement the variable can simply be declared before the <span class="inline2">if</span> so it stays in scope the entire time and can also be accessed from within the <span class="inline2">if</span> statement.</p>
+  <p class="code">// Fix for access before it&#39;s defined<br />
+    var i = 0;<br />
+    i = 34;<br />
+    <br />
+    // Fix for access after the variable&#39;s gone out of scope<br />
+    var _msg;<br />
+    if (something_occurred)<br />
+    {<br />
+        // Variable can be accessed and modified from within if<br />
+        _msg = &quot;Something happened!&quot;;<br />
+    }<br />
+    <br />
+    // Variable is still in scope now<br />
+    _msg = &quot;test&quot;;
+  </p>
+  <h3>GM2044 - Local variable &#39;{0}&#39; is already declared.</h3>
+  <p>This message is shown when you declare a local variable with the same name as a local variable that already exists.</p>
+  <h4>Example</h4>
+  <p class="code">// Situation 1: declared again<br />
+    var i = 0;<br />
+    var _num_elements = 20;<br />
+    array = array_create(_num_elements);<br />
+    repeat(_num_elements)<br />
+    {<br />
+        array[i--] = irandom(100);<br />
+    }<br />
+    var i = 0;<br />
+    <br />
+    // Situation 2: redeclared in a nested loop<br />
+    for(var i = 0;i &lt; 50;i++)<br />
+    {<br />
+        for(var i = 0;i &lt; 50;i++)<br />
+        {<br />
+            <br />
+        }<br />
+    }
+  </p>
+  <p>In the above example two situations are shown. In the first situation the local variable is declared and used in a <span class="inline2">repeat</span> loop. After that, it is redeclared. In this case, it suffices to keep only the first declaration and change the other one to an assignment since the variable already exists at that point. In the second situation the same variable name is accidentally used for both loop counters in a nested for loop. This will cause the variable to increment not only in the outer loop but also in the inner loop. To fix this, the inner loop counter variable should be renamed.</p>
+  <p class="code">// Situation 1: declared again<br />
+    var i = 0;<br />
+    var _num_elements = 20;<br />
+    array = array_create(_num_elements);<br />
+    repeat(_num_elements)<br />
+    {<br />
+        array[i--] = irandom(100);<br />
+    }<br />
+    i = 0;<br />
+    <br />
+    // Situation 2: redeclared in a nested loop<br />
+    for(var i = 0;i &lt; 50;i++)<br />
+    {<br />
+        for(var j = 0;j &lt; 50;j++)<br />
+        {<br />
+            <br />
+        }<br />
+    }
+  </p>
+  <h3>GM2046 - Inconsistent stack depth for surface_set_target()/surface_reset_target() blocks. All branches should call these functions the same number of times.</h3>
+  <p>This message indicates that you&#39;ve set the draw target to a surface more times than you&#39;ve reset it back to the previous target. Every change to the draw target must be accompanied by a change back to the previous draw target. If you miss a call to <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Drawing/Surfaces/surface_reset_target.htm">surface_reset_target</a></span> this may cause certain things to be drawn to a different surface.</p>
+  <h4>Example</h4>
+  <p class="code">/// Create Event<br />
+    sf = -1;<br />
+    <br />
+    /// Draw Event<br />
+    if (!surface_exists(sf))<br />
+    {<br />
+        sf = surface_create(128, 128);<br />
+    }<br />
+    surface_set_target(sf);<br />
+    draw_clear_alpha(c_blue, 1);<br />
+    draw_circle(50, 50, 20, false);<br />
+    vertex_submit(vb, pr_trianglelist, surface_get_texture(sf));
+  </p>
+  <p>In the code example above, a surface is created and drawn to in the Draw event. The surface is set as the drawing target but the drawing target isn&#39;t reset properly. A vertex buffer is then submitted with the surface texture used as the texture. However, the drawing target is still set to the surface itself and the vertex buffer will be rendered to the surface.</p>
+  <p>Adding a call to <span class="inline3_func">surface_reset_target()</span> after drawing to the surface fixes the issue.</p>
+  <p class="code">/// Create Event<br />
+    sf = -1;<br />
+    <br />
+    /// Draw Event<br />
+    if (!surface_exists(sf))<br />
+    {<br />
+        sf = surface_create(128, 128);<br />
+    }<br />
+    surface_set_target(sf);<br />
+    draw_clear_alpha(c_blue, 1);<br />
+    draw_circle(50, 50, 20, false);<br />
+    surface_reset_target();<br />
+    vertex_submit(vb, pr_trianglelist, surface_get_texture(sf));
+  </p>
+  <h3>GM2047 - Unreachable code.</h3>
+  <p>This message is shown when a part of your code cannot be reached in any way because the logic always prevents it from happening. For example, when the expression inside an <span class="inline2">if</span> statement always evaluates to <span class="inline2">false</span>, the code inside that <span class="inline2">if</span> statement will never be executed.</p>
+  <h4>Example</h4>
+  <p class="code">if (false)<br />
+    {<br />
+        // Unreachable code<br />
+    }</p>
+  <p>To fix this you should change the expression so that there are cases where it can evaluate to <span class="inline2">true</span> and the code inside the <span class="inline2">if</span> case executes.</p>
+  <p class="code">if (choose(true, false))<br />
+    {<br />
+        // Code executed if &#39;true&#39;<br />
+    }</p>
+  <h3>GM2048 - Not all code paths call gpu_set_blendenable(true) before the end of the script.</h3>
+  <p>This message indicates that <span class="inline2">gpu_set_blendenable(true)</span> isn&#39;t called in all possible cases after you disable blending with <span class="inline2">gpu_set_blendenable(false)</span>. This can occur when you have logic in your code where, for example, the <span class="inline2">if</span> case contains a call to <span class="inline2">gpu_set_blendenable(true)</span> but the <span class="inline2">else</span> case doesn&#39;t. Depending on whether the expression inside the <span class="inline2">if</span> statement evaluates to <span class="inline2">true</span> or <span class="inline2">false</span>, the function may not get called and blending won&#39;t be enabled again for subsequent drawing.</p>
+  <h4>Example</h4>
+  <p class="code">/// Draw Event<br />
+    gpu_set_blendenable(false);<br />
+    vertex_submit(vb, pr_trianglelist, tex);<br />
+    <br />
+    /// Draw GUI Event<br />
+    draw_text(5, 5, &quot;Hello!&quot;);  // Text isn&#39;t drawn correctly
+  </p>
+  <p>To fix this issue you need to re-enable alpha blending with another call to <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Drawing/GPU_Control/gpu_set_blendenable.htm">gpu_set_blendenable</a></span>.</p>
+  <p class="code">/// Draw Event<br />
+    gpu_set_blendenable(false);<br />
+    vertex_submit(vb, pr_trianglelist, tex);<br />
+    gpu_set_blendenable(true);<br />
+    <br />
+    /// Draw GUI Event<br />
+    draw_text(5, 5, &quot;Hello!&quot;);  // Text is drawn correctly again
+  </p>
+  <h3>GM2049 - Not all code paths call gpu_set_zfunc(cmpfunc_lessequal) before the end of the script.</h3>
+  <p>This message indicates that you&#39;ve changed the function for z-testing but haven&#39;t set it back to the default <span class="inline2">cmpfunc_lessequal</span> again. When depth testing is enabled with a call to <span class="inline2">gpu_set_ztestenable(true)</span>, by default a pixel that&#39;s written to the depth buffer is considered closer when its z value is less or equal (<span class="inline2">cmpfunc_lessequal</span>) than the current depth value for that pixel.</p>
+  <h4>Example</h4>
+  <p class="code">/// Draw Event<br />
+    gpu_set_ztestenable(true);<br />
+    gpu_set_zfunc(cmpfunc_greater);<br />
+    vertex_submit(vb, pr_trianglelist, tex);<br />
+    gpu_set_ztestenable(false);</p>
+  <p>The comparison function used for z-testing needs to be properly reset to <span class="inline2">cmpfunc_lessequal</span> in another call to <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Drawing/GPU_Control/gpu_set_zfunc.htm">gpu_set_zfunc</a></span>.</p>
+  <p class="code">/// Draw Event<br />
+    gpu_set_ztestenable(true);<br />
+    gpu_set_zfunc(cmpfunc_greater);<br />
+    vertex_submit(vb, pr_trianglelist, tex);<br />
+    gpu_set_zfunc(cmpfunc_lessequal);<br />
+    gpu_set_ztestenable(false);</p>
+  <h3>GM2050 - Not all code paths call gpu_set_fog(false, c_black, 0, 1) before the end of the script.</h3>
+  <p>This message indicates that you&#39;ve changed the GPU fog settings with a call to <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Drawing/GPU_Control/gpu_set_fog.htm">gpu_set_fog</a></span>, but haven&#39;t reset them to the default fog settings afterwards. GPU fog is disabled by default.</p>
+  <h4>Example</h4>
+  <p class="code">/// Draw Event<br />
+    gpu_set_fog(true, c_aqua, 0, 1000);<br />
+    draw_self();</p>
+  <p>The fog needs to be disabled after drawing with fog enabled in order not to affect subsequent draw commands.</p>
+  <p class="code">/// Draw Event<br />
+    gpu_set_fog(true, c_aqua, 0, 1000);<br />
+    draw_self();<br />
+    gpu_set_fog(false, c_black, 0, 1);</p>
+  <h3>GM2051 - Not all code paths call gpu_set_cullmode(cull_noculling) before the end of the script.</h3>
+  <p>This message indicates that you&#39;ve changed the cullmode using a call to <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Drawing/GPU_Control/gpu_set_cullmode.htm">gpu_set_cullmode</a></span>, but haven&#39;t reset it to <span class="inline2">cull_noculling</span> afterwards. When culling is enabled, the GPU will not draw the backside of triangles based on the winding order of the vertices, which is either clockwise or counter-clockwise.</p>
+  <h4>Example</h4>
+  <p class="code">/// Draw Event<br />
+    gpu_set_cullmode(cull_clockwise);<br />
+    shader_set(sh_lighting);<br />
+    vertex_submit(vb_static_geometry, pr_trianglelist, -1);<br />
+    shader_reset();<br />
+    <br />
+    /// Draw GUI Event<br />
+    draw_text(5, 5, &quot;World 1&quot;);
+  </p>
+  <p>In order to fix this issue the cullmode needs to be properly reset to <span class="inline2">cull_noculling</span> or to the value that it had before.</p>
+  <p class="code">/// Draw Event<br />
+    gpu_set_cullmode(cull_clockwise);<br />
+    // OR<br />
+    // var _cm = gpu_get_cullmode();<br />
+    // gpu_set_cullmode(cull_clockwise);<br />
+    <br />
+    shader_set(sh_lighting);<br />
+    vertex_submit(vb_static_geometry, pr_trianglelist, -1);<br />
+    shader_reset();<br />
+    <br />
+    gpu_set_cullmode(cull_noculling);<br />
+    // OR<br />
+    // gpu_set_cullmode(_cm);<br />
+    <br />
+    /// Draw GUI Event<br />
+    draw_text(5, 5, &quot;World 1&quot;);
+  </p>
+  <h3>GM2052 - Not all code paths call gpu_set_colourwriteenable(true, true, true, true) before the end of the script.</h3>
+  <p>This message indicates that you&#39;ve disabled writing to at least one colour channel but haven&#39;t re-enabled writing to all colour channels afterwards.</p>
+  <h4>Example</h4>
+  <p class="code">/// Draw Event<br />
+    gpu_set_colourwriteenable(true, true, true, false);<br />
+    draw_sprite(sprite_index, 0, x, y);</p>
+  <p>In the code example above writing to the alpha channel is disabled for all draw calls that follow the call to <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Drawing/GPU_Control/gpu_set_colourwriteenable.htm">gpu_set_colourwriteenable</a></span>. No call to <span class="inline2">gpu_set_colourwriteenable()</span> is made to reset this, however. Because of this, subsequent draw commands will also not write to the alpha channel. Another call to <span class="inline2">gpu_set_colourwriteenable()</span> is needed to fix this, which restores writing to all colour channels.</p>
+  <p class="code">/// Draw Event<br />
+    gpu_set_colourwriteenable(true, true, true, false);<br />
+    draw_sprite(sprite_index, 0, x, y);<br />
+    gpu_set_colourwriteenable(true, true, true, true);</p>
+  <h3>GM2053 - Not all code paths call gpu_set_alphatestenable(false) before the end of the script.</h3>
+  <p>This message indicates that you&#39;ve enabled alpha testing but haven&#39;t disabled it again afterwards.</p>
+  <h4>Example</h4>
+  <p class="code">/// Draw Event<br />
+    gpu_set_alphatestenable(true);<br />
+    draw_self();</p>
+  <p>To fix this you should disable alpha testing after drawing everything that needs to be drawn with alpha testing enabled.</p>
+  <p class="code">/// Draw Event<br />
+    gpu_set_alphatestenable(true);<br />
+    draw_self();<br />
+    gpu_set_alphatestenable(false);</p>
+  <h3>GM2054 - Not all code paths call gpu_set_alphatestref(0) before the end of the script.</h3>
+  <p>This message indicates that you&#39;ve changed the alpha test ref value from the default value of 0 (using <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Drawing/GPU_Control/gpu_set_alphatestref.htm">gpu_set_alphatestref</a></span>) but haven&#39;t changed it back to 0 afterwards.</p>
+  <p>Note that the alpha test ref value is only used when alpha testing is enabled using <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Drawing/GPU_Control/gpu_set_alphatestenable.htm">gpu_set_alphatestenable</a></span>.</p>
+  <h4>Example</h4>
+  <p class="code">/// Draw Event<br />
+    gpu_set_alphatestenable(true);<br />
+    gpu_set_alphatestref(127);<br />
+    draw_sprite(sprite_index, 0, x, y);</p>
+  <p>The alpha test ref value should be reset back to 0 to prevent subsequent draw commands from being affected.</p>
+  <p class="code">/// Draw Event<br />
+    gpu_set_alphatestenable(true);<br />
+    gpu_set_alphatestref(127);<br />
+    draw_sprite(sprite_index, 0, x, y);<br />
+    gpu_set_alphatestref(0);<br />
+    gpu_set_alphatestenable(false);</p>
+  <h3>GM2055 - Not all code paths call gpu_set_texfilter(false) before the end of the script.</h3>
+  <p>This message indicates that you&#39;ve changed the texture filter setting to true but haven&#39;t changed it back to false afterwards. By default, texture filtering is set to disabled for all texture samplers.</p>
+  <h4>Example</h4>
+  <p class="code">/// Create Event<br />
+    tex = sprite_get_texture(spr_texpage, 0);<br />
+    <br />
+    /// Draw Event<br />
+    gpu_set_texfilter(true);<br />
+    vertex_submit(vb_world, pr_trianglelist, tex);
+  </p>
+  <p>After the call to <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Drawing/GPU_Control/gpu_set_texfilter.htm">gpu_set_texfilter</a></span> and all draw commands that follow it you need to reset texture filtering to <span class="inline2">false</span>, the default setting.</p>
+  <p class="code">/// Create Event<br />
+    tex = sprite_get_texture(spr_texpage, 0);<br />
+    <br />
+    /// Draw Event<br />
+    gpu_set_texfilter(true);<br />
+    vertex_submit(vb_world, pr_trianglelist, tex);<br />
+    gpu_set_texfilter(false);
+  </p>
+  <h3>GM2056 - Not all code paths call gpu_set_texrepeat(false) before the end of the script.</h3>
+  <p>This message indicates that you&#39;ve changed the texture repeat setting to <span class="inline2">true</span> but haven&#39;t changed it back to <span class="inline2">false</span> afterwards. By default, texture repeating is set to disabled for all texture samplers.</p>
+  <h4>Example</h4>
+  <p class="code">/// Create Event<br />
+    tex = sprite_get_texture(spr_texpage, 0);<br />
+    <br />
+    /// Draw Event<br />
+    gpu_set_texrepeat(true);<br />
+    vertex_submit(vb_world, pr_trianglelist, tex);
+  </p>
+  <p>After the call to <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Drawing/GPU_Control/gpu_set_texrepeat.htm">gpu_set_texrepeat</a></span> and all draw commands that follow it you should reset the texture repeat to <span class="inline2">false</span>, the default setting.</p>
+  <p class="code">/// Create Event<br />
+    tex = sprite_get_texture(spr_texpage, 0);<br />
+    <br />
+    /// Draw Event<br />
+    gpu_set_texrepeat(true);<br />
+    vertex_submit(vb_world, pr_trianglelist, tex);<br />
+    gpu_set_texrepeat(false);
+  </p>
+  <h3>GM2061 - Opportunity to use nullish coalesce operator.</h3>
+  <p>Shows when you are trying to check if an expression is <span class="inline2">undefined</span>, and then applying a different value in that case:</p>
+  <h4>Example</h4>
+  <p class="code">array = modify_array(array);<br />
+    if (array == undefined) array = [];</p>
+  <p>For this, the <a href="../../GameMaker_Language/GML_Overview/Expressions_And_Operators.htm">nullish operator</a> can be used:</p>
+  <p class="code">array = modify_array(array) ?? [];</p>
+  <p>To keep a variable unchanged if the RHS expression is <span class="inline2">undefined</span>, use this:</p>
+  <p class="code">array ??= modify_array(array);</p>
+  <h3>GM2062 - Not all code paths call draw_set_colour(c_white) before the end of the script.</h3>
+  <p>This message indicates that you&#39;ve changed the draw colour to a colour that&#39;s different from <span class="inline2">c_white</span> but haven&#39;t changed it back to <span class="inline2">c_white</span> afterwards.</p>
+  <p>The draw colour is the colour that&#39;s used to blend the sprite with. A colour of <span class="inline2">c_white</span> essentially multiplies all of the sprite&#39;s pixels&#39; colours by 1, resulting in no change.</p>
+  <h4>Example</h4>
+  <p class="code">/// Draw Event<br />
+    draw_set_colour(c_red);<br />
+    draw_text(5, 5, &quot;Hello!&quot;);</p>
+  <p>In the code example above, the draw colour used for drawing is set to <span class="inline2">c_red</span> but isn&#39;t set back to <span class="inline2">c_white</span> afterwards. This causes all subsequent draw commands to draw with that same draw colour.</p>
+  <p class="code">/// Draw Event<br />
+    draw_set_colour(c_red);<br />
+    draw_text(5, 5, &quot;Hello!&quot;);<br />
+    draw_set_colour(c_white);</p>
+  <h3>GM2063 - Not all code paths call draw_set_alpha(1) before the end of the script.</h3>
+  <p>This message indicates that you&#39;ve changed the draw alpha to a value different from 1 using <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Drawing/Colour_And_Alpha/draw_set_alpha.htm">draw_set_alpha</a></span> but haven&#39;t changed it back to 1.</p>
+  <p>The alpha value is the value that&#39;s used for blending each pixel of the sprite (the source) with the destination pixel.</p>
+  <h4>Example</h4>
+  <p class="code">/// Draw Event<br />
+    draw_set_alpha(0.5);<br />
+    draw_self();</p>
+  <p>In the code example above, the alpha value used for drawing is set to 0.5 but isn&#39;t set back to 1 afterwards. This causes all subsequent draw commands to draw with that same alpha value.</p>
+  <p class="code">/// Draw Event<br />
+    draw_set_alpha(0.5);<br />
+    draw_self();<br />
+    draw_set_alpha(1);</p>
+  <h3>GM2064 - Variable &#39;{0}&#39; does not exist in object&#39;s Variable Definitions.</h3>
+  <p>This message is shown when you create a new instance of an object using one of the <span class="inline2">instance_create_*</span> functions and attempt to access variables that aren&#39;t defined in the object&#39;s <a href="../Object_Properties/Object_Variables.htm" title="Object Variables">Variable Definitions</a> when assigning to the optional variable struct.</p>
+  <p>In the variable struct you can access variables from any scope, though in instance scope the only variables that exist at this point are the ones defined in the Variable Definitions.</p>
+  <p>Important: object variables don&#39;t belong to the object but are initialised in every new instance created from that object. The first point in your code where you can access these variables is the var struct.</p>
+  <p><img class="center" src="../../assets/Images/The_IDE/Code Editor/Feather_Rules/var_def_none.png" /></p>
+  <h4>Example</h4>
+  <p class="code">/// Create Event<br />
+    ins_companion = instance_create_layer(x, y, layer, obj_companion, {<br />
+        intro_message: message<br />
+    });<br />
+    <br />
+    // The message variable does not exist
+  </p>
+  <p>Variables can only be accessed when they&#39;ve first been defined. In the example above, the object doesn&#39;t have any variables defined but an attempt is made to access an instance variable named <span class="inline2">message</span>. In order to fix this, the variable has to be defined in the object variables.</p>
+  <p><img class="center" src="../../assets/Images/The_IDE/Code Editor/Feather_Rules/var_def_message.png" /></p>
+  <p class="code">/// Create Event<br />
+    ins_companion = instance_create_layer(x, y, layer, obj_companion, {<br />
+        intro_message: message<br />
+    });</p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div>Back: <a data-xref="{title}" href="../The_Text_Editor.htm">Code Editor 2 (Beta)</a></div>
+        <div>Next: <a href="Code_Snippets.htm">Code Snippets</a></div>
+      </div>
+    </div>
+    <h5><span data-conref="../../assets/snippets/Copyright_Notice_AutoUpdate.hts"> </span></h5>
+  </div>
+</body>
+</html>
