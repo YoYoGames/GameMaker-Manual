@@ -49,7 +49,7 @@
     </tbody>
   </table>
   <p> </p>
-  <p><img alt="Emitter Shapes" class="center" src="../../../../../assets/Images/Scripting_Reference/GML/Reference/Drawing/Emitter_Shapes.png" style="cursor: nesw-resize;" />Apart from the distribution shapes, you can also define the distribution curve for the particles that are to be emitted. The available constants for distribution curves are listed below:</p>
+  <p><img alt="Emitter Shapes" class="center" src="../../../../../assets/Images/Scripting_Reference/GML/Reference/Drawing/Emitter_Shapes.png" />Apart from the distribution shapes, you can also define the distribution curve for the particles that are to be emitted. The available constants for distribution curves are listed below:</p>
   <table>
     <colgroup>
       <col />
@@ -144,7 +144,20 @@
   </p>
   <p>The above code creates a new empty particle system instance and adds an emitter to it. It then sets the emitter&#39;s region to a 100px tall and 100px wide elliptical shape around the current (x, y) position of the instance running the code.</p>
   <p> </p>
-  <h4>Example 2: Updating the Region of an Emitter Added to a Particle System Asset</h4>
+  <h4>Example 2: Updating the Region of a Particle Emitter in the Step Event</h4>
+  <p class="code_heading">Create Event</p>
+  <p class="code">ps = part_system_create();<br />
+    pe = part_emitter_create(ps);<br />
+    pt = part_type_create();<br />
+    part_emitter_region(ps, pe, x - 100, x + 100, y - 100, y + 100, ps_shape_ellipse, ps_distr_gaussian);<br />
+    part_emitter_stream(ps, pe, pt, 3);</p>
+  <p class="code_heading">Step Event</p>
+  <p class="code">part_emitter_region(ps, pe, x - 100, x + 100, y - 100, y + 100, ps_shape_ellipse, ps_distr_gaussian);</p>
+  <p>The code above shows how to update the region of a particle emitter every step.</p>
+  <p>In the Create event, a particle system is created and a particle emitter is added to it. A particle type is also created. The emitter&#39;s region is set a first time using <span class="inline3_func"><span data-field="title" data-format="default">part_emitter_region</span></span> and it is set to stream three particles of the previously created type every step.</p>
+  <p>In the Step event, the emitter&#39;s region is set again using <span class="inline3_func"><span data-field="title" data-format="default">part_emitter_region</span></span>.</p>
+  <p> </p>
+  <h4>Example 3: Retrieving an Emitter Defined in a Particle System Asset and Changing its Region</h4>
   <p class="code_heading">Create Event</p>
   <p class="code">ps = part_system_create(ps_snowflakes);<br />
     var _info = part_system_get_info(ps);<br />
@@ -157,10 +170,11 @@
             pe = i;<br />
             break;<br />
         }<br />
-    }</p>
-  <p class="code_heading">Step Event</p>
-  <p class="code">part_emitter_region(ps, pe, x - 100, x + 100, y - 100, y + 100, ps_shape_ellipse, ps_distr_gaussian);</p>
-  <p>The code above shows how to create a particle system instance from a particle system asset created in <a data-xref="{title}" href="../../../../../The_Asset_Editors/Particle_Systems.htm">The Particle System Editor</a>, get the index of the emitter named <span class="inline2">&quot;pe_neon&quot;</span> and update the region of this emitter in the calling instance&#39;s Step event.</p>
+    }<br />
+    part_emitter_region(ps, pe, x - 50, x + 50, y - 50, y + 50, ps_shape_line, ps_distr_linear);</p>
+  <p>The code above shows how to change the region of a particle emitter in a particle system asset created in <a data-xref="{title}" href="../../../../../The_Asset_Editors/Particle_Systems.htm">The Particle System Editor</a>.</p>
+  <p>First, <span class="inline3_func"><a data-xref="{title}" href="../Particle_Systems/part_system_create.htm">part_system_create</a></span> is called with <span class="inline2">ps_snowflakes</span> as the parameter, where <span class="inline2">ps_snowflakes</span> is a <span data-keyref="Type_Asset_ParticleSystem"><a href="../../../../../The_Asset_Editors/Particle_Systems.htm" target="_blank">Particle System Asset</a></span> created in the Particle System Editor. Next, the information about this particle system is retrieved using <span class="inline3_func"><a data-xref="{title}" href="../Particle_Systems/part_system_get_info.htm">part_system_get_info</a></span>. After this, a <span class="inline2"><a data-xref="{title}" href="../../../../GML_Overview/Language_Features/for.htm">for</a></span> loop is used to find the index of the particle emitter named <span class="inline2">&quot;pe_neon&quot;</span> in the Particle System Editor (which must exist in <span class="inline2">ps_snowflakes</span>). Finally, the region of the particle emitter is set to be a 100px by 100px region around the calling instance using <span class="inline3_func"><span data-field="title" data-format="default">part_emitter_region</span></span>.</p>
+  <p>Note that the emitter names that you set in the Particle System Editor cannot be used directly in GML, i.e. in the code above you cannot access the emitter properties using <span class="inline2">_arr_emitters[pe_neon]</span> and so you need to lookup the emitter&#39;s index by name first.</p>
   <p> </p>
   <p> </p>
   <div class="footer">
