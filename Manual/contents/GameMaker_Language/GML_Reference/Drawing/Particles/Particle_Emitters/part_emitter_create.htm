@@ -20,7 +20,7 @@
   <p>The function will return the handle for the new emitter which must be stored in a variable and used in all further functions that reference the emitter, and the emitter itself must be destroyed when no longer being used to prevent memory leaks (this can be achieved using the specific emitter destroy functions (<span class="inline3_func"><a data-xref="{title}" href="part_emitter_destroy.htm">part_emitter_destroy</a></span>/<span class="inline3_func"><a data-xref="{title}" href="part_emitter_destroy_all.htm">part_emitter_destroy_all</a></span>) or by destroying the whole particle system that the emitter belongs to (<span class="inline3_func"><a data-xref="{title}" href="../Particle_Systems/part_system_destroy.htm">part_system_destroy</a></span>)).</p>
   <p class="note"><span data-conref="../../../../../assets/snippets/Tag_note.hts"> </span> Emitter IDs returned by this function are reused, e.g. if you first create three particle emitters they will have IDs 0, 1 and 2 assigned. If you then destroy the second emitter (which got an ID of 1) using <span class="inline3_func"><a data-xref="{title}" href="part_emitter_destroy.htm">part_emitter_destroy</a></span> and then create another emitter, then this emitter will reuse the ID of 1. Since emitter ID 2 is in use, the next emitter will get an ID of 3, and so on.</p>
   <h4>Syntax:</h4>
-  <p class="code"><span data-field="title" data-format="default">part_emitter_create</span>(ps);</p>
+  <p class="code"><span data-field="title" data-format="default">part_emitter_create</span>(ps)</p>
   <table>
     <tbody>
       <tr>
@@ -39,9 +39,16 @@
   <h4>Returns:</h4>
   <p class="code"><span data-keyref="Type_ID_PartEmitter"><a href="part_emitter_create.htm" target="_blank">Particle Emitter</a></span></p>
   <p> </p>
-  <h4>Example:</h4>
+  <h4>Example 1: Basic Use</h4>
   <p class="code">p_emit = part_emitter_create(Sname);</p>
-  <p>This will create a new particle emitter and store its handle in the variable <span class="inline2">p_emit</span>.</p>
+  <p>This will create a new particle emitter in an existing particle system stored in <span class="inline2">Sname</span> and store its handle in the variable <span class="inline2">p_emit</span>.</p>
+  <p> </p>
+  <h4>Example 2: Adding an Extra Emitter to a Particle System Created From an Asset</h4>
+  <p class="code">ps = part_system_create(ps_effects);<br />
+    pe = part_emitter_create(ps);<br />
+    part_emitter_region(ps, pe, 0, 100, 0, 100, ps_shape_ellipse, ps_distr_gaussian);<br />
+    part_emitter_stream(ps, pe, pt_smoke, 2);</p>
+  <p>The code above first creates a particle system instance and initialises it with the emitters in an existing particle system asset <span class="inline2">ps_effects</span>. It then adds an additional emitter to the particle system instance, sets the region in which the emitter will emit particles and finally sets the emitter to stream two particles of type <span class="inline2">pt_smoke</span> every step.</p>
   <p> </p>
   <p> </p>
   <div class="footer">
