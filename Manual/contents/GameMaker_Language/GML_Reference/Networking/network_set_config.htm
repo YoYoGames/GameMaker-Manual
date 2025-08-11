@@ -14,7 +14,7 @@
 </head>
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
-  <h1><span data-field="title" data-format="default">title</span></h1>
+  <h1><span data-field="title" data-format="default">network_set_config</span></h1>
   <p>With this function you can set different network configurations.</p>
   <p class="note"><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> This function will not work when used in a project running on the HTML5 target.</p>
   <p>These configurations are given as <b>constants</b> and the setting will depend on the constant that you have chosen. The table below lists the available constants and their settings:</p>
@@ -26,7 +26,7 @@
     </colgroup>
     <tbody>
       <tr>
-        <th colspan="3"><span data-keyref="Type_Constant_Network_Config"><a href="../../../../GameMaker_Language/GML_Reference/Networking/network_set_config.htm" target="_blank">Network Config Constant</a></span></th>
+        <th colspan="3"><span data-keyref="Type_Constant_Network_Config"><a href="network_set_config.htm" target="_blank">Network Config Constant</a></span></th>
       </tr>
       <tr>
         <th>Constant</th>
@@ -68,18 +68,23 @@
         <td>Disables multicast support for UDP</td>
         <td>The socket ID to target</td>
       </tr>
+      <tr>
+        <td><span class="inline">network_config_message_size_limit</span></td>
+        <td>Sets the size limit on incoming messages</td>
+        <td>The size limit in bytes</td>
+      </tr>
     </tbody>
   </table>
   <h3>Timeout</h3>
   <p>The first option (<span class="inline">network_config_connect_timeout</span>) simply sets the timeout for connecting to a server but doesn&#39;t change connection behaviour apart from the time you have to wait. It is recommended that you don&#39;t set this too low and keep it at about 1000 for a LAN only game or 4000 or so for internet, or the game may fail to connect randomly. If you wish to set a timeout value for sending/receiving packets then use the function <a href="network_set_timeout.htm"><span class="inline">network_set_timeout()</span></a>.</p>
-  <h3>Non Blocking Sockets</h3>
-  <p>The second option (<span class="inline">network_config_use_non_blocking_socket</span>) means that the <span class="inline">network_connect_*</span> functions (non-async) will all return a <span class="inline">socket_id</span> instantly, <i>but you can&#39;t send or receive on that socket until you&#39;ve received an async network event</i>. The event triggered will have the &quot;type&quot; key set to <span class="inline">network_type_non_blocking_connect</span> (you can find further details from the page on the <a href="../../../The_Asset_Editors/Object_Properties/Async_Events/Networking.htm">Networking Asynchronous Event</a>). This is a <b>global</b> setting as <span data-keyref="GameMaker Name">GameMaker</span> does not support a mixture of blocking and non-blocking in one application.</p>
+  <h3>Non-Blocking Sockets</h3>
+  <p>The second option (<span class="inline">network_config_use_non_blocking_socket</span>) means that the <span class="inline">network_connect_*</span> functions (non-async) will all return a <span class="inline">socket_id</span> instantly, <i>but you can&#39;t send or receive on that socket until you&#39;ve received an async network event</i>. The event triggered will have the &quot;type&quot; key set to <span class="inline">network_type_non_blocking_connect</span> (you can find further details from the page on the <a href="../../../The_Asset_Editors/Object_Properties/Async_Events/Networking.htm">Networking Asynchronous Event</a>). This is a <b>global</b> setting as <span data-keyref="GameMaker Name">GameMaker</span> doesn&#39;t support a mixture of blocking and non-blocking in one application.</p>
   <h3>Reliable UDP</h3>
-  <p>The third and fourth options (<span class="inline">network_config_enable_reliable_udp</span>, <span class="inline">network_config_disable_reliable_udp</span>) are for enabling or disabling the <span data-keyref="GameMaker Name">GameMaker</span> reliable UDP protocol and as such, should <b>only be used with UDP connections</b>. What &quot;reliable&quot; in this case this means is that, when enabled on <i>both</i> ends of a connection, <span data-keyref="GameMaker Name">GameMaker</span> will attempt to check your packets have arrived correctly and re-send any that don&#39;t arrive (note, we do not guarantee in your packets will arrive in order of transmission). When using a reliable socket type, there will be a 12-byte header added to all udp packets which contains information needed by <span data-keyref="GameMaker Name">GameMaker</span> to check the packet for errors and re-send missing packets. The following points are worth noting when using this option:</p>
+  <p>The third and fourth options (<span class="inline">network_config_enable_reliable_udp</span>, <span class="inline">network_config_disable_reliable_udp</span>) are for enabling or disabling the <span data-keyref="GameMaker Name">GameMaker</span> reliable UDP protocol and as such, should <b>only be used with UDP connections</b>. What &quot;reliable&quot; in this case this means is that, when enabled on <i>both</i> ends of a connection, <span data-keyref="GameMaker Name">GameMaker</span> will attempt to check your packets have arrived correctly and re-send any that don&#39;t arrive (note, we do not guarantee in your packets will arrive in order of transmission). When using a reliable socket type, there will be a 12-byte header added to all UDP packets which contains information needed by <span data-keyref="GameMaker Name">GameMaker</span> to check the packet for errors and re-send missing packets. The following points are worth noting when using this option:</p>
   <ul class="colour">
     <li>The protocol should be enabled/disabled on both sides before sending your data, and any data sent or received before the option has been enabled/disabled will not be affected.</li>
     <li>You can enable or disable the protocol for any given socket ID multiple times, as long as this is properly managed on both the server side and client side</li>
-    <li>It is possible to have two separate UDP sockets, one with reliable UDP enabled for one with reliable UDP disabled for the other.</li>
+    <li>It is possible to have two separate UDP sockets, one with reliable UDP enabled and one with reliable UDP disabled for the other.</li>
   </ul>
   <h3>TCP Timeout</h3>
   <p>The option <span class="inline">network_config_avoid_time_wait</span> is for <strong>TCP connections only</strong> and can be used to set the <span class="inline">SO_LINGER</span> value to <span class="inline2">0</span> to avoid large numbers of connections sitting in the <span class="inline">TIME_WAIT</span> state, tying up all the available resources on a server. This change is permanent while the socket is alive and cannot be undone.</p>
@@ -87,46 +92,58 @@
   <p>The options <span class="inline">network_config_enable_multicast</span> and <span class="inline">network_config_disable_multicast</span> can be used to enable/disable multicast support on UDP. </p>
   <p>When multicast is enabled on a UDP socket, it will be joined to the all-hosts (FF02::1) multicast group on each network interface in the system, and calls to <span class="inline3_func"><a data-xref="{title}" href="network_send_broadcast.htm">network_send_broadcast</a></span> will transmit multicast packets on those groups in addition to IPv4 broadcasts.</p>
   <p>In general, games doing LAN discovery using <span class="inline3_func"><a data-xref="{title}" href="network_send_broadcast.htm">network_send_broadcast</a></span> will want to turn this on, however the game must be written to handle receiving the same packet multiple times from multiple IPs -- i.e. the host&#39;s IPv4 and IPv6 address(es) and disambiguate these from other hosts (e.g. by embedding a unique value in the packet for each sender).</p>
+  <h3>Message Size Limit</h3>
+  <p>The option <span class="inline">network_config_message_size_limit</span> sets the incoming message size limit for a given socket. This <span>defaults to 64MiB for sockets created by <span class="inline3_func"><a data-xref="{title}" href="network_create_socket.htm">network_create_socket</a></span> or <span class="inline3_func"><a data-xref="{title}" href="network_create_socket_ext.htm">network_create_socket_ext</a></span> and 4MiB for sockets created by a client connecting to a server.</span></p>
+  <p>Note that limiting the receive size of messages for WebSocket client sockets on Windows doesn&#39;t work as <span data-keyref="GameMaker Name">GameMaker</span> doesn&#39;t take care of the buffering when using WinHTTP&#39;s WebSocket client.</p>
   <p> </p>
   <h4>Syntax:</h4>
-  <p class="code">network_set_config(config_value, setting);</p>
+  <p class="code"><span data-field="title" data-format="default">network_set_config</span>(config_value, value1, [value2]);</p>
   <table>
     <tbody>
-      <tr>
+      <tr class="rh-cursor-column">
         <th>Argument</th>
         <th>Type</th>
         <th>Description</th>
       </tr>
       <tr>
         <td>config_value</td>
-        <td><span data-keyref="Type_Constant_Network_Config"><a href="../../../../GameMaker_Language/GML_Reference/Networking/network_set_config.htm" target="_blank">Network Config Constant</a></span></td>
+        <td><span data-keyref="Type_Constant_Network_Config"><a href="network_set_config.htm" target="_blank">Network Config Constant</a></span></td>
         <td>The config constant to set (refer to the table at the top of this page).</td>
       </tr>
       <tr>
-        <td>setting</td>
-        <td><span data-keyref="Type_Any"><a href="../../../../GameMaker_Language/GML_Overview/Data_Types.htm#variable" target="_blank">Any</a></span></td>
-        <td>The setting value of the config.</td>
+        <td>value1</td>
+        <td><span data-keyref="Type_Any"><a href="../../GML_Overview/Data_Types.htm#variable" target="_blank">Any</a></span></td>
+        <td>The setting value of the config, or the socket when the constant is <span class="inline2">network_config_message_size_limit</span></td>
+      </tr>
+      <tr>
+        <td>value2</td>
+        <td><span data-keyref="Type_Any"><a href="../../GML_Overview/Data_Types.htm#variable" target="_blank">Any</a></span></td>
+        <td><span data-conref="../../../assets/snippets/Tag_optional.hts"> </span> The size limit in bytes, when the constant is <span class="inline2">network_config_message_size_limit</span></td>
       </tr>
     </tbody>
   </table>
   <p> </p>
   <h4>Returns:</h4>
-  <p class="code"><span data-keyref="Type_String"><a href="../../../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">String</a></span></p>
+  <p class="code"><span data-keyref="Type_String"><a href="../../GML_Overview/Data_Types.htm" target="_blank">String</a></span></p>
   <p> </p>
-  <h4>Example:</h4>
+  <h4>Example 1</h4>
   <p class="code">network_set_config(network_config_connect_timeout, 1000);<br />
     network_set_config(network_config_use_non_blocking_socket, 1);</p>
   <p>The above code will set the timeout for the network connection to 1000ms and tell <span data-keyref="GameMaker Name">GameMaker</span> not to block on connect.</p>
+  <p> </p>
+  <h4>Example 2: Message Size Limit</h4>
+  <p class="code">network_set_config(network_config_message_size_limit, socket, 4096);</p>
+  <p>The above code sets the message size limit on a socket stored in a variable <span class="inline2">socket</span> to 4096 bytes.</p>
   <p> </p>
   <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a href="Networking.htm">Networking</a></div>
-        <div style="float:right">Next: <a href="network_set_timeout.htm">network_set_timeout</a></div>
+        <div style="float:left">Back: <a data-xref="{title}" href="Networking.htm">Networking</a></div>
+        <div style="float:right">Next: <a data-xref="{title}" href="network_set_timeout.htm">network_set_timeout</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2023 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2025 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 network_set_config
