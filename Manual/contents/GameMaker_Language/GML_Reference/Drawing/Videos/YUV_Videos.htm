@@ -68,13 +68,15 @@
             case video_format_yuv:<br />
                 var _surf = _data[1];<br />
                 var _chromasurf = _data[2];<br />
-                if(surface_exists(_surf) and surface_exists(_chromasurf))<br />
+                if (surface_exists(_surf) and surface_exists(_chromasurf))<br />
                 {<br />
                     shader_set(shader_YUV);<br />
                 <br />
                     var _tex_id = surface_get_texture(_surf);<br />
                     var _chroma_tex_id = surface_get_texture(_chromasurf);<br />
                     texture_set_stage(videochromasampler, _chroma_tex_id);<br />
+    <br />
+                    var _texfilter = gpu_get_texfilter();<br />
                     gpu_set_texfilter(false);<br />
                 <br />
                     draw_primitive_begin_texture(pr_trianglestrip, _tex_id);<br />
@@ -84,25 +86,29 @@
                     draw_vertex_texture(surface_get_width(_chromasurf), surface_get_height(_chromasurf), 1, 1);<br />
                     draw_primitive_end();<br />
                 <br />
-                    gpu_set_texfilter(true);<br />
+                    gpu_set_texfilter(_texfilter);<br />
                     shader_reset();<br />
                 }<br />
             break;<br />
         }<br />
-    }</p>
+    }
+  </p>
   <p>The code under <span class="inline2">case video_format_yuv:</span> does the following:</p>
   <ul class="colour">
     <li>Gets the video surface (<span class="inline2">_surf</span>) and the chroma surface (<span class="inline2">_chromasurf</span>)</li>
-    <li>Makes sure that they exist, using <span class="inline"><a href="../Surfaces/surface_exists.htm">surface_exist()</a></span>
+    <li>Makes sure that they exist, using <span class="inline"><a href="../Surfaces/surface_exists.htm">surface_exists()</a></span>
       <ul>
         <li>Sets the shader to <span class="inline2">shader_YUV</span> (which is our newly created YUV shader)</li>
         <li>Gets the textures of both surfaces</li>
         <li>Assigns the texture of the chroma surface to the sampler we retrieved in the Create event</li>
-        <li>Disables texture filtering</li>
-        <li>Begins drawing a triangle strip primitive, with the video surface&#39;s texture assigned to it</li>
-        <li>Draws a rectangle to cover the video surface, uses the width and height of the chroma surface for that rectangle</li>
-        <li>Ends the primitive</li>
-        <li>Re-enables texture filtering and resets the shader</li>
+        <li>Stores the current <a href="../GPU_Control/gpu_set_texfilter.htm">texture filtering</a> setting and disables it
+          <ul>
+            <li>Begins drawing a triangle strip primitive, with the video surface&#39;s texture assigned to it</li>
+            <li>Draws a rectangle made of two triangles (i.e. a quad) to cover the video surface, using the width and height of the chroma surface for the quad</li>
+            <li>Ends the primitive, drawing it</li>
+          </ul>
+        </li>
+        <li>Restores the previous texture filtering setting and resets the shader</li>
       </ul>
     </li>
   </ul>
@@ -117,7 +123,7 @@
         <div>Next: <a data-xref="{title}" href="video_set_volume.htm">video_set_volume</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2025 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 YUV	Videos
