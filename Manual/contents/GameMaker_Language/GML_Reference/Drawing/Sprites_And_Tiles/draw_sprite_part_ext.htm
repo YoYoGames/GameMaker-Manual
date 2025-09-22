@@ -1,119 +1,122 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>draw_sprite_part_ext</title>
-    <meta name="generator" content="Adobe RoboHelp 2022"/>
-    <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css"/>
-    <script src="../../../../assets/scripts/main_script.js" type="module"></script>
-    <meta name="rh-authors" content="Mark Alexander"/>
-    <meta name="topic-comment" content="Reference page for draw_sprite_part_ext"/>
-    <meta name="rh-index-keywords" content="draw_sprite_part_ext"/>
-    <meta name="search-keywords" content="draw_sprite_part_ext"/>
-    <meta name="is_pure" content="true"/>
-  </head>
-  <body><!--<div class="body-scroll" style="top: 150px;">-->
-    <h1><span data-field="title" data-format="default">draw_sprite_part_ext</span></h1>
-    <p>This function will draw a part of the chosen sprite at the given position following the same rules as per <a href="draw_sprite_part.htm"><span class="inline">draw_sprite_part()</span></a>, only now you can scale the part, blend a colour with it, or change its alpha when drawing it to the screen (the same as when drawing a sprite with <a href="draw_sprite_ext.htm"><span class="inline">draw_sprite_ext()</span></a>). You should note that if the texture page permits automatic cropping then this function may not work as expected, since the extra &quot;empty&quot; space around the sprite will have been removed for creating the texture page. To resolve this issue, you will need to set the texture page settings (in the <a href="../../../../Settings/Texture_Groups.htm">Texture Group Editor</a>) to disable the <b>Automatic Crop</b>.</p>
-    <p class="note"><b><span class="note">NOTE</span> </b>When drawing with this function, the sprite <a href="../../Asset_Management/Sprites/Sprite_Instance_Variables/sprite_xoffset.htm">x offset</a> and <a href="../../Asset_Management/Sprites/Sprite_Instance_Variables/sprite_yoffset.htm">y offset</a> are ignored and the sprite part will be drawn with the top left corner at the specified x / y position in the room.</p>
-    <p class="note"><b><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span></b> This function is only useful for <b>bitmap</b> sprites and will not work with vector or JSON (Spine) sprites.</p>
-    <p class="note"><b><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span></b> Colour blending is only recommended for the HTML5 target when WebGL is enabled, although you can still set the blending colour if it is not enabled and it will blend the sprite as normal. However all blending in this way creates a duplicate sprite which is then stored in the cache and used when required. This is far from optimal and if you use multiple colour changes it will slow down your games performance unless you activate WebGL. If you do not wish to use WebGL, then you can set the cache size to try and limit this should it be necessary using the function <a href="../../Asset_Management/Sprites/Sprite_Manipulation/sprite_set_cache_size_ext.htm"><span class="inline">sprite_set_cache_size()</span></a>.</p>
-    <div data-conref="../../../../assets/snippets/This_function_does_not_support_nine_slicing.hts"> </div>
-    <p> </p>
-    <h4>Syntax:</h4>
-    <p class="code">draw_sprite_part_ext(sprite, subimg, left, top, width, height, x, y, xscale, yscale, colour, alpha);</p>
-    <table>
-      <tbody>
-        <tr>
-          <th>Argument</th>
-          <th>Type</th>
-          <th>Description</th>
-        </tr>
-        <tr>
-          <td>sprite</td>
-          <td><span data-keyref="Type_Asset_Sprite"><a href="../../../../The_Asset_Editors/Sprites.htm" target="_blank">Sprite Asset</a></span></td>
-          <td>The sprite to draw.</td>
-        </tr>
-        <tr>
-          <td>subimg</td>
-          <td><span data-keyref="Type_Real"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
-          <td>The subimg (frame) of the sprite to draw (image_index or -1 correlate to the current frame of animation in the object).</td>
-        </tr>
-        <tr>
-          <td>left</td>
-          <td><span data-keyref="Type_Real"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
-          <td>The x position on the sprite of the top left corner of the area to draw.</td>
-        </tr>
-        <tr>
-          <td>top</td>
-          <td><span data-keyref="Type_Real"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
-          <td>The y position on the sprite of the top left corner of the area to draw.</td>
-        </tr>
-        <tr>
-          <td>width</td>
-          <td><span data-keyref="Type_Real"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
-          <td>The width of the area to draw.</td>
-        </tr>
-        <tr>
-          <td>height</td>
-          <td><span data-keyref="Type_Real"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
-          <td>The height of the area to draw.</td>
-        </tr>
-        <tr>
-          <td>x</td>
-          <td><span data-keyref="Type_Real"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
-          <td>The x coordinate of where to draw the sprite.</td>
-        </tr>
-        <tr>
-          <td>y</td>
-          <td><span data-keyref="Type_Real"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
-          <td>The y coordinate of where to draw the sprite.</td>
-        </tr>
-        <tr>
-          <td>xscale</td>
-          <td><span data-keyref="Type_Real"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
-          <td>The horizontal scaling of the sprite, as a multiplier: 1 = normal scaling, 0.5 is half etc...</td>
-        </tr>
-        <tr>
-          <td>yscale</td>
-          <td><span data-keyref="Type_Real"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
-          <td>The vertical scaling of the sprite, as a multiplier: 1 = normal scaling, 0.5 is half etc...</td>
-        </tr>
-        <tr>
-          <td>colour</td>
-          <td><span data-keyref="Type_Constant_Colour"><a href="../Colour_And_Alpha/Colour_And_Alpha.htm" target="_blank">Colour</a></span></td>
-          <td>The colour with which to blend the sprite. c_white is to display it normally.</td>
-        </tr>
-        <tr>
-          <td>alpha</td>
-          <td><span data-keyref="Type_Real"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
-          <td>The alpha of the sprite (from 0 to 1 where 0 is transparent and 1 opaque).</td>
-        </tr>
-      </tbody>
-    </table>
-    <p> </p>
-    <h4>Returns:</h4>
-    <p class="code"><span data-keyref="Type_Void">N/A</span></p>
-    <p> </p>
-    <h4>Example:</h4>
-    <p class="code">draw_sprite_part_ext(sprite_index, image_index, 8, 8, sprite_width-16, sprite_height-16, x, y, 2, 0.5, c_black, 1);</p>
-    <p>This will draw the instances assigned sprite (sprite_index) and its current frame of animation (image_index), however it will shave an 8px margin off all four sides of the sprite. It will then be stretched to double its usual width but half its usual height, and although the alpha is still 1, it will be blended with black (turning it into a silhouette).</p>
-    <p> </p>
-    <p> </p>
-    <p> </p>
-    <div class="footer">
-      <div class="buttons">
-        <div class="clear">
-          <div style="float:left">Back: <a href="Sprites_And_Tiles.htm">Sprites And Tiles</a></div>
-          <div style="float:right">Next: <a href="draw_sprite_stretched.htm">draw_sprite_streteched</a></div>
-        </div>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>draw_sprite_part_ext</title>
+  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
+  <script src="../../../../assets/scripts/main_script.js" type="module"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Reference page for draw_sprite_part_ext" />
+  <meta name="rh-index-keywords" content="draw_sprite_part_ext" />
+  <meta name="search-keywords" content="draw_sprite_part_ext" />
+  <meta name="is_pure" content="true" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1><span data-field="title" data-format="default">draw_sprite_part_ext</span></h1>
+  <p>This function draws a part of the given sprite at the given position following the same rules as per <span class="inline3_func"><a data-xref="{title}" href="draw_sprite_part.htm">draw_sprite_part</a></span>, only now you can scale the part, blend a colour with it, or change its alpha when drawing it to the screen (the same as when drawing a sprite with <span class="inline3_func"><a data-xref="{title}" href="draw_sprite_ext.htm">draw_sprite_ext</a></span>).</p>
+  <p>You should note that if the texture page permits automatic cropping then this function may not work as expected, since the extra &quot;empty&quot; space around the sprite will have been removed for creating the texture page. To resolve this issue, you will need to set the texture page settings (in the <a href="../../../../Settings/Texture_Groups.htm">Texture Group Editor</a>) to disable the <b>Automatic Crop</b>.</p>
+  <p class="note"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> When drawing with this function, the sprite&#39;s <a href="../../Asset_Management/Sprites/Sprite_Instance_Variables/sprite_xoffset.htm">x offset</a> and <a href="../../Asset_Management/Sprites/Sprite_Instance_Variables/sprite_yoffset.htm">y offset</a> are ignored and the sprite part will be drawn with the top-left corner at the specified (x, y) position in the room.</p>
+  <p class="note"><b><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span></b> This function is only useful for <b>bitmap</b> sprites and will not work with vector or JSON (Spine) sprites.</p>
+  <p class="note"><b><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span></b> Colour blending is only recommended for the HTML5 target when WebGL is enabled, although you can still set the blending colour if it is not enabled and it will blend the sprite as normal. However, all blending in this way creates a duplicate sprite which is then stored in the cache and used when required. This is far from optimal and if you use multiple colour changes it will slow down your games performance unless you activate WebGL. If you do not wish to use WebGL, then you can set the cache size to try and limit this should it be necessary using the function <span class="inline3_func"><a data-xref="{title}" href="../../Asset_Management/Sprites/Sprite_Manipulation/sprite_set_cache_size.htm">sprite_set_cache_size</a></span>.</p>
+  <div data-conref="../../../../assets/snippets/This_function_does_not_support_nine_slicing.hts"> </div>
+  <p> </p>
+  <h4>Syntax:</h4>
+  <p class="code"><span data-field="title" data-format="default">draw_sprite_part_ext</span>(sprite, subimg, left, top, width, height, x, y, xscale, yscale, colour, alpha);</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>Argument</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>sprite</td>
+        <td><span data-keyref="Type_Asset_Sprite"><a href="../../../../The_Asset_Editors/Sprites.htm" target="_blank">Sprite Asset</a></span></td>
+        <td>The sprite to draw.</td>
+      </tr>
+      <tr>
+        <td>subimg</td>
+        <td><span data-keyref="Type_Real"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td>The sub-image (frame) of the sprite to draw (<span class="inline2"><a data-xref="{title}" href="../../Asset_Management/Sprites/Sprite_Instance_Variables/image_index.htm">image_index</a></span> or <span class="inline2">-1</span> correlate to the current frame of animation in the object).</td>
+      </tr>
+      <tr>
+        <td>left</td>
+        <td><span data-keyref="Type_Real"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td>The x position on the sprite of the top-left corner of the area to draw.</td>
+      </tr>
+      <tr>
+        <td>top</td>
+        <td><span data-keyref="Type_Real"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td>The y position on the sprite of the top-left corner of the area to draw.</td>
+      </tr>
+      <tr>
+        <td>width</td>
+        <td><span data-keyref="Type_Real"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td>The width of the area to draw.</td>
+      </tr>
+      <tr>
+        <td>height</td>
+        <td><span data-keyref="Type_Real"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td>The height of the area to draw.</td>
+      </tr>
+      <tr>
+        <td>x</td>
+        <td><span data-keyref="Type_Real"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td>The x coordinate of where to draw the sprite.</td>
+      </tr>
+      <tr>
+        <td>y</td>
+        <td><span data-keyref="Type_Real"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td>The y coordinate of where to draw the sprite.</td>
+      </tr>
+      <tr>
+        <td>xscale</td>
+        <td><span data-keyref="Type_Real"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td>The horizontal scaling of the sprite, as a multiplier: 1 = normal scaling, 0.5 is half, etc.</td>
+      </tr>
+      <tr>
+        <td>yscale</td>
+        <td><span data-keyref="Type_Real"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td>The vertical scaling of the sprite, as a multiplier: 1 = normal scaling, 0.5 is half, etc.</td>
+      </tr>
+      <tr>
+        <td>colour</td>
+        <td><span data-keyref="Type_Constant_Colour"><a href="../Colour_And_Alpha/Colour_And_Alpha.htm" target="_blank">Colour</a></span></td>
+        <td>The colour with which to blend the sprite. <span class="inline2">c_white</span> is to display it normally.</td>
+      </tr>
+      <tr>
+        <td>alpha</td>
+        <td><span data-keyref="Type_Real"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td>The alpha of the sprite (from 0 to 1 where 0 is transparent and 1 opaque).</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>Returns:</h4>
+  <p class="code"><span data-keyref="Type_Void">N/A</span></p>
+  <p> </p>
+  <h4>Example:</h4>
+  <p class="code">draw_sprite_part_ext(sprite_index, image_index, 8, 8, sprite_width-16, sprite_height-16, x, y, 2, 0.5, c_black, 1);</p>
+  <p>This will draw the instance&#39;s assigned sprite (<span class="inline2"><a data-xref="{title}" href="../../Asset_Management/Sprites/Sprite_Instance_Variables/sprite_index.htm">sprite_index</a></span>) at its current frame of animation (<span class="inline2"><a data-xref="{title}" href="../../Asset_Management/Sprites/Sprite_Instance_Variables/image_index.htm">image_index</a></span>), however it will shave an 8px margin off all four sides of the sprite. It will then be stretched to double its usual width but half its usual height, and although the alpha is still 1, it will be blended with black (turning it into a silhouette).</p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">Back: <a data-xref="{title}" href="Sprites_And_Tiles.htm">Sprites And Tiles</a></div>
+        <div style="float:right">Next: <a data-xref="{title}" href="draw_sprite_stretched.htm">draw_sprite_stretched</a></div>
       </div>
-      <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2025 All Rights Reserved</span></h5>
     </div>
-    <!-- KEYWORDS
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2025 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
 draw_sprite_part_ext
---><!-- TAGS
+-->
+  <!-- TAGS
 draw_sprite_part_ext
---></body>
+-->
+</body>
 </html>
