@@ -17,6 +17,7 @@
   <h1><span data-field="title" data-format="default">Matrix Functions</span></h1>
   <p><span data-keyref="GameMaker Name">GameMaker</span> has a number of functions to deal with matrices, including the <span class="inline3_func">matrix_build*</span> functions which create a matrix of a certain type, functions to perform matrix math and the functions <span class="inline3_func"><a data-xref="{title}" href="matrix_get.htm">matrix_get</a></span> and <span class="inline3_func"><a data-xref="{title}" href="matrix_set.htm">matrix_set</a></span> that allow you to get or set the matrix that&#39;s currently used for drawing. Finally, there are the matrix stack functions that can be used, for example, when working with hierarchical transformations (e.g. skeletal animation).</p>
   <p>Matrices are very important for many things but are used most in dealing with 3D space, for example they can be used for setting the camera view or for translating or transforming a model.</p>
+  <p>A list of all matrix functions is given at the bottom of the page (under &quot;Function Reference&quot;).</p>
   <div class="minitoc" data-minitoc-targetid="drop-down" data-type="minitoc" style="">
     <p class="minitoc-caption" data-close-text="" data-expanded="true" data-open-text="Contents" data-type="minitoc-caption" href="#" style="">Mini TOC (placeholder)</p>
     <ol class="minitoc-list" data-from-selector="h2" data-to-selector="h4" data-type="minitoc-list" style="">
@@ -59,7 +60,7 @@
   <p>It is the vertex shader that performs the actual transformation of the positions (as well as the normals, tangents, etc.). For example, <span data-keyref="GameMaker Name">GameMaker</span>&#39;s default shader takes the 3-component vertex position of the current vertex, creates a 4-component vector out of it to allow the multiplication by the 4x4 matrix and then multiplies this vector by the combined transformation of the world, view and projection matrices:</p>
   <p class="code">vec4 object_space_pos = vec4(in_Position, 1.0);<br />
     gl_Position = gm_Matrices[MATRIX_WORLD_VIEW_PROJECTION] * object_space_pos;</p>
-  <p>See <a href="#matrices_and_shaders" id="">Matrices And Shaders</a></p>
+  <p>See: <a href="#matrices_and_shaders" id="">Matrices And Shaders</a></p>
   <h2>Special Matrices</h2>
   <h3>The Identity Matrix</h3>
   <p>The <strong>identity matrix</strong> is a special matrix. No change occurs when you multiply a matrix with it. It is the equivalent for matrices of multiplying a number by 1. You can create an identity matrix using <span class="inline3_func"><a data-xref="{title}" href="matrix_build_identity.htm">matrix_build_identity</a></span>.</p>
@@ -67,7 +68,7 @@
   <p>The <strong>inverse matrix</strong> is another special matrix. It is the &quot;inverse&quot; of a matrix. Mathematically, the result of multiplying a matrix by its inverse is an identity matrix, similar (though not identical) to how multiplying a number with its inverse (e.g. 5 and 1/5) is equal to 1. This matrix can be used to &quot;cancel out&quot; or &quot;undo&quot; the transforms applied by a given matrix. The built-in function <span class="inline3_func"><a data-xref="{title}" href="matrix_inverse.htm">matrix_inverse</a></span> returns the inverse matrix of the matrix you pass it. Note that not every matrix has an inverse.</p>
   <h2>Types of Matrices</h2>
   <p>Matrices are mainly used for drawing, to transform the vertices of anything that you draw from local space to the final position on screen. This generally happens in three steps:</p>
-  <p>Transform by the world matrix -&gt; Transform by the view matrix -&gt; Transform by the projection matrix</p>
+  <p>    Transform by the world matrix -&gt; Transform by the view matrix -&gt; Transform by the projection matrix</p>
   <h3>Transform matrix</h3>
   <p>A transform matrix applies one or more transformations to a position. A transformation can be a translation, rotation, scale or a combination of one or more of those.</p>
   <p>This type of matrix is created using <span class="inline3_func"><a data-xref="{title}" href="matrix_build.htm">matrix_build</a></span>.</p>
@@ -76,14 +77,14 @@
   <h3>View matrix</h3>
   <p>A view matrix converts positions from the game world to the viewpoint of the camera and can be created using <span class="inline3_func"><a data-xref="{title}" href="matrix_build_lookat.htm">matrix_build_lookat</a></span>.</p>
   <h3>Projection matrix</h3>
-  <p>A projection matrix converts positions coming from view space to the screen. <span data-keyref="GameMaker Name">GameMaker</span> has functions to create two types of projection: an orthographic and perspective projection.</p>
+  <p>A projection matrix converts positions coming from view space to the screen. <span data-keyref="GameMaker Name">GameMaker</span> has functions to create two types of projection: an <a href="matrix_build_projection_ortho.htm">orthographic</a> and <a href="matrix_build_projection_perspective.htm">perspective</a> projection.</p>
   <h2 id="transformation_matrices">Transformation Matrices</h2>
   <p>This section explains how you can practically use transform matrices in your <span data-keyref="GameMaker Name">GameMaker</span> game.</p>
   <h3>Coordinate System</h3>
   <figure><img alt="" class="center" src="../../../../assets/Images/Scripting_Reference/GML/Reference/Maths/gamemaker_coordinate_system.png" title="" />
     <figcaption>Axes and rotations as seen from the Room Editor</figcaption>
   </figure>
-  <p>When you look at the Room Editor, the positive X axis points to the right and the positive Y axis points down. The positive Z axis (depth) points into the screen. This makes the coordinate system a right-handed coordinate system (applying the <a href="https://en.wikipedia.org/wiki/Right-hand_rule">right-hand rule</a>). Note that, for the coordinate system to be truly right-handed, the rotations need to be consistent with the ordering of the axes, i.e. positive rotations go from X to Y (clockwise as seen from above), though in <span data-keyref="GameMaker Name">GameMaker</span> they are positive going from Y to X instead (counter-clockwise as seen from above).</p>
+  <p>When you look at the Room Editor, the positive X axis points to the right and the positive Y axis points down. The positive Z axis (depth) points toward the screen. This makes the coordinate system a right-handed coordinate system (applying the <a href="https://en.wikipedia.org/wiki/Right-hand_rule">right-hand rule</a>). Note that, for the coordinate system to be truly right-handed, the rotations need to be consistent with the ordering of the axes, i.e. positive rotations go from X to Y (clockwise as seen from above), though in <span data-keyref="GameMaker Name">GameMaker</span> they are positive going from Y to X instead (counter-clockwise as seen from above).</p>
   <p class="note"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> This right-handed coordinate system with inverted rotations is used on the remainder of this page.</p>
   <p>The most straightforward way to set up the projection in <span data-keyref="GameMaker Name">GameMaker</span> to be consistent with this is by using a negative FOV and a positive aspect ratio:</p>
   <p class="code">mat_projection = matrix_build_projection_fov(-fov_y, view_wport[0] / view_hport[0], 1, 10000);</p>
@@ -94,7 +95,7 @@
   <p><span data-keyref="GameMaker Name">GameMaker</span> normally takes care of transforming the things you draw, moving instances&#39; sprites to their position, possibly rotated and scaled.</p>
   <p>Let&#39;s look at an instance of an object that has a sprite set. If you haven&#39;t added a Draw event to the object, <span data-keyref="GameMaker Name">GameMaker</span> performs the default draw, which draws the sprite automatically, at the instance&#39;s <span class="inline2"><a data-xref="{title}" href="../../Asset_Management/Instances/Instance_Variables/x.htm">x</a></span>, <span class="inline2"><a data-xref="{title}" href="../../Asset_Management/Instances/Instance_Variables/y.htm">y</a></span>, <span class="inline2"><a data-xref="{title}" href="../../Asset_Management/Instances/Instance_Variables/depth.htm">depth</a></span>, rotated counter-clockwise by its <span class="inline2"><a data-xref="{title}" href="../../Asset_Management/Sprites/Sprite_Instance_Variables/image_angle.htm">image_angle</a></span> and scaled by its <span class="inline2"><a data-xref="{title}" href="../../Asset_Management/Sprites/Sprite_Instance_Variables/image_xscale.htm">image_xscale</a></span> and <span class="inline2"><a data-xref="{title}" href="../../Asset_Management/Sprites/Sprite_Instance_Variables/image_yscale.htm">image_yscale</a></span>:</p>
   <p><video src="../../../../assets/Videos/Runner/matrix_transformations_default_draw.mp4" controls="" class="center"></video></p>
-  <p>You can do all of this and a lot more yourself by transforming that which you draw using matrices!</p>
+  <p>You can do all of this and a lot more yourself by transforming what you draw using matrices!</p>
   <h3>Transformations</h3>
   <p>A transformation can be one of the following:</p>
   <table>
@@ -116,12 +117,12 @@
       </tr>
       <tr>
         <td>Rotation</td>
-        <td>Rotate about the origin</td>
+        <td>Rotate around the origin</td>
         <td><video src="../../../../assets/Videos/Runner/matrix_transformations_rotation.mp4" controls=""></video></td>
       </tr>
       <tr>
         <td>Scale</td>
-        <td>Scale about the origin</td>
+        <td>Scale around the origin</td>
         <td><video src="../../../../assets/Videos/Runner/matrix_transformations_scaling.mp4" controls=""></video></td>
       </tr>
     </tbody>
@@ -131,10 +132,13 @@
   <p>To apply multiple transformations one after the other you multiply the matrices of the individual transforms in the reverse order they should be applied; i.e. you <em>concatenate</em> the transforms stored in those matrices. The matrix that results from this multiplication applies all transformations.</p>
   <p class="code_heading">Draw Event</p>
   <p class="code">var _mat_transforms_concatenated = matrix_build_identity();<br />
+    <br />
     var _mat_translation = matrix_build(x, y, 0, 0, 0, 0, 1, 1, 1);<br />
     _mat_transforms_concatenated = matrix_multiply(_mat_translation, _mat_transforms_concatenated);  // Add translation (last transform to be applied)<br />
+    <br />
     var _mat_rotation_z = matrix_build(0, 0, 0, 0, 0, 45, 1, 1, 1);<br />
     _mat_transforms_concatenated = matrix_multiply(_mat_rotation_z, _mat_transforms_concatenated);   // Add rotation about z (second transform to be applied)<br />
+    <br />
     var _mat_scale = matrix_build(0, 0, 0, 0, 0, 0, 2, 3, 1.2);<br />
     _mat_transforms_concatenated = matrix_multiply(_mat_scale, _mat_transforms_concatenated);        // Add scale (first transform to be applied)<br />
     <br />
@@ -217,7 +221,7 @@
   <p>In the Create event, a very basic skeleton is first defined as a struct. Every bone is represented by a struct that stores the bone&#39;s length, the angle it has relative to its parent bone, and an array of child bones that are also represented by structs that follow the same structure.</p>
   <p>Next, a method <span class="inline3_func">draw_node()</span> is defined, which takes any of the previously defined structs. Inside the function a matrix is first created that only performs the bone&#39;s rotation. A multiplication with a value derived from <span class="inline2"><a data-xref="{title}" href="../Date_And_Time/current_time.htm">current_time</a></span> is added to do some basic animation. This matrix is then pushed onto the stack. After this, the world matrix is set to the matrix at the top of the stack and a line and circle are drawn to visualise the bone. After that, another transformation that applies the translation to move towards the end (or tail) of the bone is pushed onto the stack. Next, this node&#39;s children are drawn by making the function call itself (i.e. recursively). This can be done elegantly with a call to <span class="inline3_func"><a data-xref="{title}" href="../../Variable_Functions/array_foreach.htm">array_foreach</a></span> and doesn&#39;t require a custom function. Finally, the two transforms that were pushed onto the stack before are popped off to keep the stack balanced.</p>
   <p class="note"><span data-conref="../../../../assets/snippets/Tag_important.hts"> </span> Always make sure to pop every transform that you push. The number of transforms on the matrix stack is limited to <span data-keyref="Const_Matrix_Stack_Size">50</span>.</p>
-  <p>Note that, similarly to concatenating transforms using matrix multiplication, the transform pushed onto the stack last is applied first and the transform pushed onto the stack first is applied last. For example:</p>
+  <p>Note that, similar to concatenating transforms using matrix multiplication, the transform pushed onto the stack last is applied first and the transform pushed onto the stack first is applied last. For example:</p>
   <p class="code">// Make sure the stack is cleared<br />
     matrix_stack_clear();<br />
     <br />
