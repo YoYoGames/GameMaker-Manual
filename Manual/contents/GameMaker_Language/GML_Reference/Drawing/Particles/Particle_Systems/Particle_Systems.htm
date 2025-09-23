@@ -64,6 +64,14 @@
   </p>
   <p>As the above code shows, emitters start streaming particles if you&#39;ve configured them to be in <strong>Stream</strong> mode. By default, the particle system&#39;s position is set to the centre of the room.</p>
   <p class="note"><span data-conref="../../../../../assets/snippets/Tag_important.hts"> </span> The particle system, emitters and types have to be destroyed manually (e.g. in the Clean Up event) to prevent memory leaks. Since emitters exist within systems, destroying a particle system destroys its emitters automatically.</p>
+  <h2>Accessing Particle Systems Added in the Room Editor</h2>
+  <p>You can access particle systems added to a layer in <a data-xref="{title}" href="../../../../../The_Asset_Editors/Rooms.htm">The Room Editor</a> using the name that you&#39;ve given them:</p>
+  <p><img class="center" src="../../../../../assets/Images/Asset_Editors/Room_particle_element_name.png" />At run time this name can be used to reference the <span data-keyref="Type_ID_PartSys"><a href="part_system_create.htm" target="_blank">Particle System Instance</a></span> and you can use it in the <span class="inline2">part_system_*</span> functions to set, for example, the angle:</p>
+  <p class="code">part_system_angle(particle_trail, 30);</p>
+  <p>Alternatively, you can change the particle system element instead through the <span class="inline2"><a href="../../../Asset_Management/Rooms/Particle_System_Layers/Particle_System_Elements.htm">layer_particle_*</a></span> functions. For this you first get the element ID using <span class="inline3_func"><a data-xref="{title}" href="../../../Asset_Management/Rooms/Particle_System_Layers/layer_particle_get_id.htm">layer_particle_get_id</a></span>, which you pass the layer and the name <em>as a string</em>.</p>
+  <p class="code">var _element_id = layer_particle_get_id(&quot;Particles&quot;, &quot;particle_trail&quot;);<br />
+    layer_particle_angle(_element_id, 30);</p>
+  <p>Note that some properties of the element are identical to properties of the particle system (position, angle, colour and alpha). Changing these properties on the element does not change the properties of the particle system itself and vice versa.</p>
   <h2 id="func_ref">Function Reference</h2>
   <h3 id="func_ref_general">Setting Up</h3>
   <ul class="colour">
