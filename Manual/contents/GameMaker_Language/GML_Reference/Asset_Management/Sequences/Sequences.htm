@@ -17,28 +17,35 @@
   <h1><span data-field="title" data-format="default">Sequences</span></h1>
   <p>Sequences are usually created in the IDE using <a data-xref="{title}" href="../../../../The_Asset_Editors/Sequences.htm">The Sequence Editor</a>, but they can also be created and edited using code. However, before looking at the functions available, it&#39;s important to understand the way that sequences are defined in <span data-keyref="GameMaker Name">GameMaker</span> and the different terms that will be used.</p>
   <p>To start with, at the top level, you have a <b>sequence element</b>. This is what you place on a layer in a room, either through <a data-xref="{title}" href="../../../../The_Asset_Editors/Rooms.htm">The Room Editor</a> or in code using the appropriate <a href="../Rooms/Sequence_Layers/Sequence_Layers.htm">layer functions</a>. The layer element has no real properties other than an element ID value, but this ID is required to use the above mentioned layer functions to change the sequence playback or to access the sequence data.</p>
-  <p>Next you have <b>sequence objects</b> and <b>sequence instances</b> much like you have general objects and instances. A sequence <i>object</i> is the base resource as you created it in <a data-xref="{title}" href="../../../../Introduction/The_Asset_Browser.htm">The Asset Browser</a> or using the function <span class="inline3_func"><a data-xref="{title}" href="sequence_create.htm">sequence_create</a></span>, and the sequence <i>instance</i> is the &quot;copy&quot; of that sequence object that has been placed in a room as an element on a layer. Think of sequence objects as blueprints and sequence instances as the creation from those blueprints. Sequence objects and instances are <a href="../../../GML_Overview/Structs.htm">structs</a> and - unlike regular objects - a sequence object struct can be edited at runtime, which will affect all further instances of that sequence when you create them as elements (and any editing done to a sequence object will <b>not</b> be reset by restarting the game or the room using the <span class="inline3_func"><a data-xref="{title}" href="../Rooms/room_restart.htm">room_restart</a></span> or <span class="inline3_func"><a data-xref="{title}" href="../../General_Game_Control/game_restart.htm">game_restart</a></span> functions). The sequence instance struct contains a few parameters to control playback and things (this is explained in more detail below) as well as the <b>sequence data</b> struct.</p>
+  <p>Next you have <b>sequence objects</b> and <b>sequence instances</b> much like you have general objects and instances. A sequence <i>object</i> is the base resource as you created it in <a data-xref="{title}" href="../../../../Introduction/The_Asset_Browser.htm">The Asset Browser</a> or using the function <span class="inline3_func"><a data-xref="{title}" href="sequence_create.htm">sequence_create</a></span>, and the sequence <i>instance</i> is the &quot;copy&quot; of that sequence object that has been placed in a room as an element on a layer. Think of sequence objects as blueprints and sequence instances as the creation from those blueprints. Sequence objects and instances are <a href="../../../GML_Overview/Structs.htm">structs</a> and - unlike regular objects - a sequence object struct can be edited at run time, which will affect all further instances of that sequence when you create them as elements (and any editing done to a sequence object will <b>not</b> be reset by restarting the game or the room using the <span class="inline3_func"><a data-xref="{title}" href="../Rooms/room_restart.htm">room_restart</a></span> or <span class="inline3_func"><a data-xref="{title}" href="../../General_Game_Control/game_restart.htm">game_restart</a></span> functions). The sequence instance struct contains a few parameters to control playback and things (this is explained in more detail below) as well as the <b>sequence data</b> struct.</p>
   <p>Finally, as mentioned above, you have the <b>sequence data</b>, which is another struct. This struct contains <i>all</i> the data about the sequence. The tracks it contains, the properties those tracks have, the playback speed and much more. The exact details of this structs contents are outlined below, but basically consists of <b>asset track</b> structs and <b>parameter track</b> structs which use <b>keyframe data</b> to actually perform actions while the sequence plays.</p>
   <p>Sequence elements are dealt with using the room <a href="../Rooms/Sequence_Layers/Sequence_Layers.htm">layer functions</a>, but for sequence objects, instances and data we have the following functions:</p>
   <p> </p>
   <ul class="colour">
-    <li><a href="sequence_exists.htm">sequence_exists</a></li>
-    <li><a href="sequence_create.htm">sequence_create</a></li>
-    <li><a href="sequence_destroy.htm">sequence_destroy</a></li>
-    <li><a href="sequence_get.htm">sequence_get</a></li>
-    <li><a href="sequence_track_new.htm">sequence_track_new</a></li>
-    <li><a href="sequence_keyframe_new.htm">sequence_keyframe_new</a></li>
-    <li><a href="sequence_keyframedata_new.htm">sequence_keyframedata_new</a></li>
-    <li><a href="sequence_get_objects.htm">sequence_get_objects</a></li>
-    <li><a href="sequence_instance_override_object.htm">sequence_instance_override_object</a></li>
+    <li><a data-xref="{title}" href="sequence_exists.htm">sequence_exists</a></li>
+    <li><a data-xref="{title}" href="sequence_create.htm">sequence_create</a></li>
+    <li><a data-xref="{title}" href="sequence_destroy.htm">sequence_destroy</a></li>
+    <li><a data-xref="{title}" href="sequence_get.htm">sequence_get</a></li>
+    <li><a data-xref="{title}" href="sequence_track_new.htm">sequence_track_new</a></li>
+    <li><a data-xref="{title}" href="sequence_keyframe_new.htm">sequence_keyframe_new</a></li>
+    <li><a data-xref="{title}" href="sequence_keyframedata_new.htm">sequence_keyframedata_new</a></li>
+    <li><a data-xref="{title}" href="sequence_get_objects.htm">sequence_get_objects</a></li>
+    <li><a data-xref="{title}" href="sequence_instance_override_object.htm">sequence_instance_override_object</a></li>
   </ul>
   <p> </p>
   <p>There is also a <strong>built-in variable</strong> associated with instances that can be used to determine if the instance has been used in a sequence or not:</p>
-  <p> </p>
   <ul class="colour">
     <li><a href="in_sequence.htm">in_sequence</a></li>
   </ul>
   <div data-conref="../../../../assets/snippets/Note_Instances_In_Sequence_Shouldnt_Update_Transform_Vars.hts"> </div>
+  <p>If an instance is controlled by a sequence, that sequence will be stored in the instance&#39;s <strong>built-in variable</strong>:</p>
+  <ul class="colour">
+    <li><a data-xref="{title}" href="sequence_instance.htm">sequence_instance</a></li>
+  </ul>
+  <p>Another <strong>built-in variable</strong> associated with instances can be used to determine if the instance draws itself or if it is drawn by a sequence instead:</p>
+  <ul class="colour">
+    <li><a data-xref="{title}" href="drawn_by_sequence.htm">drawn_by_sequence</a></li>
+  </ul>
   <p> </p>
   <p>Before using these functions to create or edit sequences, we recommend that you read the detailed descriptions given below for the struct properties. A general overview of how to create a new sequence would be:</p>
   <ul class="colour">
@@ -129,11 +136,11 @@
     layer_sequence_create(&quot;Assets_1&quot;, 0, 0, myseq);</p>
   <p>The above instructions create a very simple sequence object that draws a sprite at the (0, 0) position <i>of the sequence</i> and then moves it to the bottom-right corner and back in a loop. As mentioned, there are a number of places where you need to access different structs to give or get data about the sequence, and the sections below list all the different properties that these structs contain:</p>
   <ul class="colour">
-    <li><a name="object"></a><a href="Sequence_Structs/The_Sequence_Object_Struct.htm"><label for="1">The Sequence Object Struct</label></a></li>
-    <li><a name="instance"></a><a href="Sequence_Structs/The_Sequence_Instance_Struct.htm"><label for="2">The Sequence Instance Struct</label></a></li>
-    <li><a name="track"></a><a href="Sequence_Structs/The_Track_Struct.htm"><label for="3">The Track Struct</label></a></li>
-    <li><a name="keyframe"></a><a href="Sequence_Structs/The_Keyframe_Struct.htm"><label for="4">The Keyframe Struct</label></a></li>
-    <li><a name="keyframe_data"></a><a href="Sequence_Structs/The_Keyframe_Data_Struct.htm"><label for="5">The Keyframe Data Struct</label></a></li>
+    <li><a name="object"></a><a data-xref="{title}" href="Sequence_Structs/The_Sequence_Object_Struct.htm">The Sequence Object Struct</a></li>
+    <li><a name="instance"></a><a data-xref="{title}" href="Sequence_Structs/The_Sequence_Instance_Struct.htm">The Sequence Instance Struct</a></li>
+    <li><a name="track"></a><a data-xref="{title}" href="Sequence_Structs/The_Track_Struct.htm">The Track Struct</a></li>
+    <li><a name="keyframe"></a><a data-xref="{title}" href="Sequence_Structs/The_Keyframe_Struct.htm">The Keyframe Struct</a></li>
+    <li><a name="keyframe_data"></a><a data-xref="{title}" href="Sequence_Structs/The_Keyframe_Data_Struct.htm">The Keyframe Data Struct</a></li>
   </ul>
   <p> </p>
   <p>Finally, it is possible to add code to sequences that can be triggered as either an <strong>event</strong> a <strong>moment</strong> or as a <strong>broadcast message</strong>. This is explained fully on the following page:</p>
@@ -142,15 +149,14 @@
   </ul>
   <p> </p>
   <p> </p>
-  <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a href="../Asset_Management.htm">Asset Management</a></div>
-        <div style="float:right">Next: <a href="../Fonts/Fonts.htm">Fonts</a></div>
+        <div style="float:left">Back: <a data-xref="{title}" href="../Asset_Management.htm">Asset Management</a></div>
+        <div style="float:right">Next: <a data-xref="{title}" href="../Fonts/Fonts.htm">Fonts</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2025 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 Sequences
