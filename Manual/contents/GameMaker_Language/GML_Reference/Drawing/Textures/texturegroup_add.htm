@@ -15,9 +15,22 @@
 </head>
 <body>
   <h1><span data-field="title" data-format="default">texturegroup_add</span></h1>
-  <p>This function adds a new <a href="../../../../Settings/Texture_Information/Dynamic_Textures.htm">Dynamic Texture Group</a> to the game from the given image file(s) and the sprite information given as a struct.</p>
+  <p>This function adds a new <a href="../../../../Settings/Texture_Information/Dynamic_Textures.htm">Dynamic Texture Group</a> to the game from the given image file(s) and/or buffer(s) and the sprite information given as a struct.</p>
   <p>The first argument is the name of the Texture Group to be created. If a Texture Group with the given name already exists, this will cause a fatal <a href="../../../../Additional_Information/Errors/Runner_Errors.htm">error</a>.</p>
-  <p>For the second argument, you may pass either one file name or an array containing multiple file names. The image file(s) can be any bitmap file format. For file access rules see: <a data-xref="{text}" href="../../../../Additional_Information/The_File_System.htm#h1">Accessing File Areas</a></p>
+  <p>For the second argument, you may pass either a file name, a buffer or an array containing multiple of these (the array can contain a mix of both). The image file(s) can be any bitmap file format. For file access rules see: <a data-xref="{text}" href="../../../../Additional_Information/The_File_System.htm#h1">Accessing File Areas</a></p>
+  <p>A buffer can contain any file format supported for texture groups: <span>PNG, JPEG, GIF, QOIF, DDS, ASTC, etc., as well as a RAW texture format that can be used with <a data-xref="{title}" href="../Surfaces/Surfaces.htm">Surfaces</a>. Note that a</span>ny GPU hardware-compressed texture must be supported on the target for it to work.</p>
+  <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down1" href="#">RAW Texture Format</a></p>
+  <div class="droptext" data-targetname="drop-down1">
+    <p>The RAW texture format consists of a 16byte header at the start, followed by the RGBA data:</p>
+    <p class="code">Byte Offset              Type               Description<br />
+      ----------------------------------------------------------------------------------------------<br />
+      +0                       unsigned int       &quot;RAW &quot; text in memory (the value 0x20574152)<br />
+      +4                       int                width in pixels of the image<br />
+      +8                       int                height in pixels of the image<br />
+      +12                      int                format (this should be 0)<br />
+      +16                      ....               the RGBA data stored as byte per pixel R, G, B, A with row first, width*height pixels</p>
+    <p>The image data from a surface can be copied to the buffer at an offset using <span class="inline3_func"><a data-xref="{title}" href="../../Buffers/buffer_get_surface.htm">buffer_get_surface</a></span>.</p>
+  </div>
   <p>The last argument must be a struct or a JSON string providing information on the sprites contained in the new Texture Group. This struct or JSON object must have the following format:</p>
   <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down" href="#">Struct Format</a></p>
   <div class="droptext" data-targetname="drop-down">
@@ -51,16 +64,16 @@
             <ul>
               <li class="dropspot"><span class="inline2">xoffset</span>, <span class="inline2">yoffset</span>: The x and y origin in pixels</li>
               <li class="dropspot"><span class="inline2">bbox_left</span>, <span class="inline2">bbox_right</span>, <span class="inline2">bbox_top</span>, <span class="inline2">bbox_bottom</span>: Bounding box values in pixels</li>
-              <li class="dropspot"><span class="inline2">bbox_kind</span>: The type of bounding box as a <span data-keyref="Type_Constant_Bbox_Kind"><a target="_blank" href="../../Asset_Management/Sprites/Sprite_Manipulation/sprite_collision_mask.htm">Bounding Box Kind (Shape) Constant</a></span></li>
+              <li class="dropspot"><span class="inline2">bbox_kind</span>: The type of bounding box as a <span data-keyref="Type_Constant_Bbox_Kind"><a href="../../Asset_Management/Sprites/Sprite_Manipulation/sprite_collision_mask.htm" target="_blank">Bounding Box Kind (Shape) Constant</a></span></li>
               <li class="dropspot"><span class="inline2">frame_speed</span>: Animation speed</li>
-              <li class="dropspot"><span class="inline2">frame_type</span>: Animation speed type of the sprite as a <span data-keyref="Type_Constant_Sprite_Speed"><a target="_blank" href="../../Asset_Management/Sprites/Sprite_Information/sprite_get_speed_type.htm">Sprite Speed Constant</a></span></li>
+              <li class="dropspot"><span class="inline2">frame_type</span>: Animation speed type of the sprite as a <span data-keyref="Type_Constant_Sprite_Speed"><a href="../../Asset_Management/Sprites/Sprite_Information/sprite_get_speed_type.htm" target="_blank">Sprite Speed Constant</a></span></li>
               <li class="dropspot"><span class="inline2">rotated_bounds</span>: Boolean for whether the sprite supports a rotating rectangular collision mask</li>
               <li class="dropspot"><span class="inline2">mask</span>: An array of bits for the mask (single frame)</li>
               <li class="dropspot"><span class="inline2">masks</span>: An array of arrays containing bits for the masks (per frame)</li>
               <li class="dropspot"><span class="inline2">nineslice</span>: A struct describing the Nine Slice information for the sprite, containing the following members:
                 <ul>
                   <li class="dropspot"><span class="inline2">left</span>, <span class="inline2">right</span>, <span class="inline2">top</span>, <span class="inline2">bottom</span>: The edge positions within the sprite</li>
-                  <li class="dropspot"><span class="inline2">tilemode_left</span>, <span class="inline2">tilemode_right</span>, <span class="inline2">tilemode_top</span>, <span class="inline2">tilemode_bottom</span>, <span class="inline2">tilemode_centre</span>: The <span data-keyref="Type_Constant_Nineslice_Slice_Type"><a target="_blank" href="../../Asset_Management/Sprites/Nine_Slice_Struct.htm">Tile Mode Constant</a></span> for each edge and the centre</li>
+                  <li class="dropspot"><span class="inline2">tilemode_left</span>, <span class="inline2">tilemode_right</span>, <span class="inline2">tilemode_top</span>, <span class="inline2">tilemode_bottom</span>, <span class="inline2">tilemode_centre</span>: The <span data-keyref="Type_Constant_Nineslice_Slice_Type"><a href="../../Asset_Management/Sprites/Nine_Slice_Struct.htm" target="_blank">Tile Mode Constant</a></span> for each edge and the centre</li>
                 </ul>
               </li>
               <li class="dropspot"><span class="inline2">messages</span>: An array of structs describing the broadcast messages for this sprite. Each struct contains:
@@ -85,10 +98,11 @@
   <p>The Texture Group created can later be deleted using <span class="inline3_func"><a data-xref="{title}" href="texturegroup_delete.htm">texturegroup_delete</a></span>.</p>
   <p class="note"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> This function is not supported on HTML5.</p>
   <p class="note"><span data-conref="../../../../assets/snippets/Tag_important.hts"> </span> The texture will be <strong>unloaded</strong> after being created and can be loaded with <span class="inline3_func"><a data-xref="{title}" href="texturegroup_load.htm">texturegroup_load</a></span> or when a sprite from it is first drawn.</p>
-  <p class="note"> <span data-conref="../../../../assets/snippets/Tag_tip.hts"> </span> The &quot;<strong>Preview</strong>&quot; option in the Graphics Game Options for your target will open a folder with a preview of the Texture Pages for your target. This folder will also contain a <span class="inline2">asset_layout_info.json</span> file with JSON info that can be passed into this function as a string. This way you can set up Texture Pages temporarily in the IDE and use the JSON info from this file to load those Texture Pages at runtime using this function, so that e.g. you don&#39;t have to figure out the frame coordinates, width etc. yourself.</p>
+  <p class="note"><span data-conref="../../../../assets/snippets/Tag_warning.hts"> </span> Buffers used by a texture group cannot be deleted while the texture group exists. You need to delete the buffers manually and the texture group <em>must</em> be deleted first.</p>
+  <p class="note"> <span data-conref="../../../../assets/snippets/Tag_tip.hts"> </span> The &quot;<strong>Preview</strong>&quot; option in the Graphics Game Options for your target will open a folder with a preview of the Texture Pages for your target. This folder will also contain a <span class="inline2">asset_layout_info.json</span> file with JSON info that can be passed into this function as a string. This way you can set up Texture Pages temporarily in the IDE and use the JSON info from this file to load those Texture Pages at runtime using this function, so that e.g. you don&#39;t have to figure out the frame coordinates, width, etc., yourself.</p>
   <p> </p>
   <h4>Syntax:</h4>
-  <p class="code"><span data-field="title" data-format="default">texturegroup_add</span>(groupname, filename_or_array, struct_or_json);</p>
+  <p class="code"><span data-field="title" data-format="default">texturegroup_add</span>(groupname, filename_or_buffer_or_array, struct_or_json);</p>
   <table>
     <colgroup>
       <col />
@@ -107,9 +121,9 @@
         <td>The name of the texture group</td>
       </tr>
       <tr>
-        <td>filename_or_array</td>
-        <td><span data-keyref="Type_String"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">String</a></span> or <span data-keyref="Type_Array"><a href="../../../GML_Overview/Arrays.htm" target="_blank">Array</a></span></td>
-        <td>The file name or array of file names to load</td>
+        <td>filename_or_buffer_or_array</td>
+        <td><span data-keyref="Type_String"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">String</a></span> or <span data-keyref="Type_ID_Buffer"><a href="../../Buffers/buffer_create.htm" target="_blank">Buffer</a></span> or <span data-keyref="Type_Array"><a href="../../../GML_Overview/Arrays.htm" target="_blank">Array</a></span></td>
+        <td>A file name, a buffer or an array containing a combination of these to load</td>
       </tr>
       <tr>
         <td>struct_or_json</td>
@@ -122,7 +136,7 @@
   <h4>Returns:</h4>
   <p class="code"><span data-keyref="Type_Void">N/A</span></p>
   <p> </p>
-  <h4>Example:</h4>
+  <h4>Example 1: Basic Use</h4>
   <p class="code">var _sprite_data = {<br />
         sprites : <br />
         {        <br />
@@ -165,6 +179,43 @@
   <p>This first sets up a struct with data for two sprites. Each sprite struct contains its width, height and a frames array with positions for the frames relative to the texture page.</p>
   <p>The function is then called with the Texture Group&#39;s name, the file name to be loaded (in this case, from the <a data-xref="{title}" href="../../../../Settings/Included_Files.htm">Included Files</a>) and the previously created struct is passed in.</p>
   <p>Then <span class="inline3_func"><a data-xref="{title}" href="texturegroup_get_sprites.htm">texturegroup_get_sprites</a></span> is called on the new Texture Group which returns an array of the sprites included in that group. The sprites from the array can now be used anywhere.</p>
+  <p> </p>
+  <h4>Example 2: Multiple Textures, from Different Sources</h4>
+  <p class="code_heading">Create Event</p>
+  <p class="code">buffer = buffer_load(&quot;image2.png&quot;);<br />
+    <br />
+    var _sprite_data = {<br />
+        sprites : <br />
+        {<br />
+            blue_guy : <br />
+            {<br />
+                width : 116,<br />
+                height : 128,<br />
+                frames :<br />
+                [<br />
+                    { x : 116*0, y : 128*0 },<br />
+                ],<br />
+            },<br />
+            red_guy :<br />
+            {<br />
+                width : 116,<br />
+                height : 128,<br />
+                frames :<br />
+                [<br />
+                    { x : 116*0, y : 128*0, tp : 1 },<br />
+                ],<br />
+            }<br />
+        }<br />
+    };<br />
+    <br />
+    texturegroup_add(&quot;MyOtherTextureGroup&quot;, [&quot;image.png&quot;, buffer], _sprite_data);
+  </p>
+  <p class="code_heading">Clean Up Event</p>
+  <p class="code">texturegroup_delete(&quot;MyOtherTextureGroup&quot;);<br />
+    buffer_delete(buffer);</p>
+  <p>The code above shows how <span class="inline3_func"><span data-field="title" data-format="default">texturegroup_add</span></span> can be used with an array of multiple textures.</p>
+  <p>In the Create event, a PNG image is first loaded from disk into a buffer using <span class="inline3_func"><a data-xref="{title}" href="../../Buffers/buffer_load.htm">buffer_load</a></span>. Next, the sprite data struct is created, which defines two sprites, each having a single frame, one on the first texture page, another one on the second texture page (indicated by the offset value in <span class="inline2">tp</span>). The texture group is then added using <span class="inline3_func"><span data-field="title" data-format="default">texturegroup_add</span></span>. The function receives an array containing two elements: the file name of an image on disk and the previously loaded buffer containing PNG data.</p>
+  <p>In the Clean Up event, first the texture group is deleted, then the buffer containing the image data.</p>
   <p> </p>
   <p> </p>
   <div class="footer">
