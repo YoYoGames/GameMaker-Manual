@@ -15,12 +15,12 @@
 </head>
 <body>
   <h1><span data-field="title" data-format="default">matrix_inverse</span></h1>
-  <p>This function returns a new matrix that is the inverse of the matrix you pass it.</p>
+  <p>This function returns a new matrix that is the inverse of the matrix that you pass it, or optionally writes the result to an existing matrix that you specify.</p>
   <p>The inverse of a matrix is the matrix that, when multiplied with the original matrix, is equal to an identity matrix.</p>
   <p>From a more practical perspective, the inverse of a matrix <em>undoes</em> the transformation of the original matrix. For example, the matrix <span class="inline2">matrix_build(100, 100, 0, 90, 0, 0, 1, 1, 1)</span> first rotates about x by 90 degrees and then moves right 100 and down 100. Its inverse matrix <span class="inline2">matrix_inverse(matrix_build(100, 100, 0, 90, 0, 0, 1, 1, 1))</span> first moves left 100 and up 100 and then rotates about x by -90 degrees, performing the exact same steps in reverse order. The product of these matrices (i.e. <span class="inline2">matrix_multiply(inverse, transform)</span>) will be an identity matrix.</p>
   <p> </p>
   <h4>Syntax:</h4>
-  <p class="code"><span data-field="title" data-format="default">matrix_inverse</span>(matrix);</p>
+  <p class="code"><span data-field="title" data-format="default">matrix_inverse</span>(matrix, [result_matrix])</p>
   <table>
     <colgroup>
       <col />
@@ -38,11 +38,16 @@
         <td><span data-keyref="Type_Array_Matrix"><a href="Matrix_Functions.htm" target="_blank">Matrix</a></span></td>
         <td>The matrix to get the inverse of</td>
       </tr>
+      <tr>
+        <td>result_matrix</td>
+        <td><span data-keyref="Type_Array_Matrix"><a href="Matrix_Functions.htm" target="_blank">Matrix</a></span></td>
+        <td><span data-conref="../../../../assets/snippets/Tag_optional.hts"> </span> The existing matrix to write the result to</td>
+      </tr>
     </tbody>
   </table>
   <p> </p>
   <h4>Returns:</h4>
-  <p class="code"><span data-keyref="Type_Array_Matrix"><a href="Matrix_Functions.htm" target="_blank">Matrix</a></span> (or <span data-keyref="Type_Undefined"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">undefined</a></span> in case the matrix does not have an inverse)</p>
+  <p class="code"><span data-keyref="Type_Array_Matrix"><a href="Matrix_Functions.htm" target="_blank">Matrix</a></span> (or <span data-keyref="Type_Undefined"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">undefined</a></span> in case a new matrix is returned and the matrix doesn&#39;t have an inverse)</p>
   <p> </p>
   <h4>Example:</h4>
   <p class="code">transform = matrix_build(x, y, 0, 90, 0, direction, 1, 1, 1);<br />
@@ -56,9 +61,7 @@
   </p>
   <p>The above code shows how to build a transform matrix, get its inverse using <span class="inline3_func"><span data-field="title" data-format="default">matrix_inverse</span></span> and multiply the two matrices back together. The three matrices, i.e. the original matrix, its inverse and their product are then output in a debug message. Note that the product of the matrices is equal to an identity matrix (i.e. <span class="inline3_func"><a data-xref="{title}" href="matrix_build_identity.htm">matrix_build_identity</a></span>).</p>
   <p> </p>
-  <p><br />
-    
-  </p>
+  <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
