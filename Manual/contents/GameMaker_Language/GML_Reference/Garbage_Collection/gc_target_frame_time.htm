@@ -15,8 +15,14 @@
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
   <h1><span data-field="title" data-format="default">gc_target_frame_time</span></h1>
-  <p>With this function you can indicate to the garbage collector that it should aim to spend no more than the time specified running each frame. The function takes a time value specified in microseconds (where 1,000,000 microseconds equals one second) and the default target frame time is 100 microseconds.</p>
-  <p>Please note that this is simply a <em>target</em> value, as some operations still need to run completely in one frame and may sometimes take longer than the target time. Also note that increasing the target time will make the garbage collector more responsive to rapid changes in memory usage and will cause memory to be freed more quickly, though in practice this is unlikely to be required in most cases. Also note that setting the target frame time to 0 will <em>not</em> cause the collector to stop completely - it will still do a minimal amount of work each frame. To completely disable the collector use the <span class="inline3_func"><a data-xref="{title}" href="gc_enable.htm">gc_enable</a></span> function.</p>
+  <p>With this function you can indicate to the garbage collector the amount of time it should aim to spend running each frame. The time value is specified in microseconds (where 1,000,000 microseconds equals one second) and the default target frame time is <span data-keyref="Const_GC_Target_Frame_Time_Default">100</span> microseconds.</p>
+  <p>Depending on the sign of the value, the garbage collector will run in a different &quot;mode&quot;:</p>
+  <ul class="colour">
+    <li>If you pass a positive value, the garbage collector will aim to spend as little time as possible each frame on garbage collection, and no more than the amount of time specified.</li>
+    <li>If you pass a negative value, the garbage collector will aim to spend as much time as possible each frame - all remaining time in the frame if possible - on garbage collection, and at least the amount of time specified.</li>
+  </ul>
+  <p>Please note that this is simply a <em>target</em> value, as some operations still need to run completely in one frame and may sometimes take longer than the target time. Also note that increasing the target time will make the garbage collector more responsive to rapid changes in memory usage and will cause memory to be freed more quickly, though in practice this is unlikely to be required in most cases. Also note that setting the target frame time to 0 will <em>not</em> cause the collector to stop completely - it will still do a minimal amount of work each frame.</p>
+  <p><span></span>To completely disable the collector use the <span class="inline3_func"><a data-xref="{title}" href="gc_enable.htm">gc_enable</a></span> function.</p>
   <p> </p>
   <h4>Syntax:</h4>
   <p class="code"><span data-field="title" data-format="default">gc_target_frame_time</span>(time);</p>
@@ -30,7 +36,7 @@
       <tr>
         <td>time</td>
         <td><span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
-        <td>The target time - in microseconds -  that the garbage collector should work each frame. </td>
+        <td>The target time - in microseconds -  that the garbage collector should work each frame. Can be a positive value to indicate the maximum amount of time to spend, a negative value to indicate the minimum amount of time to spend.</td>
       </tr>
     </tbody>
   </table>
