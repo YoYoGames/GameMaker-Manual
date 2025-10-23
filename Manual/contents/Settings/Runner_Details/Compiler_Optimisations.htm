@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"><head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-  <meta name="generator" content="Adobe RoboHelp 2022"/>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="Adobe RoboHelp 2022" />
   <title>Compiler Optimisations</title>
-  <meta name="topic-status" content="Draft"/>
-  <link rel="stylesheet" type="text/css" href="../../assets/css/default.css"/>
-  <meta name="search-keywords" content="compiler,optimisation,optimise"/>
-  <meta name="rh-index-keywords" content="Compiler Optimisations"/>
-  <meta name="template" content="../../assets/masterpages/Manual_Page.htt"/>
+  <meta name="topic-status" content="Draft" />
+  <link rel="stylesheet" type="text/css" href="../../assets/css/default.css" />
+  <meta name="search-keywords" content="compiler,optimisation,optimise" />
+  <meta name="rh-index-keywords" content="Compiler Optimisations" />
+  <meta name="template" content="../../assets/masterpages/Manual_Page.htt" />
 </head>
 <body>
   <h1><span data-field="title" data-format="default">Compiler Optimisations</span></h1>
@@ -19,17 +20,18 @@
     <li>Struct variables are looked up using the hash value instead of the variable name if that name resolves to a constant value at compile time. For example, using this struct: 
       <p class="code">a = {this: &quot;this&quot;, that: &quot;that&quot;};</p>
       the following variable lookups:
-      <p class="code">b = a[$ &quot;this&quot;];<br/>
-        // OR<br/>
+      <p class="code">b = a[$ &quot;this&quot;];<br />
+        // OR<br />
         b = a.this</p>
       will be replaced by the compiler by a lookup using the hash value, since it knows the variable name is <span class="inline2">&quot;this&quot;</span>. However, the following lookup:
-      <p class="code">var _varname = choose(&quot;this&quot;, &quot;that&quot;);<br/>
+      <p class="code">var _varname = choose(&quot;this&quot;, &quot;that&quot;);<br />
         b = a[$ _varname];</p>
       cannot be replaced and the hash needs to be calculated at runtime, as the value of <span class="inline2">_varname</span> depends on what the <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Maths_And_Numbers/Number_Functions/choose.htm">choose</a></span> function returns.
       <p class="note"><span data-conref="../../assets/snippets/Tag_note.hts"> </span> The above optimisations are also applied when you call the <a data-xref="{text}" href="../../GameMaker_Language/GML_Reference/Variable_Functions/Variable_Functions.htm#struct_functions">Struct Functions</a>.</p>
     </li>
     <li><em>Deterministic</em> functions (also known as pure functions) that are called with constant parameters are replaced with the return value of the function call. A deterministic function returns a known output for a given input; for every input value that you can pass the output value is known. For example, <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Maths_And_Numbers/Angles_And_Distance/dcos.htm">dcos</a></span> is deterministic (i.e. <span class="inline2">dcos(0)</span> always returns 1, <span class="inline2">dcos(90)</span> always returns 0, etc.), while <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Maths_And_Numbers/Number_Functions/choose.htm">choose</a></span> is not (i.e. <span class="inline2">choose(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;)</span> can return any of the three parameters).
       <ul>
+        <li>Functions like <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Debugging/code_is_compiled.htm">code_is_compiled</a></span> where the value is known at compile time also have the calls replaced with the value at compile time.</li>
         <li><a data-xref="{text}" href="../../GameMaker_Language/GML_Reference/Strings/Strings.htm#h4">Template Strings</a> are replaced with a call to <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Strings/string.htm">string</a></span> and are also replaced according to the above rule.
           <p><span data-conref="../../assets/snippets/Tag_note.hts"> </span> If you use the template literal string <span class="inline2">$&quot;Hello, I am {name}!&quot;</span> then internally this becomes <span class="inline2">string(&quot;Hello, I am {0}!&quot;, name)</span>. If <span class="inline2">name</span> is a string literal (or a macro that maps to a string literal) then this would be optimised out completely and become a string literal.</p>
         </li>
@@ -118,11 +120,11 @@
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div>Back: <a data-xref="{title}" href="Runner_Details.htm">Runner &amp; Compiler</a></div>
-        <div>Next: <a data-xref="{title}" href="../Building_via_Command_Line.htm">Building via Command Line</a></div>
+        <div>Back: <a data-xref="{title}" href="Runner_Details.htm">Building &amp; Compiling</a></div>
+        <div>Next: <a data-xref="{title}" href="../Building_via_Command_Line.htm">Building &amp; Testing via Command Line</a></div>
       </div>
     </div>
     <h5><span data-conref="../../assets/snippets/Copyright_Notice_AutoUpdate.hts"> </span></h5>
   </div>
-
-</body></html>
+</body>
+</html>

@@ -15,20 +15,21 @@
 </head>
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
-  <h1>instance_destroy</h1>
-  <p>You call this function whenever you wish to &quot;destroy&quot; an instance, normally triggering a <a href="../../../../The_Asset_Editors/Object_Properties/Object_Events.htm">Destroy Event</a> and also a <a href="../../../../The_Asset_Editors/Object_Properties/Object_Events.htm">Clean Up Event</a>. This will remove it from the room until the room is restarted (unless the room is persistent). Calling the function with no arguments will simply destroy the instance that is currently in scope and running the code, but you can provide an optional &quot;id&quot; argument and target a specific instance by using the instance <span class="inline"><a href="Instance_Variables/id.htm">id</a></span> handle, or you can target all instances of a particular object by using an <a href="../Objects/object_index.htm"><span class="inline">object_index</span></a>. For example:</p>
+  <h1><span data-field="title" data-format="default">instance_destroy</span></h1>
+  <p>You call this function whenever you wish to &quot;destroy&quot; an instance, normally triggering a <a href="../../../../The_Asset_Editors/Object_Properties/Object_Events.htm">Destroy Event</a> and also a <a href="../../../../The_Asset_Editors/Object_Properties/Object_Events.htm">Clean Up Event</a>. This will remove it from the room until the room is restarted (unless the room is persistent). Calling the function with no arguments will simply destroy the instance that is currently in scope and running the code, but you can provide an optional <span class="inline2">id</span> argument and target a specific instance by using the instance <span class="inline2"><a data-xref="{title}" href="Instance_Variables/id.htm">id</a></span> handle, or you can target all instances of a particular object by using an <span class="inline2"><a data-xref="{title}" href="../Objects/object_index.htm">object_index</a></span>. For example:</p>
   <p class="code">instance_destroy(other);      // destroy the &quot;other&quot; instance in a Collision Event<br />
-    instance_destroy(obj_Bullet); // destroy ALL instances of the object &quot;obj_Bullet&quot;</p>
-  <p>The second <i>optional</i> flag permits you to &quot;switch off&quot; the Destroy Event for the instance being destroyed. By default the Destroy Event will <i>always</i> be performed, but if you set this flag to <span class="inline">false</span> then you can make the instance destroy itself and skip performing that event.</p>
-  <p class="note"><b>IMPORTANT!</b> This will skip the Destroy Event, but the Clean Up event will still be called.</p>
-  <p>It is worth noting that when you destroy an instance, its destroy event is called <i>immediately</i> after the code or action that calls the destroy function. Also, although the destroy event is performed, the instance <i>is not immediately removed from the game</i>, and it will continue to perform the code contained in the current event. Only when the current event is over will it be removed from the game.</p>
+    instance_destroy(obj_bullet); // destroy ALL instances of the object &quot;obj_bullet&quot;</p>
+  <p>The second <i>optional</i> flag permits you to &quot;switch off&quot; the Destroy Event for the instance being destroyed. By default the Destroy Event will <i>always</i> be performed, but if you set this flag to <span class="inline2">false</span> then you can make the instance destroy itself and skip performing that event.</p>
+  <p class="note"><span data-conref="../../../../assets/snippets/Tag_important.hts"> </span> This will skip the Destroy Event, but the Clean Up event will still be called.</p>
+  <p>It is worth noting that when you destroy an instance, its Destroy event is called <i>immediately</i> after the code or action that calls the destroy function. Also, although the Destroy event is performed, the instance <i>is not immediately removed from the game</i>, and it will continue to perform the code contained in the current event. Only when the current event is over will it be removed from the game.</p>
   <p>So, if you have, for example, this code:</p>
   <p class="code">if (hp &lt;= 0) instance_destroy();<br />
     score += 10;</p>
-  <p>The variable &quot;score&quot; will be incremented <i>even though the <span class="inline">instance_destroy</span> function has been called</i>, and the instance will finally be removed from your game at the end of the event. Be careful of this, as if you have (for example) created a dynamic resource for the instance, like a data structure, and then have destroyed that resource in the destroy event, if there are any references to it after the destroy function or action has been performed then you will get an &quot;unknown resource&quot; error, as the destroy event removed it from the game.</p>
+  <p>The variable <span class="inline2">score</span> will be incremented <i>even though the <span class="inline3_func"><a data-xref="{title}" href="instance_destroy.htm">instance_destroy</a></span> function has been called</i>, and the instance will finally be removed from your game at the end of the event. Be careful of this, as if you have (for example) created a dynamic resource for the instance, like a data structure, and then have destroyed that resource in the Destroy event, if there are any references to it after the destroy function or action has been performed then you will get an &quot;unknown resource&quot; error, as the Destroy event removed it from the game.</p>
+  <p class="note"><span data-conref="../../../../assets/snippets/Tag_important.hts"> </span> This function does <strong>not</strong> destroy <a href="Deactivating_Instances/Deactivating_Instances.htm">deactivated instances</a>. You need to make sure that all instances you want to destroy are activated using the <a data-xref="{text}" href="Deactivating_Instances/Deactivating_Instances.htm#func_ref_instance_activation">Instance Activation</a> functions.</p>
   <p> </p>
   <h4>Syntax:</h4>
-  <p class="code">instance_destroy([id, execute_event_flag]);</p>
+  <p class="code"><span data-field="title" data-format="default">instance_destroy</span>([id, execute_event_flag]);</p>
   <table>
     <tbody>
       <tr>
@@ -39,12 +40,12 @@
       <tr>
         <td>id</td>
         <td><span data-keyref="Type_ID_Instance"><a href="Instance_Variables/id.htm" target="_blank">Object Instance</a></span> or <span data-keyref="Type_Asset_Object"><a href="../../../../The_Asset_Editors/Objects.htm" target="_blank">Object Asset</a></span></td>
-        <td><span class="optional">OPTIONAL</span> The instance ID to destroy, or the object asset to destroy instances of (optional, default is the calling instance)</td>
+        <td><span data-conref="../../../../assets/snippets/Tag_optional.hts"> </span> The instance ID to destroy, or the object asset to destroy instances of (optional, default is the calling instance)</td>
       </tr>
       <tr>
         <td>execute_event_flag</td>
         <td><span data-keyref="Type_Bool"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Boolean</a></span></td>
-        <td><span class="optional">OPTIONAL</span> Set to <span class="inline">true</span> or <span class="inline">false</span> to perform the Destroy event or not (optional, default is <span class="inline">true</span>)</td>
+        <td><span data-conref="../../../../assets/snippets/Tag_optional.hts"> </span> Set to <span class="inline2">true</span> or <span class="inline2">false</span> to perform the Destroy event or not (optional, default is <span class="inline2">true</span>)</td>
       </tr>
     </tbody>
   </table>
@@ -57,18 +58,17 @@
     {<br />
         instance_destroy(id, false);<br />
     }</p>
-  <p>The above code will destroy the instance running the code without calling the Destroy Event if the instance is outside the room bounds.</p>
-  <p> </p>
+  <p>The above code will destroy the instance running the code without calling the Destroy event if the instance is outside the room bounds.</p>
   <p> </p>
   <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a href="Instances.htm">Instances</a></div>
-        <div style="float:right">Next: <a href="instance_exists.htm">instance_exists</a></div>
+        <div style="float:left">Back: <a data-xref="{title}" href="Instances.htm">Instances</a></div>
+        <div style="float:right">Next: <a data-xref="{title}" href="instance_exists.htm">instance_exists</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2025 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 instance_destroy

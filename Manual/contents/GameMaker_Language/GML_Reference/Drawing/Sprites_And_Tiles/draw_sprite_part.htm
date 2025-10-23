@@ -15,15 +15,20 @@
 </head>
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
-  <h1>draw_sprite_part</h1>
-  <p>With this function you can draw part of any sprite at a given position within the room. As with <a href="draw_sprite.htm"><span class="inline">draw_sprite()</span></a> you can specify a sprite and a sub-image for drawing, then you must give the <i>relative coordinates</i> within the sprite of the area to select for drawing. This means that a left position of 0 and a top position of 0 would be the top left corner of the sprite and all further coordinates should be taken from that position. The image below shows an example of how this works:</p>
-  <p><img alt="draw_sprite_part example" class="center" src="../../../../assets/Images/Scripting_Reference/GML/Reference/Drawing/spr_part.png" />You should note that if the texture page permits automatic cropping then this function may not work as expected, since the extra &quot;empty&quot; space around the sprite will have been removed for creating the texture page. To resolve this issue, you will need to set the texture page settings (in the <a href="../../../../Settings/Texture_Groups.htm">Texture Group Editor</a>) to disable the option <b>Automatic Crop</b>.</p>
-  <p class="note"><b><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span></b> When drawing with this function, the sprite <a href="../../Asset_Management/Sprites/Sprite_Instance_Variables/sprite_xoffset.htm">x offset</a> and <a href="../../Asset_Management/Sprites/Sprite_Instance_Variables/sprite_yoffset.htm">y offset</a> are ignored and the sprite part will be drawn with the top left corner at the specified x / y position in the room.</p>
-  <p class="note"><b><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span></b> This function is only useful for <b>bitmap</b> sprites and will not work with vector or JSON (Spine) sprites.</p>
+  <h1><span data-field="title" data-format="default">draw_sprite_part</span></h1>
+  <p>This function draws part of the given sprite at a given position within the room.</p>
+  <p>As with <span class="inline3_func"><a data-xref="{title}" href="draw_sprite.htm">draw_sprite</a></span> you specify a sprite and a sub-image for drawing, then you give the <i>relative coordinates</i> of the <em>part</em> of the sprite that you want to draw. The left and top position of the sprite part are specified relative to the sprite&#39;s top-left corner (the sprite&#39;s <a href="../../Asset_Management/Sprites/Sprite_Instance_Variables/sprite_xoffset.htm">x offset</a> and <a href="../../Asset_Management/Sprites/Sprite_Instance_Variables/sprite_yoffset.htm">y offset</a> are ignored), with a left position of 0 and a top position of 0 referring to the top-left corner of the sprite. The width and height determine the area to draw. The function then draws the sprite part with its top-left corner at the specified (x,&nbsp;y) position in the room.</p>
+  <p>The image below shows an example of how this works:</p>
+  <p><img alt="draw_sprite_part example" class="center" src="../../../../assets/Images/Scripting_Reference/GML/Reference/Drawing/spr_part.png" /></p>
   <div data-conref="../../../../assets/snippets/This_function_does_not_support_nine_slicing.hts"> </div>
+  <h3>Usage Notes</h3>
+  <ul class="colour">
+    <li>You should note that if the texture page permits automatic cropping then this function may not work as expected, since the extra &quot;empty&quot; space around the sprite will have been removed for creating the texture page. To resolve this issue, you will need to set the texture page settings (in the <a href="../../../../Settings/Texture_Groups.htm">Texture Group Editor</a>) to disable the option <b>Automatic Crop</b>.<b></b></li>
+    <li><b></b>This function is only useful for <b>bitmap</b> sprites and will not work with vector or JSON (Spine) sprites.</li>
+  </ul>
   <p> </p>
   <h4>Syntax:</h4>
-  <p class="code">draw_sprite_part(sprite, subimg, left, top, width, height, x, y);</p>
+  <p class="code"><span data-field="title" data-format="default">draw_sprite_part</span>(sprite, subimg, left, top, width, height, x, y);</p>
   <table>
     <tbody>
       <tr>
@@ -39,17 +44,17 @@
       <tr>
         <td>subimg</td>
         <td><span data-keyref="Type_Real"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
-        <td>The subimg (frame) of the sprite to draw (image_index or -1 correlate to the current frame of animation in the object).</td>
+        <td>The sub-image (frame) of the sprite to draw (<span class="inline2"><a data-xref="{title}" href="../../Asset_Management/Sprites/Sprite_Instance_Variables/image_index.htm">image_index</a></span> or <span class="inline2">-1</span> correlate to the current frame of animation in the instance).</td>
       </tr>
       <tr>
         <td>left</td>
         <td><span data-keyref="Type_Real"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
-        <td>The x position on the sprite of the top left corner of the area to draw.</td>
+        <td>The x position on the sprite of the top-left corner of the area to draw.</td>
       </tr>
       <tr>
         <td>top</td>
         <td><span data-keyref="Type_Real"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
-        <td>The y position on the sprite of the top left corner of the area to draw.</td>
+        <td>The y position on the sprite of the top-left corner of the area to draw.</td>
       </tr>
       <tr>
         <td>width</td>
@@ -64,12 +69,12 @@
       <tr>
         <td>x</td>
         <td><span data-keyref="Type_Real"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
-        <td>The x coordinate of where to draw the sprite.</td>
+        <td>The x coordinate of where to draw the sprite part.</td>
       </tr>
       <tr>
         <td>y</td>
         <td><span data-keyref="Type_Real"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
-        <td>The y coordinate of where to draw the sprite.</td>
+        <td>The y coordinate of where to draw the sprite part.</td>
       </tr>
     </tbody>
   </table>
@@ -78,19 +83,18 @@
   <p class="code"><span data-keyref="Type_Void">N/A</span></p>
   <p> </p>
   <h4>Example:</h4>
-  <p class="code">draw_sprite_part(sprite_index, image_index, 4, 0, sprite_width-16, sprite_height-16, x, y );</p>
-  <p>This will draw the instances assigned sprite (sprite_index) and its current frame of animation (image_index), however it will shave a 4px margin off the width on both sides, and an 8 pixel margin off the height from the bottom of the original 24x24 pixel sprite.</p>
-  <p> </p>
+  <p class="code">draw_sprite_part(sprite_index, image_index, 4, 0, sprite_width-16, sprite_height-16, x, y);</p>
+  <p>This will draw the current instance&#39;s assigned sprite (<span class="inline2"><a data-xref="{title}" href="../../Asset_Management/Sprites/Sprite_Instance_Variables/sprite_index.htm">sprite_index</a></span>) at its current frame of animation (<span class="inline2"><a data-xref="{title}" href="../../Asset_Management/Sprites/Sprite_Instance_Variables/image_index.htm">image_index</a></span>), however it will shave a 4px margin off the width on both sides, and an 8 pixel margin off the height from the bottom of the original 24x24 pixel sprite.</p>
   <p> </p>
   <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a href="Sprites_And_Tiles.htm">Sprites And Tiles</a></div>
-        <div style="float:right">Next: <a href="draw_sprite_part_ext.htm">draw_sprite_part_ext</a></div>
+        <div style="float:left">Back: <a data-xref="{title}" href="Sprites_And_Tiles.htm">Sprites And Tiles</a></div>
+        <div style="float:right">Next: <a data-xref="{title}" href="draw_sprite_part_ext.htm">draw_sprite_part_ext</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2025 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 draw_sprite_part

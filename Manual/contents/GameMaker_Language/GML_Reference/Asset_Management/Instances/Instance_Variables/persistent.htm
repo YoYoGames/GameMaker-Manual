@@ -4,7 +4,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>persistent</title>
-  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <meta name="generator" content="Adobe RoboHelp 2022" />
   <link rel="stylesheet" href="../../../../../assets/css/default.css" type="text/css" />
   <script src="../../../../../assets/scripts/main_script.js" type="module"></script>
   <meta name="rh-authors" content="Mark Alexander" />
@@ -14,34 +14,42 @@
 </head>
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
-  <h1>persistent</h1>
-  <p>This variable can be read to find out if the instance is flagged as <span class="inline">persistent</span> or not, or it can used to set persistence to <span class="inline">true</span> (persistent) or <span class="inline">false</span> (not persistent) for the instance. A persistent instance is one that will be &quot;carried over&quot; from room to room, meaning (for example) that it only has to be created once at the start of the game and it will be present in all further rooms. Care should be taken with persistence as it is easy to lose track of persistent instances which can lead to problems later in the development of the game.</p>
-  <p>When you create an instance with persistence enabled in a room, this variable will be set to <span class="inline">true</span> and it will be assigned a layer or a depth (depending on which function you used to create the instance of the object). When the room is changed, and if the following room does <i>not</i> have a layer with the same name or depth as the one assigned, then a new layer will be created for the instance that is persisting across the rooms. If you gave a named layer when the instance was created, then the new layer will also be named the same as original layer, while if you assigned a depth to the instance then the new layer will be named &quot;<span class="inline">_layer_XXX</span>&quot;, where &quot;XXX&quot; is a hex value used to give the layer a unique name. These layers will be removed from the room on Room End. Another thing to note about layers and persistent instances is that if you have assigned the instance a named layer on creation, and there is another layer in the following rooms with the same name, then the persisted instance will be assigned to the layer with the same name <i>regardless of the depth of the layer</i>. Finally, if a persisted instance moves to a room with a layer at the same depth as the instance was created on, it will <i>not</i> be assigned to this layer, but instead a new layer will be created at the same depth (following the naming convention explained previously).</p>
-  <p>A persistent object will still have its <b>Game Start</b>, <b>Game End</b>, <b>Room Start</b> and <b>Room End</b> events triggered, however if you restart the game (with, for example, the <span class="inline">game_restart()</span> function) all persistent objects will be removed and only exist when created again by the game. Also note that if you deactivate a persistent object, it will no longer pass from one room to another unless re-activated before the Room End event is triggered.</p>
+  <h1><span data-field="title" data-format="default">persistent</span></h1>
+  <p>This variable can be read to find out if the instance is flagged as <strong>persistent</strong> or not, or it can used to set persistence to <span class="inline2">true</span> (persistent) or <span class="inline2">false</span> (not persistent) for the instance.</p>
+  <p>A persistent instance is one that will be &quot;carried over&quot; from room to room, meaning (for example) that it only has to be created once at the start of the game and it will be present in all further rooms. Care should be taken with persistence as it is easy to lose track of persistent instances which can lead to problems later in the development of the game.</p>
+  <h3>Usage Notes</h3>
+  <ul class="colour">
+    <li>When you create an instance with persistence enabled in a room, this variable will be set to <span class="inline2">true</span> and it will be assigned a layer or a depth (depending on which function you used to create the instance of the object). When the room is changed, and if the following room does <i>not</i> have a layer with the same name or depth as the one assigned, then a new layer will be created for the instance that is persisting across the rooms.
+      <ul>
+        <li>If you gave a named layer when the instance was created, then the new layer will also be named the same as original layer, while if you assigned an unnamed layer to the instance then the new layer will be named &quot;<span class="inline">_layer_XXX</span>&quot;, where &quot;XXX&quot; is a value used to give the layer a unique name. If the instance was created with a depth value then it will remain on a managed layer at that depth (<a data-xref="{title}" href="layer.htm">layer</a> handle will be -1). These layers will be removed from the room when the room ends.</li>
+        <li>If you have assigned the instance a named layer on creation, and there is another layer in the following room with the same name, then the persisted instance will be assigned to the layer with the same name <i>regardless of the depth of the layer</i>. Finally, if a persisted instance moves to a room with a layer at the same depth as the instance was created on, it will <i>not</i> be assigned to this layer, but instead a new layer will be created at the same depth (following the naming convention explained previously).</li>
+      </ul>
+    </li>
+    <li>A persistent object will still have its <b>Game Start</b>, <b>Game End</b>, <b>Room Start</b> and <b>Room End</b> events triggered (depending on when it&#39;s created), however if you restart the game (with, for example, the <span class="inline3_func"><a data-xref="{title}" href="../../../General_Game_Control/game_restart.htm">game_restart</a></span> function) all persistent objects will be removed and only exist when created again by the game. Also note that if you deactivate a persistent object, it will no longer pass from one room to another unless re-activated before the Room End event is triggered.</li>
+  </ul>
   <p> </p>
   <h4>Syntax:</h4>
-  <p class="code">persistent;</p>
+  <p class="code"><span data-field="title" data-format="default">persistent</span></p>
   <p> </p>
   <h4>Returns:</h4>
-  <p class="code"><span data-keyref="Type_Bool"></span></p>
+  <p class="code"><span data-keyref="Type_Bool"><a href="../../../../GML_Overview/Data_Types.htm" target="_blank">Boolean</a></span></p>
   <p> </p>
   <h4>Example:</h4>
-  <p class="code">if (!persistent) <br />
+  <p class="code">if (!persistent)<br />
     {<br />
         persistent = true;<br />
     }</p>
-  <p>The above code will check the instance to see if persistence is flagged as <span class="inline">false</span> and if the instance is NOT persistent the persistence flag is set to <span class="inline">true</span>.</p>
-  <p> </p>
+  <p>The above code will check the instance to see if persistence is flagged as <span class="inline2">false</span> and if the instance is NOT persistent the persistence flag is set to <span class="inline2">true</span>.</p>
   <p> </p>
   <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a href="Instance_Variables.htm">Instance Variables</a></div>
-        <div style="float:right">Next: <a href="depth.htm">depth</a></div>
+        <div style="float:left">Back: <a data-xref="{title}" href="Instance_Variables.htm">Built-In Instance Variables</a></div>
+        <div style="float:right">Next: <a data-xref="{title}" href="depth.htm">depth</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2021 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2025 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 persistent

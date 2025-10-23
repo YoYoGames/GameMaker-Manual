@@ -38,26 +38,33 @@
     draw_primitive_end();</p>
   <h3>Vertex Buffers</h3>
   <p>Vertex buffers are the more advanced way to define reusable primitives. They are <a data-xref="{title}" href="../../Buffers/Buffers.htm">Buffers</a> that store data about vertices specifically (&quot;vertex data&quot;). With vertex buffers you split up the definition of the primitive and its drawing.</p>
-  <p>You create a new, empty vertex buffer using <span class="inline3_func"><a data-xref="{title}" href="vertex_create_buffer.htm">vertex_create_buffer</a></span> / <span class="inline3_func"><a data-xref="{title}" href="vertex_create_buffer_ext.htm">vertex_create_buffer_ext</a></span> or create one and fill it with the data in a buffer using <span class="inline3_func"><a data-xref="{title}" href="vertex_create_buffer_from_buffer.htm">vertex_create_buffer_from_buffer</a></span> / <span class="inline3_func"><a data-xref="{title}" href="vertex_create_buffer_from_buffer_ext.htm">vertex_create_buffer_from_buffer_ext</a></span>:</p>
+  <p>Vertex data is stored according to a vertex format, which needs to be defined first. This format can be identical to <span data-keyref="GameMaker Name">GameMaker</span>&#39;s <a href="../../../../Additional_Information/Guide_To_Primitives_And_Vertex_Building.htm">default vertex format</a> and be defined, for example, in a script asset:</p>
+  <p class="code_heading">Script Asset</p>
+  <p class="code">vertex_format_begin();<br />
+    vertex_format_add_position_3d();<br />
+    vertex_format_add_colour();<br />
+    vertex_format_add_texcoord();<br />
+    global.default_vertex_format = vertex_format_end();</p>
+  <p>You can then create a new, empty vertex buffer using <span class="inline3_func"><a data-xref="{title}" href="vertex_create_buffer.htm">vertex_create_buffer</a></span> / <span class="inline3_func"><a data-xref="{title}" href="vertex_create_buffer_ext.htm">vertex_create_buffer_ext</a></span> or create one and fill it with the data in a buffer using <span class="inline3_func"><a data-xref="{title}" href="vertex_create_buffer_from_buffer.htm">vertex_create_buffer_from_buffer</a></span> / <span class="inline3_func"><a data-xref="{title}" href="vertex_create_buffer_from_buffer_ext.htm">vertex_create_buffer_from_buffer_ext</a></span>:</p>
   <p class="code_heading">Create Event</p>
   <p class="code">// Create an empty vertex buffer<br />
     vb = vertex_create_buffer();<br />
     <br />
     // Create a vertex buffer filled with data from a buffer<br />
     var _buff = buffer_load(&quot;model.mod&quot;);<br />
-    vb_model = vertex_create_buffer_from_buffer(_buff, format);<br />
+    vb_model = vertex_create_buffer_from_buffer(_buff, global.default_vertex_format);<br />
     buffer_delete(_buff);
   </p>
   <p class="note"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> See <a data-xref="{title}" href="../../Buffers/Transferring_Data_Between_Buffers.htm">Transferring Data Between Buffers</a> for more info on how to pass data between the two buffer types.</p>
   <p>You draw a vertex buffer by submitting it at any time in Draw events using <span class="inline3_func"><a data-xref="{title}" href="vertex_submit.htm">vertex_submit</a></span>, or just part of it using<span class="inline3_func"><a data-xref="{title}" href="vertex_submit_ext.htm">vertex_submit_ext</a></span>.</p>
-  <p>The following is a complete example that makes use of <span data-keyref="GameMaker Name">GameMaker</span>&#39;s default <a href="../../../../Additional_Information/Guide_To_Primitives_And_Vertex_Building.htm">passthrough vertex format</a>: </p>
+  <p>The following is a complete example that makes use of the previously defined vertex format:</p>
   <p class="code_heading">Create Event</p>
   <p class="code">var _uv_data = sprite_get_uvs(spr_image, 0);<br />
     var _umin = _uv_data[0], _vmin = _uv_data[1], _umax = _uv_data[2], _vmax = _uv_data[3];<br />
     <br />
     vb = vertex_create_buffer();<br />
     <br />
-    vertex_begin(vb, format);<br />
+    vertex_begin(vb, global.default_vertex_format);<br />
     <br />
     vertex_position_3d(vb,   0,   0, 0); vertex_color(vb, c_white, 1); vertex_texcoord(vb, _umin, _vmin);<br />
     vertex_position_3d(vb, 100,   0, 0); vertex_color(vb, c_white, 1); vertex_texcoord(vb, _umax, _vmin);<br />
@@ -103,6 +110,7 @@
     <li><a data-xref="{title}" href="vertex_format_add_custom.htm">vertex_format_add_custom</a></li>
     <li><a data-xref="{title}" href="vertex_format_end.htm">vertex_format_end</a></li>
     <li><a data-xref="{title}" href="vertex_format_delete.htm">vertex_format_delete</a></li>
+    <li><a data-xref="{title}" href="vertex_format_exists.htm">vertex_format_exists</a></li>
     <li><a data-xref="{title}" href="vertex_format_get_info.htm">vertex_format_get_info</a></li>
   </ul>
   <h3 id="func_ref_vertex_buffers">Vertex Buffers</h3>
@@ -117,6 +125,7 @@
     <li><a data-xref="{title}" href="vertex_get_buffer_size.htm">vertex_get_buffer_size</a></li>
     <li><a data-xref="{title}" href="vertex_get_number.htm">vertex_get_number</a></li>
     <li><a data-xref="{title}" href="vertex_delete_buffer.htm">vertex_delete_buffer</a></li>
+    <li><a data-xref="{title}" href="vertex_buffer_exists.htm">vertex_buffer_exists</a></li>
     <li><a data-xref="{title}" href="vertex_begin.htm">vertex_begin</a></li>
     <li><a data-xref="{title}" href="vertex_colour.htm">vertex_colour</a></li>
     <li><a data-xref="{title}" href="vertex_normal.htm">vertex_normal</a></li>
@@ -134,7 +143,7 @@
     <li><a data-xref="{title}" href="vertex_submit.htm">vertex_submit</a></li>
     <li><a data-xref="{title}" href="vertex_submit_ext.htm">vertex_submit_ext</a></li>
   </ul>
-  <p class="note"><span data-conref="../../../../assets/snippets/Tag_important.hts"> </span> The primitives that you build should follow the format that you have set using the Vertex Format functions, so if you have defined a vertex format with only positional data, there is no point building your primitive with colour data. You should note that the order in which you add properties to the primitive you are building is defined by the order in which you added these properties when creating the vertex format, so if you have defined the vector format with the order position, colour and texture coordinate, you <i>must</i> add these properties to the primitive being built in the same order otherwise you will get errors.</p>
+  <p class="note"><span data-conref="../../../../assets/snippets/Tag_important.hts"> </span> The primitives that you build should follow the format that you have set using the Vertex Format functions, so if you have defined a vertex format with only positional data, there is no point building your primitive with colour data. You should note that the order in which you add properties to the primitive you are building is defined by the order in which you added these properties when creating the vertex format, so if you have defined the vector format with the order position, colour and texture coordinate, you <i>must</i> add these properties to the primitive being built in the same order, otherwise you will get errors.</p>
   <p>For an overview of how to build primitives using the vertex functions, see:</p>
   <ul class="colour">
     <li><a data-xref="{title}" href="../../../../Additional_Information/Guide_To_Primitives_And_Vertex_Building.htm">Guide To Primitives And Vertex Building</a></li>
@@ -148,7 +157,7 @@
         <div style="float:right">Next: <a data-xref="{title}" href="../Surfaces/Surfaces.htm">Surfaces</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2025 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 Primitives And Vertex Formats

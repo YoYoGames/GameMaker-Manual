@@ -11,17 +11,18 @@
 <body>
   <p>The general structure for the DS map will be as follows:</p>
   <ul class="colour">
-    <li><b>&quot;id&quot;: </b>The ID which was returned from the command. If you fire off a series of <span class="inline2">http_*</span> requests then you need to know which one you&#39;re getting the reply to, and so you would use this value to compare to the value you stored when you originally sent the request to find the right one.</li>
-    <li><b>&quot;status&quot;: </b>Holds a value of less than 0 for an error, 0 for complete and 1 for receiving packets (see below for more details).</li>
-    <li><b>&quot;result&quot;: </b>The data received (string only), the path to the file downloaded if you have used <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Asynchronous_Functions/HTTP/http_get_file.htm">http_get_file</a></span> or the number of bytes written to the buffer using a buffer with the seek position at 0. You may only get this key if the status is 0, but that is platform-dependent.</li>
+    <li><b>&quot;status&quot;: </b>Holds a value of less than 0 for an error, 0 when the download is complete and 1 while the data is being downloaded.</li>
+    <li><b>&quot;id&quot;: </b>The ID which was returned from the command. If you fire off a series of <span class="inline2">http_*</span> requests then you need to know which one you&#39;re getting the reply to, and so you would use this value to compare to the value you stored from the original function call.</li>
     <li><b>&quot;url&quot;: </b>The complete URL you requested.</li>
-    <li><b>&quot;http_status&quot;: </b>The raw HTTP status code (if available). This returns the standard web status code for most browsers, e.g.: 304 for &quot;Not Modified&quot;, 204 for &quot;No Content&quot;, etc.</li>
-  </ul>
-  <p>If multiple packets are returned to your game, the callback <span class="inline2">&quot;status&quot;</span> key will hold the value 1 and the DS map will have the following additional keys:</p>
-  <ul class="colour">
     <li><b>&quot;contentLength&quot;: </b>This is the size of file that the web server has said you should expect to receive (may be -1 if the server does not return this data).</li>
     <li><b>&quot;sizeDownloaded&quot;: </b>The size of the data that has already been downloaded.</li>
   </ul>
-  <p class="note"><span data-conref="Tag_note.hts"> </span> Currently this functionality is only available for regular Windows target platforms.</p>
+  <p>The following keys will only be present when the data has finished downloading or has errored (i.e. <span class="inline2">status</span> is 0 or negative to indicate an error, respectively) in addition to the keys above:</p>
+  <ul class="colour">
+    <li><b>&quot;response_headers&quot;:</b> This holds a DS map that contains the HTTP headers returned with the response to the HTTP request. It may not be returned in some cases so please check with <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Data_Structures/ds_exists.htm">ds_exists</a></span> before attempting to read from the DS map.</li>
+    <li><b>&quot;result&quot;: </b>The data received (string only), the path to the file downloaded if you have used <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Asynchronous_Functions/HTTP/http_get_file.htm">http_get_file</a></span> or the number of bytes written to the buffer using a buffer with the seek position at 0. <span data-conref="Tag_note.hts"> </span> On some platforms this key may be present for other <span class="inline2">status</span> values as well.</li>
+    <li><b>&quot;http_status&quot;: </b>The raw HTTP status code (if available). This returns the standard web status code for most browsers, e.g.: 304 for &quot;Not Modified&quot;, 204 for &quot;No Content&quot;, etc.</li>
+  </ul>
+  <p class="note"><span data-conref="Tag_note.hts"> </span> Update events (i.e. when <span class="inline2">status</span> is 1) are only triggered on Windows, Android, iOS, macOS, PlayStation and Xbox.</p>
 </body>
 </html>

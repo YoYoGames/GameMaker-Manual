@@ -14,12 +14,12 @@
 </head>
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
-  <h1>xboxlive_stats_get_leaderboard</h1>
+  <h1><span data-field="title" data-format="default">xboxlive_stats_get_leaderboard</span></h1>
   <p>This function can be used to retrieve a global leaderboard of ranks for a given statistic. You supply the user ID (as returned, for example, by the function <a href="../Users_And_Accounts/xboxlive_get_user.htm"><span class="inline">xboxlive_get_user()</span></a>), the stat string (as defined when you registered it as a &quot;Featured Stat&quot;), and then you specify a number of details about what leaderboard information you want to retrieve. Note that you can only retrieve a global leaderboard for int or real stats, but <i>not</i> for string stats.</p>
   <p class="note"><b>IMPORTANT!</b> Stats used in global leaderboards must be registered as &quot;Featured Stats&quot; in the XDP/Windows Dev Center otherwise an error will be returned. If you want local (social) leaderboards, then please see the function <a href="xboxlive_stats_get_social_leaderboard.htm"><span class="inline"><span style="font-size:14px;">xboxlive_stats_get_social_leaderboard()</span></span></a>.</p>
   <p>The function will generate a callback which will trigger a <a href="../../../../The_Asset_Editors/Object_Properties/Async_Events/Social.htm">Social Asynchronous Event</a>. This event will have the built-in DS map <a href="../../../GML_Overview/Variables/Builtin_Global_Variables/async_load.htm"> <span class="inline">async_load</span> </a> which should then be parsed for the following keys:</p>
   <ul class="colour">
-    <li>&quot;<b>id</b>&quot; - Will hold the constant <span class="inline">achievement_stat_event</span></li>
+    <li>&quot;<b>id</b>&quot; - Will hold the constant <span class="inline">xboxlive_</span><span class="inline">achievement_stat_event</span></li>
     <li>&quot;<b>event</b>&quot; - Will hold the string &quot;<i>GetLeaderboardComplete</i>&quot;</li>
     <li>&quot;<b>userid</b>&quot; - The user ID associated with the request</li>
     <li>&quot;<b>error</b>&quot; - 0 if successful, some other value if there has been an error. The following two are the most common errors returned:
@@ -89,12 +89,12 @@
   <p>The following is an extended example of how this function can be used. To start with you&#39;d call it in some event like <b>Room Start</b> or <b>Create</b>:</p>
   <p class="code">xboxlive_stats_get_leaderboard(user_id, &quot;GlobalTime&quot;, 20, 1, false, true);</p>
   <p>The above code would be called to get a list of all social leaderboard positions for the game, and will generate a Social Asynchronous Event call back which we would deal with in the following way:</p>
-  <p class="code">if (async_load[? &quot;id&quot;] == achievement_stat_event)<br />
+  <p class="code">if (async_load[? &quot;id&quot;] == xboxlive_achievement_stat_event)<br />
     {<br />
         if (async_load[? &quot;event&quot;] == &quot;GetLeaderboardComplete&quot;)<br />
         {<br />
             global.numentries = async_load[? &quot;numentries&quot;];<br />
-            for(var i = 0; i &lt; numentries; i++;)<br />
+            for(var i = 0; i &lt; numentries; i++)<br />
             {<br />
                 global.playername[i] = async_load[? &quot;Player&quot; + string(i)];<br />
                 global.playerid[i] = async_load[? &quot;Playerid&quot; + string(i)];<br />
@@ -119,6 +119,7 @@
   <!-- KEYWORDS
 xboxlive_stats_get_leaderboard
 achievement_stat_event
+xboxlive_achievement_stat_event
 -->
   <!-- TAGS
 xboxlive_stats_get_leaderboard

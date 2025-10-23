@@ -16,13 +16,14 @@
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
   <h1><span data-field="title" data-format="default">matrix_build</span></h1>
-  <p>This function creates a custom transformation matrix from 3-dimensional (<span class="inline2">x, y, z</span>) translation, rotation and scale values and returns it.</p>
+  <p>This function creates a custom transformation matrix from 3-dimensional (<span class="inline2">x, y, z</span>) translation, rotation and scale values and returns it, or optionally writes the result to an existing matrix that you specify.</p>
   <div data-conref="../../../../assets/snippets/Note_Matrix_Column_Major.hts"> </div>
   <p class="note"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> When you set this matrix in a shader using <span class="inline3_func"><a data-xref="{title}" href="../../Asset_Management/Shaders/shader_set_uniform_f_array.htm">shader_set_uniform_f_array</a></span>, <span class="inline3_func"><a data-xref="{title}" href="../../Asset_Management/Shaders/shader_set_uniform_matrix.htm">shader_set_uniform_matrix</a></span> or <span class="inline3_func"><a data-xref="{title}" href="../../Asset_Management/Shaders/shader_set_uniform_matrix_array.htm">shader_set_uniform_matrix_array</a></span>, depending on the shader type and the target platform, you may receive the matrix transposed in the shader.</p>
-  <p class="note"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> When you build a new matrix in this way, the order of operation is YXZ.</p>
+  <p class="note"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> When you build a matrix in this way, the order of operation is YXZ.</p>
+  <p class="note"><span data-conref="../../../../assets/snippets/Tag_important.hts"> </span> Matrices returned by this function first apply rotation, then scale.</p>
   <p> </p>
   <h4>Syntax:</h4>
-  <p class="code"><span data-field="title" data-format="default">matrix_build</span>(x, y, z, xrotation, yrotation, zrotation, xscale, yscale, zscale);</p>
+  <p class="code"><span data-field="title" data-format="default">matrix_build</span>(x, y, z, xrotation, yrotation, zrotation, xscale, yscale, zscale, [result_matrix])</p>
   <table>
     <tbody>
       <tr>
@@ -75,15 +76,29 @@
         <td><span data-keyref="Type_Real"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
         <td>The z scale amount.</td>
       </tr>
+      <tr>
+        <td>result_matrix</td>
+        <td><span data-keyref="Type_Array_Matrix"><a href="Matrix_Functions.htm" target="_blank">Matrix</a></span></td>
+        <td><span data-conref="../../../../assets/snippets/Tag_optional.hts"> </span> The existing matrix to write the result to.</td>
+      </tr>
     </tbody>
   </table>
   <p> </p>
   <h4>Returns:</h4>
   <p class="code"><span data-keyref="Type_Array_Matrix"><a href="Matrix_Functions.htm" target="_blank">Matrix</a></span></p>
   <p> </p>
-  <h4>Example:</h4>
+  <h4>Example 1: Basic Use</h4>
   <p class="code">t_matrix = <span data-field="title" data-format="default">matrix_build</span>(x, y, 0, 0, 90, 0, 1, 2, 1);</p>
-  <p>The above code builds a new matrix transform and stores the resulting matrix index in a variable <span class="inline2">t_matrix</span>.</p>
+  <p>The above code builds a new transformation matrix and stores it in a variable <span class="inline2">t_matrix</span>.</p>
+  <p> </p>
+  <h4>Example 2: Existing Matrix</h4>
+  <p class="code_heading">Create Event</p>
+  <p class="code">mat_world = matrix_build_identity();</p>
+  <p class="code_heading">Step Event</p>
+  <p class="code">matrix_build(x, y, 0, 0, 0, direction, 1, 1, 1, mat_world);</p>
+  <p>The above code shows how an existing matrix can be reused.</p>
+  <p>In the Create event, an identity matrix is built using <span class="inline3_func"><a data-xref="{title}" href="matrix_build_identity.htm">matrix_build_identity</a></span> and the result is assigned to a variable of the calling instance.</p>
+  <p>In the Step event, <span class="inline3_func"><span data-field="title" data-format="default">matrix_build</span></span> is called to create a matrix that rotates by <span class="inline2"><a data-xref="{title}" href="../../Asset_Management/Instances/Instance_Variables/direction.htm">direction</a></span> degrees, then translates to the instance&#39;s (<span class="inline2"><a data-xref="{title}" href="../../Asset_Management/Instances/Instance_Variables/x.htm">x</a></span>, <span class="inline2"><a data-xref="{title}" href="../../Asset_Management/Instances/Instance_Variables/y.htm">y</a></span>) position. Contrary to the first example, the return value isn&#39;t assigned to a variable here. Instead, the result is written to the matrix created before in the Create event, which is passed as the optional argument.</p>
   <p> </p>
   <p> </p>
   <div class="footer">
@@ -93,7 +108,7 @@
         <div style="float:right">Next: <a data-xref="{title}" href="matrix_build_identity.htm">matrix_build_identity</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2025 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 matrix_build

@@ -22,11 +22,11 @@
   </ul>
   <p>This function will modify the contents of the original array that was supplied. To create a sorted copy, use <span class="inline3_func"><a data-xref="{title}" href="array_copy.htm">array_copy</a></span> to duplicate the array first, and then pass that into this function.</p>
   <h3>Using a custom function</h3>
-  <p>If you use a custom function for sorting, it must take 2 arguments which will receive the values of the current element and the next element respectively. The function should return any of the following values to affect the sort order (where <span class="inline">elm1</span> is the current element and <span class="inline">elm2</span> is the next element):</p>
+  <p>If you use a custom function for sorting, it must take 2 arguments which will receive the values of the current element and the next element respectively. The function should return any of the following values to affect the sort order (where <span class="inline2">current</span> is the current element and <span class="inline2">next</span> is the next element):</p>
   <ul class="colour">
-    <li><span class="inline">0</span>: if <span class="inline">elm1</span> and <span class="inline">elm2</span> are equal</li>
-    <li><span class="inline">&lt;= -1</span> (negative integer): if <span class="inline">elm1</span> goes before <span class="inline">elm2</span></li>
-    <li><span class="inline">&gt;= 1</span> (positive integer): if <span class="inline">elm1</span> goes after <span class="inline">elm2</span></li>
+    <li><span class="inline">0</span>: if <span class="inline2">current</span> and <span class="inline2">next</span> are equal</li>
+    <li><span class="inline">&lt;= -1</span> (negative integer): if <span class="inline2">current</span> goes before <span class="inline2">next</span></li>
+    <li><span class="inline">&gt;= 1</span> (positive integer): if <span class="inline2">current</span> goes after <span class="inline2">next</span></li>
   </ul>
   <p class="note"><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> The value returned by your custom function must be an integer. Floating point values less than 1 will be read as 0, so you must use <a href="../Maths_And_Numbers/Number_Functions/sign.htm"><span class="inline">sign()</span></a> or <a href="../Maths_And_Numbers/Number_Functions/round.htm"><span class="inline">round()</span></a> if your function works with floating point values.</p>
   <p class="note"><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> When your custom function returns 0 for a pair of elements (or the pair is equal when using ascending/descending order), the order of that pair may not be preserved as the sorting algorithm used (<span class="inline">qsort</span>) is not stable.</p>
@@ -60,12 +60,12 @@
   <h4>Example:</h4>
   <p class="code">var _a = [10, 9, 8, 7, 6, 5];<br />
     <br />
-    array_sort(_a, function(elm1, elm2)<br />
+    array_sort(_a, function(current, next)<br />
     {<br />
-        return elm1 - elm2;<br />
+        return current - next;<br />
     });
   </p>
-  <p>The above code uses a custom sorting function to sort the array in an ascending order. The sorting function takes the two array elements as <span class="inline2">elm1</span> and <span class="inline2">elm2</span> and performs a subtraction on them. If <span class="inline2">elm1</span> is greater than <span class="inline2">elm2</span>, the subtraction results in a positive number which pushes <span class="inline2">elm1</span> to be after <span class="inline2">elm2</span>, hence putting them in an ascending order.</p>
+  <p>The above code uses a custom sorting function to sort the array in an ascending order. The sorting function takes the two array elements as <span class="inline2">current</span> and <span class="inline2">next</span> and performs a subtraction on them. If <span class="inline2">current</span> is greater than <span class="inline2">next</span>, the subtraction results in a positive number which pushes <span class="inline2">current</span> to be after <span class="inline2">next</span>, hence putting them in an ascending order.</p>
   <p>Here is an extended example:</p>
   <p class="code">var _xx, _yy, _a;<br />
     <br />
@@ -86,10 +86,10 @@
     array_sort(_a, _f);<br />
     show_debug_message(_a);
   </p>
-  <p>The above code will create an array of 10 instances placed at random positions within the room. The debug message will show something like the following:</p>
-  <p class="code">[ 100011,100004,100009,100006,100012,100008,100010,100005,100007,100003 ]</p>
+  <p>The above code will create an array of 10 instances placed at random positions within the room. The first debug message will show something like the following:</p>
+  <p class="code">[ ref instance 100002,ref instance 100003,ref instance 100004,ref instance 100005,ref instance 100006,ref instance 100007,ref instance 100008,ref instance 100009,ref instance 100010,ref instance 100011 ]</p>
   <p>The code then creates a method to be used in the <span class="inline3_func"><span data-field="title" data-format="default">array_sort</span></span> function that returns the difference between each of the X positions of the instances in the room. Then the <span class="inline3_func"><span data-field="title" data-format="default">array_sort</span></span> function is run using that method, sorting the instances by X from lowest to highest. The output for the array would then look something like this:</p>
-  <p class="code">[ 100003,100004,100005,100006,100007,100008,100009,100010,100011,100012 ]</p>
+  <p class="code">[ ref instance 100009,ref instance 100011,ref instance 100007,ref instance 100002,ref instance 100006,ref instance 100004,ref instance 100008,ref instance 100010,ref instance 100003,ref instance 100005 ]</p>
   <p> </p>
   <p> </p>
   <p> </p>
@@ -100,7 +100,7 @@
         <div style="float:right">Next: <a data-xref="{title}" href="array_reverse.htm">array_reverse</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2025 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 array_sort
