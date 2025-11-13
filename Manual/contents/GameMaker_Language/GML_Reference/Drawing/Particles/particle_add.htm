@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>particle_add</title>
+  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <link rel="stylesheet" type="text/css" href="../../../../assets/css/default.css" />
+  <script src="../../../../assets/scripts/main_script.js" type="module"></script>
+  <meta name="rh-authors" content="" />
+  <meta name="topic-comment" content="" />
+  <meta name="rh-index-keywords" content="particle_add" />
+  <meta name="search-keywords" content="particle_add" />
+  <meta name="template" content="assets/masterpages/Manual_Keyword_Page.htt" />
+</head>
+<body>
+  <h1><span data-field="title" data-format="default">particle_add</span></h1>
+  <p>This function adds a new particle system asset from the given info struct and returns it.</p>
+  <p>You can either manually define an info struct with the properties that you want to set, or obtain one from an existing asset or instance using <span class="inline3_func"><a data-xref="{title}" href="particle_get_info.htm">particle_get_info</a></span> or <span class="inline3_func"><a data-xref="{title}" href="Particle_Systems/part_system_get_info.htm">part_system_get_info</a></span>, make changes to it and pass the resulting struct with the desired changes to this function.</p>
+  <p>An asset created using this function can be removed from memory using <span class="inline3_func"><a data-xref="{title}" href="particle_delete.htm">particle_delete</a></span>.</p>
+  <h3>Usage Notes</h3>
+  <p>The following applies to the <span data-keyref="Type_Struct_PartSystem_Info"><a href="particle_get_info.htm#particle_system_info_struct" target="_blank">Particle System Info Struct</a></span> that you pass to the function:</p>
+  <ul class="colour">
+    <li>All entries of the info struct are optional. If you leave out an entry, its default value will be used.</li>
+    <li>All entries are checked for valid types. An error is thrown on an invalid type.</li>
+    <li>The entries <span class="inline2">ind</span> are ignored for both emitters and particle types. The entry <span class="inline2">name</span> is supported only for emitters and ignored for particle systems.</li>
+    <li>The entry <span class="inline2">parttype</span> of emitters can be an existing <span data-keyref="Type_ID_PartType"><a href="Particle_Types/part_type_create.htm" target="_blank">Particle Type</a></span> ref, or a <span data-keyref="Type_Struct_PartType_Info"><a href="particle_get_info.htm#particle_type_info_struct" target="_blank">Particle Type Info Struct</a></span>, which creates a new type with the given properties.</li>
+    <li>Particle types created by this function are owned by the asset and will be destroyed with it.</li>
+  </ul>
+  <p> </p>
+  <h4>Syntax:</h4>
+  <p class="code"><span data-field="title" data-format="default">particle_add</span>(info)</p>
+  <table>
+    <colgroup>
+      <col />
+      <col />
+      <col />
+    </colgroup>
+    <tbody>
+      <tr>
+        <th>Argument</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>info</td>
+        <td><span data-keyref="Type_Struct_PartSystem_Info"><a href="particle_get_info.htm#particle_system_info_struct" target="_blank">Particle System Info Struct</a></span></td>
+        <td>The particle system info struct</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>Returns:</h4>
+  <p class="code"><span data-keyref="Type_Asset_ParticleSystem"><a href="../../../../The_Asset_Editors/Particle_Systems.htm" target="_blank">Particle System Asset</a></span></p>
+  <p> </p>
+  <h4>Example 1: Basic Use</h4>
+  <div data-conref="../../../../assets/snippets/Example_Particle_Asset_Add_Delete.hts"> </div>
+  <p> </p>
+  <h4>Example 2: Manually Created Info Struct</h4>
+  <p class="code">var _info =<br />
+    {<br />
+        emitters:<br />
+        [<br />
+            {<br />
+                mode: ps_mode_stream,<br />
+                enabled: true,<br />
+                number: 2,<br />
+                relative: false,<br />
+                xmin: -10,<br />
+                xmax: 10,<br />
+                ymin: -10,<br />
+                ymax: 10,<br />
+                distribution: ps_distr_invgaussian,<br />
+                shape: ps_shape_rectangle,<br />
+                parttype: {<br />
+                    shape: pt_shape_flare,<br />
+                    life_min: 80,<br />
+                    life_max: 120,<br />
+                    dir_min: 0,<br />
+                    dir_max: 360,<br />
+                    speed_min: 1,<br />
+                    speed_max: 1,<br />
+                    additive: true<br />
+                }<br />
+            }<br />
+        ]<br />
+    };<br />
+    <br />
+    ps_blob = particle_add(_info);<br />
+    <br />
+    ps_instance = part_system_create(ps_blob);
+  </p>
+  <p>This code shows how create a new particle system asset from an info struct defined in code. Parameters that are not specified use default values. Note that both the particle system asset and instance should be freed after use, as shown in the previous example.</p>
+  <p> </p>
+  <h4>Example 3: Using Existing Particle Types</h4>
+  <p class="code_heading">Create Event</p>
+  <p class="code">var _info = particle_get_info(ps_asset_from_ide);<br />
+    var _type = _info.emitters[0].type;<br />
+    <br />
+    my_custom_type = part_type_create();<br />
+    <br />
+    ps_custom = particle_add({<br />
+        emitters:<br />
+        [<br />
+            {<br />
+                parttype: _type<br />
+            },<br />
+            {<br />
+                parttype: my_custom_type<br />
+            }<br />
+        ]<br />
+    });
+  </p>
+  <p class="code_heading">Clean Up Event</p>
+  <p class="code">part_type_destroy(my_custom_type);<br />
+    particle_delete(ps_custom);</p>
+  <p>The code above shows how to use existing particle types in assets created using <span class="inline3_func"><span data-field="title" data-format="default">particle_add</span></span>.</p>
+  <p>In the Create event, the info of an existing particle system asset is retrieved using <span class="inline3_func"><a data-xref="{title}" href="particle_get_info.htm">particle_get_info</a></span> and the first emitter&#39;s particle type is stored in a temporary variable. After that, a custom particle type is created with <span class="inline3_func"><a data-xref="{title}" href="Particle_Types/part_type_create.htm">part_type_create</a></span>. A new particle system asset is then created from an info struct, where one emitter takes the first <span data-keyref="Type_ID_PartType"><a href="Particle_Types/part_type_create.htm" target="_blank">Particle Type</a></span> as the value for the <span class="inline2">parttype</span> variable, the other takes the second type. None of the emitters takes a <span data-keyref="Type_Struct_PartType_Info"><a href="particle_get_info.htm#particle_type_info_struct" target="_blank">Particle Type Info Struct</a></span> so no new particle types are created.</p>
+  <p>In the Clean Up event, the particle type created with <span class="inline3_func"><a data-xref="{title}" href="Particle_Types/part_type_create.htm">part_type_create</a></span> is manually destroyed. The other type isn&#39;t, as it was created for a particle system asset created in the Particle System Editor and might still be in use elsewhere.</p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div>Back: <a data-xref="{title}" href="Particles.htm">Particles</a></div>
+        <div>Next: <a data-xref="{title}" href="particle_delete.htm">particle_delete</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2025 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+particle_add
+-->
+  <!-- TAGS
+particle_add
+-->
+</body>
+</html>
