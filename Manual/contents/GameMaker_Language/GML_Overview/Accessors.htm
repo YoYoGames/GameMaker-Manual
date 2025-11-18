@@ -15,8 +15,9 @@
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
   <h1><span data-field="title" data-format="default">Accessors</span></h1>
-  <p>The GameMaker Language (GML) also permits you to access certain <a href="../GML_Reference/Data_Structures/Data_Structures.htm">Data Structures</a> and <a href="Arrays.htm">Arrays</a> through the use of logical expressions called <b>accessors</b>. This is structured in a similar way as when you are normally working with an array, only we use an <em>identifier symbol</em> before the first argument to tell <span data-keyref="GameMaker Name">GameMaker</span> that you are working on a (previously created) data structure or the array literal.</p>
-  <p> </p>
+  <p>The GameMaker Language (GML) also permits you to access elements of certain <a data-xref="{title}" href="../GML_Reference/Data_Structures/Data_Structures.htm">Data Structures</a> as well as <a href="Structs.htm">Structs</a> through the use of logical expressions called <strong><span data-field="title" data-format="lower-alpha">accessors</span></strong>. The syntax for these is structured in a similar way as when you are normally working with an array, only we use an <em>identifier symbol</em> before the first argument to tell <span data-keyref="GameMaker Name">GameMaker</span> that you are working on a (previously created) data structure or struct.</p>
+  <h2 id="types_of_accessors">Types of Accessors</h2>
+  <p>You can make use of the following accessors in your code:</p>
   <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down10" href="#">DS Lists [| ]</a></p>
   <div class="droptext" data-targetname="drop-down10">
     <p class="dropspot">The accessor for <a data-xref="{title}" href="../GML_Reference/Data_Structures/DS_Lists/DS_Lists.htm">DS Lists</a> is <span class="inline2"><a id="|"></a>|</span> and the syntax is:</p>
@@ -32,7 +33,6 @@
     <p class="dropspot">Once you have created your list structure and filled it with data, to get values from the list you would have something like:</p>
     <p class="code">value = ds[| 5];</p>
     <p class="dropspot">The above will get the value from position 5 (the sixth index, since lists start at 0) and store it in a variable. If you supply a position that is outside of the list size then the value <span class="inline2">undefined</span> will be returned, which you can check for using the function <span class="inline3_func"><a data-xref="{text}" href="../GML_Reference/Variable_Functions/is_undefined.htm#h">is_undefined</a></span>.</p>
-    <p class="dropspot"> </p>
   </div>
   <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down13" href="#">DS Maps [? ]</a></p>
   <div class="droptext" data-targetname="drop-down13">
@@ -48,7 +48,6 @@
     <p class="dropspot">Once you have created your map structure and filled it with data, to get values from a specific map key you would have something like this:</p>
     <p class="code">value = ds[? &quot;Name&quot;];</p>
     <p class="dropspot">The above will get the value from the key <span class="inline2">&quot;Name&quot;</span> and store it in a variable, but be aware that if the given key does not exist in the DS map, then the value returned will be <span class="inline2">undefined</span>. This can be checked for using the function <span class="inline3_func"><a data-xref="{text}" href="../GML_Reference/Variable_Functions/is_undefined.htm#h">is_undefined</a></span>.</p>
-    <p class="dropspot"> </p>
   </div>
   <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down14" href="#">DS Grids [# ]</a></p>
   <div class="droptext" data-targetname="drop-down14">
@@ -71,12 +70,25 @@
     <p class="dropspot">Once you have created your grid structure and filled it with data, to get values from a specific grid position you would have something like:</p>
     <p class="code">value = ds[# mouse_x div 16, mouse_y div 16];</p>
     <p class="dropspot">The above will get the value from the given DS grid based on the mouse position (divided by the &quot;cell&quot; width in the room to get the correct location). If you supply a position that is outside of the grid boundaries then the value <span class="inline2">undefined</span> will be returned, which you can check for using the function <span class="inline3_func"><a data-xref="{title}" href="../GML_Reference/Variable_Functions/is_undefined.htm">is_undefined</a></span>.</p>
-    <p class="dropspot"> </p>
+  </div>
+  <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down16" href="#">Structs [$ ]</a></p>
+  <div class="droptext" data-targetname="drop-down16">
+    <p class="dropspot"><span>The struct accessor uses the <span class="inline2"><a id="$"></a>$</span> sign as the identifier symbol. This makes the accessor syntax for <a href="Structs.htm">structs</a>: </span></p>
+    <p class="code">struct[$ &quot;name&quot;]</p>
+    <p class="dropspot">This accessor is essentially a wrapper for the functions <span class="inline3_func"><a data-xref="{title}" href="../GML_Reference/Variable_Functions/variable_struct_get.htm">struct_get</a></span><span> and <span class="inline3_func"><a data-xref="{title}" href="../GML_Reference/Variable_Functions/variable_struct_set.htm">struct_set</a></span>, and <span class="inline3_func"><a data-xref="{title}" href="../GML_Reference/Variable_Functions/variable_global_get.htm">variable_global_get</a></span> and <span class="inline3_func"><a data-xref="{title}" href="../GML_Reference/Variable_Functions/variable_global_set.htm">variable_global_set</a></span> if you access <a data-xref="{text}" href="Variables/Global_Variables.htm#the_global_struct">The Global Struct</a> using the <span class="inline2">global</span> keyword.</span></p>
+    <p class="dropspot"><span>You would use it much like the accessor for a DS map. For example, if you have created a struct and want to retrieve a value from a variable called &quot;my_health&quot; then you&#39;d do:</span></p>
+    <p class="code">var _hp = struct[$ &quot;my_health&quot;];</p>
+    <p class="dropspot">As you can see, you don&#39;t supply the variable itself, but rather a <em>string</em> with the variable&#39;s name.</p>
+    <p class="note"><span data-conref="../../assets/snippets/Tag_note.hts"> </span> If the struct does not have a variable with the given name, then the accessor will return <span class="inline2">undefined</span> as the value.</p>
+    <div data-conref="../../assets/snippets/Note_tip_use_nullish_with_accessors.hts"> </div>
+    <p class="dropspot">To set a variable in a struct then you would do the following</p>
+    <p class="code">struct[$ &quot;my_score&quot;] = 100;</p>
+    <p class="dropspot">As with getting a value, you supply the name of the variable to set as a string, and it will be set to the value given. If the variable name used doesn&#39;t exist in the struct, then it will be created and set to the given value.</p>
   </div>
   <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down15" href="#">Arrays [@ ]</a></p>
   <div class="droptext" data-targetname="drop-down15">
     <p class="dropspot">This accessor is only used when the <a href="../../Settings/Game_Options.htm">Copy on Write option</a> is enabled.</p>
-    <p class="dropspot">Arrays also have their own accessors which work in a similar way as those listed above for data structures. However, array accessors have an interesting property and that is to permit you to modify an array from a <span data-keyref="Type_Function_Script"><a href="Script_Functions.htm" target="_blank">Script Function</a></span> or <span data-keyref="Type_Method"><a href="Method_Variables.htm" target="_blank">Method</a></span> without having to copy it. When you pass an array into a function, it is <strong>passed by reference</strong>, meaning that the array itself isn&#39;t being given into the script but rather it is simply being referenced to get the data. Normally if you then need to change the array, it would be <em>copied </em>to the script and then you would need to pass back (return) the copied array for the original array to be updated. This can have costly processing overheads, and so you can use the accessor instead, as that will change the original array <em>directly </em>without the need for it to be copied. You can see how this works in the examples below.</p>
+    <p class="dropspot">Arrays also have their own accessors which work in a similar way as those listed above for data structures. However, array accessors have an interesting property, which is that they permit you to modify an array from a <span data-keyref="Type_Function_Script"><a href="Script_Functions.htm" target="_blank">Script Function</a></span> or <span data-keyref="Type_Method"><a href="Method_Variables.htm" target="_blank">Method</a></span> without having to copy it. When you pass an array into a function, it is <strong>passed by reference</strong>, meaning that the array itself isn&#39;t being given into the script but rather it is simply being referenced to get the data. Normally, if you then need to change the array, it would be <em>copied </em>to the script and then you would need to pass back (return) the copied array for the original array to be updated. This can have costly processing overheads, and so you can use the accessor instead, as that will change the original array <em>directly </em>without the need for it to be copied. You can see how this works in the examples below.</p>
     <p class="dropspot">The syntax for arrays, using the <span class="inline2"><a id="@"></a>@</span> accessor, is:</p>
     <p class="code">array[@ i]</p>
     <p class="dropspot">After you have created your array in an instance, you can then pass it to a script by reference and use the accessor <span class="inline2">@</span> to change it directly. For example, you would create the array and call the function like this:</p>
@@ -99,82 +111,46 @@
     <p class="dropspot">All this function is doing is selecting 25 random positions in the array and setting the value of the chosen array position to 100.</p>
     <p class="dropspot">Of course, the <span class="inline2">@</span> accessor is not required when <strong>Copy on Write</strong> is disabled.</p>
     <p class="note"><span data-conref="../../assets/snippets/Tag_note.hts"> </span> You cannot use the array accessor <span class="inline2">@</span> when working with the <span class="inline2">argument[n]</span> array in script functions.</p>
-    <p class="dropspot"> </p>
   </div>
-  <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down16" href="#">Structs [$ ]</a></p>
-  <div class="droptext" data-targetname="drop-down16">
-    <p class="dropspot"><span>The struct accessor uses the <span class="inline2"><a id="$"></a>$</span> sign as the identifier symbol. This makes the accessor syntax for <a href="Structs.htm">structs</a>: </span></p>
-    <p class="code">struct[$ &quot;name&quot;]</p>
-    <p class="dropspot">This accessor is essentially a wrapper for the functions <span class="inline3_func"><a data-xref="{title}" href="../GML_Reference/Variable_Functions/variable_struct_get.htm">struct_get</a></span><span> and <span class="inline3_func"><a data-xref="{title}" href="../GML_Reference/Variable_Functions/variable_struct_set.htm">struct_set</a></span>, and <span class="inline3_func"><a data-xref="{title}" href="../GML_Reference/Variable_Functions/variable_global_get.htm">variable_global_get</a></span> and <span class="inline3_func"><a data-xref="{title}" href="../GML_Reference/Variable_Functions/variable_global_set.htm">variable_global_set</a></span> if you access <a data-xref="{text}" href="Variables/Global_Variables.htm#the_global_struct">The Global Struct</a> using the <span class="inline2">global</span> keyword.</span></p>
-    <p class="dropspot"><span>You would use it much like the accessor for a DS map. For example, if you have created a struct and want to retrieve a value from a variable called &quot;my_health&quot; then you&#39;d do:</span></p>
-    <p class="code">var _hp = struct[$ &quot;my_health&quot;];</p>
-    <p class="dropspot">As you can see, you don&#39;t supply the variable itself, but rather a <em>string</em> with the variable&#39;s name.</p>
-    <p class="note"><span data-conref="../../assets/snippets/Tag_note.hts"> </span> If the struct does not have a variable with the given name, then the accessor will return <span class="inline2">undefined</span> as the value.</p>
-    <div data-conref="../../assets/snippets/Note_tip_use_nullish_with_accessors.hts"> </div>
-    <p class="dropspot">To set a variable in a struct then you would do the following</p>
-    <p class="code">struct[$ &quot;my_score&quot;] = 100;</p>
-    <p class="dropspot">As with getting a value, you supply the name of the variable to set as a string, and it will be set to the value given. If the variable name used doesn&#39;t exist in the struct, then it will be created and set to the given value.</p>
-    <p class="dropspot"> </p>
-  </div>
-  <p> </p>
-  <p>An important feature of accessors is the fact that they can be <i>chained</i> together. This means that if you have several nested data structures and/or arrays, there is no longer the need to use a variety of functions to get access to a value that is deep within the nested structure. For example, say you have an array, and each item in the array is a DS list, like this:</p>
-  <p class="code">array = array_create(3);<br />
-    for (var i = 0; i &lt; 3; ++i)<br />
+  <h2 id="accessor_chaining">Accessor Chaining</h2>
+  <p>An important feature of accessors is the fact that they can be <i>chained</i> together. This means that if you have several nested data structures and/or arrays, there is no longer the need to use a variety of functions to get access to a value that is deep within the nested structure. For example, say you have a struct, and each variable in the struct holds an array containing structs, like this:</p>
+  <p class="code">var _fruits = <br />
     {<br />
-        array[i] = ds_list_create();<br />
-        switch(i)<br />
-        {<br />
-            case 0:<br />
-                with (obj_Wall) ds_list_add(array[i], id);<br />
-            break;<br />
-    <br />
-            case 1:<br />
-                with (obj_Door) ds_list_add(array[i], id);<br />
-            break;<br />
-    <br />
-            case 2:<br />
-                with (obj_Chest) ds_list_add(array[i], id);<br />
-            break;<br />
-        }<br />
-    }
-  </p>
-  <p>In the above code we&#39;ve created a 3 item array and assigned a DS list to each of them, and then we&#39;ve populated the different lists with the instance IDs of various objects in the game. Now, to access an ID in one of the lists we can do the following:</p>
-  <p class="code">var _list = array[0];<br />
-    var _id = ds_list_find_value(_list, 0);</p>
+        &quot;apples&quot;: [<br />
+            {&quot;color&quot;: c_red, &quot;health_power&quot;: 8},<br />
+            {&quot;color&quot;: c_green, &quot;health_power&quot;: 10}<br />
+        ],<br />
+        &quot;mangoes&quot;: [<br />
+            {&quot;color&quot;: c_orange, &quot;health_power&quot;: 20}<br />
+        ],<br />
+        &quot;bananas&quot;: [<br />
+            {&quot;color&quot;: c_yellow, &quot;health_power&quot;: 15},<br />
+            {&quot;color&quot;: c_black, &quot;health_power&quot;: -5}<br />
+        ]<br />
+    };</p>
+  <p>Now, to access a specific fruit&#39;s properties we can do the following:</p>
+  <p class="code">var _array = struct_get(_fruits, &quot;mangoes&quot;);<br />
+    var _props = _array[0];<br />
+    var _power = struct_get(_props, &quot;health_power&quot;);</p>
   <p>However, you can do the same thing using chained accessors in a much cleaner way that uses less code:</p>
-  <p class="code">var _id = array[0][| 0];</p>
-  <p>You can chain multiple accessors together in this way and they can be of multiple types to get access to the information stored in each part of the nested structure. Here are some more examples:</p>
+  <p class="code">var _power = _fruits[$ &quot;mangoes&quot;][0][$ &quot;health_power&quot;];</p>
+  <p>You can chain multiple accessors together in this way and they can be of multiple types to get access to the information stored in each part of the nested structure. Here are a few more examples:</p>
   <p class="code">// Access a grid that has been added to a list that is part of a map:<br />
     var _a = data[? &quot;lists&quot;][| 0][# 0, 0];<br />
     <br />
     // Access an array nested in a list from a script and modify it:<br />
-    data[| 0][@ 10] = 100;<br />
+    data[| 0][10] = 100;<br />
     <br />
     // Access a map nested in a grid nested in a list nested in an array:<br />
     data[0][| 10][# 3, 4][? &quot;key&quot;] = &quot;hello world&quot;;
   </p>
   <p>Using chained accessors for things not only means you can write more compact code, it will also permit you to use iteration (for example, using a <span class="inline2"><a data-xref="{title}" href="Language_Features/for.htm">for</a></span> loop) and other techniques to access your data in a cleaner and more intuitive manner.</p>
-  <p>It is worth noting that when using accessors in this way, you should always use the <span class="inline2">@</span> accessor for arrays, as otherwise you will be adding extra overhead to any actions being performed. As mentioned above, by default arrays are passed by reference into functions and then use the &quot;copy on write&quot; behaviour when modified. However, if the array is part of a chain, then the previous item in the chain will be updated with the copied array and the &quot;original&quot; will be deleted. For example, doing something like this:</p>
-  <p class="code">// In an object event<br />
-    data[| 0][0] = 100;<br />
-    <br />
-    // In a function<br />
-    data[| 0][0] = 200;
-  </p>
-  <p>achieves the same results as doing this:</p>
-  <p class="code">// In an object event<br />
-    data[| 0][0] = 100;<br />
-    <br />
-    // In a function<br />
-    data[| 0][@ 0] = 200;
-  </p>
-  <p>However, the second example is better as it works without the unnecessary overhead of copying the entire array first.</p>
   <p> </p>
   <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a href="GML_Overview.htm">GML Overview</a></div>
+        <div style="float:left">Back: <a data-xref="{title}" href="GML_Overview.htm">GML Code Overview</a></div>
         <div style="float:right">Next: <a data-xref="{title}" href="Language_Features.htm">Language Features</a></div>
       </div>
     </div>
