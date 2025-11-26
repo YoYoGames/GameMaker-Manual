@@ -1,7 +1,7 @@
 @echo on
 setlocal enabledelayedexpansion
 rem experimental build
-if "%WORKSPACE%" == "" set WORKSPACE="D:\GameMaker-Manual"
+if "%WORKSPACE%" == "" set WORKSPACE=%GITHUB_WORKSPACE%
 if "%BUILD_NUMBER%" == "" set BUILD_NUMBER=999
 if "%SOURCE_BUILD_NUMBER%" == "" set SOURCE_BUILD_NUMBER=%BUILD_NUMBER%
 if "%SOURCE_MAJOR_VERSION%" == "" set SOURCE_MAJOR_VERSION=1
@@ -10,10 +10,10 @@ if "%JOB_NAME%" == "" set JOB_NAME=GMS2_Manual
 set BUILDTYPE=release
 set BUILDPLATFORM="Any CPU"
 set BUILDCLEAN=1
-set BUILDBETA=1
+set BUILDBETA=%BUILDBETA%
 set S3_BUCKET="s3://manual-json-files/"
 set ZIP_FILE="Adobe_RoboHelp_2022.0.0.331.zip"
-set LANGUAGE=EN
+set LANGUAGE=%LANGUAGE%
 
 
 set basedir=%~dp0
