@@ -96,62 +96,36 @@ type "%basedir%SupportFiles\layout_fix_append.css" >> "%DESTDIR%\RoboHelp\templa
 
 pushd %DESTDIR%\RoboHelp
 
-rem Determine S3 path based on preset
-if /i %robohelpPreset%=="GMS2 Manual Responsive HTML5 BETA" (
+rem ── Determine S3 path based on preset ───────────────────────────────
+if /i "%robohelpPreset%"=="GMS2 Manual Responsive HTML5 BETA" (
+    set "S3_PATH=s3://manual-json-files/Beta"
     echo Branch is develop - Choose BETA
-    set S3_PATH=s3://manual-json-files/Beta
-) else if /i %robohelpPreset%=="GMS2 Manual Responsive HTML5" (
+) else if /i "%robohelpPreset%"=="GMS2 Manual Responsive HTML5" (
+    set "S3_PATH=s3://manual-json-files/Green"
     echo Branch is Main - Choose Green
-    set S3_PATH=s3://manual-json-files/Green
 ) else (
-    echo Branch is not develop or main - Choose LTS
-    set S3_PATH=s3://manual-json-files/LTS
+    set "S3_PATH=s3://manual-json-files/LTS"
+    echo Branch is neither develop nor main - Choose LTS
 )
 
-rem Create temp directory for comparison
-mkdir temp_s3_compare 2>nul
+rem ── Temp directory for comparison ──────────────────────────────────
+mkdir "temp_s3_compare" 2>nul
 
-rem Download existing files from S3 for comparison (ignore errors if files don't exist)
-echo Downloading existing files from S3 for comparison...
-aws s3 cp %S3_PATH%/helpdocs_keywords.json temp_s3_compare\helpdocs_keywords.json 2>nul
-aws s3 cp %S3_PATH%/helpdocs_tags.json temp_s3_compare\helpdocs_tags.json 2>nul
+rem ── Download current files from S3 (skip errors) ────────────────────
+for %%F in (helpdocs_keywords.json helpdocs_tags.json) do (
+    echo Checking %%F...
+    aws s3 cp "%S3_PATH%/%%F" "temp_s3_compare/%%F" >nul 2>&1
 
-rem Check and upload helpdocs_keywords.json if modified
-set UPLOAD_KEYWORDS=0
-if not exist temp_s3_compare\helpdocs_keywords.json (
-    echo helpdocs_keywords.json does not exist in S3 - will upload
-    set UPLOAD_KEYWORDS=1
-) else (
-    fc /b helpdocs_keywords.json temp_s3_compare\helpdocs_keywords.json >nul 2>&1
-    if errorlevel 1 (
-        echo helpdocs_keywords.json has been modified - will upload
-        set UPLOAD_KEYWORDS=1
+    rem Compare & upload only if different or missing
+    if not exist "temp_s3_compare/%%F" (
+        echo %%F missing on S3 → uploading
+        aws s3 cp "%%F" "%S3_PATH%/%%F"
     ) else (
-        echo helpdocs_keywords.json is unchanged - skipping upload
+        fc /b "%%F" "temp_s3_compare/%%F" >nul 2>&1 || (
+            echo %%F changed → uploading
+            aws s3 cp "%%F" "%S3_PATH%/%%F"
+        )
     )
-)
-
-if %UPLOAD_KEYWORDS%==1 (
-    aws s3 cp helpdocs_keywords.json %S3_PATH%/helpdocs_keywords.json
-)
-
-rem Check and upload helpdocs_tags.json if modified
-set UPLOAD_TAGS=0
-if not exist temp_s3_compare\helpdocs_tags.json (
-    echo helpdocs_tags.json does not exist in S3 - will upload
-    set UPLOAD_TAGS=1
-) else (
-    fc /b helpdocs_tags.json temp_s3_compare\helpdocs_tags.json >nul 2>&1
-    if errorlevel 1 (
-        echo helpdocs_tags.json has been modified - will upload
-        set UPLOAD_TAGS=1
-    ) else (
-        echo helpdocs_tags.json is unchanged - skipping upload
-    )
-)
-
-if %UPLOAD_TAGS%==1 (
-    aws s3 cp helpdocs_tags.json %S3_PATH%/helpdocs_tags.json
 )
 
 rem Cleanup temp directory
