@@ -11,8 +11,8 @@ set BUILDTYPE=release
 set BUILDPLATFORM="Any CPU"
 set BUILDCLEAN=1
 set BUILDBETA=%BUILDBETA%
-set S3_BUCKET="s3://manual-json-files/"
-set ZIP_FILE="Adobe_RoboHelp_2022.0.0.331.zip"
+set S3_BUCKET=%S3_BUCKET%
+set ZIP_FILE=%ZIP_FILE%
 set LANGUAGE=%LANGUAGE%
 
 
