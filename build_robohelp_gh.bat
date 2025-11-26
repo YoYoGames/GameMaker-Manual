@@ -97,10 +97,10 @@ type "%basedir%SupportFiles\layout_fix_append.css" >> "%DESTDIR%\RoboHelp\templa
 pushd %DESTDIR%\RoboHelp
 
 rem ── Determine S3 path based on preset ───────────────────────────────
-if /i "%robohelpPreset%"=="GMS2 Manual Responsive HTML5 BETA" (
+if /i %robohelpPreset%=="GMS2 Manual Responsive HTML5 BETA" (
     set "S3_PATH=s3://manual-json-files/Beta"
     echo Branch is develop - Choose BETA
-) else if /i "%robohelpPreset%"=="GMS2 Manual Responsive HTML5" (
+) else if /i %robohelpPreset%=="GMS2 Manual Responsive HTML5" (
     set "S3_PATH=s3://manual-json-files/Green"
     echo Branch is Main - Choose Green
 ) else (
