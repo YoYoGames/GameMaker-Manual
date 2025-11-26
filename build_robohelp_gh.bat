@@ -1,7 +1,7 @@
 @echo on
 setlocal enabledelayedexpansion
 rem experimental build
-if "%WORKSPACE%" == "" set WORKSPACE=%GITHUB_WORKSPACE%
+if "%WORKSPACE%" == "" set WORKSPACE="D:\GameMaker-Manual"
 if "%BUILD_NUMBER%" == "" set BUILD_NUMBER=999
 if "%SOURCE_BUILD_NUMBER%" == "" set SOURCE_BUILD_NUMBER=%BUILD_NUMBER%
 if "%SOURCE_MAJOR_VERSION%" == "" set SOURCE_MAJOR_VERSION=1
@@ -10,9 +10,11 @@ if "%JOB_NAME%" == "" set JOB_NAME=GMS2_Manual
 set BUILDTYPE=release
 set BUILDPLATFORM="Any CPU"
 set BUILDCLEAN=1
-set BUILDBETA=%BUILDBETA%
-set S3_BUCKET=%S3_BUCKET%
-set ZIP_FILE=%ZIP_FILE%
+set BUILDBETA=1
+set S3_BUCKET="s3://manual-json-files/"
+set ZIP_FILE="Adobe_RoboHelp_2022.0.0.331.zip"
+set LANGUAGE=EN
+
 
 set basedir=%~dp0
 
@@ -93,19 +95,67 @@ rem append css fix to layout.css
 type "%basedir%SupportFiles\layout_fix_append.css" >> "%DESTDIR%\RoboHelp\template\Charcoal_Grey\layout.css"
 
 pushd %DESTDIR%\RoboHelp
+
+rem Determine S3 path based on preset
 if /i %robohelpPreset%=="GMS2 Manual Responsive HTML5 BETA" (
     echo Branch is develop - Choose BETA
-    aws s3 cp helpdocs_keywords.json s3://manual-json-files/Beta/helpdocs_keywords.json
-    aws s3 cp helpdocs_tags.json s3://manual-json-files/Beta/helpdocs_tags.json
+    set S3_PATH=s3://manual-json-files/Beta
 ) else if /i %robohelpPreset%=="GMS2 Manual Responsive HTML5" (
     echo Branch is Main - Choose Green
-    aws s3 cp helpdocs_keywords.json s3://manual-json-files/Green/helpdocs_keywords.json
-    aws s3 cp helpdocs_tags.json s3://manual-json-files/Green/helpdocs_tags.json
+    set S3_PATH=s3://manual-json-files/Green
 ) else (
     echo Branch is not develop or main - Choose LTS
-    aws s3 cp helpdocs_keywords.json s3://manual-json-files/LTS/helpdocs_keywords.json
-    aws s3 cp helpdocs_tags.json s3://manual-json-files/LTS/helpdocs_tags.json
+    set S3_PATH=s3://manual-json-files/LTS
 )
+
+rem Create temp directory for comparison
+mkdir temp_s3_compare 2>nul
+
+rem Download existing files from S3 for comparison (ignore errors if files don't exist)
+echo Downloading existing files from S3 for comparison...
+aws s3 cp %S3_PATH%/helpdocs_keywords.json temp_s3_compare\helpdocs_keywords.json 2>nul
+aws s3 cp %S3_PATH%/helpdocs_tags.json temp_s3_compare\helpdocs_tags.json 2>nul
+
+rem Check and upload helpdocs_keywords.json if modified
+set UPLOAD_KEYWORDS=0
+if not exist temp_s3_compare\helpdocs_keywords.json (
+    echo helpdocs_keywords.json does not exist in S3 - will upload
+    set UPLOAD_KEYWORDS=1
+) else (
+    fc /b helpdocs_keywords.json temp_s3_compare\helpdocs_keywords.json >nul 2>&1
+    if errorlevel 1 (
+        echo helpdocs_keywords.json has been modified - will upload
+        set UPLOAD_KEYWORDS=1
+    ) else (
+        echo helpdocs_keywords.json is unchanged - skipping upload
+    )
+)
+
+if %UPLOAD_KEYWORDS%==1 (
+    aws s3 cp helpdocs_keywords.json %S3_PATH%/helpdocs_keywords.json
+)
+
+rem Check and upload helpdocs_tags.json if modified
+set UPLOAD_TAGS=0
+if not exist temp_s3_compare\helpdocs_tags.json (
+    echo helpdocs_tags.json does not exist in S3 - will upload
+    set UPLOAD_TAGS=1
+) else (
+    fc /b helpdocs_tags.json temp_s3_compare\helpdocs_tags.json >nul 2>&1
+    if errorlevel 1 (
+        echo helpdocs_tags.json has been modified - will upload
+        set UPLOAD_TAGS=1
+    ) else (
+        echo helpdocs_tags.json is unchanged - skipping upload
+    )
+)
+
+if %UPLOAD_TAGS%==1 (
+    aws s3 cp helpdocs_tags.json %S3_PATH%/helpdocs_tags.json
+)
+
+rem Cleanup temp directory
+rmdir /s /q temp_s3_compare 2>nul
 
 @REM rem ************************************************** ZIP up the output
 7z a YoYoStudioRoboHelp.zip . -r
