@@ -96,11 +96,17 @@ type "%basedir%SupportFiles\layout_fix_append.css" >> "%DESTDIR%\RoboHelp\templa
 
 pushd %DESTDIR%\RoboHelp
 
-rem ── Determine S3 path based on preset ───────────────────────────────
-if /i %robohelpPreset%=="GMS2 Manual Responsive HTML5 BETA" (
+rem ── Run only in GameMaker-Manual ─────────────────────────────────────
+if /i not "%GITHUB_REPOSITORY%"=="YoYoGames/GameMaker-Manual" (
+    echo Skipping upload — this is not the main GameMaker-Manual repo
+    exit /b 0
+)
+
+rem ── Determine S3 path based on preset ────────────────────────────────
+if /i "%robohelpPreset%"=="GMS2 Manual Responsive HTML5 BETA" (
     set "S3_PATH=s3://gm-build-artifacts.436685692178/manual-json-files/Beta"
     echo Branch is develop - Choose BETA
-) else if /i %robohelpPreset%=="GMS2 Manual Responsive HTML5" (
+) else if /i "%robohelpPreset%"=="GMS2 Manual Responsive HTML5" (
     set "S3_PATH=s3://gm-build-artifacts.436685692178/manual-json-files/Green"
     echo Branch is Main - Choose Green
 ) else (
@@ -108,15 +114,14 @@ if /i %robohelpPreset%=="GMS2 Manual Responsive HTML5 BETA" (
     echo Branch is neither develop nor main - Choose LTS
 )
 
-rem ── Temp directory for comparison ──────────────────────────────────
+rem ── Temp directory for comparison ────────────────────────────────────
 mkdir "temp_s3_compare" 2>nul
 
-rem ── Download current files from S3 (skip errors) ────────────────────
+rem ── Download current files from S3 ───────────────────────────────────
 for %%F in (helpdocs_keywords.json helpdocs_tags.json) do (
     echo Checking %%F...
     aws s3 cp "%S3_PATH%/%%F" "temp_s3_compare/%%F" >nul 2>&1
 
-    rem Compare & upload only if different or missing
     if not exist "temp_s3_compare/%%F" (
         echo %%F missing on S3 → uploading
         aws s3 cp "%%F" "%S3_PATH%/%%F"
@@ -128,7 +133,7 @@ for %%F in (helpdocs_keywords.json helpdocs_tags.json) do (
     )
 )
 
-rem Cleanup temp directory
+rem Cleanup
 rmdir /s /q temp_s3_compare 2>nul
 
 @REM rem ************************************************** ZIP up the output
