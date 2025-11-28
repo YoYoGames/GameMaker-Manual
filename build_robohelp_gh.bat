@@ -13,6 +13,8 @@ set BUILDCLEAN=1
 set BUILDBETA=%BUILDBETA%
 set S3_BUCKET=%S3_BUCKET%
 set ZIP_FILE=%ZIP_FILE%
+set LANGUAGE=%LANGUAGE%
+
 
 set basedir=%~dp0
 
@@ -93,19 +95,46 @@ rem append css fix to layout.css
 type "%basedir%SupportFiles\layout_fix_append.css" >> "%DESTDIR%\RoboHelp\template\Charcoal_Grey\layout.css"
 
 pushd %DESTDIR%\RoboHelp
-if /i %robohelpPreset%=="GMS2 Manual Responsive HTML5 BETA" (
-    echo Branch is develop - Choose BETA
-    aws s3 cp helpdocs_keywords.json s3://manual-json-files/Beta/helpdocs_keywords.json
-    aws s3 cp helpdocs_tags.json s3://manual-json-files/Beta/helpdocs_tags.json
-) else if /i %robohelpPreset%=="GMS2 Manual Responsive HTML5" (
-    echo Branch is Main - Choose Green
-    aws s3 cp helpdocs_keywords.json s3://manual-json-files/Green/helpdocs_keywords.json
-    aws s3 cp helpdocs_tags.json s3://manual-json-files/Green/helpdocs_tags.json
-) else (
-    echo Branch is not develop or main - Choose LTS
-    aws s3 cp helpdocs_keywords.json s3://manual-json-files/LTS/helpdocs_keywords.json
-    aws s3 cp helpdocs_tags.json s3://manual-json-files/LTS/helpdocs_tags.json
+
+rem ── Run only in GameMaker-Manual ─────────────────────────────────────
+if /i not "%GITHUB_REPOSITORY%"=="YoYoGames/GameMaker-Manual" (
+    echo Skipping upload — this is not the main GameMaker-Manual repo
+    exit /b 0
 )
+
+rem ── Determine S3 path based on preset ────────────────────────────────
+if /i %robohelpPreset%=="GMS2 Manual Responsive HTML5 BETA" (
+    set "S3_PATH=%S3_BUCKET%/Beta"
+    echo Branch is develop - Choose BETA
+) else if /i %robohelpPreset%=="GMS2 Manual Responsive HTML5" (
+    set "S3_PATH=%S3_BUCKET%/Green"
+    echo Branch is Main - Choose Green
+) else (
+    set "S3_PATH=%S3_BUCKET%/LTS"
+    echo Branch is neither develop nor main - Choose LTS
+)
+
+rem ── Temp directory for comparison ────────────────────────────────────
+mkdir "temp_s3_compare" 2>nul
+
+rem ── Download current files from S3 ───────────────────────────────────
+for %%F in (helpdocs_keywords.json helpdocs_tags.json) do (
+    echo Checking %%F...
+    aws s3 cp "%S3_PATH%/%%F" "temp_s3_compare/%%F" >nul 2>&1
+
+    if not exist "temp_s3_compare/%%F" (
+        echo %%F missing on S3 → uploading
+        aws s3 cp "%%F" "%S3_PATH%/%%F"
+    ) else (
+        fc /b "%%F" "temp_s3_compare/%%F" >nul 2>&1 || (
+            echo %%F changed → uploading
+            aws s3 cp "%%F" "%S3_PATH%/%%F"
+        )
+    )
+)
+
+rem Cleanup
+rmdir /s /q temp_s3_compare 2>nul
 
 @REM rem ************************************************** ZIP up the output
 7z a YoYoStudioRoboHelp.zip . -r
