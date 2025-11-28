@@ -104,13 +104,13 @@ if /i not "%GITHUB_REPOSITORY%"=="YoYoGames/GameMaker-Manual" (
 
 rem ── Determine S3 path based on preset ────────────────────────────────
 if /i %robohelpPreset%=="GMS2 Manual Responsive HTML5 BETA" (
-    set "S3_PATH=s3://gm-build-artifacts.436685692178/manual-json-files/Beta"
+    set "S3_PATH=%S3_BUCKET%/Beta"
     echo Branch is develop - Choose BETA
 ) else if /i %robohelpPreset%=="GMS2 Manual Responsive HTML5" (
-    set "S3_PATH=s3://gm-build-artifacts.436685692178/manual-json-files/Green"
+    set "S3_PATH=%S3_BUCKET%/Green"
     echo Branch is Main - Choose Green
 ) else (
-    set "S3_PATH=s3://gm-build-artifacts.436685692178/manual-json-files/LTS"
+    set "S3_PATH=%S3_BUCKET%/LTS"
     echo Branch is neither develop nor main - Choose LTS
 )
 
