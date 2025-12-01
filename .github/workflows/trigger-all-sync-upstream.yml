@@ -29,15 +29,14 @@ on:
 jobs:
 
   Trigger-Localisation-Upstream-Sync:
-     name:
-     runs-on: ubuntu-22.04
+     runs-on: ubuntu-24.04
      strategy:
       matrix:
         language: [PT-BR, DE, ES, FR, IT, JA, KO, PL, RU, ZH] 
      steps:
       - name: Invoke Localisation Syncing
         if: ${{ github.event.inputs.Language == 'ALL' }} 
-        uses: benc-uk/workflow-dispatch@v1
+        uses: benc-uk/workflow-dispatch@v1.2.4
         with:
           workflow: sync.yml
           repo: YoYoGames/GameMaker-Manual-${{ matrix.language }}
@@ -45,7 +44,7 @@ jobs:
         continue-on-error: false 
       - name: Invoke Localisation Syncing
         if: ${{ github.event.inputs.COUNTRY != ''}} 
-        uses: benc-uk/workflow-dispatch@v1
+        uses: benc-uk/workflow-dispatch@v1.2.4
         with:
           workflow: sync.yml
           repo: YoYoGames/GameMaker-Manual-${{ matrix.language }}
