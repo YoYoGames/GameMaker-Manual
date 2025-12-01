@@ -2,29 +2,7 @@ name: Trigger-Localisation-Upstream-Sync-Builds
 
 on:
   workflow_dispatch:
-     inputs:
-        Language:
-         description: "Select All languages to sync"
-         required: false
-         type: choice
-         options:
-          - ALL
-        COUNTRY:
-         description: "Select individual language to sync"
-         required: false
-         type: choice
-         options:
-           - PT-BR
-           - DE
-           - ES
-           - FR
-           - IT
-           - JA
-           - KO
-           - PL
-           - RU
-           - ZH
-    
+   
 
 jobs:
 
@@ -35,21 +13,13 @@ jobs:
         language: [PT-BR, DE, ES, FR, IT, JA, KO, PL, RU, ZH] 
      steps:
       - name: Invoke Localisation Syncing
-        if: ${{ github.event.inputs.Language == 'ALL' }} 
         uses: benc-uk/workflow-dispatch@v1
         with:
           workflow: sync.yml
           repo: YoYoGames/GameMaker-Manual-${{ matrix.language }}
           token: ${{ secrets.GH_TOKEN }} 
         continue-on-error: false 
-      - name: Invoke Localisation Syncing
-        if: ${{ github.event.inputs.COUNTRY != ''}} 
-        uses: benc-uk/workflow-dispatch@v1
-        with:
-          workflow: sync.yml
-          repo: YoYoGames/GameMaker-Manual-${{ matrix.language }}
-          token: ${{ secrets.GH_TOKEN }} 
-        continue-on-error: false         
+        
 
 
                                                                        
