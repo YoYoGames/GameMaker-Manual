@@ -67,6 +67,52 @@ rem append css fix to layout.css
 type "%basedir%SupportFiles\layout_fix_append.css" >> "%DESTDIR%\RoboHelp\template\Charcoal_Grey\layout.css"
 
 @REM rem ************************************************** ZIP up the output
+
 pushd %DESTDIR%\RoboHelp
+
+rem ── Run only in GameMaker-Manual ─────────────────────────────────────
+if /i not "%GITHUB_REPOSITORY%"=="YoYoGames/GameMaker-Manual" (
+    echo Skipping S3 upload — this is not the main GameMaker-Manual repo
+    goto skip_s3_upload
+)
+
+rem ── Determine S3 path based on preset ────────────────────────────────
+if /i "%robohelpPreset%"=="GMS2 Manual Responsive HTML5 BETA" (
+    set "S3_PATH=%S3_BUCKET%/Beta"
+    echo Branch is develop - Choose BETA
+) else if /i "%robohelpPreset%"=="GMS2 Manual Responsive HTML5" (
+    set "S3_PATH=%S3_BUCKET%/Green"
+    echo Branch is Main - Choose Green
+) else (
+    set "S3_PATH=%S3_BUCKET%/LTS"
+    echo Branch is neither develop nor main - Choose LTS
+)
+
+rem ── Temp directory for comparison ────────────────────────────────────
+mkdir "temp_s3_compare" 2>nul
+
+rem ── Download current files from S3 ───────────────────────────────────
+for %%F in (helpdocs_keywords.json helpdocs_tags.json) do (
+    echo Checking %%F...
+    aws s3 cp "%S3_PATH%/%%F" "temp_s3_compare/%%F" >nul 2>&1
+
+    if not exist "temp_s3_compare/%%F" (
+        echo %%F missing on S3 → uploading
+        aws s3 cp "%%F" "%S3_PATH%/%%F"
+    ) else (
+        fc /b "%%F" "temp_s3_compare/%%F" >nul 2>&1 || (
+            echo %%F changed → uploading
+            aws s3 cp "%%F" "%S3_PATH%/%%F"
+        )
+    )
+)
+
+rem Cleanup
+rmdir /s /q temp_s3_compare 2>nul
+
+:skip_s3_upload
+
+rem ************************************************** ZIP up the output
 7z a YoYoStudioRoboHelp.zip . -r
+
 popd
