@@ -98,15 +98,15 @@ pushd %DESTDIR%\RoboHelp
 
 rem ── Run only in GameMaker-Manual ─────────────────────────────────────
 if /i not "%GITHUB_REPOSITORY%"=="YoYoGames/GameMaker-Manual" (
-    echo Skipping upload — this is not the main GameMaker-Manual repo
-    exit /b 0
+    echo Skipping S3 upload — this is not the main GameMaker-Manual repo
+    goto skip_s3_upload
 )
 
 rem ── Determine S3 path based on preset ────────────────────────────────
-if /i %robohelpPreset%=="GMS2 Manual Responsive HTML5 BETA" (
+if /i "%robohelpPreset%"=="GMS2 Manual Responsive HTML5 BETA" (
     set "S3_PATH=%S3_BUCKET%/Beta"
     echo Branch is develop - Choose BETA
-) else if /i %robohelpPreset%=="GMS2 Manual Responsive HTML5" (
+) else if /i "%robohelpPreset%"=="GMS2 Manual Responsive HTML5" (
     set "S3_PATH=%S3_BUCKET%/Green"
     echo Branch is Main - Choose Green
 ) else (
@@ -136,6 +136,10 @@ for %%F in (helpdocs_keywords.json helpdocs_tags.json) do (
 rem Cleanup
 rmdir /s /q temp_s3_compare 2>nul
 
-@REM rem ************************************************** ZIP up the output
+:skip_s3_upload
+
+rem ************************************************** ZIP up the output
 7z a YoYoStudioRoboHelp.zip . -r
+
 popd
+
