@@ -20,7 +20,7 @@
   <p>When you use an asset from the Prefab Library, that asset is <em>not copied</em> into your project but is simply referenced. The actual asset is only loaded from its Collection (source project) when your game is built. This means your game stays up-to-date with any changes in the Collection package without you needing to re-import any assets.</p>
   <p><img class="center" src="../assets/Images/IDE Tools/Prefabs/prefab_vis.png" /></p>
   <p>This allows you to use the same assets in multiple projects and have them all be updated when the Collection is updated.</p>
-  <p>You can also choose to duplicate an asset into your project, at which point the asset is unlinked from its Collection, meaning that it will no longer receive updates from its Collection however it will be fully modifiable within your project.</p>
+  <p>You can customise a Prefab asset to use custom properties while retaining its link to its Collection. You can also choose to duplicate an asset into your project, at which point the asset is unlinked from its Collection, meaning that it will no longer receive updates from its Collection however it will be fully modifiable within your project. See: <a href="#modif">Modifying Prefabs</a></p>
   <p class="note"><span data-conref="../assets/snippets/Tag_note.hts"> </span> If any used Prefab Collections could not be located during compilation, <span data-keyref="GameMaker Name">GameMaker</span> will attempt to download and install the required packages and start the build process again. However, in case the installation fails for any reason (e.g. no internet connection), you can double-click on the relevant message that appears in the <a href="../Introduction/The_Output_Window.htm">Compiler Output</a> to attempt installation of the required package.</p>
   <h2>Adding Prefab Packages</h2>
   <p>Currently you can use the official <span data-keyref="GameMaker Name">GameMaker</span> Asset Bundles via the Prefab Library.</p>
@@ -61,8 +61,13 @@
   <p>Scripts included in Prefab Collections may export <a href="../GameMaker_Language/GML_Overview/Variables/Constants.htm">Enums</a>, <a href="../GameMaker_Language/GML_Overview/Variables/Constants.htm">Macros</a> and <a href="../GameMaker_Language/GML_Overview/Script_Functions.htm">Script Functions</a> using the following syntax:</p>
   <p class="code">#export symbol1,symbol2,symbol3,...</p>
   <p>Any project that has a reference to such a Collection can use the exported symbols in code, e.g. to make use of an Enum/Macro or call a Script Function.</p>
-  <h2>Inspecting Prefabs</h2>
+  <h2 id="modif">Modifying Prefab Assets</h2>
   <p>Selecting a Prefab asset (e.g. a Sprite, Object, etc.) in the Prefab Library will display its properties in <a data-xref="{title}" href="The_Inspector.htm">The Inspector</a>. Here you can preview the properties of the asset, and for Object assets, you can also view its events and double-click on any event to display its code in the Code Editor (in read-only mode).</p>
+  <h3 id="custom">Customising Prefab Assets</h3>
+  <p>You can right-click on a Prefab asset or a folder/collection and select &quot;<strong>Customise</strong>&quot;. This displays the asset (or all assets under the chosen folder/collection) under a &quot;<strong>Prefabs</strong>&quot; folder in the Asset Browser, where you can select an asset and modify its properties (e.g. the Collision Mask of a Sprite, Attributes of a Sound, etc.) in <a data-xref="{title}" href="The_Inspector.htm">The Inspector</a>.</p>
+  <p>These customisations are maintained at a project level, so use of the same Prefab Asset in another project is not affected by customisations in a different project. When the game is built, the asset itself is pulled from the Collection however its modified properties are used as per your modifications in the project.</p>
+  <h3>Duplicating Prefab Assets</h3>
+  <p>Using the &quot;<strong>Duplicate into Project</strong>&quot; option on an asset (or multiple assets) unlinks the asset(s) from their original Collection and copies them into the currently open project. This means the asset is no longer linked to its Collection and will not receive any updates, and has been copied into the project directory and will take up space in the project. You can fully modify such a duplicated asset similar to any other asset created in the project.</p>
   <h2 id="prefab_library_features">Prefab Library Features</h2>
   <p>The Prefab Library window is divided into the following sections:</p>
   <p><img class="center" src="../assets/Images/IDE Tools/Prefabs/prefab_sections.png" style="cursor: nesw-resize;" />The left section displays the Folder List that contains a tree view of your Prefab Collections. The right section displays the contents of the currently open folder (or your Prefab Collections if no folder is selected). The divider between these two sections can be dragged to resize the sections.</p>
@@ -105,14 +110,15 @@
   <ul class="colour">
     <li><strong>Make Favourite</strong>: Add the selected folder or asset to Favourites. Your Favourites can be viewed from the <img class="icon" height="16" src="../assets/Images/Icons/Icon_ExtensionMenu.png" width="16" /> <strong>Sort/Filter</strong> menu.</li>
     <li><strong>Add/Remove Collection Reference</strong>: Add or remove a reference to this Collection in the current project. When the project has a reference to the Collection, assets from the Collection can be referenced in code.</li>
-    <li><strong>Show In Inspector</strong>: Show the selected asset in <a data-xref="{title}" href="The_Inspector.htm">The Inspector</a>.</li>
-    <li><strong>Show in Package Manager</strong>: This opens the <a data-xref="{title}" href="Package_Manager.htm">Package Manager</a> with the package for this Collection selected, so you can check for new versions or make any other changes to the source package.</li>
-    <li><strong>Uninstall Prefab</strong>: This uninstalls the package associated with this Prefab Asset or Collection. This is useful in cases where the version of the Prefab Collection you have installed no longer exists in the Package Manager and you would be unable to uninstall it from there.</li>
+    <li><strong>Customise</strong>: This adds the selected asset or all assets under the selected folder to the Asset Browser where you can customise its properties. See: <a href="#custom">Customising Prefabs</a></li>
     <li><strong>Duplicate into Project</strong>: This duplicates the selected asset (or all assets in the selected Collection/folder) into your project as a local asset, i.e. the asset becomes unlinked from its Collection and is fully editable as part of the current project. It will no longer be updated if there are changes to the source asset in the Collection.
       <ul>
         <li>When used on a Collection or a folder in a Collection, this process is recursive, i.e. it duplicates assets in all subfolders present within the selected folder and all subfolders within them, and so on.</li>
       </ul>
     </li>
+    <li><strong>Show In Inspector</strong>: Show the selected asset in <a data-xref="{title}" href="The_Inspector.htm">The Inspector</a>.</li>
+    <li><strong>Show in Package Manager</strong>: This opens the <a data-xref="{title}" href="Package_Manager.htm">Package Manager</a> with the package for this Collection selected, so you can check for new versions or make any other changes to the source package.</li>
+    <li><strong>Uninstall Prefab</strong>: This uninstalls the package associated with this Prefab Asset or Collection. This is useful in cases where the version of the Prefab Collection you have installed no longer exists in the Package Manager and you would be unable to uninstall it from there.</li>
     <li><strong>Expand/Collapse Children</strong>: This option is available in the Folder List. It expands or collapses all folders under the selected folder.</li>
     <li><b>Expand/Collapse All: </b>This option is available in the Folder List. It expands or collapses all folders in the tree view.</li>
   </ul>
