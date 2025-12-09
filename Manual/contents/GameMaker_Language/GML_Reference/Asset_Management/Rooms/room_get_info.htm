@@ -15,9 +15,8 @@
 </head>
 <body>
   <h1><span data-field="title" data-format="default">room_get_info</span></h1>
-  <p>This function gets information on a room from storage and returns it as a <a data-xref="{bookmarkText}" href="../../../GML_Overview/Structs.htm#struct">struct</a>. You can choose to exclude information through the given optional arguments.</p>
-  <p class="note"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> The function cannot be used to get the current state of an active room (the current <a data-xref="{title}" href="room.htm">room</a> or an already visited <a href="room_persistent.htm">persistent</a> room). In this case it returns the original state of the room.</p>
-  <p>The room must have been previously created using <a data-xref="{title}" href="../../../../Introduction/The_Asset_Browser.htm">The Asset Browser</a> or added in-game using <span class="inline3_func"><a data-xref="{title}" href="room_add.htm">room_add</a></span>.</p>
+  <p>This function gets information on a room from storage, or live information on either the <a href="room.htm" title="room">current</a> room or a persistent room, and returns the info as a <a data-xref="{bookmarkText}" href="../../../GML_Overview/Structs.htm#struct">struct</a>. You can choose to exclude information through the given optional arguments.</p>
+  <p>The room must have been previously created using <a data-xref="{title}" href="../../../../Introduction/The_Asset_Browser.htm">The Asset Browser</a> or have been added in-game using <span class="inline3_func"><a data-xref="{title}" href="room_add.htm">room_add</a></span>.</p>
   <p>The format of the returned struct is as follows:</p>
   <p class="code">room_info_struct =<br />
     {<br />
@@ -45,7 +44,9 @@
             {/* View Info Struct */},<br />
         ]<br />
     }</p>
+  <p> </p>
   <p>Note that the <span class="inline2">instances</span> and <span class="inline2">layers</span> members hold a value of 0 if the room has no instances or layers respectively.</p>
+  <p>If you call this function on a persistent room that you&#39;re not currently in, the <span class="inline2">instances</span> array will contain that room&#39;s currently active instances, which includes the persistent instances that still exist in the current room. The <span class="inline2">layers</span> array, on the other hand, contains all instances, including the non-persistent ones. Non-persistent instances aren&#39;t active at the time of calling <span class="inline3_func"><span data-field="title" data-format="default">room_get_info</span></span> from a different room but will be there when you return to the target room.</p>
   <p>The tables below list all the possible structs that can be contained in the returned struct:</p>
   <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down1" href="#">Room Info</a></p>
   <div class="droptext" data-targetname="drop-down1">
@@ -795,7 +796,7 @@
   </div>
   <p> </p>
   <h4>Syntax:</h4>
-  <p class="code"><span data-field="title" data-format="default">room_get_info</span>(room, [views], [instances], [layers], [layer_elements], [tilemap_data]);</p>
+  <p class="code"><span data-field="title" data-format="default">room_get_info</span>(room, [views], [instances], [layers], [layer_elements], [tilemap_data], [live])</p>
   <table>
     <colgroup>
       <col />
@@ -838,17 +839,49 @@
         <td><span data-keyref="Type_Bool"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Boolean</a></span></td>
         <td><span data-conref="../../../../assets/snippets/Tag_optional.hts"> </span> Whether to include tile map data in the struct (defaults to <span class="inline2">true</span>, requires <span class="inline2">layers</span> and <span class="inline2">layer_elements</span> to be set to <span class="inline2">true</span>)</td>
       </tr>
+      <tr>
+        <td>live</td>
+        <td><span data-keyref="Type_Bool"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Boolean</a></span></td>
+        <td><span data-conref="../../../../assets/snippets/Tag_optional.hts"> </span> Whether to report live data for the current room or a persistent room, otherwise return data from storage (defaults to <span class="inline2">false</span>)</td>
+      </tr>
     </tbody>
   </table>
   <p> </p>
   <h4>Returns:</h4>
   <p class="code"><span data-keyref="Type_Struct_Room_Info"><a href="room_get_info.htm#room_info_struct" target="_blank">Room Info Struct</a></span></p>
   <p> </p>
-  <h4>Example:</h4>
+  <h4>Example 1: Basic Use</h4>
   <p class="code">var _info = <span data-field="title" data-format="default">room_get_info</span>(Room1);<br />
     var _info_json = json_stringify(_info, true);<br />
     show_debug_message(_info_json);</p>
   <p>The above code gets the information of the room <span class="inline2">Room1</span>, converts the returned struct to a JSON string using <span class="inline3_func"><a data-xref="{title}" href="../../File_Handling/Encoding_And_Hashing/json_stringify.htm">json_stringify</a></span>, then outputs it in a debug message. All view, instance, layer, layer element and tile map information is included in the output.</p>
+  <p> </p>
+  <h4>Example 2: Live Data</h4>
+  <p class="code">var _info = <span data-field="title" data-format="default">room_get_info</span>(room, true, true, true, true, true, true);<br />
+    var _info_json = json_stringify(_info, true);<br />
+    show_debug_message(_info_json);</p>
+  <p>The above code gets all live information on the current room and, like the previous example, outputs it in a debug message.</p>
+  <p> </p>
+  <h4>Example 3: Live Data on a Persistent Room</h4>
+  <p class="code_heading">Create Event</p>
+  <p class="code">instance_create_layer(x, y, layer, obj_not_persistent);<br />
+    <br />
+    persistent = true;<br />
+    room_persistent = true;<br />
+    <br />
+    room_goto(rom_two);
+  </p>
+  <p class="code_heading">Room Start Event</p>
+  <p class="code">if (room != rom_two) { exit; }<br />
+    <br />
+    var _info = <span data-field="title" data-format="default">room_get_info</span>(rom_one, false, true, true, true, false, true);<br />
+    var _info_json = json_stringify(_info, true);<br />
+    show_debug_message(_info_json);
+  </p>
+  <p>This code shows how to get live data on a persistent room you&#39;re not currently in.</p>
+  <p>In an object&#39;s Create event a new instance of an object not marked persistent is first added using <span class="inline3_func"><a data-xref="{title}" href="../Instances/instance_create_layer.htm">instance_create_layer</a></span>. The instance executing the code is then marked persistent by setting its <span class="inline2"><a data-xref="{title}" href="../Instances/Instance_Variables/persistent.htm">persistent</a></span> variable to <span class="inline2">true</span> and the room is also marked persistent by setting <span class="inline2"><a data-xref="{title}" href="room_persistent.htm">room_persistent</a></span> to <span class="inline2">true</span>. The room is then changed to a room <span class="inline2">rom_two</span> using <span class="inline3_func"><a data-xref="{title}" href="room_goto.htm">room_goto</a></span>.</p>
+  <p>In the Room Start event a check is first performed to find out if the current room is <span class="inline2">rom_two</span>. If it isn&#39;t, the event is exited. If code execution continues, the live data on <span class="inline2">instances</span>, <span class="inline2">layers</span> and <span class="inline2">layer_elements</span> in the original room is requested using a call to <span class="inline3_func"><span data-field="title" data-format="default">room_get_info</span></span>. This info is once again, like in the previous examples, output in a debug message.</p>
+  <p>Note that a layer element is present for both the calling instance and the instance created in the Create event, but only the calling instance is present in the <span class="inline2">instances</span> array because it marked itself as persistent and therefore is still active at the time of calling the function.</p>
   <p> </p>
   <p> </p>
   <div class="footer">
