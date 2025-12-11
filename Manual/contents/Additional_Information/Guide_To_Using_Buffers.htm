@@ -28,22 +28,22 @@
       </tr>
       <tr>
         <td><span class="notranslate"><span class="inline">buffer_fixed</span></td>
-        <td><br>
+        <td><br />
           一个以字节为单位的固定大小的<span class="notranslate">buffer</span> 。这个大小是在创建<span class="notranslate">buffer</span> 时设置的，不能再改变。</td>
       </tr>
       <tr>
         <td><span class="notranslate"><span class="inline">buffer_grow</span></td>
-        <td><br>
+        <td><br />
           一个<span class="notranslate">buffer</span> ，它将随着数据的增加而动态<i>增长</i>。你创建它时有一个初始大小（应该是预期要存储的数据大小的近似值），然后它将扩展以接受超出这个初始大小的进一步数据。</td>
       </tr>
       <tr>
         <td><span class="notranslate"><span class="inline">buffer_wrap</span></td>
-        <td><br>
+        <td><br />
           一个<span class="notranslate">buffer</span> ，数据将被<i>包裹</i>在其中。当被添加的数据达到<span class="notranslate">buffer</span> 大小的极限时，被覆盖的数据将被放回<span class="notranslate">buffer</span> 的起点，并从该点继续写入。</td>
       </tr>
       <tr>
         <td><span class="notranslate"><span class="inline">buffer_fast</span></td>
-        <td><br>
+        <td><br />
           这是一个特殊的 &quot;剥离 &quot;<span class="notranslate">buffer</span> ，读/写速度极快。然而，它只能与 <span class="inline"><span class="inline">buffer_u8</span> 数据类型一起使用，并且必须是1字节对齐的。(关于<b>数据类型</b>和<b>字节对齐</b>的信息可以在本页面下边找到）。</td>
       </tr>
     </tbody>
@@ -53,7 +53,7 @@
   <p><img>当创建一个<span class="notranslate">buffer</span> ，你应该总是尝试创建一个与类型相适应的大小，一般的规则是，它应该被创建为容纳它要存储的数据的最大尺寸，如果有疑问，使用一个增长<span class="notranslate">buffer</span> ，以防止覆盖错误。</p>
   <p>创建一个<span class="notranslate">buffer</span> 的实际代码将看起来像这样。</p>
   <p class="code">player_buffer = buffer_create(16384, buffer_fixed, 2);</p>
-  <p><br>
+  <p><br />
     这将创建一个16384字节的固定<span class="notranslate">buffer</span> ，字节对齐为2，函数返回一个唯一的ID值，存储在一个变量中，以便以后引用这个<span class="notranslate">buffer</span> 。</p>
   <p>当读和写数据到一个<span class="notranslate">buffer</span> ，你是以 &quot;数据类型 &quot;定义的数据 &quot;块 &quot;进行的。数据类型 &quot;设定了在<span class="notranslate">buffer</span> 中为被写入的值分配的字节数，你必须正确掌握这一点，否则你的代码会得到一些非常奇怪的结果（甚至是错误）。</p>
   <p>缓冲区是<strong>按顺序</strong>写入（和读出）的，即一块数据是在另一块数据之后写入的，每块数据都是一个固定的类型。这意味着，你最好随时了解你正在向<span class="notranslate">buffer</span> 写什么数据。这些数据类型在<span class="notranslate">GML</span> ，由以下常数定义。</p>
@@ -68,73 +68,73 @@
       <tr>
         <td><span class="inline">buffer_u8</span></td>
         <td>1</td>
-        <td><br>
+        <td><br />
           一个无符号、8位的整数。这是一个从0到255的正值。</td>
       </tr>
       <tr>
         <td><span class="inline">buffer_s8</span></td>
         <td>1</td>
-        <td><br>
+        <td><br />
           一个有符号的、8位的整数。这可以是一个从-128到127的正值或负值（0被认为是正值）。</td>
       </tr>
       <tr>
         <td><span class="inline">buffer_u16</span></td>
         <td>2</td>
-        <td><br>
+        <td><br />
           一个无符号、16位的整数。这是一个从0-65,535的正值。</td>
       </tr>
       <tr>
         <td><span class="inline">buffer_s16</span></td>
         <td>2</td>
-        <td><br>
+        <td><br />
           一个有符号的、16位的整数。这可以是一个从-32,768到32,767的正值或负值（0被认为是正值）。</td>
       </tr>
       <tr>
         <td><span class="inline">buffer_f16</span></td>
         <td>2</td>
-        <td><br>
+        <td><br />
           一个16位的浮点数字。这可以是+/-65504范围内的一个正值或负值。<b>(目前不支持！)</b></td>
       </tr>
       <tr>
         <td><span class="inline">buffer_u32</span></td>
         <td>4</td>
-        <td><br>
+        <td><br />
           一个无符号、32位的整数。这是一个从0到4,294,967,295的正值。</td>
       </tr>
       <tr>
         <td><span class="inline">buffer_s32</span></td>
         <td>4</td>
-        <td><br>
+        <td><br />
           一个有符号的、32位的整数。这可以是一个从-2,147,483,648到2,147,483,647的正值或负值（0被归类为正值）。</td>
       </tr>
       <tr>
         <td><span class="inline">buffer_f32</span></td>
         <td>4</td>
-        <td><br>
+        <td><br />
           一个32位的浮点数字。这可以是+/-16777216范围内的一个正值或负值。</td>
       </tr>
       <tr>
         <td><span class="inline">buffer_u64</span></td>
         <td>8</td>
-        <td><br>
+        <td><br />
           一个64位无符号整数值。<b>(目前不是所有的<span class="notranslate">buffer</span> 函数都支持！)</b></td>
       </tr>
       <tr>
         <td><span class="inline">buffer_f64</span></td>
         <td>8</td>
-        <td><br>
+        <td><br />
           一个64位的浮点数。</td>
       </tr>
       <tr>
         <td><span class="inline">buffer_bool</span></td>
         <td>1</td>
-        <td><br>
+        <td><br />
           一个布尔值。只能是1或0 (<span class="inline">true</span> 或 <span class="inline">false</span>)</td>
       </tr>
       <tr>
         <td><span class="inline">buffer_string</span></td>
         <td>不适用</td>
-        <td><br>
+        <td><br />
           这是一个UTF-8空结束的（0x00）<span class="notranslate">string</span> 。基本上，一个<span class="notranslate">GameMaker</span> <span class="notranslate">string</span> 被倾倒在<span class="notranslate">buffer</span> ，并在最后放上一个0。</td>
       </tr>
     </tbody>
