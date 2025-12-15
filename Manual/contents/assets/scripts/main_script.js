@@ -2840,3 +2840,14 @@ bSelectList.addEventListener( "change", function(e) {
 });
 }
 setTimeout(createBranchMenu, 40);
+
+// Set tab title to page title in context-view
+var titleSetup = function()
+{
+	window.parent.document.title = document.title;
+}
+
+if (document.title != window.parent.document.title)
+{
+	setTimeout(titleSetup, 40);
+}
