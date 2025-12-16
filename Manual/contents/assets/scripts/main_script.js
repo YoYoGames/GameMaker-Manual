@@ -2613,6 +2613,14 @@ if (myParent == undefined) {
 	isNoContext = true;
 }
 
+
+// Delete parent if it already exists
+var existingParent = window.parent.document.getElementById("dropParent");
+if (existingParent != undefined) {
+	existingParent.remove();
+}
+
+// Create parent
 var newParent = document.createElement("div");
 newParent.id = "dropParent";
 var parentStyle = `
@@ -2840,3 +2848,15 @@ bSelectList.addEventListener( "change", function(e) {
 });
 }
 setTimeout(createBranchMenu, 40);
+
+// Set tab title to page title in context-view
+var titleSetup = function()
+{
+	window.parent.document.title = document.title;
+}
+
+if (document.title != window.parent.document.title)
+{
+	setTimeout(titleSetup, 40);
+}
+
