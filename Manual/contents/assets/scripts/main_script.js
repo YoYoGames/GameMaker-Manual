@@ -2613,6 +2613,14 @@ if (myParent == undefined) {
 	isNoContext = true;
 }
 
+
+// Delete parent if it already exists
+var existingParent = window.parent.document.getElementById("dropParent");
+if (existingParent != undefined) {
+	existingParent.remove();
+}
+
+// Create parent
 var newParent = document.createElement("div");
 newParent.id = "dropParent";
 var parentStyle = `
@@ -2851,3 +2859,4 @@ if (document.title != window.parent.document.title)
 {
 	setTimeout(titleSetup, 40);
 }
+
