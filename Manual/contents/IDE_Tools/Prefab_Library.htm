@@ -61,8 +61,17 @@
   <p>Scripts included in Prefab Collections may export <a href="../GameMaker_Language/GML_Overview/Variables/Constants.htm">Enums</a>, <a href="../GameMaker_Language/GML_Overview/Variables/Constants.htm">Macros</a> and <a href="../GameMaker_Language/GML_Overview/Script_Functions.htm">Script Functions</a> using the following syntax:</p>
   <p class="code">#export symbol1,symbol2,symbol3,...</p>
   <p>Any project that has a reference to such a Collection can use the exported symbols in code, e.g. to make use of an Enum/Macro or call a Script Function.</p>
+  <h3>Modifying Prefab Macros</h3>
+  <p>Your project can modify the value of a macro exported by a Prefab Collection, using the following syntax:</p>
+  <p class="code">#macro ::&lt;prefab&gt;::[&lt;config&gt;:]&lt;macro&gt; &lt;value&gt;</p>
+  <p>The <span class="inline2">&lt;prefab&gt;</span> part can use any kind of the Prefab referencing syntaxes listed in the previous section (e.g. just the last part of the ID, or the full ID, including or excluding a specific version number). The <span class="inline2">config</span> part is displayed here in square brackets as it&#39;s optional.</p>
+  <p>For example, say a Prefab Collection exports the macro <span class="inline2">IS_DEBUG</span> as <span class="inline2">false</span> by default, and you want to set it to <span class="inline2">true</span>:</p>
+  <p class="code">#macro ::io.gamemaker.platformer::IS_DEBUG true</p>
+  <p>You can optionally specify the version of the Prefab Collection and specify a configuration so the macro override only applies to that configuration (here, the configuration is <span class="inline2">Release</span>):</p>
+  <p class="code">#macro ::io.gamemaker.platformer<strong>-1.0.0</strong>::<strong>Release:</strong>IS_DEBUG true</p>
   <h2 id="modif">Modifying Prefab Assets</h2>
-  <p>Selecting a Prefab asset (e.g. a Sprite, Object, etc.) in the Prefab Library will display its properties in <a data-xref="{title}" href="The_Inspector.htm">The Inspector</a>. Here you can preview the properties of the asset, and for Object assets, you can also view its events and double-click on any event to display its code in the Code Editor (in read-only mode).</p>
+  <p>Selecting a Prefab asset (e.g. a Sprite, Object, etc.) in the Prefab Library will display its properties in <a data-xref="{title}" href="The_Inspector.htm">The Inspector</a>. Here you can preview the properties of the asset.</p>
+  <p>For text assets (e.g. Shaders, Scripts, Notes), you can view its documents by double-clicking on it (in read-only mode and only when using <a data-xref="{title}" href="../The_Asset_Editors/The_Text_Editor.htm">Code Editor 2 (Beta)</a>). For Objects you can double-click on any of its events to view them.</p>
   <p>Dragging an asset from the Prefab Library into the <a href="../Introduction/The_Asset_Browser.htm">Asset Browser</a> will give you the option to either customise the asset or duplicate it:</p>
   <p><img class="center" src="../assets/Images/IDE Tools/Prefabs/prefab_drag.png" />Both options can also be accessed through the right-click menu on a Prefab asset and are explained below.</p>
   <h3 id="custom">Customising Prefab Assets</h3>
@@ -115,6 +124,8 @@
     <li><strong>Make Favourite</strong>: Add the selected folder or asset to Favourites. Your Favourites can be viewed from the <img class="icon" height="16" src="../assets/Images/Icons/Icon_ExtensionMenu.png" width="16" /> <strong>Sort/Filter</strong> menu.</li>
     <li><strong>Add/Remove Collection Reference</strong>: Add or remove a reference to this Collection in the current project. When the project has a reference to the Collection, assets from the Collection can be referenced in code.</li>
     <li><strong>Customise</strong>: This adds the selected asset or all assets under the selected folder to the Asset Browser where you can customise its properties. See: <a href="#custom">Customising Prefabs</a></li>
+    <li><strong>Reinstall Prefab Collection</strong>: This reinstalls the package associated with the Prefab Collection. Use this in case you are facing any errors or unintended behaviour with the Prefab Collection.</li>
+    <li><strong>Uninstall Prefab Collection</strong>: This uninstalls the Prefab Collection and the package associated with it. This is useful in cases where the version of the Prefab Collection you have installed no longer exists in the Package Manager and you would be unable to uninstall it from there.</li>
     <li><strong>Duplicate into Project</strong>: This duplicates the selected asset (or all assets in the selected Collection/folder) into your project as a local asset, i.e. the asset becomes unlinked from its Collection and is fully editable as part of the current project. It will no longer be updated if there are changes to the source asset in the Collection.
       <ul>
         <li>When used on a Collection or a folder in a Collection, this process is recursive, i.e. it duplicates assets in all subfolders present within the selected folder and all subfolders within them, and so on.</li>
@@ -122,7 +133,6 @@
     </li>
     <li><strong>Show In Inspector</strong>: Show the selected asset in <a data-xref="{title}" href="The_Inspector.htm">The Inspector</a>.</li>
     <li><strong>Show in Package Manager</strong>: This opens the <a data-xref="{title}" href="Package_Manager.htm">Package Manager</a> with the package for this Collection selected, so you can check for new versions or make any other changes to the source package.</li>
-    <li><strong>Uninstall Prefab</strong>: This uninstalls the package associated with this Prefab Asset or Collection. This is useful in cases where the version of the Prefab Collection you have installed no longer exists in the Package Manager and you would be unable to uninstall it from there.</li>
     <li><strong>Expand/Collapse Children</strong>: This option is available in the Folder List. It expands or collapses all folders under the selected folder.</li>
     <li><b>Expand/Collapse All: </b>This option is available in the Folder List. It expands or collapses all folders in the tree view.</li>
   </ul>
