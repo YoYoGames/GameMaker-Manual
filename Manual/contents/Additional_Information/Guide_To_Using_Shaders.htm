@@ -33,7 +33,7 @@
     <li><strong>Uniform</strong>: These are variables that change per object and are passed by the user to the shader. These can be used in both the vertex and fragment shaders, but are read-only.</li>
   </ul>
   <p>You&#39;ll also see the use of <strong>vec</strong> as a keyword. This is used to identify a vector variable in the shader and you&#39;ll soon see that vectors are very important when working with shaders. That is why they are implemented as a base type in GLSL. If you are unfamiliar with them, they are a mathematical term represented as a matrix with only one column. In programming, we usually represent them as an array where the number of components corresponds to the dimension. Two and three-dimensional vectors are often used for positions, texture coordinates, or colors without an alpha channel, while four-dimensional ones are used for colors with an alpha channel. We can also specify if they hold booleans, integers, or floating point values. The syntax to declare a vector is this:</p>
-  <p class="code">vec2 firstVec;  // Two-dimensional vector of floats<br />
+  <p class="code language-glsl">vec2 firstVec;  // Two-dimensional vector of floats<br />
     vec3 secondVec; // Three-dimensional vector of floats<br />
     vec4 thirdVec;  // Four-dimensional vector of floats<br />
     <br />
@@ -41,43 +41,43 @@
     ivec4 intVec;   // Four-dimensional vector of integers
   </p>
   <p>To initialize them, we can use the constructor to create the vector. You need to provide the same number of values as the length of the vector, but you can mix and match scalars and smaller vectors to reach the target length. Here are some examples of this:</p>
-  <p class="code">// Simple 2D vector with 2 scalar values<br />
+  <p class="code language-glsl">// Simple 2D vector with 2 scalar values<br />
     vec2 firstVec  = vec2(2.0, 1.0);<br />
     // A 4D vector using 2 scalars and a vec2 create the 4 values<br />
     vec4 secondVec = vec4(1.0, firstVec, 0.0);<br />
     // A 3D vector using 1 component of a vec4 plus a vec2 to create the 3 values<br />
     vec3 thirdVec  = vec3(secondVec.x, firstVec);</p>
   <p>We can also assign them another vector of the same length (or <em>swizzle </em>the vector until it has the proper length, but we&#39;ll explain that in a moment):</p>
-  <p class="code">vec4 firstVec = vec4(0.0, 1.0, 2.0, 3.0);<br />
+  <p class="code language-glsl">vec4 firstVec = vec4(0.0, 1.0, 2.0, 3.0);<br />
     vec4 secondVec = firstVec;<br />
     vec3 thirdVec  = secondVec.xyz;<br />
     vec2 fourthVec = thirdVec.zx;</p>
   <p>When accessing vector components in GLSL, we have a few options. The most basic one is to treat the vector as an array and access the components using square brackets, like this:</p>
-  <p class="code">vec4 myVec;<br />
+  <p class="code language-glsl">vec4 myVec;<br />
     myVec[0] = 0.0;<br />
     myVec[1] = 1.0;<br />
     myVec[2] = 2.0;<br />
     myVec[3] = 3.0;</p>
   <p>However, there is another way to access the components with the following syntax:</p>
-  <p class="code">vec4 myVec;<br />
+  <p class="code language-glsl">vec4 myVec;<br />
     myVec.x = 0.0;<br />
     myVec.y = 1.0;</p>
   <p>This uses the component names inside the vector to access them. You can use x, y, z, or w, to get the first, second, third, or fourth components, respectively. We refer to this method as <strong>swizzling </strong>because the following syntax is also valid:</p>
-  <p class="code">vec4 firstVec;<br />
+  <p class="code language-glsl">vec4 firstVec;<br />
     vec3 secondVec = firstVec.xyz;<br />
     vec2 thirdVec  = secondVec.zy;<br />
     vec4 fourthVec = thirdVec.yxxy;</p>
   <p>As you can see, we can use any combination of up to four letters to create a vector of that length. We cannot attempt to access a component that would be out of bounds (for example, trying to access w in <span class="inline">secondVec</span> or <span class="inline">thirdVec</span>, since they don’t have a fourth component). Also, we can repeat letters and use them in any order, as long as the vector variable it’s being assigned to is the same size as the number of letters used.</p>
   <p>For obvious reasons, when using swizzle to set component values, you can’t use the same component twice. For example, the below is not valid as you are trying to set the same component to two different values:</p>
-  <p class="code">myVec.xx = vec2(2.0, 3.0);</p>
+  <p class="code language-glsl">myVec.xx = vec2(2.0, 3.0);</p>
   <p>Last, we have been using <span class="inline">xyzw</span> as our swizzle mask, which is usually the case when dealing with positions. There are two more sets of masks you can use: <span class="inline">rgba</span> (used for colors), or <span class="inline">stpq</span> (used for texture coordinates). Internally, there is no difference between these masks, and we only use them to make the code clearer as to what the vector represents in that instance. Also, we can’t combine swizzle masks in the same operation, so this is invalid:</p>
-  <p class="code"><span class="inline"></span>myVec = otherVec.ybp;</p>
+  <p class="code language-glsl"><span class="inline"></span>myVec = otherVec.ybp;</p>
   <p>Those were a lot of definitions and information, but knowing these things is necessary to understand shaders themselves.</p>
   <p> </p>
   <h2>Creating A Shader</h2>
   <p>When you create a shader in <span data-keyref="GameMaker Name">GameMaker</span>, it will open two files for you: a vertex shader (<span class="inline">.vsh</span>) and a fragment shader (<span class="inline">.fsh</span>). This is the most basic shader you can make, which takes a sprite, reads the texture, and colors each pixel with that color. If you specify vertex colors when drawing, those colors will blend with the texture.</p>
   <p>Let’s go through the code for a newly created shader asset and analyze it, starting with the vertex shader.</p>
-  <p class="code">// Passthrough Vertex Shader<br />
+  <p class="code language-glsl">// Passthrough Vertex Shader<br />
     attribute vec3 in_Position;                  // (x,y,z)<br />
     //attribute vec3 in_Normal;                  // (x,y,z)     unused in this shader.<br />
     attribute vec4 in_Colour;                    // (r,g,b,a)<br />
@@ -103,7 +103,7 @@
   </ul>
   <p>This shader should be left alone if you are not planning to play with vertex positions and it will not be used in any of the examples given below because all the effects shown will be created using the fragment shader.</p>
   <p>Let’s take a quick look at the fragment shader now:</p>
-  <p class="code">// Passthrough Fragment Shader<br />
+  <p class="code language-glsl">// Passthrough Fragment Shader<br />
     varying vec2 v_vTexcoord;<br />
     varying vec4 v_vColour;<br />
     <br />
@@ -124,7 +124,7 @@
   <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down" href="#">Colour Overlay Shader</a></p>
   <div class="droptext" data-targetname="drop-down">
     <p class="dropspot">We can edit the base shader now to do something different. We&#39;ll not be touching the vertex shader part, and only editing the fragment shader, and to start with we&#39;ll do a very simple operation, which is to make the shader draw the sprite using the colour red. We&#39;ll do this by simply changing the <span class="inline">gl_FragColor</span> to be red., like this:</p>
-    <p class="code">// Color Overlay Fragment Shader<br />
+    <p class="code language-glsl">// Color Overlay Fragment Shader<br />
       void main()<br />
       {<br />
           gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);<br />
@@ -134,7 +134,7 @@
     <p class="note"><span data-conref="../assets/snippets/Tag_note.hts"> </span> In the image above, the rectangle changes size because the base sprite has had the &quot;empty&quot; space around it cropped automatically when it was placed on the texture page by GameMaker, so each animation frame the triangles that make it up are different sizes to fit the cropped size of the frame. If you disable this option, then you&#39;d simply have a motionless red square on the screen.</p>
     <p class="dropspot">Above we mentioned the <span class="inline">texture2D</span> function, and we&#39;ll use that to grab the color at the pixel we are working on and get the transparency from it. The return value of is <span class="inline">texture2D</span> is a <span class="inline">vec4</span>, where the components are the red, green, blue, and alpha, in that order. We can access the alpha channel either by putting a period followed by an <span class="inline">a</span> or a <span class="inline">w</span> after the variable name. This corresponds to RGBA and XYZW, respectively.</p>
     <p class="dropspot">Here’s the updated code:</p>
-    <p class="code">// Color Overlay Fragment Shader<br />
+    <p class="code language-glsl">// Color Overlay Fragment Shader<br />
       varying vec2 v_vTexcoord;<br />
       <br />
       void main()<br />
@@ -157,7 +157,7 @@
       draw_self();<br />
       shader_reset();</p>
     <p class="dropspot">It’s the same code as before, but before we draw anything, we need to pass all the uniform values to the shader. In this case, we are passing the color as an array of floats. As for the shader, we will change it to include the uniform and use it, so it becomes:</p>
-    <p class="code">// Color Overlay Fragment Shader<br />
+    <p class="code language-glsl">// Color Overlay Fragment Shader<br />
       varying vec2 v_vTexcoord;<br />
       uniform vec4 u_colour;<br />
       void main()<br />
@@ -173,7 +173,7 @@
   <div class="droptext" data-targetname="drop-down1">
     <p class="dropspot">Making a black and white shader is a great way to learn more about how shaders work, and a lot of beginners start by trying to do this, since conceptually it&#39;s quite simple: get every pixel and assign it a shade of gray. But is it simple? Not quite...</p>
     <p class="dropspot">When using RGB colour, if all three components are the same value, then we get a gray tone. The naïve approach to creating a shader to use this idea would be to add all three color channels (red, green, and blue) and then divide it by three. After that you&#39;d assigned the value to all three channels, thus creating a gray tone. Here’s what that fragment shader looks like:</p>
-    <p class="code">// Black and white fragment shader<br />
+    <p class="code language-glsl">// Black and white fragment shader<br />
       varying vec2 v_vTexcoord;<br />
       varying vec4 v_vColour;<br />
       <br />
@@ -192,7 +192,7 @@
       shader_reset();</p>
     <p class="dropspot">Let’s compile and see what we got.</p>
     <p class="dropspot"><img alt="Black And White Shader" class="center" src="../assets/Images/Scripting_Reference/Additional_Information/Shader_BlackAndWhite.gif" />This looks great already, right? Well, yes and no... there is a solution that is more “correct”, since instead of adding the components and dividing by three, we multiply each component by the standard NTSC values for black and white. Here’s the modified fragment shader code:</p>
-    <p class="code">// Black and white fragment shader<br />
+    <p class="code language-glsl">// Black and white fragment shader<br />
       varying vec2 v_vTexcoord;<br />
       <br />
       void main()<br />
@@ -203,7 +203,7 @@
       }
     </p>
     <p class="dropspot">We use the dot product as a shorthand for multiplying each component of <span class="inline">texColor</span> with the correct weights and then add them together. If you are unfamiliar with the dot product, this is essentially what’s happening:</p>
-    <p class="code">float gray = (texColor.r * 0.299) + (texColor.g * 0.587) + (texColor.b * 0.114);</p>
+    <p class="code language-glsl">float gray = (texColor.r * 0.299) + (texColor.g * 0.587) + (texColor.b * 0.114);</p>
     <p class="dropspot">In the end, it looks very similar, but it’s technically more correct.</p>
     <p class="dropspot"><img alt="Corrected Black And White Shader" class="center" src="../assets/Images/Scripting_Reference/Additional_Information/Shader_BlackAndWhite_Improved.gif" /></p>
     <p class="dropspot"> </p>
@@ -213,7 +213,7 @@
     <p class="dropspot">Our final shader example is a fun one and can be used to add life to text and buttons and other things. We&#39;ll start simple and add functionality gradually since this shader is highly customizable. There&#39;s quite a lot to cover for this one, so if you feel a bit lost or confused, please go back and re-read some of the sections above.</p>
     <p class="dropspot">The first thing we want to do is color pixels with every hue, depending on the pixel’s horizontal position. The way to do this is to set the x position to be the hue and then convert from HSV (hue, saturation, brightness) format to RGB (red, green, and blue) format. For this, we will need to write a helper function in our fragment shader that takes HSV values and returns an RGB vector. We will use a single function which does this without the need for any <span class="inline">if</span> statements, as using conditionals in shader code makes shaders <em>very </em>slow, and should be avoided.</p>
     <p class="dropspot">Here’s what the shader looks like at this stage:</p>
-    <p class="code">// Fragment Shader<br />
+    <p class="code language-glsl">// Fragment Shader<br />
       varying vec2 v_vTexcoord;<br />
       varying vec4 v_vColour;<br />
       <br />
@@ -243,14 +243,14 @@
     <p class="code">// Create Event<br />
       _uniUV = shader_get_uniform(shdrRainbow, &quot;u_uv&quot;);</p>
     <p class="dropspot">And we modify the draw event to get the values and then pass them to the shader:</p>
-    <p class="code">// Draw Event<br />
+    <p class="code language-glsl">// Draw Event<br />
       shader_set(shdrRainbow);<br />
       var uv = sprite_get_uvs(sprite_index, image_index);<br />
       shader_set_uniform_f(_uniUV, uv[0], uv[2]);<br />
       draw_self();<br />
       shader_reset();</p>
     <p class="dropspot">The function <a href="../GameMaker_Language/GML_Reference/Asset_Management/Sprites/Sprite_Information/sprite_get_uvs.htm"><span class="inline">sprite_get_uvs()</span></a> takes a sprite and an index, and it returns an array with tons of information, such as the coordinates for each corner, how many pixels were cropped to optimize it, etc. We are interested in two of those values: the left and right coordinates of the sprite, which are stored in <span class="inline">uv[0]</span> and <span class="inline">uv[2]</span> respectively. In the fragment shader, we will use those values now to calculate the normalized horizontal position like this:</p>
-    <p class="code">// Fragment Shader<br />
+    <p class="code language-glsl">// Fragment Shader<br />
       varying vec2 v_vTexcoord;<br />
       varying vec4 v_vColour;<br />
       <br />
@@ -294,7 +294,7 @@
       draw_self();<br />
       shader_reset();</p>
     <p class="dropspot">Finally, we&#39;ll go back to our shader to actually use these variables now. What we will do is multiply the speed with the time and add it to the position, like so:</p>
-    <p class="code">// Fragment Shader<br />
+    <p class="code language-glsl">// Fragment Shader<br />
       varying vec2 v_vTexcoord;<br />
       varying vec4 v_vColour;<br />
       <br />
@@ -349,7 +349,7 @@
       draw_self();<br />
       shader_reset();</p>
     <p class="dropspot">As for the shader, we need to pass the saturation and brightness to the color, which will affect the color generated by our helper function. The section needs to be multiplied by our position to reduce the range. We will also grab the entire texture color, so we can calculate our final color by mixing the texture color with the RGB conversion of our color. The last parameter of the mix function determines how much of the second color we want to add. This is our final shader code:</p>
-    <p class="code">// Fragment Shader<br />
+    <p class="code language-glsl">// Fragment Shader<br />
       varying vec2 v_vTexcoord;<br />
       varying vec4 v_vColour;<br />
       <br />
