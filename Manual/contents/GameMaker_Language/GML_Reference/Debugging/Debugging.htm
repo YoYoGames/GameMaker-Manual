@@ -59,14 +59,35 @@
     <li><span class="inline"><a id="_GMFILE_"></a>_GMFILE_</span> - This is the name of the current code file this macro is used in. This will look like e.g. <span class="inline2">&quot;gml_GlobalScript_Script1&quot;</span> for a <span data-keyref="Type_Asset_Script"><a href="../../../The_Asset_Editors/Scripts.htm" target="_blank">Script Asset</a></span>, <span class="inline2">&quot;gml_Object_Object1_Create_0&quot;</span> for <a data-xref="{title}" href="../../../The_Asset_Editors/Object_Properties/Object_Events.htm">Object Events</a> and <span class="inline2">&quot;gml_Room_Room1_Create&quot;</span> for the <a data-xref="{bookmarkText}" href="../../../The_Asset_Editors/Room_Properties/Room_Properties.htm#Room_Creation_Code">Room_Creation_Code</a>.</li>
     <li><span class="inline"><a id="_GMFUNCTION_"></a>_GMFUNCTION_</span> - This is the name of the innermost function this macro is used in. This holds the same value as <span class="inline2">_GMFILE_</span> if it is used outside of any function definition, i.e. directly inside an object event or script.</li>
   </ul>
+  <p>For example, say you have the following code in a Script:</p>
   <p><img class="center" src="../../../assets/Images/Scripting_Reference/Additional_Information/GM_Macros_Example.png" /></p>
   <p>The debug output will be the following in case of the above screenshot:</p>
   <p class="code">gml_GlobalScript_Macros<br />
     3<br />
-    show_macros<br />
+    gml_Script_show_macros<br />
     gml_GlobalScript_Macros<br />
     10<br />
     gml_GlobalScript_Macros</p>
+  <p>The example below shows the output of the following code placed inside an Object Instance&#39;s Create event:</p>
+  <p class="code">my_method = function() {<br />
+        show_debug_message(_GMFILE_);<br />
+        show_debug_message(_GMLINE_);<br />
+        show_debug_message(_GMFUNCTION_);<br />
+    }<br />
+    <br />
+    my_method();<br />
+    <br />
+    show_debug_message(_GMFILE_);<br />
+    show_debug_message(_GMLINE_);<br />
+    show_debug_message(_GMFUNCTION_);
+  </p>
+  <p>This will output the following:</p>
+  <p class="code_plain">gml_Object_Object1_Create_0<br />
+    3<br />
+    gml_Script_anon@12@gml_Object_Object1_Create_0<br />
+    gml_Object_Object1_Create_0<br />
+    10<br />
+    gml_Object_Object1_Create_0</p>
   <h2 id="errors">Errors</h2>
   <p>Apart from those specialist functions and macros, to help you out when creating your game, <span data-keyref="GameMaker Name">GameMaker</span> also has a long list of error messages that can be shown either when writing your game code, compiling your game, or when the game itself is running. These messages point to the specific error in question and can be used to pinpoint a problem within a specific object or script function, helping greatly with the process of debugging your game. However, it may not always be obvious exactly what the error message means and so the following sections list all of the possible messages and explain what they mean to make life easier for you:</p>
   <ul class="colour">
