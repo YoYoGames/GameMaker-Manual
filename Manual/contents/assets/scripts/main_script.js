@@ -1,3 +1,7 @@
+// ----------------------------------------------------------------------------------------------
+// Code highlighter
+// ----------------------------------------------------------------------------------------------
+
 /*!
   Highlight.js v11.0.1 (git: 1cf31f015d)
   (c) 2006-2021 Ivan Sagalaev and other contributors
@@ -9,7 +13,6 @@
 	It also uses a new function escapeHTMLCustom()
 	C_LINE_COMMENT_MODE got another regex added for detecting <br>s
  */
-import gmljs from "./gml.js";
 
 var hljs = (function () {
     'use strict';
@@ -2554,10 +2557,14 @@ var hljs = (function () {
 }());
 if (typeof exports === 'object' && typeof module !== 'undefined') { module.exports = hljs; }
 
-
+// Load and register language definitions used for code highlighting
+import gmljs from "./gml.js";
+import glsljs from "./glsl.js";
 
 hljs.registerLanguage("gml", gmljs);
+hljs.registerLanguage("glsl", glsljs);
 
+// Trigger code highlighting on page load
 document.addEventListener('DOMContentLoaded', (event) => {
   // Turn return code blocks into plain blocks
    var h4s = document.getElementsByTagName("h4");
