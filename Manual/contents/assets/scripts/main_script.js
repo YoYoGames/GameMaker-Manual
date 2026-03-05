@@ -2597,6 +2597,9 @@ var desktopToc = window.parent.document.getElementsByClassName("functionbar side
 var nonContext = window.parent.document.getElementById("rh-topic-header");
 if (desktopToc == undefined && nonContext == undefined) return;
 
+// Checks
+var is_online = window.location.hostname.endsWith(".gamemaker.io");
+
 // Create default style (full context view) and get parent elm
 var listStyle = `
   background-color: #333;
@@ -2660,6 +2663,8 @@ var array = [
   { name: "日本語", code: "ja" }
 ];
 
+if (!is_online) array.unshift({ name: "Change Language", code: "" });
+
 // Delete if it already exists
 var existingSelectList = window.parent.document.getElementById("mySelect");
 if (existingSelectList != undefined) {
@@ -2681,7 +2686,7 @@ for (var i = 0; i < array.length; i++) {
 } // end for
 
 // are we on the main site???? if so then lets find the index of the current language
-if (window.location.hostname.endsWith( ".gamemaker.io")) {
+if (is_online) {
   // lets get the language from the pathname
   const folders = window.location.pathname.split("/");
   if (folders.length >= 3) {
@@ -2701,6 +2706,9 @@ if (window.location.hostname.endsWith( ".gamemaker.io")) {
 	} // end for
   } // end if
 } // end if
+else {
+  selectList.selectedIndex = 0;
+}
 
 selectList.addEventListener( "change", function(e) { 
   //var tg = selectList.target.value;
@@ -2709,6 +2717,8 @@ selectList.addEventListener( "change", function(e) {
   var entry = array[index];
   var url = window.location.href;
   //var urlParams = url.searchParams;
+  
+  if (entry.code=="") return;
 
   // some logging for debugging
   //console.log("Hello entry " + JSON.stringify(array[index]));   
@@ -2766,12 +2776,17 @@ if (myParent == undefined) return;
 	`;
 }*/
 
+
+// Checks
+var is_online = window.location.hostname.endsWith(".gamemaker.io");
+
 //Create array of options to be added
 var bArray = [
   { name: "Monthly", code: "monthly" },
   { name: "Beta", code: "beta" },
   { name: "LTS", code: "lts" }
 ];
+if (!is_online) bArray.unshift({ name: "Change Version", code: "" });
 
 // Delete if it already exists
 var existingSelectList = window.parent.document.getElementById("myBranchSelect");
@@ -2814,6 +2829,9 @@ if (window.location.hostname.endsWith( ".gamemaker.io")) {
 	} // end for
   } // end if
 } // end if
+else {
+  bSelectList.selectedIndex = 0;
+}
 
 bSelectList.addEventListener( "change", function(e) { 
   //var tg = selectList.target.value;
@@ -2822,6 +2840,8 @@ bSelectList.addEventListener( "change", function(e) {
   var entry = bArray[index];
   var url = window.location.href;
   //var urlParams = url.searchParams;
+  
+  if (entry.code=="") return;
 
   // some logging for debugging
   //console.log("Hello entry " + JSON.stringify(array[index]));   
