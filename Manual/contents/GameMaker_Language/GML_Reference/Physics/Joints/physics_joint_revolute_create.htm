@@ -18,9 +18,9 @@
   <h1><span data-field="title" data-format="default">physics_joint_revolute_create</span></h1>
   <p>This function creates a revolute joint between two physics instances.</p>
   <p>A revolute joint forces two bodies to share a common anchor point (often called a hinge point) and the joint has a single degree of freedom - the relative rotation of the two bodies around this point. To specify a revolute you need to provide two instances and a single anchor point in the room, as you can see in the image provided:</p>
-  <p><img alt="Revolute joint anchor points illustration" class="center" src="../../../../assets/Images/Scripting_Reference/GML/Reference/Physics/revolute_joint_image_1.png" />If you look at the image, you can see that the two instances have been created to overlap and at the point where they are touching, we have defined a revolute joint. Now, this joint can be limited in its freedom of rotation thanks to the &quot;ang_min_limit&quot; and &quot;ang_max_limit&quot; values. How does this work? Well, let&#39;s look at another image:</p>
-  <p><img alt="Revolute joint angle limits illustration" class="center" src="../../../../assets/Images/Scripting_Reference/GML/Reference/Physics/revolute_joint_image_2.png" />As you can see, angles in the physics world are <i>not</i> the same as the standard <span data-keyref="GameMaker Name">GameMaker</span> angles where right is 0 degrees and then it goes anti-clockwise so that up is 90, left is 180, and down is 270. No, when dealing with the revolute joint, the 0 degrees axis runs from the joint position to the origin of the second instance defined by the function and the angles are then calculated in a clockwise direction. If you switch on angle limiting, the limits are defined as being relative to this 0 degree axis and the limit range <i>should include zero</i>, otherwise the joint will lurch when the room begins. Finally, you can define the joint as having a motor or not. This means that when uninfluenced by a collision the joint will move in a direction, which is defined by the motor speed with a positive number being clockwise and a negative number being anti-clockwise. The &quot;max_motor_torque&quot; argument is for limiting the speed of the rotation so that you don&#39;t get a perpetually accelerating motor and to limit the influence that a collision may have on the rotation. In this way you can use a joint motor to simulate joint friction by setting joint speed to zero and maximum torque to some small, but significant value. The motor will try to prevent the joint from rotating, but will yield to a significant load.</p>
-  <p>As with all the joints, if you set the &quot;col&quot; value to <span class="inline">true</span> then the two instances can interact and collide with each other but <i>only</i> if they have collision events, however if it is set to <span class="inline">false</span>, they will not collide no matter what.</p>
+  <p><img alt="Revolute joint anchor points illustration" class="center" src="../../../../assets/Images/Scripting_Reference/GML/Reference/Physics/revolute_joint_image_1.png" />If you look at the image, you can see that the two instances have been created to overlap and at the point where they are touching, we have defined a revolute joint. Now, this joint can be limited in its freedom of rotation thanks to the <span class="inline2">ang_min_limit</span> and <span class="inline2">ang_max_limit</span> values. How does this work? Well, let&#39;s look at another image:</p>
+  <p><img alt="Revolute joint angle limits illustration" class="center" src="../../../../assets/Images/Scripting_Reference/GML/Reference/Physics/revolute_joint_image_2.png" />As you can see, angles in the physics world are <i>not</i> the same as the standard <span data-keyref="GameMaker Name">GameMaker</span> angles where right is 0 degrees and then it goes anti-clockwise so that up is 90, left is 180, and down is 270. No, when dealing with the revolute joint, the 0 degrees axis runs from the joint position to the origin of the second instance defined by the function and the angles are then calculated in a clockwise direction. If you switch on angle limiting, the limits are defined as being relative to this 0 degree axis and the limit range <i>should include zero</i>, otherwise the joint will lurch when the room begins. Finally, you can define the joint as having a motor or not. This means that when uninfluenced by a collision the joint will move in a direction, which is defined by the motor speed with a positive number being clockwise and a negative number being anti-clockwise. The <span class="inline2">max_motor_torque</span> argument is for limiting the speed of the rotation so that you don&#39;t get a perpetually accelerating motor and to limit the influence that a collision may have on the rotation. In this way you can use a joint motor to simulate joint friction by setting joint speed to zero and maximum torque to some small, but significant value. The motor will try to prevent the joint from rotating, but will yield to a significant load.</p>
+  <p>As with all the joints, if you set the <span class="inline2">col</span> value to <span class="inline2">true</span> then the two instances can interact and collide with each other but <i>only</i> if they have collision events. If it is set to <span class="inline2">false</span>, however, they will not collide no matter what.</p>
   <p> </p>
   <h4>Syntax:</h4>
   <p class="code"><span data-field="title" data-format="default">physics_joint_revolute_create</span>(inst1, inst2, w_anchor_x, w_anchor_y, ang_min_limt, ang_max_limit, ang_limit, max_motor_torque, motor_speed, motor, col)</p>
@@ -54,17 +54,17 @@
       <tr>
         <td>ang_min_limit</td>
         <td><span data-keyref="Type_Real"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
-        <td>The lower permitted limit for the joint angle</td>
+        <td>The lower permitted limit for the joint angle, in degrees</td>
       </tr>
       <tr>
         <td>ang_max_limit</td>
         <td><span data-keyref="Type_Real"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
-        <td>The upper permitted limit for the joint angle</td>
+        <td>The upper permitted limit for the joint angle, in degrees</td>
       </tr>
       <tr>
         <td>ang_limit</td>
         <td><span data-keyref="Type_Bool"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Boolean</a></span></td>
-        <td>Whether the to limit the angle of the joint (true) or not (false)</td>
+        <td>Whether the to limit the angle of the joint (<span class="inline2">true</span>) or not (<span class="inline2">false</span>)</td>
       </tr>
       <tr>
         <td>max_motor_torque</td>
@@ -79,12 +79,12 @@
       <tr>
         <td>motor</td>
         <td><span data-keyref="Type_Bool"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Boolean</a></span></td>
-        <td>Whether the motor should be active (true) or not (false)</td>
+        <td>Whether the motor should be active (<span class="inline2">true</span>) or not (<span class="inline2">false</span>)</td>
       </tr>
       <tr>
         <td>col</td>
         <td><span data-keyref="Type_Bool"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Boolean</a></span></td>
-        <td>Whether the two instances can collide (true) or not (false)</td>
+        <td>Whether the two instances can collide (<span class="inline2">true</span>) or not (<span class="inline2">false</span>)</td>
       </tr>
     </tbody>
   </table>
@@ -104,15 +104,14 @@
   <p>The above code creates and defines a new fixture and then creates an instance of &quot;obj_Door&quot;, binding the created fixture to the two new objects. They are then joined by a revolute joint with no motor and the angles limited to a +/- 90 degree swing. Finally the fixture is deleted as it is no longer needed.</p>
   <p> </p>
   <p> </p>
-  <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a href="Joints.htm">Joints</a></div>
-        <div style="float:right">Next: <a href="physics_joint_prismatic_create.htm">physics_joint_prismatic_create</a></div>
+        <div style="float:left">Back: <a data-xref="{title}" href="Joints.htm">Joints</a></div>
+        <div style="float:right">Next: <a data-xref="{title}" href="physics_joint_prismatic_create.htm">physics_joint_prismatic_create</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2025 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2026 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 physics_joint_revolute_create
