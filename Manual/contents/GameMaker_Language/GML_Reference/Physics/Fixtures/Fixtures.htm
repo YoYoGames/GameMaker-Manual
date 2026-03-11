@@ -33,7 +33,7 @@
     physics_fixture_set_collision_group(fix, 1);<br />
     physics_fixture_set_density(fix, 1);<br />
     <br />
-    physics_fixture_bind(fix, id);
+    fix_bound = physics_fixture_bind(fix, id);
   </p>
   <p>The code above sets the collision group to 1 so the fixture collides with other fixtures (as this is the default collision group for fixtures created via the IDE) and sets a density so it is affected by gravity. It then binds the fixture to the current instance. You can test this by calling <span class="inline3_func"><a data-xref="{title}" href="../The_Physics_World/physics_draw_debug.htm">physics_draw_debug</a></span> in a Draw event to draw the fixtures associated with the instance to the screen for debugging purposes.</p>
   <div data-conref="../../../../assets/snippets/Note_physics_fixture_define.hts"> </div>
@@ -52,7 +52,7 @@
   <p>Two physics instances are &quot;in contact&quot; when their bounding boxes overlap (i.e. the rectangular regions surrounding their actual shapes). In this case, calling one of the <span class="inline3_func">physics_set_*</span> functions on a bound fixture <em>will change</em> the value of the property, but in order to force the physics engine to also <em>take this new value into account</em>, you&#39;ll need to deactivate and reactivate the physics instance using <span class="inline2"><a data-xref="{title}" href="../Physics_Variables/phy_active.htm">phy_active</a></span>: </p>
   <p class="code">var _new_friction = 100;<br />
     phy_active = false;<br />
-    physics_set_friction(fixture_id, _new_friction);<br />
+    physics_set_friction(bound_fixture_id, _new_friction);<br />
     phy_active = true;</p>
   <h2 id="func_ref">Function Reference</h2>
   <h3 id="func_ref_general">General</h3>
@@ -87,7 +87,7 @@
     <li><a data-xref="{title}" href="physics_fixture_set_collision_group.htm">physics_fixture_set_collision_group</a></li>
   </ul>
   <h3 id="func_ref_modify">Modifying Bound Fixtures</h3>
-  <p>You can also set certain properties of the fixture <i>after</i> it has been bound to an instance. When binding the &quot;base&quot; fixture, you can choose to store the unique index for the bound physical properties in a variable. This can then be used in the following functions to change certain properties, or to get the current values for them: </p>
+  <p>You can also set certain properties of the fixture <i>after</i> it has been <a href="physics_fixture_bind.htm">bound</a> to an instance. When binding the &quot;base&quot; fixture, you can choose to store the unique index for the bound physical properties in a variable. This can then be used in the following functions to change certain properties, or to get the current values for them: </p>
   <ul class="colour">
     <li><a href="physics_get_friction.htm">physics_get_friction</a></li>
     <li><a href="physics_get_density.htm">physics_get_density</a></li>
