@@ -16,9 +16,9 @@
   <!--<div class="body-scroll" style="top: 150px;">-->
   <h1><span data-field="title" data-format="default">physics_fixture_bind</span></h1>
   <p>This function binds the given fixture to the given target object or instance and returns the ID of the bound fixture.</p>
-  <p>Once we have defined our fixture it has to be bound to an instance. This means that its <i>properties</i> are transferred to the selected instance, <b>not the actual fixture itself</b>, so that one fixture can be bound to multiple instances if all are to have the same properties. You can specify an object index for the target and all instances of that object present in the room at the time will receive that fixture&#39;s properties (but not any new instances of the object created later), or you can use the special keywords <span class="inline2"><a data-xref="{title}" href="../../../GML_Overview/Instance Keywords/other.htm">other</a></span> and <span class="inline2"><a data-xref="{title}" href="../../../GML_Overview/Instance Keywords/all.htm">all</a></span>. You can even specify a parent object and all children instances with that parent will also receive the fixture. Once the fixture has been bound to all the instances that you need, it can be deleted if no longer necessary and the instances with that fixture&#39;s properties will not be affected and maintain those properties.</p>
+  <p>Once we have defined our fixture it has to be bound to an instance. This means that its <i>properties</i> are transferred to the selected instance, <b>not the actual fixture itself</b>, so that one fixture can be bound to multiple instances if all are to have the same properties. You can specify an object index for the target and all instances of that object present in the room at the time will receive that fixture&#39;s properties (but not any new instances of the object created later), or you can use the special keywords <span class="inline2"><a data-xref="{title}" href="../../../GML_Overview/Instance Keywords/other.htm">other</a></span> and <span class="inline2"><a data-xref="{title}" href="../../../GML_Overview/Instance Keywords/all.htm">all</a></span>. You can even specify a parent object and all instances that are instances of children of that parent object will also receive the fixture. Once the fixture has been bound to all the instances that you need, it can be deleted if no longer necessary and the instances with that fixture&#39;s properties will not be affected and maintain those properties.</p>
   <p>The fixture will be bound to the instance with the centre of mass being positioned at the origin of the instance, and polygon fixtures are bound based on the position of the points <i>relative</i> to the origin. If you require your fixture to be bound to a point other than the origin then you should be using <span class="inline3_func"><a data-xref="{title}" href="physics_fixture_bind_ext.htm">physics_fixture_bind_ext</a></span>.</p>
-  <p><img alt="Physics fixture binding example" class="center" src="../../../../assets/Images/Scripting_Reference/GML/Reference/Physics/physics_fixture_bind_image.png" />The function will also return a unique &quot;id&quot; value for the <i>bound</i> fixture (<b>not the fixture itself</b>) which can then be used to remove (&quot;un-bind&quot;) the physics properties from the instance using the function <span class="inline3_func"><a data-xref="{title}" href="physics_remove_fixture.htm">physics_remove_fixture</a></span>. This permits you to add and remove physical properties from an instance without destroying and re-creating objects.</p>
+  <p><img alt="Physics fixture binding example" class="center" src="../../../../assets/Images/Scripting_Reference/GML/Reference/Physics/physics_fixture_bind_image.png" />The function will also return a unique &quot;id&quot; value for the <i>bound</i> fixture (<b>not the fixture itself</b>) which can then be used to remove (&quot;un-bind&quot;) the physics properties from the instance using the function <span class="inline3_func"><a data-xref="{title}" href="physics_remove_fixture.htm">physics_remove_fixture</a></span>. This permits you to add and remove physical properties from an instance without destroying and re-creating instances.</p>
   <p class="note"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> Fixtures should be deleted when no longer needed as failure to do so may cause a memory leak which will slow down and eventually crash your game.</p>
   <p> </p>
   <h4>Syntax:</h4>
@@ -44,17 +44,20 @@
   </table>
   <p> </p>
   <h4>Returns:</h4>
-  <p class="code"><span data-keyref="Type_Real"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></p>
+  <p class="code"><span data-keyref="Type_ID_PhyFixtureBound"><a href="physics_fixture_bind.htm" target="_blank">Physics Bound Fixture ID</a></span></p>
   <p> </p>
   <h4>Example:</h4>
-  <p class="code">var _fix, _inst;<br />
-    _fix = physics_fixture_create();<br />
+  <p class="code_heading">Create Event</p>
+  <p class="code">var _fix = physics_fixture_create();<br />
     physics_fixture_set_circle_shape(_fix, 16);<br />
     physics_fixture_set_density(_fix, 1.0);<br />
-    inst = instance_create_layer(x, y, &quot;Instances&quot;, genericBodyObject);<br />
-    my_fix = physics_fixture_bind(_fix, inst);<br />
+    my_bound_fix = physics_fixture_bind(_fix, id);<br />
     physics_fixture_delete(_fix);</p>
-  <p>The code above will create a fixture and assign its index to the temporary variable <span class="inline2">_fix</span>. It then defines the shape and density of the fixture before binding it to the instance that was created with the index for the <b>bound</b> fixture stored in the variable <span class="inline2">my_fix</span>. Finally, the fixture is deleted to prevent memory leaks as it is no longer needed.</p>
+  <p class="code_heading">Clean Up Event</p>
+  <p class="code">physics_remove_fixture(id, my_bound_fix);</p>
+  <p>The code above shows how to bind a physics fixture to the instance executing the code and remove it afterwards.</p>
+  <p>In the Create event, a fixture is created and its index is assigned to a temporary variable <span class="inline2">_fix</span>. The shape and density of the fixture are then defined and the fixture is bound to the calling instance with the index for the <b>bound</b> fixture stored in the instance variable <span class="inline2">my_bound_fix</span>. Finally, the fixture is deleted to prevent memory leaks as it is no longer needed.</p>
+  <p>In the Clean Up event, the bound fixture is removed.</p>
   <p> </p>
   <p> </p>
   <div class="footer">
@@ -64,7 +67,7 @@
         <div style="float:right">Next: <a data-xref="{title}" href="physics_fixture_bind_ext.htm">physics_fixture_bind_ext</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2025 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2026 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 physics_fixture_bind
