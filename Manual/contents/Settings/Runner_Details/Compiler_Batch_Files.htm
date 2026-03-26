@@ -15,14 +15,41 @@
 </head>
 <body>
   <h1><span data-field="title" data-format="default">Compiler Batch Files / Scripts</span></h1>
-  <p>The <span data-keyref="GameMaker Name">GameMaker</span> compiler allows you to place Batch files (Windows) or Shell scripts (on macOS and Linux) in your project directory, and in the directory for each extension in your project.</p>
+  <p>The <span data-keyref="GameMaker Name">GameMaker</span> compiler allows you to place Batch files (Windows) or Shell scripts (on macOS and Linux) in your project directory, and in the directory for each extension in your project. These are run when you build your game or clean cache.</p>
   <h2>Placement</h2>
   <p>A script file may be placed at the root of your project directory, alongside the project&#39;s <span class="inline2">.yyp</span> file.</p>
   <p>A script file may also be placed in the directory of an extension, which may look like this: <span class="inline2">&lt;project_directory&gt;/extensions/&lt;extension_folder&gt;/</span>.</p>
-  <p>The extension versions of a script file will be executed first, and its root version will be executed last. The order in which extensions are executed can&#39;t be controlled, so an extension developer must ensure that one extension&#39;s scripts don&#39;t rely on another extension&#39;s scripts.</p>
+  <p>The extension versions of a script file will be executed first, and its root version will be executed last. The order in which extensions are executed cannot be controlled, so an extension developer must ensure that one extension&#39;s scripts do not rely on another extension&#39;s scripts.</p>
   <h2>Execution</h2>
-  <p>Script files with specific names, placed in any of the directories described above, are executed at various points during the compilation process:</p>
-  <p class="note"><span data-conref="../../assets/snippets/Tag_note.hts"> </span> The steps in these tables are listed in the order that they are run, except for those under &quot;<strong>Platform-Specific Steps</strong>&quot;.</p>
+  <p>Script files with specific names, placed in any of the directories described above, are executed at various points during the asset compiler process.</p>
+  <p>The scripts listed in the table below are run first for all the processes that make use of compiler scripts (whether it&#39;s building, running or cleaning cache):</p>
+  <table border="1" cellpadding="1" cellspacing="1">
+    <tbody>
+      <tr>
+        <th>Windows Batch File Name</th>
+        <th>macOS/Linux Shell Script Name</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td><strong>pre_project_step.bat</strong></td>
+        <td><strong>pre_project_step.sh</strong></td>
+        <td>This is executed before the asset compiler starts loading the project files<br />
+          <br />
+          <span data-conref="../../assets/snippets/Tag_note.hts"> </span> If placed in an extension, that extension&#39;s &quot;Copies To&quot; setting will be ignored for <span class="inline2">pre_project_step</span> and it will run even if the extension does not export to the target/configuration being compiled. This happens because the project has not been loaded yet and the extension&#39;s settings cannot be determined.
+        </td>
+      </tr>
+      <tr>
+        <td><strong>post_project_step.bat</strong></td>
+        <td><strong>post_project_step.sh</strong></td>
+        <td>This is executed after the asset compiler has finished loading the project files<br />
+          <br />
+          <span data-conref="../../assets/snippets/Tag_note.hts"> </span> The note for <span class="inline2">pre_project_step</span> above applies to this as well: extension export settings will be ignored for consistency with the previous step.
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <p>The scripts listed below are run when running or building your project:</p>
+  <p class="note"><span data-conref="../../assets/snippets/Tag_note.hts"> </span> The steps in these tables are listed in the order that they are run, and work on every platform, except for those under &quot;<strong>Platform-Specific Steps</strong>&quot;.</p>
   <table border="1" cellpadding="1" cellspacing="1">
     <colgroup>
       <col style="width:33.33%" />
@@ -36,19 +63,9 @@
         <th>Description</th>
       </tr>
       <tr>
-        <td><strong>pre_project_step.bat</strong></td>
-        <td><strong>pre_project_step.sh</strong></td>
-        <td>This is executed before the asset compiler has loaded the project files</td>
-      </tr>
-      <tr>
-        <td><strong>post_project_step.bat</strong></td>
-        <td><strong>post_project_step.sh</strong></td>
-        <td>This is executed after the asset compiler has loaded the project files</td>
-      </tr>
-      <tr>
         <td><strong>pre_run_step.bat</strong></td>
         <td><strong>pre_run_step.sh</strong></td>
-        <td><em>Only runs when testing the game (&quot;Run&quot; or F5 in the IDE), not run when creating a package</em><br />
+        <td><em>Only runs when testing the game (&quot;Run&quot; command or F5 in the IDE), not run when building a package</em><br />
           <br />
           This is executed before the game deployment is about to start
         </td>
@@ -84,7 +101,7 @@
       <tr>
         <td><strong>post_package_step.bat</strong></td>
         <td><strong>post_package_step.sh</strong></td>
-        <td><em>Only runs when creating a package/executable</em><br />
+        <td><em>Only runs when building a package/executable</em><br />
           <br />
           This is executed after the final packaging step has completed and the final ZIP file or store package has been prepared. It will run locally on the machine where the package command was executed even when compiling for a different device (e.g. Windows to macOS).
         </td>
@@ -92,7 +109,7 @@
       <tr>
         <td><strong>post_run_step.bat</strong></td>
         <td><strong>post_run_step.sh</strong></td>
-        <td><em>Only runs when testing the game (&quot;Run&quot; or F5 in the IDE), not run when creating a package</em><br />
+        <td><em></em><em>Only runs when testing the game (&quot;Run&quot; command or F5 in the IDE), not run when building a package</em><br />
           <br />
           This is executed when the game is prepared and ready to run. After the script&#39;s execution, the game is started (unless you exit the script with <span class="inline2">1</span>). It will run locally on the machine where the run command was executed even when compiling for a different device (e.g. Windows to macOS).
         </td>
@@ -107,8 +124,7 @@
       </tr>
     </tbody>
   </table>
-  <p>These script files are supported when building on all target platforms.</p>
-  <p>Aside from the script files in the table above, you can also execute scripts during a clean of the cache: </p>
+  <p>The scripts listed below are run when cleaning the cache:</p>
   <table>
     <colgroup>
       <col style="width:33.33%" />
@@ -120,16 +136,6 @@
         <th>Windows Batch File Name</th>
         <th>macOS/Linux Shell Script Name</th>
         <th>Description</th>
-      </tr>
-      <tr>
-        <td><strong>pre_project_step.bat</strong></td>
-        <td><strong>pre_project_step.sh</strong></td>
-        <td>This is executed before the asset compiler has loaded the project files</td>
-      </tr>
-      <tr>
-        <td><strong>post_project_step.bat</strong></td>
-        <td><strong>post_project_step.sh</strong></td>
-        <td>This is executed after the asset compiler has loaded the project files</td>
       </tr>
       <tr>
         <td><strong>pre_clean_step.bat</strong></td>
@@ -153,7 +159,7 @@
   <p>The <span data-keyref="GameMaker Name">GameMaker</span> compiler also sets other variables. To get the full list you can use the <span class="inline2">set</span> command in a script on Windows and the <span class="inline2">env</span> command on Mac and Linux.</p>
   <h2>Disabling Scripts for an Extension</h2>
   <p>If you use multiple extensions that run scripts, for example, Steamworks and GDK, then you&#39;ll want to disable Steamworks when exporting to GDK, and vice versa.</p>
-  <p>For that, see: <a data-xref="{title}" href="../../The_Asset_Editors/Extension_Creation/Disabling_Extensions.htm">How to Disable Extensions?</a></p>
+  <p>For that, see: <a data-xref="{title}" href="../../The_Asset_Editors/Extension_Creation/Disabling_Extensions.htm">How to Disable An Extension For A Target?</a></p>
   <p> </p>
   <p> </p>
   <p> </p>
@@ -164,7 +170,7 @@
         <div>Next: <a data-xref="{title}" href="../Command_Line_Parameters.htm">Command Line Parameters</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2025 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2026 All Rights Reserved</span></h5>
   </div>
 </body>
 </html>

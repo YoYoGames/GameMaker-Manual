@@ -1281,6 +1281,33 @@
         show_debug_message(&quot;Here it is!&quot;);<br />
     }
   </p>
+  <h3>GM2018 - Potentially dangerous variable declaration.</h3>
+  <p>This warning message indicates that a declaration of a local variable inside a loop may cause unexpected results. Contrary to many other programming languages, GML does not scope local variables to the block level (indicated by the opening and closing curly braces <span class="inline2">{ }</span>) and also doesn&#39;t initialise them to a default value when they are only declared. This can lead to confusion as you might assume that the variable is re-declared and reset to a default value at each new iteration of the loop, though this is not what happens. At the end of the current loop iteration a local variable declared inside of it does <em>not</em> go out of scope, keeps existing and in subsequent iterations the variable will still hold the value it was last assigned.</p>
+  <h4>Example</h4>
+  <p class="code">for (var i = 0; i &lt; array_length(array); ++i)<br />
+    {<br />
+        var _elem; // GM2018<br />
+        if (i == 0)<br />
+            _elem = array[i];<br />
+        else if (i &lt; 5)<br />
+            _elem = array[i] * 2;<br />
+        <br />
+        add_loot_value(_elem);<br />
+    }</p>
+  <p>In the above code example, a local variable <span class="inline2">_elem</span> is declared inside a <span class="inline2"><a data-xref="{title}" href="../../GameMaker_Language/GML_Overview/Language_Features/for.htm">for</a></span> loop without being assigned an initial value. In the if / else statement that follows, a value is assigned to <span class="inline2">_elem</span> if the index of the loop is any value from 0 to 4 (inclusive). In the iteration where <span class="inline2">i == 5</span>, <span class="inline2">_elem</span> will not be explicitly assigned a value and still hold the last assigned value.</p>
+  <p>The issue can be fixed by moving the variable declaration outside of the loop&#39;s body so it can no longer appear as if the variable is reset at the start of each loop iteration. Additionally, the logic to assign a value to the variable needs to be extended to make sure a new value is always assigned at every new iteration of the loop, no matter the loop index.</p>
+  <p class="code">var _elem;<br />
+    for (var i = 0; i &lt; array_length(array); ++i)<br />
+    {<br />
+        if (i == 0)<br />
+            _elem = array[i];<br />
+        else if (i &lt; 5)<br />
+            _elem = array[i] * 2;<br />
+        else<br />
+            _elem = 0;  // Loop indices &gt;= 5<br />
+        <br />
+        add_loot_value(_elem);<br />
+    }</p>
   <h3>GM2019 - Not all code paths call draw_set_valign(fa_top) before the end of the script.</h3>
   <p>This warning message indicates that you changed the vertical text alignment to a value different from the default (<span class="inline2">fa_top</span>) but haven&#39;t changed it back afterwards.</p>
   <h4>Example</h4>
