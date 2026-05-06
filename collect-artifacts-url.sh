@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-REPOS=(PT-BR DE ES FR IT JA KO PL RU ZH)
+REPOS=(EN PT-BR DE ES FR IT JA KO PL RU ZH)
 WORKFLOW="${WORKFLOW:-main.yml}"
 GH_TOKEN="${GH_TOKEN:?GH_TOKEN is required}"
 SLACK_WEBHOOK_URL="${SLACK_WEBHOOK_URL:?SLACK_WEBHOOK_URL is required}"
