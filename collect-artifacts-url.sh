@@ -1,7 +1,7 @@
 set -euo pipefail
 
 REPOS=(PT-BR DE ES FR IT JA KO PL RU ZH)
-WORKFLOW="${{ github.event.inputs.BUILD_TYPE }}.yml"
+WORKFLOW=$WORKFLOW
 GH_TOKE=$1
 
 RESULTS=""
