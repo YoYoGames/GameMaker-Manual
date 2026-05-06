@@ -15,9 +15,9 @@ on:
         required: true
         type: choice
         options:
+          - build
           - main
           - lts
-          - build
       COUNTRY:
         description: "Select individual Country to build"
         required: false
@@ -73,11 +73,12 @@ jobs:
      env:
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         WORKFLOW: ${{ github.event.inputs.BUILD_TYPE }}.yml
+        GH_TOKEN: ${{ secrets.GH_TOKEN }}
      steps:
       - name: Checkout the repository
         uses: actions/checkout@v6
       - name: Send Slack Notification Triggered while Nightly Build
         run: |
-          ./collect-artifacts-url.sh ${{ secrets.GH_TOKEN }}
+          ./collect-artifacts-url.sh 
 
                                                                        
