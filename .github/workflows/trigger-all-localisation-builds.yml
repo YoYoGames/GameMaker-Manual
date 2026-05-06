@@ -36,40 +36,40 @@ on:
 
 jobs:
 
-  Trigger-Localisation-Builds-All-Repo:
-     name: "Trigger-Localisation-Builds-All-Repo"
-     runs-on: ubuntu-24.04
-     if: ${{ github.event.inputs.Language == 'ALL' }}
-     strategy:
-      matrix:
-        language: [PT-BR, DE, ES, FR, IT, JA, KO, PL, RU, ZH]
-     steps:
-      - name: Invoke Localisation Workflows for All repos
-        uses: benc-uk/workflow-dispatch@v1.3.1
-        with:
-          workflow: ${{ github.event.inputs.BUILD_TYPE }}.yml
-          repo: YoYoGames/GameMaker-Manual-${{ matrix.language }}
-          token: ${{ secrets.GH_TOKEN }} 
-        continue-on-error: false     
+  # Trigger-Localisation-Builds-All-Repo:
+  #    name: "Trigger-Localisation-Builds-All-Repo"
+  #    runs-on: ubuntu-24.04
+  #    if: ${{ github.event.inputs.Language == 'ALL' }}
+  #    strategy:
+  #     matrix:
+  #       language: [PT-BR, DE, ES, FR, IT, JA, KO, PL, RU, ZH]
+  #    steps:
+  #     - name: Invoke Localisation Workflows for All repos
+  #       uses: benc-uk/workflow-dispatch@v1.3.1
+  #       with:
+  #         workflow: ${{ github.event.inputs.BUILD_TYPE }}.yml
+  #         repo: YoYoGames/GameMaker-Manual-${{ matrix.language }}
+  #         token: ${{ secrets.GH_TOKEN }} 
+  #       continue-on-error: false     
 
-  Trigger-Localisation-Builds-Single-Repo:
-    name: "Trigger-Localisation-Builds-Single-Repo"
-    runs-on: ubuntu-24.04  
-    if: ${{ github.event.inputs.Language == 'SINGLE' }}      
-    steps:
-      - name: Invoke Localisation Workflow for Single repo
-        uses: benc-uk/workflow-dispatch@v1.3.1
-        with:
-          workflow: ${{ github.event.inputs.BUILD_TYPE }}.yml
-          repo: YoYoGames/GameMaker-Manual-${{ github.event.inputs.COUNTRY }}
-          token: ${{ secrets.GH_TOKEN }} 
-        continue-on-error: false
+  # Trigger-Localisation-Builds-Single-Repo:
+  #   name: "Trigger-Localisation-Builds-Single-Repo"
+  #   runs-on: ubuntu-24.04  
+  #   if: ${{ github.event.inputs.Language == 'SINGLE' }}      
+  #   steps:
+  #     - name: Invoke Localisation Workflow for Single repo
+  #       uses: benc-uk/workflow-dispatch@v1.3.1
+  #       with:
+  #         workflow: ${{ github.event.inputs.BUILD_TYPE }}.yml
+  #         repo: YoYoGames/GameMaker-Manual-${{ github.event.inputs.COUNTRY }}
+  #         token: ${{ secrets.GH_TOKEN }} 
+  #       continue-on-error: false
 
-   Slack-Notification:
+  Slack-Notification:
      name: "Slack Notification"
-     if: github.event_name == 'workflow_dispatch'
+     if: ${{ github.event.inputs.Language == 'ALL' }} 
+     needs: [ Trigger-Localisation-Builds-All-Repo ]
      runs-on: ubuntu-24.04
-     needs: Trigger-Localisation-Builds-Single-Repo || Trigger-Localisation-Builds-All_Repo
      env:
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
      steps:
