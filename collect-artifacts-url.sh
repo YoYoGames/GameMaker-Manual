@@ -34,16 +34,17 @@ for LANG in "${REPOS[@]}"; do
   ARTIFACT_URL="https://github.com/$REPO/actions/runs/$RUN_ID#artifacts"
 
   if [[ "$CONCLUSION" == "success" ]]; then
-    RESULTS+="✅ $LANG → <$ARTIFACT_URL|Artifacts>\n"
+    RESULTS+="✅ $LANG → <$ARTIFACT_URL|Artifacts>"
   elif [[ "$CONCLUSION" == "failure" ]]; then
-    RESULTS+="❌ $LANG → <$ARTIFACT_URL|Artifacts>\n"
+    RESULTS+="❌ $LANG → <$ARTIFACT_URL|Artifacts>"
   else
-    RESULTS+="⚠️ $LANG → <$ARTIFACT_URL|Artifacts> (status: $STATUS)\n"
+    RESULTS+="⚠️ $LANG → <$ARTIFACT_URL|Artifacts> (status: $STATUS)"
   fi
 
 done
 
 MSG="📦 *Localisation Build Artifacts*
+
 ${RESULTS}"
 
 curl -X POST -H 'Content-type: application/json' \
