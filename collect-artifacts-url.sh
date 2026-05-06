@@ -45,7 +45,7 @@ done
 
 MSG="📦 *Localisation Build Artifacts*
 
-${RESULTS}"
+$(printf "%s\n" "${RESULTS[@]}")"
 
 curl -X POST -H 'Content-type: application/json' \
   --data "$(jq -n --arg text "$MSG" '{text: $text}')" \
