@@ -7,48 +7,78 @@ on:
 
 
 jobs:
-  sync_latest_from_upstream:
-    runs-on: ubuntu-24.04
-    name: Sync latest commits from upstream repo  
+  sync_latest_from_upstream_develop:
+    runs-on: ubuntu-latest
+    name: Sync latest commits from upstream repo to develp branch
     steps:
-    # - name: Checkout target repo
-    #   uses: actions/checkout@v4
-    #   with:
-    #     fetch-depth: 0
-    #     token: ${{ secrets.GH_TOKEN }}
-    #     persist-credentials: false
-    # - name: Merge from upstream
-    #   env:
-    #     UPSTREAM: YoYoGames/GameMaker-Manual
-    #   run: |
-    #     git config --global user.name "github-actions"
-    #     git config --global user.email "github-actions@users.noreply.github.com"
+    - name: Checkout target repo
+      uses: actions/checkout@v6
+      with:
+        fetch-depth: 0
+        token: ${{ secrets.GH_TOKEN }}
+        persist-credentials: false
+    - name: Merge from upstream
+      env:
+        UPSTREAM: YoYoGames/GameMaker-Manual
+      run: |
+        git config --global user.name "github-actions"
+        git config --global user.email "github-actions@users.noreply.github.com"
 
-    #     git --version
+        git --version
 
-    #     # Add upstream remote and fetch
-    #     git remote add upstream "https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${UPSTREAM}.git"
-    #     git remote -v
-    #     git fetch upstream
+        # Add upstream remote and fetch
+        git remote add upstream "https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${UPSTREAM}.git"
+        git remote -v
+        git fetch upstream
 
-    #     # Merge from upstream/develop with merge strategy to keep translation in case of conflicts
-    #     git merge -X ours upstream/develop
+        # Merge from upstream/develop with merge strategy to keep translation in case of conflicts
+        git merge -X ours upstream/develop
 
-    #     # this is dangerous but will essentially remove any files not staged in the merge
-    #     # this is useful since the merge strategy `-X ours` will not handle files where
-    #     # they have been deleted on only one branch
-    #     # Only use this you're sure that the failing merges fall under this category and are acceptable
-    #     # git diff --name-only --diff-filter=U | xargs git rm
+        # this is dangerous but will essentially remove any files not staged in the merge
+        # this is useful since the merge strategy `-X ours` will not handle files where
+        # they have been deleted on only one branch
+        # Only use this you're sure that the failing merges fall under this category and are acceptable
+        # git diff --name-only --diff-filter=U | xargs git rm
 
-    #     git show-ref
-    # - name: Push changes
-    #   uses: ad-m/github-push-action@master
-    #   with:
-    #     github_token: ${{ secrets.GH_TOKEN }}
-    #     branch: ${{ github.ref }}
+        git show-ref
+    - name: Push changes to develop
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GH_TOKEN }}
+        branch: ${{ github.ref }}
 
-      - name: Use Custom Action for Sync
-        uses: YoYoGames/upstream-sync@main
-        with:
-          upstream_repo: 'YoYoGames/GameMaker-Manual'
-          github_token: ${{ secrets.GH_TOKEN }}
+
+  sync_latest_from_upstream_2026_main:
+    runs-on: ubuntu-latest
+    name: Sync latest commits from upstream repo to 2026-main branch
+    steps:
+    - name: Checkout target repo
+      uses: actions/checkout@v6
+      with:
+        fetch-depth: 0
+        token: ${{ secrets.GH_TOKEN }}
+        persist-credentials: false
+    - name: Merge from upstream
+      env:
+        UPSTREAM: YoYoGames/GameMaker-Manual
+      run: |
+        git config --global user.name "github-actions"
+        git config --global user.email "github-actions@users.noreply.github.com"
+        git --version
+        # Add upstream remote and fetch
+        git remote add upstream "https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${UPSTREAM}.git"
+        git remote -v
+        git fetch upstream
+        # Merge from upstream/develop with merge strategy to keep translation in case of conflicts
+        git merge -X ours upstream/2026.0.0-main
+        # this is dangerous but will essentially remove any files not staged in the merge
+        # this is useful since the merge strategy `-X ours` will not handle files where
+        # they have been deleted on only one branch
+        # Only use this you're sure that the failing merges fall under this category and are acceptable
+        # git diff --name-only --diff-filter=U | xargs git rm
+        git show-ref
+    - name: Push changes to develop
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GH_TOKEN }}
+        branch: 2026.0.0-main        
