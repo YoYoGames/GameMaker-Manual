@@ -152,7 +152,7 @@
   </div>
   <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down8" href="#">bm_max</a></p>
   <div class="droptext" data-targetname="drop-down8">
-    <table>
+    <table class=" cke_show_border">
       <tbody>
         <tr>
           <th>Constant</th>
@@ -309,16 +309,45 @@
   <p>The circle will subtract its alpha value from whatever is already in the surface, allowing us to see through it.</p>
   <p>The surface is then drawn in the room at its defined position.</p>
   <h2>Surfaces And Alpha</h2>
-  <p>One final thing is worth noting about blend modes, and that is how they affect the <strong>alpha </strong>component of a colour. When simply drawing to the <a class="glossterm" data-glossterm="application surface" href="#">application surface</a> or the <a class="glossterm" data-glossterm="display buffer" href="#">display buffer</a>, you don&#39;t really need to take into consideration the destination alpha value as it will <em>always </em>be one. However surfaces that you make yourself are different, since you can clear a surface to have any alpha value from zero to one that you wish. This leads to some interesting effects that are contrary to what most people would expect.</p>
-  <p>To illustrate this, we are going to look at drawing using the basic default <span class="inline">bm_normal</span>. Most people think that having a surface cleared to alpha 0, and then drawing something with an alpha of 0.5 will give a resulting alpha value 0.5 too... <strong>but this is not the case</strong> and is something that many people think is a &quot;bug&quot; in how <span data-keyref="GameMaker Name">GameMaker</span> renders things. However, as you will see, it&#39;s not a bug at all!</p>
-  <p>Say you have surface with every pixel at alpha 0, then you draw a circle on it with alpha 0.5 using the <span class="inline">bm_normal</span> blend mode. The entire surface is still going to be alpha 0, but in the circle the alpha will actually be 0.25, since:</p>
-  <p class="code">0.5 * 0.5 + 0 * 0.5 = 0.5 * 0.5 = 0.25</p>
-  <p>If you then proceed to draw another circle in the existing circle, also with an alpha of 0.5, then the alpha outside the circles would be 0, in between the circles 0.25, and in the smaller circle it would be 0.375:</p>
-  <p class="code">0.5 * 0.5 + 0.25 * 0.5 = 0.25 + 0.125 = 0.375</p>
-  <p>If you were to continue to draw a number of 0.5 alpha circles to a surface with 0 alpha, and then draw this surface to the room, you would be able to clearly see this:</p>
-  <p><img alt="Surface Alpha Illustration" class="center" src="../assets/Images/Scripting_Reference/Additional_Information/BlendModes2_Surface.png" />If you are still a bit confused about the alpha, try to picture it as just another colour. It behaves like a colour and all calculations on it are done in a similar manner. It&#39;s just not really visible, although the effect it has on other colours is. Which brings us to the final thing to note when using surfaces and blend modes (even <span class="inline">bm_normal</span>)...</p>
-  <p>Even if the alpha of the surface is 0, <em><strong>the colour components are still there and exist and will influence in all blending operations</strong></em>. So drawing to a zero alpha cleared surface that has been cleared using the colour red (for example) will blend the source colours with the destination colours and give different effects to what you may think. The above image was created on a surface cleared to black, but if we clear the surface to red, we get this instead:</p>
-  <p><img class="center" src="../assets/Images/Scripting_Reference/Additional_Information/BlendModes2_SurfaceRed.png" />Hopefully you can now work out why this happens for yourself using the formulas we&#39;ve outlined above and applying the appropriate figures for <span class="inline">bm_normal</span>.</p>
+  <p>When using custom surfaces, blending may appear &quot;incorrect&quot; when they are drawn to the screen.</p>
+  <p>The main difference comes from how the <a class="glossterm" data-glossterm="application surface" href="#">application surface</a> is rendered by default. It&#39;s drawn with <a href="../GameMaker_Language/GML_Reference/Drawing/GPU_Control/gpu_set_blendenable.htm">alpha blending disabled</a>, so the alpha channel contents of the surface become irrelevant.</p>
+  <p>However, when drawing custom surfaces, alpha blending is enabled, as you may want to have transparent contents. This produces the &quot;incorrect&quot; blending when the surface is drawn to the screen.</p>
+  <p>For a detailed example and explanation on why this happens, see <a href="https://gamemaker.io/en/blog/alpha-and-surfaces">this tech blog</a>. See the section below for solutions.</p>
+  <h3>Solutions for Surface Blending</h3>
+  <p>Take this example of a semi-transparent sprite being drawn onto a surface that already has an opaque image drawn to it. When the surface is drawn to a room with a tiled background, you can see transparent gaps in the surface where there should not be any (see below the cloud):</p>
+  <p><img class="center" src="../assets/Images/Scripting_Reference/GML/Reference/Drawing/blending1.png" />This is explained in detail in the blog post linked above, however here is a brief explanation:</p>
+  <ul class="colour">
+    <li>Due to the default blend mode, the parts where the source alpha is 0.5 (or close to that value) end up reducing the final alpha (as the source alpha is multiplied with 0.5 and the destination alpha is multiplied with its inverse, which is also 0.5).</li>
+    <li>In parts where the source alpha is high (close to 1), the final alpha becomes opaque as the source alpha is high, and parts where the source alpha is low (close to 0) <em>also</em> become opaque as the destination factor becomes high (due to it being the inverse of the source alpha).</li>
+  </ul>
+  <p>A quick solution is to disable alpha blending before <a href="../GameMaker_Language/GML_Reference/Drawing/Surfaces/draw_surface.htm">drawing the surface</a>:</p>
+  <p class="code">gpu_set_blendenable(false);</p>
+  <p>Make sure to enable it again once you&#39;re done drawing the surface.</p>
+  <p>Alternatively, use the pre-multiplied alpha technique when working with a custom surface:</p>
+  <ul class="colour">
+    <li>Clear the contents of the surface to a fully transparent black: <span class="inline2"><a href="../GameMaker_Language/GML_Reference/Drawing/Colour_And_Alpha/draw_clear_alpha.htm">draw_clear_alpha</a>(c_black, 0)</span></li>
+    <li>Use the following extended blend mode when drawing anything onto the surface: <span class="inline2"><a href="../GameMaker_Language/GML_Reference/Drawing/GPU_Control/gpu_set_blendmode_ext_sepalpha.htm">gpu_set_blendmode_ext_sepalpha</a>(bm_src_alpha, bm_inv_src_alpha, bm_one, bm_inv_src_alpha)</span>
+      <ul>
+        <li>This changes the alpha blending so alpha values accumulate; e.g. drawing 0.5 alpha onto an existing 0.5 alpha results in 0.75 alpha, and so on</li>
+        <li>The colours are multiplied using alpha as you&#39;d normally expect</li>
+      </ul>
+    </li>
+    <li>Use the following extended blend mode when drawing the surface:  <span class="inline2"><a href="../GameMaker_Language/GML_Reference/Drawing/GPU_Control/gpu_set_blendmode_ext.htm">gpu_set_blendmode_ext</a>(bm_one, bm_inv_src_alpha)</span>
+      <ul>
+        <li>This stops the source colours from being blended again with its alpha as the colours have already been pre-multiplied with the source alpha</li>
+      </ul>
+    </li>
+  </ul>
+  <p>Using either of the solutions described above, the surface will appear the way you expect:</p>
+  <p><img class="center" src="../assets/Images/Scripting_Reference/GML/Reference/Drawing/blending2.png" /></p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
   <p> </p>
   <p> </p>
   <p> </p>
@@ -329,7 +358,7 @@
         <div style="float:right">Next: <a data-xref="{title}" href="Guide_To_Using_JSON.htm">Guide To Using JSON</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2026 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 Blendmodes
