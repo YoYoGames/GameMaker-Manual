@@ -1,5 +1,4 @@
 export default function(hljs) {
-
   const KEYWORDS = [
     "and",
     "begin",
@@ -3064,39 +3063,93 @@ export default function(hljs) {
     "player_name",
     "player_type"
   ];
-
   /**
    * Regex for some sort of identifier - i.e, a valid name of something in code.
    */
   const VALID_IDENTIFIER_REG = /[a-zA-Z_][a-zA-Z0-9_]*/;
-
   /**
    * Regex for a dot separating some LHS and RHS expression with optional whitespace (as this is
    * supported in the engine.)
    */
   const DOT_ACCESSOR_REG = /\b\.\b/;
-
+  /**
+   * Expressions, which form part of a valid statement.
+   */
+  const EXPRESSION = [];
+  /**
+   * A template string substitution. `contains` is filled in after `EXPRESSION` is defined due to
+   * nesting.
+   */
+  const STRING_SUBSTITUTION = {
+    begin: /{/,
+    end: /}/,
+    beginScope: "literal",
+    endScope: "literal",
+    contains: EXPRESSION
+  };
+  /**
+   * A template string substitution for use with the older `string()` optional args with `"{0}"`,
+   * etc.
+   */
+  const STRING_NUMERICAL_SUBSTITUTION = {
+    match: /{[0-9]+}/,
+    scope: "literal"
+  };
+  /**
+   * An escape sequence in a string.
+   */
+  const STRING_ESCAPE = {
+    scope: "literal",
+    variants: [
+      { match: /\\u[a-fA-F0-9]{1,6}/ },
+      { match: /\\[^\n]/ }
+    ]
+  };
   /**
    * Various types of strings supported in the engine.
    */
   const STRING = {
     variants: [
-      hljs.QUOTE_STRING_MODE,
+      {
+        begin: /\$"/,
+        end: "\"",
+        beginScope: "string",
+        endScope: "string",
+        contains: [
+          STRING_ESCAPE,
+          STRING_SUBSTITUTION,
+          {
+            match: /[^\n"{]/,
+            scope: "string"
+          }
+        ]
+      },
       {
         scope: "string",
         begin: "@'",
-        end: "'"
+        end: "'",
+        contains: [STRING_NUMERICAL_SUBSTITUTION]
       },
       {
         scope: "string",
         begin: "@\"",
-        end: "\""
+        end: "\"",
+        contains: [STRING_NUMERICAL_SUBSTITUTION]
+      },
+      {
+        scope: "string",
+        begin: /"/,
+        end: /"/,
+        illegal: "\\n",
+        contains: [
+          STRING_ESCAPE, 
+          STRING_NUMERICAL_SUBSTITUTION
+        ]
       }
     ]
   };
-
   /**
-   * Various representations of numbers!
+   * Various representations of numbers
    */
   const NUMBER = {
     className: "literal",
@@ -3108,7 +3161,6 @@ export default function(hljs) {
       { match: /\b[0-9][0-9_.]*/ }
     ]
   };
-
   /**
    * Pre-processor modes for macro definitions and regions.
    */
@@ -3149,12 +3201,10 @@ export default function(hljs) {
       },
     ]
   };
-
   /**
    * A single-line comment.
    */
   const COMMENT_LINE = hljs.COMMENT('//', /\$|\n/);
-
   /**
    * Modes for the types of comments supported in GML.
    */
@@ -3164,7 +3214,6 @@ export default function(hljs) {
       hljs.C_BLOCK_COMMENT_MODE,
     ]
   };
-
   /**
    * Dot accessor usage with a special highlighting case for `global`.
    */
@@ -3200,7 +3249,6 @@ export default function(hljs) {
       }
     },
   ];
-
   /**
    * Function call sites, just looking for `<ident>(`. This creates false positives
    * for keywords such as `if (<condition>)`, so has lower priority in the mode `contains` list.
@@ -3215,7 +3263,6 @@ export default function(hljs) {
       1: "function"
     }
   };
-
   /**
    * The manual likes using `obj_` and such to define assets. Sneaky trick to make it look nicer :P
    */
@@ -3227,18 +3274,15 @@ export default function(hljs) {
       { begin: "obj_" },
     ]
   };
-
   /**
-   * Expressions, which form part of a valid statement.
+   * A ternary expression, matching partial ternary as `? <EXPRESSION> :`.
+   * Effectively exists to prevent {@link STRUCT_LITERAL_MEMBER} from stealing `<EXPRESSION> :`.
    */
-  const EXPRESSION = [
-    STRING,
-    PROP_ACCESS,
-    NUMBER,
-    FUNCTION_CALL,
-    USER_ASSET_CONSTANT
-  ];
-
+  const TERNARY = {
+    begin: /\?/,
+    end: /:/,
+    contains: EXPRESSION
+  };
   const SWITCH_CASE = {
     begin: [
       /case/,
@@ -3250,7 +3294,7 @@ export default function(hljs) {
     },
     contains: EXPRESSION
   };
-
+  
   /**
    * A struct variable declaration, of `<ident>:`
    */
@@ -3264,7 +3308,6 @@ export default function(hljs) {
       2: "variable-instance"
     },
   };
-
   /**
    * A function declaration matching for:
    * ```gml
@@ -3283,7 +3326,6 @@ export default function(hljs) {
       3: "function"
     }
   };
-
   /**
    * An enum definition in the form:
    * ```gml
@@ -3323,7 +3365,14 @@ export default function(hljs) {
       }
     ]
   };
-
+  EXPRESSION.push(
+    STRING,
+    TERNARY,
+    PROP_ACCESS,
+    NUMBER,
+    FUNCTION_CALL,
+    USER_ASSET_CONSTANT
+  );
   return {
     name: 'GML',
     case_insensitive: false, // language is case-sensitive
@@ -3343,6 +3392,7 @@ export default function(hljs) {
         // Prevent keywords being taken by function calls.
         beginKeywords: KEYWORDS.join(" ")
       },
+      TERNARY,
       STRUCT_LITERAL_MEMBER,
       FUNCTION_DECLARATION,
       FUNCTION_CALL,

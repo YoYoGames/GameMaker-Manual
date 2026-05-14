@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>gx_share</title>
+  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <link rel="stylesheet" type="text/css" href="../../../../assets/css/default.css" />
+  <script src="../../../../assets/scripts/main_script.js" type="module"></script>
+  <meta name="rh-authors" content="Gurpreet S. Matharoo" />
+  <meta name="topic-comment" content="" />
+  <meta name="rh-index-keywords" content="gx_share" />
+  <meta name="search-keywords" content="gx_share" />
+  <meta name="template" content="../File_System/assets/masterpages/Manual_Keyword_Page.htt" />
+</head>
+<body>
+  <h1><span data-field="title" data-format="default">gx_share</span></h1>
+  <p>This <a href="../../Asynchronous_Functions/Asynchronous_Functions.htm">asynchronous</a> function is used on GX.games to share an image (as a buffer) or a URL (as a string) through the browser&#39;s <a href="https://developer.mozilla.org/en-US/docs/Web/API/Navigator/share">share function</a>.</p>
+  <p>The function returns <span class="inline2">0</span> on success or <span class="inline2">-1</span> on error. When the request is complete, the <a href="../../../../The_Asset_Editors/Object_Properties/Async_Events/Social.htm">Async - Social event</a> will be triggered with the following keys in its <span class="inline2"><a data-xref="{title}" href="../../../GML_Overview/Variables/Builtin_Global_Variables/async_load.htm">async_load</a></span> DS Map:</p>
+  <ul class="colour">
+    <li><span class="inline2">&quot;type&quot;</span>: <span class="inline2">&quot;share_complete&quot;</span> (<span data-keyref="Type_String"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">String</a></span>)</li>
+    <li><span class="inline2">&quot;success&quot;</span>: <span class="inline2">true</span> or <span class="inline2">false</span></li>
+    <li><span class="inline2">&quot;error&quot;</span>: Only if <span class="inline2">&quot;success&quot;</span> is <span class="inline2">false</span>, contains the error message returned by the browser</li>
+  </ul>
+  <p>See the example at the bottom of the page for sharing images.</p>
+  <p> </p>
+  <h4>Syntax:</h4>
+  <p class="code"><span data-field="title" data-format="default">gx_share</span>(content, [title], [text], [filename]);</p>
+  <table>
+    <colgroup>
+      <col />
+      <col />
+      <col />
+    </colgroup>
+    <tbody>
+      <tr>
+        <th>Argument</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>content</td>
+        <td><span data-keyref="Type_ID_Buffer"><a href="../../Buffers/buffer_create.htm" target="_blank">Buffer</a></span> or <span data-keyref="Type_String"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">String</a></span></td>
+        <td>A buffer containing the image data (see example below) or a string containing the URL to share</td>
+      </tr>
+      <tr>
+        <td>title</td>
+        <td><span data-keyref="Type_String"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">String</a></span></td>
+        <td><span data-conref="../../../../assets/snippets/Tag_optional.hts"> </span> The title for the share dialog</td>
+      </tr>
+      <tr>
+        <td>text</td>
+        <td><span data-keyref="Type_String"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">String</a></span></td>
+        <td><span data-conref="../../../../assets/snippets/Tag_optional.hts"> </span> The text for the share diolog</td>
+      </tr>
+      <tr>
+        <td>filename</td>
+        <td><span data-keyref="Type_String"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">String</a></span></td>
+        <td><span data-conref="../../../../assets/snippets/Tag_optional.hts"> </span> The filename in case of an image (should contain the extension)</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>Returns:</h4>
+  <p class="code"><span data-keyref="Type_Void">N/A</span></p>
+  <p> </p>
+  <h4>Example:</h4>
+  <p class="code">var _buff_screenshot = buffer_create(1024, buffer_grow, 1);<br />
+    <br />
+    surface_save(application_surface, _buff_screenshot);<br />
+    <br />
+    var _filename = $&quot;screenshot_{string_digits(date_current_datetime())}.png&quot;;<br />
+    gx_share(_buff_screenshot, &quot;Share screenshot&quot;, &quot;Screenshot taken of Game&quot;, _filename);<br />
+    <br />
+    buffer_delete(_buff_screenshot);
+  </p>
+  <p>The above code creates a <a href="../../Buffers/buffer_create.htm">grow buffer</a> and saves the <span class="inline2"><a data-xref="{title}" href="../../Drawing/Surfaces/application_surface.htm">application_surface</a></span> into the buffer. As the application surface contains the final render of the game (excluding GUI), this essentially captures a screenshot of the game in the buffer.</p>
+  <p>After setting up a local variable with the file name (containing digits from the current <span data-keyref="Type_Real_Datetime"><a href="../../Maths_And_Numbers/Date_And_Time/date_current_datetime.htm" target="_blank">Datetime</a></span>), it calls the <span class="inline3_func"><span data-field="title" data-format="default">gx_share</span></span> function to share that buffer as an image with the optional share dialog title, text and filename passed.</p>
+  <p>At the end it deletes the buffer as it&#39;s no longer needed in memory.</p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div>Back: <a data-xref="{title}" href="../GXC_Functions.htm">GX.games Functions</a></div>
+        <div>Next: <a data-xref="{title}" href="../File_System/gxc_file_sync.htm">gxc_file_sync</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2026 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+gx_share
+-->
+  <!-- TAGS
+gx_share
+-->
+</body>
+</html>

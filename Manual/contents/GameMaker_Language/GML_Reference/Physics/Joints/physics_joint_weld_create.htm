@@ -4,7 +4,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>physics_joint_weld_create</title>
-  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <meta name="generator" content="Adobe RoboHelp 2022" />
   <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
   <script src="../../../../assets/scripts/main_script.js"></script>
   <meta name="rh-authors" content="Mark Alexander" />
@@ -84,13 +84,13 @@
     physics_fixture_set_box_shape(fix, 64, 32);<br />
     for (i = 0; i &lt; 5; i++;)<br />
     {<br />
-        o_id = instance_create_layer(x + (128 * i), y, &quot;Instances&quot;, obj_BridgePart);<br />
-        physics_fixture_bind(fix, o_id);<br />
-        if (i &gt; 0 &amp;&amp; i &lt; 4) <br />
+        _o_id = instance_create_layer(x + (128 * i), y, &quot;Instances&quot;, obj_bridge_part);<br />
+        _o_id.fix_bound = physics_fixture_bind(_fix, _o_id);<br />
+        if (i &gt; 0)<br />
         {<br />
-            physics_joint_weld_create(p_id, o_id, x + (128 * i) - 64, y, 0, 10, 12, true);<br />
+            physics_joint_weld_create(_p_id, _o_id, x + (128 * i) - 64, y, 0, 10, 12, true);<br />
         }<br />
-        p_id = o_id;<br />
+        _p_id = _o_id;<br />
     }<br />
     physics-fixture_delete(fix);</p>
   <p>上面的代码将创建一个夹具，然后使用<span class="notranslate">loop</span> 来创建一些实例，将夹具绑定到每个新的实例上，然后使用焊接接头将它们全部连接起来。最后从内存中删除该夹具。</p>

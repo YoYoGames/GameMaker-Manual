@@ -53,32 +53,30 @@
   <ul class="colour">
     <li>在添加轨道到<span class="notranslate">sequence</span> <span class="notranslate">object</span> ，你需要创建它们，所以你现在要创建一个<i>资产</i>轨道的数组，这些轨道已经用函数定义了 <a href="sequence_track_new.htm"><span class="inline">sequence_track_new()</span></a>.请注意，在代码中，<span class="notranslate">asset</span> 轨道和参数轨道之间其实没有什么区别--它们都是简单的轨道，它们的行为方式将取决于你创建的轨道类型，以及它们是否被分配为顶级轨道的子轨道。因此，你可以为一个<span class="notranslate">asset</span> ，然后为不同的参数分配子轨道，这些子轨道将作为<span class="notranslate">asset</span> 的<i>参数</i>轨道。下面的例子创建了一个单一的图形<span class="notranslate">asset</span> 轨道，以后会被添加到<span class="notranslate">sequence</span> 。</li>
   </ul>
-  <p class="code">var mytracks = array_create(1);<br />
-    mytracks[0] = sequence_track_new(seqtracktype_graphic);</p>
+  <p class="code">var _graphic_track = sequence_track_new(seqtracktype_graphic);<br />
+    _graphic_track.name = &quot;TestGraphicTrack&quot;;<br />
+    <br />
+    myseq.tracks[0] = _graphic_track;
+  </p>
   <ul class="colour">
     <li>每个<span class="notranslate">asset</span> 轨道都需要有一些数据来告诉<span class="notranslate">sequence</span> 它的外观，或者它的位置等等......而这是以<i>关键帧</i>的形式添加的。在一个<span class="notranslate">asset</span> 轨迹的顶层，你可以为各种事物设置<span class="notranslate">keyframes</span> （在下面的轨迹<span class="notranslate">Struct</span> 一节中列出），但请注意，由于这些是<span class="notranslate">asset</span> 轨迹<span class="notranslate">keyframes</span> ，它们不会被插值，当达到给定的帧时，它们会简单地改变所参考的值。每个<span class="notranslate">keyframe</span> 是一个<span class="notranslate">struct</span> ，它被添加到一个数组中，然后这个数组被分配给<span class="notranslate">asset</span> 轨道。为了创建<span class="notranslate">keyframe</span> <span class="notranslate">struct</span> ，我们将调用函数 <a href="sequence_keyframe_new.htm"><span class="inline">sequence_keyframe_new()</span></a>并用所需的数据来填充<span class="notranslate">keyframe</span> ，我们将使用函数 <a href="sequence_keyframedata_new.htm"><span class="inline">sequence_keyframedata_new()</span></a>:</li>
   </ul>
-  <p class="code">// Create a new keyframe struct for a graphics asset track and add it to an array (as you can have multiple keys in a frame)<br />
-    var graphickeys = array_create(1);<br />
-    graphickeys[0] = sequence_keyframe_new(seqtracktype_graphic);<br />
-    // Set the graphics keyframe top level data for the keyframe position and length, etc.<br />
-    graphickeys[0].frame = 0;<br />
-    graphickeys[0].length = 1;<br />
-    graphickeys[0].stretch = true;<br />
-    graphickeys[0].disabled = false;<br />
+  <p class="code">// Create a new keyframe struct for a graphics asset track<br />
+    var _graphic_keys = sequence_keyframe_new(seqtracktype_graphic);<br />
     <br />
-    // Create the channel data that will go into this keyframe (again an array, as each key can have multiple channels of keyframe data)<br />
-    var graphickeydata = array_create(1);<br />
-    graphickeydata[0] = sequence_keyframedata_new(seqtracktype_graphic);<br />
-    graphickeydata[0].spriteIndex = spr_Platform;<br />
-    graphickeydata[0].channel = 0;<br />
+    // Set the graphics keyframe top-level data for the keyframe position, length, etc.<br />
+    _graphic_keys.frame = 0;<br />
+    _graphic_keys.length = 1;<br />
+    _graphic_keys.stretch = true;<br />
+    _graphic_keys.disabled = false;<br />
     <br />
-    // Add the keyframe data channels to the graphics track keyframe<br />
-    graphickeys[0].channels = graphickeydata;<br />
+    // Create the channel data that will go into this keyframe (note that <span>each key can have multiple channels of keyframe data)</span><br />
+    _graphic_keys.channels[0] = sequence_keyframedata_new(seqtracktype_graphic);<br />
+    _graphic_keys.channels[0].spriteIndex = spr_platform;<br />
+    _graphic_keys.channels[0].channel = 0;<br />
     <br />
-    // Add the definied keyframes to the track<br />
-    mytracks[0].name = &quot;TestGraphicTrack&quot;;<br />
-    mytracks[0].keyframes = graphickeys;
+    // Assign the keyframe struct as the first keyframe of the graphic track<br />
+    _graphic_track.keyframes[0] = _graphic_keys;
   </p>
   <ul class="colour">
     <li>我们现在需要创建一个参数轨道，将其作为子轨道分配给我们刚刚创建的图形轨道。这将以类似于上文所示的方式完成，只是现在我们需要给轨道起一个显示其用途的名字，在这里是 &quot;位置&quot;，因为我们将使用这个轨道来在<span class="notranslate">sequence</span> 动画帧的过程中移动图形轨道。</li>
@@ -95,30 +93,34 @@
     paramkeys[1] = sequence_keyframe_new(seqtracktype_real);<br />
     paramkeys[1].frame = 120;<br />
     <br />
-    // Create the keyframe data structs<br />
-    var paramkeydata1 = array_create(2);<br />
-    paramkeydata1[0] = sequence_keyframedata_new(seqtracktype_real);<br />
-    paramkeydata1[0].channel = 0; // Channel 0 for a position track is the X position<br />
-    paramkeydata1[0].value = 0;<br />
+    // Create the keyframe and keyframe data structs to hold the parameter channel data and assign them<br />
+    var _keyframe;<br />
     <br />
-    paramkeydata1[1] = sequence_keyframedata_new(seqtracktype_real);<br />
-    paramkeydata1[1].channel = 1; // Channel 1 for a position track is the Y position<br />
-    paramkeydata1[1].value = 0;<br />
+    // Keyframe 1<br />
+    _keyframe = sequence_keyframe_new(seqtracktype_real);<br />
+    _keyframe.frame = 0;<br />
     <br />
-    var paramkeydata2 = array_create(2);<br />
-    paramkeydata2[0] = sequence_keyframedata_new(seqtracktype_real);<br />
-    paramkeydata2[0].channel = 0;<br />
-    paramkeydata2[0].value = room_width;<br />
-    paramkeydata2[1] = sequence_keyframedata_new(seqtracktype_real);<br />
-    paramkeydata2[1].channel = 1;<br />
-    paramkeydata2[1].value = room_height;<br />
+    _keyframe.channels[0] = sequence_keyframedata_new(seqtracktype_real);<br />
+    _keyframe.channels[0].channel = 0;  // Channel 0 for a position track is the X position<br />
+    _keyframe.channels[0].value = 0;<br />
+    _keyframe.channels[1] = sequence_keyframedata_new(seqtracktype_real);<br />
+    _keyframe.channels[1].channel = 1;  // Channel 1 for a position track is the Y position<br />
+    _keyframe.channels[1].value = 0;<br />
     <br />
-    // Assign the keyframe data structs to the channels for each key<br />
-    paramkeys[0].channels = paramkeydata1;<br />
-    paramkeys[1].channels = paramkeydata2;<br />
+    _param_track.keyframes[0] = _keyframe;<br />
     <br />
-    // Assign the keys to the parameter track<br />
-    paramtracks[0].keyframes = paramkeys;
+    // Keyframe 2<br />
+    _keyframe = sequence_keyframe_new(seqtracktype_real);<br />
+    _keyframe.frame = 120;<br />
+    <br />
+    _keyframe.channels[0] = sequence_keyframedata_new(seqtracktype_real);<br />
+    _keyframe.channels[0].channel = 0;<br />
+    _keyframe.channels[0].value = room_width;<br />
+    _keyframe.channels[1] = sequence_keyframedata_new(seqtracktype_real);<br />
+    _keyframe.channels[1].channel = 1;<br />
+    _keyframe.channels[1].value = room_height;<br />
+    <br />
+    _param_track.keyframes[1] = _keyframe;
   </p>
   <ul class="colour">
     <li>完成这些后，最后要做的是将参数轨道作为子轨道分配给我们一开始创建的主要图形<span class="notranslate">asset</span> ，然后将这些轨道分配给<span class="notranslate">sequence</span> ，然后我们可以在房间里创建一个实例。</li>

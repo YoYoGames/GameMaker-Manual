@@ -19,8 +19,11 @@
   <p>When creating a new <span data-keyref="FlexPanel">Flex Panel</span> node using <span class="inline3_func"><a data-xref="{title}" href="Function_Reference/flexpanel_create_node.htm">flexpanel_create_node</a></span>, you can pass a struct containing information on the node and its children, or a string containing JSON for the same data. For example:</p>
   <div data-conref="../../../assets/snippets/Flex_Panel_example_create_node_with_struct.hts"> </div>
   <p>This defines a root node with child nodes nested within it (and further child nodes within child nodes).</p>
+  <h2>UI Layer Properties</h2>
+  <p>The Flex Panel system is used for <a data-xref="{title}" href="../../../The_Asset_Editors/Room_Properties/UI_Layers.htm">UI Layers</a> in the Room Editor. For more visual documentation on the shared properties, see: <a data-xref="{title}" href="../../../The_Asset_Editors/Room_Properties/UI_Element_Propert.htm">UI Element Properties</a></p>
   <h2>Property List</h2>
   <p>The properties that you can define in the struct or JSON string are listed below. The rest of the page describes each property in detail.</p>
+  <p>Structs retrieved for nodes (e.g. <span class="inline3_func"><a data-xref="{title}" href="Function_Reference/flexpanel_node_get_child.htm">flexpanel_node_get_child</a></span> or <span class="inline3_func"><a data-xref="{title}" href="../Asset_Management/Rooms/UI_Layers/layer_get_flexpanel_node.htm">layer_get_flexpanel_node</a></span>) using <span class="inline3_func"><a data-xref="{title}" href="Function_Reference/flexpanel_node_get_struct.htm">flexpanel_node_get_struct</a></span> will include the same variables listed below.</p>
   <ul class="colour">
     <li><span class="inline2">name</span></li>
     <li><span class="inline2">data</span></li>
@@ -42,12 +45,14 @@
     <li><span class="inline2">justifyContent</span></li>
     <li><span class="inline2">direction</span></li>
     <li><span class="inline2">gap</span>, <span class="inline2">gapRow</span>, <span class="inline2">gapColumn</span></li>
-    <li><span class="inline2">margin</span>, <span class="inline2">marginLeft</span>, <span class="inline2">marginRight</span>, <span class="inline2">marginTop</span>, <span class="inline2">marginBottom</span>, <span class="inline2">marginStart</span>, <span class="inline2">marginEnd</span>, <span class="inline2">marginHorizontal</span>, <span class="inline2">marginVertical</span></li>
+    <li><span class="inline2">margin</span>, <span class="inline2">marginInline</span>, <span class="inline2">marginLeft</span>, <span class="inline2">marginRight</span>, <span class="inline2">marginTop</span>, <span class="inline2">marginBottom</span>, <span class="inline2">marginStart</span>, <span class="inline2">marginEnd</span>, <span class="inline2">marginHorizontal</span>, <span class="inline2">marginVertical</span></li>
     <li><span class="inline2">padding</span>, <span class="inline2">paddingLeft</span>, <span class="inline2">paddingRight</span>, <span class="inline2">paddingTop</span>, <span class="inline2">paddingBottom</span>, <span class="inline2">paddingStart</span>, <span class="inline2">paddingEnd</span>, <span class="inline2">paddingHorizontal</span>, <span class="inline2">paddingVertical</span></li>
     <li><span class="inline2">border</span>, <span class="inline2">borderLeft</span>, <span class="inline2">borderRight</span>, <span class="inline2">borderTop</span>, <span class="inline2">borderBottom</span>, <span class="inline2">borderStart</span>, <span class="inline2">borderEnd</span>, <span class="inline2">borderHorizontal</span>, <span class="inline2">borderVertical</span></li>
     <li><span class="inline2">start</span>, <span class="inline2">end</span></li>
     <li><span class="inline2">horizontal</span>, <span class="inline2">vertical</span></li>
     <li><span class="inline2">position</span>, <span class="inline2">positionType</span></li>
+    <li><span class="inline2">layerElements</span></li>
+    <li><span class="inline2">clipContent</span></li>
   </ul>
   <p>The sections below describe what type of values you can pass for each property.</p>
   <p class="note"><span data-conref="../../../assets/snippets/Tag_important.hts"> </span> Each property also has GML functions for setting and getting that property for a node. However, the types of values that a setter function accepts may be different from the type of value you can give it in the struct/JSON. Ensure you read the page for the function you are trying to use for information on its argument types.</p>
@@ -105,7 +110,7 @@
     <li><span class="inline2">&quot;static&quot;</span>: The node will behave like relative except it will ignore insets and will not form a <a data-xref="{text}" href="Flex_Panels.htm#h">Containing Block</a> for its children.</li>
   </ul>
   <h3 id="h14">Margin</h3>
-  <p class="note">Struct properties: <span class="inline2">margin</span>, <span class="inline2">marginLeft</span>, <span class="inline2">marginRight</span>, <span class="inline2">marginTop</span>, <span class="inline2">marginBottom</span>, <span class="inline2">marginStart</span>, <span class="inline2">marginEnd</span>, <span class="inline2">marginHorizontal</span>, <span class="inline2">marginVertical</span><br />
+  <p class="note">Struct properties: <span class="inline2">margin</span>, <span class="inline2">marginInline</span>, <span class="inline2">marginLeft</span>, <span class="inline2">marginRight</span>, <span class="inline2">marginTop</span>, <span class="inline2">marginBottom</span>, <span class="inline2">marginStart</span>, <span class="inline2">marginEnd</span>, <span class="inline2">marginHorizontal</span>, <span class="inline2">marginVertical</span><br />
     Functions: <span class="inline3_func"><a data-xref="{title}" href="Function_Reference/Styling_Functions/flexpanel_node_style_set_margin.htm">flexpanel_node_style_set_margin</a></span>, <span class="inline3_func"><a data-xref="{title}" href="Function_Reference/Styling_Functions/flexpanel_node_style_get_margin.htm">flexpanel_node_style_get_margin</a></span></p>
   <p>This is the space around the outside of the node. You can define it for all edges or for a specific edge. Accepts pixel values and percentages.</p>
   <h3 id="h15">Padding</h3>
@@ -209,12 +214,13 @@
   <p>If <span class="inline2">flexWrap</span> is set to <span class="inline2">wrap</span> or <span class="inline2">wrap-reverse</span>, any items overflowing along the main axis will be laid out across new lines on the cross axis. This property controls how those wrapped lines are distributed along the cross axis.</p>
   <p>You can choose from the following values:</p>
   <ul class="colour">
-    <li><span class="inline2">&quot;flex-start&quot;</span> (default): Align children to the start of the cross axis.</li>
-    <li><span class="inline2">&quot;flex-end&quot;</span>: Align children to the end of the cross axis.</li>
-    <li><span class="inline2">&quot;center&quot;</span>: Align children to the centre of the cross axis.</li>
-    <li><span class="inline2">&quot;space-between&quot;</span>: Align children from the start of the container to the end along the cross axis, inserting space between each child to fill the container.</li>
-    <li><span class="inline2">&quot;space-around&quot;</span>: Similar to <span class="inline2">space-between</span> but distributes the space before the first child and after the last child as well.</li>
-    <li><span class="inline2">&quot;space-evenly&quot;</span>: Similar to <span class="inline2">space-around</span> but the spacing between the edges and the children, and between each child node, is exactly the same.</li>
+    <li><span class="inline2">&quot;flex-start&quot;</span> (default): <span>Align wrapped lines to the start of the container&#39;s cross axis.</span></li>
+    <li><span class="inline2">&quot;flex-end&quot;</span>: <span>Align wrapped lines to the end of the container&#39;s cross axis.</span></li>
+    <li><span class="inline2">&quot;stretch&quot;</span>: Stretch wrapped lines to match the height of the container&#39;s cross axis.</li>
+    <li><span class="inline2">&quot;center&quot;</span>: <span>Align wrapped lines in the center of the container&#39;s cross axis.</span></li>
+    <li><span class="inline2">&quot;space-between&quot;</span>: <span>Evenly space wrapped lines across the container&#39;s cross axis, distributing remaining space between the lines.</span></li>
+    <li><span class="inline2">&quot;space-around&quot;</span>: Similar to <span class="inline2">space-between</span> but distributes the remaining space <span>to the beginning of the first lines and end of the last line.</span></li>
+    <li><span class="inline2">&quot;space-evenly&quot;</span>: Similar to <span class="inline2">space-around</span> but <span>space evenly will not double the gaps between children. The size of gaps between children and between the parent&#39;s edges and the first/last child will all be equal.</span></li>
   </ul>
   <h3 id="h4">Display</h3>
   <p class="note">Struct properties: <span class="inline2">display</span><br />
@@ -224,6 +230,63 @@
     <li><span class="inline2">&quot;flex&quot;</span> (default): The default layout behaviour.</li>
     <li><span class="inline2">&quot;none&quot;</span>: Disables the node. This effectively functions as the node being removed from the tree, as it&#39;s not included in any calculations.</li>
   </ul>
+  <h3>Layer Elements</h3>
+  <p class="note">Struct properties: <span class="inline2">layerElements</span></p>
+  <p>The <span class="inline2">layerElements</span> property is included for a node when the structure is part of a <a href="../../../The_Asset_Editors/Room_Properties/UI_Layers.htm">UI layer</a>, returned using <span class="inline3_func"><a data-xref="{title}" href="../Asset_Management/Rooms/UI_Layers/layer_get_flexpanel_node.htm">layer_get_flexpanel_node</a></span>. This is an array that contains a struct for each asset element placed under the node, e.g. an Object Instance, Sprite, Text etc.</p>
+  <p>Each struct in the array can contain the following properties:</p>
+  <p class="note"><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> The variables described below are <strong>read-only</strong>. To change the properties of an Asset Element, use the appropriate <a href="../Asset_Management/Rooms/Rooms.htm#room_layers_elements">layer element functions</a>.</p>
+  <ul class="colour">
+    <li style="text-align: left;">type, which can be <span class="inline2">&quot;Instance&quot;</span>, <span class="inline2">&quot;Sprite&quot;</span>, <span class="inline2">&quot;Text&quot;</span>, <span class="inline2">&quot;Sequence&quot;</span></li>
+    <li>elementOrder (Real): Draw order</li>
+    <li><strong>Flex properties</strong>:
+      <ul>
+        <li>flexVisible (Boolean)</li>
+        <li>flexAnchor (String): this can be &quot;TopLeft&quot;, &quot;TopCentre&quot;, &quot;TopRight&quot;, &quot;MiddleLeft&quot;, &quot;MiddleCentre&quot;, &quot;MiddleRight&quot;, &quot;BottomLeft&quot;, &quot;BottomCentre&quot;, or &quot;BottomRight&quot;</li>
+        <li>flexStretchWidth, flexStretchHeight, flexTileHorizontal, flexTileVertical, flexStretchKeepAspect (Booleans)</li>
+      </ul>
+    </li>
+    <li><strong>Object Instance properties</strong>:
+      <ul>
+        <li>instanceObjectIndex (Object Handle)</li>
+        <li>instanceId (Instance Handle)</li>
+        <li>elementId (Element Handle): Element of the instance in the layer</li>
+        <li>instanceVariables (Struct): Contains the Variable Definitions set up for the object, with the variable name as the key and the variable value as the key value. (<span data-conref="../../../assets/snippets/Tag_note.hts"> </span> You cannot set read-only variables or the depth as it is controlled by the layer.)</li>
+        <li>instanceOffsetX, instanceOffsetY, instanceScaleX, instanceScaleY, instanceAngle, instanceImageSpeed, instanceImageIndex (Real)</li>
+        <li>instanceColour (Colour)</li>
+      </ul>
+    </li>
+    <li><strong>Sprite properties</strong>: 
+      <ul>
+        <li>spriteIndex (Sprite Handle)</li>
+        <li>elementId (Element Handle): Element of the sprite in the layer. Can be used with functions for <a data-xref="{title}" href="../Asset_Management/Rooms/Sprite_Layers/Sprite_Layers.htm">Sprite Elements</a></li>
+        <li>spriteImageSpeed, spriteImageIndex, spriteAngle, spriteOffsetX, spriteOffsetY, spriteScaleX, spriteScaleY (Real)</li>
+        <li>spriteColour (Colour)</li>
+        <li>spriteSpeedType (<span data-keyref="Type_Constant_Sprite_Speed"><a href="../Asset_Management/Sprites/Sprite_Information/sprite_get_speed_type.htm" target="_blank">Sprite Speed Constant</a></span>)</li>
+      </ul>
+    </li>
+    <li><strong>Text properties</strong>:
+      <ul>
+        <li>textFontIndex (Font Handle)</li>
+        <li>elementId (Element Handle): Element of the text in the layer. Can be used with functions for <a data-xref="{title}" href="../Asset_Management/Rooms/Text_Functions/Text_Elements.htm">Text Elements</a></li>
+        <li>textOffsetX, textOffsetY, textScaleX, textScaleY, textAngle, textColour, textOriginX, textOriginY (Real)</li>
+        <li>textText (String)</li>
+        <li>textAlignment, textCharacterSpacing, textLineSpacing, textFrameWidth, textFrameHeight (Real)</li>
+        <li>textWrap (Boolean)</li>
+      </ul>
+    </li>
+    <li><strong>Sequence properties</strong>: 
+      <ul>
+        <li>sequenceIndex (Sequence Handle)</li>
+        <li>elementId (Element Handle): Element of the sequence in the layer. Can be used with functions for <a data-xref="{title}" href="../Asset_Management/Rooms/Sequence_Layers/Sequence_Layers.htm">Sequence Elements</a></li>
+        <li>sequenceHeadPosition, sequenceAngle, sequenceOffsetX, sequenceOffsetY, sequenceScaleX, sequenceScaleY, sequenceImageSpeed (Real)</li>
+        <li>sequenceSpeedType (<span data-keyref="Type_Constant_Sprite_Speed"><a href="../Asset_Management/Sprites/Sprite_Information/sprite_get_speed_type.htm" target="_blank">Sprite Speed Constant</a></span>)</li>
+        <li>sequenceColour (Colour)</li>
+      </ul>
+    </li>
+  </ul>
+  <h3>Clip Content</h3>
+  <p class="note">Struct properties: <span class="inline2">clipContent</span></p>
+  <p>A boolean that stores whether contents of the node should clip rendering to the node area.</p>
   <p> </p>
   <p> </p>
   <!--</div>-->
@@ -234,7 +297,7 @@
         <div>Next: <a data-xref="{title}" href="Function_Reference/section_index.htm">Flex Panel Functions</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2026 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 Flex_Panels_Styling

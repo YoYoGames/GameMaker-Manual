@@ -62,10 +62,10 @@
   <p>上述代码将从给定的URL中请求一个文件，并将其设置为下载到本地存储区（如HTML5游戏选项中指定的），目录为 &quot;Downloads&quot;，文件名为给定的文件（这不必与源文件名相同，但应使用相同的文件<span class="notranslate">extension</span> ）。 <span class="inline">async_load</span> 地图索引将被存储在变量 &quot;file &quot;中，所以你可以在异步事件中检查正确的回调，如果保存目录不存在，它将被创建。触发的异步事件将是<b>HTTP</b>子事件，在该事件中你会有如下内容。</p>
   <p class="code">if ds_map_find_value(async_load, &quot;id&quot;) == file<br />
     {<br />
-        var _status = ds_map_find_value(async_load, &quot;status&quot;);<br />
+        var _status = async_load[? &quot;status&quot;];<br />
         if (_status == 0)<br />
         {<br />
-            var _path = ds_map_find_value(async_load, &quot;result&quot;);<br />
+            var _path = async_load[? &quot;result&quot;];<br />
             var _files = zip_unzip(path, &quot;/NewContent/&quot;);<br />
             if (_files &gt; 0)<br />
             {<br />

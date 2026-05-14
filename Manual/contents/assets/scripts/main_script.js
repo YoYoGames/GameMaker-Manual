@@ -1,3 +1,7 @@
+// ----------------------------------------------------------------------------------------------
+// Code highlighter
+// ----------------------------------------------------------------------------------------------
+
 /*!
   Highlight.js v11.0.1 (git: 1cf31f015d)
   (c) 2006-2021 Ivan Sagalaev and other contributors
@@ -78,7 +82,7 @@ var hljs = (function () {
         //.replace(/"/g, '&quot;')
         //.replace(/'/g, '&#x27;');
     }
-	
+  
     function escapeHTMLCustom(value) {
       return value
         .replace(/&/g, '&amp;')
@@ -2272,11 +2276,12 @@ var hljs = (function () {
           console.warn("https://github.com/highlightjs/highlight.js/issues/2886");
           console.warn(element);
         }
-		
+    
         node = element;
-		
+    
         // Replace <br [/]> with line breaks to make the parser's job easier.
         node.innerHTML = node.innerHTML
+          .trim()
           .replaceAll(/\n(<br *\/*>)/g, '\n')
           .replaceAll(/(<br *\/*>)\n/g, '\n')
           .replaceAll(/(<br *\/*>)/g, '\n');
@@ -2551,7 +2556,9 @@ var hljs = (function () {
 }());
 if (typeof exports === 'object' && typeof module !== 'undefined') { module.exports = hljs; }
 
-
+// Load and register language definitions used for code highlighting
+import gmljs from "./gml.js";
+import glsljs from "./glsl.js";
 
 hljs.registerLanguage("gml",(()=>{"use strict";return e=>({name:"GML",
 case_insensitive:!1,keywords:{
@@ -2563,6 +2570,7 @@ symbol:"argument_relative argument argument0 argument1 argument2 argument3 argum
 contains:[e.C_LINE_COMMENT_MODE,e.C_BLOCK_COMMENT_MODE,e.APOS_STRING_MODE,e.QUOTE_STRING_MODE,e.C_NUMBER_MODE]
 })})());
 
+// Trigger code highlighting on page load
 document.addEventListener('DOMContentLoaded', (event) => {
 	// Turn return code blocks into plain blocks
 	var h4s = document.getElementsByTagName("h4");
@@ -2584,3 +2592,304 @@ document.addEventListener('DOMContentLoaded', (event) => {
 	
 	hljs.highlightAll();
 });
+
+
+// ----------------------------------------------------------------------------------------------
+// Language select dropdown (create and navigate)
+// ----------------------------------------------------------------------------------------------
+var createLanguageMenu = function () {
+// Dont open in mobile view unless it's non-context view
+var desktopToc = window.parent.document.getElementsByClassName("functionbar sidebar-opened")[0];
+var nonContext = window.parent.document.getElementById("rh-topic-header");
+if (desktopToc == undefined && nonContext == undefined) return;
+
+// Checks
+var is_online = window.location.hostname.endsWith(".gamemaker.io");
+
+// Create default style (full context view) and get parent elm
+var listStyle = `
+  background-color: #333;
+  border: 0;
+  color: white;
+  padding: 8px;
+  border-radius: 4px;`
+
+var myParent = window.parent.document.getElementsByClassName("header")[0];
+
+// No context view style and parent elm
+var isNoContext = false;
+if (myParent == undefined) {
+	myParent = nonContext;
+	/*listStyle += `
+  margin-right: 11px;
+  margin-bottom: 11px;
+  margin-left: 30px;
+	`;*/
+	
+	isNoContext = true;
+}
+
+
+// Delete parent if it already exists
+var existingParent = window.parent.document.getElementById("dropParent");
+if (existingParent != undefined) {
+	existingParent.remove();
+}
+
+// Create parent
+var newParent = document.createElement("div");
+newParent.id = "dropParent";
+var parentStyle = `
+	display: flex;
+	flex-direction: row;
+	float: right;
+	gap: 12px;
+`;
+if (isNoContext) {
+	parentStyle += `
+	margin-bottom: 12px;
+	`;
+}
+newParent.style = parentStyle;
+myParent.insertBefore(newParent, myParent.lastChild.nextSibling);
+myParent = newParent;
+
+//Create array of options to be added
+var array = [
+  { name: "English", code: "en" },
+  { name: "Français", code: "fr" },
+  { name: "Español", code: "es" },
+  { name: "Deutsch", code: "de" },
+  { name: "Русский", code: "ru" },
+  { name: "Italiano", code: "it" },
+  { name: "Polski", code: "pl" },
+  { name: "Português Brasileiro", code: "br" },
+  { name: "한국어", code: "ko" },
+  { name: "中文", code: "zh" },
+  { name: "日本語", code: "ja" }
+];
+
+if (!is_online) array.unshift({ name: "Change Language", code: "" });
+
+// Delete if it already exists
+var existingSelectList = window.parent.document.getElementById("mySelect");
+if (existingSelectList != undefined) {
+	existingSelectList.remove();
+}
+	
+//Create and append select list
+var selectList = document.createElement("select");
+selectList.id = "mySelect";
+selectList.style = listStyle;
+myParent.appendChild(selectList);
+
+//Create and append the options
+for (var i = 0; i < array.length; i++) {
+	var option = document.createElement("option");
+	option.value = JSON.stringify(array[i]);
+	option.text = array[i].name;
+	selectList.appendChild(option);
+} // end for
+
+// are we on the main site???? if so then lets find the index of the current language
+if (is_online) {
+  // lets get the language from the pathname
+  const folders = window.location.pathname.split("/");
+  if (folders.length >= 3) {
+	var language = folders[2];
+	// find the language index from the url
+	for( var i=0; i<array.length; ++i) {
+	  if (array[i].code == language) {
+		// put the current language first in the list
+		//var child = selectList.children[i];
+		//selectList.removeChild(child);
+		//selectList.insertBefore(child, selectList.firstChild);
+		// select the first element
+		//selectList.selectedIndex = 0;
+		selectList.selectedIndex = i;
+		break;
+	  } // end if
+	} // end for
+  } // end if
+} // end if
+else {
+  selectList.selectedIndex = 0;
+}
+
+selectList.addEventListener( "change", function(e) { 
+  //var tg = selectList.target.value;
+  //console.log("Hello entry " + tg.name + " " + tg.code + ", " + JSON.stringify(selectList)); 
+  var index = selectList.selectedIndex;
+  var entry = array[index];
+  var url = window.location.href;
+  //var urlParams = url.searchParams;
+  
+  if (entry.code=="") return;
+
+  // some logging for debugging
+  //console.log("Hello entry " + JSON.stringify(array[index]));   
+  //console.log("host " + url.hostname); 
+  //console.log("pathname " + url.pathname); 
+  //console.log("hash " + url.hash); 
+  //for( const [key, value] of urlParams) {
+  //  console.log(`${key} = ${value}`); 
+  //}
+
+  // check to see if this is localhost (i.e. we are testing locally)
+  if (!url.includes( ".gamemaker.io")) {
+	url = `https://manual.gamemaker.io/monthly/${entry.code}/#t=${window.location.pathname.substring(1)}`;
+	console.log( `new url - ${url}`);
+	window.parent.location.href = url;
+  } // end if
+  else {
+	const folders = window.parent.location.pathname.split("/");
+	if (folders.length >= 3) {
+	  folders[2] = entry.code;
+	} // end if
+	var newpath = `${folders.join('/')}`;
+	window.parent.location.pathname = newpath;
+  }
+
+});
+}
+setTimeout(createLanguageMenu, 30);
+
+
+
+// ----------------------------------------------------------------------------------------------
+// Branch select dropdown (create and navigate)
+// ----------------------------------------------------------------------------------------------
+var createBranchMenu = function () {
+// Create default style (full context view) and get parent elm
+var listStyle = `
+  background-color: #333;
+  border: 0;
+  color: white;
+  padding: 8px;
+  border-radius: 4px;
+  margin-right: 12px;`
+
+var myParent = window.parent.document.getElementsByClassName("header")[0];
+myParent = window.parent.document.getElementById("dropParent");
+if (myParent == undefined) return;
+// No context view style and parent elm
+/*if (myParent == undefined) {
+	myParent = window.parent.document.getElementById("rh-topic-header");
+	listStyle += `
+  margin-right: 12px;
+  margin-bottom: 11px;
+  margin-left: 30px;
+	`;
+}*/
+
+
+// Checks
+var is_online = window.location.hostname.endsWith(".gamemaker.io");
+
+//Create array of options to be added
+var bArray = [
+  { name: "Monthly", code: "monthly" },
+  { name: "Beta", code: "beta" },
+  { name: "LTS", code: "lts" }
+];
+if (!is_online) bArray.unshift({ name: "Change Version", code: "" });
+
+// Delete if it already exists
+var existingSelectList = window.parent.document.getElementById("myBranchSelect");
+if (existingSelectList != undefined) {
+	existingSelectList.remove();
+}
+	
+//Create and append select list
+var bSelectList = document.createElement("select");
+bSelectList.id = "myBranchSelect";
+bSelectList.style = listStyle;
+myParent.insertBefore(bSelectList, myParent.lastChild.nextSibling);
+
+//Create and append the options
+for (var i = 0; i < bArray.length; i++) {
+	var option = document.createElement("option");
+	option.value = JSON.stringify(bArray[i]);
+	option.text = bArray[i].name;
+	bSelectList.appendChild(option);
+} // end for
+
+// are we on the main site???? if so then lets find the index of the current language
+if (window.location.hostname.endsWith( ".gamemaker.io")) {
+  // lets get the language from the pathname
+  const folders = window.location.pathname.split("/");
+  if (folders.length >= 3) {
+	var branch = folders[1];
+	// find the language index from the url
+	for( var i=0; i<bArray.length; ++i) {
+	  if (bArray[i].code == branch) {
+		// put the current language first in the list
+		//var child = selectList.children[i];
+		//selectList.removeChild(child);
+		//selectList.insertBefore(child, selectList.firstChild);
+		// select the first element
+		//selectList.selectedIndex = 0;
+		bSelectList.selectedIndex = i;
+		break;
+	  } // end if
+	} // end for
+  } // end if
+} // end if
+else {
+  bSelectList.selectedIndex = 0;
+}
+
+bSelectList.addEventListener( "change", function(e) { 
+  //var tg = selectList.target.value;
+  //console.log("Hello entry " + tg.name + " " + tg.code + ", " + JSON.stringify(selectList)); 
+  var index = bSelectList.selectedIndex;
+  var entry = bArray[index];
+  var url = window.location.href;
+  //var urlParams = url.searchParams;
+  
+  if (entry.code=="") return;
+
+  // some logging for debugging
+  //console.log("Hello entry " + JSON.stringify(array[index]));   
+  //console.log("host " + url.hostname); 
+  //console.log("pathname " + url.pathname); 
+  //console.log("hash " + url.hash); 
+  //for( const [key, value] of urlParams) {
+  //  console.log(`${key} = ${value}`); 
+  //}
+
+  // check to see if this is localhost (i.e. we are testing locally)
+  if (!url.includes( ".gamemaker.io")) {
+	var curcode = "en";
+	const folders = window.parent.location.pathname.split("/");
+	if (folders.length >= 3) {
+	  curcode = folders[2];
+	} // end if
+	url = `https://manual.gamemaker.io/${entry.code}/${curcode}/#t=${window.location.pathname.substring(1)}`;
+	console.log( `new url - ${url}`);
+	window.parent.location.href = url;
+  } // end if
+  else {
+	const folders = window.parent.location.pathname.split("/");
+	if (folders.length >= 3) {
+	  folders[1] = entry.code;
+	} // end if
+	var newpath = `${folders.join('/')}`;
+	window.parent.location.pathname = newpath;
+  }
+
+});
+}
+setTimeout(createBranchMenu, 40);
+
+// Set tab title to page title in context-view
+var titleSetup = function()
+{
+	window.parent.document.title = document.title;
+}
+
+if (document.title != window.parent.document.title)
+{
+	setTimeout(titleSetup, 40);
+}
+

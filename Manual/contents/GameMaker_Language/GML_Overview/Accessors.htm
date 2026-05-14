@@ -10,7 +10,7 @@
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Page outlining the different Accessors" />
   <meta name="rh-index-keywords" content="Accessors" />
-  <meta name="search-keywords" content="Accessors,@,[| ],[@ ],[# ],[? ],grid accessor,list accessor,map accessor,array accessor" />
+  <meta name="search-keywords" content="Accessors,@,[| ],[@ ],[# ],[? ], [$ ],grid accessor,list accessor,map accessor, struct accessor, array accessor" />
 </head>
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
@@ -23,10 +23,10 @@
     <p class="code">list_index[| index]</p>
     <p class="dropspot">因此，当你使用<span class="inline">ds_list_create()</span> 来创建你的列表时，你将使用列表索引（你已经存储在一个变量中）来引用它，&quot;索引 &quot;值是列表中要设置或添加的位置。例如，下面的代码创建了一个列表，然后添加了10个条目，将每个条目设置为0到9的随机数。</p>
     <p class="code">ds = ds_list_create();<br />
-      var index = 0;<br />
+      var _index = 0;<br />
       repeat(10)<br />
       {<br />
-          ds[| index++] = irandom(9);<br />
+          ds[| _index++] = irandom(9);<br />
       }</p>
     <p class="dropspot">注意，如果你使用表达式向已经有一个值的索引添加引用，先前的值将被替换，而不是向列表中添加更多的索引。要增加更多的条目，你需要知道ds_list的大小，并把它们加到最后。同样值得注意的是，你可以设置一个<i>大于</i>被引用列表大小的列表索引，这将设置该值，同时扩展列表，并将列表中直到给定索引的所有位置初始化为0。</p>
     <p class="dropspot">一旦你创建了你的列表结构并将数据填入其中，要想从列表中获取数值，你需要做一些事情。</p>
@@ -56,15 +56,15 @@
     <p class="dropspot">在用<span class="inline">ds_grid_create()</span> 函数创建了你的网格后，你将使用你存储在一个变量中的网格索引来引用它，&quot;xpos &quot;和 &quot;ypos &quot;是在网格中获得或设置一个值的位置。例如，下面的代码创建了一个网格，将其清除为0，然后再向其添加一些条目。</p>
     <p class="code">ds = ds_grid_create();<br />
       ds_grid_clear(ds, 0);<br />
-      var gw = ds_grid_width(ds) - 1;<br />
-      var gh = ds_grid_height(ds) - 1;<br />
+      var _gw = ds_grid_width(ds) - 1;<br />
+      var _gh = ds_grid_height(ds) - 1;<br />
       repeat(10)<br />
       {<br />
-          var xx = irandom(gw);<br />
-          var yy = irandom(gh);<br />
-          if (ds[# xx, yy] == 0)<br />
+          var _xx = irandom(_gw);<br />
+          var _yy = irandom(_gh);<br />
+          if (ds[# _xx, _yy] == 0)<br />
           {<br />
-              ds[# xx, yy] = 1;<br />
+              ds[# _xx, _yy] = 1;<br />
           }<br />
       }</p>
     <p class="dropspot">一旦你创建了你的网格结构并填满了数据，要想从一个特定的网格位置获得数值，你就得这样做。</p>
@@ -144,7 +144,7 @@
     var _a = data[? &quot;lists&quot;][| 0][# 0, 0];<br />
     <br />
     // Access an array nested in a list from a script and modify it:<br />
-    data[| 0][@ 10] = 100;<br />
+    data[| 0][10] = 100;<br />
     <br />
     // Access a map nested in a grid nested in a list nested in an array:<br />
     data[0][| 10][# 3, 4][? &quot;key&quot;] = &quot;hello world&quot;;
@@ -178,39 +178,22 @@
     <h5><span data-keyref="Copyright Notice">© Copyright<span class="notranslate">YoYo Games Ltd.</span> 2022 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
-div
-mod
-bitwise operators
-bitshift
-and
-or
-xor 
-&amp;&amp;
-||
-^^
-%
-|
-&amp;
-^
-&lt;&lt;
-&gt;&gt;
-bitwise or
-bitwise and
-bitwise xor
-bitshift left
-bitshift right
-&lt;
-&lt;=
-==
-!=
-&gt;
-&gt;=
-++
-$
-hexadecimal
+accessors
+accessor chaining
+grid accessor
+list accessor
+map accessor
+struct accessor
+array accessor
+@
+[| ]
+[@ ]
+[# ]
+[? ]
+[$ ]
 -->
   <!-- TAGS
-expressions_operators
+accessors
 -->
 </body>
 </html>
