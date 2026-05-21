@@ -2788,7 +2788,6 @@ var is_online = window.location.hostname.endsWith(".gamemaker.io");
 
 //Create array of options to be added
 var bArray = [
-  { name: "Monthly", code: "monthly" },
   { name: "Beta", code: "beta" },
   { name: "LTS", code: "lts" }
 ];
