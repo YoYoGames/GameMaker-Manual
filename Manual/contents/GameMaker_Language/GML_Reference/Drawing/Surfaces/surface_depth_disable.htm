@@ -4,9 +4,9 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>surface_depth_disable</title>
-  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <meta name="generator" content="Adobe RoboHelp 2019" />
   <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
-  <script src="../../../../assets/scripts/main_script.js" type="module"></script>
+  <script src="../../../../assets/scripts/main_script.js"></script>
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Reference for surface_depth_disable" />
   <meta name="rh-index-keywords" content="surface_depth_disable" />
@@ -15,54 +15,52 @@
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
   <h1><span data-field="title" data-format="default">surface_depth_disable</span></h1>
-  <p>This function disables (<span class="inline2">true</span>) or re-enables (<span class="inline2">false</span>) automatic depth and stencil buffer creation for <i>all</i> surfaces.</p>
-  <p>By default, <em>the depth and stencil buffer are enabled</em>, i.e. a depth <em>and</em> stencil buffer are automatically created for surfaces. This applies to surfaces that you create manually using <span class="inline3_func"><a data-xref="{title}" href="surface_create.htm">surface_create</a></span> as well as to the <span class="inline2"><a data-xref="{title}" href="application_surface.htm">application_surface</a></span>.</p>
-  <p>To use this function you call it <i>before</i> creating a surface, and then you can enable it again later (if required). All surfaces created when this setting is disabled will not be created with a depth buffer and so cannot use it when drawn to. This results in the things being drawn to the surface having parity of depth. The images below illustrate this in practice:</p>
-  <p><img alt="Surface depth buffer example" class="center" height="381" src="../../../../assets/Images/Scripting_Reference/GML/Reference/Drawing/Surface_Depth_Buffer.png" width="1032" />In the above image, we draw a rectangle and a triangle using a vertex buffer in 3D. The coordinates for the red triangle place it behind the green rectangle, but the code to draw the triangle is called <i>after</i> the code that draws the rectangle. With the depth buffer enabled, the triangle is still drawn behind the rectangle as the 3D depth is being respected. However, when we disable the depth buffer for the surface, only the code order is respected and so the triangle is drawn over the rectangle.</p>
-  <p class="note"><span data-conref="../../../../assets/snippets/Tag_warning.hts"> </span> Allocating depth buffers essentially <span>doubles the amount of memory required for surfaces</span>. This could be an excessive and unnecessary overhead, especially if your game is very memory intensive.</p>
-  <p class="note" style="text-align: left; "><b><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> </b>To properly preserve depth in 3D when drawing to a surface, not only should you have the depth buffer enabled, you should also have z-writing and z-testing enabled. See the functions <span class="inline3_func"><a data-xref="{title}" href="../GPU_Control/gpu_set_zwriteenable.htm">gpu_set_zwriteenable</a></span> and <span class="inline3_func"><a data-xref="{title}" href="../GPU_Control/gpu_set_ztestenable.htm">gpu_set_ztestenable</a></span> more information.</p>
-  <p class="note"><b><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> </b>If your game is 100% 2D or you know that you don&#39;t need a surface depth buffer, then it should be fine to simply call this function once at the start of the game to disable the buffer.</p>
-  <div data-conref="../../../../assets/snippets/Note_disables_clipping_masks.hts"> </div>
-  <p>See: <a data-xref="{title}" href="../Depth_And_Stencil_Buffer/The_Depth_And_Stencil_Buffer.htm">The Depth And Stencil Buffer</a></p>
-  <p> </p>
-  <h4>Syntax:</h4>
-  <p class="code"><span data-field="title" data-format="default">surface_depth_disable</span>(disable)</p>
+  <p>这个功能使<i>所有</i>在禁用后创建的曲面的自动深度<span class="notranslate">buffer</span> 。通常情况下，所有的表面都有深度<span class="notranslate">buffers</span> ，所以如果你对它们绘制3D<span class="notranslate">objects</span> ，那么它就会按深度正确排序，以保持对表面的渲染和对背面的渲染之间的功能一致。
+    为了保持对表面的渲染和对背面的渲染之间的功能对等<span class="notranslate">buffer</span> ，然而分配深度<span class="notranslate">buffers</span> ，基本上会使表面所需的内存量增加一倍，这可能是一个过度和不必要的开销。
+    特别是当你的游戏是非常密集的内存时，而对于2D游戏来说，它们通常是不需要的。</p>
+  <p>要使用这个函数，你要<i>在</i>创建曲面<i>之前</i>调用它，然后你可以在之后再启用它（如果需要）。所有在禁用深度<span class="notranslate">buffer</span> 的情况下创建的曲面在被绘制时将不再使用深度<span class="notranslate">buffer</span> ，这导致
+    绘制的东西具有相同的深度。下面的图片说明了这个实际情况。</p>
+  <p><img>在上图中，我们正在用3D的<span class="notranslate">vertex</span> <span class="notranslate">buffer</span> ，画一个长方形和一个三角形。红色三角形的
+    红色三角形的坐标位于绿色矩形的后面，但绘制三角形的代码是<i>在</i>矩形的代码<i>之后</i>调用的，当启用深度<span class="notranslate">buffer</span> ，三角形仍然被绘制在矩形的后面
+    因为三维深度得到了尊重。然而，当我们禁用表面的深度<span class="notranslate">buffer</span> ，只有代码的顺序被尊重，所以三角形被画在了矩形上。</p>
+  <p class="note"><b>注意</b>：为了在使用曲面时正确保留三维的深度，不仅要启用深度<span class="notranslate">buffer</span> ，还要启用z-writing和z-testing。参见函数 <a href="../GPU_Control/gpu_get_ztestenable.htm"><span class="inline"><span style="font-size:14px;">gpu_set_ztestenable()</span></a>    和 <a href="../GPU_Control/gpu_get_zwriteenable.htm"><span class="inline"><span style="font-size:14px;">gpu_set_zwriteenable()</span></a>获取更多信息。</p>
+  <p class="note"><b>注意</b>：如果你的游戏是100%的2D，或者你知道你不需要表面深度<span class="notranslate">buffer</span> ，那么只需在游戏开始时调用这个函数一次，禁用<span class="notranslate">buffer</span> ，应该就可以了。</p>
+  <p> </p>
+  <h4>语法。</h4>
+  <p class="code"><span data-field="title" data-format="default">surface_depth_disable</span>(disable);</p>
   <table>
     <tbody>
       <tr>
-        <th>Argument</th>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
+        <th>争论</th><th>类型</th>
+        <th>描述</th>
+     </tr>
       <tr>
-        <td>disable</td>
-        <td><span data-keyref="Type_Bool"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Boolean</a></span></td>
-        <td>If set to <span class="inline2">true</span> the depth buffer will be disabled for newly created surfaces.</td>
-      </tr>
+        <td><span class="notranslate">disable</span></td><td><span data-keyref="Type_Bool"></span></td>
+        <td><span class="notranslate">If set to <span class="inline">true</span> 创建的表面将禁用深度缓冲区。</td>
+     </tr>
     </tbody>
   </table>
-  <p> </p>
-  <h4>Returns:</h4>
-  <p class="code"><span data-keyref="Type_Void">N/A</span></p>
-  <p> </p>
-  <h4>Example:</h4>
-  <p class="code">var _depth_setting = surface_get_depth_disable();<br />
-    surface_depth_disable(false);<br />
-    surface_with_depth_and_stencil = surface_create(room_width, room_height);<br />
-    surface_depth_disable(true);<br />
-    surface_without_depth_and_stencil = surface_create(room_width, room_height);<br />
-    surface_depth_disable(_depth_setting);</p>
-  <p>The above code stores the current depth buffer setting in a variable and then creates two surfaces, one with depth buffering enabled and one without, before restoring the original setting again.</p>
-  <p> </p>
-  <p> </p>
+  <p> </p>
+  <h4>返回。</h4>
+  <p class="code"><span data-keyref="Type_Void"></span></p>
+  <p> </p>
+  <h4>例子。</h4>
+  <p class="code">var _depth_setting = surface_get_depth_disable();<br/> surface_depth_disable(false);
+    <br/> surface_with_depth = surface_create(room_width, room_height);<br/> surface_depth_disable(true);
+    <br/> surface_without_depth = surface_create(room_width, room_height);<br/> surface_depth_disable(_depth_setting);
+  </p>
+  <p>上面的代码将当前的深度<span class="notranslate">buffer</span> ，然后创建两个表面，一个启用了深度缓冲，一个没有，然后再恢复原来的设置。</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a href="Surfaces.htm">Surfaces</a></div>
-        <div style="float:right">Next: <a href="surface_get_height.htm">surface_get_height</a></div>
+        <div style="float:left">背面。<a href="Surfaces.htm">表面</a></div>
+        <div style="float:right">下一步。 <a href="surface_get_height.htm"><span class="notranslate">surface_get_height</span></a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright<span class="notranslate">YoYo Games Ltd.</span> 2021 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 surface_depth_disable

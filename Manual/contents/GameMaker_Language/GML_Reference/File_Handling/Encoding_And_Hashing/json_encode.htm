@@ -6,7 +6,7 @@
   <title>json_encode</title>
   <meta name="generator" content="Adobe RoboHelp 2022" />
   <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
-  <script src="../../../../assets/scripts/main_script.js" type="module"></script>
+  <script src="../../../../assets/scripts/main_script.js"></script>
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Reference page for json_encode" />
   <meta name="rh-index-keywords" content="json_encode" />
@@ -16,88 +16,59 @@
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
   <h1><span data-field="title" data-format="default">json_encode</span></h1>
-  <p>This function takes an existing <span data-keyref="Type_ID_DS_Map"><a href="../../Data_Structures/DS_Maps/ds_map_create.htm" target="_blank">DS Map</a></span> and encodes its contents as a JSON string.</p>
-  <p>The JSON string can be used, e.g., as part of an <span class="inline3_func"><a data-xref="{title}" href="../../Asynchronous_Functions/HTTP/http_post_string.htm">http_post_string</a></span> call or be written to a file, so the data can be stored externally.</p>
-  <p class="note"><span data-conref="../../../../assets/snippets/Tag_important.hts"> </span> This function - while still valid for DS maps - has been superseded by the function <span class="inline3_func"><a data-xref="{title}" href="json_stringify.htm">json_stringify</a></span> and <a href="../../../GML_Overview/Structs.htm">structs</a>, and we recommend that you only use this function for legacy support.</p>
-  <p>The DS map can contain the following: </p>
+  <h3><strong>重要的是!</strong>这个函数--虽然仍然有效--已经被函数 <span class="inline"><a href="json_stringify.htm">json_stringify()</a></span> 所取代，我们建议你只使用这个函数作为传统的支持。</h3>
+  <p>JSON（JavaScript<span class="notranslate">Object</span> Notation）是一种轻量级的数据交换格式，对人和机器来说都很容易阅读和书写。它建立在两个基本结构上。</p>
   <ul class="colour">
-    <li>Nested <a data-xref="{title}" href="../../Data_Structures/DS_Maps/DS_Maps.htm">DS Maps</a> and <a data-xref="{title}" href="../../Data_Structures/DS_Lists/DS_Lists.htm">DS Lists</a> that should be marked correctly using the DS map <a data-xref="{text}" href="../../Data_Structures/DS_Maps/DS_Maps.htm#func_ref_json">JSON</a> functions (e.g. <span class="inline3_func"><a data-xref="{title}" href="../../Data_Structures/DS_Maps/ds_map_add_map.htm">ds_map_add_map</a></span>, <span class="inline3_func"><a data-xref="{title}" href="../../Data_Structures/DS_Maps/ds_map_add_list.htm">ds_map_add_list</a></span>) and the DS list <a data-xref="{text}" href="../../Data_Structures/DS_Lists/DS_Lists.htm#func_ref_json">JSON</a> functions (e.g. <span class="inline3_func"><a data-xref="{title}" href="../../Data_Structures/DS_Lists/ds_list_mark_as_map.htm">ds_list_mark_as_map</a></span>, <span class="inline3_func"><a data-xref="{title}" href="../../Data_Structures/DS_Lists/ds_list_mark_as_list.htm">ds_list_mark_as_list</a></span>) respectively.</li>
-    <li>Nested <a href="../../../GML_Overview/Structs.htm">Structs</a> and <a data-xref="{title}" href="../../../GML_Overview/Arrays.htm">Arrays</a> which are written as nested JSON objects and arrays respectively.</li>
+    <li>一组名称/值对的集合，在GameMaker中称为 <a href="../../Data_Structures/DS_Maps/DS_Maps.htm"><span class="inline">DS Map</span></a>但在其他编程语言中也被称为 &quot;字典 &quot;或 &quot;对象&quot;。</li>
+    <li>一个有序的数值列表，在GameMaker中称为 <a href="../../Data_Structures/DS_Lists/DS_Lists.htm"><span class="inline">DS </span><span class="inline">List</span></a>但在其他编程语言中，这也可以称为 &quot;数组 &quot;或 &quot;序列&quot;。</li>
   </ul>
-  <h3>Usage Notes</h3>
-  <ul class="colour">
-    <li>The DS map keys are not added to the JSON string in a particular order.</li>
-    <li><span data-keyref="GameMaker Name">GameMaker</span> encodes certain values in the JSON as a string so they can be read back correctly later. See <a data-xref="{text}" href="../../../../Additional_Information/Guide_To_Using_JSON.htm#data_conversions">Data Conversions</a> for an overview of these conversions.</li>
-  </ul>
-  <div data-conref="../../../../assets/snippets/Note_See_Guide_To_Using_JSON.hts"> </div>
-  <h4>Syntax:</h4>
-  <p class="code"><span data-field="title" data-format="default">json_encode</span>(map, [prettify])</p>
+  <p><span class="inline">json_encode()</span> 将你之前创建的DS地图或数组编码为JSON ，然后你可以将其作为（例如）调用的一部分。<span class="notranslate">string</span> <a href="../../Asynchronous_Functions/HTTP/http_post_string.htm"><span class="inline">http_post_string()</span></a>调用的一部分，或者--所以它可以被存储在外部--它可以被写入一个文件。如果使用数组作为顶层结构，那么数组只能包含有效值或其他数组，而<em>不是</em>数据结构。为此，你应该使用适当的DS函数。</p>
+  <p class="note"><strong>重要的是!</strong>JSON对数字是不可知的。在任何编程语言中，可以有各种不同容量和补充的数字类型，固定或浮动，二进制或十进制。这可能使不同编程语言之间的互换变得困难。而JSON只提供了人类使用的数字的表示方法：一个<span class="notranslate">sequence</span> 的数字。所有的编程语言都知道如何理解数字<span class="notranslate">sequences</span> ，即使他们在内部表示上有分歧。更多信息见<a href="http://www.ecma-international.org/publications/standards/Ecma-404.htm">ECMA JSON标准</a>。</p>
+  <p>请注意，在向ini文件写入JSON时要注意，因为ini规范在使用引号和转义字符时可能会引起问题。参见函数 <a href="../Ini_Files/ini_write_string.htm"><span class="inline">ini_write_string()</span></a>获取更多信息。还要注意的是，如果你把int64编码到JSON中，如果它在int32的有效范围内，它将把它写成<i>int</i>，如果它能在不损失精度的情况下写成<i>双倍数</i>，或者（如果这两种情况都不适用）写成一个<i>字符串</i>，前面有一个标识符&quot;<span class="inline">@i64@</span>&quot;，后面是&quot;<span class="inline">$i64$</span>&quot;。当你再次将JSON解码为地图时，<span data-keyref="GameMaker Name">GameMaker</span>会接收这些标识符，并将值重新转换为int64。这确实意味着，如果JSON是为<span class="notranslate">server</span> 或其他非GameMaker目标准备的，这些值将不合适，所以应该避免使用。</p>
+  <p class="note"><b>注意</b>：JSON的分层功能是通过特殊的DS地图和DS列表函数（例如 <span class="inline"><a href="../../Data_Structures/DS_Maps/ds_map_add_list.htm" style="font-size: 14px">ds_map_add_list()</a></span> 或 <span class="inline"><a href="../../Data_Structures/DS_Lists/ds_list_mark_as_map.htm" style="font-size: 14px">ds_list_mark_as_map()</a></span> ）实现的，所以你能够对子列表和地图进行编码。</p>
+  <p> </p>
+  <h4>语法。</h4>
+  <p class="code"><span data-field="title" data-format="default">json_encode</span>(map)</p>
   <table>
     <tbody>
       <tr>
-        <th>Argument</th>
-        <th>Type</th>
-        <th>Description</th>
+        <th>争论</th>
+        <th>类型</th>
+        <th>描述</th>
       </tr>
       <tr>
-        <td>map</td>
-        <td><span data-keyref="Type_ID_DS_Map"><a href="../../Data_Structures/DS_Maps/ds_map_create.htm" target="_blank">DS Map</a></span></td>
-        <td>A DS map with the information to encode</td>
-      </tr>
-      <tr>
-        <td>prettify</td>
-        <td><span data-keyref="Type_Bool"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Boolean</a></span></td>
-        <td><span data-conref="../../../../assets/snippets/Tag_optional.hts"> </span> Whether to prettify the output, i.e. insert indentation and line breaks for readability. Defaults to <span class="inline2">false</span>.</td>
+        <td><span class="notranslate">map</span></td>
+        <td><span data-keyref="Type_ID_DS_Map">DS地图ID</span></td>
+        <td><span class="notranslate">A DS map with the information to encode (or an array)</span></td>
       </tr>
     </tbody>
   </table>
-  <p> </p>
-  <h4>Returns:</h4>
-  <p class="code"><span data-keyref="Type_String"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">String</a></span></p>
-  <p> </p>
-  <h4>Example 1: Basic Use</h4>
-  <p class="code">var _hiscore_map, _json;<br />
-    _hiscore_map = ds_map_create();<br />
-    for (var i = 0; i &lt; 10; i++)<br />
+  <p> </p>
+  <h4>返回。</h4>
+  <p class="code"><span data-keyref="Type_String">String</span></p>
+  <p> </p>
+  <h4>例子。</h4>
+  <p class="code">var hiscore_map, i, str;<br />
+    hiscore_map = ds_map_create();<br />
+    for (i = 0; i &lt; 10; i ++;)<br />
     {<br />
         ds_map_add(_hiscore_map, name[i], score[i]);<br />
     }<br />
-    _json = json_encode(_hiscore_map);<br />
-    ds_map_destroy(_hiscore_map);<br />
-    <br />
-    post_request_id = http_post_string($&quot;http://www.angusgames.com/game?game_id={global.game_id}&quot;, _json);
-  </p>
-  <p>The above code creates a <span data-keyref="Type_ID_DS_Map"><a href="../../Data_Structures/DS_Maps/ds_map_create.htm" target="_blank">DS Map</a></span> and then loops through the <span class="inline2">name</span> and <span class="inline2">score</span> arrays, adding each key/value pair to the new map. Next, this map is encoded using <span class="inline3_func"><a data-xref="{title}" href="json_encode.htm">json_encode</a></span> and stored as a string in the variable <span class="inline2">_str</span>. This string is then sent to a web server using <span class="inline3_func"><a data-xref="{title}" href="../../Asynchronous_Functions/HTTP/http_post_string.htm">http_post_string</a></span> and the DS map is destroyed to prevent a memory leak as it is no longer needed.</p>
-  <p> </p>
-  <h4>Example 2: Hierarchy of Mixed Data Types</h4>
-  <p class="code">var _map = ds_map_create();<br />
-    var _list = ds_list_create();<br />
-    <br />
-    ds_map_add_list(_map, &quot;seasoning&quot;, _list);<br />
-    ds_list_add(_list, &quot;pepper&quot;, &quot;salt&quot;, &quot;thyme&quot;);<br />
-    <br />
-    _map[? &quot;greeting&quot;] = {parts: [&quot;Hello&quot;, &quot;World!&quot;], separator: &quot;, &quot;};<br />
-    _map[? &quot;food&quot;] = [&quot;bread&quot;, &quot;coconut&quot;, &quot;mango&quot;];<br />
-    <br />
-    var _json = json_encode(_map, true);<br />
-    // ds_map_destroy(_map);<br />
-    <br />
-    show_debug_message(_json);
-  </p>
-  <p>The code example above shows how to encode a DS map with mixed contents to JSON.</p>
-  <p>First, a DS map and a DS list are created and stored in temporary variables. The DS list is then added to the DS map using <span class="inline3_func"><a data-xref="{title}" href="../../Data_Structures/DS_Maps/ds_map_add_list.htm">ds_map_add_list</a></span> and gets a few items added to it with a call to <span class="inline3_func"><a data-xref="{title}" href="../../Data_Structures/DS_Lists/ds_list_add.htm">ds_list_add</a></span>. After that, two other keys are added to the map, one gets assigned a <span data-keyref="Type_Struct"><a href="../../../GML_Overview/Structs.htm" target="_blank">Struct</a></span> as the value with an <span data-keyref="Type_Array"><a href="../../../GML_Overview/Arrays.htm" target="_blank">Array</a></span> in it, the other gets assigned an array.</p>
-  <p>The map&#39;s contents are then encoded with a call <span class="inline3_func"><span data-field="title" data-format="default">json_encode</span></span>, with the <span class="inline2">prettify</span> parameter set to <span class="inline2">true</span>. If you only need the JSON string, the map can be destroyed right after this.</p>
-  <p>Finally, the JSON string is shown in a debug message.</p>
-  <p> </p>
-  <p> </p>
+    str = json_encode(hiscore_map);<br />
+    get[0] = http_post_string(&quot;http://www.angusgames.com/game?game_id=&quot; + string(global.game_id), str)<br />
+    ds_map_destroy(hiscore_map);</p>
+  <p>上面的代码创建了一个DS地图，然后<span class="notranslate">loops</span> ，通过名字和分数数组，将每个键/值对添加到新地图中。接下来，这个地图用 <span class="inline">json_encode()</span> 编码，并作为一个<span class="notranslate">string</span> ，存储在变量 &quot;str &quot;中。这个<span class="notranslate">string</span> ，然后使用 <span class="inline">http_post_string()</span> ，发送到一个网络<span class="notranslate">server</span> ，并且销毁DS地图，以防止内存泄漏，因为它不再需要了。</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a data-xref="{title}" href="Encoding_And_Hashing.htm">Encoding And Hashing</a></div>
-        <div style="float:right">Next: <a data-xref="{title}" href="json_encode.htm">json_encode</a></div>
+        <div style="float:left">返回。<a href="Encoding_And_Hashing.htm">文件编码</a></div>
+        <div style="float:right">下一步。 <a href="json_decode.htm"><span class="notranslate">json_decode</span></a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2025 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright<span class="notranslate">YoYo Games Ltd.</span> 2022 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 json_encode

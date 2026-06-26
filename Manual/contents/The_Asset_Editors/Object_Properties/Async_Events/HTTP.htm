@@ -8,27 +8,40 @@
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Page detailing the HTTP async event." />
   <meta name="rh-index-keywords" content="Objects - Async HTTP Event" />
-  <meta name="search-keywords" content="HTTP,ev_async_web" />
+  <meta name="search-keywords" content="HTTP,ev_web_async" />
   <link rel="stylesheet" type="text/css" href="../../../assets/css/default.css" />
-  <script src="../../../assets/scripts/main_script.js" type="module"></script>
+  <script src="../../../assets/scripts/main_script.js"></script>
 </head>
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
-  <h1><span data-field="title" data-format="default">HTTP</span></h1>
-  <h3> </h3>
-  <p><img alt="HTTP Event" class="center" height="322" src="../../../assets/Images/Asset_Editors/Async_HTTP.png" width="344" />The Async <span data-field="title" data-format="default">HTTP</span> Event is triggered by the <a class="glossterm" data-glossterm="callback" href="#">callback</a> from one of the <a href="../../../GameMaker_Language/GML_Reference/Asynchronous_Functions/HTTP/HTTP.htm"><span class="inline">http_*()</span> functions</a>, like <span class="inline3_func"><a data-xref="{title}" href="../../../GameMaker_Language/GML_Reference/Asynchronous_Functions/HTTP/http_post_string.htm">http_post_string</a></span>. It isn&#39;t triggered for every single data packet that is received, but rather updates within the main game loop during the download.</p>
-  <p>A <a href="../../../GameMaker_Language/GML_Reference/Data_Structures/DS_Maps/DS_Maps.htm">DS Map</a> that is exclusive to this event is stored in the special variable <span class="inline2"><a data-xref="{title}" href="../../../GameMaker_Language/GML_Overview/Variables/Builtin_Global_Variables/async_load.htm">async_load</a></span> and can be accessed in this event (please see the individual functions for code examples that explain the use of this event in further detail).</p>
-  <div data-conref="../../../assets/snippets/Note_HTTP_async_load_Contents.hts"> </div>
-  <p> </p>
-  <p> </p>
+  <h1>HTTP</h1>
+  <p><img>HTTP事件是由<a href="../../../GameMaker_Language/GML_Reference/Asynchronous_Functions/HTTP/HTTP.htm"><span class="inline">http_*()</span> </a> 的一个<a href="../../../GameMaker_Language/GML_Reference/Asynchronous_Functions/HTTP/HTTP.htm">函数</a>的<a class="glossterm" data-glossterm="回调" href="#">回调</a>触发的，如 <a href="../../../GameMaker_Language/GML_Reference/Asynchronous_Functions/HTTP/http_post_string.htm"><span class="inline">http_post_string()</span></a>.它实际上产生了一个<a href="../../../GameMaker_Language/GML_Reference/Data_Structures/DS_Maps/DS_Maps.htm">DS Map</a>，是这个事件独有的，并存储在特殊变量 <span class="inline"><a href="../../../GameMaker_Language/GML_Overview/Variables/Builtin_Global_Variables/async_load.htm">async_load</a> </span> （请看各个函数的代码例子，这些例子进一步解释了这个事件的使用）。这个DS地图有以下的一般结构。</p>
+  <ul class="dropspotlist">
+    <li class="dropspot">&quot;<span class="inline">id</span>&quot;。从命令中返回的ID。如果你发出了一系列的 <span class="inline">http_</span> ，那么你需要知道你得到的是哪一个回复，因此你将使用这个值与你最初发送请求时存储的值进行比较，以找到正确的一个。</li>
+    <li class="dropspot">&quot;<span class="inline">status</span>&quot;。错误时返回小于0的值，成功时返回0，如果正在下载内容则返回1。</li>
+    <li class="dropspot">&quot;<span class="inline">result</span>&quot;。收到的数据（仅指<span class="notranslate">string</span> ），或者如果你使用了<span class="notranslate">path</span> ，下载的文件。 <a href="../../../GameMaker_Language/GML_Reference/Asynchronous_Functions/HTTP/http_get_file.htm"><span class="inline">http_get_file()</span></a>.只有当状态为0时，你才可能得到这个键，但这取决于平台。</li>
+    <li class="dropspot">&quot;<span class="inline">url</span>&quot;。你所要求的完整URL。</li>
+    <li class="dropspot">&quot;<span class="inline">http_status</span>&quot;。原始的http状态代码（如果有的话）。这将返回大多数浏览器的标准网络状态代码，例如：304表示 &quot;未修改 &quot;或204表示 &quot;无内容&quot;，等等。</li>
+  </ul>
+  <p>上面显示了当你使用 <a href="../../../GameMaker_Language/GML_Reference/Asynchronous_Functions/HTTP/http_post_string.htm"><span class="inline">http_post_string()</span></a>函数时得到的结果，但是 <span class="inline">http_</span> ，每个函数返回的地图可能略有不同，所以请参考每个函数的手册条目，以了解其返回的精确数据。</p>
+  <p class="note"><strong>注意</strong>：由于 <span style="font-size:14px;"><span class="inline" style="font-size: 14px">敏捷加载(async_load) </span></span>创建一个DS地图，这些函数在与 <a href="../../../GameMaker_Language/GML_Reference/File_Handling/Encoding_And_Hashing/json_encode.htm"><span class="inline" style="font-size: 14px">json_encode()</span></a>和 <a href="../../../GameMaker_Language/GML_Reference/File_Handling/Encoding_And_Hashing/json_decode.htm"><span class="inline" style="font-size: 14px">json_decode()</span></a>函数时特别有用。</p>
+  <p>如果你要求下载文件，这个地图还可能提供额外的数据。在这种情况下，&quot;状态 &quot;将有一个值为1，DS地图将持有这些额外的键。</p>
+  <ul class="dropspotlist">
+    <li class="dropspot">&quot;<span class="inline">contentLength</span>&quot;。这是网络<span class="notranslate">server</span> ，说你应该期望收到的文件大小（如果<span class="notranslate">server</span> ，不返回这个数据，可能是-1）。</li>
+    <li class="dropspot">&quot;<span class="inline">sizeDownloaded</span>&quot;。已经下载的数据的大小。</li>
+  </ul>
+  <p>请注意，该事件不会为每一个收到的数据包而被触发，而是在主游戏<span class="notranslate">loop</span> ，在下载过程中的任何时候更新。还要注意的是，目前这个功能只适用于普通的<span class="notranslate">Windows</span> 目标平台。</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a data-xref="{title}" href="../Async_Events.htm">Async Events</a></div>
-        <div style="float:right">Next: <a href="IAP.htm">In-App Purchase</a></div>
+        <div style="float:left">返回。<a href="../Async_Events.htm">异步事件</a></div>
+        <div style="float:right">下一步。<a href="IAP.htm">应用内购买</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2025 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright<span class="notranslate">YoYo Games Ltd.</span> 2022 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 Asynchronous HTTP Event

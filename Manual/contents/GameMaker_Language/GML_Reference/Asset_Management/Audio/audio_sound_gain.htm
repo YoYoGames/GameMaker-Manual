@@ -4,9 +4,9 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>audio_sound_gain</title>
-  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <meta name="generator" content="Adobe RoboHelp 2020" />
   <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
-  <script src="../../../../assets/scripts/main_script.js" type="module"></script>
+  <script src="../../../../assets/scripts/main_script.js"></script>
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Page explaining the function audio_sound_gain" />
   <meta name="rh-index-keywords" content="audio_sound_gain" />
@@ -15,64 +15,59 @@
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
   <h1><span data-field="title" data-format="default">audio_sound_gain</span></h1>
-  <p>With this function you can fade a sound asset or instance in or out over a given length of time, or it can be used to set the sound gain instantly.</p>
-  <div data-conref="../../../../assets/snippets/Note_Audio_Device_OS_Might_Normalise_Audio.hts"> </div>
-  <p>The time is measured in milliseconds, and the function requires that you input a final level of gain for the sound to have reached by the end of that time. This gain can be between 0 (silent) and any value greater than 0, although normally you&#39;d consider the maximum volume as 1. Anything over 1 can be used but, depending on the sound used and the platform being compiled to, you may get distortion or clipping when the sound is played back. Note that the gain scale is linear, and to instantly change the gain, simply leave out the time argument or set it to 0.</p>
-  <div data-conref="../../../../assets/snippets/Note_Gain_Linear_dB.hts"> </div>
-  <p>This function will affect <i>all</i> instances of the sound that are playing currently in the room if the index is a sound asset, and the final volume will be the volume at which all further instances of the sound will be played. However, if you have used the index returned from a function like <span class="inline2"><a data-xref="{title}" href="audio_play_sound.htm">audio_play_sound</a></span> it will only affect that one instance of the sound.</p>
-  <div data-conref="../../../../assets/snippets/Note_Sound_Editor_Volume_Is_Asset_Gain.hts"> </div>
-  <p> </p>
-  <h4>Syntax:</h4>
-  <p class="code"><span data-field="title" data-format="default">audio_sound_gain</span>(index, volume, [time])</p>
+  <p>通过这个功能，你可以在给定的时间长度内淡入或淡出一个声音，或者可以用来即时设置声音的增益。</p>
+  <p>时间是以毫秒为单位的，该函数要求你输入一个最终的增益水平，让声音在该时间结束时达到。这个增益可以在0（无声）和大于0的任何值之间，尽管通常你会认为最大音量是1。任何大于1的值都可以使用，但是，根据使用的声音和被编译的平台，你可能会在声音回放时出现失真或削波。请注意，增益比例是线性的，要即时改变增益，只需将时间参数设置为0即可。</p>
+  <p>如果索引是一个声音资源，这个函数将影响当前正在播放的<i>所有</i>声音实例<span class="notranslate">room</span> ，最后的音量将是所有进一步播放的声音实例的音量。但是，如果你使用的是一个函数返回的索引，如 <a href="audio_play_sound.htm"><span class="inline">audio_play_sound()</span></a>等函数返回的索引，它将只影响该声音的一个实例。</p>
+  <p> </p>
+  <h4>语法。</h4>
+  <p class="code"><span data-field="title" data-format="default">audio_sound_gain</span>(index, volume, time);</p>
   <table>
     <tbody>
       <tr>
-        <th>Argument</th>
-        <th>Type</th>
-        <th>Description</th>
+        <th>争论</th>
+        <th>类型</th>
+        <th>描述</th>
       </tr>
       <tr>
-        <td>index</td>
-        <td><span data-keyref="Type_Asset_Sound"><a href="../../../../The_Asset_Editors/Sounds.htm" target="_blank">Sound Asset</a></span> or <span data-keyref="Type_ID_Sound_Instance"><a href="audio_play_sound.htm" target="_blank">Sound Instance ID</a></span> or <span data-keyref="Type_ID_Audio_Queue"><a href="Audio_Buffers/audio_create_play_queue.htm" target="_blank">Audio Queue ID</a></span></td>
-        <td>The index of the sound to set the gain for.</td>
+        <td><span class="notranslate">index</span></td>
+        <td><span data-keyref="Type_Asset_Sound">声音资产</span>或<span data-keyref="Type_ID_Sound_Instance">声音实例ID</span></td>
+        <td><span class="notranslate">The index of the sound to set the gain for.</span></td>
       </tr>
       <tr>
-        <td>volume</td>
-        <td><span data-keyref="Type_Real"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
-        <td>The new linear gain value.</td>
+        <td><span class="notranslate">volume</span></td>
+        <td><span data-keyref="Type_Real">真实的</span></td>
+        <td><span class="notranslate">Value for the music volume.</span></td>
       </tr>
       <tr>
-        <td>time</td>
-        <td><span data-keyref="Type_Real"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
-        <td><span data-conref="../../../../assets/snippets/Tag_optional.hts"> </span> The length for the change in gain in milliseconds. Defaults to 0 (instantaneous change) if not passed.</td>
+        <td><span class="notranslate">time</span></td>
+        <td><span data-keyref="Type_Real">真实的</span></td>
+        <td><span class="notranslate">The length for the change in gain in milliseconds.</span></td>
       </tr>
     </tbody>
   </table>
-  <p> </p>
-  <h4>Returns:</h4>
+  <p> </p>
+  <h4>返回。</h4>
   <p class="code"><span data-keyref="Type_Void">N/A</span></p>
-  <p> </p>
-  <h4>Example 1:</h4>
-  <p class="code">var _snd = audio_play_sound(snd_fountain, 10, true);<br />
-    <span data-field="title" data-format="default">audio_sound_gain</span>(_snd, 0, 0);<br />
-    <span data-field="title" data-format="default">audio_sound_gain</span>(_snd, 1, 5000);
-  </p>
-  <p>The above code assigns the index of a sound to be played to the local variable <span class="inline2">snd</span>. This variable is then used to reduce the volume of that specific sound to 0 and fade up to full volume over 5 seconds.</p>
-  <p> </p>
-  <h4>Example 2:</h4>
-  <p class="code"><span data-field="title" data-format="default">audio_sound_gain</span>(snd_fountain, 0.5);<br />
-    var _snd = audio_play_sound(snd_fountain, 0, true, 2);</p>
-  <p>The above code first sets the gain of the sound asset <span class="inline2">snd_fountain</span> to 0.5. It then plays this sound using <span class="inline2"><a data-xref="{title}" href="audio_play_sound.htm">audio_play_sound</a></span> and sets the gain of this new sound instance to 2 (using the optional &quot;gain&quot; parameter of the function).</p>
-  <p> </p>
-  <p> </p>
+  <p> </p>
+  <h4>例子。</h4>
+  <p class="code">if val<br />
+    {<br />
+        var snd = audio_play_sound(snd_fountain);<br />
+        audio_sound_gain(snd, 0, 0);<br />
+        audio_sound_gain(snd, 1, 5000);<br />
+    }</p>
+  <p>上面的代码检查一个变量，如果它返回 <span class="inline">true</span> ，那么它将把要播放的声音的索引分配给本地变量 &quot;snd&quot;。然后，这个变量被用来将该特定声音的音量降低到0，并在5秒内渐渐提高到全音量。</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a data-xref="{title}" href="Audio.htm">Audio</a></div>
-        <div style="float:right">Next: <a data-xref="{title}" href="audio_sound_get_gain.htm">audio_sound_get_gain</a></div>
+        <div style="float:left">返回。<a href="Audio.htm">音频</a></div>
+        <div style="float:right">下一步。 <a href="audio_sound_get_gain.htm"><span class="notranslate">audio_sound_get_gain</span></a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2025 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright<span class="notranslate">YoYo Games Ltd.</span> 2022 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 audio_sound_gain

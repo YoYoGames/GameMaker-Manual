@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>成绩_帖子_分数</title>
+  <meta name="generator" content="Adobe RoboHelp 2019" />
+  <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
+  <script src="../../../../assets/scripts/main_script.js"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Reference page for achievement_post_score" />
+  <meta name="rh-index-keywords" content="achievement_post_score" />
+  <meta name="search-keywords" content="achievement_post_score" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>成绩_帖子_分数</h1>
+  <p>你可以使用这个函数将你的分数发送到所选择的排行榜和成就服务。在<span class="notranslate">Android</span> ，你将分数表的ID作为<span class="notranslate">string</span> （这是你在设置排行榜时分配的唯一的排行榜ID），而在所有其他平台上，你将提供定义好的排行榜名称作为 ，然后给出实际的分数值。
+    而在所有其他平台上，你提供定义的排行榜名称作为<span class="notranslate">string</span> ，然后你给出实际的分数值。该函数将触发一个<a href="../../../../The_Asset_Editors/Object_Properties/Async_Events/Social.htm">社交异步事件</a>，返回的 <a href="../../../GML_Overview/Variables/Builtin_Global_Variables/async_load.htm"><tt>异步加载</tt></a>DS地图将有以下键/值对。</p>
+  <ul class="colour">
+    <li>&quot;<b>类型</b>&quot; - 这是已经触发的事件的类型，这将是这个函数的<span class="notranslate">string</span> &quot;<tt>achievement_post_score_result</tt>&quot;。</li>
+    <li>&quot;<b>id</b>&quot; - 这是事件的ID，对于这个函数，它将返回一个<span class="notranslate">GML</span> 常数<tt>GooglePlayServices_EVENT_ID_POST_SCORE</tt>。</li>
+    <li>&quot;<b>leaderboard_id</b>&quot; - 这是被更新的排行榜的唯一ID。</li>
+    <li><b>&quot;status</b>&quot; - 如果分数被成功更新，这将是1，如果请求失败，这将是0。</li>
+    <li>&quot;<b>daily_new_best</b>&quot; - 如果提交的分数是用户最近一天的最好成绩，这将是1，否则就是0。</li>
+    <li>&quot;<b>daily_best</b>&quot; - 这将保存用户在最后一天游戏中的最高得分。</li>
+    <li><b>&quot;weekly_new_best</b>&quot; - 如果提交的分数是用户在上周的最好成绩，这将是1，否则就是0。</li>
+    <li><b>&quot;weekly_best</b>&quot; - 这保存了用户上周的最高得分。</li>
+    <li>&quot;<b>all_time_new_best</b>&quot; - 如果提交的分数是用户有史以来最好的分数，这将是1，否则就是0。</li>
+    <li>&quot;<b>all_time_best</b>&quot; - 这是用户在所有时间内的最高得分。</li>
+  </ul>
+  <p> </p>
+  <h4><b>语法。</b></h4>
+  <p class="code">achievement_post_score(leaderboard, score)</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>争论</th>
+        <th>描述</th>
+      </tr>
+      <tr>
+        <td><span class="notranslate">leaderboard</span></td>
+        <td>排行榜的名称/ID。</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">score</span></td>
+        <td>要发送的分数。</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>返回。</h4>
+  <p class="code">N/A</p>
+  <p> </p>
+  <h4>扩展实例。</h4>
+  <p class="code">if achievement_available()<br/>     {<br/>     achievement_post_score(global.LeaderboardID, 1000);<br/>     }</p>
+  <p>上面的代码检查所选择的排行榜和成就服务是否可用，如果可用，它就会向名为 &quot;排行榜 &quot;的分数表发布一个分数。这将触发一个Social Async事件，可以这样解析。</p>
+  <p class="code">if async_load[? &quot;id&quot;] == GooglePlayServices_EVENT_ID_POST_SCORE<br/>     {
+    <br/>     if async_load[? &quot;type&quot;] == &quot;achievement_post_score_result&quot;<br/>         {
+    <br/>         if async_load[? &quot;status&quot;] == 1<br/>             {
+    <br/>             global.Best_Day = async_load[? &quot;daily_best&quot;];<br/>             global.Best_Week = async_load[? &quot;weekly_best&quot;];<br/>             global.Best = async_load[? &quot;all_time_best&quot;];<br/>             }
+    <br/>         }
+    <br/>     }
+  </p>
+  <p>上面的代码检查了<tt>async_load</tt>DS map中与这个函数相对应的 &quot;id &quot;和 &quot;type &quot;键，然后它检查了事件的状态。如果状态为1，那么DS地图中的一些值将被存储在全局变量中。
+    变量中。</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">返回。<a href="Achievements_And_Leaderboards.htm">成就和排行榜</a></div>
+        <div style="float:right">下一步。 <a href="achievement_increment.htm"><span class="notranslate">achievement_increment</span></a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright<span class="notranslate">YoYo Games Ltd.</span> 2021 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+achievement_post_score
+-->
+  <!-- TAGS
+achievement_post_score
+-->
+</body>
+</html>

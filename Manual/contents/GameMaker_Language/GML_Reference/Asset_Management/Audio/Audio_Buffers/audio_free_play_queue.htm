@@ -4,9 +4,9 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>audio_free_play_queue</title>
-  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <meta name="generator" content="Adobe RoboHelp 2020" />
   <link rel="stylesheet" href="../../../../../assets/css/default.css" type="text/css" />
-  <script src="../../../../../assets/scripts/main_script.js" type="module"></script>
+  <script src="../../../../../assets/scripts/main_script.js"></script>
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Page explaining the function audio_free_play_queue" />
   <meta name="rh-index-keywords" content="audio_free_play_queue" />
@@ -15,53 +15,52 @@
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
   <h1><span data-field="title" data-format="default">audio_free_play_queue</span></h1>
-  <p>This function is used to free up the memory associated with the given audio queue. The queue index is the value returned when you created the queue using the function <a href="audio_create_play_queue.htm"><span class="inline">audio_create_play_queue()</span></a>, and this function should be called when the queue is no longer required to prevent memory leaks. Freeing the queue will stop any sound that is playing, and you cannot delete the buffer that a sound is being streamed from until the queue it is assigned to has been freed.</p>
-  <p>This function will trigger an <a href="../../../../../The_Asset_Editors/Object_Properties/Async_Events/Audio_Playback.htm">Audio Playback Asynchronous Event</a>, and in this event a special <a href="../../../Data_Structures/DS_Maps/DS_Maps.htm">DS map</a> will be created in the variable <a href="../../../../GML_Overview/Variables/Builtin_Global_Variables/async_load.htm"><span class="inline">async_load</span></a> with the following key/value pairs:</p>
+  <p>这个函数用来释放与给定的音频<span class="notranslate">queue</span> 相关的内存。<span class="notranslate">queue</span> 的索引是你用函数创建<span class="notranslate">queue</span> 时返回的值。 <a href="audio_create_play_queue.htm"><span class="inline">audio_create_play_queue()</span></a>，这个函数应该在不再需要<span class="notranslate">queue</span> 时调用，以防止内存泄漏。释放<span class="notranslate">queue</span> ，将停止任何正在播放的声音，你不能删除正在流传的声音的<span class="notranslate">buffer</span> ，直到它所分配的<span class="notranslate">queue</span> 被释放。这个函数将触发一个<a href="../../../../../The_Asset_Editors/Object_Properties/Async_Events/Audio_Playback.htm">音频播放的异步事件</a>，在这个事件中，一个特殊的<a href="../../../Data_Structures/DS_Maps/DS_Maps.htm">DS映射</a>将在变量中创建 <a href="../../../../GML_Overview/Variables/Builtin_Global_Variables/async_load.htm"><span class="inline">async_load</span></a>中创建一个特殊的DS地图，其键/值对如下。</p>
   <ul class="colour">
-    <li>&quot;<strong>queue_id</strong>&quot; - the queue that has finished playing data</li>
-    <li>&quot;<strong>buffer_id</strong>&quot; - the buffer that is no longer being played from</li>
-    <li>&quot;<strong>queue_shutdown</strong>&quot; - this is set to 0 during normal playback and 1 when the event is received because you have freed the queue with this function. When this is set to 1, you don&#39;t want to queue up any further data.</li>
+    <li>&quot;<strong>queue_id</strong>&quot;--已完成播放数据的<span class="notranslate">queue</span> </li>
+    <li>&quot;<strong>buffer_id</strong>&quot; - 不再播放的<span class="notranslate">buffer</span> 。</li>
+    <li>&quot;<strong>queue_shutdown</strong>&quot; - 在正常播放时，这个设置为0，在收到事件时设置为1，因为你已经用这个函数释放了<span class="notranslate">queue</span> 。当它被设置为1时，你不想再<span class="notranslate">queue</span> 任何数据。</li>
   </ul>
-  <p> </p>
-  <h4>Syntax:</h4>
-  <p class="code"><span data-field="title" data-format="default">audio_free_play_queue</span>(queueIndex)</p>
+  <p> </p>
+  <h4>语法。</h4>
+  <p class="code"><span data-field="title" data-format="default">audio_free_play_queue</span>(queueIndex);</p>
   <table>
     <tbody>
       <tr>
-        <th>Argument</th>
-        <th>Type</th>
-        <th>Description</th>
+        <th>争论</th>
+        <th>类型</th>
+        <th>描述</th>
       </tr>
       <tr>
-        <td>queueIndex</td>
-        <td><span data-keyref="Type_ID_Audio_Queue"><a href="audio_create_play_queue.htm" target="_blank">Audio Queue ID</a></span></td>
-        <td>The index of the queue to free.</td>
+        <td><span class="notranslate">queueIndex</span></td>
+        <td><span data-keyref="Type_ID_Audio_Queue">音频<span class="notranslate">Queue</span> ID</span></td>
+        <td><span class="notranslate">The index of the queue to free.</span></td>
       </tr>
     </tbody>
   </table>
-  <p> </p>
-  <h4>Returns:</h4>
+  <p> </p>
+  <h4>返回。</h4>
   <p class="code"><span data-keyref="Type_Void">N/A</span></p>
-  <p> </p>
-  <h4>Example:</h4>
+  <p> </p>
+  <h4>例子。</h4>
   <p class="code">var q_id = async_load[? &quot;queue_id&quot;];<br />
     if (q_id == audio_queue)<br />
     {<br />
         audio_free_play_queue(audio_queue);<br />
         buffer_delete(audio_buffer);<br />
     }</p>
-  <p>The above code would go in the asynchronous <a href="../../../../../The_Asset_Editors/Object_Properties/Async_Events/Audio_Playback.htm">Audio Playback</a> event and checks to see if the audio that has finished playing is from the &quot;audio_queue&quot; and if it is it frees the queue and the buffer associated with it.</p>
-  <p> </p>
-  <p> </p>
-  <p> </p>
+  <p>上述代码将进入异步<a href="../../../../../The_Asset_Editors/Object_Properties/Async_Events/Audio_Playback.htm">音频播放</a>事件，并检查已完成播放的音频是否来自 &quot;audio_queue&quot;，如果是，则释放<span class="notranslate">queue</span> ，以及与之相关的<span class="notranslate">buffer</span> 。</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a data-xref="{title}" href="Audio_Buffers.htm">Audio Buffers</a></div>
-        <div style="float:right">Next: <a href="audio_queue_sound.htm">audio_queue_sound</a></div>
+        <div style="float:left">返回。<a href="../Audio.htm">音频缓冲器</a></div>
+        <div style="float:right">下一步。 <a href="audio_queue_sound.htm"><span class="notranslate">audio_queue_sound</span></a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright<span class="notranslate">YoYo Games Ltd.</span> 2022 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 audio_free_play_queue

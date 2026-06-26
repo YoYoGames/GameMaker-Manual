@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>成就_加载_进度</title>
+  <meta name="generator" content="Adobe RoboHelp 2019" />
+  <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
+  <script src="../../../../assets/scripts/main_script.js"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Reference page for achievement_load_progress" />
+  <meta name="rh-index-keywords" content="achievement_load_progress,achievement_achievement_info" />
+  <meta name="search-keywords" content="achievement_load_progress,achievement_achievement_info" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>成就_加载_进度</h1>
+  <p>这个函数将向<span class="notranslate">server</span> 发送请求，以获取所有可用成就的信息。它将触发一个回调<a href="../../../../The_Asset_Editors/Object_Properties/Async_Events/Social.htm">社会异步事件</a>，其中包括
+    的 <a href="../../../GML_Overview/Variables/Builtin_Global_Variables/async_load.htm"><tt>异步_加载</tt></a>地图填充了相关的键/值对。这个<tt>DS地图</tt>的<i>id</i>键被用来识别正确的回调（可以有一个以上的触发函数）。
+    对于任何给定的异步事件，可以有一个以上的触发函数），并将与<b>常数</b> <tt>achievement_info</tt>以及每个玩家的一些其他键/值对配对。该地图的具体内容
+    的具体内容如下所示。</p>
+  <p class="note"><b>注意： </b>该功能仅适用于<b>iOS</b>。</p>
+  <ul class="colour">
+    <li>&quot;<b>id</b>&quot; - 对于这个函数，它应该是<tt>achievement_achievement_info</tt>。</li>
+    <li>&quot;<b>numentries</b>&quot; - 列表中成就的数量。</li>
+    <li><b>&quot;AchN</b>&quot;--成就的名称，其中 &quot;N &quot;是一个整数，对应于它在条目列表中的位置。</li>
+    <li>&quot;<b>AchCompN</b>&quot; - 成就 &quot;N &quot;的完成程度，百分比值从0到100（一个<span class="notranslate">string</span> ）。</li>
+  </ul>
+  <p> </p>
+  <h4><b>语法。</b></h4>
+  <p class="code">achievement_load_progress()</p>
+  <p> </p>
+  <h4>返回。</h4>
+  <p class="code">N/A</p>
+  <p> </p>
+  <h4>扩展实例。</h4>
+  <p>下面的代码将在用户使用<span class="notranslate">iOS</span> 设备时请求实现进度。</p>
+  <p class="code">if os_type == os_ios<br/>     {
+    <br/>     achievement_load_progress();
+    <br/>     }
+  </p>
+  <p>这将发出一个关于成就信息的请求，并产生一个异步回调，其中包含特殊的<tt>async_load</tt>DS map，包含以下数据。</p>
+  <p class="code">var ident = ds_map_find_value(async_load, &quot;id&quot;);<br/> if ident == achievement_achievement_info<br/>     {
+    <br/>     var numentries = ds_map_find_value(async_load, &quot;numentries&quot;);<br/>     for(var i = 0; i &lt; numentries; i++;)<br/>         {
+    <br/>         ach_id[i] = ds_map_find_value(async_load, &quot;Ach&quot; + string(i));<br/>         comp[i] = ds_map_find_value(async_load, &quot;AchComp&quot; + string(i));<br/>         }
+    <br/>     }
+  </p>
+  <p>上面的代码在<b>社交异步事件</b>中检查返回的<tt>DS地图</tt>，如果它的 &quot;id &quot;与被检查的常量相匹配，那么它就会在地图中为每个成就的条目<span class="notranslate">loops</span> ，并存储其名称
+    和完成百分比。</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">返回。<a href="Achievements_And_Leaderboards.htm">成就和排行榜</a></div>
+        <div style="float:right">下一步。 <a href="achievement_send_challenge.htm"><span class="notranslate">achievement_send_challenge</span></a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright<span class="notranslate">YoYo Games Ltd.</span> 2021 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+achievement_load_progress
+achievement_achievement_info
+-->
+  <!-- TAGS
+achievement_load_progress
+-->
+</body>
+</html>

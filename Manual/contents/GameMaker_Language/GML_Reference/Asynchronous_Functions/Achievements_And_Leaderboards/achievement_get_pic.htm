@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>绩效_获取图片</title>
+  <meta name="generator" content="Adobe RoboHelp 2019" />
+  <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
+  <script src="../../../../assets/scripts/main_script.js"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Reference page for achievement_get_pic" />
+  <meta name="rh-index-keywords" content="achievement_get_pic,achievement_pic_loaded" />
+  <meta name="search-keywords" content="achievement_get_pic,achievement_pic_loaded" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>绩效_获取图片</h1>
+  <p>这个函数将向<span class="notranslate">server</span> ，以获取玩家或朋友的图像，并将触发一个回调<a href="../../../../The_Asset_Editors/Object_Properties/Async_Events/Social.htm">社会异步事件</a>，其中包含了 <a href="../../../GML_Overview/Variables/Builtin_Global_Variables/async_load.htm"><tt>async_load</tt></a>    地图填充了相关的键/值对。这个<tt>DS地图</tt>的<i>id</i>键用于识别正确的回调（对于任何给定的异步事件，可以有一个以上的触发函数），并将与<b>常数</b> <tt>achievement_pic_loaded</tt>以及其他一些键/值对搭配。该地图的具体内容如下所示。</p>
+  <p class="note"><b>注意</b>：该功能仅适用于<b>iOS</b>。</p>
+  <ul class="colour">
+    <li>&quot;<b>id</b>&quot; - 这个函数应该是<tt>achievement_pic_loaded</tt>。</li>
+    <li>&quot;<b>playerid</b>&quot; - 我们要接收图像的玩家或朋友的ID。</li>
+    <li>&quot;<b>spriteid</b>&quot; - 图像的<span class="notranslate">sprite</span> id，然后可以用任何<a href="../../Drawing/Sprites_And_Tiles/Sprites_And_Tiles.htm">draw<span class="notranslate">sprite</span> 函数</a>在屏幕上绘制它。</li>
+  </ul>
+  <p class="note"><b>警告!这</b>个函数创建了<span class="notranslate">sprites</span> ，因此，它们的id应该被存储在变量中，然后使用 <span style="font-size:1px;"><a href="../../Asset_Management/Sprites/Sprite_Manipulation/sprite_delete.htm"><tt style="font-size: 14px">sprite_delete()</tt></a></span>    函数从内存中删除，否则重复使用会造成内存泄漏，最终会使游戏变慢或崩溃。</p>
+  <p> </p>
+  <h4><b>语法。</b></h4>
+  <p class="code">achievement_get_pic(char)</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>争论</th>
+        <th>描述</th>
+      </tr>
+      <tr>
+        <td><span class="notranslate">char</span></td>
+        <td>要获取图片的人的ID（可以从好友列表或排行榜上获取）。</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>返回。</h4>
+  <p class="code">N/A</p>
+  <p> </p>
+  <h4>扩展实例。</h4>
+  <p>在你得到一个朋友列表或排行榜列表后，将调用以下代码，使用 <a href="achievement_load_friends.htm"><tt>achievement_load_friends()</tt></a>或 <a href="achievement_load_leaderboard.htm"><tt>achievement_load_leaderboard()</tt></a>.
+    这些函数将为每个人返回唯一的 &quot;id &quot;值，然后在函数中使用这些值来检索他们的个人资料图片。</p>
+  <p class="code">achievement_get_pic(global.player_id[0]);</p>
+  <p>这将发送一个与存储在全局数组中的玩家ID相关的图像请求，并生成一个异步回调，其中包含以下数据的特殊<tt>async_load</tt>DS map。</p>
+  <p class="code">var ident = ds_map_find_value(async_load, &quot;id&quot;);<br/> if ident == achievement_pic_loaded<br/>     {
+    <br/>     var picid = ds_map_find_value(async_load, &quot;playerid&quot;);<br/>     var spriteid = ds_map_find_value(async_load, &quot;spriteid&quot;);<br/>     if global.playerid[0] == picid)<br/>         {
+    <br/>         global.playerpic[0] = spriteid;<br/>         }
+    <br/>     }
+  </p>
+  <p>上面的代码在<b>社交异步事件</b>中检查返回的<tt>DS Map</tt>，如果它的 &quot;id &quot;与被检查的常量相匹配，它就会检查与图像相关的id是否与被请求的id相同，如果是，它就会设置另一个全局数组来保存图像的唯一id（这可以作为）。
+    它就会设置另一个全局数组来保存图像的唯一ID（可用于将图像绘制为<span class="notranslate">sprite</span> ）。</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">返回。<a href="Achievements_And_Leaderboards.htm">成就和排行榜</a></div>
+        <div style="float:right">下一步。 <a href="achievement_load_friends.htm"><span class="notranslate">achievement_load_friends</span></a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright<span class="notranslate">YoYo Games Ltd.</span> 2021 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+achievement_get_pic
+achievement_pic_loaded
+-->
+  <!-- TAGS
+achievement_get_pic
+-->
+</body>
+</html>

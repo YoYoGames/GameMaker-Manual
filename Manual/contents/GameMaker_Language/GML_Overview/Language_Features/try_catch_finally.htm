@@ -3,10 +3,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>try / catch / finally</title>
+  <title>尝试/捕捉/最后</title>
   <meta name="generator" content="Adobe RoboHelp 2020" />
   <link rel="stylesheet" href="../../../assets/css/default.css" type="text/css" />
-  <script src="../../../assets/scripts/main_script.js" type="module"></script>
+  <script src="../../../assets/scripts/main_script.js"></script>
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Page outlining the try / catch / finally functions" />
   <meta name="rh-index-keywords" content="try,catch,finally" />
@@ -14,16 +14,16 @@
 </head>
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
-  <h1>try / catch / finally</h1>
-  <p>The <span class="inline">try</span>, <span class="inline">catch</span> and <span class="inline">finally</span> statements can be used in your game for error checking and permit you to test out blocks of code and control what happens if any <a href="../../../Additional_Information/Errors/Runner_Errors.htm">runtime exceptions</a> occur. Using these will prevent the exception ending the game and showing the standard error message to the user, but this means that you will have to handle what happens next in that case, like saving out log files - for example - and ending the game gracefully (note that if you choose to do nothing, your game may become unstable and not perform correctly).</p>
-  <p>At its most basic the <span class="inline">try</span> syntax is as follows:</p>
+  <h1>尝试/捕捉/最后</h1>
+  <p> <span class="inline">try</span>, <span class="inline">catch</span> 和 <span class="inline">finally</span> 语句可以在你的游戏中用于错误检查，允许你测试出代码块，并控制在发生任何<a href="../../../Additional_Information/Errors/Runner_Errors.htm">运行时异常</a>时的情况。使用这些语句可以防止异常结束游戏并向用户显示标准错误信息，但这意味着你必须处理在这种情况下发生的事情，比如保存日志文件--例如--并优雅地结束游戏（注意，如果你选择什么都不做，你的游戏可能变得不稳定，不能正确执行）。</p>
+  <p>最基本的 <span class="inline">try</span> ，其语法如下。</p>
   <p class="code">try<br />
     {<br />
         &lt;statement1&gt;;<br />
         &lt;statement2&gt;;<br />
         ...<br />
     }</p>
-  <p>However, having a <span class="inline">try</span> without anything to actually handle any exceptions the code may produce will not be very helpful, so we usually pair it with a <span class="inline">catch</span>, with the following syntax:</p>
+  <p>然而，有一个 <span class="inline">try</span> ，却没有任何东西来实际处理代码可能产生的任何异常，这不会很有帮助，所以我们通常把它与 <span class="inline">catch</span> ，语法如下。</p>
   <p class="code">try<br />
     {<br />
         &lt;statement1&gt;;<br />
@@ -36,14 +36,14 @@
         &lt;statement2&gt;;<br />
         ...<br />
     }</p>
-  <p>What <span class="inline">catch</span> does is permit you to run extra code supplied in the following block when an exception from the previous <span class="inline">try</span> has been caught. If this is a runtime exception, then the supplied variable can be used to access a <a href="../Structs.htm">struct</a> which will contain the following information:</p>
+  <p> <span class="inline">catch</span> 所做的是允许你在前面的 <span class="inline">try</span> 异常被捕获后，运行下面的块中提供的额外代码。如果这是一个<span class="notranslate">runtime</span> 异常，那么提供的变量可以用来访问一个<a href="../Structs.htm">结构</a>，该<a href="../Structs.htm">结构</a>将包含以下信息。</p>
   <p class="code">{<br />
     message : &quot;&quot;,               // a string that is a short message for this exception<br />
     longMessage : &quot;&quot;,           // a string that is a longer message for this exception<br />
     script : &quot;&quot;,                // a string that describes where the exception came from<br />
     stacktrace : [ &quot;&quot;, &quot;&quot; ],    // an array of strings that is the stack frame the exception was generated<br />
     }</p>
-  <p>A simple example of use is shown below:</p>
+  <p>下面是一个简单的使用例子。</p>
   <p class="code">var a = 0, b = 0, c = 0;<br />
     try<br />
     {<br />
@@ -56,21 +56,21 @@
         show_debug_message(_exception.script);<br />
         show_debug_message(_exception.stacktrace);<br />
     }</p>
-  <p>It may be that you want to run some code regardless of whether an exception was thrown or not, and so for that you can add in a <span class="inline">finally</span> block. The <span class="inline">finally</span> syntax is:</p>
+  <p>可能你想运行一些代码，而不管是否抛出了异常，因此你可以加入一个 <span class="inline">finally</span> 块。 <span class="inline">finally</span> 的语法是：</p>
   <p class="code">finally<br />
     {<br />
         &lt;statement1&gt;;<br />
         &lt;statement2&gt;;<br />
         etc...<br />
     }</p>
-  <p>It is worth noting that you can have any combination of these together, ie:</p>
+  <p>值得注意的是，你可以将这些东西任意组合在一起，即。</p>
   <ul class="colour">
     <li><span class="inline">try</span> / <span class="inline">finally</span></li>
     <li><span class="inline">try</span> / <span class="inline">catch</span></li>
     <li><span class="inline">try</span> / <span class="inline">catch</span> / <span class="inline">finally</span></li>
   </ul>
-  <p>Note that within the <span class="inline">finally</span> block you <em>cannot </em>use <a href="break.htm"><span class="inline">break</span></a>, <a href="continue.htm"><span class="inline">continue</span></a>, <a href="exit.htm"><span class="inline">exit</span></a> or <a href="return.htm"><span class="inline">return</span></a> statements as they have no meaning in this context and the compiler will generate an error if they are used.</p>
-  <p>Finally, you can also nest various <span class="inline">try</span> / <span class="inline">catch</span> / <span class="inline">finally</span> within each other, for example:</p>
+  <p>注意，在 <span class="inline">finally</span> 块内，你<em>不能 </em>使用 <a href="break.htm"><span class="inline">break</span></a>, <a href="continue.htm"><span class="inline">continue</span></a>, <a href="exit.htm"><span class="inline">exit</span></a>或 <a href="return.htm"><span class="inline">return</span></a>语句，因为它们在这里没有任何意义，如果使用它们，编译器将产生一个错误。</p>
+  <p>最后，你还可以将各种 <span class="inline">try</span> / <span class="inline">catch</span> / <span class="inline">finally</span> 嵌套在彼此之间，比如说。</p>
   <p class="code">var a = 0, b = 0, c = 0;<br />
     try<br />
     {<br />
@@ -95,18 +95,18 @@
     {<br />
         show_debug_message(&quot;a = &quot; + string(a));<br />
     }</p>
-  <p>It is worth noting that you can take over the default GML error message and use your own handler code by calling the function <a href="../../GML_Reference/Debugging/exception_unhandled_handler.htm"><span class="inline">exception_unhandled_handler()</span></a>. This <a href="../Runtime_Functions.htm">runtime function</a> permits you to supply a custom <a href="../Method_Variables.htm">method</a> to use that will be called whenever any unhandled exceptions occur in your game.</p>
-  <p> </p>
-  <p> </p>
-  <p> </p>
+  <p>值得注意的是，你可以通过调用函数接管默认的<span class="notranslate">GML</span> 错误信息，并使用你自己的处理代码。 <a href="../../GML_Reference/Debugging/exception_unhandled_handler.htm"><span class="inline">exception_unhandled_handler()</span></a>.这个<a href="../Runtime_Functions.htm">运行时函数</a>允许你提供一个自定义的 <a href="../Method_Variables.htm"><span class="notranslate">method</span></a>来使用，当你的游戏中出现任何未处理的异常时，它将被调用。</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a href="../Language_Features.htm">Language Features</a></div>
-        <div style="float:right">Next: <a href="throw.htm">throw</a></div>
+        <div style="float:left">返回。<a href="../Language_Features.htm">语言特点</a></div>
+        <div style="float:right">下一步。 <a href="throw.htm"><span class="notranslate">throw</span></a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2021 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright<span class="notranslate">YoYo Games Ltd.</span> 2021 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 try

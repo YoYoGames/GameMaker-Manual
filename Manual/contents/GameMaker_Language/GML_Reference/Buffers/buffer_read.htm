@@ -4,9 +4,9 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>buffer_read</title>
-  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <meta name="generator" content="Adobe RoboHelp 2020" />
   <link rel="stylesheet" href="../../../assets/css/default.css" type="text/css" />
-  <script src="../../../assets/scripts/main_script.js" type="module"></script>
+  <script src="../../../assets/scripts/main_script.js"></script>
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Reference page for buffer_read" />
   <meta name="rh-index-keywords" content="buffer_read,buffer_u8,buffer_s8,buffer_u16,buffer_s16,buffer_u32,buffer_s32,buffer_u64,buffer_f16,buffer_f32,buffer_f64,buffer_bool,buffer_string,buffer_text" />
@@ -15,64 +15,109 @@
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
   <h1><span data-field="title" data-format="default">buffer_read</span></h1>
-  <p>This function reads a piece of data of the given type from the given buffer at the buffer&#39;s current <a href="buffer_seek.htm">seek position</a>.</p>
-  <p>After the function has executed the seek position is advanced by the number of bytes read. The next <span class="inline3_func"><span data-field="title" data-format="default">buffer_read</span></span> will be done at this new position and will read the next byte(s) of data.</p>
-  <p>Since the function only reads the contents starting from the buffer&#39;s current <a href="buffer_seek.htm">seek position</a>, you must ensure this is set correctly before calling the function - otherwise, you will get either incorrect results or nothing at all being returned.</p>
-  <p class="note"><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> You can use <span class="inline3_func"><a data-xref="{title}" href="buffer_peek.htm">buffer_peek</a></span> to get a value anywhere in the buffer without changing the seek position.</p>
-  <p>The return value depends on the type of data that you are reading, which can be one of the following constants:</p>
-  <div data-conref="../../../assets/snippets/buffer_data_type_constants.hts"> </div>
-  <p>If the function succeeds, it will return a value of the given type. If it fails, however, it will cause a <a href="../../../Additional_Information/Errors/Runner_Errors.htm">runner error</a>.</p>
-  <p class="note"><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> Using the incorrect data type for the data being read will result in erroneous values being returned.</p>
-  <p class="note"><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> Reading a <span class="inline2">buffer_s32</span> or <span class="inline2">buffer_u32</span> on HTML5 returns the value as a <span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span>, which is a 64-bit double, as int32 is not supported on that platform.</p>
-  <p> </p>
-  <h4>Syntax:</h4>
+  <p>这个函数可以用来从一个先前创建的<span class="notranslate">buffer</span> 中读取数据。返回值将取决于你所读取的数据类型，其本身由以下常数定义。</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>恒定</th>
+        <th>描述</th>
+      </tr>
+      <tr>
+        <td><span class="notranslate"><span class="inline">buffer_u8</span></td>
+        <td>一个无符号、8位的整数。这是一个从0到255的正值。</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate"><span class="inline">buffer_s8</span></td>
+        <td>一个有符号的、8位的整数。这可以是一个从-128到127的正值或负值（0被认为是正值）。</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate"><span class="inline">buffer_u16</span></td>
+        <td>一个无符号、16位的整数。这是一个从0-65,535的正值。</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate"><span class="inline">buffer_s16</span></td>
+        <td>一个有符号的、16位的整数。这可以是一个从-32,768到32,767的正值或负值（0被认为是正值）。</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate"><span class="inline">buffer_u32</span></td>
+        <td>一个无符号、32位的整数。这是一个从0到4,294,967,295的正值。</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate"><span class="inline">buffer_s32</span></td>
+        <td>一个有符号的、32位的整数。这可以是一个从-2,147,483,648到2,147,483,647的正值或负值（0被归类为正值）。</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate"><span class="inline">buffer_u64</span></td>
+        <td>一个无符号的64位整数。</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate"><span class="inline">buffer_f16</span></td>
+        <td>一个16位的浮点数。这可以是+/-65504范围内的一个正值或负值。<i>(目前不支持！)</i></td>
+      </tr>
+      <tr>
+        <td><span class="notranslate"><span class="inline">buffer_f32</span></td>
+        <td>一个32位的浮点数。这可以是+/-16777216范围内的一个正值或负值。</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate"><span class="inline">buffer_f64</span></td>
+        <td>一个64位的浮点数。</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate"><span class="inline">buffer_bool</span></td>
+        <td>一个布尔值。只能是1或0 (<span class="inline">true</span> 或 <span class="inline">false</span>)</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate"><span class="inline">buffer_string</span></td>
+        <td>一个<span class="notranslate">string</span> ，无论大小。</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate"><span class="inline">buffer_text</span></td>
+        <td>一个任意大小的<span class="notranslate">string</span> ，没有最后的空结尾字符。</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>如果函数成功，它将返回一个给定类型的值，但是如果失败，那么它将引起一个运行错误。</p>
+  <p class="note"><span class="note">注意</span>对正在读取的数据使用不正确的数据类型将导致返回错误的值。</p>
+  <p> </p>
+  <h4>语法。</h4>
   <p class="code"><span data-field="title" data-format="default">buffer_read</span>(buffer, type)</p>
   <table>
     <tbody>
       <tr>
-        <th>Argument</th>
-        <th>Type</th>
-        <th>Description</th>
+        <th>争论</th>
+        <th>类型</th>
+        <th>描述</th>
       </tr>
       <tr>
-        <td>buffer</td>
-        <td><span data-keyref="Type_ID_Buffer"><a href="buffer_create.htm" target="_blank">Buffer</a></span></td>
-        <td>The buffer to read from.</td>
+        <td><span class="notranslate">buffer</span></td>
+        <td><span data-keyref="Type_ID_Buffer"><a data-rhwidget="HyperlinkPopover" href="../../../../GameMaker_Language/GML_Reference/Buffers/buffer_create.htm">缓冲区ID</a></span></td>
+        <td><span class="notranslate">The index of the buffer to read from.</span></td>
       </tr>
       <tr>
-        <td>type</td>
-        <td><span data-keyref="Type_Constant_Buffer_Data_Type"><a href="buffer_write.htm" target="_blank">Buffer Data Type Constant</a></span></td>
-        <td>The type of data to be read from the buffer (see the list of constants above).</td>
+        <td><span class="notranslate">type</span></td>
+        <td><span data-keyref="Type_Constant_Buffer_Data_Type"><a data-rhwidget="HyperlinkPopover" href="../../../../GameMaker_Language/GML_Reference/Buffers/buffer_write.htm">缓冲区数据类型常数</a></span></td>
+        <td><span class="notranslate">The type of data that is to be read from the buffer (see the list of constants above).</span></td>
       </tr>
     </tbody>
   </table>
-  <p> </p>
-  <h4>Returns:</h4>
-  <p class="code"><span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span>, <span data-keyref="Type_Bool"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Boolean</a></span> or <span data-keyref="Type_String"><a href="../../GML_Overview/Data_Types.htm" target="_blank">String</a></span></p>
-  <p> </p>
-  <h4>Example:</h4>
-  <p class="code">buffer = buffer_create(10240, buffer_grow, 1);<br />
-    <br />
-    // buffer_seek(buffer, buffer_seek_start, 0);<br />
-    buffer_write(buffer, buffer_string, &quot;Hello World&quot;);<br />
-    <br />
-    buffer_seek(buffer, buffer_seek_start, 0);<br />
-    result = buffer_read(buffer, buffer_string);<br />
-    <br />
-    show_debug_message(&quot;Result = &quot; + result);
-  </p>
-  <p>The above code creates a buffer, writes a string to it and reads it back.</p>
-  <p>First a new grow buffer with an initial size of 10240 bytes is created using <span class="inline3_func"><a data-xref="{title}" href="buffer_create.htm">buffer_create</a></span>. At this point you can explicitly call <span class="inline3_func"><a data-xref="{title}" href="buffer_seek.htm">buffer_seek</a></span> to set the seek position to 0, but this isn&#39;t necessary since a newly created buffer&#39;s seek position is 0. Next the string <span class="inline2">&quot;Hello World&quot;</span> is written to the buffer with a call to <span class="inline3_func"><a data-xref="{title}" href="buffer_write.htm">buffer_write</a></span>. This advances the seek position by 12 bytes: 11 bytes for the characters of the string followed by a final null byte. After this, the string is read back from the buffer. To read the correct data, the seek position is first set back to 0 with a call to <span class="inline3_func"><a data-xref="{title}" href="buffer_seek.htm">buffer_seek</a></span>. The data is then read into a variable <span class="inline2">result</span> using <span class="inline3_func"><a data-xref="{title}" href="buffer_read.htm">buffer_read</a></span>, which is shown in a debug message.</p>
-  <p> </p>
-  <p> </p>
+  <p> </p>
+  <h4>返回。</h4>
+  <p class="code"><span data-keyref="Type_Real"><a data-rhwidget="HyperlinkPopover" href="../../../../GameMaker_Language/GML_Overview/Data_Types.htm">Real</a></span>, <span data-keyref="Type_Bool"><a data-rhwidget="HyperlinkPopover" href="../../../../GameMaker_Language/GML_Overview/Data_Types.htm">Boolean</a></span> or <span data-keyref="Type_String"><a data-rhwidget="HyperlinkPopover" href="../../../../GameMaker_Language/GML_Overview/Data_Types.htm">String</a></span></p>
+  <p> </p>
+  <h4>例子。</h4>
+  <p class="code">var cmd = buffer_read(buff, buffer_s16);</p>
+  <p>上面的代码从<span class="notranslate">buffer</span> ，id存储在变量 &quot;buff &quot;中，读取一个有符号的16位值到本地变量 &quot;cmd&quot;。</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a data-xref="{title}" href="Buffers.htm">Buffers</a></div>
-        <div style="float:right">Next: <a data-xref="{title}" href="buffer_write.htm">buffer_write</a></div>
+        <div style="float:left">Back:<a href="Buffers.htm">缓冲器</a></div>
+        <div style="float:right">下一步。 <a href="buffer_write.htm"><span class="notranslate">buffer_write</span></a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2026 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright<span class="notranslate">YoYo Games Ltd.</span> 2022 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 buffer_read

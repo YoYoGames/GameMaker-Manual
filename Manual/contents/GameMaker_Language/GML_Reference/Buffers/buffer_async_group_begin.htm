@@ -6,7 +6,7 @@
   <title>buffer_async_group_begin</title>
   <meta name="generator" content="Adobe RoboHelp 2022" />
   <link rel="stylesheet" href="../../../assets/css/default.css" type="text/css" />
-  <script src="../../../assets/scripts/main_script.js" type="module"></script>
+  <script src="../../../assets/scripts/main_script.js"></script>
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Reference page for buffer_async_group_begin" />
   <meta name="rh-index-keywords" content="buffer_async_group_begin" />
@@ -15,49 +15,56 @@
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
   <h1><span data-field="title" data-format="default">buffer_async_group_begin</span></h1>
-  <p>This function is called when you want to begin the saving out of multiple buffers to multiple files (or loading multiple buffers).</p>
-  <p>The <span class="inline2">groupname</span> is a string and will be used as the directory name for where the files are saved, and should be used as part of the file path when loading the files back from outside an async group (using any of the <span class="inline3_func"><a data-xref="{title}" href="buffer_load.htm">buffer_load</a></span> functions). This function is <i>only</i> for use with the <span class="inline3_func"><a data-xref="{title}" href="buffer_save_async.htm">buffer_save_async</a></span> and <span class="inline3_func"><a data-xref="{title}" href="buffer_load_async.htm">buffer_load_async</a></span> functions and you must also end the async group by calling <span class="inline3_func"><a data-xref="{title}" href="buffer_async_group_end.htm">buffer_async_group_end</a></span> function otherwise the files will not be saved/loaded.</p>
-  <div data-conref="../../../assets/snippets/Note_directory_depends_on_platform.hts"> </div>
-  <p class="note"><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> For some console platforms (e.g. PlayStation), the <span class="inline2">groupname</span> will be used as the save slot description, and using this function can help you avoid having the UI show for every file that is being saved out.</p>
-  <p> </p>
-  <h4>Syntax:</h4>
-  <p class="code"><span data-field="title" data-format="default">buffer_async_group_begin</span>(groupname)</p>
+  <p>当你想开始把多个<span class="notranslate">buffers</span> 保存到多个文件（或加载多个<span class="notranslate">buffers</span> ）时，就会调用这个函数。<span class="inline2">组名</span> <span class="notranslate">string</span> <span class="inline2"></span>是一个<span class="notranslate">path</span> ，将作为文件保存的目录名，在以后加载文件到<span class="notranslate">IDE</span> （使用任何一个 <a href="buffer_load.htm"><span class="inline">buffer_load()</span></a>函数）。这个函数<i>只</i>适用于 <a href="buffer_save_async.htm"><span class="inline">buffer_save_async()</span></a>和 <span class="inline"><a href="buffer_load_async.htm">buffer_load_async()</a></span> ，你还必须通过调用 <a href="buffer_async_group_end.htm"><span class="inline">buffer_async_group_end()</span></a>函数，否则文件将不会被保存/加载。</p>
+  <p>请注意，对于控制台平台（例如PS4），<span class="inline2">组名将</span>被用作保存槽的描述，使用这个功能可以帮助你避免每一个被保存出来的文件的UI显示。还要注意的是，当使用UWP时，你可以在原生的Xbox和微软商店窗口之间漫游你的保存游戏，例如，通过创建一个与ERA Xbox组相同的组。</p>
+  <p class="code">if os_type == os_uwp<br />
+    {<br />
+        buffer_async_group_begin(&quot;root/yourgroupname&quot;);<br />
+    }<br />
+    else<br />
+    {<br />
+        buffer_async_group_begin(&quot;yourgroupname&quot;);<br />
+    }</p>
+  <p> </p>
+  <h4>语法。</h4>
+  <p class="code"><span data-field="title" data-format="default">buffer_async_group_begin</span>(groupname);</p>
   <table>
     <tbody>
       <tr>
-        <th>Argument</th>
-        <th>Type</th>
-        <th>Description</th>
+        <th>争论</th>
+        <th>类型</th>
+        <th>描述</th>
       </tr>
       <tr>
-        <td>groupname</td>
-        <td><span data-keyref="Type_String"><a href="../../GML_Overview/Data_Types.htm" target="_blank">String</a></span></td>
-        <td>The name of the group</td>
+        <td><span class="notranslate">groupname</span></td>
+        <td><span data-keyref="Type_String"><a data-rhwidget="HyperlinkPopover" href="../../../../GameMaker_Language/GML_Overview/Data_Types.htm">字符串</a></span></td>
+        <td><span class="notranslate">The name of the group (as a string).</span></td>
       </tr>
     </tbody>
   </table>
-  <p> </p>
-  <h4>Returns:</h4>
+  <p> </p>
+  <h4>返回。</h4>
   <p class="code"><span data-keyref="Type_Void">N/A</span></p>
-  <p> </p>
-  <h4>Example:</h4>
-  <p class="code"><span data-field="title" data-format="default">buffer_async_group_begin</span>(&quot;SaveGame&quot;);<br />
+  <p> </p>
+  <h4>例子。</h4>
+  <p class="code">buffer_async_group_begin(&quot;SaveGame&quot;);<br />
     save1 = buffer_save_async(buff1, &quot;Player_Save1.sav&quot;, 0, 16384);<br />
     save2 = buffer_save_async(buff2, &quot;Player_Save2.sav&quot;, 0, 16384);<br />
     save3 = buffer_save_async(buff3, &quot;Player_Save3.sav&quot;, 0, 16384);<br />
     save4 = buffer_save_async(buff4, &quot;Player_Save4.sav&quot;, 0, 16384);<br />
     buffer_async_group_end();</p>
-  <p>The above code starts a buffer group then sets it to save out 4 files asynchronously. The group definition is then ended (at which point saving will begin).</p>
-  <p> </p>
-  <p> </p>
+  <p>上面的代码启动了一个<span class="notranslate">buffer</span> 组，然后将其设置为异步保存出4个文件。然后结束该组的定义（此时开始保存）。</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a href="Buffers.htm">Buffers</a></div>
-        <div style="float:right">Next: <a href="buffer_async_group_option.htm">buffer_async_group_option</a></div>
+        <div style="float:left">Back:<a href="Buffers.htm">缓冲器</a></div>
+        <div style="float:right">下一步。 <a href="buffer_async_group_option.htm"><span class="notranslate">buffer_async_group_option</span></a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2026 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright<span class="notranslate">YoYo Games Ltd.</span> 2022 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 buffer_async_group_begin

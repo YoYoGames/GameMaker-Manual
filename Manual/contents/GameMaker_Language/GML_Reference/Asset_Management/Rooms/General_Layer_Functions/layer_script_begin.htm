@@ -6,7 +6,7 @@
   <title>layer_script_begin</title>
   <meta name="generator" content="Adobe RoboHelp 2022" />
   <link rel="stylesheet" href="../../../../../assets/css/default.css" type="text/css" />
-  <script src="../../../../../assets/scripts/main_script.js" type="module"></script>
+  <script src="../../../../../assets/scripts/main_script.js"></script>
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Page outlining the function layer_script_begin" />
   <meta name="rh-index-keywords" content="layer_script_begin" />
@@ -15,81 +15,78 @@
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
   <h1><span data-field="title" data-format="default">layer_script_begin</span></h1>
-  <p>With this function you can assign a function to a layer and it will be called before the layer is rendered.</p>
-  <p>When adding a function to a layer, in this way it will be run at the start of <i>each of the different draw events</i> so you may want to check in the function assigned which event is currently rendering and adapt the code to suit. This can be done by checking the <span class="inline2"><a data-xref="{title}" href="../../Objects/Object_Events/event_type.htm">event_type</a></span> and/or the <span class="inline2"><a data-xref="{title}" href="../../Objects/Object_Events/event_number.htm">event_number</a></span> (see the extended example below).</p>
-  <p>The function can be anything that can be called for execution (i.e. anything for which <span class="inline3_func"><a data-xref="{title}" href="../../../Variable_Functions/is_callable.htm">is_callable</a></span> returns <span class="inline2">true</span>).</p>
-  <div data-conref="../../../../../assets/snippets/Note_Layer_Scripts_Shouldnt_Be_Assigned_In_Step_Draw_Events.hts"> </div>
-  <p> </p>
-  <h4>Syntax:</h4>
-  <p class="code"><span data-field="title" data-format="default">layer_script_begin</span>(layer_id, script)</p>
+  <p>有了这个函数，你可以给一个图层指定一个<a href="../../../../GML_Overview/Script_Functions.htm">脚本函数</a>，它将在图层被渲染之前被调用。当添加一个函数到一个图层时，以这种方式，它将在<i>每个不同的绘制事件</i>开始时运行，所以你可能想在分配的函数中检查哪个事件是当前渲染的，并调整代码以适应。这可以通过检查 <a href="../../Objects/Object_Events/event_type.htm"><span class="inline">event_type</span></a>和/或 <a href="../../Objects/Object_Events/event_number.htm"><span class="inline">event_number</span></a>(见下面的扩展例子)。请注意，该函数<i>并不是</i>要在任何绘制事件或步骤事件中调用，而是只需要在<strong>房间创建代码</strong>中的<span class="notranslate">room</span> ，或者在实例的<strong>创建事件/ </strong> <strong>房间开始事件</strong>中调用。</p>
+  <p> </p>
+  <h4>语法。</h4>
+  <p class="code"><span data-field="title" data-format="default">layer_script_begin</span>(layer_id, script);</p>
   <table>
     <tbody>
       <tr>
-        <th>Argument</th>
-        <th>Type</th>
-        <th>Description</th>
+        <th>争论</th>
+        <th>类型</th>
+        <th>描述</th>
       </tr>
       <tr>
-        <td>layer_id</td>
-        <td><span data-keyref="Type_String"><a href="../../../../GML_Overview/Data_Types.htm" target="_blank">String</a></span> or <span data-keyref="Type_ID_Layer"><a href="layer_get_id.htm" target="_blank">Layer</a></span></td>
-        <td>The layer to target (or the layer name as a string)</td>
+        <td><span class="notranslate">layer_id</span></td>
+        <td><span data-keyref="Type_String">字符串</span> <span data-keyref="Type_ID_Layer">或层ID</span></td>
+        <td><span class="notranslate">The unique ID value of the layer to target (or the layer name as a string)</span></td>
       </tr>
       <tr>
-        <td>script</td>
-        <td><span data-conref="../../../../../assets/snippets/Script_Function_Or_Method.hts"> </span></td>
-        <td>The function to assign to the layer, or <span class="inline2">-1</span> to not assign any</td>
+        <td><span class="notranslate">script</span></td>
+        <td><span data-keyref="Type_Function_Script">脚本功能</span></td>
+        <td><span class="notranslate">The script function index to assign to the layer</span></td>
       </tr>
     </tbody>
   </table>
-  <p> </p>
-  <h4>Returns:</h4>
+  <p> </p>
+  <h4>返回。</h4>
   <p class="code"><span data-keyref="Type_Void">N/A</span></p>
-  <p> </p>
-  <h4>Extended Example:</h4>
-  <p>In this extended example, we will first show you how a simple script function is structured to set some shader uniform data so that when the given layer is drawn, this function will be run and the shader will work correctly. In the example, it is worth noting how we check which event is being called so that the rest of the function is only run on the specific event that we require it to work on - in this case, only on the main draw event:</p>
+  <p> </p>
+  <h4>扩展实例。</h4>
+  <p>在这个扩展的例子中，我们将首先向你展示一个简单的<span class="notranslate">script</span> 函数的结构，以设置一些<span class="notranslate">shader</span> 统一的数据，这样当给定的图层被绘制时，这个函数将被运行，<span class="notranslate">shader</span> 将正确工作。在这个例子中，值得注意的是我们是如何检查哪个事件被调用的，从而使函数的其余部分只在我们要求它工作的特定事件上运行--在这个例子中，只在主绘制事件上运行。</p>
   <p class="code">/// @function layer_shader_start();<br />
     function layer_shader_start()<br />
     {<br />
         if (event_type == ev_draw)<br />
         {<br />
-            if (event_number == ev_draw_normal)<br />
+            if event_number == 0<br />
             {<br />
                 colour_to_find = shader_get_uniform(sShaderDemo5, &quot;f_Colour1&quot;);<br />
                 colour_to_set = shader_get_uniform(sShaderDemo5, &quot;f_Colour2&quot;);<br />
-                shader_set(s_ColourChanger);<br />
-                shader_set_uniform_f(colour_to_find, 1, 1, 1);<br />
-                shader_set_uniform_f(colour_to_set, 1, 0, 0);<br />
+                shader_set(s_ColourChanger);<br />
+                shader_set_uniform_f(colour_to_find, 1,1,1 );<br />
+                shader_set_uniform_f(colour_to_set, 1,0,0 );<br />
             }<br />
         }<br />
     }</p>
-  <p>We would then have a companion function to reset the shader after all the drawing is done:</p>
+  <p>然后我们会有一个配套的函数，在所有绘图完成后重置<span class="notranslate">shader</span> 。</p>
   <p class="code">/// @function layer_shader_end();<br />
     function layer_shader_end()<br />
     {<br />
         if (event_type == ev_draw)<br />
         {<br />
-            if (event_number == ev_draw_normal)<br />
+            if event_number == 0<br />
             {<br />
                 shader_reset();<br />
             }<br />
         }<br />
     }</p>
-  <p>Now that we have defined our script functions for setting the shader, we then have to assign them to a specific layer so that the layer knows to call them. This would be done in the room creation code, or in the create event or room start event of some controller object (they do not need to be set every step, but rather once at the start of the room, or when the layer is initially created):</p>
+  <p>现在我们已经定义了用于设置<span class="notranslate">script</span> 的<span class="notranslate">shader</span> 函数，然后我们必须把它们分配给一个特定的层，这样该层就知道要调用它们。这将在<span class="notranslate">room</span> 创建代码中完成，或者在一些控制器<span class="notranslate">room</span> 的创建事件或<span class="notranslate">object</span> 启动事件中完成（它们不需要每一步都被设置，而是在<span class="notranslate">room</span> 的开始或在最初创建层时设置一次）。</p>
   <p class="code">var lay_id = layer_get_id(&quot;Instances&quot;);<br />
-    <span data-field="title" data-format="default">layer_script_begin</span>(lay_id, layer_shader_start);<br />
-    layer_script_end(lay_id, layer_shader_end);
-  </p>
-  <p>This final code block assigns the scripts to the layer.</p>
-  <p> </p>
-  <p> </p>
+    layer_script_begin(lay_id, layer_shader_start);<br />
+    layer_script_end(lay_id, layer_shader_end);</p>
+  <p>这最后一个代码块将<span class="notranslate">scripts</span> ，分配给该层。</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a href="General_Layer_Functions.htm">General Layer Functions</a></div>
-        <div style="float:right">Next: <a data-xref="{title}" href="layer_script_end.htm">layer_script_end</a></div>
+        <div style="float:left">返回。<a href="General_Layer_Functions.htm">一般层的功能</a></div>
+        <div style="float:right">下一步。 <a href="layer_script_end.htm"><span class="notranslate">layer_script_end</span></a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2025 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright<span class="notranslate">YoYo Games Ltd.</span> 2022 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 layer_script_begin

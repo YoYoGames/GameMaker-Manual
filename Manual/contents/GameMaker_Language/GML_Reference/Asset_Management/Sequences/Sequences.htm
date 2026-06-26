@@ -3,51 +3,55 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>Sequences</title>
-  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <title>序列</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
   <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
-  <script src="../../../../assets/scripts/main_script.js" type="module"></script>
+  <script src="../../../../assets/scripts/main_script.js"></script>
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Page outlining the different functions and variables associated with Sequences" />
-  <meta name="rh-index-keywords" content="Sequences" />
+  <meta name="rh-index-keywords" content="" />
   <meta name="search-keywords" content="Sequences" />
 </head>
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
-  <h1><span data-field="title" data-format="default">Sequences</span></h1>
-  <p>Sequences are usually created in the IDE using <a data-xref="{title}" href="../../../../The_Asset_Editors/Sequences.htm">The Sequence Editor</a>, but they can also be created and edited using code.</p>
-  <h2>Sequences Basics</h2>
-  <p>Before looking at the functions available, it&#39;s important to understand the way that sequences are defined in <span data-keyref="GameMaker Name">GameMaker</span> and the different terms that will be used.</p>
-  <p>To start with, at the top level, you have a <b>sequence element</b>. This is what you place on a layer in a room, either through <a data-xref="{title}" href="../../../../The_Asset_Editors/Rooms.htm">The Room Editor</a> or in code using the appropriate <a href="../Rooms/Sequence_Layers/Sequence_Layers.htm">layer functions</a>. The layer element has no real properties other than an element ID value, but this ID is required to use the above mentioned layer functions to change the sequence playback or to access the sequence data.</p>
-  <p>Next, you have <b>sequence objects</b> and <b>sequence instances</b> much like you have general objects and instances. A sequence <i>object</i> is the base asset as you created it in <a data-xref="{title}" href="../../../../Introduction/The_Asset_Browser.htm">The Asset Browser</a> or using the function <span class="inline3_func"><a data-xref="{title}" href="sequence_create.htm">sequence_create</a></span>, and the sequence <i>instance</i> is the &quot;copy&quot; of that sequence object that has been placed in a room as an element on a layer. Think of sequence objects as blueprints and sequence instances as the creation from those blueprints. Sequence objects and instances are <a href="../../../GML_Overview/Structs.htm">structs</a> and - unlike regular objects - a sequence object struct can be edited at run time, which will affect all further instances of that sequence when you create them as elements (and any editing done to a sequence object will <b>not</b> be reset by restarting the game or the room using the <span class="inline3_func"><a data-xref="{title}" href="../Rooms/room_restart.htm">room_restart</a></span> or <span class="inline3_func"><a data-xref="{title}" href="../../General_Game_Control/game_restart.htm">game_restart</a></span> functions). The sequence instance struct contains a few parameters to control playback and things (this is explained in more detail below) as well as the <b>sequence data</b> struct.</p>
-  <p>Finally, as mentioned above, you have the <b>sequence data</b>, which is another struct. This struct contains <i>all</i> the data about the sequence. The tracks it contains, the properties those tracks have, the playback speed and much more. The exact details of this structs contents are outlined below, but basically consists of <b>asset track</b> structs and <b>parameter track</b> structs which use <b>keyframe data</b> to actually perform actions while the sequence plays.</p>
-  <p>Sequence elements are dealt with using the room <a href="../Rooms/Sequence_Layers/Sequence_Layers.htm">layer functions</a>, but for sequence objects, instances and data we have the functions that you can find in the <a href="Sequences.htm#func_ref">function reference</a>.</p>
-  <p>There is also a <strong>built-in variable</strong> associated with instances that can be used to determine if the instance has been used in a sequence or not:</p>
+  <h1>序列</h1>
+  <p>序列通常是在<span class="notranslate">IDE</span> ，使用<a href="../../../../The_Asset_Editors/Sequences.htm">序列编辑器</a>创建的，但也可以使用代码创建和编辑。然而，在查看可用的功能之前，重要的是要了解<span class="notranslate">sequences</span> 中定义<span class="notranslate">GameMaker</span> 的方式以及将要使用的不同术语。</p>
+  <p>首先，在最高层，你有一个<b>序列元素</b>。这就是你在<span class="notranslate">room</span> ，通过<span class="notranslate">Room</span> 编辑器或在代码中使用适当的<a href="../Rooms/Sequence_Layers/Sequence_Layers.htm">层函数</a>放在一个层上的东西。除了一个元素ID值外，层元素没有任何实际的属性，但这个ID是使用上述的层函数来改变<span class="notranslate">sequence</span> 播放或访问<span class="notranslate">sequence</span> 数据所必需的。</p>
+  <p>接下来你有<b>序列对象</b>和<b>序列实例</b>，就像你有一般<span class="notranslate">objects</span> 和实例一样。一个<span class="notranslate">sequence</span> <i>对象</i>是你在<b>资产浏览器</b>或使用函数创建的基本资源。 <a href="sequence_create.htm"><span class="inline">sequence_create()</span></a>，而<span class="notranslate">sequence</span> <i>实例</i>是该<span class="notranslate">sequence</span> <span class="notranslate">object</span> 的 &quot;副本&quot;，它被放置在一个<span class="notranslate">room</span> ，作为一个图层上的元素。把<span class="notranslate">sequence</span> <span class="notranslate">objects</span> 看成是蓝图，把<span class="notranslate">sequence</span> 实例看成是由这些蓝图创建的。<span class="notranslate">Sequence</span> <span class="notranslate">objects</span> 和实例都是<a href="../../../GML_Overview/Structs.htm">结构</a>，与普通的<span class="notranslate">objects</span> 不同，<span class="notranslate">sequence</span> <span class="notranslate">object</span> <span class="notranslate">struct</span> 可以在<span class="notranslate">runtime</span> 进行编辑，当你把它们创建为元素时，这将影响该<span class="notranslate">sequence</span> 的所有其他实例（对<span class="notranslate">sequence</span> <span class="notranslate">object</span> 进行的任何编辑<b>不会</b>因为重新启动游戏或使用 <span class="inline">room_restart()</span> 或 <span class="inline">game_restart()</span> 函数对<span class="notranslate">room</span> 进行重置）。<span class="notranslate">sequence</span> 实例<span class="notranslate">struct</span> 包含一些参数来控制播放和事情（这将在下面详细解释），以及<b>序列数据</b> <span class="notranslate">struct</span> 。</p>
+  <p>最后，如上所述，你有<b>序列数据</b>，这是另一个<span class="notranslate">struct</span> 。这个<span class="notranslate">struct</span> ，包含了<i>所有</i>关于<span class="notranslate">sequence</span> 的数据。它包含的轨道，这些轨道所具有的属性，播放速度等等。这个<span class="notranslate">structs</span> 内容的确切细节将在下面概述，但基本上包括<b>资产轨道</b> <span class="notranslate">structs</span> 和<b>参数轨道</b> <span class="notranslate">structs</span> ，它们在<span class="notranslate">sequence</span> 播放时使用<b>关键帧数据</b>来实际执行动作。</p>
+  <p>序列元素是用<span class="notranslate">room</span> <a href="../Rooms/Sequence_Layers/Sequence_Layers.htm">层的函数</a>来处理的，但对于<span class="notranslate">sequence</span> <span class="notranslate">objects</span> 、实例和数据，我们有以下函数。</p>
+  <p> </p>
   <ul class="colour">
-    <li><a data-xref="{title}" href="in_sequence.htm">in_sequence</a></li>
+    <li><a href="sequence_exists.htm"><span class="notranslate">sequence_exists</span></a></li>
+    <li><a href="sequence_create.htm"><span class="notranslate">sequence_create</span></a></li>
+    <li><a href="sequence_destroy.htm"><span class="notranslate">sequence_destroy</span></a></li>
+    <li><a href="sequence_get.htm"><span class="notranslate">sequence_get</span></a></li>
+    <li><a href="sequence_track_new.htm"><span class="notranslate">sequence_track_new</span></a></li>
+    <li><a href="sequence_keyframe_new.htm"><span class="notranslate">sequence_keyframe_new</span></a></li>
+    <li><a href="sequence_keyframedata_new.htm"><span class="notranslate">sequence_keyframedata_new</span></a></li>
+    <li><a href="sequence_get_objects.htm"><span class="notranslate">sequence_get_objects</span></a></li>
+    <li><a href="sequence_instance_override_object.htm"><span class="notranslate">sequence_instance_override_object</span></a></li>
   </ul>
-  <div data-conref="../../../../assets/snippets/Note_Instances_In_Sequence_Shouldnt_Update_Transform_Vars.hts"> </div>
-  <p>If an instance is controlled by a sequence, that sequence will be stored in the instance&#39;s <strong>built-in variable</strong>:</p>
+  <p> </p>
+  <p>还有一个与实例相关的<strong>内置变量</strong>，可用于确定实例是否已在<span class="notranslate">sequence</span> 。</p>
+  <p> </p>
   <ul class="colour">
-    <li><a data-xref="{title}" href="sequence_instance.htm">sequence_instance</a></li>
+    <li><a href="in_sequence.htm"><span class="notranslate">in_sequence</span></a></li>
   </ul>
-  <p>Another <strong>built-in variable</strong> associated with instances can be used to determine if the instance draws itself or if it is drawn by a sequence instead:</p>
+  <p class="note"><strong>重要的是!</strong>如果你的<span class="notranslate">sequence</span> 中有任何实例，这些实例不应该改变它们的<span class="inline"><span style="font-size:14px;">image_xscale</span> /<span class="inline"><span style="font-size:14px;">image_yscale</span> / <span class="inline"><span style="font-size:14px;">image_angle</span> /<span class="inline"><span style="font-size:14px;">x</span> /<span class="inline"><span style="font-size:14px;">y</span> 变量，因为在开始播放后，<span class="notranslate">sequence</span> 更新每一步时，它们会被覆盖。</p>
+  <p> </p>
+  <p>在使用这些函数来创建或编辑<span class="notranslate">sequences</span> ，我们建议你阅读下面给出的关于<span class="notranslate">struct</span> 属性的详细描述。关于如何创建一个新的<span class="notranslate">sequence</span> ，一般的概述是：</p>
   <ul class="colour">
-    <li><a data-xref="{title}" href="drawn_by_sequence.htm">drawn_by_sequence</a></li>
-  </ul>
-  <h2>Creating a Sequence in Code</h2>
-  <p>Before using these functions to create or edit sequences, we recommend that you read the detailed descriptions given below for the struct properties. A general overview of how to create a new sequence would be:</p>
-  <ul class="colour">
-    <li>Create the new sequence object using the function <span class="inline3_func"><a data-xref="{title}" href="sequence_create.htm">sequence_create</a></span> and store the sequence object index in a variable. This index gives you access to the sequence object struct.</li>
+    <li>使用函数 <span class="inline"><a href="sequence_create.htm">sequence_create()</a></span> 创建新的<span class="notranslate">sequence</span> <span class="notranslate">object</span> ，并将<span class="notranslate">sequence</span> <span class="notranslate">object</span> 的索引存储在一个变量中。这个索引使你能够访问<span class="notranslate">sequence</span> <span class="notranslate">object</span> <span class="notranslate">struct</span> 。</li>
   </ul>
   <p class="code">myseq = sequence_create();</p>
   <ul class="colour">
-    <li>Set the sequence object top-level values like length, play mode, play speed, etc. For example:</li>
+    <li>设置<span class="notranslate">sequence</span> <span class="notranslate">object</span> 顶层值，如长度、播放模式、播放速度等。比如说</li>
   </ul>
   <p class="code">myseq.length = 120;<br />
     myseq.loopmode = seqplay_pingpong;</p>
   <ul class="colour">
-    <li>Before you can add tracks to the sequence object, you need to create them, so you&#39;d now create <i>asset</i> tracks with the function <span class="inline3_func"><a data-xref="{title}" href="sequence_track_new.htm">sequence_track_new</a></span> and add them to the sequence object&#39;s <span class="inline2">tracks</span>. Note that in code, there is really no difference between asset tracks and parameter tracks - they are all simply tracks and how they behave will depend on the type of track you create and whether they are assigned as sub-tracks to a top-level track or not. So, you would create a track for an asset, and then assign sub-tracks for the different parameters to it and these sub-tracks would act as the <i>parameter</i> tracks for the asset. The example below creates a single graphic asset track, gives it a name and assigns it as the sequence&#39;s first track:</li>
+    <li>在添加轨道到<span class="notranslate">sequence</span> <span class="notranslate">object</span> ，你需要创建它们，所以你现在要创建一个<i>资产</i>轨道的数组，这些轨道已经用函数定义了 <a href="sequence_track_new.htm"><span class="inline">sequence_track_new()</span></a>.请注意，在代码中，<span class="notranslate">asset</span> 轨道和参数轨道之间其实没有什么区别--它们都是简单的轨道，它们的行为方式将取决于你创建的轨道类型，以及它们是否被分配为顶级轨道的子轨道。因此，你可以为一个<span class="notranslate">asset</span> ，然后为不同的参数分配子轨道，这些子轨道将作为<span class="notranslate">asset</span> 的<i>参数</i>轨道。下面的例子创建了一个单一的图形<span class="notranslate">asset</span> 轨道，以后会被添加到<span class="notranslate">sequence</span> 。</li>
   </ul>
   <p class="code">var _graphic_track = sequence_track_new(seqtracktype_graphic);<br />
     _graphic_track.name = &quot;TestGraphicTrack&quot;;<br />
@@ -55,7 +59,7 @@
     myseq.tracks[0] = _graphic_track;
   </p>
   <ul class="colour">
-    <li>Each asset track needs to have some data to tell the sequence how it will look, what its position is, etc. This is added in the form of <i>keyframes</i>. At the top level for an asset track, you can set keyframes for various things (listed in the section on the Track Struct, below), but note that as these are asset track keyframes, they won&#39;t be interpolated and will simply change the value they refer to when the given frame is reached. Each keyframe is a struct that is assigned to the next element of the asset track struct&#39;s <span class="inline2">keyframes</span> member. To create the keyframe struct we would call the function <span class="inline3_func"><a data-xref="{title}" href="sequence_keyframe_new.htm">sequence_keyframe_new</a></span> and to populate the keyframe with the required data, we would use the function <span class="inline3_func"><a data-xref="{title}" href="sequence_keyframedata_new.htm">sequence_keyframedata_new</a></span>:</li>
+    <li>每个<span class="notranslate">asset</span> 轨道都需要有一些数据来告诉<span class="notranslate">sequence</span> 它的外观，或者它的位置等等......而这是以<i>关键帧</i>的形式添加的。在一个<span class="notranslate">asset</span> 轨迹的顶层，你可以为各种事物设置<span class="notranslate">keyframes</span> （在下面的轨迹<span class="notranslate">Struct</span> 一节中列出），但请注意，由于这些是<span class="notranslate">asset</span> 轨迹<span class="notranslate">keyframes</span> ，它们不会被插值，当达到给定的帧时，它们会简单地改变所参考的值。每个<span class="notranslate">keyframe</span> 是一个<span class="notranslate">struct</span> ，它被添加到一个数组中，然后这个数组被分配给<span class="notranslate">asset</span> 轨道。为了创建<span class="notranslate">keyframe</span> <span class="notranslate">struct</span> ，我们将调用函数 <a href="sequence_keyframe_new.htm"><span class="inline">sequence_keyframe_new()</span></a>并用所需的数据来填充<span class="notranslate">keyframe</span> ，我们将使用函数 <a href="sequence_keyframedata_new.htm"><span class="inline">sequence_keyframedata_new()</span></a>:</li>
   </ul>
   <p class="code">// Create a new keyframe struct for a graphics asset track<br />
     var _graphic_keys = sequence_keyframe_new(seqtracktype_graphic);<br />
@@ -75,14 +79,19 @@
     _graphic_track.keyframes[0] = _graphic_keys;
   </p>
   <ul class="colour">
-    <li>We now need to create a parameter track which we&#39;ll assign as a sub-track to the graphics track we just created. This will be done in a similar way as shown above, only now we need to give the track a name that shows its purpose, in this case &quot;position&quot; as we&#39;ll be using this track to move the graphics track over the course of the sequence animation frames:</li>
+    <li>我们现在需要创建一个参数轨道，将其作为子轨道分配给我们刚刚创建的图形轨道。这将以类似于上文所示的方式完成，只是现在我们需要给轨道起一个显示其用途的名字，在这里是 &quot;位置&quot;，因为我们将使用这个轨道来在<span class="notranslate">sequence</span> 动画帧的过程中移动图形轨道。</li>
   </ul>
-  <p class="code">// Create a new parameter track struct for the position of the graphic and assign it as a track<br />
-    var _param_track = sequence_track_new(seqtracktype_real);<br />
-    _param_track.name = &quot;position&quot;;<br />
-    _param_track.interpolation = seqinterpolation_lerp;<br />
-    <br />
-    _graphic_track.tracks[0] = _param_track;<br />
+  <p class="code">// Create a new parameter track struct for the position of the graphic<br />
+    var paramtracks = array_create(1);<br />
+    paramtracks[0] = sequence_track_new(seqtracktype_real);<br />
+    paramtracks[0].name = &quot;position&quot;;<br />
+    paramtracks[0].interpolation = true;<br />
+    // Create the keyframe struct to hold the parameter channel data and set the frame position for the keyframe<br />
+    var paramkeys = array_create(2);<br />
+    paramkeys[0] = sequence_keyframe_new(seqtracktype_real);<br />
+    paramkeys[0].frame = 0;<br />
+    paramkeys[1] = sequence_keyframe_new(seqtracktype_real);<br />
+    paramkeys[1].frame = 120;<br />
     <br />
     // Create the keyframe and keyframe data structs to hold the parameter channel data and assign them<br />
     var _keyframe;<br />
@@ -114,54 +123,35 @@
     _param_track.keyframes[1] = _keyframe;
   </p>
   <ul class="colour">
-    <li>With that done, we can now create an instance of our newly created sequence in the room:</li>
+    <li>完成这些后，最后要做的是将参数轨道作为子轨道分配给我们一开始创建的主要图形<span class="notranslate">asset</span> ，然后将这些轨道分配给<span class="notranslate">sequence</span> ，然后我们可以在房间里创建一个实例。</li>
   </ul>
-  <p class="code">layer_sequence_create(&quot;Assets_1&quot;, 0, 0, myseq);</p>
-  <p>The above instructions create a very simple sequence object that draws a sprite at the (0, 0) position <i>of the sequence</i> and then moves it to the bottom-right corner and back in a loop.</p>
-  <div data-conref="../../../../assets/snippets/Note_Important_Sequence_Arrays_Not_True_Arrays.hts"> </div>
-  <h2>Sequence Structs</h2>
-  <p>There are a number of places where you need to access different structs to give or get data about the sequence, and the sections below list all the different properties that these structs contain:</p>
+  <p class="code">mytracks[0].tracks = paramtracks;<br />
+    myseq.tracks = mytracks;<br />
+    layer_sequence_create(&quot;Assets_1&quot;, 0, 0, myseq);</p>
+  <p>上述指令创建了一个非常简单的<span class="notranslate">sequence</span> <span class="notranslate">object</span> ，在<i>序列的</i>（0，0）位置画了一个<span class="notranslate">sprite</span> ，然后将其移动到右下角，再以<span class="notranslate">loop</span> 。如前所述，有许多地方需要访问不同的<span class="notranslate">structs</span> ，以给出或获得有关<span class="notranslate">sequence</span> 的数据，下面的章节列出了这些<span class="notranslate">structs</span> 所包含的所有不同属性。</p>
   <ul class="colour">
-    <li><a name="object"></a><a data-xref="{title}" href="Sequence_Structs/The_Sequence_Object_Struct.htm">The Sequence Object Struct</a></li>
-    <li><a name="instance"></a><a data-xref="{title}" href="Sequence_Structs/The_Sequence_Instance_Struct.htm">The Sequence Instance Struct</a></li>
-    <li><a name="track"></a><a data-xref="{title}" href="Sequence_Structs/The_Track_Struct.htm">The Track Struct</a></li>
-    <li><a name="keyframe"></a><a data-xref="{title}" href="Sequence_Structs/The_Keyframe_Struct.htm">The Keyframe Struct</a></li>
-    <li><a name="keyframe_data"></a><a data-xref="{title}" href="Sequence_Structs/The_Keyframe_Data_Struct.htm">The Keyframe Data Struct</a></li>
+    <li><a name="object"></a><a href="Sequence_Structs/The_Sequence_Object_Struct.htm"><label for="1"><span class="notranslate">Sequence</span> <span class="notranslate">Object</span> 结构</label></a></li>
+    <li><a name="instance"></a><a href="Sequence_Structs/The_Sequence_Instance_Struct.htm"><label for="2"><span class="notranslate">Sequence</span> 实例结构</label></a></li>
+    <li><a name="track"></a><a href="Sequence_Structs/The_Track_Struct.htm"><label for="3">轨道结构</label></a></li>
+    <li><a name="keyframe"></a><a href="Sequence_Structs/The_Keyframe_Struct.htm"><label for="4"><span class="notranslate">Keyframe</span> 结构</label></a></li>
+    <li><a name="keyframe_data"></a><a href="Sequence_Structs/The_Keyframe_Data_Struct.htm"><label for="5"><span class="notranslate">Keyframe</span> 数据结构</label></a></li>
   </ul>
-  <h2>Events, Moments and Broadcast Messages</h2>
-  <p>Finally, it is possible to add code to sequences that can be triggered as either an <strong>event</strong>, as a <strong>moment</strong> or as a <strong>broadcast message</strong>. This is explained fully on the following page:</p>
+  <p> </p>
+  <p>最后，可以将代码添加到<span class="notranslate">sequences</span> ，可以作为一个<strong>时刻</strong>的<strong>事件</strong>或<strong>广播信息</strong>来触发。这在下一页有充分的解释。</p>
   <ul class="colour">
-    <li><a href="Sequence_Events_Moments_Broadcast.htm">Events, Moments and Broadcast Messages</a></li>
+    <li><a href="Sequence_Events_Moments_Broadcast.htm">事件、时刻和广播信息</a></li>
   </ul>
-  <h2 id="func_ref">Function Reference</h2>
-  <h3 id="func_ref_functions">Functions</h3>
-  <ul class="colour">
-    <li><a data-xref="{title}" href="sequence_exists.htm">sequence_exists</a></li>
-    <li><a data-xref="{title}" href="sequence_create.htm">sequence_create</a></li>
-    <li><a data-xref="{title}" href="sequence_destroy.htm">sequence_destroy</a></li>
-    <li><a data-xref="{title}" href="sequence_get.htm">sequence_get</a></li>
-    <li><a data-xref="{title}" href="sequence_track_new.htm">sequence_track_new</a></li>
-    <li><a data-xref="{title}" href="sequence_keyframe_new.htm">sequence_keyframe_new</a></li>
-    <li><a data-xref="{title}" href="sequence_keyframedata_new.htm">sequence_keyframedata_new</a></li>
-    <li><a data-xref="{title}" href="sequence_get_objects.htm">sequence_get_objects</a></li>
-    <li><a data-xref="{title}" href="sequence_instance_override_object.htm">sequence_instance_override_object</a></li>
-  </ul>
-  <h3 id="func_ref_variables">Variables</h3>
-  <ul class="colour">
-    <li><a data-xref="{title}" href="in_sequence.htm">in_sequence</a></li>
-    <li><a data-xref="{title}" href="drawn_by_sequence.htm">drawn_by_sequence</a></li>
-    <li><a data-xref="{title}" href="sequence_instance.htm">sequence_instance</a></li>
-  </ul>
-  <p> </p>
-  <p> </p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a data-xref="{title}" href="../Asset_Management.htm">Asset Management</a></div>
-        <div style="float:right">Next: <a data-xref="{title}" href="../Fonts/Fonts.htm">Fonts</a></div>
+        <div style="float:left">返回。<a href="../Asset_Management.htm">资产管理</a></div>
+        <div style="float:right">下一步。<a href="../Fonts/Fonts.htm">字体</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2026 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright<span class="notranslate">YoYo Games Ltd.</span> 2021 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 Sequences

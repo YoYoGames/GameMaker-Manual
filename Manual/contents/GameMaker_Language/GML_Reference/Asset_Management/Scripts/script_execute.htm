@@ -4,9 +4,9 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>script_execute</title>
-  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <meta name="generator" content="Adobe RoboHelp 2020" />
   <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
-  <script src="../../../../assets/scripts/main_script.js" type="module"></script>
+  <script src="../../../../assets/scripts/main_script.js"></script>
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Page explaining the function script_execute" />
   <meta name="rh-index-keywords" content="script_execute" />
@@ -15,76 +15,53 @@
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
   <h1><span data-field="title" data-format="default">script_execute</span></h1>
-  <p>This function calls a <span data-keyref="Type_Function_Script"><a href="../../../GML_Overview/Script_Functions.htm" target="_blank">Script Function</a></span> or <span data-keyref="Type_Method"><a href="../../../GML_Overview/Method_Variables.htm" target="_blank">Method</a></span> with the given arguments.</p>
-  <p><span>It calls the script function or method you pass it in the context of the<span> </span></span><b data-stringify-type="bold">calling instance or struct</b>. T<span>o call a method in its bound context, use <span class="inline3_func"><a data-xref="{title}" href="../../Variable_Functions/method_call.htm">method_call</a></span>.</span></p>
-  <p class="note"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> This function takes the call arguments as separate parameters. Use <span class="inline3_func"><a data-xref="{title}" href="script_execute_ext.htm">script_execute_ext</a></span> to pass them as an array instead.</p>
-  <div data-conref="../../../../assets/snippets/script_execute_usage_notes.hts"> </div>
+  <p>这个函数最初是为以动态方式调用<span class="notranslate">script</span> <i>资产</i>而设计的，但随着用户定义函数的引入，它现在可以以两种方式使用。</p>
   <ul class="colour">
+    <li>第一种方法是支持<b>传统的</b> <span class="notranslate">scripts</span> ，其中每个<span class="notranslate">script</span> 是一个单一的函数，<span class="notranslate">script</span> 的标题也是函数的名称。以这种方式使用，它将像以前一样工作，它将运行一个用户创建的<span class="notranslate">script</span> <span class="notranslate">asset</span> ，并将给定的参数传递给它。请注意，在这种情况下，它实际上并不是在调用<i>脚本</i>，而是在<span class="notranslate">script</span> 中调用同名的<i>脚本函数</i>。<span style="text-align: justify;"></span></li>
+    <li><span style="text-align: justify;">第二种方式是在一个包含多个函数的<span class="notranslate">script</span> <span class="notranslate">asset</span> ，调用一个函数。在这种情况下，你将提供函数的名称和它所需要的参数，而不是<span class="notranslate">script</span> <span class="notranslate">asset</span> 的名称。请注意，这只对<a href="../../../GML_Overview/Script_Functions.htm">脚本函数</a>有效，而对<a href="../../../GML_Overview/Method_Variables.htm">方法</a>无效，因为只有<span class="notranslate">script</span> 函数才有分配给它们的<span class="notranslate">script</span> ID。</span></li>
   </ul>
-  <p> </p>
-  <h4>Syntax:</h4>
-  <p class="code"><span data-field="title" data-format="default">script_execute</span>(scr, arg0, arg1, arg2, etc.)</p>
+  <p><span style="text-align: justify;"></span>虽然这个函数主要是为传统支持而设计的，但它并没有被废弃，因为它在网络和远程过程调用的情况下仍然有其存在的价值。还值得注意的是，这个函数很慢，经常使用它可能会对性能产生不利影响。</p>
+  <p class="note"><span class="note">注意</span>该功能不能与内置功能一起使用。</p>
+  <p> </p>
+  <h4>语法。</h4>
+  <p class="code"><span data-field="title" data-format="default">script_execute</span>(scr, arg0, arg1, arg2..., etc...);</p>
   <table>
     <tbody>
       <tr>
-        <th>Argument</th>
-        <th>Type</th>
-        <th>Description</th>
+        <th>争论</th>
+        <th>类型</th>
+        <th>描述</th>
       </tr>
       <tr>
-        <td>scr</td>
-        <td><span data-keyref="Type_Function_Script"><a href="../../../GML_Overview/Script_Functions.htm" target="_blank">Script Function</a></span> or <span data-keyref="Type_Method"><a href="../../../GML_Overview/Method_Variables.htm" target="_blank">Method</a></span> or <span data-keyref="Type_Asset_Script"><a href="../../../../The_Asset_Editors/Scripts.htm" target="_blank">Script Asset</a></span></td>
-        <td>The function/script or method that you want to call. See <a data-xref="{title}" href="../../../GML_Overview/Script_Functions_vs_Methods.htm">Script Functions vs. Methods</a></td>
+        <td><span class="notranslate">scr</span></td>
+        <td><span data-keyref="Type_Asset_Script"><a href="../../../../../The_Asset_Editors/Scripts.htm" target="_blank">脚本资产</a></span>或 <span data-keyref="Type_Function_Script"><a href="../../../../../GameMaker_Language/GML_Overview/Script_Functions.htm" target="_blank">脚本功能</a></span></td>
+        <td><span class="notranslate">The function/script that you want to call</span></td>
       </tr>
       <tr>
-        <td>arg0, arg1, arg2, etc.</td>
-        <td><span data-keyref="Type_Any"><a href="../../../GML_Overview/Data_Types.htm#variable" target="_blank">Any</a></span></td>
-        <td><span data-conref="../../../../assets/snippets/Tag_optional.hts"> </span> The different arguments that you want to pass through to the function/script</td>
+        <td><span class="notranslate">arg0, arg1, arg2..., etc...</span></td>
+        <td><span data-keyref="Type_Any"><a href="../../../../../GameMaker_Language/GML_Overview/Data_Types.htm#variable" target="_blank">变化的</a></span></td>
+        <td><span class="notranslate">The different arguments that you want to pass through to the function/script</span></td>
       </tr>
     </tbody>
   </table>
-  <p> </p>
-  <h4>Returns:</h4>
-  <p class="code"><span data-keyref="Type_Any"><a href="../../../GML_Overview/Data_Types.htm#variable" target="_blank">Any</a></span> (Will depend on the return value from the script/function being called)</p>
-  <p> </p>
-  <h4>Example 1: Basic Use</h4>
-  <p class="code"><span data-field="title" data-format="default">script_execute</span>(choose(move_up, move_down, move_left, move_right), irandom(5));</p>
-  <p>The above code calls <span class="inline3_func"><span data-field="title" data-format="default">script_execute</span></span> to choose one of four user-defined functions (in this case related to movement) and passes a random integer to it as the first argument.</p>
-  <p> </p>
-  <h4>Example 2: Calling a Constructor Function</h4>
-  <p class="code">function StructA() constructor<br />
-    {<br />
-        a = 1;<br />
-        b = 2;<br />
-        c = &quot;Hello&quot;;<br />
-    }<br />
-    function StructB() constructor<br />
-    {<br />
-        d = 3;<br />
-        e = 4;<br />
-        f = &quot;!&quot;;<br />
-    }<br />
-    <br />
-    the_struct = {};<br />
-    with(the_struct)<br />
-    {<br />
-        <span data-field="title" data-format="default">script_execute</span>(StructA);<br />
-        <span data-field="title" data-format="default">script_execute</span>(StructB);<br />
-    }<br />
-    show_debug_message($&quot;{instanceof(the_struct)} -&gt; {the_struct}&quot;);
-  </p>
-  <p>The above code shows how to call a constructor function using <span class="inline3_func"><span data-field="title" data-format="default">script_execute</span></span>.</p>
-  <p style="text-align: left; ">First, two constructor functions are defined. Then an empty struct is created and stored in a variable <font face="menlo, consolas, monospace"><span class="inline2">the_struct</span></font>. The scope is then changed to that of <span class="inline2">the_struct</span> using a <span class="inline2">with</span> statement and inside it <span class="inline3_func"><span data-field="title" data-format="default">script_execute</span></span> is called twice: once with <span class="inline2">StructA</span> and once with <span class="inline2">StructB</span>. After the two calls to <span class="inline3_func"><span data-field="title" data-format="default">script_execute</span></span>, <span class="inline2">the_struct</span> has the variables of <span class="inline2">StructA</span> and <span class="inline2">StructB</span> and is an instance of <span class="inline2">StructB</span>.</p>
-  <p> </p>
-  <p> </p>
+  <p> </p>
+  <h4>返回。</h4>
+  <p class="code"><span data-keyref="Type_Any"><a href="../../../../../GameMaker_Language/GML_Overview/Data_Types.htm#variable" target="_blank">Variable</a></span> (Will depend on the return value from the script/function being called)</p>
+  <p> </p>
+  <h4>例子。</h4>
+  <p class="code">script_execute(choose(move_up, move_down, move_left, move_right), irandom(5));</p>
+  <p>上面的示例代码将使用 <span class="inline">script_execute</span> ，从四个用户定义的函数中选择一个（本例中与运动有关），并将一个随机的整数作为第一个参数传给它。</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a data-xref="{title}" href="Scripts.htm">Scripts</a></div>
-        <div style="float:right">Next: <a data-xref="{title}" href="script_execute_ext.htm">script_execute_ext</a></div>
+        <div style="float:left">返回。<a href="Scripts.htm">脚本</a></div>
+        <div style="float:right">下一步。 <a href="script_execute_ext.htm"><span class="notranslate">script_execute_ext</span></a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright<span class="notranslate">YoYo Games Ltd.</span> 2022 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 script_execute

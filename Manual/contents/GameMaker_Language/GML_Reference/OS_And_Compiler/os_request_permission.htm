@@ -6,7 +6,7 @@
   <title>os_request_permission</title>
   <meta name="generator" content="Adobe RoboHelp 2022" />
   <link rel="stylesheet" href="../../../assets/css/default.css" type="text/css" />
-  <script src="../../../assets/scripts/main_script.js" type="module"></script>
+  <script src="../../../assets/scripts/main_script.js"></script>
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Reference page for os_request_permission" />
   <meta name="rh-index-keywords" content="os_request_permission,os_permission_granted,os_permission_denied" />
@@ -15,73 +15,60 @@
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
   <h1><span data-field="title" data-format="default">os_request_permission</span></h1>
-  <p>This function requests the OS for a specific permission.</p>
-  <p>It is used on two different targets:</p>
+  <p>通过这个函数你可以请求一个特定的权限。<span class="notranslate">string</span> 你可以使用格式 &quot;<span class="inline">android.permission.&lt;permission&gt;</span>&quot; 提供要请求的权限，所以要请求 <span class="inline">RECORD_AUDIO</span> 权限（例如），你可以调用</p>
+  <p class="code">os_request_permission(&quot;android.permission.RECORD_AUDIO&quot;);</p>
+  <p>该函数将返回触发一个<a href="../../../The_Asset_Editors/Object_Properties/Async_Events/System.htm">系统异步事件</a>，其中内置的 <a href="../../GML_Overview/Variables/Builtin_Global_Variables/async_load.htm"><span class="inline">async_load</span></a>DS地图将包含以下键/值对。</p>
   <ul class="colour">
-    <li>On Android you supply the permission to request as a string using the format &quot;<span class="inline2">android.permission.&lt;permission&gt;&quot;</span>, so to request, for example, the <span class="inline2">RECORD_AUDIO</span> permission you would call:</li>
-  </ul>
-  <p class="code"><span data-field="title" data-format="default">os_request_permission</span>(&quot;android.permission.RECORD_AUDIO&quot;);</p>
-  <ul>
-    <li>On GX.games you can use this function to request access to orientation information, though only on certain browsers (see <a data-xref="{title}" href="../Game_Input/Device_Input/Device_Input.htm">Device Input</a>). <span>This permission request has to be made in response to a user press, so will only take place the first time the app is clicked after the call to <span class="inline3_func"><span data-field="title" data-format="default">os_request_permission</span></span> is made.</span> In this case you request the permission <span class="inline2">&quot;DeviceMotion&quot;</span>:</li>
-  </ul>
-  <p class="code"><span data-field="title" data-format="default">os_request_permission</span>(&quot;DeviceMotion&quot;);</p>
-  <p class="note"><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> You can request multiple permissions at once by passing multiple arguments into the function.</p>
-  <p>The function will later trigger a <a href="../../../The_Asset_Editors/Object_Properties/Async_Events/System.htm">System Asynchronous Event</a> where the built-in <span class="inline2"><a data-xref="{title}" href="../../GML_Overview/Variables/Builtin_Global_Variables/async_load.htm">async_load</a></span> DS map will contain the following key/value pairs:</p>
-  <ul class="colour">
-    <li>&quot;<b>type</b>&quot;: This will be the string <span class="inline2">&quot;permission_request_result&quot;</span>, used to identify the type of event triggered.</li>
-    <li>&quot;<b>&lt;permission&gt;</b>&quot;: This will be a permission requested by the function, as a string. You will get keys for all the permissions you requested in the original function call.<br />
-      <br />
-      This key will equal one of the following constants:
-    </li>
+    <li><b>&quot;类型</b>&quot;。这是被触发的事件类型，其值将是<span class="notranslate">string</span> &quot;<span class="inline">permission_request_result</span>&quot;。</li>
+    <li>&quot;<b>&lt;permission&gt;</b>&quot;。这将函数请求的权限作为<span class="notranslate">string</span> ，其中包含以下常数之一。</li>
   </ul>
   <table>
     <tbody>
       <tr>
-        <th>Constant</th>
-        <th>Description</th>
+        <th>恒定</th>
+        <th>描述</th>
       </tr>
       <tr>
-        <td><span class="inline">os_permission_granted</span></td>
-        <td>This indicates that the permission has been granted</td>
+        <td><span class="notranslate"><span class="inline">os_permission_granted</span></td>
+        <td>这表明许可已经被授予</td>
       </tr>
       <tr>
-        <td><span class="inline">os_permission_denied</span></td>
-        <td>This indicates that the permission has not been granted</td>
+        <td><span class="notranslate"><span class="inline">os_permission_denied</span></td>
+        <td>这表明许可尚未被授予</td>
       </tr>
     </tbody>
   </table>
-  <ul class="colour">
-    <li><span class="inline">&quot;response&quot;</span>: This is only returned for the <span class="inline2">&quot;DeviceMotion&quot;</span> permission. It holds the string value returned by the request.</li>
-  </ul>
-  <p>It is worth noting that the following permissions are supported natively by <span data-keyref="GameMaker Name">GameMaker</span>, but are considered &quot;dangerous&quot; by Google and as such they <i>must</i> be explicitly requested (note too that some permissions can be requested using the <a href="../../../Settings/Game_Options/Android.htm">Android Game Options</a> without the need for this function):</p>
+  <p> </p>
+  <p>值得注意的是，<span data-keyref="GameMaker Name">GameMaker</span>原生支持以下权限，但被Google认为是 &quot;危险 &quot;的，因此<i>必须</i>明确申请（也请注意，有些权限可以使用<a href="../../../Settings/Game_Options/Android.htm">Android游戏选项</a>申请，而不需要这个功能）。</p>
   <ul class="colour">
     <li><span class="inline">android.permission.WRITE_EXTERNAL_STORAGE</span></li>
     <li><span class="inline">android.permission.READ_PHONE_STATE</span></li>
     <li><span class="inline">android.permission.RECORD_AUDIO</span></li>
   </ul>
-  <p>For more information on app permissions, please see the <a href="https://developer.android.com/guide/topics/permissions/overview" target="_blank">Android Documentation</a>.</p>
-  <p> </p>
-  <h4>Syntax:</h4>
-  <p class="code"><span data-field="title" data-format="default">os_request_permission</span>(permissions...)</p>
+  <p>关于应用程序权限的更多信息，请参见<a href="https://developer.android.com/guide/topics/permissions/overview" target="_blank">Android文档</a>。</p>
+  <p class="note"><b>重要的是!</b>该功能仅适用<b>于安卓</b>目标。</p>
+  <p> </p>
+  <h4>语法。</h4>
+  <p class="code"><span data-field="title" data-format="default">os_request_permission</span>(permission)</p>
   <table>
     <tbody>
       <tr>
-        <th>Argument</th>
-        <th>Type</th>
-        <th>Description</th>
+        <th>争论</th>
+        <th>类型</th>
+        <th>描述</th>
       </tr>
       <tr>
-        <td>permissions</td>
-        <td><span data-keyref="Type_String"><a href="../../GML_Overview/Data_Types.htm" target="_blank">String</a></span></td>
-        <td>The permission(s) to request. Request multiple permissions by adding more arguments.</td>
+        <td><span class="notranslate">permission</span></td>
+        <td><span data-keyref="Type_String"><a data-rhwidget="HyperlinkPopover" href="../../../../LINKGOESHERE">字符串</a></span></td>
+        <td><span class="notranslate">The permission to request (a string)</span></td>
       </tr>
     </tbody>
   </table>
-  <p> </p>
-  <h4>Returns:</h4>
-  <p class="code"><span data-keyref="Type_Void">N/A</span></p>
-  <p> </p>
-  <h4>Example 1:</h4>
+  <p> </p>
+  <h4>返回。</h4>
+  <p class="code"><span data-keyref="Type_Void"><a data-rhwidget="HyperlinkPopover" href="../../../../LINKGOESHERE">N/A</a></span></p>
+  <p> </p>
+  <h4>例子。</h4>
   <p class="code">if (os_type == os_android)<br />
     {<br />
         if (os_check_permission(&quot;android.permission.INTERNET&quot;) == os_permission_denied)<br />
@@ -89,31 +76,18 @@
             os_request_permission(&quot;android.permission.INTERNET&quot;);<br />
         }<br />
     }</p>
-  <p>The above code checks the OS type and if it&#39;s Android, it performs a check on the &quot;INTERNET&quot; permission and if it&#39;s not yet been granted, it requests it.</p>
-  <h4>Example 2:</h4>
-  <p class="code">var _read = &quot;android.permission.READ_EXTERNAL_STORAGE&quot;;<br />
-    var _write = &quot;android.permission.WRITE_EXTERNAL_STORAGE&quot;;<br />
-    <br />
-    if (os_check_permission(_write) &amp;&amp; os_check_permission(_read))<br />
-    {<br />
-        MobileUtils_Share_Open(&quot;Title!&quot;, &quot;image/gif&quot;, file);<br />
-    }<br />
-    else<br />
-    {<br />
-        os_request_permission(_write, _read);<br />
-    }
-  </p>
-  <p>This function checks if the user has permissions for reading from and writing to external storage. If it&#39;s allowed, it runs an extension function to operate using those permissions. However, if either of those permissions are not allowed, it calls <span class="inline3_func"><span data-field="title" data-format="default">os_request_permission</span></span> to request both permissions at once.</p>
-  <p> </p>
-  <p> </p>
+  <p>上述代码检查操作系统的类型，如果是<span class="notranslate">Android</span> ，它就对权限进行检查，如果 &quot;INTERNET &quot;权限还没有被授予，它就请求它。</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a data-xref="{title}" href="OS_And_Compiler.htm">OS And Compiler</a></div>
-        <div style="float:right">Next: <a data-xref="{title}" href="GM_build_date.htm">GM_build_date</a></div>
+        <div style="float:left">回来了。<a href="OS_And_Compiler.htm">操作系统和编译器</a></div>
+        <div style="float:right">下一步。 <a href="GM_build_date.htm"><span class="notranslate">GM_build_date</span></a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2025 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright<span class="notranslate">YoYo Games Ltd.</span> 2022 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 os_request_permission

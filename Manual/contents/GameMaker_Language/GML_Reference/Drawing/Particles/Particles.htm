@@ -3,10 +3,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>Particles</title>
-  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <title>粒子</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
   <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
-  <script src="../../../../assets/scripts/main_script.js" type="module"></script>
+  <script src="../../../../assets/scripts/main_script.js"></script>
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Reference section for the Particle functions and variables" />
   <meta name="rh-index-keywords" content="Particles" />
@@ -14,83 +14,56 @@
 </head>
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
-  <h1><span data-field="title" data-format="default">Particles</span></h1>
-  <p>For complex things in <span data-keyref="GameMaker Name">GameMaker</span> you would normally have an <a href="../../../../The_Asset_Editors/Objects.htm">object</a> and create <a href="../../Asset_Management/Instances/Instances.htm">instances</a> of that object around the room. However, for graphical effects, this can be expensive as every instance comes with a &quot;cost&quot; in processing due to the variables it contains and the code it has in the different events. You can reduce this cost by turning to <a href="../../../../The_Asset_Editors/Room_Properties/Layer_Properties.htm">tilemap layers</a> and <a href="../../../../The_Asset_Editors/Room_Properties/Layer_Properties.htm">asset layers</a> for drawing your graphics needs but those are generally static and cannot be changed or moved around much. However, there is one other option for drawing fast yet versatile graphics effects in your games, and that is to use <em><span data-field="title" data-format="lower-alpha">particles</span></em>.</p>
-  <p><b><span data-field="title" data-format="default">Particles</span></b> are graphic resources that have certain properties which are defined within a <i>particle system</i>. These properties cannot be manipulated directly for individual particles, but are changed through the code that is used to define the individual particle and the system that it belongs to. They are very useful for creating beautiful and flashy effects (or subtle and discreet ones!) like explosions, decals, rain, snow, star fields and debris in a game without the CPU overhead that using instances has.</p>
-  <div class="minitoc" data-minitoc-targetid="drop-down" data-type="minitoc" style="">
-    <p class="minitoc-caption" data-close-text="" data-expanded="true" data-open-text="Contents" data-type="minitoc-caption" href="#" style="">Mini TOC (placeholder)</p>
-    <ol class="minitoc-list" data-from-selector="h2" data-to-selector="h2" data-type="minitoc-list" style="">
-      <li>Heading</li>
-    </ol>
-  </div>
-  <h2>Using Particles</h2>
-  <h3>Basic Setup</h3>
-  <p>The basic setup for a particle system in code follows three steps, with the third step being optional depending on how you wish to create your particle effects:</p>
+  <h1>粒子</h1>
+  <p><span class="notranslate">object</span>对于<span data-keyref="GameMaker Name">GameMaker</span>中的复杂事物，你通常会有一个<a href="../../../../The_Asset_Editors/Objects.htm">对象</a>，并在<span class="notranslate">room</span> 。然而，对于图形效果，这可能是昂贵的，因为每个实例都有一个处理的 &quot;成本&quot;，因为它包含的变量和它在不同事件中的代码。你可以通过转向<a href="../../../../The_Asset_Editors/Room_Properties/Layer_Properties.htm">瓷砖图层</a>和<a href="../../../../The_Asset_Editors/Room_Properties/Layer_Properties.htm">资产层来</a>减少这种成本，以满足你的图形需求，但这些通常是静态的，不能被改变或移动很多。然而，还有一个选择可以在你的游戏中绘制快速而多变的图形效果，那就是使用<i>粒子</i>。</p>
+  <p><strong>粒子 </strong>是具有某些属性的图形资源，这些属性被定义在<i>粒子系统</i>中。这些属性不能直接对单个粒子进行操作，而是通过用于定义单个粒子和其所属系统的代码来改变。它们对于在游戏中创造美丽而华丽的效果（或微妙而谨慎的效果！）非常有用，如爆炸、贴花、雨、雪、星域和碎片，而没有使用实例所带来的CPU开销。</p>
+  <p>粒子系统的基本设置遵循三个步骤，第三步是可选的，这取决于你希望在房间内如何创造你的粒子效果。</p>
   <ul class="colour">
-    <li><b>Create a particle system</b>: The particle system is like a container in which particles are created and exist throughout their lifetime. We use code to create particle <em>types</em> that define a series of visual aspects and behaviours for our particles, and then we create particles of those types in the &quot;container&quot;, either directly or using an <em>emitter</em>.</li>
-    <li><b>Create particle types</b>: Particle types are the graphic effect itself. You can have many different types, each with their own range of colours, alphas, sizes and movements, but it&#39;s important to note that you <i>do not have control over individual particles</i>. You define a series of parameters and every particle will be created to have a random spread of behaviours chosen from them.</li>
-    <li><b>Create emitters</b>: Emitters are an option that can be used to burst or stream particles from within very clearly defined limits. They are optional because you can create particles from any instance using the <span class="inline3_func"><a data-xref="{title}" href="Particle_Systems/part_particles_create.htm">part_particles_create</a></span> and <span class="inline3_func"><a data-xref="{title}" href="Particle_Systems/part_particles_create_colour.htm">part_particles_create_colour</a></span>
-      <font face="menlo, consolas, monospace"><span style="font-size: 17px;"> </span></font>functions but they are not always adequate for every situation.
-    </li>
+    <li><b>创建一个粒子系统</b>。粒子系统就像一个容器，我们将用它来容纳我们不同的粒子类型以备使用。我们用代码为我们的粒子定义一系列的视觉方面和行为，然后把它们放在 &quot;容器 &quot;里，这样我们就可以把它们拿出来，以后随时随地使用。</li>
+    <li><b>创建粒子类型</b>。粒子类型是图形效果本身。你可以有许多不同的类型，每个类型都有自己的颜色、字母、大小和运动范围，但重要的是要注意，你<i>不能控制单个粒子</i>。你定义一系列的参数，创建的粒子将具有从中选择的随机的行为分布。</li>
+    <li><b>创建发射器</b>。发射器是一个选项，可以用来在非常明确的定义范围内迸发或流传粒子。它们是可选的，因为你可以从任何实例中使用 <a href="Particle_Systems/part_particles_create.htm"><span class="inline">part_particles_create()</span></a>和 <a href="Particle_Systems/part_particles_create_colour.htm"><span class="inline">part_particles_create_colour()</span></a>函数来创建粒子，但它们并不总是适合所有情况。</li>
   </ul>
-  <h3>Built-in Effects</h3>
-  <p>The easiest way of creating particles in your game with <span data-keyref="GameMaker Name">GameMaker</span> is to use the built-in effects mechanism. These effects are created using an internal particle system which is basically a very fast method for drawing graphical effects only and as such you do not have to worry about all the details (like memory management) when using these functions. You simply specify the type of effect, the position where it must be created, the size you want it to be and finally, its colour then let <span data-keyref="GameMaker Name">GameMaker</span> do all the work.</p>
-  <p>To create a built-in effect you can use <span class="inline3_func"><a data-xref="{title}" href="effect_create_depth.htm">effect_create_depth</a></span> or <span class="inline3_func"><a data-xref="{title}" href="effect_create_layer.htm">effect_create_layer</a></span>. To clear all particles created by these functions you can use <span class="inline3_func"><a data-xref="{title}" href="effect_clear.htm">effect_clear</a></span>.</p>
-  <div data-conref="../../../../assets/snippets/Note_tip_use_particle_system_editor.hts"> </div>
-  <p>Even though these effects are limited in scope and customisation, they can still be used to create some simple, great effects with very little effort. For example, by creating a small puff of grey smoke below a moving missile in each step, a pretty convincing smoke trail is created, so even when you are an expert in particles it pays to remember that these effects exist as they can still save you some time.</p>
-  <p>However, the true potential of particles is in designing and creating your own effects using the powerful functions that the GameMaker Language supplies to you. You can find out more from each of the following sections:</p>
+  <p>虽然粒子是创造效果的优秀工具，但它们确实有一定的限制和良好的做法，除非你希望你的游戏性能不佳，甚至可能崩溃，否则需要遵循。</p>
   <ul class="colour">
-    <li><a data-xref="{title}" href="Particle_Systems/Particle_Systems.htm">Particle Systems</a></li>
-    <li><a data-xref="{title}" href="Particle_Types/Particle_Types.htm">Particle Types</a></li>
-    <li><a data-xref="{title}" href="Particle_Emitters/Particle_Emitters.htm">Particle Emitters</a></li>
+    <li>粒子系统、粒子和发射器会占用内存，因此你应该非常小心地使用它们，因为这很容易导致内存泄漏，从而使游戏变慢并最终崩溃。处理这个问题的一个方法是建立一个<i>全局</i>系统，在游戏开始时定义所有的东西，并在游戏结束时删除，但如果你想要一个动态系统，那么每个粒子和发射器（以及系统本身）应该在不需要的时候被销毁。</li>
+    <li>粒子在CPU上可能是快速和轻量的，但它们仍然需要<i>一些</i>处理，所以你不应该一次有40,000个粒子在屏幕上迸发。把它们限制在实现特定效果所必需的范围内，不能再多了。</li>
+    <li>如果你定义自己的粒子<span class="notranslate">sprite</span> ，而不是使用其中的14个<span class="notranslate">sprites</span> ，你应该尽量让它们小一些，以达到你要求的效果。</li>
+    <li>粒子<i>不</i>与任何东西互动。如果你需要它们与用户或游戏中的任何其他实例有任何类型的互动，你应该考虑使用实例来代替，因为粒子是纯粹的图形。</li>
+    <li>尽管对你在一个游戏中可以创建的系统、发射器和粒子的数量没有技术限制，但你应该尽量把所有东西限制在最小的数量上，以使内存的使用尽可能低。</li>
+    <li>在移动设备上，要小心使用粒子，因为如果它们覆盖了屏幕的大片区域，<i>绘制</i>它们的速度会很慢（在移动设备上过度绘制是导致速度变慢的主要原因之一）。</li>
+    <li>在HTML5中，没有加法混合，除非你启用了WebGL，否则你也无法进行颜色混合。</li>
   </ul>
-  <p class="note"><span data-conref="../../../../assets/snippets/Tag_tip.hts"> </span> For <label for="four">a basic guide on how to design and create particles for your games (using <span data-keyref="GML_Code">GML Code</span> or <span data-keyref="GML_Visual">GML Visual</span>) see </label><a data-xref="{title}" href="../../../../Additional_Information/Guide_To_Using_Particles.htm">Guide To Using Particles</a><label for="four">.</label></p>
-  <h2>Usage Notes</h2>
-  <p>Although particles are an excellent tool for creating effects, they do come with certain restrictions and good practices which need to be followed unless you want your game to suffer from poor performance or even potentially crash:</p>
+  <p>用<span data-keyref="GameMaker Name">GameMaker</span>在游戏中创建粒子的最简单方法是使用内置的效果机制。这些效果是使用内部粒子系统创建的，基本上是一种非常快速的方法，只用于绘制图形效果，因此在使用这些功能时，你不必担心所有的细节（如内存管理）。你只需指定效果的类型，它必须被创建的位置，你希望它的大小，最后是它的颜色，然后让<span data-keyref="GameMaker Name">GameMaker</span>做所有的工作。</p>
+  <p>以下是用于创建内置粒子效果的函数。</p>
   <ul class="colour">
-    <li>Particle systems, particles and emitters take up memory and as such you should be very careful how you use them as it is very easy to cause a memory leak which will slow down and eventually crash your game. One way to cope with this is to have a <i>global</i> system with everything defined at the start of the game and removed at the end, but if you want a dynamic system then each particle and emitter (and the system itself) should be destroyed the moment it is no longer needed.</li>
-    <li>Particles may be fast and light on the CPU, but they still require <i>some</i> processing and so you shouldn&#39;t have 40,000 of them bursting across the screen at a time. Limit them to those that are necessary to achieve a specific effect and no more.</li>
-    <li>If you define your own particle sprite instead of using one of the 14 included sprites, you should try to keep it as small as possible to achieve the effect you require.</li>
-    <li>Particles do <i>not</i> interact with anything. Should you need them to have any type of interaction with the user or any other instances in your game, you should be looking at using Instances instead as particles are purely graphic.</li>
-    <li>Even though there is no technical limit to the number of systems, emitters and particles you can create in one game, you should try and limit everything to the minimum number possible to keep memory use as low as possible.</li>
-    <li>On mobile devices, take care with particles as <i>drawing</i> them can be slow if they cover a large area of the screen (over-draw on mobile devices is one of the main causes of slowdown).</li>
-    <li>With HTML5 there is no additive blending, and unless you have WebGL enabled, you cannot have colour blending either.</li>
+    <li><a href="effect_create_below.htm"><span class="notranslate">effect_create_below</span></a></li>
+    <li><a href="effect_create_above.htm"><span class="notranslate">effect_create_above</span></a></li>
+    <li><a href="effect_clear.htm"><span class="notranslate">effect_clear</span></a></li>
   </ul>
-  <h2 id="func_ref">Function Reference</h2>
-  <h3 id="func_ref_asset_info">Asset Info</h3>
-  <p class="note"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> These functions retrieve information on <span data-keyref="Type_Asset_ParticleSystem"><a href="../../../../The_Asset_Editors/Particle_Systems.htm" target="_blank">Particle System Asset</a></span><a href="Particle_Systems/Particle_Systems.htm">s</a> created with <a data-xref="{title}" href="../../../../The_Asset_Editors/Particle_Systems.htm">The Particle System Editor</a>.</p>
+  <p> </p>
+  <p>尽管这些效果在范围和定制方面都很有限，但它们仍然可以用来创造一些简单的、伟大的效果，而只需付出很少的努力。例如，通过在移动的导弹下面创造一小股灰色的烟雾，每一步都能创造出相当有说服力的烟迹，所以即使你是粒子专家，也要记住这些效果的存在，因为它们仍然可以为你节省一些时间。</p>
+  <p>然而，粒子的真正潜力在于使用<span class="notranslate">GameMaker Language</span> 提供给你的强大功能来设计和创造你自己的效果。你可以从以下各节中找到更多信息。</p>
   <ul class="colour">
-    <li><a data-xref="{title}" href="particle_exists.htm">particle_exists</a></li>
-    <li><a data-xref="{title}" href="particle_get_info.htm">particle_get_info</a></li>
+    <li><a href="Particle_Systems/Particle_Systems.htm"><label for="two">粒子系统</label></a></li>
+    <li><a href="Particle_Types/Particle_Types.htm"><label for="three">粒子类型</label></a></li>
+    <li><a href="Particle_Emitters/Particle_Emitters.htm"><label for="four">粒子发射器</label></a></li>
   </ul>
-  <h3 id="func_ref_creating_assets">Creating Assets</h3>
+  <p> </p>
+  <p><label for="four">还有一节给你提供了如何为你的游戏设计和创建粒子的基本指南，在下一页。</label></p>
   <ul class="colour">
-    <li><a data-xref="{title}" href="particle_add.htm">particle_add</a></li>
-    <li><a data-xref="{title}" href="particle_delete.htm">particle_delete</a></li>
+    <li><a href="../../../../Additional_Information/Guide_To_Using_Particles.htm">粒子使用指南</a></li>
   </ul>
-  <h3 id="func_ref_simple_effects">Simple Effects</h3>
-  <ul class="colour">
-    <li><a data-xref="{title}" href="effect_create_depth.htm">effect_create_depth</a></li>
-    <li><a data-xref="{title}" href="effect_create_layer.htm">effect_create_layer</a></li>
-    <li><a data-xref="{title}" href="effect_create_below.htm">effect_create_below</a> <span data-conref="../../../../assets/snippets/Tag_deprecated.hts"> </span></li>
-    <li><a data-xref="{title}" href="effect_create_above.htm">effect_create_above</a> <span data-conref="../../../../assets/snippets/Tag_deprecated.hts"> </span></li>
-    <li><a data-xref="{title}" href="effect_clear.htm">effect_clear</a></li>
-  </ul>
-  <ul class="colour">
-  </ul>
-  <h3><a data-xref="{title}" href="Particle_Systems/Particle_Systems.htm" id="func_ref_particle_systems">Particle Systems</a></h3>
-  <h3><a data-xref="{title}" href="Particle_Types/Particle_Types.htm" id="func_ref_particle_types">Particle Types</a></h3>
-  <h3><a data-xref="{title}" href="Particle_Emitters/Particle_Emitters.htm" id="func_ref_particle_emitters">Particle Emitters</a></h3>
-  <p> </p>
-  <p> </p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a data-xref="{title}" href="../Drawing.htm">Drawing</a></div>
-        <div style="float:right">Next: <a data-xref="{title}" href="../Textures/Textures.htm">Textures</a></div>
+        <div style="float:left">返回。<a href="../Drawing.htm">绘画</a></div>
+        <div style="float:right">下一步。<a href="../Textures/Textures.htm">纹理</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2025 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright<span class="notranslate">YoYo Games Ltd.</span> 2022 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 Particles

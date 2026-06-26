@@ -21,7 +21,7 @@ jobs:
          name: "RoboHelp"
          runs-on: windows-2022
          env:
-            LANGUAGE: ${{ vars.LANGUAGE }}
+          LANGUAGE: ${{ vars.LANGUAGE }}
          steps:
           - name: Configure AWS Credentials
             uses: aws-actions/configure-aws-credentials@v6
@@ -32,7 +32,7 @@ jobs:
           - name: Enable git long paths to bypass path limit on Windows
             run: git config --system core.longpaths true
           - name: Check out the GMS2_Documentation repo
-            uses: actions/checkout@v6
+            uses: actions/checkout@v4
             with:
               path: Manual  
               token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
@@ -41,7 +41,7 @@ jobs:
             shell: cmd
             working-directory: Manual       
           - name: Upload robohelp zip file
-            uses: actions/upload-artifact@v7
+            uses: actions/upload-artifact@v4
             with:
                name: YoYoStudioRoboHelp
                path: output\RoboHelp\*.zip
@@ -54,7 +54,6 @@ jobs:
           needs: RoboHelp
           env:
             SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-            LANGUAGE: ${{ vars.LANGUAGE }}
           steps:
               - name: Send Slack Notification Triggered while Nightly Build
                 run: |
@@ -63,10 +62,10 @@ jobs:
                   ARTIFACT_URL="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}#artifacts"
 
                   if [[ "${{ job.status }}" == "success" ]]; then
-                      MSG="📘 ${{ env.LANGUAGE}} Manual build completed successfully  
+                      MSG="📘 English Manual build completed successfully  
                       *Artifacts*: ${ARTIFACT_URL}"
                   else
-                      MSG="⚠️ ${{ env.LANGUAGE}} Manual build failed
+                      MSG="⚠️ English Manual build failed
                       *Check logs*: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
                   fi
 

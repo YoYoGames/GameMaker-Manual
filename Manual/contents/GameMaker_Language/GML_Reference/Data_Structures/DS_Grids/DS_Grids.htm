@@ -3,10 +3,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>DS Grids</title>
-  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <title>DS网格</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
   <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
-  <script src="../../../../assets/scripts/main_script.js" type="module"></script>
+  <script src="../../../../assets/scripts/main_script.js"></script>
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Reference section for DS Grids" />
   <meta name="rh-index-keywords" content="DS Grids, Data Structures" />
@@ -14,75 +14,67 @@
 </head>
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
-  <h1 id="h"><span data-field="title" data-format="default">DS Grids</span></h1>
-  <p>A DS grid is a data structure that stores information across<span> 2 dimensions</span>. You define the grid by setting its integer width and height, which sets the total number of &quot;cells&quot; within the grid (the width and height multiplied). These cells are then used to hold values which can be of any <a href="../../../GML_Overview/Data_Types.htm">data type</a> (e.g., real numbers or strings).</p>
-  <p><img alt="DS Grid Example" class="center" src="../../../../assets/Images/Scripting_Reference/GML/Reference/Data_Structures/ds_grid_basic.png" />This type of structure allows you to set and retrieve the value of cells in the grid by giving the x and y index of it (which starts with 0 for both the x and the y axis and goes up to the width - 1 and the height -1). But you can also set the value in specific grid regions, add single values, and retrieve the sum, maximum, minimum, and mean value over a given region, making this data structure the most versatile of all those available to you.</p>
-  <p>When accessing DS grid data structures, you should always try to use <b>integer values</b> for the cell position, and all non-integer indices will be floored by <span data-keyref="GameMaker Name">GameMaker</span> if you do not. If that is not what you require, then you will need to do the rounding yourself before passing the index that you wish to check.<b></b></p>
-  <div data-conref="../../../../assets/snippets/Note_DS_Destroy_When_No_Longer_Needed.hts"> </div>
-  <div data-conref="../../../../assets/snippets/Note_DS_Use_ds_exists_To_Check_For_Existence.hts"> </div>
-  <p>Apart from the specific functions listed below you can all use an <a class="tooltip" title="An expression is a combination of one or more constants, variables, operators, and/or functions that are interpreted according to particular rules of precedence and association to return another value. A simple expression would be (5 + 5), which returns 10.">expression</a> (called an <i>accessor</i>) to add or modify the contents of your DS grid. This accessor looks similar to a 2D array with the following syntax:</p>
+  <h1>DS网格</h1>
+  <p>DS网格基本上是一种<span> 有两个维度</span>的<span> <a href="../../../GML_Overview/Arrays.htm">数组</a></span>。你通过设置其整数宽度和高度来定义网格，然后设置网格内的 &quot;单元格 &quot;总数（宽度和高度相乘），然后这些单元格被用来保存不同的数据值（实数或<span class="notranslate">strings</span> ）。</p>
+  <p><img>这种结构允许你通过给出它的x和y索引（x和y轴都从0开始，一直到宽度-1和高度-1）来设置和检索网格中单元格的值。但你也可以设置特定网格区域的值，添加单个值，并检索特定区域的总和、最大值、最小值和平均值，这使得这个数据结构成为所有可用的数据结构中最通用的。</p>
+  <p>在访问DS网格数据结构时，你应该总是尽量使用<b>整数值来</b>表示单元格的位置，如果你不这样做，所有非整数的指数都会被<span data-keyref="GameMaker Name">GameMaker</span>浮动。如果这不是你所要求的，那么你就需要在传递你想检查的索引之前，自己事先进行舍入。</p>
+  <p class="note"><b><span class="note">注意</span> </b>与所有的动态资源一样，数据结构会占用内存，所以当不再需要时，应该<b>总是</b>销毁，以防止内存泄漏，这将减缓并最终使你的游戏崩溃。</p>
+  <p class="note"><b><span class="note">注意</span></b>如果你需要检查一个数据结构是否存在，你可以使用 <span style="font-size:1px;"><a href="../ds_exists.htm"><span class="inline">ds_exists()</span></a></span>函数。</p>
+  <p>除了下面列出的特定函数外，你都可以使用一个<a class="tooltip" title="An expression is a combination of one or more constants, variables, operators, and/or functions that are interpreted according to particular rules of precedence and association to return another value. A simple expression would be (5 + 5), which returns 10.">表达式</a>（称为<i>访问器</i>）来添加或修改你的DS网格的内容。这个访问器看起来类似于一个二维数组，语法如下。</p>
   <p class="code">grid_index[# xpos, ypos]</p>
-  <p>You can find more information, plus examples, from the GML Overview page on <a data-xref="{title}" href="../../../GML_Overview/Accessors.htm">Accessors</a>.</p>
-  <h2 id="func_ref">Function Reference</h2>
-  <h3 id="func_ref_general">General</h3>
+  <p>你可以从<a href="../../../GML_Overview/Accessors.htm">Accessors</a>的<span class="notranslate">GML</span> Overview页面中找到更多的信息和例子。</p>
+  <p>存在以下处理DS网格的函数。</p>
   <ul class="colour">
-    <li><a href="ds_grid_create.htm">ds_grid_create</a></li>
-    <li><a href="ds_grid_destroy.htm">ds_grid_destroy</a></li>
-    <li><a href="ds_grid_width.htm">ds_grid_width</a></li>
-    <li><a href="ds_grid_height.htm">ds_grid_height</a></li>
-    <li><a href="ds_grid_resize.htm">ds_grid_resize</a></li>
-    <li><a href="ds_grid_clear.htm">ds_grid_clear</a></li>
-    <li><a href="ds_grid_set.htm">ds_grid_set</a></li>
-    <li><a href="ds_grid_set_disk.htm">ds_grid_set_disk</a></li>
-    <li><a href="ds_grid_set_grid_region.htm">ds_grid_set_grid_region</a></li>
-    <li><a href="ds_grid_set_region.htm">ds_grid_set_region</a></li>
-    <li><a href="ds_grid_shuffle.htm">ds_grid_shuffle</a></li>
-    <li><a href="ds_grid_sort.htm">ds_grid_sort</a></li>
-    <li><a href="ds_grid_get.htm">ds_grid_get</a></li>
-    <li><a href="ds_grid_get_max.htm">ds_grid_get_max</a></li>
-    <li><a href="ds_grid_get_mean.htm">ds_grid_get_mean</a></li>
-    <li><a href="ds_grid_get_min.htm">ds_grid_get_min</a></li>
-    <li><a href="ds_grid_get_sum.htm">ds_grid_get_sum</a></li>
-    <li><a href="ds_grid_get_disk_max.htm">ds_grid_get_disk_max</a></li>
-    <li><a href="ds_grid_get_disk_mean.htm">ds_grid_get_disk_mean</a></li>
-    <li><a href="ds_grid_get_disk_min.htm">ds_grid_get_disk_min</a></li>
-    <li><a href="ds_grid_get_disk_sum.htm">ds_grid_get_disk_sum</a></li>
-    <li><a href="ds_grid_add.htm">ds_grid_add</a></li>
-    <li><a href="ds_grid_add_region.htm">ds_grid_add_region</a></li>
-    <li><a href="ds_grid_add_disk.htm">ds_grid_add_disk</a></li>
-    <li><a href="ds_grid_add_grid_region.htm">ds_grid_add_grid_region</a></li>
-    <li><a href="ds_grid_multiply.htm">ds_grid_multiply</a></li>
-    <li><a href="ds_grid_multiply_disk.htm">ds_grid_multiply_disk</a></li>
-    <li><a href="ds_grid_multiply_region.htm">ds_grid_multiply_region</a></li>
-    <li><a href="ds_grid_multiply_grid_region.htm">ds_grid_multiply_grid_region</a></li>
-    <li><a href="ds_grid_value_exists.htm">ds_grid_value_exists</a></li>
-    <li><a href="ds_grid_value_disk_exists.htm">ds_grid_value_disk_exists</a></li>
-    <li><a href="ds_grid_value_x.htm">ds_grid_value_x</a></li>
-    <li><a href="ds_grid_value_y.htm">ds_grid_value_y</a></li>
-    <li><a href="ds_grid_value_disk_x.htm">ds_grid_value_disk_x</a></li>
-    <li><a href="ds_grid_value_disk_y.htm">ds_grid_value_disk_y</a></li>
-    <li><a href="ds_grid_copy.htm">ds_grid_copy</a></li>
+    <li><a href="ds_grid_create.htm"><span class="notranslate">ds_grid_create</span></a></li>
+    <li><a href="ds_grid_destroy.htm"><span class="notranslate">ds_grid_destroy</span></a></li>
+    <li><a href="ds_grid_width.htm"><span class="notranslate">ds_grid_width</span></a></li>
+    <li><a href="ds_grid_height.htm"><span class="notranslate">ds_grid_height</span></a></li>
+    <li><a href="ds_grid_resize.htm"><span class="notranslate">ds_grid_resize</span></a></li>
+    <li><a href="ds_grid_clear.htm"><span class="notranslate">ds_grid_clear</span></a></li>
+    <li><a href="ds_grid_set.htm"><span class="notranslate">ds_grid_set</span></a></li>
+    <li><a href="ds_grid_set_disk.htm"><span class="notranslate">ds_grid_set_disk</span></a></li>
+    <li><a href="ds_grid_set_grid_region.htm"><span class="notranslate">ds_grid_set_grid_region</span></a></li>
+    <li><a href="ds_grid_set_region.htm"><span class="notranslate">ds_grid_set_region</span></a></li>
+    <li><a href="ds_grid_shuffle.htm"><span class="notranslate">ds_grid_shuffle</span></a></li>
+    <li><a href="ds_grid_sort.htm"><span class="notranslate">ds_grid_sort</span></a></li>
+    <li><a href="ds_grid_get.htm"><span class="notranslate">ds_grid_get</span></a></li>
+    <li><a href="ds_grid_get_max.htm"><span class="notranslate">ds_grid_get_max</span></a></li>
+    <li><a href="ds_grid_get_mean.htm"><span class="notranslate">ds_grid_get_mean</span></a></li>
+    <li><a href="ds_grid_get_min.htm"><span class="notranslate">ds_grid_get_min</span></a></li>
+    <li><a href="ds_grid_get_sum.htm"><span class="notranslate">ds_grid_get_sum</span></a></li>
+    <li><a href="ds_grid_get_disk_max.htm"><span class="notranslate">ds_grid_get_disk_max</span></a></li>
+    <li><a href="ds_grid_get_disk_mean.htm"><span class="notranslate">ds_grid_get_disk_mean</span></a></li>
+    <li><a href="ds_grid_get_disk_min.htm"><span class="notranslate">ds_grid_get_disk_min</span></a></li>
+    <li><a href="ds_grid_get_disk_sum.htm"><span class="notranslate">ds_grid_get_disk_sum</span></a></li>
+    <li><a href="ds_grid_add.htm"><span class="notranslate">ds_grid_add</span></a></li>
+    <li><a href="ds_grid_add_region.htm"><span class="notranslate">ds_grid_add_region</span></a></li>
+    <li><a href="ds_grid_add_disk.htm"><span class="notranslate">ds_grid_add_disk</span></a></li>
+    <li><a href="ds_grid_add_grid_region.htm"><span class="notranslate">ds_grid_add_grid_region</span></a></li>
+    <li><a href="ds_grid_multiply.htm"><span class="notranslate">ds_grid_multiply</span></a></li>
+    <li><a href="ds_grid_multiply_disk.htm"><span class="notranslate">ds_grid_multiply_disk</span></a></li>
+    <li><a href="ds_grid_multiply_region.htm"><span class="notranslate">ds_grid_multiply_region</span></a></li>
+    <li><a href="ds_grid_multiply_grid_region.htm"><span class="notranslate">ds_grid_multiply_grid_region</span></a></li>
+    <li><a href="ds_grid_value_exists.htm"><span class="notranslate">ds_grid_value_exists</span></a></li>
+    <li><a href="ds_grid_value_disk_exists.htm"><span class="notranslate">ds_grid_value_disk_exists</span></a></li>
+    <li><a href="ds_grid_value_x.htm"><span class="notranslate">ds_grid_value_x</span></a></li>
+    <li><a href="ds_grid_value_y.htm"><span class="notranslate">ds_grid_value_y</span></a></li>
+    <li><a href="ds_grid_value_disk_x.htm"><span class="notranslate">ds_grid_value_disk_x</span></a></li>
+    <li><a href="ds_grid_value_disk_y.htm"><span class="notranslate">ds_grid_value_disk_y</span></a></li>
+    <li><a href="ds_grid_copy.htm"><span class="notranslate">ds_grid_copy</span></a></li>
+    <li><a href="ds_grid_read.htm"><span class="notranslate">ds_grid_read</span></a></li>
+    <li><a href="ds_grid_write.htm"><span class="notranslate">ds_grid_write</span></a></li>
   </ul>
-  <h3 id="func_ref_serialisation">Serialisation</h3>
-  <ul class="colour">
-    <li><a href="ds_grid_read.htm">ds_grid_read</a></li>
-    <li><a href="ds_grid_write.htm">ds_grid_write</a></li>
-  </ul>
-  <h3 id="func_ref_mp_grid">MP Grid</h3>
-  <ul class="colour">
-    <li><a data-xref="{title}" href="ds_grid_to_mp_grid.htm">ds_grid_to_mp_grid</a></li>
-    <li><a data-xref="{title}" href="../../Movement_And_Collisions/Motion_Planning/mp_grid_to_ds_grid.htm">mp_grid_to_ds_grid</a></li>
-  </ul>
-  <p> </p>
-  <p> </p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a data-xref="{title}" href="../Data_Structures.htm">Data Structures</a></div>
-        <div style="float:right">Next: <a data-xref="{title}" href="../DS_Lists/DS_Lists.htm">DS Lists</a></div>
+        <div style="float:left">回来了。<a href="../Data_Structures.htm">数据结构</a></div>
+        <div style="float:right">下一个。<a href="../DS_Lists/DS_Lists.htm">DS列表</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2026 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright<span class="notranslate">YoYo Games Ltd.</span> 2022 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 DS Grids

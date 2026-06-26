@@ -3,10 +3,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>Primitives And Vertex Formats</title>
-  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <title>基元和顶点格式</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
   <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
-  <script src="../../../../assets/scripts/main_script.js" type="module"></script>
+  <script src="../../../../assets/scripts/main_script.js"></script>
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Reference section for the Primitive And Vertex Format functions and variables" />
   <meta name="rh-index-keywords" content="Primitives, Vertex Formats" />
@@ -14,153 +14,76 @@
 </head>
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
-  <h1><span data-field="title" data-format="default">Primitives And Vertex Formats</span></h1>
-  <p>A primitive is a type of drawing done using points to define what is shown on the screen. They can be made up of single points, lines or triangles and can be coloured, have alpha blending and even be given a texture, which means that they can be used to create some very exciting effects in your 2D and 3D games!</p>
-  <p>The points of a primitive are called <em>vertices</em> (singular <em><a class="glossterm" data-glossterm="vertex" href="#">vertex</a></em>) and store data about their position, colour, texture and possibly other information. The GPU then draws these vertices using the primitive <em>type</em> that you provide: </p>
-  <p><img alt="The different primitive types" class="center" height="436" src="../../../../assets/Images/Scripting_Reference/GML/Reference/Drawing/primitive_types.png" width="573" /></p>
-  <p>For example, you can create a rectangle using two triangle primitives, then texture it with a flag sprite and in the Draw event of an instance have that flag &quot;wave&quot; in the wind and distort the sprite you used by simply modifying the points that form the primitive.<b></b></p>
-  <div data-conref="../../../../assets/snippets/Note_Primitives_Enable_WebGL_On_HTML5.hts"> </div>
-  <h2>Creating Primitives</h2>
-  <p><span data-keyref="GameMaker Name">GameMaker</span> offers two ways to draw and create primitives: </p>
+  <h1>基元和<span class="notranslate">Vertex</span> 格式</h1>
+  <p>基元是一种使用点来定义屏幕上所显示内容的绘图类型。它们可以由单点、直线或三角形组成，并可着色、具有阿尔法混合，甚至可被赋予<span class="notranslate">texture</span> ，这意味着它们可用于在二维游戏中创建一些非常激动人心的效果。<span class="notranslate">texture</span> 例如，您可以使用多个三角形基元创建一个矩形，然后用一个<span class="notranslate">flag</span> <span class="notranslate">sprite</span> ，在一个实例的绘制事件中，让该<span class="notranslate">flag</span> 在风中 &quot;挥舞&quot;，并通过简单修改形成基元的点来扭曲您使用的<span class="notranslate">sprite</span> 。</p>
+  <p class="note"><b>警告!除 </b>非你在<a href="../../../../Settings/Game_Options/HTML5.htm">游戏选项</a>中启用了OpenGL，否则这些功能在HTML5模块中无法使用。</p>
+  <p>关于绘图基元的信息可以在以下几页找到。</p>
   <ul class="colour">
-    <li>The primitive functions: the <span class="inline3_func">draw_primitive_*</span> and <span class="inline3_func">draw_vertex_*</span> functions</li>
-    <li>Vertex buffers</li>
+    <li><a href="draw_primitive_begin.htm"><span class="notranslate">draw_primitive_begin</span></a></li>
+    <li><a href="draw_primitive_begin_texture.htm"><span class="notranslate">draw_primitive_begin_texture</span></a></li>
+    <li><a href="draw_primitive_end.htm"><span class="notranslate">draw_primitive_end</span></a></li>
+    <li><a href="draw_vertex.htm"><span class="notranslate">draw_vertex</span></a></li>
+    <li><a href="draw_vertex_colour.htm"><span class="notranslate">draw_vertex_colour</span></a></li>
+    <li><a href="draw_vertex_texture.htm"><span class="notranslate">draw_vertex_texture</span></a></li>
+    <li><a href="draw_vertex_texture_colour.htm"><span class="notranslate">draw_vertex_texture_colour</span></a></li>
   </ul>
-  <h3 id="h">Primitive Functions</h3>
-  <p>The <span class="inline3_func">draw_primitive_*</span> functions allow you to define primitives and draw them directly to the screen (or to a <a href="../Surfaces/Surfaces.htm">surface</a>). You call <span class="inline3_func"><a data-xref="{title}" href="draw_primitive_begin.htm">draw_primitive_begin</a></span> or <span class="inline3_func"><a data-xref="{title}" href="draw_primitive_begin_texture.htm">draw_primitive_begin_texture</a></span>, then define the vertices with any of the <span class="inline3_func">draw_vertex_*</span> functions and finally call <span class="inline3_func"><a data-xref="{title}" href="draw_primitive_end.htm">draw_primitive_end</a></span> to draw the primitive.</p>
-  <p class="code_heading">Draw Event</p>
-  <p class="code">var _tex = sprite_get_texture(spr_image, 0);<br />
-    draw_primitive_begin_texture(pr_trianglestrip, _tex);<br />
-    draw_vertex_texture(0, 0, 0, 0);<br />
-    draw_vertex_texture(100, 0, 1, 0);<br />
-    draw_vertex_texture(0, 100, 0, 1);<br />
-    draw_vertex_texture(100, 100, 1, 1);<br />
-    draw_primitive_end();</p>
-  <h3>Vertex Buffers</h3>
-  <p>Vertex buffers are the more advanced way to define reusable primitives. They are <a data-xref="{title}" href="../../Buffers/Buffers.htm">Buffers</a> that store data about vertices specifically (&quot;vertex data&quot;). With vertex buffers you split up the definition of the primitive and its drawing.</p>
-  <p>Vertex data is stored according to a vertex format, which needs to be defined first. This format can be identical to <span data-keyref="GameMaker Name">GameMaker</span>&#39;s <a href="../../../../Additional_Information/Guide_To_Primitives_And_Vertex_Building.htm">default vertex format</a> and be defined, for example, in a script asset:</p>
-  <p class="code_heading">Script Asset</p>
-  <p class="code">vertex_format_begin();<br />
-    vertex_format_add_position_3d();<br />
-    vertex_format_add_colour();<br />
-    vertex_format_add_texcoord();<br />
-    global.default_vertex_format = vertex_format_end();</p>
-  <p>You can then create a new, empty vertex buffer using <span class="inline3_func"><a data-xref="{title}" href="vertex_create_buffer.htm">vertex_create_buffer</a></span> / <span class="inline3_func"><a data-xref="{title}" href="vertex_create_buffer_ext.htm">vertex_create_buffer_ext</a></span> or create one and fill it with the data in a buffer using <span class="inline3_func"><a data-xref="{title}" href="vertex_create_buffer_from_buffer.htm">vertex_create_buffer_from_buffer</a></span> / <span class="inline3_func"><a data-xref="{title}" href="vertex_create_buffer_from_buffer_ext.htm">vertex_create_buffer_from_buffer_ext</a></span>:</p>
-  <p class="code_heading">Create Event</p>
-  <p class="code">// Create an empty vertex buffer<br />
-    vb = vertex_create_buffer();<br />
-    <br />
-    // Create a vertex buffer filled with data from a buffer<br />
-    var _buff = buffer_load(&quot;model.mod&quot;);<br />
-    vb_model = vertex_create_buffer_from_buffer(_buff, global.default_vertex_format);<br />
-    buffer_delete(_buff);
-  </p>
-  <p class="note"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> See <a data-xref="{title}" href="../../Buffers/Transferring_Data_Between_Buffers.htm">Transferring Data Between Buffers</a> for more info on how to pass data between the two buffer types.</p>
-  <p>You draw a vertex buffer by submitting it at any time in Draw events using <span class="inline3_func"><a data-xref="{title}" href="vertex_submit.htm">vertex_submit</a></span>, or just part of it using<span class="inline3_func"><a data-xref="{title}" href="vertex_submit_ext.htm">vertex_submit_ext</a></span>.</p>
-  <p>The following is a complete example that makes use of the previously defined vertex format:</p>
-  <p class="code_heading">Create Event</p>
-  <p class="code">var _uv_data = sprite_get_uvs(spr_image, 0);<br />
-    var _umin = _uv_data[0], _vmin = _uv_data[1], _umax = _uv_data[2], _vmax = _uv_data[3];<br />
-    <br />
-    vb = vertex_create_buffer();<br />
-    <br />
-    vertex_begin(vb, global.default_vertex_format);<br />
-    <br />
-    vertex_position_3d(vb,   0,   0, 0); vertex_color(vb, c_white, 1); vertex_texcoord(vb, _umin, _vmin);<br />
-    vertex_position_3d(vb, 100,   0, 0); vertex_color(vb, c_white, 1); vertex_texcoord(vb, _umax, _vmin);<br />
-    vertex_position_3d(vb,   0, 100, 0); vertex_color(vb, c_white, 1); vertex_texcoord(vb, _umin, _vmax);<br />
-    vertex_position_3d(vb, 100, 100, 0); vertex_color(vb, c_white, 1); vertex_texcoord(vb, _umax, _vmax);<br />
-    <br />
-    vertex_end(vb);
-  </p>
-  <p class="code_heading">Draw Event</p>
-  <p class="code">var _tex = sprite_get_texture(spr_image, 0);<br />
-    vertex_submit(vb, pr_trianglestrip, _tex);</p>
-  <p class="code_heading">Cleanup Event</p>
-  <p class="code">vertex_delete_buffer(vb);</p>
-  <p class="note"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> See the <a data-xref="{title}" href="../../../../Additional_Information/Guide_To_Primitives_And_Vertex_Building.htm">Guide To Primitives And Vertex Building</a> for more info on how to work with vertex buffers.</p>
-  <h3>Texture Coordinates</h3>
-  <p>In the code examples above, the UVs are provided differently for vertex buffers. This is because the UVs are interpreted differently by both sets of functions: </p>
+  <p> </p>
+  <p><span data-keyref="GameMaker Name">GameMaker</span>允许你定义你自己的<strong>顶点格式</strong>，你可以从中创建你自己的自定义基元。这可以大大加快<span class="notranslate">shader</span> ，也可以用来扩展其功能，创造出令人惊讶的效果。你可以在以下章节中找到这方面的信息。</p>
   <ul class="colour">
-    <li>The functions <span class="inline3_func"><a data-xref="{title}" href="draw_vertex_texture.htm">draw_vertex_texture</a></span> and <span class="inline3_func"><a data-xref="{title}" href="draw_vertex_texture_colour.htm">draw_vertex_texture_colour</a></span> map (0, 0) to the top-left corner of the sprite&#39;s region on the texture page and (1, 1) to the bottom-right corner of the sprite&#39;s region on the texture page.</li>
-    <li>The function <span class="inline3_func"><a data-xref="{title}" href="vertex_texcoord.htm">vertex_texcoord</a></span> doesn&#39;t map the texture coordinates that you pass it to any sprite in a texture page. Therefore, (0, 0) is the top-left corner of the texture page and (1, 1) is the bottom-right corner of the texture page, i.e. the range [0, 1] covers the entire texture page.</li>
+    <li><a href="vertex_format_begin.htm"><span class="notranslate">vertex_format_begin</span></a></li>
+    <li><a href="vertex_format_add_colour.htm"><span class="notranslate">vertex_format_add_colour</span></a></li>
+    <li><a href="vertex_format_add_position.htm"><span class="notranslate">vertex_format_add_position</span></a></li>
+    <li><a href="vertex_format_add_position_3d.htm"><span class="notranslate">vertex_format_add_position_3d</span></a></li>
+    <li><a href="vertex_format_add_texcoord.htm"><span class="notranslate">vertex_format_add_texcoord</span></a></li>
+    <li><a href="vertex_format_add_normal.htm"><span class="notranslate">vertex_format_add_normal</span></a></li>
+    <li><a href="vertex_format_add_custom.htm"><span class="notranslate">vertex_format_add_custom</span></a></li>
+    <li><a href="vertex_format_end.htm"><span class="notranslate">vertex_format_end</span></a></li>
+    <li><a href="vertex_format_delete.htm"><span class="notranslate">vertex_format_delete</span></a></li>
   </ul>
-  <p class="note"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> You can use the functions <span class="inline3_func"><a data-xref="{title}" href="../../Asset_Management/Sprites/Sprite_Information/sprite_get_uvs.htm">sprite_get_uvs</a></span>, <span class="inline3_func"><a data-xref="{title}" href="../../Asset_Management/Fonts/font_get_uvs.htm">font_get_uvs</a></span> and <span class="inline3_func"><a data-xref="{title}" href="../../Asset_Management/Tilsets/tileset_get_uvs.htm">tileset_get_uvs</a></span> to get a specific asset&#39;s UV range on the texture page.</p>
-  <h2 id="func_ref">Function Reference</h2>
-  <h3 id="func_ref_primitives">Primitives</h3>
+  <p> </p>
+  <p>一旦你创建了你的<span class="notranslate">vertex</span> 格式（见上面一节），你就可以使用它来构建你想使用以下veretx<span class="notranslate">buffer</span> 函数绘制的基元。</p>
   <ul class="colour">
-    <li><a data-xref="{title}" href="draw_primitive_begin.htm">draw_primitive_begin</a></li>
-    <li><a data-xref="{title}" href="draw_primitive_begin_texture.htm">draw_primitive_begin_texture</a></li>
-    <li><a data-xref="{title}" href="draw_primitive_end.htm">draw_primitive_end</a></li>
-    <li><a data-xref="{title}" href="draw_vertex.htm">draw_vertex</a></li>
-    <li><a data-xref="{title}" href="draw_vertex_colour.htm">draw_vertex_colour</a></li>
-    <li><a data-xref="{title}" href="draw_vertex_texture.htm">draw_vertex_texture</a></li>
-    <li><a data-xref="{title}" href="draw_vertex_texture_colour.htm">draw_vertex_texture_colour</a></li>
+    <li><a href="vertex_create_buffer.htm"><span class="notranslate">vertex_create_buffer</span></a></li>
+    <li><a href="vertex_create_buffer_ext.htm"><span class="notranslate">vertex_create_buffer_ext</span></a></li>
+    <li><a href="vertex_create_buffer_from_buffer.htm"><span class="notranslate">vertex_create_buffer_from_buffer</span></a></li>
+    <li><a href="vertex_create_buffer_from_buffer_ext.htm"><span class="notranslate">vertex_create_buffer_from_buffer_ext</span></a></li>
+    <li><a href="vertex_get_buffer_size.htm"><span class="notranslate">vertex_get_buffer_size</span></a></li>
+    <li><a href="vertex_get_number.htm"><span class="notranslate">vertex_get_number</span></a></li>
+    <li><a href="vertex_delete_buffer.htm"><span class="notranslate">vertex_delete_buffer</span></a></li>
+    <li><a href="vertex_begin.htm"><span class="notranslate">vertex_begin</span></a></li>
+    <li><a href="vertex_colour.htm"><span class="notranslate">vertex_colour</span></a></li>
+    <li><a href="vertex_normal.htm"><span class="notranslate">vertex_normal</span></a></li>
+    <li><a href="vertex_position.htm"><span class="notranslate">vertex_position</span></a></li>
+    <li><a href="vertex_position_3d.htm"><span class="notranslate">vertex_position_3d</span></a></li>
+    <li><a href="vertex_argb.htm"><span class="notranslate">vertex_argb</span></a></li>
+    <li><a href="vertex_texcoord.htm"><span class="notranslate">vertex_texcoord</span></a></li>
+    <li><a href="vertex_float1.htm"><span class="notranslate">vertex_float1</span></a></li>
+    <li><a href="vertex_float2.htm"><span class="notranslate">vertex_float2</span></a></li>
+    <li><a href="vertex_float3.htm"><span class="notranslate">vertex_float3</span></a></li>
+    <li><a href="vertex_float4.htm"><span class="notranslate">vertex_float4</span></a></li>
+    <li><a href="vertex_ubyte4.htm"><span class="notranslate">vertex_ubyte4</span></a></li>
+    <li><a href="vertex_end.htm"><span class="notranslate">vertex_end</span></a></li>
+    <li><a href="vertex_freeze.htm"><span class="notranslate">vertex_freeze</span></a></li>
+    <li><a href="vertex_submit.htm"><span class="notranslate">vertex_submit</span></a></li>
   </ul>
-  <h3 id="func_ref_vertex_formats">Vertex Formats</h3>
-  <p><span data-keyref="GameMaker Name">GameMaker</span> permits you to define your own vertex formats from which you can create your own custom primitives. This can greatly speed up shader operations or can be used to extend their capabilities and create surprising effects.</p>
-  <p>A <strong>vertex format</strong> lists the attributes that are stored for a vertex in order. You start defining one with <span class="inline3_func"><a data-xref="{title}" href="vertex_format_begin.htm">vertex_format_begin</a></span>, then add the attributes using the <span class="inline2">vertex_format_add_*</span> functions and finally end it using <span class="inline3_func"><a data-xref="{title}" href="vertex_format_end.htm">vertex_format_end</a></span>.</p>
+  <p class="note"><b>重要的是!</b>构建的基元应遵循使用<span class="notranslate">Vertex</span> 格式函数设置的格式，因此，如果您已定义了仅有位置数据的<span class="notranslate">vertex</span> 格式，那么使用颜色数据构建基元就没有意义。请注意，向正在构建的基元添加属性的顺序由创建<span class="notranslate">vertex</span> 格式时添加这些属性的顺序定义，因此，如果您以位置、颜色和<span class="notranslate">texture</span> 坐标的顺序定义了矢量格式，则<i>必须</i>以相同的顺序向正在构建的基元添加这些属性，否则会出现错误。</p>
+  <p>关于如何使用<span class="notranslate">vertex</span> 函数来构建基元的概述，请参见。</p>
   <ul class="colour">
-    <li><a data-xref="{title}" href="vertex_format_begin.htm">vertex_format_begin</a></li>
-    <li><a data-xref="{title}" href="vertex_format_add_colour.htm">vertex_format_add_colour</a></li>
-    <li><a data-xref="{title}" href="vertex_format_add_position.htm">vertex_format_add_position</a></li>
-    <li><a data-xref="{title}" href="vertex_format_add_position_3d.htm">vertex_format_add_position_3d</a></li>
-    <li><a data-xref="{title}" href="vertex_format_add_texcoord.htm">vertex_format_add_texcoord</a></li>
-    <li><a data-xref="{title}" href="vertex_format_add_normal.htm">vertex_format_add_normal</a></li>
-    <li><a data-xref="{title}" href="vertex_format_add_custom.htm">vertex_format_add_custom</a></li>
-    <li><a data-xref="{title}" href="vertex_format_end.htm">vertex_format_end</a></li>
-    <li><a data-xref="{title}" href="vertex_format_delete.htm">vertex_format_delete</a></li>
-    <li><a data-xref="{title}" href="vertex_format_exists.htm">vertex_format_exists</a></li>
-    <li><a data-xref="{title}" href="vertex_format_get_info.htm">vertex_format_get_info</a></li>
+    <li><a href="../../../../Additional_Information/Guide_To_Primitives_And_Vertex_Building.htm">原始材料和<span class="notranslate">Vertex</span> 建筑指南</a></li>
   </ul>
-  <h3 id="func_ref_vertex_buffers">Vertex Buffers</h3>
-  <p>Once you have created your vertex format (see the section above) you can then use it to build the primitives that you want to draw using the following vertex buffer functions:</p>
-  <ul class="colour">
-    <li><a data-xref="{title}" href="vertex_create_buffer.htm">vertex_create_buffer</a></li>
-    <li><a data-xref="{title}" href="vertex_create_buffer_ext.htm">vertex_create_buffer_ext</a></li>
-    <li><a data-xref="{title}" href="vertex_create_buffer_from_buffer.htm">vertex_create_buffer_from_buffer</a></li>
-    <li><a data-xref="{title}" href="vertex_create_buffer_from_buffer_ext.htm">vertex_create_buffer_from_buffer_ext</a></li>
-    <li><a data-xref="{title}" href="vertex_update_buffer_from_buffer.htm">vertex_update_buffer_from_buffer</a></li>
-    <li><a data-xref="{title}" href="vertex_update_buffer_from_vertex.htm">vertex_update_buffer_from_vertex</a></li>
-    <li><a data-xref="{title}" href="vertex_get_buffer_size.htm">vertex_get_buffer_size</a></li>
-    <li><a data-xref="{title}" href="vertex_get_number.htm">vertex_get_number</a></li>
-    <li><a data-xref="{title}" href="vertex_delete_buffer.htm">vertex_delete_buffer</a></li>
-    <li><a data-xref="{title}" href="vertex_buffer_exists.htm">vertex_buffer_exists</a></li>
-    <li><a data-xref="{title}" href="vertex_begin.htm">vertex_begin</a></li>
-    <li><a data-xref="{title}" href="vertex_colour.htm">vertex_colour</a></li>
-    <li><a data-xref="{title}" href="vertex_normal.htm">vertex_normal</a></li>
-    <li><a data-xref="{title}" href="vertex_position.htm">vertex_position</a></li>
-    <li><a data-xref="{title}" href="vertex_position_3d.htm">vertex_position_3d</a></li>
-    <li><a data-xref="{title}" href="vertex_argb.htm">vertex_argb</a></li>
-    <li><a data-xref="{title}" href="vertex_texcoord.htm">vertex_texcoord</a></li>
-    <li><a data-xref="{title}" href="vertex_float1.htm">vertex_float1</a></li>
-    <li><a data-xref="{title}" href="vertex_float2.htm">vertex_float2</a></li>
-    <li><a data-xref="{title}" href="vertex_float3.htm">vertex_float3</a></li>
-    <li><a data-xref="{title}" href="vertex_float4.htm">vertex_float4</a></li>
-    <li><a data-xref="{title}" href="vertex_ubyte4.htm">vertex_ubyte4</a></li>
-    <li><a data-xref="{title}" href="vertex_end.htm">vertex_end</a></li>
-    <li><a data-xref="{title}" href="vertex_freeze.htm">vertex_freeze</a></li>
-    <li><a data-xref="{title}" href="vertex_submit.htm">vertex_submit</a></li>
-    <li><a data-xref="{title}" href="vertex_submit_ext.htm">vertex_submit_ext</a></li>
-  </ul>
-  <p class="note"><span data-conref="../../../../assets/snippets/Tag_important.hts"> </span> The primitives that you build should follow the format that you have set using the Vertex Format functions, so if you have defined a vertex format with only positional data, there is no point building your primitive with colour data. You should note that the order in which you add properties to the primitive you are building is defined by the order in which you added these properties when creating the vertex format, so if you have defined the vector format with the order position, colour and texture coordinate, you <i>must</i> add these properties to the primitive being built in the same order, otherwise you will get errors.</p>
-  <p>For an overview of how to build primitives using the vertex functions, see:</p>
-  <ul class="colour">
-    <li><a data-xref="{title}" href="../../../../Additional_Information/Guide_To_Primitives_And_Vertex_Building.htm">Guide To Primitives And Vertex Building</a></li>
-  </ul>
-  <p> </p>
-  <p> </p>
+  <p> </p>
+  <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a data-xref="{title}" href="../Drawing.htm">Drawing</a></div>
-        <div style="float:right">Next: <a data-xref="{title}" href="../Surfaces/Surfaces.htm">Surfaces</a></div>
+        <div style="float:left">返回。<a href="../Drawing.htm">绘画</a></div>
+        <div style="float:right">下一步。<a href="../Surfaces/Surfaces.htm">表面</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2026 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright<span class="notranslate">YoYo Games Ltd.</span> 2021 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
-Primitives And Vertex Formats
+Primitives And <span class="notranslate">Vertex</span> Formats
 -->
   <!-- TAGS
 primitive_vertex_functions

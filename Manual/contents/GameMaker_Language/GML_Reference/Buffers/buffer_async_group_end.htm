@@ -6,7 +6,7 @@
   <title>buffer_async_group_end</title>
   <meta name="generator" content="Adobe RoboHelp 2022" />
   <link rel="stylesheet" href="../../../assets/css/default.css" type="text/css" />
-  <script src="../../../assets/scripts/main_script.js" type="module"></script>
+  <script src="../../../assets/scripts/main_script.js"></script>
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Reference page for buffer_async_group_end" />
   <meta name="rh-index-keywords" content="buffer_async_group_end" />
@@ -15,42 +15,42 @@
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
   <h1><span data-field="title" data-format="default">buffer_async_group_end</span></h1>
-  <p>This function finishes the definition of a buffer async group and starts the saving of the files.</p>
-  <p>You must have previously called the function <span class="inline3_func"><a data-xref="{title}" href="buffer_async_group_begin.htm">buffer_async_group_begin</a></span> to initiate the group, then call the function <span class="inline3_func"><a data-xref="{title}" href="buffer_save_async.htm">buffer_save_async</a></span> for each file that you wish to save out (or <span class="inline3_func"><a data-xref="{title}" href="buffer_load_async.htm">buffer_load_async</a></span> to load buffers). Finally you call this function, which will start the saving of the files. The function will return a unique ID value for the save, which can then be used in the <a href="../../../The_Asset_Editors/Object_Properties/Async_Events/Save_Load.htm">Asynchronous Save / Load event</a> to parse the results from the <span class="inline2"><a data-xref="{title}" href="../../GML_Overview/Variables/Builtin_Global_Variables/async_load.htm">async_load</a></span> DS map.</p>
-  <p> </p>
-  <h4>Syntax:</h4>
-  <p class="code"><span data-field="title" data-format="default">buffer_async_group_end</span>()</p>
-  <p> </p>
-  <h4>Returns:</h4>
-  <p class="code"><span data-keyref="Type_ID_Async_Event"><a href="../Asynchronous_Functions/Asynchronous_Functions.htm" target="_blank">Async Request ID</a></span></p>
-  <p> </p>
-  <h4>Example:</h4>
-  <p>The <span class="inline3_func"><span data-field="title" data-format="default">buffer_async_group_end</span></span> function can be called from any event, and since it is asynchronous the callback can be almost instantaneous or could take several seconds. Calling the function is simple and would look something like this:</p>
+  <p>这个函数完成了一个<span class="notranslate">buffer</span> 异步组的定义。你必须在之前调用函数 <a href="buffer_async_group_begin.htm"><span class="inline">buffer_async_group_begin()</span></a>来启动该组，然后为你想保存的每个文件调用函数 <a href="buffer_save_async.htm"><span class="inline">buffer_save_async()</span></a>为每个你想保存的文件（或 <span class="inline"><a href="buffer_load_async.htm">buffer_load_async()</a></span> ，以加载<span class="notranslate">buffers</span> ）调用该函数。最后你调用这个函数，它将开始保存文件。该函数将为保存返回一个唯一的ID值，然后可以在<a href="../../../The_Asset_Editors/Object_Properties/Async_Events/Save_Load.htm">异步保存/加载事件</a>中使用该ID值来解析来自 <a href="../../GML_Overview/Variables/Builtin_Global_Variables/async_load.htm"><span class="notranslate">async_load</span></a>DS地图的结果。</p>
+  <p> </p>
+  <h4>语法。</h4>
+  <p class="code"><span data-field="title" data-format="default">buffer_async_group_end</span>();</p>
+  <p> </p>
+  <h4>返回。</h4>
+  <p class="code"><span data-keyref="Type_ID_Async_Event"><a data-rhwidget="HyperlinkPopover" href="../../../../GameMaker_Language/GML_Reference/Asynchronous_Functions/Asynchronous_Functions.htm">Async Request ID</a></span></p>
+  <p> </p>
+  <h4>扩展实例。</h4>
+  <p> <span class="inline">buffer_async_group_end()</span> 函数可以从任何事件中调用，由于它是异步的，所以回调可以是即时的，也可以是几秒钟的。调用该函数很简单，看起来像这样。</p>
   <p class="code">buffer_async_group_begin(&quot;SaveGame&quot;);<br />
     save1 = buffer_save_async(buff1, &quot;Player_Save1.sav&quot;, 0, 16384);<br />
     save2 = buffer_save_async(buff2, &quot;Player_Save2.sav&quot;, 0, 16384);<br />
     save3 = buffer_save_async(buff3, &quot;Player_Save3.sav&quot;, 0, 16384);<br />
     save4 = buffer_save_async(buff4, &quot;Player_Save4.sav&quot;, 0, 16384);<br />
-    save_id = <span data-field="title" data-format="default">buffer_async_group_end</span>();</p>
-  <p>The above code starts a buffer group then sets it to save out 4 files asynchronously. The group definition is then ended (at which point saving will begin), storing the ID of the function call in the variable <span class="inline2">save_id</span>. When the save is complete, the asynchronous <a data-xref="{title}" href="../../../The_Asset_Editors/Object_Properties/Async_Events/Save_Load.htm">Save / Load</a> event will be triggered and you can parse the <span class="inline2"><a data-xref="{title}" href="../../GML_Overview/Variables/Builtin_Global_Variables/async_load.htm">async_load</a></span> map for the correct ID of the function, like this:</p>
-  <p class="code">if (ds_map_find_value(async_load, &quot;id&quot;) == saveid)<br />
+    save_id = buffer_async_group_end();</p>
+  <p>上面的代码启动了一个<span class="notranslate">buffer</span> 组，然后将其设置为异步保存出4个文件。然后结束组的定义（此时开始保存），将函数调用的ID存储在变量&quot;<i>save_id</i>&quot;中。当保存完成后，异步保存/加载事件将被触发，你可以解析 <span class="inline">async_load</span> 地图，以获得函数的正确ID，像这样。</p>
+  <p class="code">if ds_map_find_value(async_load, &quot;id&quot;) == saveid<br />
     {<br />
         if (ds_map_find_value(async_load, &quot;status&quot;) == false)<br />
         {<br />
             show_debug_message(&quot;Save failed!&quot;);<br />
         }<br />
     }</p>
-  <p>The above code first checks if the ID in the <span class="inline2"><a data-xref="{title}" href="../../GML_Overview/Variables/Builtin_Global_Variables/async_load.htm">async_load</a></span> DS map is the same as the one returned by the call to <span class="inline3_func"><span data-field="title" data-format="default">buffer_async_group_end</span></span>, then checks the status of the callback and posts a debug message if there have been any issues.</p>
-  <p> </p>
-  <p> </p>
+  <p>上面的代码将首先检查已经创建的DS地图的id，然后检查回调的状态，如果有任何问题，将发布一个调试信息。</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a href="Buffers.htm">Buffers</a></div>
-        <div style="float:right">Next: <a data-xref="{title}" href="buffer_get_surface.htm">buffer_get_surface</a></div>
+        <div style="float:left">Back:<a href="Buffers.htm">缓冲器</a></div>
+        <div style="float:right">下一步。 <a href="buffer_copy.htm"><span class="notranslate">buffer_copy</span></a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2025 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright<span class="notranslate">YoYo Games Ltd.</span> 2022 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 buffer_async_group_end

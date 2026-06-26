@@ -1,57 +1,45 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>Image Loaded</title>
-  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <title>图片加载完毕</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Page detailing the Image Loaded async event." />
   <meta name="rh-index-keywords" content="Objects - Async Image Loaded Event" />
-  <meta name="search-keywords" content="Image Loaded,ev_async_web_image_load" />
+  <meta name="search-keywords" content="Image Loaded,ev_web_image_load" />
   <link rel="stylesheet" type="text/css" href="../../../assets/css/default.css" />
-  <script src="../../../assets/scripts/main_script.js" type="module"></script>
+  <script src="../../../assets/scripts/main_script.js"></script>
 </head>
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
-  <h1><span data-field="title" data-format="default">Image Loaded</span></h1>
-  <p><img alt="Image Loaded Event" class="center" src="../../../assets/Images/Asset_Editors/Async_ImageLoaded.png" />This event is triggered when you load an image into <span data-keyref="GameMaker Name">GameMaker</span> <em>asynchronously</em>. This can occur in a few situations:</p>
-  <ul class="colour">
-    <li>When you add a sprite with <span class="inline3_func"><a data-xref="{title}" href="../../../GameMaker_Language/GML_Reference/Asset_Management/Sprites/Sprite_Manipulation/sprite_add.htm">sprite_add</a></span> on HTML5.</li>
-    <li>When you pass a <a class="glossterm" data-glossterm="URL" href="#">URL</a> to <span class="inline3_func"><a data-xref="{title}" href="../../../GameMaker_Language/GML_Reference/Asset_Management/Sprites/Sprite_Manipulation/sprite_add.htm">sprite_add</a></span>.</li>
-    <li>When you add a sprite with <span class="inline3_func"><a data-xref="{title}" href="../../../GameMaker_Language/GML_Reference/Asset_Management/Sprites/Sprite_Manipulation/sprite_add_ext.htm">sprite_add_ext</a></span>.</li>
-  </ul>
-  <p>For example, say you want to load a sprite image, and only change the current sprite for the instance to the new one after it has loaded. You would have something like this in the Create event (or any other event):</p>
-  <p class="code_heading">Create Event</p>
-  <p class="code">var _url = &quot;http://www.angusgames.com/game/background1.png&quot;;<br />
-    spr = sprite_add(_url, 0, false, false, 0, 0);</p>
-  <p>This will now start to load the image into the device or the browser, but it will not block <span data-keyref="GameMaker Name">GameMaker</span> while it waits for the file to be loaded. Instead, <span data-keyref="GameMaker Name">GameMaker</span> will keep running as normal until the image is loaded and the <a class="glossterm" data-glossterm="callback" href="#">callback</a> triggers the <strong>Image Loaded Event</strong>, where a <span data-keyref="Type_ID_DS_Map"><a href="../../../GameMaker_Language/GML_Reference/Data_Structures/DS_Maps/ds_map_create.htm" target="_blank">DS Map</a></span> is created and stored in the special variable <span class="inline2"><a data-xref="{title}" href="../../../GameMaker_Language/GML_Overview/Variables/Builtin_Global_Variables/async_load.htm">async_load</a></span>. The map contains the following information:</p>
+  <h1>图片加载完毕</h1>
+  <p><img>当你在HTML5上或通过<a class="glossterm" data-glossterm="URL" href="#">URL</a>将图片加载到<span data-keyref="GameMaker Name">GameMaker</span>中时，这个事件会被触发。例如，假设你想加载一个<span class="notranslate">sprite</span> ，并且只在加载后将该实例的当前<span class="notranslate">sprite</span> 改为新的。你可以在创建事件（或任何其他事件）中使用类似的东西。</p>
+  <p class="code">var _url = &quot;http://www.angusgames.com/game/background1.png&quot;;<br/> spr = sprite_add(_url, 0, false, false, 0, 0);</p>
+  <p>现在，这将开始将图像加载到设备或浏览器中，但它不会在等待文件加载时阻止<span data-keyref="GameMaker Name">GameMaker</span>。相反，<span data-keyref="GameMaker Name">GameMaker</span>将继续正常运行，直到图像被加载，<a class="glossterm" data-glossterm="回调" href="#">回调</a>触发了<strong>图像加载事件</strong>，在那里，一个<a href="../../../GameMaker_Language/GML_Reference/Data_Structures/DS_Maps/DS_Maps.htm">DS Map</a>被创建并存储在特殊变量中
+    <a href="../../../GameMaker_Language/GML_Overview/Variables/Builtin_Global_Variables/async_load.htm"><span class="inline">async_load</span></a>.该地图包含以下信息。</p>
   <ul class="dropspotlist">
-    <li class="dropspot">&quot;<span class="inline">filename</span>&quot;: The complete path to the file you requested.</li>
-    <li class="dropspot">&quot;<span class="inline">id</span>&quot;: The ID of the resource that you have loaded. This will be the same as the variable that you have assigned the resource to.</li>
-    <li class="dropspot">&quot;<span class="inline">status</span>&quot;: Returns a value of less than 0 for an error.</li>
+    <li class="dropspot">&quot;<span class="inline">filename</span>&quot;。你所要求的文件的完整<span class="notranslate">path</span> 。</li>
+    <li class="dropspot">&quot;<span class="inline">id</span>&quot;。你所加载的资源的ID。这将与你分配给该资源的变量相同。</li>
+    <li class="dropspot">&quot;<span class="inline">status</span>&quot;。返回一个小于0的错误值。</li>
   </ul>
-  <p>You would then assign the newly loaded image to a sprite in this event. The following code example demonstrates how the returned information would be used:</p>
-  <p class="code_heading">Async - Image Loaded Event</p>
-  <p class="code">if (async_load[? &quot;id&quot;] == spr)<br />
-    {<br />
-        if (async_load[? &quot;status&quot;] &gt;= 0)<br />
-        {<br />
-            sprite_index = spr;<br />
-        }<br />
-    }</p>
-  <p>The above code will first check the <span class="inline2">&quot;id&quot;</span> of the DS map that has been created, then check the <span class="inline2">&quot;status&quot;</span> of the callback. If the value is greater than or equal to 0 (signalling success), the result from the callback will be used to set the sprite index to the newly loaded image.</p>
-  <p class="note"><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> While the sprite is loading, <span data-keyref="GameMaker Name">GameMaker</span> uses a temporary 1x1 placeholder sprite. <span>When the async <span data-field="title" data-format="default">Image Loaded</span> event is executed, the sprite has been downloaded and the placeholder is removed. </span><a href="../../../GameMaker_Language/GML_Reference/Asset_Management/Sprites/Sprite_Information/Sprite_Information.htm" title="Sprite Information">Information</a> that you request from this sprite will only be correct in this event and afterwards (for example, <span class="inline3_func"><a data-xref="{title}" href="../../../GameMaker_Language/GML_Reference/Asset_Management/Sprites/Sprite_Information/sprite_get_width.htm">sprite_get_width</a></span> and <span class="inline3_func"><a data-xref="{title}" href="../../../GameMaker_Language/GML_Reference/Asset_Management/Sprites/Sprite_Information/sprite_get_height.htm">sprite_get_height</a></span> will return a value of 1 before that).</p>
-  <p> </p>
-  <p> </p>
+  <p>然后，你将在这个事件中把新加载的图像分配给一个<span class="notranslate">sprite</span> 。下面的代码例子演示了如何使用返回的信息。</p>
+  <p class="code">if ds_map_find_value(async_load, &quot;id&quot;) == spr<br/> {
+    <br/>     if ds_map_find_value(async_load, &quot;status&quot;) &gt;= 0<br/>     {<br/>         sprite_index = spr;<br/>     }<br/> }
+  </p>
+  <p>上述代码将首先检查已经创建的DS地图的 <span class="inline">id</span> ，然后检查回调的 <span class="inline">status</span> 。如果该值大于或等于0（表示成功），那么回调的结果将被用来设置新加载图像的。
+    回调的结果将被用来设置<span class="notranslate">sprite</span> 索引到新加载的图像。</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a data-xref="{title}" href="../Async_Events.htm">Async Events</a></div>
-        <div style="float:right">Next: <a data-xref="{title}" href="Networking.htm">Networking</a></div>
+        <div style="float:left">返回。<a href="../Async_Events.htm">异步事件</a></div>
+        <div style="float:right">下一步。<a href="Networking.htm">联网</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2025 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright<span class="notranslate">YoYo Games Ltd.</span> 2021 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 Asynchronous Image Loaded Event
@@ -60,5 +48,5 @@ ev_web_image_load
   <!-- TAGS
 ev_web_image_load
 -->
-</body>
-</html>
+
+</body></html>

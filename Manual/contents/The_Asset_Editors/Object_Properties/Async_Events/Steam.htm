@@ -3,38 +3,124 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>Steam</title>
-  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <title>蒸汽</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Page detailing the Steam async event." />
   <meta name="rh-index-keywords" content="Objects - Async Steam Event" />
-  <meta name="search-keywords" content="Steam,ugc_item_installed,ugc_item_subscribed,ugc_item_unsubscribed,ev_async_web_steam" />
+  <meta name="search-keywords" content="Steam,ev_web_steam,ugc_item_installed,ugc_item_subscribed,ugc_item_unsubscribed" />
   <link rel="stylesheet" type="text/css" href="../../../assets/css/default.css" />
-  <script src="../../../assets/scripts/main_script.js" type="module"></script>
+  <script src="../../../assets/scripts/main_script.js"></script>
 </head>
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
-  <h1><span data-field="title" data-format="default">Steam</span></h1>
-  <p><img alt="Steam Event" class="center" src="../../../assets/Images/Asset_Editors/Async_Steam.png" />This event is triggered by <a class="glossterm" data-glossterm="callback" href="#">callback</a><span class="glossextra">s</span> from some of the <a href="../../../GameMaker_Language/GML_Reference/Steam/Steam.htm">Steam extension</a> functions and returns a <span data-keyref="Type_ID_DS_Map"><a href="../../../GameMaker_Language/GML_Reference/Data_Structures/DS_Maps/ds_map_create.htm" target="_blank">DS Map</a></span> stored in the variable <span class="inline2"><a data-xref="{title}" href="../../../GameMaker_Language/GML_Overview/Variables/Builtin_Global_Variables/async_load.htm">async_load</a></span>, containing different key/value pairs depending on the callback from the function that has triggered the event. The map will always contain the key <span class="inline2">&quot;event_type&quot;</span> which you can parse to find the type of function that triggered the event and change the code required to suit.</p>
-  <p>Any function that triggers this event returns a unique async ID value which should be stored in a variable and checked, as the <span class="inline2"><a data-xref="{title}" href="../../../GameMaker_Language/GML_Overview/Variables/Builtin_Global_Variables/async_load.htm">async_load</a></span> map will always contain an <span class="inline2">&quot;id&quot;</span> key which you can then parse and ensure that you are responding to the correct event. In fact, the map will always hold the following keys, regardless of the Steam function used to generate the async response:</p>
+  <h1>蒸汽</h1>
+  <p><img>这个事件只能由<a href="../../../GameMaker_Language/GML_Reference/Steam/Steam.htm">Steam</a>的一些<a href="../../../GameMaker_Language/GML_Reference/Steam/Steam.htm">扩展</a>函数的<span class="glossextra">回调</span>来触发，并将返回一个存储在变量中的<a href="../../../GameMaker_Language/GML_Reference/Data_Structures/DS_Maps/DS_Maps.htm">DS Map</a><a href="../../../GameMaker_Language/GML_Overview/Variables/Builtin_Global_Variables/async_load.htm"><span class="inline">async_load</span></a>中，包含不同的键/值对，这取决于触发该事件的函数的回调。该地图将始终包含键 &quot;<span class="inline">event_type</span>&quot;，然后可以通过解析找到触发该事件的函数类型，并改变所需的代码以适应。</p>
+  <p>当调用任何触发该事件的函数时，它将产生一个唯一的异步ID值，该值应存储在一个变量中并进行检查，因为async_load map将始终包含一个ID键，然后你可以解析并确保你对正确的事件做出响应。事实上，无论使用何种<span class="notranslate">Steam</span> 函数来生成异步响应，该地图将始终持有以下键。</p>
   <ul class="colour">
-    <li>&quot;<span class="inline">id</span>&quot; - The async ID returned by the function that triggered the event.</li>
-    <li>&quot;<span class="inline">result</span>&quot; - The result of the operation (a real value). This will either be the extension constant <span class="inline2">ugc_result_success</span> or some other real number. You should check for this constant to ensure that the call was successful, and if another value is returned something has not worked correctly. The rest of the possible values returned are one of the possible <span class="inline2">EResult</span> values defined by the Steamworks API. See <a href="https://partner.steamgames.com/doc/api/steam_api#EResult">EResult</a> for the complete list.</li>
-    <li>&quot;<span class="inline">event_type</span>&quot; - A string denoting the type of event (see the documentation of a specific function to learn about its event type)</li>
+    <li>&quot;<span class="inline">id</span>&quot; - 触发事件的函数所返回的异步ID。</li>
+    <li>&quot;<span class="inline">result</span>&quot; - 操作的结果（一个实值）。这将是<span class="notranslate">GML</span> 常数 <span class="inline">ugc_result_success</span> 或其他实数。你应该检查这个常数，以确保调用成功，如果返回的是另一个值，就说明工作不正确。其余可能返回的值显示为<span class="notranslate">Steam</span> &quot;<span class="inline">EResult</span>&quot; 值的结果，你应该在SDK头文件中看到 <span class="inline">steamclientpublic.h</span> 所有可能的值。</li>
+    <li>&quot;<span class="inline">event_type</span>&quot; - 表示事件类型的<span class="notranslate">string</span> （详见下文）。</li>
   </ul>
-  <p> </p>
-  <p> </p>
+  <p> </p>
+  <h2>上传数据</h2>
+  <p>当使用<span class="notranslate">Steam</span> 函数上传排行榜时（ <span class="inline">steam_upload_score()</span> 或 <span class="inline">steam_upload_score_buffer()</span> ），返回的DS地图将有以下键/值对。</p>
+  <ul class="colour">
+    <li>&quot;<span class="inline">event_type</span>&quot; - 这个键将持有 &quot;<span class="inline">leaderboard_upload</span>&quot; 的值。</li>
+    <li>&quot;<span class="inline">post_id</span>&quot; - 这个键应该与上传调用函数返回的ID值相匹配。</li>
+    <li>&quot;<span class="inline">lb_name</span>&quot;--这个键保存了发布到</li>
+    <li>&quot;<span class="inline">success</span>&quot; - 如果帖子成功，将为1，失败为0</li>
+    <li>&quot;<span class="inline">updated</span>&quot; - 如果排行榜上的分数确实被更新了（即：新的分数更好），将为1，否则为0。</li>
+    <li>&quot;<span class="inline">score</span>&quot;--这个键保存着被公布的分数。</li>
+  </ul>
+  <p>你可以在乐谱上传功能的页面上看到这方面的例子。</p>
+  <p> </p>
+  <h2>下载排行榜</h2>
+  <p>当使用<span class="notranslate">Steam</span> 函数下载排行榜时 (<span class="inline">steam_download_scores()</span>, <span class="inline">steam_download_scores_around_user()</span> 或 <span class="inline">steam_download_friends_scores()</span>) ，返回的DS地图将有以下键/值对。</p>
+  <ul class="colour">
+    <li>&quot;<span class="inline">event_type</span>&quot; - 这个键将持有 &quot;<span class="inline">leaderboard_download</span>&quot; 的值。</li>
+    <li>&quot;<span class="inline">id</span>&quot; - 这个键应该与下载调用函数返回的ID值相匹配。</li>
+    <li>&quot;<span class="inline">status</span>&quot; - 回调的状态，其中-1等于失败或没有返回结果，0等于成功。</li>
+    <li>&quot;<span class="inline">lb_name</span>&quot;--这个键保存了发布到</li>
+    <li>&quot;<span class="inline">numEntries</span>&quot; - 正在返回的排行榜数据的 &quot;行 &quot;数。</li>
+    <li>&quot;<span class="inline">entries</span>&quot; - 一个包含另一个DS地图的JSON<span class="notranslate">object</span> <span class="notranslate">string</span> ，它将包含键 &quot;<span class="inline">default</span>&quot;（表示其中没有结果）或键 &quot; <span class="inline">entries</span>&quot;，然后你可以得到它的值。<span class="inline">entries</span>&quot; 的返回值将是一个<a href="../../../GameMaker_Language/GML_Reference/Data_Structures/DS_Lists/DS_Lists.htm">DS列表</a>，其中包含排行榜上的每个排名，列表中的每个条目本身将引用另一个DS地图，其中包含键&quot;<span class="inline">name</span>&quot;、&quot;<span class="inline">score</span>&quot;和&quot; <span class="inline">rank</span>&quot;，它还可能包含一个&quot;<span class="inline">data</span>&quot;键，取决于用于上传的函数。</li>
+  </ul>
+  <p>我们将通过请求给定排行榜的前十名排名并在<span class="notranslate">Steam</span> Async Event中解析其结果，来展示一个下载分数数据的例子（关于上传的例子，请看相应的功能页面）。首先，我们需要用以下代码来请求分数。</p>
+  <p class="code">score_get = steam_download_scores(&quot;Game Scores&quot;, 1, 10);</p>
+  <p>这将向<span class="notranslate">Steam</span> <span class="notranslate">Server</span> 发送请求，以获取排行榜上的分数，并将请求的异步 ID 储存在变量 &quot;<span class="inline">score_get</span>&quot; 中。然后，这将在<strong>Steam异步事件</strong>中以如下方式处理。</p>
+  <p class="code">var async_id = ds_map_find_value(async_load, &quot;id&quot;);<br />
+    if async_id == score_get<br />
+       {<br />
+       var entries = ds_map_find_value(async_load, &quot;entries&quot;);<br />
+       var map = json_decode(entries);<br />
+       if ds_map_exists(map, &quot;default&quot;)<br />
+        {<br />
+          ds_map_destroy(map);<br />
+          exit;<br />
+          }<br />
+       else<br />
+          {<br />
+          var list = ds_map_find_value(map, &quot;entries&quot;);<br />
+          var len = ds_list_size(list);<br />
+          var entry;<br />
+          for(var i = 0; i &lt; len; i++;)<br />
+             {<br />
+             entry = ds_list_find_value(list, i );<br />
+             steam_name[i] = ds_map_find_value(entry, &quot;name&quot;);<br />
+             steam_score[i] = ds_map_find_value(entry, &quot;score&quot;);<br />
+       steam_rank[i] = ds_map_find_value(entry, &quot;rank&quot;);<br />
+             if (ds_map_exists(entry, &quot;data&quot;))<br />
+                {<br />
+                var data = ds_map_find_value(entry, &quot;data&quot;);<br />
+                var buffId = buffer_base64_decode(data);<br />
+              var message = buffer_read(buffId, buffer_string);<br />
+                show_debug_message( &quot; -- attached message: &quot; + string(message));<br />
+                buffer_delete(buffId);<br />
+                }<br />
+             ds_map_destroy(entry);<br />
+           }<br />
+          ds_list_destroy(list)<br />
+          }<br />
+       ds_map_destroy(map)<br />
+       }</p>
+  <p>我们在这里做的是首先检查特殊async_load map的 &quot;<span class="inline">id</span>&quot; 键。如果这个值与原始回调函数的值相同（存储在 &quot;<span class="inline">score_get</span>&quot; 变量中），我们就继续处理数据。我们要做的第一件事是解析 <span class="inline">async_load</span> DS Map 中的键 &quot;<span class="inline">entries</span>&quot; ，它将包含一个包含排行榜数据的 JSON<span class="notranslate">object</span> 。这个JSON<span class="notranslate">object</span> 然后被解码（见 <a href="../../../GameMaker_Language/GML_Reference/File_Handling/Encoding_And_Hashing/json_decode.htm"><span class="inline">json_decode()</span></a>)作为另一个DS地图，这个新的地图ID被存储在变量&quot;<span class="inline">map</span>&quot;中。</p>
+  <p>这个地图会被检查是否有 &quot;<span class="inline">default</span>&quot;这个键，如果找到了，那么这个地图就会被销毁，事件也会退出。如果没有找到 &quot;<span class="inline">default</span>&quot; 键，代码将解析地图以提取有关排行榜的必要信息，首先从DS地图的&quot;<span class="inline">entries</span>&quot; 键中提取一个DS列表，然后循环浏览列表中的每一个条目，得到另一个DS地图，其中有每个条目的 <span class="inline">name</span>, <span class="inline">score</span> 和 <span class="inline">rank</span> 。然后，这些值被存储在数组中，然后我们检查是否有一个额外的 &quot;<span class="inline">data</span>&quot; 键。如果有（即：分数是用一个额外的数据包上传的），那么我们也会解析这个数据并将其发送到编译器控制台，以获得<span class="notranslate">debugging</span> ，然后再销毁<span class="notranslate">buffer</span> ，再继续销毁地图。请注意，如果 &quot; <span class="inline">data</span>&quot;键被包括在内，需要用 <a href="../../../GameMaker_Language/GML_Reference/Buffers/buffer_base64_decode.htm"><span class="inline">buffer_base64_decode()</span></a>函数对其进行解码，才能正确读取。</p>
+  <p>一旦<span class="notranslate">loop</span> ，条目列表就会被销毁，就像它所取的地图一样。没有必要销毁 <span class="inline">async_load</span> DS地图，因为<span data-keyref="GameMaker Name">GameMaker</span>已经为你处理了这个问题。</p>
+  <p> </p>
+  <h2>下载UGC（用户生成的内容）。</h2>
+  <p>当使用<span class="notranslate">Steam</span> 函数下载用户生成的内容（UGC）时，其中一些函数将触发这个事件。然而，每个函数将生成一个 <span class="inline">async_load</span> DS地图，其键/值对各不相同（尽管它们总是包含一般的 &quot;<span class="inline">id</span>&quot;、&quot;<span class="inline">result</span>&quot;和&quot;<span class="inline">event_type</span>&quot;键），所以请查看正在使用的函数的具体页面以了解细节和例子。</p>
+  <p> </p>
+  <h2>独特的UGC活动</h2>
+  <p><span class="notranslate">Steam</span> 异步事件也可以在用户订阅游戏之外的项目时被触发--例如，他们在浏览器上拉开标签，订阅了一个新项目，然后又拉回到游戏中。在这些情况下， <span class="inline">async_load</span> 地图将只包含以下细节（而不包含本页面顶部列出的默认值）。</p>
+  <ul class="colour">
+    <li>&quot;<span class="inline">event_type</span>&quot; - 这个键将保持常数 <span class="inline">ugc_item_installed</span> 。</li>
+    <li>&quot;<span class="inline">published_file_id</span>&quot; - 新安装的UGC项目的ID（你可以使用函数 <span class="inline">steam_ugc_get_item_install_info()</span> ，以获得已安装项目的<span class="notranslate">path</span> ）。</li>
+  </ul>
+  <p><span class="notranslate">Steam</span> Async事件也可以在一个车间项目被订阅时被触发--无论是从应用程序内部，还是从车间浏览器外部--在这些情况下， <span class="inline">async_load</span> 地图将包含以下键/值对。</p>
+  <ul class="colour">
+    <li>&quot;<span class="inline">event_type</span>&quot; - 这个键将保持常数 <span class="inline">ugc_item_subscribed</span> 。</li>
+    <li>&quot;<span class="inline">published_file_id</span>&quot;：这个键有新订阅项目的已发布文件ID。</li>
+  </ul>
+  <p>如果有任何项目被取消订阅，该事件将被触发，DS地图持有以下内容。</p>
+  <ul class="colour">
+    <li>&quot;<span class="inline">event_type</span>&quot; - 这个键将保持常数 <span class="inline">ugc_item_unsubscribed</span> 。</li>
+    <li>&quot;<span class="inline">published_file_id</span>&quot;：这个键有未订阅项目的已发布文件ID。</li>
+  </ul>
+  <p> </p>
+  <p> </p>
+  <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a data-xref="{title}" href="../Async_Events.htm">Async Events</a></div>
-        <div style="float:right">Next: <a data-xref="{title}" href="System.htm">System</a></div>
+        <div style="float:left">返回。<a href="../Async_Events.htm">异步事件</a></div>
+        <div style="float:right">下一步。<a href="System.htm">系统</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2023 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright<span class="notranslate">YoYo Games Ltd.</span> 2022 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
-Asynchronous Steam Event
+Asynchronous <span class="notranslate">Steam</span> Event
+async_load
 ugc_result_success
 ugc_item_installed
 ev_web_steam

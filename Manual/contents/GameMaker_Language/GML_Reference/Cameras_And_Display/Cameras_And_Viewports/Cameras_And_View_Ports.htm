@@ -3,122 +3,116 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>Cameras And Viewports</title>
-  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <title>摄像机和视口</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
   <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
-  <script src="../../../../assets/scripts/main_script.js" type="module"></script>
+  <script src="../../../../assets/scripts/main_script.js"></script>
   <meta name="rh-authors" content="Mark Alexander" />
-  <meta name="topic-comment" content="Reference section for Cameras And Viewports" />
-  <meta name="rh-index-keywords" content="Cameras And Viewports" />
-  <meta name="search-keywords" content="viewports,view ports,views,camera,cameras,Cameras And Viewports" />
+  <meta name="topic-comment" content="Reference section for Cameras And View Ports" />
+  <meta name="rh-index-keywords" content="" />
+  <meta name="search-keywords" content="Cameras And View Ports,viewports,view ports,views,camera,cameras" />
 </head>
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
-  <h1><span data-field="title" data-format="default">Cameras And Viewports</span></h1>
-  <p>When creating rooms in <span data-keyref="GameMaker Name">GameMaker</span> you need to set up different <strong><span data-field="title" data-format="lower-alpha">cameras and viewports</span></strong> to control what is shown to the player.</p>
-  <p>The <i>viewports</i> are, basically, little windows into your game world that enable you to show the player parts of a room, either scaled or 1:1, and as such they are essential when your game room is larger than the display size. The <i>cameras</i> are what define exactly what will be shown in each viewport.</p>
-  <p><span data-keyref="GameMaker Name">GameMaker</span> permits you 8 independent viewports (numbered from 0 - 7) and an unlimited number of cameras, of which only 8 can be <i>active</i> at any one time - one assigned to each of the available viewports - although normally you&#39;ll only need one viewport. Cameras can show different parts of the same room and can be activated and deactivated as well as assigned to viewports at any time, meaning that you can use cameras to have split screen effects, or to create cutscenes for example.</p>
-  <p id="">Essentially, you position a camera within a room and define the &quot;view&quot; (area) of the room that will be visible to it, and then this view is drawn to a <em>viewport</em> - note that the viewport can be a different size to the camera view and as such you can distort and scale the camera view if it is a size other than 1:1 with the viewport.</p>
-  <p class="note"><span data-conref="../../../../assets/snippets/Tag_important.hts"> </span> It&#39;s easy to get confused when talking about cameras, views and viewports, so to clarify: </p>
+  <h1>摄像机和观景台</h1>
+  <p>在<span data-keyref="GameMaker Name">GameMaker</span>中创建<span class="notranslate">rooms</span> ，你需要设置不同的<i>视图端口</i>和/或<i>摄像机</i>来控制显示给玩家的内容。基本上，<i>视图端口</i>是进入你的游戏世界的小窗口，使你能够向玩家展示<span class="notranslate">room</span> ，可以是按比例的，也可以是1:1的，因此，当你的游戏<span class="notranslate">room</span> 大于显示器尺寸时，它们是必不可少的。<i>摄像机</i>确切地定义了每个视口所要显示的内容。</p>
+  <p><span data-keyref="GameMaker Name">GameMaker</span>允许你有8个独立的视图端口（编号从0-7）和无限数量的摄像机，其中只有8个可以在任何时候<i>激活</i>--每个可用的端口分配一个--尽管通常你只需要一个或两个视图端口。摄像机可以显示同一<span class="notranslate">room</span> 的不同部分，并且可以随时激活和停用以及分配给视图端口，这意味着你可以使用摄像机来绘制HUD元素或产生分屏效果，或者创建剪切场景，例如。从本质上讲，你可以在<span class="notranslate">room</span> ，并定义<span class="notranslate">room</span> 的 &quot;视图&quot;（区域），然后这个视图被绘制到视图<i>端口</i>上--注意，视图端口的大小可以与相机视图不同，因此，如果相机视图与视图端口的大小不是1:1，你可以扭曲和缩放。</p>
+  <p class="note"><b>重要的是!</b>在谈论摄像机、视图和视口时，很容易产生混淆，所以要澄清一下。</p>
   <ul class="colour" style="padding-left:100px">
-    <li><b>The Camera</b>: Placed at a point within the room and used to set how the room is displayed - typically with position, size and orientation (and field of view and aspect ratio in case of 3D cameras)</li>
-    <li><b>The View</b>: What the camera sees, based on the position, projection and rotation of the camera - this passes the view of the camera to the viewport to be rendered to the <a href="../../Drawing/Surfaces/Surfaces.htm">application surface</a></li>
-    <li><b>The Viewport</b>: The area on the screen where the camera view will be displayed</li>
+    <li><b>摄像机</b>。<span class="notranslate">room</span> 内的一个点，将用于设置如何显示<span class="notranslate">room</span> - 通常有位置、方向、视场和长宽比。</li>
+    <li><b>视图</b>。摄像机看到的东西，基于摄像机的位置、投影和旋转。</li>
+    <li><b>视图端口</b>：屏幕上将显示摄像机视图的区域。</li>
   </ul>
-  <p><img alt="Camera illustration" class="center" src="../../../../assets/Images/Scripting_Reference/GML/Reference/Cameras_Display/Camera_Example.png" />If you are adding cameras through <a data-xref="{title}" href="../../../../The_Asset_Editors/Rooms.htm">The Room Editor</a><b></b> then you can retrieve their <i>camera ID</i> value using the <span class="inline2"><a data-xref="{title}" href="view_camera.htm">view_camera</a></span> variable. You can then manipulate the view using the functions below and you can even destroy the default cameras if required, although you will need to assign a new camera to the view, otherwise you will get some very unpredictable behaviour.</p>
-  <p>Something to note about cameras and viewports is that the total area of the bounding box for <i>all active viewports in the first room of the game</i> is what defines the <b>canvas size</b> (or window size for macOS, Ubuntu (Linux) and Windows), and any areas that are not covered by a viewport will default to drawing using the window colour as illustrated by the image below:</p>
-  <p><img alt="View Port Canvas" class="center" src="../../../../assets/Images/Scripting_Reference/GML/Reference/Cameras_Display/viewport_canvas.png" /></p>
-  <p class="note"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> By default you need to select <strong>Clear Display Buffer</strong> in the Room Editor for the colour to be shown, and you can only set the colour using the function <span class="inline3_func"><a data-xref="{title}" href="../The_Game_Window/window_set_colour.htm">window_set_colour</a></span>. If you don&#39;t use <span class="inline3_func"><a data-xref="{title}" href="../The_Game_Window/window_set_colour.htm">window_set_colour</a></span> the colour will default to black.</p>
-  <p>You should take care when using multiple cameras as the regular Draw events (<strong>Draw Begin</strong>, <strong>Draw</strong>, <strong>Draw End</strong>) for all instances are called once for each visible view, so if you have three camera views active in one room, these Draw events will be run three times every step (basically doing three times the work) which can be a cause for slowdown if the game is large or complex. The <span class="inline2"><a data-xref="{title}" href="view_current.htm">view_current</a></span> variable can be used to help limit these draw calls, however, by checking which view is being drawn and only drawing items that are specific to a given viewport. Also be careful when creating your own cameras, as if you create one in a room and don&#39;t remove it using the <span class="inline3_func"><a data-xref="{title}" href="camera_destroy.htm">camera_destroy</a></span> function you can get a memory leak.</p>
-  <p>You can find an overview of all the available functions from the different sections below, but it&#39;s worth noting that some of these functions require the setting up and use of different matrices, so you may want to look at the section of the manual for the <a data-xref="{title}" href="../../Maths_And_Numbers/Matrix_Functions/Matrix_Functions.htm">Matrix Functions</a>. Also note that there are a few room functions that can be used to get and set cameras and viewport values in rooms other than the current one (see<span> the section on <a data-xref="{title}" href="../../Asset_Management/Rooms/Rooms.htm">Rooms</a></span>).</p>
-  <h2 id="func_ref">Function Reference<a name="camera_general"></a></h2>
-  <h3 id="func_ref_create_destroy">Create &amp; Destroy</h3>
+  <p><img>如果你是通过<b>房间编辑器</b>添加摄像机，那么你可以使用 <span class="inline">view_camera</span> 变量检索其<i>摄像机ID值</i>。然后你可以使用下面的函数来操作视图，如果需要的话，你甚至可以销毁默认的摄像机，不过你需要给视图分配一个新的摄像机，否则你会得到一些非常不可预测的行为。在<span class="notranslate">Room</span> 编辑器中添加到视图端口的摄像机是<b>全局</b>范围的，这意味着它们在你开始游戏时被创建一次，然后当你进入每个<span class="notranslate">room</span> ，它们被设置为在<span class="notranslate">room</span> 编辑器中设置的值，所以如果你在<i>任何</i> <span class="notranslate">room</span> ，销毁一个默认摄像机，它将在<i>所有房间</i>中不复存在。</p>
+  <p>关于相机和视口需要注意的是，<i>在游戏的第一个<span class="notranslate">room</span> ，所有活动视口</i>的边界框的总面积是定义<b>背景画布尺寸</b>（或<span class="notranslate">macOS</span>,<span class="notranslate">Ubuntu</span> (<span class="notranslate">Linux</span>) 和<span class="notranslate">Windows</span> 的窗口尺寸），任何没有被视口覆盖的区域将默认为使用窗口颜色绘图，如下图所示。</p>
+  <p><img alt="Camera illustration" class="center" src="../../../../assets/Images/Scripting_Reference/GML/Reference/Cameras_Display/Camera_Example.png" /></p>
+  <p class="note"><b>注意</b>：默认情况下，你需要在<span class="notranslate">room</span> 编辑器中选择 &quot;Clear Display Buffer &quot;来显示颜色，你只能使用功能 <span class="inline">window_set_colour()</span> 来设置颜色。如果你不使用这个功能，它将默认为黑色。</p>
+  <p>当使用多个摄像机时，你应该小心，因为所有实例的绘制事件对每个可见视图都会被调用一次，所以如果你在一个<span class="notranslate">room</span> ，有三个摄像机视图处于活动状态，绘制事件将在每个步骤中运行三次（基本上做了三次工作），如果游戏很大或很复杂，这可能会导致速度下降。然而， <span class="inline">view_current</span> 变量可以用来帮助限制这些绘制调用，它可以检查哪个视图正在被绘制，并且只绘制特定视图端口的项目。在创建你自己的摄像机时也要小心，因为如果你在<span class="notranslate">room</span> 中创建了一个，但没有用 <a href="camera_destroy.htm"><span class="inline">camera_destroy()</span></a>你会得到一个内存泄漏。</p>
+  <p>你可以从下面不同的章节中找到所有可用功能的概述，但值得注意的是，其中一些功能需要设置和使用不同的矩阵，所以你可能要看一下手册中的<a href="../../Maths_And_Numbers/Matrix_Functions/Matrix_Functions.htm">矩阵功能</a>部分。还要注意的是，有几个<span class="notranslate">room</span> 的函数可以用来获取和设置摄像机和视口的值，而不是当前的<span class="notranslate">rooms</span> （见<span> 关于</span> <a href="../../Asset_Management/Rooms/Rooms.htm">Rooms</a>的<span> 部分</span>）。</p>
+  <p><a name="camera_general"></a></p>
+  <p>以下函数可用于创建和销毁摄像机。</p>
   <ul class="colour">
-    <li><a data-xref="{title}" href="camera_create.htm">camera_create</a></li>
-    <li><a data-xref="{title}" href="camera_create_view.htm">camera_create_view</a></li>
-    <li><a data-xref="{title}" href="camera_destroy.htm">camera_destroy</a></li>
-    <li><a data-xref="{title}" href="camera_apply.htm">camera_apply</a></li>
-    <li><a data-xref="{title}" href="camera_copy_transforms.htm">camera_copy_transforms</a></li>
+    <li><a href="camera_create.htm"><span class="notranslate">camera_create</span></a></li>
+    <li><a href="camera_create_view.htm"><span class="notranslate">camera_create_view</span></a></li>
+    <li><a href="camera_destroy.htm"><span class="notranslate">camera_destroy</span></a></li>
+    <li><a href="camera_apply.htm"><span class="notranslate">camera_apply</span></a></li>
   </ul>
-  <h3 id="func_ref_camera_information">Camera Information</h3>
+  <p> </p>
+  <p>还有一些设置和获取相机信息的功能。</p>
   <ul class="colour">
-    <li><a data-xref="{title}" href="camera_set_view_mat.htm">camera_set_view_mat</a></li>
-    <li><a data-xref="{title}" href="camera_set_proj_mat.htm">camera_set_proj_mat</a></li>
-    <li><a data-xref="{title}" href="camera_set_update_script.htm">camera_set_update_script</a></li>
-    <li><a data-xref="{title}" href="camera_set_begin_script.htm">camera_set_begin_script</a></li>
-    <li><a data-xref="{title}" href="camera_set_end_script.htm">camera_set_end_script</a></li>
-    <li><a data-xref="{title}" href="camera_set_view_pos.htm">camera_set_view_pos</a></li>
-    <li><a data-xref="{title}" href="camera_set_view_size.htm">camera_set_view_size</a></li>
-    <li><a data-xref="{title}" href="camera_set_view_speed.htm">camera_set_view_speed</a></li>
-    <li><a data-xref="{title}" href="camera_set_view_border.htm">camera_set_view_border</a></li>
-    <li><a data-xref="{title}" href="camera_set_view_angle.htm">camera_set_view_angle</a></li>
-    <li><a data-xref="{title}" href="camera_set_view_target.htm">camera_set_view_target</a></li>
-    <li><a data-xref="{title}" href="camera_set_default.htm">camera_set_default</a></li>
-    <li><a data-xref="{title}" href="camera_get_view_mat.htm">camera_get_view_mat</a></li>
-    <li><a data-xref="{title}" href="camera_get_proj_mat.htm">camera_get_proj_mat</a></li>
-    <li><a data-xref="{title}" href="camera_get_update_script.htm">camera_get_update_script</a></li>
-    <li><a data-xref="{title}" href="camera_get_begin_script.htm">camera_get_begin_script</a></li>
-    <li><a data-xref="{title}" href="camera_get_end_script.htm">camera_get_end_script</a></li>
-    <li><a data-xref="{title}" href="camera_get_view_x.htm">camera_get_view_x</a></li>
-    <li><a data-xref="{title}" href="camera_get_view_y.htm">camera_get_view_y</a></li>
-    <li><a data-xref="{title}" href="camera_get_view_width.htm">camera_get_view_width</a></li>
-    <li><a data-xref="{title}" href="camera_get_view_height.htm">camera_get_view_height</a></li>
-    <li><a data-xref="{title}" href="camera_get_view_speed_x.htm">camera_get_view_speed_x</a></li>
-    <li><a data-xref="{title}" href="camera_get_view_speed_y.htm">camera_get_view_speed_y</a></li>
-    <li><a data-xref="{title}" href="camera_get_view_border_x.htm">camera_get_view_border_x</a></li>
-    <li><a data-xref="{title}" href="camera_get_view_border_y.htm">camera_get_view_border_y</a></li>
-    <li><a data-xref="{title}" href="camera_get_view_angle.htm">camera_get_view_angle</a></li>
-    <li><a data-xref="{title}" href="camera_get_view_target.htm">camera_get_view_target</a></li>
-    <li><a data-xref="{title}" href="camera_get_default.htm">camera_get_default</a></li>
-    <li><a data-xref="{title}" href="camera_get_active.htm">camera_get_active</a></li>
+    <li><a href="camera_set_view_mat.htm"><span class="notranslate">camera_set_view_mat</span></a></li>
+    <li><a href="camera_set_proj_mat.htm"><span class="notranslate">camera_set_proj_mat</span></a></li>
+    <li><a href="camera_set_update_script.htm"><span class="notranslate">camera_set_update_script</span></a></li>
+    <li><a href="camera_set_begin_script.htm"><span class="notranslate">camera_set_begin_script</span></a></li>
+    <li><a href="camera_set_end_script.htm"><span class="notranslate">camera_set_end_script</span></a></li>
+    <li><a href="camera_set_view_pos.htm"><span class="notranslate">camera_set_view_pos</span></a></li>
+    <li><a href="camera_set_view_size.htm"><span class="notranslate">camera_set_view_size</span></a></li>
+    <li><a href="camera_set_view_speed.htm"><span class="notranslate">camera_set_view_speed</span></a></li>
+    <li><a href="camera_set_view_border.htm"><span class="notranslate">camera_set_view_border</span></a></li>
+    <li><a href="camera_set_view_angle.htm"><span class="notranslate">camera_set_view_angle</span></a></li>
+    <li><a href="camera_set_view_target.htm"><span class="notranslate">camera_set_view_target</span></a></li>
+    <li><a href="camera_set_default.htm"><span class="notranslate">camera_set_default</span></a></li>
+    <li><a href="camera_get_view_mat.htm"><span class="notranslate">camera_get_view_mat</span></a></li>
+    <li><a href="camera_get_proj_mat.htm"><span class="notranslate">camera_get_proj_mat</span></a></li>
+    <li><a href="camera_get_update_script.htm"><span class="notranslate">camera_get_update_script</span></a></li>
+    <li><a href="camera_get_begin_script.htm"><span class="notranslate">camera_get_begin_script</span></a></li>
+    <li><a href="camera_get_end_script.htm"><span class="notranslate">camera_get_end_script</span></a></li>
+    <li><a href="camera_get_view_x.htm"><span class="notranslate">camera_get_view_x</span></a></li>
+    <li><a href="camera_get_view_y.htm"><span class="notranslate">camera_get_view_y</span></a></li>
+    <li><a href="camera_get_view_width.htm"><span class="notranslate">camera_get_view_width</span></a></li>
+    <li><a href="camera_get_view_height.htm"><span class="notranslate">camera_get_view_height</span></a></li>
+    <li><a href="camera_get_view_speed_x.htm"><span class="notranslate">camera_get_view_speed_x</span></a></li>
+    <li><a href="camera_get_view_speed_y.htm"><span class="notranslate">camera_get_view_speed_y</span></a></li>
+    <li><a href="camera_get_view_border_x.htm"><span class="notranslate">camera_get_view_border_x</span></a></li>
+    <li><a href="camera_get_view_border_y.htm"><span class="notranslate">camera_get_view_border_y</span></a></li>
+    <li><a href="camera_get_view_angle.htm"><span class="notranslate">camera_get_view_angle</span></a></li>
+    <li><a href="camera_get_view_target.htm"><span class="notranslate">camera_get_view_target</span></a></li>
+    <li><a href="camera_get_default.htm"><span class="notranslate">camera_get_default</span></a></li>
+    <li><a href="camera_get_active.htm"><span class="notranslate">camera_get_active</span></a></li>
   </ul>
-  <h3 id="func_ref_views">Views</h3>
-  <p>When working with cameras, you have to assign them to a <strong>viewport</strong> for them to be &quot;active&quot; and display anything. These viewports are numbered from 0 to 7 and can be changed and positioned using different variable arrays and functions, and you can also check to see which one is currently drawing or which camera is currently attached to it.</p>
-  <p>The following <a href="../../../GML_Overview/Variables/Global_Variables.htm">global scope</a> built-in variables are available:</p>
+  <p> </p>
+  <p>当使用摄像机时，你必须把它们分配到一个<strong>视口</strong>，它们才能 &quot;活动 &quot;并显示任何东西。这些视口的编号从0到7，可以使用不同的变量数组和函数来改变和定位，你也可以查看当前正在绘制的是哪个视口或当前连接的是哪个摄像机。</p>
+  <p>以下<a href="../../../GML_Overview/Variables/Global_Variables.htm">全局范围</a>的内置变量是可用的。</p>
   <ul class="colour">
-    <li><a data-xref="{title}" href="view_camera.htm">view_camera</a></li>
-    <li><a data-xref="{title}" href="view_current.htm">view_current</a></li>
-    <li><a data-xref="{title}" href="view_enabled.htm">view_enabled</a></li>
-    <li><a data-xref="{title}" href="view_visible.htm">view_visible</a></li>
-    <li><a data-xref="{title}" href="view_xport.htm">view_xport</a></li>
-    <li><a data-xref="{title}" href="view_yport.htm">view_yport</a></li>
-    <li><a data-xref="{title}" href="view_wport.htm">view_wport</a></li>
-    <li><a data-xref="{title}" href="view_hport.htm">view_hport</a></li>
-    <li><a data-xref="{title}" href="view_surface_id.htm">view_surface_id</a></li>
+    <li><a href="view_camera.htm"><span class="notranslate">view_camera</span></a></li>
+    <li><a href="view_current.htm"><span class="notranslate">view_current</span></a></li>
+    <li><a href="view_enabled.htm"><span class="notranslate">view_enabled</span></a></li>
+    <li><a href="view_visible.htm"><span class="notranslate">view_visible</span></a></li>
+    <li><a href="view_xport.htm"><span class="notranslate">view_xport</span></a></li>
+    <li><a href="view_yport.htm"><span class="notranslate">view_yport</span></a></li>
+    <li><a href="view_wport.htm"><span class="notranslate">view_wport</span></a></li>
+    <li><a href="view_hport.htm"><span class="notranslate">view_hport</span></a></li>
+    <li><a href="view_surface_id.htm"><span class="notranslate">view_surface_id</span></a></li>
   </ul>
-  <p id="func_ref_viewports">The following functions are available: </p>
+  <p> </p>
+  <p>还存在以下处理视图端口的功能。</p>
   <ul class="colour">
-    <li><a data-xref="{title}" href="view_get_camera.htm">view_get_camera</a></li>
-    <li><a data-xref="{title}" href="view_get_visible.htm">view_get_visible</a></li>
-    <li><a data-xref="{title}" href="view_get_xport.htm">view_get_xport</a></li>
-    <li><a data-xref="{title}" href="view_get_yport.htm">view_get_yport</a></li>
-    <li><a data-xref="{title}" href="view_get_wport.htm">view_get_wport</a></li>
-    <li><a data-xref="{title}" href="view_get_hport.htm">view_get_hport</a></li>
-    <li><a data-xref="{title}" href="view_get_surface_id.htm">view_get_surface_id</a></li>
-    <li><a data-xref="{title}" href="view_set_camera.htm">view_set_camera</a></li>
-    <li><a data-xref="{title}" href="view_set_visible.htm">view_set_visible</a></li>
-    <li><a data-xref="{title}" href="view_set_xport.htm">view_set_xport</a></li>
-    <li><a data-xref="{title}" href="view_set_yport.htm">view_set_yport</a></li>
-    <li><a data-xref="{title}" href="view_set_wport.htm">view_set_wport</a></li>
-    <li><a data-xref="{title}" href="view_set_hport.htm">view_set_hport</a></li>
-    <li><a data-xref="{title}" href="view_set_surface_id.htm">view_set_surface_id</a></li>
+    <li><a href="view_get_camera.htm"><span class="notranslate">view_get_camera</span></a></li>
+    <li><a href="view_get_visible.htm"><span class="notranslate">view_get_visible</span></a></li>
+    <li><a href="view_get_xport.htm"><span class="notranslate">view_get_xport</span></a></li>
+    <li><a href="view_get_yport.htm"><span class="notranslate">view_get_yport</span></a></li>
+    <li><a href="view_get_wport.htm"><span class="notranslate">view_get_wport</span></a></li>
+    <li><a href="view_get_hport.htm"><span class="notranslate">view_get_hport</span></a></li>
+    <li><a href="view_get_surface_id.htm"><span class="notranslate">view_get_surface_id</span></a></li>
+    <li><a href="view_set_camera.htm"><span class="notranslate">view_set_camera</span></a></li>
+    <li><a href="view_set_visible.htm"><span class="notranslate">view_set_visible</span></a></li>
+    <li><a href="view_set_xport.htm"><span class="notranslate">view_set_xport</span></a></li>
+    <li><a href="view_set_yport.htm"><span class="notranslate">view_set_yport</span></a></li>
+    <li><a href="view_set_wport.htm"><span class="notranslate">view_set_wport</span></a></li>
+    <li><a href="view_set_hport.htm"><span class="notranslate">view_set_hport</span></a></li>
+    <li><a href="view_set_surface_id.htm"><span class="notranslate">view_set_surface_id</span></a></li>
   </ul>
-  <h3>Frustum Culling</h3>
-  <ul class="colour">
-    <li><a data-xref="{title}" href="sphere_is_visible.htm">sphere_is_visible</a></li>
-    <li><a data-xref="{title}" href="../../Drawing/GPU_Control/gpu_get_sprite_cull.htm">gpu_get_sprite_cull</a></li>
-    <li><a data-xref="{title}" href="../../Drawing/GPU_Control/gpu_set_sprite_cull.htm">gpu_set_sprite_cull</a></li>
-  </ul>
-  <p> </p>
-  <p> </p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a data-xref="{title}" href="../Cameras_And_Display.htm">Cameras And Display</a></div>
-        <div style="float:right">Next: <a data-xref="{title}" href="../The_Game_Window/The_Game_Window.htm">The Game Window</a></div>
+        <div style="float:left">背面。<a href="../Cameras_And_Display.htm">照相机和显示器</a></div>
+        <div style="float:right">下一步。<a href="../The_Game_Window/The_Game_Window.htm">游戏窗口</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2025 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright<span class="notranslate">YoYo Games Ltd.</span> 2021 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 Cameras And Viewports

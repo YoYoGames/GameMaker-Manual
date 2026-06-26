@@ -4,9 +4,9 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>sprite_replace</title>
-  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <meta name="generator" content="Adobe RoboHelp 2020" />
   <link rel="stylesheet" href="../../../../../assets/css/default.css" type="text/css" />
-  <script src="../../../../../assets/scripts/main_script.js" type="module"></script>
+  <script src="../../../../../assets/scripts/main_script.js"></script>
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Page explaining the function sprite_replace" />
   <meta name="rh-index-keywords" content="sprite_replace" />
@@ -15,80 +15,80 @@
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
   <h1><span data-field="title" data-format="default">sprite_replace</span></h1>
-  <p>This function works in almost the exact same manner as <span class="inline3_func"><a data-xref="{title}" href="sprite_add.htm">sprite_add</a></span>, only instead of returning the handle of the sprite you are importing, it overwrites a previously created sprite index.</p>
-  <p>When using this function you should use a sprite index that has been created and stored in a variable using other functions like <span class="inline3_func"><a data-xref="{title}" href="sprite_add.htm">sprite_add</a></span> or <span class="inline3_func"><a data-xref="{title}" href="sprite_create_from_surface.htm">sprite_create_from_surface</a></span>, or even <span class="inline3_func"><a data-xref="{title}" href="sprite_duplicate.htm">sprite_duplicate</a></span>, rather than a resource tree sprite asset.</p>
-  <p>You <i>can</i> replace a sprite from the game assets using this function, but doing so means that you will lose the reference ID for the sprite that you are replacing, regardless of whether you call <span class="inline3_func"><a data-xref="{title}" href="../../../General_Game_Control/game_restart.htm">game_restart</a></span> or not, and so this is not recommended.</p>
-  <p>Regardless of the sprite being replaced, this function will <b>create a new texture page for the sprite</b> and so care should be taken when using it as it may adversely affect performance by increasing the number of required texture swaps for rendering.</p>
-  <p>For information on the arguments, see <span class="inline3_func"><a data-xref="{title}" href="sprite_add.htm">sprite_add</a></span>.</p>
-  <h3>Platform-specific notes</h3>
-  <ul class="colour">
-    <li>You should be aware that if you are using this function in your <strong>HTML5</strong> target game to load resources from an external server, then, due to XSS protection in browsers, attempts to load resources from across domains can be blocked and may appear to return blank results.</li>
-  </ul>
-  <div data-conref="../../../../../assets/snippets/Note_File_Handling_Limitations.hts"> </div>
-  <p> </p>
-  <h4>Syntax:</h4>
-  <p class="code"><span data-field="title" data-format="default">sprite_replace</span>(ind, fname, imgnumb, removeback, smooth, xorig, yorig)</p>
+  <p>这个函数的工作方式几乎与 <a href="sprite_add.htm"><span class="inline">sprite_add()</span></a>，只是它不是返回你正在导入的<span class="notranslate">sprite</span> 的索引，而是覆盖一个先前创建的<span class="notranslate">sprite</span> 索引。当使用这个函数时，你应该使用一个已经创建并存储在变量中的<span class="notranslate">sprite</span> 索引，使用其他函数如 <a href="sprite_add.htm"><span class="inline">sprite_add()</span></a>或 <a href="sprite_create_from_surface.htm"><span class="inline">sprite_create_from_surface()</span></a>，或者甚至是 <a href="sprite_duplicate.htm"><span class="inline">sprite_duplicate()</span></a>，而不是一个资源树<span class="notranslate">sprite</span> <span class="notranslate">asset</span> 。<span class="notranslate">sprite</span> 你<i>可以</i>使用这个函数替换游戏中的<span class="notranslate">assets</span> ，但这样做意味着你将失去你所替换的<span class="notranslate">sprite</span> 的参考ID，无论你是否调用 <span class="inline">game_restart()</span> ，所以不建议使用。不管被替换的是什么<span class="notranslate">sprite</span> ，这个函数都会<b>为精灵创建一个新的<span class="notranslate">texture</span> 页面</b>，所以在使用时要小心，因为它可能会增加渲染所需的<span class="notranslate">texture</span> 交换的数量，从而对性能产生不利影响。</p>
+  <p>要加载的图像文件应该<b>始终</b>是 <span class="inline">*.png</span> ，所有要变成动画的图像<span class="notranslate">sprites</span> ，应该有一个 &quot;条 &quot;格式（见下图）。它们将被分割成指定数量的子图像，其规则是<b>sprite width = strip width / sub images</b>。</p>
+  <p><img alt="Example Sprite Strip" class="center" src="../../../../../assets/Images/Scripting_Reference/GML/Reference/Sprites/spr_strip.png" /></p>
+  <p>正如你在上图中看到的，<span class="notranslate">sprite</span> 已经被放置在一个深紫色的背景上，这可以通过将 &quot;removeback &quot;参数设置为 <span class="inline">true</span> 来移除。这通过检查<span class="notranslate">sprite</span> 的<i>左下方</i>像素的颜色，然后将其作为要移除的颜色。例如，在上图中，如果我们把左下角的像素颜色定为绿色，那么<span class="notranslate">sprite</span> 的所有绿色部分都会被移除，而紫色背景的其他部分则被忽略。</p>
+  <p>如果你选择了 &quot;removeback &quot;选项，你可能还希望<span data-keyref="GameMaker Name">GameMaker</span>通过将 &quot;smooth &quot;参数设置为 <span class="inline">true</span> ，使<span class="notranslate">sprite</span> 的边缘平滑。这样做的目的是在<span class="notranslate">sprite</span> ，在它的背景被移除后，在其边缘创建一个半透明的边框。</p>
+  <p>最后，你还可以指定<span class="notranslate">sprite</span> 的x和y<i>原点</i>。这是<span class="notranslate">sprite</span> &quot;固定 &quot;在使用它的实例上的点，并且总是相对于一个<span class="notranslate">sprite</span> 子图像的0,0左上角计算。因此，例如，一个32 x 32像素的<span class="notranslate">sprite</span> ，这些值设置为(16,16)，其原点将在中心。</p>
+  <p>默认情况下，所有新的<span class="notranslate">sprites</span> ，它们的边界框都是自动计算的（确切的边界框将取决于<span class="notranslate">sprite</span> 的大小和透明度），但是你可能希望定制这个，在这种情况下，你也应该使用函数 <a href="sprite_collision_mask.htm"><span class="inline">sprite_collision_mask()</span></a>.</p>
+  <p class="note"><b>注意</b>：根据所选择的目标平台，你可以从哪里保存和加载文件是有限制的。更多信息请参见<a href="../../../../../Additional_Information/The_File_System.htm">文件处理</a>。</p>
+  <p class="note"><b>注意</b>：你应该知道，如果你在你的HTML5目标游戏中使用这个函数从外部<span class="notranslate">server</span> ，那么，由于浏览器的XSS保护，从跨域加载资源的尝试会被阻止，并可能出现返回空白结果。</p>
+  <p> </p>
+  <h4>语法。</h4>
+  <p class="code"><span data-field="title" data-format="default">sprite_replace</span>(ind, fname, imgnumb, removeback, smooth, xorig, yorig);</p>
   <table>
     <tbody>
       <tr>
-        <th>Argument</th>
-        <th>Type</th>
-        <th>Description</th>
+        <th>争论</th>
+        <th>类型</th>
+        <th>描述</th>
       </tr>
       <tr>
-        <td>ind</td>
-        <td><span data-keyref="Type_Asset_Sprite"><a href="../../../../../The_Asset_Editors/Sprites.htm" target="_blank">Sprite Asset</a></span></td>
-        <td>The sprite to permanently replace</td>
+        <td><span class="notranslate">ind</span></td>
+        <td><span data-keyref="Type_Asset_Sprite">雪碧资产</span></td>
+        <td><span class="notranslate">The index of the sprite to permanently replace.</span></td>
       </tr>
       <tr>
-        <td>fname</td>
-        <td><span data-keyref="Type_String"><a href="../../../../GML_Overview/Data_Types.htm" target="_blank">String</a></span></td>
-        <td>The name (a file path) of the file to add or a data URL with the image data embedded in the string (encoded in <a href="https://en.wikipedia.org/wiki/Base64">base64</a>)</td>
+        <td><span class="notranslate">fname</span></td>
+        <td><span data-keyref="Type_String">字符串</span></td>
+        <td><span class="notranslate">The filename of the image to make the new sprite.</span></td>
       </tr>
       <tr>
-        <td>imgnumb</td>
-        <td><span data-keyref="Type_Real"><a href="../../../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
-        <td>The number of frames the sprite will be cut up into horizontally. Use 1 for one single image or <span class="inline">*.gif</span></td>
+        <td><span class="notranslate">imgnumb</span></td>
+        <td><span data-keyref="Type_Real">真实的</span></td>
+        <td><span class="notranslate">The number of frames the sprite will be cut up into horizontally. Use 1 for one single image or <span class="inline">*.gif</span>.</td>
       </tr>
       <tr>
-        <td>removeback</td>
-        <td><span data-keyref="Type_Bool"><a href="../../../../GML_Overview/Data_Types.htm" target="_blank">Boolean</a></span></td>
-        <td>Indicates whether to make all pixels with the background colour (left-bottom pixel) transparent</td>
+        <td><span class="notranslate">removeback</span></td>
+        <td><span data-keyref="Type_Bool">布尔型</span></td>
+        <td><span class="notranslate">Indicates whether to make all pixels with the background colour (left-bottom pixel) transparent.</span></td>
       </tr>
       <tr>
-        <td>smooth</td>
-        <td><span data-keyref="Type_Bool"><a href="../../../../GML_Overview/Data_Types.htm" target="_blank">Boolean</a></span></td>
-        <td>Indicates whether to smooth the edges</td>
+        <td><span class="notranslate">smooth</span></td>
+        <td><span data-keyref="Type_Bool">布尔型</span></td>
+        <td><span class="notranslate">Indicates whether to smooth the edges.</span></td>
       </tr>
       <tr>
-        <td>xorig</td>
-        <td><span data-keyref="Type_Real"><a href="../../../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
-        <td>The x coordinate of the origin, relative to the sprite&#39;s top left corner</td>
+        <td><span class="notranslate">xorig</span></td>
+        <td><span data-keyref="Type_Real">真实的</span></td>
+        <td><span class="notranslate">The x coordinate of the origin, relative to the sprite&#39;s top left corner.</span></td>
       </tr>
       <tr>
-        <td>yorig</td>
-        <td><span data-keyref="Type_Real"><a href="../../../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
-        <td>The y coordinate of the origin, relative to the sprite&#39;s top left corner</td>
+        <td><span class="notranslate">yorig</span></td>
+        <td><span data-keyref="Type_Real">真实的</span></td>
+        <td><span class="notranslate">The y coordinate of the origin, relative to the sprite&#39;s top left corner.</span></td>
       </tr>
     </tbody>
   </table>
-  <p> </p>
-  <h4>Returns</h4>
+  <p> </p>
+  <h4>返回</h4>
   <p class="code"><span data-keyref="Type_Void">N/A</span></p>
-  <p> </p>
-  <h4>Example:</h4>
-  <p class="code"><span data-field="title" data-format="default">sprite_replace</span>(spr_banner, &quot;gravemaker.png&quot;, 1, false, false, 0, 0);</p>
-  <p>The above code will replace the image asset referenced in <span class="inline2">spr_banner</span> with another one loaded from an external source.</p>
-  <p> </p>
-  <p> </p>
+  <p> </p>
+  <h4>例子。</h4>
+  <p class="code">sprite_replace(spr_banner, &quot;gravemaker.png&quot;, 1, false, false, 0, 0);</p>
+  <p>上述代码将把 &quot;spr_banner &quot;中索引的图片<span class="notranslate">asset</span> ，换成另一张从外部加载的图片。</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a data-xref="{title}" href="Sprite_Manipulation.htm">Sprite Manipulation</a></div>
-        <div style="float:right">Next: <a data-xref="{title}" href="sprite_duplicate.htm">sprite_duplicate</a></div>
+        <div style="float:left">回来了。<a href="Sprite_Manipulation.htm">雪碧操纵</a></div>
+        <div style="float:right">下一步。 <a href="sprite_duplicate.htm"><span class="notranslate">sprite_duplicate</span></a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2025 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright<span class="notranslate">YoYo Games Ltd.</span> 2022 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 sprite_replace

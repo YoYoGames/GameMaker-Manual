@@ -3,11 +3,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <meta name="generator" content="Adobe RoboHelp 2022" />
-  <title>Script Functions vs. Methods</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <title>脚本函数与方法</title>
   <meta name="topic-status" content="Draft" />
   <link rel="stylesheet" type="text/css" href="../../assets/css/default.css" />
-  <script src="../../assets/scripts/main_script.js" type="module"></script>
+  <script src="../../assets/scripts/main_script.js"></script>
   <meta name="template" content="../../assets/masterpages/Manual_Page.htt" />
   <meta name="rh-authors" content="Gurpreet S. Matharoo" />
   <meta name="topic-comment" content="Page explaining practical differences between Script Functions and Methods." />
@@ -15,23 +15,23 @@
   <meta name="search-keywords" content="calling methods, calling script functions, method performance" />
 </head>
 <body>
-  <h1><span data-field="title" data-format="default">Script Functions vs. Methods</span></h1>
-  <p>This page covers essential information about using <a href="Script_Functions.htm">script functions</a> vs. <a href="Method_Variables.htm">methods</a>.</p>
-  <h2>Basic Difference</h2>
-  <p>A <a href="Script_Functions.htm">script function</a> is created with this syntax:</p>
+  <h1>脚本函数与方法</h1>
+  <p>本页包括关于使用<span class="notranslate">script</span> 函数与方法的基本信息。</p>
+  <h2>基本差异</h2>
+  <p>用这种语法创建一个<a href="Script_Functions.htm">脚本函数</a>。</p>
   <p class="code">function name()<br />
     {<br />
         code;<br />
     }</p>
-  <p>A <a href="Method_Variables.htm">method variable</a> is created with this syntax:</p>
+  <p>一个<a href="Method_Variables.htm">方法变量</a>是用这种语法创建的。</p>
   <p class="code">name = function()<br />
     {<br />
         code;<br />
     }</p>
-  <p>You should use the first syntax in <a href="../../The_Asset_Editors/Scripts.htm">Script assets</a>, to create global functions that can be called from anywhere in your game. Execution of script functions retains the scope that was in use when the function was called.</p>
-  <p>You should use the second syntax when creating functions in <a href="Structs.htm">structs/constructors</a> and instances. This syntax creates a method variable containing a function that is bound to the struct or instance that created the function and always uses that scope during execution.</p>
-  <h2>Direct Calls</h2>
-  <p>You can call both script functions and methods directly by using parentheses <span class="inline2">()</span>,  just like a <a href="Runtime_Functions.htm">runtime function</a>:</p>
+  <p>你应该使用<span class="notranslate">scripts</span> 中的第一个语法来创建全局函数，这些函数可以从你游戏中的任何作用域调用。</p>
+  <p>在<a href="Structs.htm">结构体/构造体</a>和<span class="notranslate">objects</span> 中创建函数时，你应该使用第二种语法。这种语法创建了一个包含方法的变量。</p>
+  <h2>直接通话</h2>
+  <p>你可以通过使用圆括号<span class="inline2">（）</span>直接调用<span class="notranslate">script</span> 函数和方法，就像<a href="Runtime_Functions.htm">运行时函数</a>一样。</p>
   <p class="code">// Create the function<br />
     function reset_x()<br />
     {<br />
@@ -41,35 +41,9 @@
     // Call the function<br />
     reset_x();
   </p>
-  <p>You can also use the function <a href="../GML_Reference/Asset_Management/Scripts/script_execute.htm"><span class="inline2">script_execute()</span></a> to run a script function.</p>
-  <h2 id="h">Overridden Script Functions</h2>
-  <p>Calls to script functions are optimised at a compiler level. This may result in function overrides not being respected if script functions are defined inside Objects.</p>
-  <p>Consider the following example code for a parent object and a child object:</p>
-  <p class="code">/// obj_parent: Create event<br />
-    function talk()<br />
-    {<br />
-       say_hello();<br />
-    }<br />
-    function say_hello()<br />
-    {<br />
-       show_message(&quot;I am the parent!&quot;);<br />
-    }<br />
-    <br />
-    /// obj_child: Create event<br />
-    event_inherited();<br />
-    <br />
-    function say_hello()<br />
-    {<br />
-       show_message(&quot;I am the child!&quot;);<br />
-    }<br />
-    <br />
-    talk();
-  </p>
-  <p>Since <span class="inline2">talk</span> is called inside the child, you would expect it to call the overridden <span class="inline2">say_hello</span> from the child. However since the functions are defined with the script function syntax, it will instead call the parent&#39;s <span class="inline2">say_hello</span> and print <span class="inline2">&quot;I am the parent!&quot;</span>, as it calls the defined script function with that name directly without looking up the function assigned to the variable.</p>
-  <p>This is easily fixed by using the method variable syntax, i.e. <span class="inline2">say_hello = function()</span>, to define all your functions inside the Objects, as recommended at the start of this page. This way all calls are done through the method variable and the function assigned to the variable is called.</p>
-  <p>Alternatively, you can explicitly call the method variable using <span class="inline2">self</span>, e.g. <span class="inline2">self.say_hello()</span> so it always calls whichever function is assigned to the variable at the time of the call, instead of the defined script function with the same name.</p>
-  <h2>Indirect Calls: Methods</h2>
-  <p>You can store a reference to a method in another variable, to call it later through that different variable:</p>
+  <p>你也可以使用函数 <a href="../GML_Reference/Asset_Management/Scripts/script_execute.htm"><span class="inline">script_execute()</span></a>来运行一个<span class="notranslate">script</span> ，尽管它现在是一个传统的函数，不建议使用。</p>
+  <h2>间接呼叫。方法</h2>
+  <p>你可以在另一个变量中存储一个方法的引用，以便以后通过这个不同的变量调用它。</p>
   <p class="code">// Create method<br />
     reset_alpha = function()<br />
     {<br />
@@ -80,11 +54,11 @@
     temp_1 = reset_alpha;<br />
     temp_1();
   </p>
-  <p class="note"><span class="note">NOTE</span> See how the code doesn&#39;t put <span class="inline2">()</span> after <span class="inline2">reset_alpha</span>. That&#39;s because we&#39;re reading the method reference and not calling it.</p>
-  <p>In this example, calling <span class="inline2">temp_1</span> will call <span class="inline2">reset_alpha</span>, as it stores a reference to that <strong>method</strong>.</p>
-  <p>You are completely fine to pass around a method reference in this way. When using script functions though, there is a caveat.</p>
-  <h2>Indirect Calls: Script Functions</h2>
-  <p>You can also store a reference to a script function, in another variable:</p>
+  <p class="note"><span class="note">注意</span>看到代码中没有在<span class="inline2">reset_alpha</span>后面加上<span class="inline2">（）</span>。这是因为我们正在读取方法的引用，而不是调用它。</p>
+  <p>在这个例子中，调用<span class="inline2">temp_1</span>将调用<span class="inline2">reset_alpha</span>，因为它存储了对该<strong>方法</strong>的引用。</p>
+  <p>你完全可以用这种方式来传递方法引用。但在使用<span class="notranslate">script</span> 函数时，有一个注意点。</p>
+  <h2>间接调用。 <span class="notranslate">Script</span> 职能</h2>
+  <p>你也可以在另一个变量中存储对一个<span class="notranslate">script</span> 函数的引用。</p>
   <p class="code">// Create function<br />
     function reset_x()<br />
     {<br />
@@ -94,30 +68,30 @@
     // Store reference<br />
     temp_1 = reset_x;
   </p>
-  <p>Now, you can call <span class="inline2">temp_1</span> by doing this:</p>
+  <p>现在，你可以通过这样做来调用<span class="inline2">temp_1</span>。</p>
   <p class="code">temp_1();</p>
-  <p>However, since this variable refers to a <strong>script function</strong>, it first has to convert it into a <strong>method</strong>, and then call it.</p>
-  <p>This can easily result in increased memory usage, especially if you&#39;re calling it every frame, because the engine now has to create a new method every frame for this call. </p>
-  <p>So, what is the solution?</p>
+  <p>然而，由于这个变量指的是一个<strong>脚本函数</strong>，它首先要把它转换成一个<strong>方法</strong>，然后再调用它。</p>
+  <p>这很容易导致内存占用的增加，特别是如果你每一帧都调用它的话，因为引擎现在不得不每一帧都为这个调用创建一个新的方法。 </p>
+  <p>那么，解决方案是什么呢？</p>
   <ul class="colour">
-    <li>Use <a href="../GML_Reference/Asset_Management/Scripts/script_execute.htm"><span class="inline">script_execute()</span></a> to call the script function via its reference, which will not create a method.</li>
-    <li>Or, the better solution: convert your script function <a href="../GML_Reference/Variable_Functions/method.htm">into a method</a> when passing its reference.</li>
+    <li>使用 <a href="../GML_Reference/Asset_Management/Scripts/script_execute.htm"><span class="inline">script_execute()</span></a>来通过其引用调用<span class="notranslate">script</span> 函数，这不会创建一个方法。</li>
+    <li>或者，更好的解决办法是：在传递函数的引用时，将你的<span class="notranslate">script</span> 函数转换<a href="../GML_Reference/Variable_Functions/method.htm">为一个方法</a>。</li>
   </ul>
-  <p>To implement the second solution, your code would look like this:</p>
+  <p>要实现第二个解决方案，你的代码将是这样的。</p>
   <p class="code">temp_1 = method(undefined, reset_x);</p>
-  <p>This is creating a new method from the <span class="inline2">reset_x</span> script function, using <a href="../GML_Reference/Variable_Functions/method.htm"><span class="inline">method()</span></a>.</p>
-  <p>Calling <span class="inline2">temp_1()</span> now using parentheses will not increase memory usage, as the method is already created for you.</p>
-  <p>Again, this only applies if you&#39;re calling a script function <strong>indirectly</strong>, via a reference stored in a variable. Calling it directly doesn&#39;t cause such problems.</p>
-  <p> </p>
-  <p> </p>
+  <p>这是从<span class="inline2">reset_x</span>脚本函数中创建一个新方法，使用 <a href="../GML_Reference/Variable_Functions/method.htm"><span class="inline">method()</span></a>.</p>
+  <p>现在使用括号调用<span class="inline2">temp_1()</span>不会增加内存的使用，因为方法已经为你创建了。</p>
+  <p>同样，这只适用于你通过存储在变量中的引用<strong>间接</strong>调用<span class="notranslate">script</span> 函数的情况。直接调用它不会导致这种问题。</p>
+  <p> </p>
+  <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div>Back: <a data-xref="{title}" href="GML_Overview.htm">GML Code Overview</a></div>
-        <div>Next: <a data-xref="{title}" href="Functions/Static_Variables.htm">Static Variables</a></div>
+        <div>返回。<a data-xref="{title}" href="GML_Overview.htm">GML代码概述</a></div>
+        <div>下一步。<a data-xref="{title}" href="Functions/Static_Variables.htm">静态变量</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2025 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright<span class="notranslate">YoYo Games Ltd.</span> 2022 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 Script Functions vs. Methods

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>成就_登录</title>
+  <meta name="generator" content="Adobe RoboHelp 2019" />
+  <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
+  <script src="../../../../assets/scripts/main_script.js"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Reference page for achievement_login" />
+  <meta name="rh-index-keywords" content="achievement_login,achievement_our_info" />
+  <meta name="search-keywords" content="achievement_login,achievement_our_info" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>成就_登录</h1>
+  <p>这个函数将用户登录到适当的排行榜和成就服务。如果该服务<i>不可</i>用，用户将被登录到一个 &quot;假装的 &quot;游戏中心，所有的成就和分数都被储存在设备上，这样当
+    这样，当实际的服务可用时，这些细节可以被上传。该函数将触发一个回调的<a href="../../../../The_Asset_Editors/Object_Properties/Async_Events/Social.htm">Social Asynchronous Event</a>，其中包括 <a href="../../../GML_Overview/Variables/Builtin_Global_Variables/async_load.htm"><tt>异步加载</tt></a>    地图被填充了相关的键/值对。该<tt>DS地图</tt>的<i>id</i>键用于识别正确的回调（任何给定的异步事件可以有一个以上的触发函数），并将与<b>常数</b> <tt>achievement_our_info</tt>以及每个挑战的一些其他键/值对配对。该地图的具体内容如下所示。</p>
+  <ul class="colour">
+    <li>&quot;<b>id</b>&quot; - 对于这个函数，它应该是<tt>achievement_our_info</tt></li>
+    <li>&quot;<b>name</b>&quot; - 当前登录的用户的名字。</li>
+    <li>&quot;<b>playerid</b>&quot; - 当前登录的用户的唯一玩家ID。</li>
+  </ul>
+  <p> </p>
+  <h4><b>语法。</b></h4>
+  <p class="code">achievement_login()</p>
+  <p> </p>
+  <h4>返回。</h4>
+  <p class="code">N/A</p>
+  <p> </p>
+  <h4>扩展实例。</h4>
+  <p>以下代码可能会在你的游戏开始时被调用，或者从你放置在<span class="notranslate">object</span> 的一个特殊按钮<span class="notranslate">room</span> ，并将要求玩家登录他们的谷歌游戏服务或苹果游戏中心账户。</p>
+  <p class="code">achievement_login();</p>
+  <p>这将发出一个关于当前玩家信息的请求，并生成一个异步回调，其中包含特殊的<tt>async_load</tt>DS map，包含以下数据。</p>
+  <p class="code">var ident = ds_map_find_value(async_load, &quot;id&quot;);<br/> if ident == achievement_our_info<br/>     {
+    <br/>     var name = ds_map_find_value(async_load, &quot;name&quot; );<br/>     var playerid = ds_map_find_value(async_load, &quot;playerid&quot; );<br/>     global.OurName = name;<br/>     global.OurId = playerid;<br/>     if os_type == os_android<br/>            {
+    <br/>         achievement_load_leaderboard(&quot;CgkIs9_51u0PEAIQBw&quot;, 1, 100, achievement_filter_friends_only);<br/>         }
+    <br/>     else
+    <br/>         {
+    <br/>         achievement_load_leaderboard(&quot;leaderboard1id&quot;, 1, 100, achievement_filter_friends_only);<br/>         }
+    <br/>     achievement_get_challenges();
+    <br/>     achievement_load_friends();
+    <br/>     achievement_load_progress();
+    <br/>     }
+  </p>
+  <p>上述代码在<b>社交异步事件</b>中检查返回的<tt>DS地图</tt>，如果它的 &quot;id &quot;与被检查的常量相匹配，它就会在调用其他函数之前，通过地图将所有不同的值存储在变量中，然后<span class="notranslate">loops</span> 。
+    的函数来准备排行榜、挑战和好友列表。</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">返回。<a href="Achievements_And_Leaderboards.htm">成就和排行榜</a></div>
+        <div style="float:right">下一步。 <a href="achievement_logout.htm"><span class="notranslate">achievement_logout</span></a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright<span class="notranslate">YoYo Games Ltd.</span> 2021 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+achievement_login
+achievement_our_info
+-->
+  <!-- TAGS
+achievement_login
+-->
+</body>
+</html>

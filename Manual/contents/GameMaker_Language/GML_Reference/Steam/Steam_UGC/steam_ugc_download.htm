@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>蒸汽_ugc_download</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
+  <script src="../../../../assets/scripts/main_script.js"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Reference page for steam_ugc_download" />
+  <meta name="rh-index-keywords" content="steam_ugc_download" />
+  <meta name="search-keywords" content="steam_ugc_download" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>蒸汽_ugc_download</h1>
+  <p>通过这个函数，你可以为任何给定的UGC项目下载一个预览图片。<tt>ugc_handle</tt>是图片的唯一识别值（你可以使用函数 <a href="steam_ugc_send_query.htm"><tt>steam_ugc_send_query()</tt></a>)，目标文件名是你希望在下载完成后给予图像文件的名称(以及在<span class="notranslate">path</span> 沙盒中的本地<span class="notranslate">Steam</span> )。</p>
+  <p>当使用这个函数时，它将触发一个<a href="../../../../The_Asset_Editors/Object_Properties/Async_Events/Steam.htm">Steam异步</a>事件，报告所请求的图像文件的细节，包含以下键/值对，在 <a href="../../../GML_Overview/Variables/Builtin_Global_Variables/async_load.htm"><tt>async_load</tt></a>ds_map。</p>
+  <ul class="colour">
+    <li>&quot;<b>id</b>&quot; - 调用函数返回的异步ID</li>
+    <li>&quot;<b>result</b>&quot; - 操作的结果（一个实值）。这将是<span class="notranslate">GML</span> 常数<tt>ugc_result_success</tt>或其他实数。所以你应该检查这个常数，以确保调用成功，否则就会出现工作不正常的情况。其余可能返回的值显示为<span class="notranslate">Steam</span> &quot;EResult &quot;的结果，你应该在SDK头文件中看到<tt>steamclientpublic.h</tt>的所有89个可能值。</li>
+    <li><b>&quot;event_type</b>&quot; - 这个键将持有<b>&quot;ugc_download</b>&quot;的值。</li>
+    <li>&quot;<b>original_filename</b>&quot; - 这个键保存<i>服务器上</i>图像文件的原始名称（一个<span class="notranslate">string</span> ）。</li>
+    <li>&quot;<b>dest_filename</b>&quot; - 这个键保存你传入的图像文件名（一个<span class="notranslate">string</span> ）。</li>
+    <li>&quot;<b>ugc_handle</b>&quot; - 这个键保存你传递给调用函数的<tt>ugc_handle</tt>值。</li>
+  </ul>
+  <p> </p>
+  <h4>语法。</h4>
+  <p class="code">steam_ugc_download(ugc_handle, dest_filename);</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>争论</th>
+        <th>描述</th>
+      </tr>
+      <tr>
+        <td><span class="notranslate">ugc_handle</span></td>
+        <td>要下载的预览的唯一手柄。</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">dest_filename</span></td>
+        <td>用来保存预览的文件名。</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>返回。</h4>
+  <p class="code">Async ID</p>
+  <p> </p>
+  <h4>扩展实例。</h4>
+  <p>在这个例子中，我们首先调用函数并将异步ID值存储在一个变量中。</p>
+  <p class="code">steam_get = steam_ugc_download(steam_handle, &quot;\UGC\Preview_file.png&quot;);</p>
+  <p>然后，这将向<span class="notranslate">Steam</span> API发送一个文件请求，产生一个异步事件，我们将按如下方式处理。</p>
+  <p class="code">var event_id = async_load[? &quot;id&quot;];<br />
+    if event_id == steam_get<br />
+    {<br />
+        var type = async_load[? &quot;event_type&quot;];<br />
+        if type == &quot;ugc_download&quot;<br />
+        {<br />
+            sprite_delete(preview_sprite);<br />
+            preview_sprite = sprite_add(async_load[? &quot;dest_filename&quot;], 0, false, false, 0, 0);<br />
+        }<br />
+    }</p>
+  <p>上面的代码检查事件类型，然后从下载的图像中创建一个<span class="notranslate">sprite</span> 。</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">返回。<a href="Steam_UGC.htm">UGC</a></div>
+        <div style="float:right">下一步。 <a href="steam_is_screenshot_requested.htm"><span class="notranslate">steam_is_screenshot_requested</span></a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright<span class="notranslate">YoYo Games Ltd.</span> 2022 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+steam_ugc_download
+-->
+  <!-- TAGS
+steam_ugc_download
+-->
+</body>
+</html>

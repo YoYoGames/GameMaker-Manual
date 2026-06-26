@@ -3,10 +3,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>Variables And Variable Scope</title>
-  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <title>变量和变量范围</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
   <link rel="stylesheet" href="../../assets/css/default.css" type="text/css" />
-  <script src="../../assets/scripts/main_script.js" type="module"></script>
+  <script src="../../assets/scripts/main_script.js"></script>
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Page outlining variables and their scoping in GML" />
   <meta name="rh-index-keywords" content="Variables And Variable Scope" />
@@ -14,108 +14,70 @@
 </head>
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
-  <h1><span data-field="title" data-format="default">Variables And Variable Scope</span></h1>
-  <p>Variables are the basic unit for most programming operations. Like any programming language, <b>GML</b> uses them.</p>
-  <p>They are used to store information in the device&#39;s memory for later (or instant) use, and given a name so you can refer to them in <a href="Runtime_Functions.htm">runtime</a> and <a href="Script_Functions.htm">script functions</a>.</p>
-  <p>A variable in <b>GML</b> can store many different <a data-xref="{title}" href="Data_Types.htm">Data Types</a>, like a real number (e.g.: <span class="inline2">100</span>, <span class="inline2">2.456575</span>, <span class="inline2">-56</span>, etc.), a string (e.g.: <span class="inline2">&quot;Hello world!&quot;</span>), an integer (e.g.: <span class="inline2">1</span>, <span class="inline2">556</span>, <span class="inline2">-7</span>), or a boolean (<span class="inline2">true</span> or <span class="inline2">false</span>), as well as other things:</p>
+  <h1>变量和变量范围</h1>
+  <p>像任何编程语言一样，<b>GML</b>使用<i>变量</i>作为大多数编程操作的基本单位。变量用于在设备内存中存储信息，以便以后（或即时）使用，它们被赋予一个名称，以便你在<span class="notranslate">runtime</span> 和<span class="notranslate">script</span> 函数中引用它们。<b>GML</b>中的一个变量可以存储许多不同的 <a href="Data_Types.htm"><strong>数据类型</strong></a>如实数（如：100，2.456575，-56等），<span class="notranslate">string</span> （如：&quot;Hello world!&quot;），整数（如：1，556，-7），或布尔值（<span class="inline">true</span> 或 <span class="inline">false</span> ），以及其他东西。</p>
   <p class="code">var _num = 126.4545;<br />
     var _str = &quot;Hello World&quot;;<br />
     new_num = _num * 100;<br />
     global.my_string = _str + &quot; I said&quot;;</p>
-  <p>You can also use variables to hold the values returned from functions, for example:</p>
+  <p>你也可以使用变量来保存从函数返回的值，例如。</p>
   <p class="code">var _id = instance_nearest(x, y, obj_Tree);<br />
     root = sqrt(1000);<br />
     global.str = string_upper(&quot;Hello World&quot;);</p>
-  <p>So, a variable is something that we can name and use to store a value for later use in one or more operations.</p>
-  <p>A good &quot;real world&quot; example of a variable is the speed of something, e.g. the speed of a car. A car&#39;s speed is clearly <em>variable</em>, because at some point in time the car will be standing still (i.e. its speed is equal to 0), at another point in time the car will be driving (i.e. its speed is greater than 0). When the car accelerates or slows down, its speed changes. So it makes sense that if you want to store the car&#39;s speed in a <span data-keyref="GameMaker Name">GameMaker</span> game that you store it in a <strong>variable</strong>. In the game, you&#39;d e.g. set the variable to 0 when the game starts and change it whenever you want the car to change its speed.</p>
-  <h2>Variable Assignment</h2>
-  <p>In GML, like in many programming languages, you first have to create a variable &quot;assignment&quot; before you can use it. This basically means that you tell the computer the name you wish to use for the variable and assign it an initial value. The variable is then given a place in memory to store the value or perform operations on it. A variable assignment takes the form:</p>
+  <p>因此，变量是一种我们可以命名的东西，用来存储一个值，以便以后在一个或多个操作中使用。变量的一个很好的 &quot;现实世界 &quot;的例子是<b>π𝜋 </b>......这是一个人人都知道的变量，它保存着3.14159265（等等）的值。为什么我们的语言里有这个变量？嗯，对别人说 &quot;π &quot;比说 &quot;三点一四一五九二六五 &quot;要容易得多!像这样的命名使生活变得简单了许多，这也意味着如果该变量的值发生变化，我们不必到处改变数字，因为变量的<i>名称</i>仍然是一样的。</p>
+  <p>在<b>GML</b>中形成变量时，它必须有一个以字母或下划线符号&quot;_&quot;开头的名称，并且只能包含字母、数字和下划线符号&quot;_&quot;，最大长度为64个符号。因此，有效的变量是像 <span class="inline">fish</span>, <span class="inline">foo_bar</span>, <span class="inline">num1</span>, 或 <span class="inline">_str</span>, 而无效的变量是 <span class="inline">6fish</span>, <span class="inline">foo bar</span>, 或 <span class="inline">*num</span> 。</p>
+  <p>现在，在许多编程语言中，你需要在使用变量之前创建一个 &quot;赋值&quot;。这基本上意味着，你告诉计算机你希望用于该变量的名称，并为其分配一个初始值。然后，该变量在内存中被赋予一个位置来存储该值或对其进行操作。分配变量的形式为：。</p>
   <p class="code">&lt;variable&gt; = &lt;expression&gt;;</p>
-  <p>An expression can be a simple value but can also be more complicated, so, rather than assigning a value to a variable, you can also add a value to the current value of the variable using <span class="inline2">+=</span>, for example:</p>
+  <p>一个表达式可以是一个简单的值，但也可以更复杂，因此，与其说是给变量赋值，还不如说是用 <span class="inline"><b>+=</b></span> ，给变量的当前值添加一个值，比如说。</p>
   <p class="code">a = 100;   // Assigning a simple value<br />
     b = 200;<br />
     c = 300;<br />
     a += b;    // Assigning with operation<br />
     a = b + c; // Assigning with expression</p>
-  <p class="note"><span class="note">NOTE</span> The GameMaker Language will also accept <span class="inline2">:=</span> for assignments, although this is not typically the most common way to do it:</p>
+  <p class="note"><span class="note">注意</span> <span class="notranslate">GameMaker Language</span> 也会接受 &quot;<span class="inline">:=</span>&quot; 作业，尽管这通常不是最常见的方式。</p>
   <p class="code">&lt;variable&gt; := &lt;expression&gt;;</p>
-  <p>Similarly, you can subtract using <span class="inline2">-=</span>, multiply using <span class="inline2">*=</span>, divide using <span class="inline2">/=</span>, or use bitwise operators using <span class="inline2">|=</span>, <span class="inline2">&amp;=</span>, or <span class="inline2"><b>^=</b></span>. You can also add or subtract <i>one</i> from a value using <span class="inline2"><b>++</b></span>, <span class="inline2"><b>--</b></span>. For further information see the section on <a data-xref="{title}" href="Expressions_And_Operators.htm">Expressions And Operators</a>.</p>
-  <p>Note that you <i>cannot</i> do the following (or any variation):</p>
+  <p>同样，你可以用 <span class="inline"><b>-=</b></span> 来做减法，用 <span class="inline"><b>*=</b></span> 来做乘法，用 <span class="inline"><b>/=</b></span> 来做除法，或者用 <span class="inline"><b>|=</b></span>, <span class="inline"><b>&amp;=</b></span>, 或 <span class="inline"><b>^=</b></span> 来<i>做位</i>运算。你还可以用 <span class="inline"><b>++</b></span>, <span class="inline"><b>--</b></span> 来做加减法。更多信息请参见 "<a href="Expressions_And_Operators.htm">表达式和运算符</a>"部分。</p>
+  <p>请注意，你<i>不能</i>做以下事情（或任何变化）。</p>
   <p class="code">a = b = c = 4;</p>
-  <p>And instead it should be done as:</p>
+  <p>而应该是这样做的。</p>
   <p class="code">a = 4;<br />
     b = 4;<br />
     c = 4;</p>
-  <h2>Naming Rules</h2>
-  <p>When forming variables in <b>GML</b> they must have a name that starts with a letter or the underscore symbol <span class="inline2">_</span> and can contain only letters, numbers, and the underscore symbol <span class="inline2">_</span> with a maximum length of 64 symbols. So, valid variable names are things like <span class="inline2">fish</span>, <span class="inline2">foo_bar</span>, <span class="inline2">num1</span>, or <span class="inline2">_str</span>, while invalid ones would be <span class="inline2">6fish</span>, <span class="inline2">foo bar</span>, or <span class="inline2">*num</span>.</p>
-  <p><a class="dropspot" data-condition="Export:StableOnly" data-rhwidget="DropSpot" data-target="drop-down" href="#">Reserved Variable Names</a></p>
-  <div class="droptext" data-condition="Export:StableOnly" data-targetname="drop-down">
-    <p class="dropspot">There are some reserved internal variable names that you cannot use for your own variables: <span class="inline2">player_avatar_sprite</span>, <span class="inline2">player_avatar_url</span>, <span class="inline2">player_id</span>, <span class="inline2">player_local</span>, <span class="inline2">player_name</span>, <span class="inline2">player_type</span>, <span class="inline2">player_user_id</span>, <span class="inline2">player_prefs</span>, <span class="inline2">managed</span>.</p>
-  </div>
-  <p>You cannot use the names of your assets (e.g. Sprites, Scripts, etc.) for your variables, unless you specify an instance or struct (or keywords like <a href="Variables/Global_Variables.htm"><span class="inline2">global</span></a>, <a href="Instance_Keywords.htm"><span class="inline2">self</span></a>) before such a name, e.g. if you have a script called <span class="inline2">Script1</span>, a variable called <span class="inline2">Script1</span> can be defined as <span class="inline2">self.Script1 = &lt;value&gt;;</span> in an instance or a struct. Doing this explicitly defines the scope of such a variable. For more information, see the section below.</p>
-  <h2 id="h">Variable Scope</h2>
-  <p>Every variable in <span data-keyref="GameMaker Name">GameMaker</span> belongs to a scope. When any code is being executed, it has a &quot;current scope&quot; which determines what variables are accessible (i.e. to be read and modified).</p>
-  <p>The scope of a variable is determined by where you first define the variable, and from that point on, the variable belongs to that scope.</p>
-  <h3>Types of Scope</h3>
-  <p>By default, when you assign variables in <a data-xref="{title}" href="../../The_Asset_Editors/Object_Properties/Object_Events.htm">Object Events</a>, they&#39;re created as <strong>instance </strong>variables, however there are actually five main identifier types you can program with <span data-keyref="GameMaker Name">GameMaker</span>, each with its own <strong>scope</strong>.</p>
-  <p>The different kinds of identifiers and their scopes are all outlined in the following pages:</p>
+  <p>上面显示的变量分配都是<strong>实例 </strong>变量，然而，当你用<span data-keyref="GameMaker Name">GameMaker</span>编程时，实际上还有其他三个主要的变量类别，每一个都有自己的<strong>范围 </strong>（可以认为是它的操作区域，或者说范围）。不同种类的变量和它们的范围在下面几页中都有概述。</p>
   <ul class="colour">
-    <li><a data-xref="{title}" href="Variables/Global_Variables.htm">Global Variables</a></li>
-    <li><a data-xref="{title}" href="Variables/Constants.htm">Constants</a></li>
-    <li><a data-xref="{title}" href="Variables/Instance_Variables.htm">Instance Variables</a></li>
-    <li><a data-xref="{title}" href="Functions/Static_Variables.htm">Static Variables</a></li>
-    <li><a data-xref="{title}" href="Variables/Local_Variables.htm">Local Variables</a></li>
+    <li><a href="Variables/Local_Variables.htm">本地变量</a></li>
+    <li><a href="Variables/Instance_Variables.htm">实例变量</a></li>
+    <li><a href="Variables/Global_Variables.htm">全局变量</a></li>
+    <li><a href="Variables/Constants.htm">常数</a></li>
   </ul>
-  <p>Scopes are not entirely separated and some scopes are always accessible from other scopes. In case of an <a href="../../The_Asset_Editors/Object_Properties/Object_Events.htm">Object Event</a> being executed, the following rules will apply:</p>
-  <ul class="colour">
-    <li><strong>Global variables and constants</strong> are always available.</li>
-    <li><strong>The instance variables for the current instance</strong> are available while in the scope of that instance.
-      <ul>
-        <li>The same applies to <strong>struct variables</strong> while in the scope of a struct, and the <strong>static variables of a function</strong> while that function is being executed.</li>
-      </ul>
-    </li>
-    <li><strong>Any local variables initialised in the current event or function call</strong> are available only till the end of the event or call.</li>
-  </ul>
-  <h3>Changing Scope</h3>
-  <p>You can change the current scope temporarily to access variables from different scopes. This can mainly be done in two ways:</p>
-  <ul class="colour">
-    <li>The dot operator, e.g. <span class="inline2">a.b</span>, which means &quot;the variable <span class="inline2">b</span> of the scope <span class="inline2">a</span>&quot;.</li>
-    <li>The <a data-xref="{title}" href="Language_Features/with.htm">with</a> statement, e.g. <span class="inline2">with(a) {b = 10;}</span>, which means &quot;execute the following lines of code in the scope of <span class="inline2">a</span>&quot;.</li>
-  </ul>
-  <p>The variable <span class="inline2">a</span> can be either an instance or a struct. You can also use one of the <a data-xref="{title}" href="Instance_Keywords.htm">Instance Keywords</a> or the <span class="inline2">global</span> keyword.</p>
-  <p>Rules for the current scope changing are documented in <a data-xref="{text}" href="Instance Keywords/self.htm#h">When &#39;self&#39; changes</a>.</p>
-  <ul class="colour">
-  </ul>
-  <h2>Built-in Variables</h2>
-  <p>The GameMaker Language has multiple different built-in variables that can have any of the above-mentioned scopes (except <i>local</i>). These variables are special as they are included by default as part of the objects and the rooms in the game world. Some built-in global variables are listed in the section mentioned above, and the different parts of the manual for sprites, rooms, objects, etc., also outline the built-in variables available in each case.</p>
-  <p>Examples of built-in instance variables are:</p>
+  <p><span class="notranslate">GameMaker Language</span> 也有多个不同的内置变量，这些变量可以有上述任何范围（除了<i>局部</i>）。这些变量很特别，因为它们默认包含在游戏世界中的<span class="notranslate">objects</span> 和<span class="notranslate">rooms</span> 的一部分。一些内置的全局变量被列在上述章节中，手册中关于<span class="notranslate">sprites</span>,<span class="notranslate">rooms</span>,<span class="notranslate">objects</span> 等的不同部分也概述了每种情况下可用的内置变量。这种内置实例变量的例子有：。</p>
   <ul class="colour">
     <li><span class="inline"><a href="../GML_Reference/Asset_Management/Sprites/Sprite_Instance_Variables/sprite_index.htm">sprite_index</a></span></li>
     <li><a href="../GML_Reference/Asset_Management/Paths/Path_Variables/path_index.htm"><span class="inline">path_scale</span></a></li>
     <li><a href="../GML_Reference/Asset_Management/Instances/Instance_Variables/speed.htm"><span class="inline">speed</span></a></li>
   </ul>
-  <p>And examples of built-in global variables are:</p>
+  <p>而内置全局变量的例子是：。</p>
   <ul class="colour">
-    <li><span class="inline"><a data-xref="{title}" href="../GML_Reference/Cameras_And_Display/Cameras_And_Viewports/view_xport.htm">view_xport</a></span></li>
-    <li><span class="inline"><a data-xref="{title}" href="../GML_Reference/Asset_Management/Instances/instance_count.htm">instance_count</a></span></li>
-    <li><span class="inline"><a data-xref="{title}" href="../GML_Reference/Asset_Management/Rooms/room.htm">room</a></span></li>
+    <li><a href="../GML_Reference/Cameras_And_Display/Cameras_And_Viewports/view_xport.htm"><span class="inline">view_xport</span></a></li>
+    <li><a href="../GML_Reference/OS_And_Compiler/GM_version.htm"><span class="inline">GM_version</span></a></li>
+    <li><a href="../GML_Reference/Asset_Management/Rooms/room.htm"><span class="inline">room</span></a></li>
   </ul>
-  <p>Most built-in variables can be changed and set like other variables, and some can even be <a data-xref="{title}" href="Arrays.htm">Arrays</a>, only you don&#39;t have to set them to create them like you would a regular variable as they will already be initialised to a default value.</p>
-  <h2>Variable Functions</h2>
-  <p>Finally, there are a number of functions that are dedicated to setting, getting or checking variables in some way, available from the following page:</p>
+  <p>大多数内置变量可以像其他变量一样被改变和设置，有些甚至可以是<a href="Arrays.htm">数组</a>，只是你不必像普通变量那样设置它们来创建它们，因为它们已经被初始化为一个默认值。</p>
+  <p>最后，有一些专门用于设置、获取或以某种方式检查变量的函数，可从以下页面获得。</p>
   <ul class="colour">
-    <li><a href="../GML_Reference/Variable_Functions/Variable_Functions.htm">Variable Functions</a></li>
+    <li><a href="../GML_Reference/Variable_Functions/Variable_Functions.htm">变量函数</a></li>
   </ul>
-  <p> </p>
-  <p> </p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a href="GML_Overview.htm">GML Overview</a></div>
-        <div style="float:right">Next: <a data-xref="{title}" href="Data_Types.htm">Data Types</a></div>
+        <div style="float:left">返回。<a href="GML_Overview.htm">GML概述</a></div>
+        <div style="float:right">下一步。<a data-xref="{title}" href="Data_Types.htm">数据类型</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2025 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright<span class="notranslate">YoYo Games Ltd.</span> 2022 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 variables

@@ -3,10 +3,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>Guide To Primitives And Vertex Building</title>
-  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <title>基元和顶点构建指南</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
   <link rel="stylesheet" href="../assets/css/default.css" type="text/css" />
-  <script src="../assets/scripts/main_script.js" type="module"></script>
+  <script src="../assets/scripts/main_script.js"></script>
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Page that explains how to set up and use primitives and vertex buffers" />
   <meta name="rh-index-keywords" content="Guide To Primitives And Vertex Building" />
@@ -14,34 +14,32 @@
 </head>
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
-  <h1><span data-field="title" data-format="default">Guide To Primitives And Vertex Building</span></h1>
-  <p>This guide briefly covers how to build and use <a href="../GameMaker_Language/GML_Reference/Drawing/Primitives/Primitives_And_Vertex_Formats.htm">primitives</a> using custom <strong>vertex formats</strong> and <strong>vertex buffers</strong>.</p>
-  <p>In general when you start working with 3D, special effects, complex drawing processes or shaders you don&#39;t need to worry too much about the vertex format being used, since <span data-keyref="GameMaker Name">GameMaker</span> will automatically set up and pass through the <a class="glossterm" data-glossterm="vertex" href="#">vertex</a> data for you. However, sometimes it is necessary to create your own vertex data and format it to suit, especially when you need to boost speed, or wish to pass in extra information. For example the standard vertex format includes an x, y, z 3D position, colour (with alpha), and UV texture coordinates, which, if you were creating it yourself, would look something like this: </p>
-  <h4 id="passthrough_vertex_format">Passthrough Vertex Format:</h4>
+  <h1>原始材料和<span class="notranslate">Vertex</span> 建筑指南</h1>
+  <p>本指南简要介绍了如何使用自定义<strong>顶点格式</strong>和顶点<strong>缓冲器</strong>构建和使用<a href="../GameMaker_Language/GML_Reference/Drawing/Primitives/Primitives_And_Vertex_Formats.htm">基元</a>。 </p>
+  <p>一般来说，当你开始使用3D、特效、复杂的绘图过程或<span class="notranslate">shaders</span> ，你不需要太担心正在使用的<span class="notranslate">vertex</span> 格式，因为<span data-keyref="GameMaker Name">GameMaker</span>会自动为你设置和传递<a class="glossterm" data-glossterm="顶点" href="#">顶点</a>数据。然而，有时有必要创建你自己的<span class="notranslate">vertex</span> 数据并将其格式化，特别是当你需要提高速度，或希望传递额外的信息。例如，标准的<span class="notranslate">vertex</span> 格式包括x、y、z三维位置、颜色（含alpha）和UV<span class="notranslate">texture</span> 坐标，如果你自己创建它，看起来会是这样的。</p>
   <p class="code">vertex_format_begin();<br />
     vertex_format_add_position_3d();<br />
     vertex_format_add_colour();<br />
-    vertex_format_add_texcoord();<br />
+    vertex_format_add_textcoord();<br />
     my_format = vertex_format_end();</p>
-  <p>However, if you are only using (for example) a shader to manipulate the position of the vertex, then there would be no need to pass through colour or texture data. In this case you would create your own format as follows: </p>
-  <h4>Custom Vertex Format:</h4>
+  <p>但是，如果你只使用（例如）一个<span class="notranslate">shader</span> 来操作<span class="notranslate">vertex</span> 的位置，那么就不需要通过颜色或<span class="notranslate">texture</span> 数据。在这种情况下，你可以这样创建你自己的格式。</p>
   <p class="code">vertex_format_begin();<br />
     vertex_format_add_position_3d();<br />
     my_format = vertex_format_end();</p>
-  <p>In total there are five different vertex attributes that you can use when defining a vertex format:</p>
+  <p>在定义<span class="notranslate">vertex</span> 格式时，总共有五个不同的<span class="notranslate">vertex</span> 属性，你可以使用。</p>
   <ul class="colour">
-    <li>Colour</li>
-    <li>Normal</li>
-    <li>Position</li>
-    <li>3D Position</li>
-    <li>Texture coordinate</li>
+    <li>颜色</li>
+    <li>正常</li>
+    <li>职务</li>
+    <li>三维位置</li>
+    <li>纹理坐标</li>
   </ul>
-  <p>In general you must <em>always</em> provide position or 3D position as part of the format, but all the others are optional.</p>
-  <p>You should note that once you have created your vertex format, the order in which you have defined the vertex attributes <i>must be honoured</i> when building your <strong>primitives</strong>. So, if you have defined a vertex format as position, colour, and texture coordinate, then <b>you <i>must</i> add these attributes to the primitive in the same order otherwise you will get an error</b>. Also note that like any other dynamic resource, a vertex format requires memory and therefore should be removed when not needed using the function <span class="inline3_func"><a data-xref="{title}" href="../GameMaker_Language/GML_Reference/Drawing/Primitives/vertex_format_delete.htm">vertex_format_delete</a></span>.</p>
-  <p>Any primitives that you build are held in a <b>vertex buffer</b>. This must be created beforehand and then referenced by the functions that are used to build your primitive. The vertex buffer can be reused as many times as necessary to create different primitives, or it can be &quot;frozen&quot; to maintain a specific primitive type for the duration of your game or level (which is the fastest approach, so if you know that a primitive you build will not change then you should always use this option).</p>
-  <p>An example of a single triangle primitive being built is shown in the following code:</p>
-  <p class="code_heading">Create Event</p>
-  <p class="code">v_buff = vertex_create_buffer();<br />
+  <p>一般来说，你必须<em>始终</em>提供位置或三维位置作为格式的一部分，但其他的都是可选的。</p>
+  <p>请注意，一旦创建了<span class="notranslate">vertex</span> 格式，构建<strong>基元</strong>时就<i>必须遵守</i>定义了<span class="notranslate">vertex</span> 属性的顺序。因此，如果您将<span class="notranslate">vertex</span> 格式定义为位置、颜色和<span class="notranslate">texture</span> 坐标，那么<b>您</b>就<b> <i>必须</i></b>以相同的顺序向基元添加这些属性，否则就会出现错误。还请注意，与其它任何动态资源一样，<span class="notranslate">vertex</span> 格式需要内存，因此，不需要时应使用函数删除 <a href="../GameMaker_Language/GML_Reference/Drawing/Primitives/vertex_format_delete.htm"><span class="inline">vertex_format_delete()</span></a>.</p>
+  <p>您构建的任何基元都保存在一个<b>顶点缓冲区</b>里。这必须事先创建，然后由用于构建基元的函数来引用。<span class="notranslate">vertex</span> <span class="notranslate">buffer</span> ，可根据需要多次重复使用，以创建不同的基元，也可将其 &quot;冻结&quot;，以便在游戏或关卡期间维持一个特定的基元类型（这是最快的方法，所以如果您知道您构建的基元不会改变，那么您应始终使用此选项）。</p>
+  <p>下面的代码中显示了一个构建单个三角形基元的例子。</p>
+  <p class="code">// CREATE EVENT<br />
+    v_buff = vertex_create_buffer();<br />
     vertex_begin(v_buff, global.my_format);<br />
     vertex_position(v_buff, 10, 10);<br />
     vertex_colour(v_buff, c_white, 1);<br />
@@ -58,88 +56,90 @@
     var tex = sprite_get_texture(spr_Background, 0);<br />
     shader_set(shd_shimmer);<br />
     vertex_submit(v_buff, pr_trianglelist, tex);<br />
-    shader_reset();</p>
-  <p>Here we have first created our vertex buffer in the Create Event of the instance, then we begin the definition of the different vertices that make up our triangle primitive, giving the position, the colour, and the texture UV coordinate for each of the three points that we want to use. We then end the vertex definition, and we know that the vertex buffer with this vertex data is stored in the variable &quot;v_buff&quot;.  </p>
-  <p class="note"><span data-conref="../assets/snippets/Tag_note.hts"> </span> If the contents of the vertex buffer are going to be updated constantly, it would be created, given the vertex data, and then be destroyed again - after it&#39;s been drawn - all in the same step.</p>
-  <p>We then draw the contents of the vertex buffer in the Draw Event using a shader. This is a very simple example, and is basically how <span data-keyref="GameMaker Name">GameMaker</span> works internally, i.e.: When you draw a sprite, <span data-keyref="GameMaker Name">GameMaker</span> creates a vertex buffer with four vertices creating two triangles (which make a square, also called a &quot;quad&quot;), and textures these two triangles with the sprite image. When we draw this sprite, we are submitting the vertex buffer which draws its contents to the screen.</p>
-  <p>You&#39;ll notice when we submit the vertex buffer for drawing, we supply a primitive type. The type of primitive you use can be a point, a line list or strip, or a triangle list or strip, but you are <i>not</i> permitted triangle fans since most mobile hardware will not accept that primitive type. Don&#39;t forget to format your vertex buffer correctly for the type of primitive that is going to be used to draw it. For example, drawing a two triangle primitive as a triangle list requires 6 points, but as a triangle strip it only requires 4 points. Which type you use is up to you and will depend on what you want to draw and the effect that you want to achieve.</p>
-  <p>One final important point to note when using your own vertex buffers in this way is how it affects the vertex batches that are sent to the GPU. When you create a vertex buffer you are creating the lowest level of graphics data, so when you draw all that happens is that <span data-keyref="GameMaker Name">GameMaker</span> sends your buffer directly to the graphics card. Because of this, if you want better batching, you must work it out yourself and store the things you want to batch inside the same buffer.</p>
-  <p>As we have already mentioned above, vertex formats are built up by using together the following 5 attribute types (added via the appropriate <span class="inline3_func">vertex_format_add_*</span> function):</p>
+    shader_reset();
+  </p>
+  <p>在这里，我们首先在实例的创建事件中创建了我们的顶点<span class="notranslate">buffer</span> ，然后我们开始定义组成我们的三角形基元的不同顶点，为我们想要使用的三个点中的每一个给出位置、颜色和<span class="notranslate">texture</span> UV坐标。然后我们结束<span class="notranslate">vertex</span> 的定义，我们知道带有这个<span class="notranslate">vertex</span> 数据的<span class="notranslate">buffer</span> <span class="notranslate">vertex</span> 被存储在变量 &quot;v_buff &quot;中。  </p>
+  <p class="note"><strong>注意</strong>：如果<span class="notranslate">buffer</span> 的内容要不断地更新，<span class="notranslate">buffer</span> 将被创建，给予<span class="notranslate">vertex</span> 数据，然后再次被销毁--在它被绘制之后--都在同一步骤中。</p>
+  <p>然后我们在Draw Event中使用<span class="notranslate">vertex</span> 绘制<span class="notranslate">buffer</span> <span class="notranslate">shader</span> 的内容。这是一个非常简单的例子，基本上是<span data-keyref="GameMaker Name">GameMaker</span>内部的工作方式，即：当你绘制一个<span class="notranslate">sprite</span> ，<span class="notranslate">GameMaker</span> 创建一个<span class="notranslate">vertex</span> <span class="notranslate">buffer</span> ，四个顶点创建两个三角形（组成一个正方形，也叫 &quot;四边形&quot;），<span class="notranslate">textures</span> 这两个三角形与<span class="notranslate">sprite</span> 图像。当我们绘制这个<span class="notranslate">sprite</span> ，我们是在提交<span class="notranslate">vertex</span> <span class="notranslate">buffer</span> ，其内容被绘制到屏幕上。</p>
+  <p>你会注意到当我们提交<span class="notranslate">vertex</span> <span class="notranslate">buffer</span> 进行绘制时，我们提供了一个基元类型。您使用的基元类型可以是点、线条列表或条带、或三角形列表或条带，但您<i>不</i>允许使用三角形风扇，因为大多数移动硬件不接受这种基元类型。不要忘了为将要用于绘制的基元类型正确地格式化您的<span class="notranslate">vertex</span> <span class="notranslate">buffer</span> 。例如，将一个两个三角形基元作为三角形列表绘制需要 6 个点，但作为一个三角形条带，只需要 4 个点。使用哪种类型由您决定，取决于您想要绘制的内容和想要实现的效果。</p>
+  <p>当以这种方式使用你自己的<span class="notranslate">vertex</span> <span class="notranslate">buffers</span> ，需要注意的最后一点是它如何影响发送到GPU的顶点批处理。当你创建一个<span class="notranslate">vertex</span> <span class="notranslate">buffer</span> ，你是在创建最底层的图形数据，所以当你绘制时，所发生的一切是<span data-keyref="GameMaker Name">GameMaker</span>直接将你的<span class="notranslate">buffer</span> 发送到显卡上。正因为如此，如果你想要更好的批处理，你必须自己解决，把你想要批处理的东西存储在同一个<span class="notranslate">buffer</span> 。</p>
+  <p>正如我们上面已经提到的，<span class="notranslate">vertex</span> 格式是通过一起使用以下5种属性类型（通过适当的 <span class="inline">vertex_format_add_*</span> 函数添加）建立起来的。</p>
   <ul class="colour">
-    <li>Colour</li>
-    <li>Normal</li>
-    <li>Position</li>
-    <li>3D Position</li>
-    <li>Texture coordinate</li>
+    <li>颜色</li>
+    <li>正常</li>
+    <li>职务</li>
+    <li>三维位置</li>
+    <li>纹理坐标</li>
   </ul>
-  <p>Within the GLSL ES shader, these kinds are recognised using the following 4 attributes:</p>
+  <p>在GLSL ES<span class="notranslate">shader</span> 中，这些种类是通过以下4个属性来识别的。</p>
   <ul class="colour">
-    <li>Colour</li>
-    <li>Normal</li>
-    <li>Position</li>
-    <li>Texture coordinate</li>
+    <li>颜色</li>
+    <li>正常</li>
+    <li>职务</li>
+    <li>纹理坐标</li>
   </ul>
-  <p>Now, this might look odd as it seems that we can specify more attribute kinds in our vertex format than we can in the vertex shader. However, in the shader <i>Position</i> and <i>3D Position</i> are treated as the <em>same </em>attribute, except that <i>Position</i> is expected to have only &quot;x&quot; and &quot;y&quot; coordinates whereas <i>3D Position</i> has “x”, “y” and “z” coordinates. So how do you map what&#39;s in your vertex format to how you define attributes in your shader? Let&#39;s start by looking at a typical set of attributes from the default shader:</p>
-  <p> </p>
-  <p class="code language-glsl">attribute vec3 in_Position;        // (x,y,z)<br />
+  <p>现在，这可能看起来很奇怪，因为在我们的<span class="notranslate">vertex</span> 格式中，我们似乎可以比在<span class="notranslate">vertex</span> <span class="notranslate">shader</span> 中指定更多的属性种类。然而，在<span class="notranslate">shader</span> 中，<i>Position</i>和<i>3D Position</i>被视为<em>相同的 </em>属性，只是<i>Position</i>预计只有 &quot;x &quot;和 &quot;y &quot;坐标，而<i>3D Position</i>有 &quot;x&quot;、&quot;y &quot;和 &quot;z &quot;坐标。那么，你如何将你的<span class="notranslate">vertex</span> 格式中的内容映射到你的<span class="notranslate">shader</span> 中的属性定义？让我们先来看看默认着色器的一组典型属性。</p>
+  <p> </p>
+  <p class="code">attribute vec3 in_Position;        // (x,y,z)<br />
     //attribute vec3 in_Normal;        // (x,y,z) unused in this shader.<br />
     attribute vec4 in_Colour;          // (r,g,b,a)<br />
     attribute vec2 in_TextureCoord;    // (u,v)</p>
-  <p>And here&#39;s a chunk of code which sets up a vertex format compatible with this shader:</p>
+  <p>这里有一大块代码，它设置了一个与该着色器兼容的<span class="notranslate">vertex</span> 格式。</p>
   <p class="code">vertex_format_begin();<br />
     vertex_format_add_position_3d();<br />
     vertex_format_add_colour();<br />
-    vertex_format_add_texcoord();<br />
+    vertex_format_add_textcoord();<br />
     my_format = vertex_format_end();</p>
-  <p>Now, how does the shader attribute get matched to the vertex format type? It&#39;s just based on the naming convention:</p>
+  <p>现在，<span class="notranslate">shader</span> 属性如何与<span class="notranslate">vertex</span> 格式类型相匹配？这只是基于命名惯例。</p>
   <ul class="colour">
-    <li><span class="inline">&quot;in_Position&quot;</span> maps to <span class="inline"><a href="../GameMaker_Language/GML_Reference/Drawing/Primitives/vertex_format_add_position.htm">vertex_format_add_position</a>/<a href="../GameMaker_Language/GML_Reference/Drawing/Primitives/vertex_format_add_position_3d.htm">_3d()</a></span></li>
-    <li><span class="inline">&quot;in_Colour&quot;</span> maps to <a href="../GameMaker_Language/GML_Reference/Drawing/Primitives/vertex_format_add_colour.htm"><span class="inline">vertex_format_add_colour()</span></a></li>
-    <li><span class="inline">&quot;in_TextureCoord&quot;</span> maps to <a href="../GameMaker_Language/GML_Reference/Drawing/Primitives/vertex_format_add_texcoord.htm"><span class="inline">vertex_format_add_texcoord()</span></a></li>
+    <li><span class="inline">&quot;in_Position&quot;</span> 地图到 <span class="inline"><a href="../GameMaker_Language/GML_Reference/Drawing/Primitives/vertex_format_add_position.htm">vertex_format_add_position</a>/<a href="../GameMaker_Language/GML_Reference/Drawing/Primitives/vertex_format_add_position_3d.htm">_3d()</a></span></li>
+    <li><span class="inline">&quot;in_Colour&quot;</span> 地图到 <a href="../GameMaker_Language/GML_Reference/Drawing/Primitives/vertex_format_add_colour.htm"><span class="inline">vertex_format_add_colour()</span></a></li>
+    <li><span class="inline">&quot;in_TextureCoord&quot;</span> 地图到 <a href="../GameMaker_Language/GML_Reference/Drawing/Primitives/vertex_format_add_texcoord.htm"><span class="inline">vertex_format_add_texcoord()</span></a></li>
   </ul>
-  <p><span class="inline"><span class="inline"><span class="inline"></span></span> </span>Now, things get trickier when you have multiple attributes of the same kind, but things are still based on the same naming convention. We&#39;ll look at supplying additional <b>colour</b> and <b>texture coordinates</b> now, as there can only be <b>one</b> Position and <b>one</b> Normal attribute in the shader or vertex format, but there <em>can</em> be multiple colour or texture attributes.</p>
-  <p>When adding additional colour attributes to your shader, a number needs to be added to the end of the shader attribute to indicate which particular entry in the vertex format the attribute maps to. Here&#39;s an example - first the vertex format:</p>
+  <p><span class="inline"><span class="inline"><span class="inline"></span> 现在，当你有多个同类属性时，事情就变得棘手了，但事情仍然是基于相同的命名惯例。我们现在来看看提供额外的<b>颜色</b>和<b>纹理坐标</b>，因为在 或 格式中只能有<span class="notranslate">shader</span> <span class="notranslate">vertex</span> <b>一个</b>位置和<b>一个</b>法线属性，但<em>可以</em>有多个颜色或 属性。<span class="notranslate">texture</span> </p>
+  <p>当添加额外的颜色属性到你的<span class="notranslate">shader</span> ，需要在<span class="notranslate">shader</span> 属性的末尾添加一个数字，以表明该属性映射到<span class="notranslate">vertex</span> 格式中的哪个特定条目。下面是一个例子--首先是<span class="notranslate">vertex</span> 格式。</p>
   <p class="code">vertex_format_begin();<br />
     vertex_format_add_position_3d();<br />
     vertex_format_add_colour();<br />
     vertex_format_add_colour();<br />
-    vertex_format_add_texcoord();<br />
+    vertex_format_add_textcoord();<br />
     my_format = vertex_format_end();</p>
-  <p>And now the associated shader attributes:</p>
-  <p class="code language-glsl">attribute vec3 in_Position;      // (x,y,z)<br />
+  <p>而现在，相关的<span class="notranslate">shader</span> 属性。</p>
+  <p class="code">attribute vec3 in_Position;      // (x,y,z)<br />
     attribute vec4 in_Colour0;       // (r,g,b,a)<br />
     attribute vec4 in_Colour1;       // (r,g,b,a)<br />
     attribute vec2 in_TextureCoord;  // (u,v)</p>
-  <p>In this case <span class="inline">in_Colour0</span> maps to the first <span class="inline">vertex_format_add_colour()</span> and <span class="inline">in_Colour1</span> maps to the second.</p>
-  <p>Texture coordinates are handled slightly differently to colour. Basically, anything which isn&#39;t called <span class="inline">in_Position</span>, <span class="inline">in_Normal</span> or one of the <span class="inline">in_Colour[0 ... ]</span> attributes is treated as a texture coordinate. The order they are defined in, in the list of attributes in the shader, is what denotes which attribute in the vertex format they map to. See the following <span data-keyref="GML_Code">GML Code</span> example:</p>
+  <p>在这种情况下， <span class="inline">in_Colour0</span> 映射到第一个 <span class="inline">vertex_format_add_colour()</span> ， <span class="inline">in_Colour1</span> 映射到第二个。</p>
+  <p>纹理坐标的处理方式与颜色略有不同。基本上，任何不被称为 <span class="inline">in_Position</span> 、 <span class="inline">in_Normal</span> 或 <span class="inline">in_Colour[0 ... ]</span> 属性之一的东西都被视为<span class="notranslate">texture</span> 坐标。在<span class="notranslate">shader</span> 的属性列表中，它们被定义的顺序是指它们映射到<span class="notranslate">vertex</span> 格式中的哪个属性。参见以下<span class="notranslate">GML</span> 的例子。</p>
   <p class="code">vertex_format_begin();<br />
     vertex_format_add_position_3d();<br />
     vertex_format_add_colour();<br />
-    vertex_format_add_texcoord();<br />
-    vertex_format_add_texcoord();<br />
-    vertex_format_add_texcoord();<br />
+    vertex_format_add_textcoord();<br />
+    vertex_format_add_textcoord();<br />
+    vertex_format_add_textcoord();<br />
     my_format = vertex_format_end();</p>
-  <p>And the shader code would look something like this:</p>
-  <p class="code language-glsl">attribute vec3 in_Position;      // (x,y,z)<br />
+  <p>而<span class="notranslate">shader</span> 代码将看起来像这样。</p>
+  <p class="code">attribute vec3 in_Position;      // (x,y,z)<br />
     attribute vec4 in_Colour;        // (r,g,b,a)<br />
     attribute vec2 in_myTexcoord;    // (u,v)<br />
     attribute vec2 in_TextureCoord;  // (u,v)<br />
     attribute vec2 in_Something;     // (u,v)</p>
-  <p>In this example, <span class="inline">in_myTexcoord</span>, <span class="inline">in_TextureCoord</span> and <span class="inline">in_Something</span> map to the three successive texture coordinate attributes defined in the vertex format.</p>
-  <p>You can find a full list of all the functions required to create vertex formats, vertex buffers and primitives from the following page:</p>
+  <p>在这个例子中， <span class="inline">in_myTexcoord</span>, <span class="inline">in_TextureCoord</span> 和 <span class="inline">in_Something</span> 映射到<span class="notranslate">texture</span> 格式中定义的三个连续的<span class="notranslate">vertex</span> 坐标属性。</p>
+  <p>你可以从以下页面找到创建<span class="notranslate">vertex</span> 格式、<span class="notranslate">vertex</span> <span class="notranslate">buffers</span> 和基元所需的所有函数的完整列表。</p>
   <ul class="colour">
-    <li><a href="../GameMaker_Language/GML_Reference/Drawing/Primitives/Primitives_And_Vertex_Formats.htm">Primitives And Vertex Formats</a></li>
+    <li><a href="../GameMaker_Language/GML_Reference/Drawing/Primitives/Primitives_And_Vertex_Formats.htm">基元和<span class="notranslate">Vertex</span> 格式</a></li>
   </ul>
-  <p> </p>
-  <p> </p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a href="Additional_Information.htm">Additional Information</a></div>
-        <div style="float:right">Next: <a href="Guide_To_Using_Blendmodes.htm">Guide To Using Blendmodes</a></div>
+        <div style="float:left">返回。<a href="Additional_Information.htm">其他信息</a></div>
+        <div style="float:right">下一步。<a href="Guide_To_Using_Blendmodes.htm">Blendmodes使用指南</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2026 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright<span class="notranslate">YoYo Games Ltd.</span> 2021 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 Primitive Building

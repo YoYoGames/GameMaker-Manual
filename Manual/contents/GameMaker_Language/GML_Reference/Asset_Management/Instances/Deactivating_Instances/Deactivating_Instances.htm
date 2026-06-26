@@ -3,10 +3,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>Deactivating Instances</title>
-  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <title>停用实例</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
   <link rel="stylesheet" href="../../../../../assets/css/default.css" type="text/css" />
-  <script src="../../../../../assets/scripts/main_script.js" type="module"></script>
+  <script src="../../../../../assets/scripts/main_script.js"></script>
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Page outlining the different functions for Deactivating Instances" />
   <meta name="rh-index-keywords" content="Deactivating Instances" />
@@ -14,41 +14,36 @@
 </head>
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
-  <h1><span data-field="title" data-format="default">Deactivating Instances</span></h1>
-  <p><span data-keyref="GameMaker Name">GameMaker</span> offers you the possibility to &quot;switch off&quot; instances so that they are no longer processed in any way. Technically they don&#39;t really exist anymore, except as a pointer within the deactivation process itself, which means that a deactivated instance cannot be manipulated or changed in any way at all until it is re-activated again.</p>
-  <p>So, these functions should be used with great care as they can cause problems when not used properly, particularly with <a data-xref="{title}" href="../Instance_Variables/persistent.htm">persistent</a> instances, as a persistent instance that has been deactivated will not be moved to the next room unless it is re-activated first (effectively deleting it from the game).</p>
-  <p>Note too that <strong>activation and deactivation are not instantaneous</strong>, and an instance that has had its state changed in this way will not be considered to be active/inactive until the <em>end of the event in which the function was called</em>. However during the event, after it is <em>marked</em> for deactivation, its functionality will still be limited similar to a deactivated instance.</p>
-  <p>It is normally not necessary to deactivate instances every step of your game and this can actually cause your game to have performance issues. Instead it is recommended that you only run these functions every few steps in an alarm (for example), or if the camera view has changed position, and it is especially important that you do not use these functions in <a data-xref="{title}" href="../../../../../The_Asset_Editors/Object_Properties/Draw_Events.htm">Draw Events</a> as this can lead to unexpected behaviours in your game.</p>
-  <p>A deactivated instance effectively ceases to exist in the game, but individual instances can still have their variables accessed. You cannot use <span class="inline2">with(object)</span> or <span class="inline2">with(instance)</span> however, but rather you must access the instance directly using its unique ID in the following form:</p>
+  <h1>停用实例</h1>
+  <p><span data-keyref="GameMaker Name">GameMaker</span>为你提供了 &quot;关闭 &quot;实例的可能性，使它们不再以任何方式被处理。从技术上讲，它们其实已经不存在了，只是作为停用过程本身的一个指针，这意味着一个停用的实例在再次被激活之前，根本不能被操作或改变。因此，使用这些函数时应该非常小心，因为如果使用不当就会引起问题，特别是对于持久性<span class="notranslate">objects</span> ，因为一个已经停用的持久性<span class="notranslate">object</span> ，除非先重新激活，否则不会被移到下一个<span class="notranslate">room</span> （有效地从游戏中删除）。还要注意的是，<strong>激活和停用并不是瞬间</strong>完成的，一个以这种方式改变了状态的实例在<em>调用该函数的事件结束</em>之前不会被认为是活跃/非活跃的。</p>
+  <p>通常没有必要在游戏的每一步都停用实例，这实际上会导致你的游戏出现性能问题。相反，建议你只在警报中每隔几步就运行这些函数（例如），或者当摄像机视图改变了位置时，尤其重要的是，你不要在绘制事件中使用这些函数，因为这可能导致你的游戏出现严重错误。</p>
+  <p>一个停用的实例实际上在游戏中已经不存在了，但单个实例仍然可以访问它们的变量。然而，你不能使用 <span class="inline">with(object)</span> 或 <span class="inline">with(instance)</span> ，而是必须使用它的唯一ID以下列形式直接访问实例。</p>
   <p class="code">val = inst.variable;</p>
-  <p>In the above example, &quot;inst&quot; would be a variable that holds the ID of the deactivated instance, and this is the only way that a deactivated instance can be referenced without it being activated previously.</p>
-  <div data-conref="../../../../../assets/snippets/Note_Deactivate_On_Room_Start_Create_Event.hts"> </div>
-  <div data-conref="../../../../../assets/snippets/Note_Warning_Deactivating_Physics_Instances.hts"> </div>
-  <h2 id="func_ref"><b></b>Function Reference</h2>
-  <h3 id="func_ref_instance_activation">Instance Activation</h3>
+  <p>在上面的例子中，&quot;inst &quot;将是一个保存停用实例的ID的变量，这是停用的实例可以被引用的唯一方式，而它之前没有被激活。</p>
+  <p class="note"><b><span class="note">注意</span></b>如果你在<span class="notranslate">room</span> 启动时停用一个实例（即：从<span class="notranslate">room</span> 创建代码，或从<span class="notranslate">room</span> 内的实例创建事件），所有从<span class="notranslate">room</span> 编辑器放置在<span class="notranslate">room</span> 内的实例在停用前仍将运行其创建事件。</p>
+  <p class="note"><b>警告： </b>停用启用了物理的实例不会停止它们的灯具在物理模拟中的互动。为此，你应该在激活/停用这些实例时，将它们的<span class="inline" style="font-size: 14px">phy_active</span>变量设置为 <span class="inline"><span style="font-size:14px">true</span> 或 <span class="inline"><span style="font-size:14px">false</span> 。<b></b></p>
+  <p><b></b>有以下功能用于停用实例。</p>
   <ul class="colour">
-    <li><a data-xref="{title}" href="instance_activate_all.htm">instance_activate_all</a></li>
-    <li><a data-xref="{title}" href="instance_activate_object.htm">instance_activate_object</a></li>
-    <li><a data-xref="{title}" href="instance_activate_region.htm">instance_activate_region</a></li>
-    <li><a data-xref="{title}" href="instance_activate_layer.htm">instance_activate_layer</a></li>
+    <li><a href="instance_activate_all.htm"><span class="notranslate">instance_activate_all</span></a></li>
+    <li><a href="instance_activate_object.htm"><span class="notranslate">instance_activate_object</span></a></li>
+    <li><a href="instance_activate_region.htm"><span class="notranslate">instance_activate_region</span></a></li>
+    <li><a href="instance_activate_layer.htm"><span class="notranslate">instance_activate_layer</span></a></li>
+    <li><a href="instance_deactivate_all.htm"><span class="notranslate">instance_deactivate_all</span></a></li>
+    <li><a href="instance_deactivate_object.htm"><span class="notranslate">instance_deactivate_object</span></a></li>
+    <li><a href="instance_deactivate_region.htm"><span class="notranslate">instance_deactivate_region</span></a></li>
+    <li><a href="instance_deactivate_layer.htm"><span class="notranslate">instance_deactivate_layer</span></a></li>
   </ul>
-  <h3 id="func_ref_instance_deactivation">Instance Deactivation</h3>
-  <ul class="colour">
-    <li><a data-xref="{title}" href="instance_deactivate_all.htm">instance_deactivate_all</a></li>
-    <li><a data-xref="{title}" href="instance_deactivate_object.htm">instance_deactivate_object</a></li>
-    <li><a data-xref="{title}" href="instance_deactivate_region.htm">instance_deactivate_region</a></li>
-    <li><a data-xref="{title}" href="instance_deactivate_layer.htm">instance_deactivate_layer</a></li>
-  </ul>
-  <p> </p>
-  <p> </p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a data-xref="{title}" href="../Instances.htm">Instances</a></div>
-        <div style="float:right">Next: <a data-xref="{title}" href="../Instance_Variables/Instance_Variables.htm">Built-In Instance Variables</a></div>
+        <div style="float:left">返回:<a href="../Instances.htm">实例</a></div>
+        <div style="float:right">下一步。<a href="../Instance_Variables/Instance_Variables.htm">实例变量</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2026 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright<span class="notranslate">YoYo Games Ltd.</span> 2022 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 Deactivating Instances

@@ -3,10 +3,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>Addressing Variables In Other Instances</title>
-  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <title>在其他实例中对变量进行寻址</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
   <link rel="stylesheet" href="../../assets/css/default.css" type="text/css" />
-  <script src="../../assets/scripts/main_script.js" type="module"></script>
+  <script src="../../assets/scripts/main_script.js"></script>
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Page outlining hoe to address variables in other instances" />
   <meta name="rh-index-keywords" content="Addressing Variables In Other Instances" />
@@ -14,20 +14,17 @@
 </head>
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
-  <h1>Addressing Variables In Other Instances</h1>
-  <p>In the sections dedicated to <a href="Variables_And_Variable_Scope.htm">variables</a> you found out how to create and use variables within a single instance, or on a global scope, but what happens if you want one instance to access a variable in another, different instance?</p>
-  <p>There are many cases when you may want to do this, for example in a collision with a bullet object, you may want to find out how much damage the bullet does by accessing a variable in the bullet, or you might want to stop the motion of all the balls in a puzzle, or you might want to move the main character to a particular position, or any number of other situations you typically come across in any game. Thankfully the GameMaker Language comes equipped with mechanisms to achieve this.</p>
-  <p>One of the most common methods of accessing or changing a variable in <em>another </em>instance is to use its object name as an identifier, and then use a point <span class="inline2">.</span> to tell <span data-keyref="GameMaker Name">GameMaker</span> that the variable being referenced should be assigned or changed within that specific object&#39;s instance. This is known as &quot;dot notation&quot;, and its syntax is as follows:</p>
+  <h1>在其他实例中对变量进行寻址</h1>
+  <p>在专门讨论<a href="Variables_And_Variable_Scope.htm">变量</a>的章节中，你发现了如何在单个实例中或在全局范围内创建和使用变量，但如果你想让一个实例访问另一个不同实例中的变量，会发生什么情况？有很多情况下你可能想这样做，例如在与子弹的碰撞中<span class="notranslate">object</span> ，你可能想通过访问子弹中的一个变量来了解子弹的伤害程度，或者你可能想停止拼图中所有球的运动，或者你可能想把主角移动到一个特定的位置，或者任何其他你在任何游戏中通常遇到的情况。值得庆幸的是，<span class="notranslate">GameMaker Language</span> ，配备了实现这一目的的机制。</p>
+  <p>访问或改变<em>另一个 </em>实例中的变量的最常见的方法之一是使用其<span class="notranslate">object</span> 名称作为标识符，然后使用点&quot;<span class="inline">.</span>&quot;来告诉<span data-keyref="GameMaker Name">GameMaker</span>，被引用的变量应该在该特定对象的实例中被分配或改变。这被称为 &quot;点符号&quot;，其语法如下。</p>
   <p class="code">&lt;object_id&gt;.&lt;<em>variable</em>&gt; = &lt;value&gt;; </p>
-  <p>In practice it would look like this:</p>
+  <p>在实践中，它看起来像这样。</p>
   <p class="code">obj_ball.speed = 0;</p>
-  <p>With the above code you are setting the speed of an instance of <span class="inline2">obj_ball</span>. However if you have more than one instance of the given object in the room, <em>then it will apply to ALL of them equally</em> - unless you are using <b>HTML5</b>, in which case it will affect only <em>one</em>, but you have no way of knowing which one it will affect - so if you need to access all instances of an object, you should be using <span class="inline2"><a data-xref="{title}" href="Language_Features/with.htm">with</a></span>, as that is 100% cross-platform compatible. In general, this format should only be used when you have a single instance of the object in the room, or (as you will see in the next part) when you have a specific <i>instance <b>handle</b></i>.</p>
-  <p class="note"><span data-conref="../../assets/snippets/Tag_note.hts"> </span> Reading a variable using an object handle with dot notation (e.g. <span class="inline2">spd = obj_ball.speed</span>) will return the value from the first instance of that object that was created in the room. This is affected by the <a data-xref="{text}" href="../../The_Asset_Editors/Room_Properties/Room_Properties.htm#creation_order">Instance Creation Order</a> if the instances were set up in <a data-xref="{title}" href="../../The_Asset_Editors/Rooms.htm">The Room Editor</a>.</p>
-  <p>You can also access a single instance of an object when there are multiple instances within the room using the unique <b>instance name</b> to tell <span data-keyref="GameMaker Name">GameMaker</span> exactly which instance we wish to address. The <b>instance name constant</b> is the unique identifying constant that is given to each and every instance added to a room in your game. You can find this constant by double-clicking on an instance in <a data-xref="{title}" href="../../The_Asset_Editors/Rooms.htm">The Room Editor</a>:</p>
-  <p><img alt="The instance constant in the room editor" class="center" src="../../assets/Images/Scripting_Reference/GML/Overview/Instance_Constant.png" />Note that this name can be be edited and given a more descriptive name - although the name <em>must</em> be unique to the entire game - and it can be used as the left-hand side of the point:</p>
+  <p>通过上面的代码，你正在设置 &quot;<span class="inline">obj_ball</span>&quot; 的一个实例的速度。然而，如果你在<span class="notranslate">object</span> 中有多个给定的<span class="notranslate">room</span> 的实例，<em>那么它将同样适用于所有这些</em>实例--除非你使用<b>HTML5</b>，在这种情况下，它将只影响<em>一个</em>，但你无法知道它将影响哪一个--所以如果你需要访问一个<span class="notranslate">object</span> 的所有实例，你应该使用 <a href="Language_Features/with.htm"><span class="inline">with()</span></a>，因为那是100%跨平台兼容的。<span class="notranslate">object</span> 一般来说，只有当你在<span class="notranslate">room</span> ，或者（正如你在下一部分将看到的）有一个特定的实例<i> <b>ID</b></i>时，才应该使用这种格式。</p>
+  <p>当<span class="notranslate">object</span> 中存在多个实例时，你也可以使用唯一的<b>实例名称</b>来告诉<span data-keyref="GameMaker Name">GameMaker</span>我们想要处理的确切实例，从而访问<span class="notranslate">room</span> 的单个实例。<b>实例名称常数</b>是唯一的识别常数，它被赋予给你游戏中添加到<span class="notranslate">room</span> 的每一个实例。你可以通过在<a href="../../The_Asset_Editors/Rooms.htm">房间编辑器</a>中双击一个实例来找到这个常量。</p>
+  <p><img>请注意，这个名字可以被编辑并赋予一个更具描述性的名字--尽管这个名字对整个游戏来说<em>必须</em>是唯一的--而且它可以被用作点的左侧。</p>
   <p class="code">inst_4DB70D2.speed = 0;</p>
-  <div data-conref="../../assets/snippets/Note_Instance_Name_Stores_Handle_InGame.hts"> </div>
-  <p>By far the most common and practical method, however, is to use a <i>variable</i> on the left of the point, as long as the variable in question<i> has stored a valid <b>instance handle</b></i>. The following examples illustrate this.</p>
+  <p>然而，到目前为止，最常见和最实用的方法是在点的左边使用一个<i>变量</i>，只要该变量<i> 存储了一个有效的<b>实例id</b></i>。下面的例子说明了这一点。</p>
   <p class="code">// Example 1<br />
     var _inst = instance_position(mouse_x, mouse_y, all);<br />
     if (instance_exists(_inst))<br />
@@ -40,21 +37,16 @@
     _inst.direction = point_direction(_inst.x, _inst.y, x, y);<br />
     _inst.target = id;
   </p>
-  <p>Example 1 finds an instance at the mouse position and changes its speed. Example 2 creates a new instance, changes its direction and sets a custom <span class="inline2">target</span> variable. Both examples target one specific instance using its <strong>instance handle</strong>.</p>
-  <p>In Example 1, there is an <span class="inline3_func"><a data-xref="{title}" href="../GML_Reference/Asset_Management/Instances/instance_exists.htm">instance_exists</a></span> call in the code block. This is because using the point method to access or change another instances value will give an error and crash the game if the instance does not exist, and there is the possibility that this is the case in that example.</p>
-  <p>We don&#39;t need the check however in Example 2 because we <i>know</i> that the instance is there since we created it. However, if there is <i>any</i> possibility that the instance could be destroyed, deactivated, or otherwise removed from the room while using this method, you should <i>always</i> check beforehand using the <span class="inline3_func"><a data-xref="{title}" href="../GML_Reference/Asset_Management/Instances/instance_exists.htm">instance_exists</a></span> function.</p>
-  <p>Note that you cannot use the special <a href="Instance_Keywords.htm">keyword</a> <span class="inline2">all</span> with this method to target all instances (e.g.: <span class="inline2">all.val = 10;</span> would give an error), but you <i>can</i> use the keywords <span class="inline2">other</span> and <span class="inline2">self</span> without issues. For example, using <span class="inline2">other</span> in a <a href="../../The_Asset_Editors/Object_Properties/Object_Events.htm">collision event</a> to target the instance you collided with:</p>
-  <p class="code">// Example 3<br />
-    other.hp -= 10;<br />
-    <br />
+  <p>在上面例1的代码中，有一个 <a href="../GML_Reference/Asset_Management/Instances/instance_exists.htm"><span class="inline">instance_exists()</span></a>调用的代码块中。这是因为使用point方法来访问或改变另一个实例的值，如果该实例不存在，就会出现错误并使游戏崩溃，而在这个例子中就有可能是这样的情况。然而在例2和例3中我们不需要检查，因为我们<i>知道</i>实例是存在的，因为在例2中我们创建了它，而在例3中，它是碰撞事件中的另一个实例。然而，如果在使用这个方法时，实例<i>有</i>可能被销毁、停用或以其他方式从<span class="notranslate">room</span> ，你<i>应该</i>事先使用 <span class="inline">instance_exists()</span> 函数或 <a href="../GML_Reference/Asset_Management/Instances/instance_number.htm"><span class="inline">instance_number()</span></a>函数。</p>
+  <p>请注意，你不能用这个方法使用特殊的<a href="Instance_Keywords.htm">关键字</a>&quot;<span class="inline">all</span>&quot; 来针对所有的实例（例如： <span class="inline">all.val = 10</span> 会产生一个错误），但你<i>可以</i>使用关键字 &quot;<span class="inline">other</span>&quot; 和 &quot;<span class="inline">self</span>&quot; 而不会有问题。例如，在一个<a href="../../The_Asset_Editors/Object_Properties/Object_Events.htm">碰撞事件</a>中使用 <span class="inline">other</span> 。</p>
+  <p class="code">// Example 3 other.hp -= 10;<br />
     if (other.hp &lt;= 0)<br />
     {<br />
         other.sprite_index = spr_E_Dead;<br />
-    }
-  </p>
-  <p>It is also important to note that you cannot use any function by itself as the left-hand side of an assignment. For example, the following code would give you an error:</p>
+    }</p>
+  <p>同样重要的是要注意，你不能使用任何函数本身作为赋值的左手边。例如，下面的代码会给你一个错误。</p>
   <p class="code">instance_nearest(x, y, obj).speed = 0;</p>
-  <p>The return value for the expression in that code example is an instance handle (for the nearest instance) and so it must be enclosed in brackets <span class="inline2">( )</span> to be used in this way and properly address the instance required. The above code would be correctly written as:</p>
+  <p>该代码示例中表达式的返回值是一个整数（最近的实例的唯一ID值），因此必须用括号 <span class="inline">()</span> ，才能以这种方式使用，并正确解决所需的实例。上面的代码可以正确地写成。</p>
   <p class="code">(instance_nearest(x, y, obj)).speed = 0;<br />
     <br />
     //or<br />
@@ -62,8 +54,8 @@
     var _inst = instance_nearest(x, y, obj);<br />
     _inst.speed = 0;
   </p>
-  <p>These are all perfectly valid ways of reading, changing and setting variables in other instances, and work because the point is actually an <i>operator</i>. It takes a value as the left <a class="glossterm" data-glossterm="operand" href="#">operand</a> and a variable as the right operand, and returns the address of this particular variable in the indicated object or instance. All the object names, constants, IDs, etc. simply represent values and these can be dealt with like any other value.</p>
-  <p>The other way to reference variables in another instance is to use the GameMaker Language statement <a data-xref="{title}" href="Language_Features/with.htm">with</a>: </p>
+  <p>这些都是读取、改变和设置其他实例中的变量的完全有效的方法，之所以有效是因为point实际上是一个<i>操作符</i>。它把一个值作为左<a class="glossterm" data-glossterm="操作符" href="#">操作数</a>，把一个变量作为右操作数，并返回这个特定变量在指定<span class="notranslate">object</span> 或实例中的地址。所有的<span class="notranslate">object</span> 名称、常量、ID等等......都只是代表值，这些都可以像其他值一样被处理。</p>
+  <p>另一种引用另一个实例中的变量的方法是使用<span class="notranslate">GameMaker Language</span> 函数 <span class="inline">with()</span> ，<a href="Language_Features/with.htm">这里</a>将详细讨论这个方法。</p>
   <p class="code">// This will affect all instances of the object &quot;obj_Enemy&quot;<br />
     with (obj_Enemy)<br />
     {<br />
@@ -81,16 +73,17 @@
         }<br />
     }
   </p>
-  <p> </p>
-  <p> </p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a href="GML_Overview.htm">GML Overview</a></div>
-        <div style="float:right">Next: <a data-xref="{title}" href="Expressions_And_Operators.htm">Expressions And Operators</a></div>
+        <div style="float:left">返回。<a href="GML_Overview.htm">GML概述</a></div>
+        <div style="float:right">下一步。<a data-xref="{title}" href="Expressions_And_Operators.htm">表达式和运算符</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright<span class="notranslate">YoYo Games Ltd.</span> 2022 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 variables - addressing

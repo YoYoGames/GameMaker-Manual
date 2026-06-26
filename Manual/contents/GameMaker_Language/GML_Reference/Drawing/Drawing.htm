@@ -3,10 +3,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>Drawing</title>
-  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <title>绘图</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
   <link rel="stylesheet" href="../../../assets/css/default.css" type="text/css" />
-  <script src="../../../assets/scripts/main_script.js" type="module"></script>
+  <script src="../../../assets/scripts/main_script.js"></script>
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Reference section for the Drawing functions and variables" />
   <meta name="rh-index-keywords" content="Drawing" />
@@ -14,66 +14,40 @@
 </head>
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
-  <h1><span data-field="title" data-format="default">Drawing</span></h1>
-  <p>This section contains all functions related to drawing within your game as well as for controlling <i>how</i> things will be drawn (blending, alpha, culling, etc.).</p>
-  <p>Drawing in <span data-keyref="GameMaker Name">GameMaker</span> happens at the end of the frame, after all other events (see <a data-xref="{title}" href="../../../The_Asset_Editors/Object_Properties/Event_Order.htm">Event Order</a>). In this draw cycle <span data-keyref="GameMaker Name">GameMaker</span> performs a series of events in a specific order.</p>
-  <p>Everything that you draw eventually needs to be drawn to the <a class="glossterm" data-glossterm="display buffer" href="#">display buffer</a> in order to be visible on screen. By default, <span data-keyref="GameMaker Name">GameMaker</span> does not directly draw to the display buffer, however, but rather to a surface: the <a data-xref="{text}" href="Surfaces/Surfaces.htm#application_surface">Application Surface</a>. This is the default draw target when drawing in the regular Draw events (Draw, Draw Begin and Draw End).</p>
-  <p class="note"><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> See the <a data-xref="{title}" href="../../../The_Asset_Editors/Object_Properties/Draw_Events.htm">Draw Events</a> page for detailed information on how <span data-keyref="GameMaker Name">GameMaker</span> draws everything during a frame.</p>
-  <h2 id="drawing_targets">Draw Targets</h2>
-  <p><span data-keyref="GameMaker Name">GameMaker</span> always draws to a draw target and changes it automatically at certain points in the draw cycle, resetting it afterwards. The draw target can be one of the following:</p>
+  <h1>绘图</h1>
+  <p>本节包含了所有与游戏中的绘图有关的功能<span class="notranslate">room</span> ，以及控制事物<i>如何</i>被绘制（混合、阿尔法、剔除等...）。有大量不同的绘图功能，它们被分成以下几类，以方便找到你需要的东西。</p>
   <ul class="colour">
-    <li>The display buffer:
-      <ol>
-        <li>In the Pre-Draw and Post-Draw events (see <a data-xref="{title}" href="../../../The_Asset_Editors/Object_Properties/Draw_Events.htm">Draw Events</a>)</li>
-        <li>In regular Draw events, if you&#39;ve disabled the application surface (see <span class="inline3_func"><a data-xref="{title}" href="Surfaces/application_surface_enable.htm">application_surface_enable</a></span>) and haven&#39;t set a custom surface</li>
-      </ol>
-    </li>
-    <li>A surface:
-      <ol>
-        <li>The <a data-xref="{text}" href="Surfaces/Surfaces.htm#application_surface">Application Surface</a>, if enabled</li>
-        <li>A view surface, if set for a view with <span class="inline2"><a data-xref="{title}" href="../Cameras_And_Display/Cameras_And_Viewports/view_surface_id.htm">view_surface_id</a></span></li>
-        <li>A custom surface created with <span class="inline3_func"><a data-xref="{title}" href="Surfaces/surface_create.htm">surface_create</a></span> and set as the target with <span class="inline3_func"><a data-xref="{title}" href="Surfaces/surface_set_target.htm">surface_set_target</a></span></li>
-      </ol>
-    </li>
+    <li><a href="Colour_And_Alpha/Colour_And_Alpha.htm">颜色和阿尔法</a></li>
+    <li><a href="GPU_Control/GPU_Control.htm"><span>GPU控制</span></a></li>
+    <li><a href="Mipmapping/Mipmapping.htm">Mipmapping</a></li>
+    <li><a href="Basic_Forms/Basic_Forms.htm"><span>基本形式</span></a></li>
+    <li><a href="Sprites_And_Tiles/Sprites_And_Tiles.htm"><span>精灵和瓷砖</span></a></li>
+    <li><a href="Text/Text.htm"><span>文本</span></a></li>
+    <li><a href="Primitives/Primitives_And_Vertex_Formats.htm"><span>基元和<span class="notranslate">Vertex</span> 格式</span></a></li>
+    <li><a href="Surfaces/Surfaces.htm"><span>表面</span></a></li>
+    <li><a href="Lighting/Lighting.htm"><span>照明</span></a></li>
+    <li><a href="Particles/Particles.htm"><span>粒子</span></a></li>
+    <li><a href="Textures/Textures.htm"><span>纹理</span></a></li>
+    <li><a href="../Asset_Management/Shaders/Shaders.htm">着色器</a></li>
+    <li><a data-xref="{text}" href="Videos/Videos.htm#h1">视频播放</a></li>
   </ul>
-  <p><span data-keyref="GameMaker Name">GameMaker</span> sets the draw target to the application surface automatically (if enabled) after all instances have executed their Pre-Draw event and resets it to the display buffer before all instances execute their Post-Draw event.</p>
-  <p>At any point in a Draw event you can set a <a href="Surfaces/surface_create.htm">custom surface</a> as the draw target with <span class="inline3_func"><a data-xref="{title}" href="Surfaces/surface_set_target.htm">surface_set_target</a></span>, draw to it and reset the target afterwards with <span class="inline3_func"><a data-xref="{title}" href="Surfaces/surface_reset_target.htm">surface_reset_target</a></span>. See <a data-xref="{title}" href="Surfaces/Surfaces.htm">Surfaces</a> for more information.</p>
-  <h3>The Application Surface</h3>
-  <p>This is the default draw target that <span data-keyref="GameMaker Name">GameMaker</span> draws to in the regular Draw events. You can choose to not draw it automatically with <span class="inline3_func"><a data-xref="{title}" href="Surfaces/application_surface_draw_enable.htm">application_surface_draw_enable</a></span> or disable it entirely with <span class="inline3_func"><a data-xref="{title}" href="Surfaces/application_surface_enable.htm">application_surface_enable</a></span>. When the application surface is disabled, everything is drawn directly to the display buffer.</p>
-  <h2>Reference</h2>
-  <p><span data-keyref="GameMaker Name">GameMaker</span> comes with a great number of different functions for drawing. To make it easier to find what you need the functions are split over the following categories:</p>
+  <p> </p>
+  <p>也有两个特殊的功能，一个用于为你的项目启用或禁用<b>绘图事件</b>，另一个用于刷新整个绘图管道。</p>
   <ul class="colour">
-    <li><a data-xref="{title}" href="Colour_And_Alpha/Colour_And_Alpha.htm">Colour And Alpha</a></li>
-    <li><a data-xref="{title}" href="GPU_Control/GPU_Control.htm">GPU Control</a></li>
-    <li><a data-xref="{title}" href="Mipmapping/Mipmapping.htm">Mipmapping</a></li>
-    <li><a data-xref="{title}" href="Basic_Forms/Basic_Forms.htm">Basic Forms</a></li>
-    <li><a data-xref="{title}" href="Sprites_And_Tiles/Sprites_And_Tiles.htm">Sprites And Tiles</a></li>
-    <li><a data-xref="{title}" href="Text/Text.htm">Text</a></li>
-    <li><a data-xref="{title}" href="Primitives/Primitives_And_Vertex_Formats.htm">Primitives And Vertex Formats</a></li>
-    <li><a data-xref="{title}" href="Surfaces/Surfaces.htm">Surfaces</a></li>
-    <li><a data-xref="{title}" href="Lighting/Lighting.htm">Lighting</a></li>
-    <li><a data-xref="{title}" href="Particles/Particles.htm">Particles</a></li>
-    <li><a data-xref="{title}" href="Textures/Textures.htm">Textures</a></li>
-    <li><a data-xref="{title}" href="../Asset_Management/Shaders/Shaders.htm">Shaders</a></li>
-    <li><a data-xref="{text}" href="Videos/Videos.htm#h1">Video Playback</a></li>
-    <li><a data-xref="{title}" href="Depth_And_Stencil_Buffer/The_Depth_And_Stencil_Buffer.htm">The Depth And Stencil Buffer</a></li>
+    <li><a href="draw_enable_drawevent.htm"><span class="notranslate">draw_enable_drawevent</span></a></li>
+    <li><a href="draw_flush.htm"><span class="notranslate">draw_flush</span></a></li>
   </ul>
-  <p> </p>
-  <p>There are two special functions available too, one which is used for enabling or disabling Draw events in your game, and the other for flushing the entire draw pipeline:</p>
-  <ul class="colour">
-    <li><a href="draw_enable_drawevent.htm">draw_enable_drawevent</a></li>
-    <li><a href="draw_flush.htm">draw_flush</a></li>
-  </ul>
-  <p> </p>
-  <p> </p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a data-xref="{title}" href="../GML_Reference.htm">GML Code Reference</a></div>
-        <div style="float:right">Next: <a data-xref="{title}" href="../Cameras_And_Display/Cameras_And_Display.htm">Cameras And Display</a></div>
+        <div style="float:left">返回。<a href="../GML_Reference.htm">GML参考</a></div>
+        <div style="float:right">下一步。<a href="../Cameras_And_Display/Cameras_And_Display.htm">照相机和显示器</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2025 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright<span class="notranslate">YoYo Games Ltd.</span> 2022 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 Drawing

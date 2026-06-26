@@ -4,9 +4,9 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>http_request</title>
-  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <meta name="generator" content="Adobe RoboHelp 2020" />
   <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
-  <script src="../../../../assets/scripts/main_script.js" type="module"></script>
+  <script src="../../../../assets/scripts/main_script.js"></script>
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Reference page for http_request" />
   <meta name="rh-index-keywords" content="http_request" />
@@ -15,80 +15,80 @@
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
   <h1><span data-field="title" data-format="default">http_request</span></h1>
-  <p>This function creates a generic HTTP request and sends it.</p>
-  <p>A HTTP request can be used for many things like (for example) authentication via HTTP headers if you use RESTful APIs.</p>
-  <p>The function requires:</p>
+  <p>通过这个函数，你可以创建一个HTTP头请求来定义HTTP事务的操作参数，如果你使用RESTful APIs，它可以用于许多事情，如（例如）通过HTTP头认证。该函数要求提供要请求的<span class="notranslate">server</span> 的完整IP地址，以及要进行的请求类型（作为<span class="notranslate">string</span> ，见下面的注释）：&quot;GET&quot;、&quot;HEAD&quot;、&quot;POST&quot;、&quot;PUT&quot;、&quot;DELETE&quot;、&quot;TRACE&quot;、&quot;OPTIONS &quot;或 &quot;CONNECT&quot;。你还需要提供一个键/值对的 <span class="inline"><a href="../../Data_Structures/DS_Maps/DS_Maps.htm">DS map</a></span> （如<span class="notranslate">strings</span> ，其中键是头域，值是头的所需数据），最后一个参数是一个可选的数据<span class="notranslate">string</span> ，你可以把它添加到请求中，如果不需要，那么它可以是0或一个空的<span class="notranslate">string</span> &quot;&quot;。注意，你也可以发送一个<span class="notranslate">buffer</span> （详见<a href="../../Buffers/Buffers.htm">缓冲区</a>一节），在这种情况下，最后一个参数将是要发送的<span class="notranslate">buffer</span> 的索引。</p>
+  <p class="note"><b>注意</b>：HTTP头通常遵循 &quot;key:value &quot;的格式，但由于<span data-keyref="GameMaker Name">GameMaker</span>从ds_map中为你创建了这些对，所以没有必要在你的地图key或value中包含冒号&quot;: &quot;<span class="notranslate">strings</span> 。</p>
+  <p class="note"><b>注意</b>：当使用<span class="notranslate">buffer</span> 作为正文参数时，如果<span class="notranslate">buffer</span> 的寻址位置在开始位置（0），那么就不发送正文，<span class="notranslate">buffer</span> 填充http调用的响应，但如果<span class="notranslate">buffer</span> 的寻址位置非零，那么<span class="notranslate">buffer</span> <span class="notranslate">string</span> 的内容就作为正文发送。</p>
+  <p class="note"><b>注意</b>：你应该知道，由于浏览器的XSS保护，从跨域加载资源的请求和尝试会被阻止，并可能出现返回空白结果。请参阅<a href="HTTP.htm">跨域问题</a>部分以了解更多细节。</p>
+  <p>这个函数返回一个 <span data-keyref="Type_ID_Async_Event"><a data-rhwidget="HyperlinkPopover" href="../../../../../GameMaker_Language/GML_Reference/Asynchronous_Functions/Asynchronous_Functions.htm">异步请求ID</a></span>它可以用来识别其回调，如下所述。</p>
+  <h2>异步回调</h2>
+  <p>这个事件将产生一个 &quot;回调&quot;，被任何<a href="../../../../The_Asset_Editors/Object_Properties/Async_Events/HTTP.htm">Async HTTP事件</a>所接收，在这种情况下，它将产生一个 <span class="inline">DS Map</span> ，这个事件是独占的，并存储在特殊变量中 <a href="../../../GML_Overview/Variables/Builtin_Global_Variables/async_load.htm"><b>async_load</b></a>.这个DS映射有以下两个与请求函数有关的键。</p>
   <ul class="colour">
-    <li>The URL to request. See <a data-xref="{text}" href="HTTP.htm#urls">URLs</a></li>
-    <li>The request method: <span class="inline2">&quot;GET&quot;</span>, <span class="inline2">&quot;HEAD&quot;</span>, <span class="inline2">&quot;POST&quot;</span>, <span class="inline2">&quot;PUT&quot;</span>, <span class="inline2">&quot;DELETE&quot;</span>, <span class="inline2">&quot;TRACE&quot;</span>, <span class="inline2">&quot;OPTIONS&quot;</span> or <span class="inline2">&quot;CONNECT&quot;</span>.</li>
-    <li>A <span data-keyref="Type_ID_DS_Map"><a href="../../Data_Structures/DS_Maps/ds_map_create.htm" target="_blank">DS Map</a></span> of key/value pairs containing the HTTP headers <span class="inline2">&quot;key:value&quot;</span> (as strings, where the key is the header field and the value is the required data for the header). Note that key and value strings shouldn&#39;t include the colon <span class="inline2">&quot;:&quot;</span>.</li>
-    <li>An optional request body, which can be:
-      <ul>
-        <li>A data <span data-keyref="Type_String"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">String</a></span> (can be an empty string <span class="inline2">&quot;&quot;</span> for an empty body)</li>
-        <li>A <span data-keyref="Type_ID_Buffer"><a href="../../Buffers/buffer_create.htm" target="_blank">Buffer</a></span> (for binary data). If the seek position is at the start (0), no body is sent and the buffer is filled with the response from the HTTP call. If the seek position is non-zero, the entire buffer contents (up to <span class="inline3_func"><a data-xref="{title}" href="../../Buffers/buffer_set_used_size.htm">buffer_set_used_size</a></span>) are sent as the body.</li>
-      </ul>
-    </li>
+    <li><b>id。 </b>从该函数返回的ID。如果你发出了一系列的 <span class="inline">http_</span> ，那么你需要知道你得到的是哪一个回复，因此你将使用这个值与你最初发送请求时存储的值进行比较，以找到正确的那个。</li>
+    <li><b>response_headers。</b>如果这个值大于或等于0，它持有一个DS地图，其中包含HTTP请求的响应所返回的HTTP头信息。</li>
   </ul>
-  <p>The function returns an <span data-keyref="Type_ID_Async_Event"><a href="../Asynchronous_Functions.htm" target="_blank">Async Request ID</a></span> which can be used to identify its callback, as described below.</p>
-  <div data-conref="../../../../assets/snippets/Note_HTTP_Requests_CrossOrigin.hts"> </div>
-  <h2>Async Callback</h2>
-  <p>This function will generate &quot;callbacks&quot; which are picked up by any <a href="../../../../The_Asset_Editors/Object_Properties/Async_Events/HTTP.htm">Async HTTP Events</a>, in which case it will generate a <span data-keyref="Type_ID_DS_Map"><a href="../../Data_Structures/DS_Maps/ds_map_create.htm" target="_blank">DS Map</a></span> that is exclusive to this event and is stored in the special variable <span class="inline2"><a data-xref="{title}" href="../../../GML_Overview/Variables/Builtin_Global_Variables/async_load.htm">async_load</a></span>.</p>
-  <div data-conref="../../../../assets/snippets/Note_HTTP_async_load_Contents.hts"> </div>
-  <p> </p>
-  <h4>Syntax:</h4>
-  <p class="code"><span data-field="title" data-format="default">http_request</span>(url, method, header_map, body)</p>
+  <p> </p>
+  <h4>语法。</h4>
+  <p class="code"><span data-field="title" data-format="default">http_request</span>(url, method, header_map, body);</p>
   <table>
     <tbody>
       <tr>
-        <th>Argument</th>
-        <th>Type</th>
-        <th>Description</th>
+        <th>争论</th>
+        <th>类型</th>
+        <th>描述</th>
       </tr>
       <tr>
-        <td>url</td>
-        <td><span data-keyref="Type_String"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">String</a></span></td>
-        <td>The web address of the server that you wish to get information from. See <a data-xref="{text}" href="HTTP.htm#h"> </a></td>
+        <td><span class="notranslate">url</span></td>
+        <td><span data-keyref="Type_String"><a data-rhwidget="HyperlinkPopover" href="../../../../../GameMaker_Language/GML_Overview/Data_Types.htm">字符串</a></span></td>
+        <td><span class="notranslate">The web address of the server that you wish to get information from</span></td>
       </tr>
       <tr>
-        <td>method</td>
-        <td><span data-keyref="Type_String"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">String</a></span></td>
-        <td>The request method (normally<span class="inline2">&quot;GET&quot;</span> or <span class="inline2">&quot;POST&quot;</span>, but all methods are supported)</td>
+        <td><span class="notranslate">method</span></td>
+        <td><span data-keyref="Type_String"><a data-rhwidget="HyperlinkPopover" href="../../../../../GameMaker_Language/GML_Overview/Data_Types.htm">字符串</a></span></td>
+        <td><span class="notranslate">The request method (normally <span class="inline2">&quot;POST&quot;</span> 或<span class="inline2">&quot;GET&quot;</span>，但所有方法都支持)</td>
       </tr>
       <tr>
-        <td>header_map</td>
-        <td><span data-keyref="Type_ID_DS_Map"><a href="../../Data_Structures/DS_Maps/ds_map_create.htm" target="_blank">DS Map</a></span></td>
-        <td>A DS map with the required header fields</td>
+        <td><span class="notranslate">header_map</span></td>
+        <td><span data-keyref="Type_ID_DS_Map"><a data-rhwidget="HyperlinkPopover" href="../../../../../GameMaker_Language/GML_Reference/Data_Structures/DS_Maps/ds_map_create.htm">DS地图ID</a></span></td>
+        <td><span class="notranslate">A ds_map with the required header fields</span></td>
       </tr>
       <tr>
-        <td>body</td>
-        <td><span data-keyref="Type_String"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">String</a></span> or <span data-keyref="Type_ID_Buffer"><a href="../../Buffers/buffer_create.htm" target="_blank">Buffer</a></span></td>
-        <td>The data to be transmitted in the body, following the headers (can be a binary buffer handle).</td>
+        <td><span class="notranslate">body</span></td>
+        <td><span data-keyref="Type_Real"><a data-rhwidget="HyperlinkPopover" href="../../../../../GameMaker_Language/GML_Overview/Data_Types.htm">真实</a></span>, <span data-keyref="Type_String"><a data-rhwidget="HyperlinkPopover" href="../../../../../GameMaker_Language/GML_Overview/Data_Types.htm">缓冲区</a></span>，或 <span data-keyref="Type_ID_Buffer"><a data-rhwidget="HyperlinkPopover" href="../../../../../GameMaker_Language/GML_Reference/Buffers/buffer_create.htm">缓冲区ID</a></span></td>
+        <td><span class="notranslate">The data to be transmitted following the headers (can be a binary buffer handle)</span></td>
       </tr>
     </tbody>
   </table>
-  <p> </p>
-  <h4>Returns:</h4>
-  <p class="code"><span data-keyref="Type_ID_Async_Event"><a href="../Asynchronous_Functions.htm" target="_blank">Async Request ID</a></span> (or -1 if something went wrong)</p>
-  <p> </p>
-  <h4>Example:</h4>
-  <p class="code">var _headers = ds_map_create();<br />
-    ds_map_add(_headers, &quot;Authorization&quot;, &quot;Basic eW95b19hZG1pbjpjNG5lZmllbGQ=&quot;);<br />
-    ds_map_add(_headers, &quot;Content-Type&quot;, &quot;application/x-www-form-urlencoded&quot;);<br />
-    ds_map_add(_headers, &quot;Cookie&quot;, &quot;request_method=GET; _InAppPurchases_session=69bb6ef6eec2b&quot;);<br />
-    var _data=&quot;utf8=%E2%9C%93&amp;authenticity_token=kPmS14DcYcuKgMFZUsN3XFfj3mhs%3D&amp;product%5Bname%5D=CatchTheHaggis&amp;product%5Bproduct_id%5D=http_test&amp;commit=Create+Product&quot;;<br />
-    request_id = <span data-field="title" data-format="default">http_request</span>(&quot;http://225.0.0.97:3000/products&quot;, &quot;POST&quot;, _headers, _data);<br />
-    ds_map_destroy(_headers);</p>
-  <p>The above code creates a DS map with the relevant HTTP headers for the request, then creates a data string for use as this is a POST request. Finally, the function is called, with its ID value being stored in the instance variable <span class="inline2">request_id</span> for checking in the HTTP asynchronous event.</p>
-  <p> </p>
-  <p> </p>
+  <p> </p>
+  <h4>返回。</h4>
+  <p class="code"><span data-keyref="Type_ID_Async_Event"><a data-rhwidget="HyperlinkPopover" href="../../../../../GameMaker_Language/GML_Reference/Asynchronous_Functions/Asynchronous_Functions.htm">Async Request ID</a></span></p>
+  <p> </p>
+  <h4>例子。</h4>
+  <p class="code">var map = ds_map_create();<br />
+    ds_map_add(map, &quot;Host&quot;, &quot;225.0.0.97:3000&quot;);<br />
+    ds_map_add(map, &quot;Connection&quot;, &quot;keep-alive&quot;);<br />
+    ds_map_add(map, &quot;Content-Length&quot;, &quot;169&quot;);<br />
+    ds_map_add(map, &quot;Cache-Control&quot;, &quot;max-age=0&quot;);<br />
+    ds_map_add(map, &quot;Authorization&quot;, &quot;Basic eW95b19hZG1pbjpjNG5lZmllbGQ=&quot;);<br />
+    ds_map_add(map, &quot;Accept&quot;, &quot;text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8&quot;);<br />
+    ds_map_add(map, &quot;User-Agent&quot;, &quot;Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.57 Safari/537.36&quot;);<br />
+    ds_map_add(map, &quot;Content-Type&quot;, &quot;application/x-www-form-urlencoded&quot;);<br />
+    ds_map_add(map, &quot;Accept-Encoding&quot;, &quot;gzip,deflate,sdch&quot;);<br />
+    ds_map_add(map, &quot;Accept-Language&quot;, &quot;en-GB,en-US;q=0.8,en;q=0.6&quot;);<br />
+    ds_map_add(map, &quot;Cookie&quot;, &quot;request_method=GET; _InAppPurchases_session=69bb6ef6eec2b&quot;);<br />
+    var data=&quot;utf8=%E2%9C%93&amp;authenticity_token=kPmS14DcYcuKgMFZUsN3XFfj3mhs%3D&amp;product%5Bname%5D=CatchTheHaggis&amp;product%5Bproduct_id%5D=http_test&amp;commit=Create+Product&quot;;<br />
+    request = http_request(&quot;http:225.0.0.97:3000/products&quot;, &quot;POST&quot;, map, data);</p>
+  <p>上面的代码为该函数创建了一个带有相关HTTP头的DS地图，然后创建了一个数据<span class="notranslate">string</span> ，因为这是一个POST请求。最后函数被调用，它的ID值被存储在变量 &quot;request &quot;中，以便在HTTP异步事件中检查。</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a data-xref="{title}" href="HTTP.htm">HTTP</a></div>
-        <div style="float:right">Next: <a data-xref="{title}" href="http_get.htm">http_get</a></div>
+        <div style="float:left">Back:<a href="HTTP.htm">HTTP</a></div>
+        <div style="float:right">下一步。 <a href="http_get.htm"><span class="notranslate">http_get</span></a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2025 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright<span class="notranslate">YoYo Games Ltd.</span> 2022 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 http_request

@@ -3,10 +3,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>Garbage Collection</title>
-  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <title>垃圾收集</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
   <link rel="stylesheet" href="../../../assets/css/default.css" type="text/css" />
-  <script src="../../../assets/scripts/main_script.js" type="module"></script>
+  <script src="../../../assets/scripts/main_script.js"></script>
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Reference section for the Garbage Collection functions" />
   <meta name="rh-index-keywords" content="Garbage Collection" />
@@ -14,44 +14,38 @@
 </head>
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
-  <h1><span data-field="title" data-format="default">Garbage Collection</span></h1>
-  <p>The <span data-keyref="GameMaker Name">GameMaker</span> <strong>Garbage Collector</strong> exists because methods can be passed on the stack and left unreferenced, as can structs and a few other things, which in turn would cause a memory leak if they weren&#39;t &quot;cleaned up&quot; in some way.</p>
-  <p>This is where the garbage collector comes in and it will run in the background of the game, collecting anything that&#39;s been de-referenced and maintaining an optimal memory usage.</p>
-  <p>When we talk about something being de-referenced, we generally refer to any struct or function which isn&#39;t connected (it doesn&#39;t have to be directly, but through a chain of other variables) to a <strong>global </strong>variable or an <strong>object instance variable</strong>.</p>
-  <p>Also note that functions defined in scripts in the IDE are not collected, as they are implicitly made global.</p>
-  <p class="note"><b><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> </b>Please note that things like surfaces, data structures, buffers and other dynamic resources are <b>not</b> garbage collected and have their own <span class="inline2">destroy</span> functions to clean up the memory associated with them. As a rule of thumb, if anything you create at runtime has a <span class="inline2">destroy</span> function then it won&#39;t be garbage collected and you will have to deal with it yourself in code. The exceptions to this are sequences, animation curves and instances, which also require the garbage collector, <b>but still need to have their destroy function called</b>.</p>
-  <p>The garbage collection which <span data-keyref="GameMaker Name">GameMaker</span> uses is &quot;generational&quot;. This means that, in order to reduce the work that must be done every frame, objects are divided into &quot;generations&quot;.</p>
-  <p>New memory objects are created in generation 0 and they are moved into older generations as they themselves age. The general idea is that objects which hang around for a while don&#39;t need to be continuously tested to see if they should be deleted, but can be checked less frequently (note that &quot;objects&quot; here refers to anything that can be garbage collected and <i>not</i> general object instances as defined in the Asset Browser).</p>
-  <p>Note that while the checking system is generational, the actual checks are done in an &quot;incremental&quot; way, such that instead of clearing up potentially thousands of objects from a generation in a single frame - causing a large spike in CPU use and potentially affecting the gameplay - each generation will be checked and, if required, the cleaning will be spread over multiple frames so the garbage collector runs more frequently but does less work each frame it is collecting (you can set the target time for the garbage collector to spend on each frame using the function <span class="inline3_func"><a data-xref="{title}" href="gc_target_frame_time.htm">gc_target_frame_time</a></span>).</p>
-  <p>In general you should never need to interact with the <span data-keyref="GameMaker Name">GameMaker</span> garbage collection system and normally the results of its operation are not visible but some GML commands are available to get information about what the collector is doing and to influence its behaviour to a limited degree.</p>
-  <p class="note"><span data-conref="../../../assets/snippets/Tag_important.hts"> </span> On the HTML5 target platform garbage collection is handled by the JavaScript engine and therefore none of the functions listed below will affect its operation and the function <span class="inline3_func"><a data-xref="{title}" href="gc_get_stats.htm">gc_get_stats</a></span> will return 0 for all fields.</p>
-  <p>To help decide what needs garbage collected and when you also have a few functions that can be used to create and check <strong>weak references</strong> to structs. A weak reference is a reference that does not protect the referenced object from collection by a garbage collector, and so can be used to check if a struct is still &quot;alive&quot; (referenced) or not somewhere in the game.</p>
-  <h2 id="func_ref">Function Reference</h2>
-  <h3 id="func_ref_garbage_collection">Garbage Collection</h3>
+  <h1>垃圾收集</h1>
+  <p><span data-keyref="GameMaker Name">GameMaker</span> <strong>垃圾收集器</strong>的存在是因为方法可以被传递到堆栈中而不被引用，就像<span class="notranslate">structs</span> 和其他一些东西一样，如果不以某种方式 &quot;清理 &quot;它们，又会造成内存泄漏。这就是垃圾收集器的作用，它将在游戏的后台运行，收集任何被取消引用的东西并保持最佳的内存使用率。当我们谈论某个东西被取消引用时，我们一般指的是任何<span class="notranslate">struct</span> 或函数，它不与<strong>全局变量 </strong>或<strong>对象实例变量</strong>相连（不一定是直接相连，而是通过其他变量链）。<span class="notranslate">scripts</span> 还要注意的是，在<span class="notranslate">IDE</span> 中定义的函数也不被收集，因为它们被隐含为全局性的。</p>
+  <p class="note"><b>注意</b>：请注意，像表面、数据结构、<span class="notranslate">buffers</span> 和其他动态资源是<b>不</b>被垃圾收集的，它们有自己的 <span class="inline">destroy</span> 函数来清理与它们相关的内存。作为一个经验法则，如果你在运行时创建的任何东西都有一个 <span class="inline">destroy</span> 函数，那么它就不会被垃圾收集，你将不得不在代码中自己处理它。这方面的例外是<span class="notranslate">sequences</span>,<span class="notranslate">animation curves</span> 和实例，它们也需要垃圾收集器，<b>但仍然需要调用它们的destroy函数</b>。</p>
+  <p><span data-keyref="GameMaker Name">GameMaker</span>使用的垃圾收集是 &quot;代 &quot;的。这意味着，为了减少每一帧必须做的工作，<span class="notranslate">objects</span> 被划分为 &quot;一代&quot;。新的<span class="notranslate">objects</span> 是在第0代中创建的，随着它们本身的老化，它们会被移到较老的一代中。一般的想法是，<span class="notranslate">objects</span> ，如果它停留了一段时间，就不需要不断地测试它们是否应该被删除，而是可以减少检查的频率（注意，这里的 &quot;对象 &quot;是指任何可以被垃圾收集的东西，而<i>不是</i> <span class="notranslate">object</span> 浏览器中定义的一般<span class="notranslate">Asset</span> 实例）。请注意，虽然检查系统是分代的，但实际的检查是以 &quot;增量 &quot;的方式进行的，这样就不会在一帧内清除一代中可能有成千上万的<span class="notranslate">objects</span> （导致CPU使用量大增，并可能影响游戏性），每一代都会被检查，如果需要的话，清理工作会分散到多个帧中，这样垃圾收集器就会更频繁地运行，但每帧收集的工作就会减少（你可以使用函数 <span class="inline"><a href="gc_target_frame_time.htm">gc_target_frame_time()</a></span> ，设置垃圾收集器在每帧花费的目标时间）。</p>
+  <p>一般来说，你不应该需要与<span data-keyref="GameMaker Name">GameMaker</span>垃圾收集系统进行交互，通常它的操作结果是不可见的，但是一些<span class="notranslate">GML</span> 命令可以获得关于收集器正在做什么的信息，并在有限的程度上影响其行为。</p>
+  <p class="note"><b>重要的是!</b>请注意，在HTML5目标平台上，垃圾收集是由JavaScript引擎处理的，因此下面列出的函数都不会影响其操作，而且函数 <span class="inline">gc_get_stats()</span> ，所有字段都会返回0。</p>
   <ul class="colour">
-    <li><a data-xref="{title}" href="gc_enable.htm">gc_enable</a></li>
-    <li><a data-xref="{title}" href="gc_is_enabled.htm">gc_is_enabled</a></li>
-    <li><a data-xref="{title}" href="gc_collect.htm">gc_collect</a></li>
-    <li><a data-xref="{title}" href="gc_target_frame_time.htm">gc_target_frame_time</a></li>
-    <li><a data-xref="{title}" href="gc_get_target_frame_time.htm">gc_get_target_frame_time</a></li>
-    <li><a data-xref="{title}" href="gc_get_stats.htm">gc_get_stats</a></li>
+    <li><a href="gc_enable.htm"><span class="notranslate">gc_enable</span></a></li>
+    <li><a href="gc_is_enabled.htm"><span class="notranslate">gc_is_enabled</span></a></li>
+    <li><a href="gc_collect.htm"><span class="notranslate">gc_collect</span></a></li>
+    <li><a href="gc_target_frame_time.htm">gc_target_frame_time</a></li>
+    <li><a href="gc_get_target_frame_time.htm">gc_get_target_frame_time</a></li>
+    <li><a href="gc_get_stats.htm"><span class="notranslate">gc_get_stats</span></a></li>
   </ul>
-  <h3 id="func_ref_weak_references">Weak References</h3>
+  <p> </p>
+  <p>为了帮助决定什么需要垃圾收集和什么时候需要垃圾收集，你也有一些函数可以用来创建和检查对<span class="notranslate">structs</span> 的<strong>弱引用</strong>。弱引用是一个不保护被引用的<span class="notranslate">object</span> ，不被垃圾收集器收集的引用，因此可以用来检查一个<span class="notranslate">struct</span> 是否在游戏的某个地方仍然 &quot;活着&quot;（被引用）。可用于弱引用的函数有。</p>
   <ul class="colour">
-    <li><a data-xref="{title}" href="weak_ref_create.htm">weak_ref_create</a></li>
-    <li><a data-xref="{title}" href="weak_ref_alive.htm">weak_ref_alive</a></li>
-    <li><a data-xref="{title}" href="weak_ref_any_alive.htm">weak_ref_any_alive</a></li>
+    <li><a href="weak_ref_create.htm"><span class="notranslate">weak_ref_create</span></a></li>
+    <li><a href="weak_ref_alive.htm"><span class="notranslate">weak_ref_alive</span></a></li>
+    <li><a href="weak_ref_any_alive.htm"><span class="notranslate">weak_ref_any_alive</span></a></li>
   </ul>
-  <p> </p>
-  <p> </p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a data-xref="{title}" href="../GML_Reference.htm">GML Code Reference</a></div>
-        <div style="float:right">Next: <a data-xref="{title}" href="../Steam/Steam.htm">Steam</a></div>
+        <div style="float:left">返回。<a href="../GML_Reference.htm">GML参考</a></div>
+        <div style="float:right">下一步。<a href="../Variable_Functions/Variable_Functions.htm">变量函数</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2025 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright<span class="notranslate">YoYo Games Ltd.</span> 2022 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 GML Reference

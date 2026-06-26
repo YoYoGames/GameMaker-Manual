@@ -4,9 +4,9 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>buffer_save_async</title>
-  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <meta name="generator" content="Adobe RoboHelp 2020" />
   <link rel="stylesheet" href="../../../assets/css/default.css" type="text/css" />
-  <script src="../../../assets/scripts/main_script.js" type="module"></script>
+  <script src="../../../assets/scripts/main_script.js"></script>
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Reference page for buffer_save_async" />
   <meta name="rh-index-keywords" content="buffer_save_async" />
@@ -15,80 +15,69 @@
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
   <h1><span data-field="title" data-format="default">buffer_save_async</span></h1>
-  <p>This function saves (part of) the contents of a buffer to a file asynchronously, ready to be read back into memory using any of the <span class="inline3_func">buffer_load_*</span> functions. <span data-conref="../../../assets/snippets/This_Saves_To_GameSaveID.hts"> </span></p>
-  <p>The &quot;offset&quot; defines the start position within the buffer for saving (in bytes), and the &quot;size&quot; is the size of the buffer area to be saved from that offset onwards (also in bytes). This function works asynchronously, and so the game will continue running while being saved.</p>
-  <p>All files saved using this function will be placed in a &quot;default&quot; folder (unless you are using an <a href="buffer_async_group_begin.htm">async group</a>, then the name of the group replaces &quot;default&quot;). This folder does <i>not</i> need to be included in the filename as it is added automatically by <span data-keyref="GameMaker Name">GameMaker</span>. For example the filename path &quot;<span class="inline">Data\Player_Save.sav</span>&quot; would actually be saved to &quot;<span class="inline">default\Data\Player_Save.sav</span>&quot;. When you load the file using the function <span class="inline3_func"><a data-xref="{title}" href="buffer_load_async.htm">buffer_load_async</a></span>, you do not need to supply the &quot;default&quot; part of the path either (but any other file function <i>will</i> require it, except on consoles Xbox, PlayStation and Nintendo Switch).</p>
-  <p class="note"><b><span data-conref="../../../assets/snippets/Tag_note.hts"> </span></b> On HTML5 &quot;default/&quot; is not added automatically and you may have to account for this in your code.</p>
-  <p class="note"><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> &quot;default/&quot; is not added when saving a buffer to an absolute path by disabling the system sandbox on Desktop platforms.</p>
-  <p>The function will return a unique ID value and trigger an <a href="../../../The_Asset_Editors/Object_Properties/Async_Events/Save_Load.htm">Asynchronous Save/Load Event</a> where you can use the returned ID to check the <span class="inline2"><a data-xref="{title}" href="../../GML_Overview/Variables/Builtin_Global_Variables/async_load.htm">async_load</a></span>&#39;s ID value, as shown in the extended example below. The <span class="inline2"><a data-xref="{title}" href="../../GML_Overview/Variables/Builtin_Global_Variables/async_load.htm">async_load</a></span>
-    <font face="menlo, consolas, monospace"><span style="font-size: 17px;"> </span></font>map in the event will have the following two key/value pairs:
-  </p>
+  <p>通过这个函数，你可以将一个<span class="notranslate">buffer</span> 的部分内容保存到一个文件中，准备用 <a href="buffer_load.htm"><span class="inline">buffer_load()</span></a>函数（或任何其他加载<span class="notranslate">buffers</span> 的函数）读回内存。偏移量 &quot;定义了<span class="notranslate">buffer</span> 中用于保存的起始位置（以字节为单位），&quot;大小 &quot;是指从该偏移量开始要保存的<span class="notranslate">buffer</span> 区域的大小（也以字节为单位）。这个函数是异步工作的，因此游戏在被保存时将继续运行，所有使用这个函数保存的文件将被放在一个 &quot;默认 &quot;文件夹中。这个文件夹<i>不</i>需要包含在文件名中，因为它是由<span class="notranslate">GameMaker</span> 自动添加的。例如，文件名<span class="notranslate">path</span> &quot;<span class="inline">Data\Player_Save.sav</span>&quot; 实际上会被保存到 &quot;<span class="inline">default\Data\Player_Save.sav</span>&quot; 。然而，如果你使用函数加载该文件 <a href="buffer_load_async.htm"><span class="inline">buffer_load_async()</span></a>，你也不需要提供<span class="notranslate">path</span> 的 &quot;默认 &quot;部分（但任何其他文件功能<i>都</i>需要它，除了在Xbox One、PS4和<span class="notranslate">Nintendo</span> <span class="notranslate">Switch</span> ）。</p>
+  <p class="note"><b>注意</b>：在HTML5上，&quot;default/&quot;不是自动添加的，你可能必须在你的代码中考虑到这一点。</p>
+  <p>该函数将返回一个唯一的ID值，并触发一个<a href="../../../The_Asset_Editors/Object_Properties/Async_Events/Save_Load.htm">异步保存/加载事件</a>，你可以使用返回的ID来检查 <span class="inline">async_load</span> ID值，如下面的扩展例子所示。事件中的 <a href="../../GML_Overview/Variables/Builtin_Global_Variables/async_load.htm"><span class="inline">async_load</span></a>事件中的地图将有以下两个键/值对。</p>
   <ul>
-    <li><b>&quot;id&quot;: </b>the ID of the async request as returned by the save function.</li>
-    <li><b>&quot;status&quot;: </b>will hold <span class="inline2">true</span> if the data was saved correctly, and <span class="inline2">false</span> otherwise.</li>
+    <li><b>&quot;id&quot;： </b>保存函数返回的异步函数的ID。</li>
+    <li><b>&quot;status&quot;： </b>如果数据被正确保存/加载，将返回 <span class="inline">true</span> ，否则返回 <span class="inline">false</span> 。</li>
   </ul>
-  <p>Note that you can save out multiple buffers in one by calling this function multiple times between calls to <span class="inline3_func"><a data-xref="{title}" href="buffer_async_group_begin.htm">buffer_async_group_begin</a></span> and <span class="inline3_func"><a data-xref="{title}" href="buffer_async_group_end.htm">buffer_async_group_end</a></span>
-    <font face="menlo, consolas, monospace"><span style="font-size: 17px;"> </span></font>(see those functions for further information on this).
-  </p>
-  <p class="note"><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> On HTML5 the returned results are saved as base64 encoded strings when saved to a file.</p>
-  <p> </p>
-  <h4>Syntax:</h4>
-  <p class="code"><span data-field="title" data-format="default">buffer_save_async</span>(buffer, filename, offset, size)</p>
+  <p><span class="notranslate">buffers</span> 请注意，你可以通过多次调用这个函数在调用 <a href="buffer_async_group_begin.htm"><span class="inline">buffer_async_group_begin()</span></a>和 <a href="buffer_async_group_end.htm"><span class="inline">buffer_async_group_end()</span></a>(之间多次调用这个函数（关于这方面的进一步信息，请参见这些函数）。</p>
+  <p class="note"><b>注意</b>：在HTML5上，当保存到文件时，返回的结果被保存为base64编码的<span class="notranslate">strings</span> 。</p>
+  <p> </p>
+  <h4>语法。</h4>
+  <p class="code"><span data-field="title" data-format="default">buffer_save_async</span>(buffer, filename, offset, size);</p>
   <table>
     <tbody>
       <tr>
-        <th>Argument</th>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
+        <th>争论</th><th>类型</th>
+        <th>描述</th>
+     </tr>
       <tr>
-        <td>buffer</td>
-        <td><span data-keyref="Type_ID_Buffer"><a href="buffer_create.htm" target="_blank">Buffer</a></span></td>
-        <td>The buffer to save.</td>
-      </tr>
+        <td><span class="notranslate">buffer</span></td><td><span data-keyref="Type_ID_Buffer"></span></td>
+        <td><span class="notranslate">The index of the buffer to save.</span></td>
+     </tr>
       <tr>
-        <td>filename</td>
-        <td><span data-keyref="Type_String"><a href="../../GML_Overview/Data_Types.htm" target="_blank">String</a></span></td>
-        <td>The name of the file to save as.</td>
-      </tr>
+        <td><span class="notranslate">filename</span></td><td><span data-keyref="Type_String"></span></td>
+        <td><span class="notranslate">The name of the file to save as.</span></td>
+     </tr>
       <tr>
-        <td>offset</td>
-        <td><span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
-        <td>The offset within the buffer to save from (in bytes).</td>
-      </tr>
+        <td><span class="notranslate">offset</span></td><td><span data-keyref="Type_Real"></span></td>
+        <td><span class="notranslate">The offset within the buffer to save from (in bytes).</span></td>
+     </tr>
       <tr>
-        <td>size</td>
-        <td><span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
-        <td>The size of the buffer area to save (in bytes).</td>
-      </tr>
+        <td><span class="notranslate">size</span></td><td><span data-keyref="Type_Real"></span></td>
+        <td><span class="notranslate">The size of the buffer area to save (in bytes).</span></td>
+     </tr>
     </tbody>
   </table>
-  <p> </p>
-  <h4>Returns:</h4>
-  <p class="code"><span data-keyref="Type_ID_Async_Event"><a href="../Asynchronous_Functions/Asynchronous_Functions.htm" target="_blank">Async Request ID</a></span></p>
-  <p> </p>
-  <h4>Example:</h4>
-  <p>The <span class="inline3_func"><span data-field="title" data-format="default">buffer_save_async</span></span> function can be called from any event, and since it is asynchronous the callback can be almost instantaneous or could take several seconds. Calling the function is simple and would look something like this:</p>
+  <p> </p>
+  <h4>返回。</h4>
+  <p class="code"><span data-keyref="Type_ID_Async_Event">Async Request ID</span></p>
+  <p> </p>
+  <h4>扩展实例。</h4>
+  <p> <span class="inline">buffer_save_async()</span> 函数可以从任何事件中调用，由于它是异步的，所以回调可以是即时的，也可以是几秒钟的。调用该函数很简单，看起来像这样。</p>
   <p class="code">saveid = buffer_save_async(buff, &quot;Player_Save.sav&quot;, 0, 16384);</p>
-  <p>The above code saves the contents of the buffer <span class="inline2">buff</span> to the given save file, storing the ID of the function call in a variable <span class="inline2">saveid</span>. When the save is complete, the asynchronous <a data-xref="{title}" href="../../../The_Asset_Editors/Object_Properties/Async_Events/Save_Load.htm">Save / Load</a> event will be triggered and you can parse the <span class="inline2"><a data-xref="{title}" href="../../GML_Overview/Variables/Builtin_Global_Variables/async_load.htm">async_load</a></span> map for the correct ID of the function, like this:</p>
-  <p class="code">if (ds_map_find_value(async_load, &quot;id&quot;) == saveid)<br />
+  <p>上面的代码将<span class="notranslate">buffer</span> &quot;<i>buff</i>&quot;的内容保存到给定的保存文件中，将函数调用的ID保存在变量&quot;<i>saveid</i>&quot;中。当保存完成后，异步保存/加载事件将被触发，你可以解析 <span class="inline">async_load</span> 地图，以获得函数的正确ID，像这样。</p>
+  <p class="code">if ds_map_find_value(async_load, &quot;id&quot;) == saveid<br />
     {<br />
         if (ds_map_find_value(async_load, &quot;status&quot;) == false)<br />
         {<br />
             show_debug_message(&quot;Save failed!&quot;);<br />
         }<br />
     }</p>
-  <p>The above code will first check the ID of the DS map that has been created, then check the status of the callback, posting a debug message if there have been any issues.</p>
-  <p> </p>
-  <p> </p>
+  <p>上面的代码将首先检查已经创建的DS地图的id，然后检查回调的状态，如果有任何问题，将发布一个调试信息。</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a href="Buffers.htm">Buffers</a></div>
-        <div style="float:right">Next: <a href="buffer_load.htm">buffer_load</a></div>
+        <div style="float:left">Back:<a href="Buffers.htm">缓冲器</a></div>
+        <div style="float:right">下一步。 <a href="buffer_load.htm"><span class="notranslate">buffer_load</span></a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2026 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright<span class="notranslate">YoYo Games Ltd.</span> 2022 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 buffer_save_async

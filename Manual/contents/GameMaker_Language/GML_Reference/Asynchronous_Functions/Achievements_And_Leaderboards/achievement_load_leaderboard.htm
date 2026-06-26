@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>成绩单_加载_领导板</title>
+  <meta name="generator" content="Adobe RoboHelp 2019" />
+  <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
+  <script src="../../../../assets/scripts/main_script.js"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Reference page for achievement_load_leaderboard" />
+  <meta name="rh-index-keywords" content="achievement_load_leaderboard,achievement_leaderboard_info,achievement_filter_friends_only,achievement_filter_all_players" />
+  <meta name="search-keywords" content="achievement_load_leaderboard,achievement_leaderboard_info,achievement_filter_friends_only,achievement_filter_all_players" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>成绩单_加载_领导板</h1>
+  <p>这个函数将向<span class="notranslate">server</span> 发送请求，以获取给定排行榜的信息。该排行榜必须是先前在你的游戏的开发者仪表板上创建的，并且给定的ID是你必须提供的，作为函数的第一个参数
+    的第一个参数。它将触发一个回调的<a href="../../../../The_Asset_Editors/Object_Properties/Async_Events/Social.htm">社会异步事件</a>，其中包括 <a href="../../../GML_Overview/Variables/Builtin_Global_Variables/async_load.htm"><tt>async_load</tt></a>    地图填充了相关的键/值对。这个<tt>DS地图</tt>的<i>id</i>键用于识别正确的回调（对于任何给定的异步事件，可以有一个以上的触发函数），并将与<b>常数</b> <tt>achievement_leaderboard_info</tt>以及每个玩家的一些其他键/值对配对。该地图的具体内容如下所示。</p>
+  <p class="note"><b>注意</b>：此功能仅适用于<b>iOS</b>。</p>
+  <ul class="colour">
+    <li>&quot;<b>id</b>&quot; - 对于这个函数，它应该是<tt>achievement_leaderboard_info</tt></li>
+    <li>&quot;<b>leaderboardid</b>&quot; - 在提供者仪表板上定义的排行榜的唯一ID。</li>
+    <li><b>&quot;numentries</b>&quot; - 你在排行榜上获得的条目数。</li>
+    <li>&quot;<b>PlayerN</b>&quot; - 玩家的名字，其中 &quot;N &quot;是一个整数值，对应于他们在排行榜条目列表中的位置。</li>
+    <li>&quot;<b>PlayeridN</b>&quot; - 玩家的唯一用户ID，&quot;N&quot;。</li>
+    <li>&quot;<b>RankN</b>&quot; - 玩家 &quot;N &quot;在排行榜上的排名。</li>
+    <li>&quot;<b>ScoreN</b>&quot; - 棋手 &quot;N &quot;的得分。</li>
+  </ul>
+  <p>你可以通过给出一个最小和最大的指数值来指定要显示的排行榜的确切部分，还可以要求过滤结果，以便只检索你的朋友的分数或所有玩家发布的分数，具体方法如下
+    过滤<b>常量</b>。</p>
+  <p> </p>
+  <table>
+    <tbody>
+      <tr>
+        <th>恒定</th>
+        <th>描述</th>
+      </tr>
+      <tr>
+        <td><span class="notranslate">achievement_filter_friends_only </span></td>
+        <td>只获取玩家朋友的分数。</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">achievement_filter_all_players </span></td>
+        <td>获得所有球员的所有分数。</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <p> </p>
+  <h4><b>语法。</b></h4>
+  <p class="code">achievement_load_leaderboard(ident, minindex, maxindex, filter)</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>争论</th>
+        <th>描述</th>
+      </tr>
+      <tr>
+        <td><span class="notranslate">ident</span></td>
+        <td>开发者仪表板上显示的排行榜的唯一ID。</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">minindex</span></td>
+        <td>获取排行榜数据的起始索引值。</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">maxindex</span></td>
+        <td>获取排行榜数据的最大索引值。</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">filter</span></td>
+        <td>是将结果过滤到你的朋友名单上的人，还是过滤到所有的玩家（见下文<b>说明</b>）。</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>返回。</h4>
+  <p class="code">N/A</p>
+  <p> </p>
+  <h4>扩展实例。</h4>
+  <p>下面的代码可能会在玩家登录到他们的游戏账户后被调用。 <a href="achievement_login.htm"><tt>成就_登录()</tt></a>来获取所有朋友在游戏中的排行榜位置的列表，无论是在安卓
+    或iOS系统上。</p>
+  <p class="code">if os_type == os_ios<br/>     {
+    <br/>     achievement_load_leaderboard(&quot;CgkIs9_51u0PEAIQBw&quot;, 1, 100, achievement_filter_friends_only);<br/>     }
+  </p>
+  <p>这将发送一个关于给定排行榜信息的请求，并生成一个异步回调，其中包含以下数据的特殊<tt>async_load</tt>DS map。</p>
+  <p class="code">var ident = ds_map_find_value(async_load, &quot;id&quot;);<br/> if ident == achievement_leaderboard_info<br/>     {
+    <br/>     var lbid = ds_map_find_value(async_load,&quot;leaderboardid&quot;);<br/>     if lbid == &quot;CgkIs9_51u0PEAIQBw&quot; || lbid == &quot;leaderboard1id&quot;<br/>         {
+    <br/>         global.numentries = ds_map_find_value(async_load,&quot;numentries&quot;);<br/>         for(var i = 0; i &lt; numentries; i++;)<br/>             {
+    <br/>             global.playername[i] = ds_map_find_value(async_load, &quot;Player&quot; + string(i));<br/>             global.playerid[i] = ds_map_find_value(async_load, &quot;Playerid&quot; + string(i));<br/>             global.playerrank[i] =
+    ds_map_find_value(async_load, &quot;Rank&quot; + string(i));<br/>             global.playerscore[i] = ds_map_find_value(async_load, &quot;Score&quot; + string(i));<br/>             achievement_get_pic(global.playerid[i]);
+    <br/>             }
+    <br/>         }
+    <br/>     }
+  </p>
+  <p>上面的代码检查了<b>社交异步事件</b>中返回的<tt>DS地图</tt>，如果它的 &quot;id &quot;与被检查的常量相匹配，它就会检查以确保被发送的排行榜与原始函数调用相匹配，然后再
+    循环查看地图并将所有不同的值存储在一些数组中。它还为地图中的每个条目请求一个图像（见 <a href="achievement_get_pic.htm"><tt>achievement_get_pic()</tt></a>).</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">返回。<a href="Achievements_And_Leaderboards.htm">成就和排行榜</a></div>
+        <div style="float:right">下一步。 <a href="achievement_load_progress.htm"><span class="notranslate">achievement_load_progress</span></a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright<span class="notranslate">YoYo Games Ltd.</span> 2021 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+achievement_load_leaderboard
+achievement_leaderboard_info
+achievement_filter_friends_only 
+achievement_filter_all_players 
+-->
+  <!-- TAGS
+achievement_load_leaderboard
+-->
+</body>
+</html>

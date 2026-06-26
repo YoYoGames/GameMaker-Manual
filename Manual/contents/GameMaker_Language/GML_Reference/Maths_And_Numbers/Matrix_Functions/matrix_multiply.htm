@@ -6,7 +6,7 @@
   <title>matrix_multiply</title>
   <meta name="generator" content="Adobe RoboHelp 2022" />
   <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
-  <script src="../../../../assets/scripts/main_script.js" type="module"></script>
+  <script src="../../../../assets/scripts/main_script.js"></script>
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Reference page for matrix_multiply" />
   <meta name="rh-index-keywords" content="matrix_multiply" />
@@ -15,86 +15,47 @@
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
   <h1><span data-field="title" data-format="default">matrix_multiply</span></h1>
-  <p>This function multiplies two matrices together to create a new matrix and returns the result as a new matrix, or optionally writes the result to an existing matrix that you specify.</p>
-  <p>The order of the matrices in the multiplication affects the result. This function multiplies the two matrices you pass it in the following order: </p>
-  <p class="code">result = matrix2 * matrix1;</p>
-  <p>To know the order in which the transforms held by these matrices are applied this needs to be read from right to left, i.e. the <span class="inline2">result</span> matrix <em>first</em> applies the transform stored in <span class="inline2">matrix1</span> and <em>then</em> the transform stored in <span class="inline2">matrix2</span>.</p>
-  <p class="note"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> You cannot use a matrix constant as an argument with this function, so if you wish to multiply the (for example) view matrix with a custom matrix that you have built, you must first call <span class="inline3_func"><a data-xref="{title}" href="matrix_get.htm">matrix_get</a></span> and assign the view matrix values to an array variable, then multiply it by your custom matrix, and then set the chosen matrix (view, projection or world).</p>
-  <p> </p>
-  <h4>Syntax:</h4>
-  <p class="code"><span data-field="title" data-format="default">matrix_multiply</span>(matrix1, matrix2, [result_matrix])</p>
+  <p>通过这个函数，你可以将两个矩阵数组相乘来创建一个新的变换矩阵。该函数将返回新的矩阵索引，该索引应存储在一个变量中供将来使用。</p>
+  <p class="note"><b>注意</b>：你不能使用矩阵常数作为这个函数的参数，所以如果你想把视图矩阵（例如）与你建立的自定义矩阵相乘，你必须先调用 <span style="font-size:1px;"><a href="matrix_get.htm"><span class="inline">matrix_get()</span></a></span>并将视图矩阵的值赋给一个数组变量，然后将其与你的自定义矩阵相乘，再设置所选矩阵（视图、投影或世界）。</p>
+  <p> </p>
+  <h4>语法。</h4>
+  <p class="code"><span data-field="title" data-format="default">matrix_multiply</span>(matrix1, matrix2);</p>
   <table>
     <tbody>
       <tr>
-        <th>Argument</th>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
+        <th>争论</th><th>类型</th>
+        <th>描述</th>
+     </tr>
       <tr>
-        <td>matrix1</td>
-        <td><span data-keyref="Type_Array_Matrix"><a href="Matrix_Functions.htm" target="_blank">Matrix</a></span></td>
-        <td>The first matrix to use (storing the first transformation to apply)</td>
-      </tr>
+        <td><span class="notranslate">matrix1</span></td><td><span data-keyref="Type_Array_Matrix"></span></td>
+        <td><span class="notranslate">The first matrix index to use.</span></td>
+     </tr>
       <tr>
-        <td>matrix2</td>
-        <td><span data-keyref="Type_Array_Matrix"><a href="Matrix_Functions.htm" target="_blank">Matrix</a></span></td>
-        <td>The second matrix to use (storing the second transformation to apply)</td>
-      </tr>
-      <tr>
-        <td>result_matrix</td>
-        <td><span data-keyref="Type_Array_Matrix"><a href="Matrix_Functions.htm" target="_blank">Matrix</a></span></td>
-        <td><span data-conref="../../../../assets/snippets/Tag_optional.hts"> </span> An existing matrix in which to store the result. If this argument isn&#39;t specified, the function returns the result as a new matrix.</td>
-      </tr>
+        <td><span class="notranslate">matrix2</span></td><td><span data-keyref="Type_Array_Matrix"></span></td>
+        <td><span class="notranslate">The second matrix index to use.</span></td>
+     </tr>
     </tbody>
   </table>
-  <p> </p>
-  <h4>Returns:</h4>
-  <p class="code"><span data-keyref="Type_Array_Matrix"><a href="Matrix_Functions.htm" target="_blank">Matrix</a></span></p>
-  <p> </p>
-  <h4>Example 1: Basic Use</h4>
-  <p class="code">var _v_matrix = matrix_get(matrix_view);<br />
-    var _new_matrix = matrix_multiply(_v_matrix, my_matrix);<br />
-    matrix_set(matrix_view, _new_matrix);</p>
-  <p>The above code gets the current view matrix, multiplies that with a custom matrix and sets the view matrix to the resulting matrix.</p>
-  <p> </p>
-  <h4>Example 2: Using an Existing Matrix to Store the Result</h4>
-  <p class="code_heading">Create Event</p>
-  <p class="code">mat_result = matrix_build_identity();<br />
-    <br />
-    mat_one = matrix_build(0, 0, 10, 0, 0, 90, 1, 1, 1);<br />
-    mat_two = matrix_build(10, 0, 4, 30, 45, 0, 1, 1, 1);
-  </p>
-  <p class="code_heading">Step Event</p>
-  <p class="code">mat_one[12] = 100 + lengthdir_x(100, current_time/100);<br />
-    matrix_multiply(mat_one, mat_two, mat_result);</p>
-  <p>This code creates an identity matrix and two other matrices in the Create event to be used for a matrix multiplication. In the Step event, the matrix element at array index 12 is set to a new value and <span class="inline3_func"><span data-field="title" data-format="default">matrix_multiply</span></span> is called with the two matrices. The existing matrix <span class="inline2">mat_result</span> is used to store the result, which saves the need to create a new matrix on every call to the function.</p>
-  <p> </p>
-  <h4>Example 3: Drawing a Rectangle Relative to a Circle</h4>
-  <p class="code_heading">Draw Event</p>
-  <p class="code">var _mat_child_local = matrix_build(100, 100, 0, 0, 0, current_time/2, 1, 1, 1);<br />
-    var _mat_parent_global = matrix_build(x, y, 0, 0, 0, current_time/12 + dsin(current_time/4) * 30, 1, 1, 1);<br />
-    var _mat_child_global = matrix_multiply(_mat_child_local, _mat_parent_global);<br />
-    <br />
-    matrix_set(matrix_world, _mat_parent_global);<br />
-    draw_circle_color(0, 0, 100, c_blue, c_blue, false);<br />
-    matrix_set(matrix_world, _mat_child_global);<br />
-    draw_rectangle_color(-10, -10, 10, 10, c_red, c_red, c_red, c_red, false);<br />
-    matrix_set(matrix_world, matrix_build_identity());
-  </p>
-  <p>The code example above shows how <span class="inline3_func"><span data-field="title" data-format="default">matrix_multiply</span></span> can be used to draw a rectangle shape relative to a circle shape.</p>
-  <p>In the Draw event, two matrices are built using <span class="inline3_func"><a data-xref="{title}" href="matrix_build.htm">matrix_build</a></span> and stored in variables <span class="inline2">_mat_child_local</span> and <span class="inline2">_mat_parent_global</span>. The first matrix represents the transform of the rectangle relative to the circle, the second matrix that of the circle relative to the room. Using <span class="inline3_func"><span data-field="title" data-format="default">matrix_multiply</span></span> a third matrix is then created that is the product of the first two matrices. The rectangle&#39;s transform is the first argument passed to the function, the circle&#39;s transform the second, i.e. the transformation stored in the resulting matrix will <em>first</em> apply the rectangle&#39;s transform, <em>then</em> the circle&#39;s transform.</p>
-  <p>Next, the world matrix is set to <span class="inline2">_mat_parent_global</span> using <span class="inline3_func"><a data-xref="{title}" href="matrix_set.htm">matrix_set</a></span> and a blue circle with radius 100 is drawn. After that, the world matrix is set to <span class="inline2">_mat_child_global</span> and a red square with a side of 20 is drawn.</p>
-  <p>Finally, the world matrix is reset to an identity matrix to not affect further drawing.</p>
-  <p> </p>
-  <p> </p>
+  <p> </p>
+  <h4>返回。</h4>
+  <p class="code"><span data-keyref="Type_Array_Matrix">Matrix Array</span></p>
+  <p> </p>
+  <h4>例子。</h4>
+  <p class="code">var v_matrix = matrix_get(matrix_view);<br />
+    var new_matrix = matrix_multiply(v_matrix, my_matrix);<br />
+    matrix_set(matrix_view, new_matrix);</p>
+  <p>上面的代码将得到当前的视图矩阵，然后与自定义矩阵相乘，然后使用得到的矩阵索引再次设置视图矩阵。</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a data-xref="{title}" href="Matrix_Functions.htm">Matrix Functions</a></div>
-        <div style="float:right">Next: <a data-xref="{title}" href="matrix_inverse.htm">matrix_inverse</a></div>
+        <div style="float:left">回来。<a href="Matrix_Functions.htm">矩阵功能</a></div>
+        <div style="float:right">下一步。 <a href="matrix_build_identity.htm"><span class="notranslate">matrix_build_identity</span></a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2025 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright<span class="notranslate">YoYo Games Ltd.</span> 2022 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 matrix_multiply

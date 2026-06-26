@@ -3,10 +3,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>Global Variables</title>
-  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <title>全局变量</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
   <link rel="stylesheet" href="../../../assets/css/default.css" type="text/css" />
-  <script src="../../../assets/scripts/main_script.js" type="module"></script>
+  <script src="../../../assets/scripts/main_script.js"></script>
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Page explaining global variables" />
   <meta name="rh-index-keywords" content="global,globalvar,Global Variables" />
@@ -14,62 +14,56 @@
 </head>
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
-  <h1><span data-field="title" data-format="default">Global Variables</span></h1>
-  <p>A <strong><a id="global"></a>global </strong>variable is one that, once declared, belongs to no instance in particular and yet can be accessed by all. Just like <a data-xref="{title}" href="Local_Variables.htm">Local Variables</a>, global variables must be declared using an identifier, but unlike a local variable, a global variable remains in memory <em>until the end of the game</em>. So, you can create a global variable to keep track of (for example) the number of bullets that the player has and then just update this variable at different points in the game, from any place in your code and at any time. Any changes made to the variable are &quot;global&quot;, in that all instances accessing the variable will be affected by the change. Let&#39;s have a look at an example:</p>
+  <h1>全局变量</h1>
+  <p>对<strong>全局变量 </strong>的基本描述是：一旦声明，它就不属于任何特定的实例，但却可以被所有人访问。就像<a href="Local_Variables.htm">局部变量</a>一样，全局变量必须用一个标识符来声明，但与局部变量不同的是，全局变量在<em>游戏结束前一直</em>留在内存中。因此，你可以创建一个全局变量来记录（例如）玩家拥有的子弹数量，然后在游戏中的不同时间点更新这个变量，形成任何实例或函数，并在任何时候更新。从本质上讲，全局变量不属于任何特定的实例，可以被所有的实例访问、改变和使用，对该变量的任何改变都是 &quot;全局的&quot;，因为所有使用该变量的实例都会受到改变的影响。让我们来看看一个例子。</p>
   <p class="code">global.food = 5;</p>
-  <p>We declare the <span class="inline2">food</span> variable by first writing the <span class="inline2">global</span> keyword and then a dot <span class="inline2">.</span> to tell <span data-keyref="GameMaker Name">GameMaker</span> that this variable is global in scope. We will need to use this form from now on any time we are required to access or to change this variable in any way.</p>
-  <p>So, we have created a new variable called <span class="inline2">food</span> and we have declared it as global. Now, any instance, struct or function can use and change this variable in any way and all other instances will &quot;see&quot; this. For example we could have a different food object that the player collides with and in the collision event we have:</p>
+  <p>我们声明 &quot;<span class="inline">food</span>&quot; 变量时，先写 &quot;<span class="inline">global</span>&quot; ，然后写 &quot;<span class="inline">.</span>&quot; ，告诉<span data-keyref="GameMaker Name">GameMaker</span>这个变量现在是全局范围。从现在开始，当我们需要以任何方式访问或改变这个变量时，我们将需要使用这种形式。所以，我们已经创建了一个新的变量，叫做 &quot;<span class="inline">food</span>&quot; ，并声明它是全局的。现在，任何实例或函数都可以以任何方式使用和改变这个变量，所有其他实例都会 &quot;看到 &quot;这个变量。例如，我们可以有一个不同的食物<span class="notranslate">object</span> ，玩家与之发生碰撞，在碰撞事件中我们有。</p>
   <p class="code">global.food +=1;</p>
-  <p>We also have another object that draws this value like this:</p>
+  <p>我们还有另一个<span class="notranslate">object</span> ，它像这样画出这个值。</p>
   <p class="code">draw_text(32, 32, &quot;food = &quot; + string(global.food));</p>
-  <p>With global variables we can change values and see those changes reflected in all instances of the objects that reference this variable. As with <i>local</i> variables you have to take care not to name your global variables the same as any instance variables as that may cause you problems and make bugs creep into your games due to variable overlap, which can be a difficult issue to debug sometimes. In general you should have a single object that declares all your global variables at the very start of the game (for example, in the <a href="../../../The_Asset_Editors/Object_Properties/Other_Events.htm">Room Start Event</a> of the first object instance placed in the first room of the game) or a single <a href="../Script_Functions.htm">script function</a> that declares them all together, as this gives you a handy place to go back and reference everything at once should you need to check a variable name or edit a value.</p>
-  <p class="note"><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> Inside the Script Editor you&#39;re in global scope, so the <span class="inline2">global.</span> prefix can be omitted. For clarity&#39;s sake it can, however, be good to include it anyway.</p>
-  <h2 id="the_global_struct">The Global Struct</h2>
-  <p>Global variables are stored in a <a data-xref="{bookmarkText}" href="../Structs.htm#struct">struct</a>, which you can access like any other struct. To refer to this struct you use the <span class="inline2">global</span> keyword.</p>
-  <p>For example, to show all global variables and <a href="../Script_Functions.htm">script functions</a> that you defined you can use the following code: </p>
-  <p class="code">show_debug_message(global);</p>
-  <h2>Built-in Global Variables</h2>
-  <p><span data-keyref="GameMaker Name">GameMaker</span> has a collection of &quot;built-in&quot; global variables too, so you should be aware of them as you may name one of your instance variables the same or wish to have your own global variable with the same name and wonder why you are getting errors! They are easy to spot, however, as they are shown in a different colour in the code editor and also come up in the auto-complete bar at the bottom. The majority of built-in global variables have very specific uses and are listed in the appropriate sections of the manual - however there are two important ones that are used frequently and aren&#39;t listed elsewhere:</p>
+  <p>通过全局变量，我们可以改变数值，并看到这些变化反映在所有引用该变量的<span class="notranslate">objects</span> 实例中。和<i>局部变量</i>一样，你必须注意不要把你的全局变量的名字和任何实例变量的名字一样，因为这可能会给你带来问题，并且由于变量的重叠而使错误悄悄进入你的游戏，这有时是一个很难调试的问题。一般来说，你应该在游戏开始时（例如，在游戏的第一个对象实例的<a href="../../../The_Asset_Editors/Object_Properties/Other_Events.htm">房间开始事件</a>中<span class="notranslate">object</span> ）有一个单一的<span class="notranslate">room</span> ，声明你所有的全局变量，或者有一个单一的<a href="../Script_Functions.htm">脚本函数</a>来声明它们，因为这给你一个方便的地方，如果你需要检查一个变量的名称或编辑一个值，可以一次性地引用所有的变量。</p>
+  <p><span data-keyref="GameMaker Name">GameMaker</span>也有一系列 &quot;内置 &quot;的全局变量，所以你应该注意它们，因为你可能会把你的一个实例变量命名为相同的名字，或者希望有你自己的全局变量有相同的名字，并想知道为什么你会得到错误！但是，它们很容易被发现，因为它们在代码编辑器中显示为不同的颜色，并在底部的自动完成栏中出现。然而，它们很容易被发现，因为它们在代码编辑器中以不同的颜色显示，也会出现在底部的自动完成栏中。大多数内置的全局变量都有非常具体的用途，在手册的相应章节中列出 - 但是有两个重要的全局变量经常使用，而且没有在其他地方列出。</p>
   <ul class="colour">
     <li><span class="inline"><a data-xref="{title}" href="Builtin_Global_Variables/async_load.htm">async_load</a></span></li>
     <li><span class="inline"><a data-xref="{title}" href="../../GML_Reference/Game_Input/Gesture_Input/event_data.htm">event_data</a></span></li>
   </ul>
-  <p>There are also three <b>deprecated</b> built-in global variables which you should be aware of (these variables are only designed to support legacy projects from previous versions of <span data-keyref="GameMaker Name">GameMaker</span> and should <b><i>not be used in new projects</i></b>):</p>
+  <p>还有三个<b>废弃的</b>内置全局变量，你应该知道（这些变量只是为了支持<span class="notranslate">GameMaker</span> 以前版本的遗留项目而设计的，并且应该 <b><i>不能在新项目中使用</i></b>):</p>
   <ul class="colour">
     <li><span class="inline"><a data-xref="{title}" href="Builtin_Global_Variables/score.htm">score</a> <span data-conref="../../../assets/snippets/Tag_deprecated.hts"> </span></span></li>
     <li><span class="inline"><a data-xref="{title}" href="Builtin_Global_Variables/health.htm">health</a> <span data-conref="../../../assets/snippets/Tag_deprecated.hts"> </span></span></li>
     <li><span class="inline"><a data-xref="{title}" href="Builtin_Global_Variables/lives.htm">lives</a> <span data-conref="../../../assets/snippets/Tag_deprecated.hts"> </span></span></li>
   </ul>
-  <p>Finally, there are two variables that can be used in script functions and methods:</p>
+  <p>最后，有两个变量可用于<span class="notranslate">script</span> 函数和方法。</p>
   <ul class="colour">
     <li><a data-xref="{title}" href="Builtin_Global_Variables/argument.htm">argument</a></li>
     <li><a data-xref="{title}" href="Builtin_Global_Variables/argument_count.htm">argument_count</a></li>
   </ul>
-  <h2>globalvar</h2>
-  <p class="note"><span data-conref="../../../assets/snippets/Tag_deprecated.hts"> </span> The <span class="inline2">globalvar</span> declaration is <b>deprecated</b> and only supported for legacy purposes. You should <b>always</b> explicitly refer to global scope using the <span class="inline2">global.</span> prefix.</p>
-  <p>The second form for creating global variables is to declare them as such using the <span class="inline2">globalvar</span> declaration, much as you would a <a href="Local_Variables.htm">local variable</a> using the <span class="inline2">var</span> declaration.</p>
-  <p>This (deprecated) declaration would be used as follows:</p>
+  <p>下面的形式也可以用来声明全局变量，但它是 <i><b>只是为了向后兼容而包括在内</b></i>，不建议你在新项目中使用这种形式，因为未来版本的<span class="notranslate">GameMaker</span> 可能不支持它。</p>
+  <p>创建全局变量的第二种形式是使用 <span class="inline">globalvar</span> 声明，就像使用 <span class="inline">var</span> 声明一个局部变量一样，将它们声明为全局变量。</p>
+  <p class="note"><b>重要的是!</b> <span class="inline">globalvar</span> 声明已<b>被弃</b>用，只支持用于遗留用途。你应该<b>始终</b>使用 <span class="inline">global.</span> 标识符来标记全局变量。</p>
+  <p>这个（废弃的）声明将被用于以下方面。</p>
   <p class="code">globalvar food;<br />
     food = 5;</p>
-  <p>Once declared in this way the variable <span class="inline2">food</span> is now considered global and requires no <span class="inline2">global.</span> prefix - which also means that it&#39;s a lot harder to identify global variables in your code and it&#39;s also much easier to get variable overlap as you use the same variable name in different objects or from extensions that you&#39;ve installed. Once declared in this way the global variable is accessed as follows:</p>
+  <p>一旦以这种方式声明，该变量 &quot;food &quot;现在被认为是全局性的，不需要 <span class="inline">global.</span> 前缀--这也意味着在你的代码中识别全局变量要难得多，而且当你在不同的<span class="notranslate">objects</span> ，或者从你安装的<span class="notranslate">extensions</span> ，也更容易出现变量重叠的现象。一旦以这种方式声明，全局变量的访问方式如下。</p>
   <p class="code">food += 2;</p>
-  <p>or:</p>
+  <p>或。</p>
   <p class="code">draw_text(32, 32, &quot;food = &quot; + string(food));</p>
-  <p>As you can see, with nothing to show that the variable is global in scope you are potentially setting yourself up for many subtle problems to arise in your game, which is why this declaration should be avoided.</p>
-  <p>There are a few functions designed to help you when dealing with global variables, which you can find on the following page:</p>
+  <p>正如你所看到的，如果没有任何东西表明这个变量是全局范围的，你就有可能为你的游戏中出现的许多微妙问题埋下伏笔，这就是为什么应该避免这种声明。</p>
+  <p>在处理全局变量时，有几个函数旨在帮助你，你可以在下面的页面上找到这些函数。</p>
   <ul class="colour">
-    <li><a data-xref="{title}" href="../../GML_Reference/Variable_Functions/Variable_Functions.htm">Variable Functions</a></li>
+    <li><a href="../../GML_Reference/Variable_Functions/Variable_Functions.htm">变量函数</a></li>
   </ul>
-  <p> </p>
-  <p> </p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a data-xref="{title}" href="../Variables_And_Variable_Scope.htm">Variables And Variable Scope</a></div>
-        <div style="float:right">Next: <a data-xref="{title}" href="Constants.htm">Constants</a></div>
+        <div style="float:left">回来。<a href="../Variables_And_Variable_Scope.htm">变量和变量范围</a></div>
+        <div style="float:right">下一步。<a href="Constants.htm">常数</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2025 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright<span class="notranslate">YoYo Games Ltd.</span> 2022 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 global

@@ -3,10 +3,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>Audio</title>
-  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <title>音频</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
   <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
-  <script src="../../../../assets/scripts/main_script.js" type="module"></script>
+  <script src="../../../../assets/scripts/main_script.js"></script>
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Page outlining the different functions and variables associated with Audio" />
   <meta name="rh-index-keywords" content="Audio" />
@@ -14,180 +14,79 @@
 </head>
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
-  <h1><span data-field="title" data-format="default">Audio</span></h1>
-  <p><span data-keyref="GameMaker Name">GameMaker</span> has a complete audio engine that is based on the <span class="inline">*.ogg</span>, <span class="inline">*.mp3</span> and <span class="inline">*.wav</span> sound formats.</p>
-  <p>Sounds of these types <a href="../../../../The_Asset_Editors/Sounds.htm">added to the IDE</a> can be used in your game using the audio functions shown below.</p>
-  <p>For things more complex than basic sound effects, or playing a single piece of music, you can refer to the advanced audio functions which let you modify how a sound is played. There is also a selection of more specialised functions dedicated to streaming audio, positioning audio (to give 3D sound), grouping audio, synchronised audio and audio effects.</p>
-  <p class="note"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> If you need more complex audio processing for your game you can use the <a href="https://github.com/YoYoGames/GMEXT-FMOD" title="FMOD Extension">FMOD extension</a>.</p>
-  <div class="minitoc" data-minitoc-targetid="drop-down1" data-type="minitoc" style="">
-    <p class="minitoc-caption" data-close-text="" data-expanded="false" data-open-text="Contents" data-type="minitoc-caption" href="#" style="">Mini TOC (placeholder)</p>
-    <ol class="minitoc-list" data-from-selector="h2" data-to-selector="h2" data-type="minitoc-list" style="">
-      <li>Heading</li>
-    </ol>
-  </div>
-  <h2>Using Audio</h2>
-  <h3>Playing Sounds</h3>
-  <p>The most straightforward way to play a sound is using <span class="inline2"><a data-xref="{title}" href="audio_play_sound.htm">audio_play_sound</a></span>: </p>
-  <p class="code">audio_play_sound(snd_Explode, 10, false);</p>
-  <p>At a minimum you have to provide the <span data-keyref="Type_Asset_Sound"><a href="../../../../The_Asset_Editors/Sounds.htm" target="_blank">Sound Asset</a></span>, a priority for the new sound instance and whether the sound should loop.</p>
-  <p>Another way to play sounds is using <span class="inline2"><a data-xref="{title}" href="audio_play_sound_ext.htm">audio_play_sound_ext</a></span>. This function is identical to <span class="inline2"><a data-xref="{title}" href="audio_play_sound.htm">audio_play_sound</a></span> but allows you to pass various audio parameters in a struct. Using this function, you only need to provide a <span data-keyref="Type_Asset_Sound"><a href="../../../../The_Asset_Editors/Sounds.htm" target="_blank">Sound Asset</a></span> through the &quot;sound&quot; key of the struct: </p>
-  <p class="code">audio_play_sound_ext({ sound: snd_Explode });</p>
-  <p><span>Here the priority will default to 0 and the sound will not be looped. You can supply <a href="audio_play_sound_ext.htm">additional keys</a> in the struct to change the properties of the sound.</span></p>
-  <div data-conref="../../../../assets/snippets/Note_Triggers_Audio_Playback_Event.hts"> </div>
-  <h3>Sound Instances (Voices)</h3>
-  <p>The functions <span class="inline2"><a data-xref="{title}" href="audio_play_sound.htm">audio_play_sound</a></span> and <span class="inline2"><a data-xref="{title}" href="audio_play_sound_ext.htm">audio_play_sound_ext</a></span> create a new <em>instance</em> of a sound (also called a &quot;voice&quot;) and return its ID: </p>
-  <p class="code">ins_sound = audio_play_sound(snd_Explode, 10, false);</p>
-  <p>You can use this sound <strong>instance</strong> ID in functions to change the audio properties at the <strong>instance</strong> level (or pass them directly as optional arguments). This will only change the properties for that particular sound instance.</p>
-  <p>In case you pass a sound <strong>asset</strong> ID to the functions, the audio property at the <strong>asset</strong> level will be set to the given value.</p>
-  <p class="note"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> <span class="inline2"><a data-xref="{title}" href="audio_play_sound_at.htm">audio_play_sound_at</a></span> and <span class="inline2"><a data-xref="{title}" href="Audio_Emitters/audio_play_sound_on.htm">audio_play_sound_on</a></span> work in the same way and also return the ID of the sound instance they create.</p>
-  <p class="note"><span data-conref="../../../../assets/snippets/Tag_tip.hts"> </span> The maximum number of sound instances/voices is <span data-keyref="Max_Audio_Channels_Default">128</span> by default. This can be changed using the function <span class="inline2"><a data-xref="{title}" href="audio_channel_num.htm">audio_channel_num</a></span>.</p>
-  <h3 id="h">Audio Properties</h3>
-  <p>Every sound has basic properties that are applied on different &quot;levels&quot;. Depending on the property, it either acts as a multiplier, or overrides the value set at a previous level.</p>
-  <p>These audio properties are: </p>
-  <ul class="Disc">
-    <li><a href="audio_sound_gain.htm"><strong>Gain</strong></a>: This is a multiplier for the volume. The default value for gain on the asset level is the value of the &quot;Volume&quot; slider in <a data-xref="{title}" href="../../../../The_Asset_Editors/Sounds.htm">The Sound Editor</a>. The default value on all other levels is 1. Gain can also be added using <a data-xref="{title}" href="Audio_Effects/Audio_Effects.htm">Audio Effects</a>.</li>
-    <li><a href="audio_sound_pitch.htm"><strong>Pitch</strong></a>: This is a multiplier for the sound&#39;s pitch. The default value for pitch on all levels is set to 1.</li>
-    <li><a href="audio_sound_set_track_position.htm"><strong>Offset/Track Position</strong></a>: This is the offset from the start of the audio track where it starts playing. If this value is set at the instance level, it overrides the value set at the asset level. By default this is 0 (i.e. no offset).</li>
-    <li><a href="audio_sound_set_listener_mask.htm"><strong>Listener Mask</strong></a>: This is a bitmask value that determines the listeners that audio is heard on. The default value is 1 (or <span class="inline2">0x01</span>), which stands for the default listener.</li>
-  </ul>
-  <p>For an overview of all audio properties, levels and how their values are calculated, see <a data-xref="{title}" href="Audio_Properties.htm">Audio Properties Overview</a>.</p>
-  <p class="note"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> The optional parameters that you can pass to the <span class="inline2">audio_play_sound_*</span> functions set the instance-level value of the property.</p>
-  <h3>Audio Looping</h3>
-  <p>A sound can be looped by setting it to loop. This can either be done when playing the sound using any of the <span class="inline2">audio_play_sound_*</span> functions: </p>
-  <p class="code">ins_sound = audio_play_sound(snd_Engine, 100, true);</p>
-  <p>or afterwards, when the sound is already playing, using the function <span class="inline3_func"><a data-xref="{title}" href="Audio_Loop_Points/audio_sound_loop.htm">audio_sound_loop</a></span>: </p>
-  <p class="code">audio_sound_loop(ins_sound, true);</p>
-  <p>By default a sound loops from its start to its end. The start and end position can be changed using <span class="inline3_func"><a data-xref="{title}" href="Audio_Loop_Points/audio_sound_loop_start.htm">audio_sound_loop_start</a></span> and <span class="inline3_func"><a data-xref="{title}" href="Audio_Loop_Points/audio_sound_loop_end.htm">audio_sound_loop_end</a></span> respectively, also while the sound is playing (i.e. <span class="inline2">ins_sound</span> refers to a sound instance for which <span class="inline3_func"><a data-xref="{title}" href="audio_is_playing.htm">audio_is_playing</a></span> returns <span class="inline2">true</span>).</p>
-  <p>When the track position reaches the loop end position if a sound is set to loop, it continues playing from the start position.</p>
-  <p class="note"><span data-conref="../../../../assets/snippets/Tag_important.hts"> </span> The loop end position <em>must</em> be past the loop start position. The exception to this is the value 0.0 for loop end, which marks the end of the sound (i.e. <span class="inline3_func"><a data-xref="{title}" href="audio_sound_length.htm">audio_sound_length</a></span>).</p>
-  <p>See: <a data-xref="{title}" href="Audio_Loop_Points/Audio_Loop_Points.htm">Audio Loop Points</a></p>
-  <h3>Audio Effects</h3>
-  <p>Finally you can add effects to the audio that you play, such as reverb, echo, delay, etc.</p>
-  <p>Audio effects are created using <span class="inline2"><a data-xref="{title}" href="Audio_Effects/audio_effect_create.htm">audio_effect_create</a></span> and then assigned to one of the effects slots of an audio bus. The audio bus that you can always assign effects to is the main audio bus <span class="inline2"><a data-xref="{title}" href="Audio_Effects/audio_bus_main.htm">audio_bus_main</a></span>.</p>
-  <p>See: <a data-xref="{title}" href="Audio_Effects/Audio_Effects.htm">Audio Effects</a></p>
-  <h2>Advanced Audio</h2>
-  <h3>Audio Emitters and Listeners</h3>
-  <p>If you need positional audio or audio that should play in a three-dimensional environment, you can use <a data-xref="{title}" href="Audio_Emitters/Audio_Emitters.htm">Audio Emitters</a> and <a data-xref="{title}" href="Audio_Listeners/Audio_Listeners.htm">Audio Listeners</a>.</p>
-  <p class="note"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> <a data-xref="{title}" href="Audio_Emitters/Audio_Emitters.htm">Audio Emitters</a> introduce another level for the gain, pitch and listener mask parameters.</p>
-  <h3>Audio Groups</h3>
-  <p>All sound assets, except for streamed audio, belong to a single <a href="../../../../Settings/Audio_Groups.htm">audio group</a>. Sounds in an audio group can be loaded and unloaded at the same time.</p>
-  <p>Audio groups have their own gain factor (see <span class="inline2"><a data-xref="{title}" href="Audio_Groups/audio_group_set_gain.htm">audio_group_set_gain</a></span> / <span class="inline2"><a data-xref="{title}" href="Audio_Groups/audio_group_get_gain.htm">audio_group_get_gain</a></span>)</p>
-  <p class="note"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> All sounds are by default added to an audio group <span class="inline2"><a data-xref="{title}" href="Audio_Groups/audiogroup_default.htm">audiogroup_default</a></span>.</p>
-  <h3>Audio Streams</h3>
-  <p><span data-keyref="GameMaker Name">GameMaker</span> supports loading streamed audio directly from .ogg files. For this you can use <span class="inline2"><a data-xref="{title}" href="audio_create_stream.htm">audio_create_stream</a></span> and <span class="inline2"><a data-xref="{title}" href="audio_destroy_stream.htm">audio_destroy_stream</a></span>.</p>
-  <h3>Sync Groups</h3>
-  <p>For audio that should play perfectly in sync on a per sample level, <span data-keyref="GameMaker Name">GameMaker</span> has sync groups. See <a data-xref="{title}" href="Audio_Synchronisation/Audio_Synchronisation.htm">Audio Synchronisation</a> for more information on this.</p>
-  <h2>Web Audio</h2>
-  <p>When creating games for the HTML5 and GX.games target platforms, the audio engine requires <b>Web Audio</b> support, and this in turn means that sometimes your audio won&#39;t play when or how you expect it. This is because the Web Audio context may not be running or may stop running when your game is being played. What causes this varies greatly between browsers, and even between different versions of the same browser, and so detecting when the web audio context status changes is very important, e.g.: to detect when the context changes and pause/start looping audio like background music.</p>
-  <p>To help with this issue, <span data-keyref="GameMaker Name">GameMaker</span> has two separate ways to detect the change in Web Audio context status, either using the following function:</p>
+  <h1>音频</h1>
+  <p><span data-keyref="GameMaker Name">GameMaker</span>有一个完整的音频引擎，它是基于 <span class="inline">*.ogg</span>, <span class="inline">*.mp3</span> 和 <span class="inline">*.wav</span> 的声音格式。这些类型的声音添加到<span class="notranslate">IDE</span> ，然后可以使用下面显示的基本音频功能在你的游戏中使用。对于比基本音效或播放单一音乐更复杂的东西，你可以参考高级音频功能，让你修改声音的播放方式。还有一些更专业的功能，专门用于流媒体音频、定位音频--提供3D声音--和分组音频。</p>
+  <p class="note"><b>重要的是!</b>当在HTML5目标上使用音频时，你应该知道并不是所有的浏览器都支持网络音频，所以在运行时可能不会为你的项目播放任何声音。您可以从以下链接中了解网络音频支持的总体情况。<a href="https://caniuse.com/#search=WebAudio" target="_blank">我可以使用网络音频吗？</a></p>
+  <p>下面的函数是以最直接和最简单的方式处理音频，避免使用发射器，允许用户轻松地产生声音和播放音乐，因为这些声音总是在<i>听众的位置</i>产生的（关于<i>听众</i>的更多细节，见下面的链接部分），所以一般不会受到<i>听众</i>的任何变化的影响。</p>
   <ul class="colour">
-    <li><a data-xref="{title}" href="audio_system_is_available.htm">audio_system_is_available</a></li>
+    <li><a href="audio_exists.htm"><span class="notranslate">audio_exists</span></a></li>
+    <li><a href="audio_get_name.htm"><span class="notranslate">audio_get_name</span></a></li>
+    <li><a href="audio_get_type.htm"><span class="notranslate">audio_get_type</span></a></li>
+    <li><a href="audio_play_sound.htm"><span class="notranslate">audio_play_sound</span></a></li>
+    <li><a href="audio_play_sound_at.htm"><span class="notranslate">audio_play_sound_at</span></a></li>
+    <li><a href="audio_pause_sound.htm"><span class="notranslate">audio_pause_sound</span></a></li>
+    <li><a href="audio_pause_all.htm"><span class="notranslate">audio_pause_all</span></a></li>
+    <li><a href="audio_resume_sound.htm"><span class="notranslate">audio_resume_sound</span></a></li>
+    <li><a href="audio_resume_all.htm"><span class="notranslate">audio_resume_all</span></a></li>
+    <li><a href="audio_stop_sound.htm"><span class="notranslate">audio_stop_sound</span></a></li>
+    <li><a href="audio_stop_all.htm"><span class="notranslate">audio_stop_all</span></a></li>
+    <li><a href="audio_is_playing.htm"><span class="notranslate">audio_is_playing</span></a></li>
+    <li><a href="audio_is_paused.htm"><span class="notranslate">audio_is_paused</span></a></li>
+    <li><a href="audio_create_stream.htm"><span class="notranslate">audio_create_stream</span></a></li>
+    <li><a href="audio_destroy_stream.htm"><span class="notranslate">audio_destroy_stream</span></a></li>
   </ul>
-  <p>or using the <b>Asynchronous System Event</b>, which will be triggered whenever the Web Audio status changes. In this event you will get the built-in <span class="inline2"><a data-xref="{title}" href="../../../GML_Overview/Variables/Builtin_Global_Variables/async_load.htm">async_load</a></span> DS map populated with the key &quot;<span class="inline">event_type</span>&quot; which in turn will hold the string &quot;<span class="inline">audio_system_status</span>&quot; if it is an audio event. When this key exists, there will also be a further &quot;<span class="inline">status</span>&quot; key which will be either &quot;<span class="inline">available</span>&quot; or &quot;<span class="inline">unavailable</span>&quot;.</p>
-  <p>For more information please see the section: </p>
+  <p> </p>
+  <p>以下功能旨在对音频引擎的工作方式进行更多的控制，以及通过它播放的声音将如何被听众 &quot;听到&quot;。因此，建议你在使用以下功能之前，对<span data-keyref="GameMaker Name">GameMaker</span>音频引擎的其他部分的工作原理有一定的了解。</p>
   <ul class="colour">
-    <li><a href="../../../../The_Asset_Editors/Object_Properties/Async_Events/System.htm">The Asynchronous System Event</a></li>
+    <li><a href="audio_sound_set_track_position.htm"><span class="notranslate">audio_sound_set_track_position</span></a></li>
+    <li><a href="audio_sound_get_track_position.htm"><span class="notranslate">audio_sound_get_track_position</span></a></li>
+    <li><a href="audio_sound_set_listener_mask.htm"><span class="notranslate">audio_sound_set_listener_mask</span></a></li>
+    <li><a href="audio_sound_get_listener_mask.htm"><span class="notranslate">audio_sound_get_listener_mask</span></a></li>
+    <li><a href="audio_sound_length.htm"><span class="notranslate">audio_sound_length</span></a></li>
+    <li><a href="audio_sound_pitch.htm"><span class="notranslate">audio_sound_pitch</span></a></li>
+    <li><a href="audio_sound_get_pitch.htm"><span class="notranslate">audio_sound_get_pitch</span></a></li>
+    <li><a href="audio_sound_is_playable.htm"><span class="notranslate">audio_sound_is_playable</span></a></li>
+    <li><a href="audio_falloff_set_model.htm"><span class="notranslate">audio_falloff_set_model</span></a></li>
+    <li><a href="audio_sound_gain.htm"><span class="notranslate">audio_sound_gain</span></a></li>
+    <li><a href="audio_sound_get_gain.htm"><span class="notranslate">audio_sound_get_gain</span></a></li>
+    <li><a href="audio_master_gain.htm"><span class="notranslate">audio_master_gain</span></a></li>
+    <li><a href="audio_set_master_gain.htm"><span class="notranslate">audio_set_master_gain</span></a></li>
+    <li><a href="audio_get_master_gain.htm"><span class="notranslate">audio_get_master_gain</span></a></li>
+    <li><a href="audio_channel_num.htm"><span class="notranslate">audio_channel_num</span></a></li>
+    <li><a href="audio_debug.htm"><span class="notranslate">audio_debug</span></a></li>
   </ul>
-  <p class="note"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> This event will be triggered on <i>all</i> platforms, but on everything except HTML5 it will only be triggered once on Game Start when the audio engine is first initialised.</p>
-  <p>To check if audio can be played using Web Audio, you can use <span class="inline2"><a data-xref="{title}" href="audio_sound_is_playable.htm">audio_sound_is_playable</a></span>.</p>
-  <h2 id="h1">Audio Error Handling</h2>
-  <p>There may be cases where a function has to either throw a fatal error (crashing the game) or print an error message to the Output Log. These general cases are described below:</p>
+  <p> </p>
+  <p>更多的高级功能，如设置听众，录制音频，或在一段时间内同步多个音轨，都可以从下面列出的子部分找到。</p>
   <ul class="colour">
-    <li>Any function taking a <span data-keyref="Type_Asset_Sound"><a href="../../../../The_Asset_Editors/Sounds.htm" target="_blank">Sound Asset</a></span> or a <span data-keyref="Type_ID_Audio_Sync_Group"><a href="Audio_Synchronisation/audio_create_sync_group.htm" target="_blank">Audio Sync Group ID</a></span> will throw a fatal error when passed an invalid handle (i.e. the given sound asset or group does not exist).</li>
-    <li>Functions taking a <span data-keyref="Type_ID_Sound_Instance"><a href="audio_play_sound.htm" target="_blank">Sound Instance ID</a></span> will print an error message to the Output Log when an invalid sound is passed (i.e. the sound instance is not playing), however it will not cause a crash.</li>
-    <li>Functions taking specific values such as <span class="inline3_func"><a data-xref="{title}" href="audio_falloff_set_model.htm">audio_falloff_set_model</a></span> will throw a fatal error when an invalid value is passed.</li>
-    <li>Invalid operations will throw a fatal error (e.g. attempting to <a href="Audio_Buffers/audio_start_recording.htm">record</a> using an already active input device).</li>
+    <li><a href="Audio_Emitters/Audio_Emitters.htm">音频发射器</a></li>
+    <li><a href="Audio_Listeners/Audio_Listeners.htm">音频收听者</a></li>
+    <li><a href="Audio_Groups/Audio_Groups.htm">音频组</a></li>
+    <li><a href="Audio_Buffers/Audio_Buffers.htm">音频缓冲器</a></li>
+    <li><a href="Audio_Synchronisation/Audio_Synchronisation.htm">音频同步化</a></li>
   </ul>
-  <p>For cases that throw a fatal error, you can instead choose to have an output message logged by calling <span class="inline3_func"><a data-xref="{title}" href="audio_throw_on_error.htm">audio_throw_on_error</a></span> with <span class="inline2">true</span>. This will make the game continue in a situation where it would have otherwise crashed, however the effect of the error may still cause bugs in your game.</p>
-  <p class="note"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> Audio is handled differently on HTML5 and most errors will simply print a message to the Output Log.</p>
-  <h2>Function Reference</h2>
-  <h3>Asset Info</h3>
+  <p> </p>
+  <h2>网络音频</h2>
+  <p>在为HTML5目标平台创建游戏时，音频引擎需要<b>Web音频</b>的支持，而这又意味着，有时你的音频不会在你期望的时间或方式下播放。这是因为Web音频上下文可能没有运行，或者在你的游戏被播放时停止运行。造成这种情况的原因在不同的浏览器之间有很大的不同，甚至在同一浏览器的不同版本之间也有很大的不同，因此检测网络音频上下文状态的变化是非常重要的，例如：检测上下文的变化并暂停/开始循环播放音频，如背景音乐。</p>
+  <p>为了帮助解决这个问题，<span data-keyref="GameMaker Name">GameMaker</span>有两种独立的方法来检测Web音频上下文状态的变化，可以使用以下函数。</p>
   <ul class="colour">
-    <li><a data-xref="{title}" href="audio_exists.htm">audio_exists</a></li>
-    <li><a data-xref="{title}" href="audio_get_name.htm">audio_get_name</a></li>
-    <li><a data-xref="{title}" href="audio_get_type.htm">audio_get_type</a></li>
-    <li><a data-xref="{title}" href="audio_sound_get_asset.htm">audio_sound_get_asset</a></li>
-    <li><a data-xref="{title}" href="audio_sound_length.htm">audio_sound_length</a></li>
-    <li><a data-xref="{title}" href="audio_sound_is_playable.htm">audio_sound_is_playable</a></li>
+    <li><a href="audio_system_is_available.htm"><span class="notranslate">audio_system_is_available</span></a></li>
   </ul>
-  <h3>Playing Sounds</h3>
+  <p> </p>
+  <p>你也可以使用<b>异步系统事件</b>，只要网络音频状态发生变化，就会触发该事件。在这个事件中，你将得到内置的 <a href="../../../GML_Overview/Variables/Builtin_Global_Variables/async_load.htm"><span class="inline">async_load</span></a><span> DS地图</span>中的键 &quot;<span class="inline">event_type</span>&quot;，如果是一个音频事件，它将持有 &quot;<span class="notranslate">string</span> &quot;<span class="inline">audio_system_status</span>&quot;。当这个键存在时，也会有一个进一步的 &quot;<span class="inline">status</span>&quot; 键，它将是 &quot;<span class="inline">available</span>&quot; 或 &quot;<span class="inline">unavailable</span>&quot; 。请注意，这个事件在<i>所有</i>平台上都会被触发，但在除HTML5之外的所有平台上，它只会在游戏开始时，当音频引擎第一次被初始化时被触发一次。欲了解更多信息，请参见本节。</p>
   <ul class="colour">
-    <li><a data-xref="{title}" href="audio_play_sound.htm">audio_play_sound</a></li>
-    <li><a data-xref="{title}" href="audio_play_sound_ext.htm">audio_play_sound_ext</a></li>
-    <li><a data-xref="{title}" href="audio_play_sound_at.htm">audio_play_sound_at</a></li>
-    <li><a data-xref="{title}" href="audio_pause_sound.htm">audio_pause_sound</a></li>
-    <li><a data-xref="{title}" href="audio_pause_all.htm">audio_pause_all</a></li>
-    <li><a data-xref="{title}" href="audio_resume_sound.htm">audio_resume_sound</a></li>
-    <li><a data-xref="{title}" href="audio_resume_all.htm">audio_resume_all</a></li>
-    <li><a data-xref="{title}" href="audio_stop_sound.htm">audio_stop_sound</a></li>
-    <li><a data-xref="{title}" href="audio_stop_all.htm">audio_stop_all</a></li>
-    <li><a data-xref="{title}" href="audio_is_playing.htm">audio_is_playing</a></li>
-    <li><a data-xref="{title}" href="audio_is_paused.htm">audio_is_paused</a></li>
+    <li><a href="../../../../The_Asset_Editors/Object_Properties/Async_Events/System.htm">异步系统事件</a></li>
   </ul>
-  <h3>Audio Properties</h3>
-  <ul class="colour">
-    <li><a data-xref="{title}" href="audio_sound_gain.htm">audio_sound_gain</a></li>
-    <li><a data-xref="{title}" href="audio_sound_get_gain.htm">audio_sound_get_gain</a></li>
-    <li><a data-xref="{title}" href="audio_sound_pitch.htm">audio_sound_pitch</a></li>
-    <li><a data-xref="{title}" href="audio_sound_get_pitch.htm">audio_sound_get_pitch</a></li>
-    <li><a data-xref="{title}" href="audio_sound_set_track_position.htm">audio_sound_set_track_position</a></li>
-    <li><a data-xref="{title}" href="audio_sound_get_track_position.htm">audio_sound_get_track_position</a></li>
-    <li><a data-xref="{title}" href="audio_sound_set_listener_mask.htm">audio_sound_set_listener_mask</a></li>
-    <li><a data-xref="{title}" href="audio_sound_get_listener_mask.htm">audio_sound_get_listener_mask</a></li>
-  </ul>
-  <h3><a data-xref="{title}" href="Audio_Loop_Points/Audio_Loop_Points.htm">Audio Loop Points</a></h3>
-  <ul class="colour">
-    <li><a data-xref="{title}" href="Audio_Loop_Points/audio_sound_loop.htm">audio_sound_loop</a></li>
-    <li><a data-xref="{title}" href="Audio_Loop_Points/audio_sound_get_loop.htm">audio_sound_get_loop</a></li>
-    <li><a data-xref="{title}" href="Audio_Loop_Points/audio_sound_loop_start.htm">audio_sound_loop_start</a></li>
-    <li><a data-xref="{title}" href="Audio_Loop_Points/audio_sound_get_loop_start.htm">audio_sound_get_loop_start</a></li>
-    <li><a data-xref="{title}" href="Audio_Loop_Points/audio_sound_loop_end.htm">audio_sound_loop_end</a></li>
-    <li><a data-xref="{title}" href="Audio_Loop_Points/audio_sound_get_loop_end.htm">audio_sound_get_loop_end</a></li>
-  </ul>
-  <h3>Configuration</h3>
-  <ul class="colour">
-    <li><a data-xref="{title}" href="audio_master_gain.htm">audio_master_gain</a></li>
-    <li><a data-xref="{title}" href="audio_set_master_gain.htm">audio_set_master_gain</a></li>
-    <li><a data-xref="{title}" href="audio_get_master_gain.htm">audio_get_master_gain</a></li>
-    <li><a data-xref="{title}" href="audio_channel_num.htm">audio_channel_num</a></li>
-    <li><a data-xref="{title}" href="audio_falloff_set_model.htm">audio_falloff_set_model</a></li>
-    <li><a data-xref="{title}" href="audio_system_is_available.htm">audio_system_is_available</a></li>
-    <li><a data-xref="{title}" href="audio_system_is_initialised.htm">audio_system_is_initialised</a></li>
-    <li><a data-xref="{title}" href="audio_throw_on_error.htm">audio_throw_on_error</a></li>
-  </ul>
-  <h3>Debugging</h3>
-  <ul class="colour">
-    <li><a data-xref="{title}" href="audio_debug.htm">audio_debug</a></li>
-  </ul>
-  <h3>Gain Conversion</h3>
-  <ul class="colour">
-    <li><a data-xref="{title}" href="lin_to_db.htm">lin_to_db</a></li>
-    <li><a data-xref="{title}" href="db_to_lin.htm">db_to_lin</a></li>
-  </ul>
-  <h3>Audio Streams</h3>
-  <ul class="colour">
-    <li><a data-xref="{title}" href="audio_create_stream.htm">audio_create_stream</a></li>
-    <li><a data-xref="{title}" href="audio_destroy_stream.htm">audio_destroy_stream</a></li>
-  </ul>
-  <h3>Advanced Audio</h3>
-  <ul class="colour">
-    <li><a data-xref="{title}" href="Audio_Emitters/Audio_Emitters.htm">Audio Emitters</a></li>
-    <li><a data-xref="{title}" href="Audio_Listeners/Audio_Listeners.htm">Audio Listeners</a></li>
-    <li><a data-xref="{title}" href="Audio_Effects/Audio_Effects.htm">Audio Effects</a></li>
-    <li><a data-xref="{title}" href="Audio_Groups/Audio_Groups.htm">Audio Groups</a></li>
-    <li><a data-xref="{title}" href="Audio_Buffers/Audio_Buffers.htm">Audio Buffers</a></li>
-    <li><a data-xref="{title}" href="Audio_Synchronisation/Audio_Synchronisation.htm">Audio Synchronisation</a></li>
-  </ul>
-  <p> </p>
-  <p> </p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a data-xref="{title}" href="../Asset_Management.htm">Asset Management</a></div>
-        <div style="float:right">Next: <a data-xref="{title}" href="../Paths/Paths.htm">Paths</a></div>
+        <div style="float:left">返回。<a href="../Asset_Management.htm">资产管理</a></div>
+        <div style="float:right">下一步。<a href="../Paths/Paths.htm">路径</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2025 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright<span class="notranslate">YoYo Games Ltd.</span> 2022 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 Audio

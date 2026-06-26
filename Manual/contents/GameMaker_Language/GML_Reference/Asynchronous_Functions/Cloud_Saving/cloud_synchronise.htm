@@ -6,7 +6,7 @@
   <title>cloud_synchronise</title>
   <meta name="generator" content="Adobe RoboHelp 2020" />
   <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
-  <script src="../../../../assets/scripts/main_script.js" type="module"></script>
+  <script src="../../../../assets/scripts/main_script.js"></script>
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Reference page for cloud_synchronise" />
   <meta name="rh-index-keywords" content="cloud_synchronise" />
@@ -16,67 +16,67 @@
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
   <h1><span data-field="title" data-format="default">cloud_synchronise</span> <span data-conref="../../../../assets/snippets/Tag_deprecated.hts"> </span></h1>
-  <p>This function would normally be called at the start of a new game and is used to retrieve the current status of the cloud service at game start up. The function returns a unique <b>id</b> value which would then be used in the <a href="../../../../The_Asset_Editors/Object_Properties/Async_Events/Cloud.htm">Asynchronous Cloud Event</a> to retrieve the relevant information from the DS map that is created.</p>
-  <p>This function will send off to the cloud for data, which will then trigger the appropriate asynchronous event. In this event, you can check the returned <a href="../../../GML_Overview/Variables/Builtin_Global_Variables/async_load.htm"><span class="inline">async_load</span></a> DS map for the following values:</p>
+  <p>这个函数通常会在新游戏开始时被调用，用于在游戏启动时检索云服务的当前状态。该函数返回一个唯一的<b>ID</b>值，然后在<a href="../../../../The_Asset_Editors/Object_Properties/Async_Events/Cloud.htm">异步云事件</a>中使用，从创建的DS地图中检索相关信息。</p>
+  <p>这个函数将向云端发送数据，然后会触发相应的异步事件。在这个事件中，你可以检查返回的 <a href="../../../GML_Overview/Variables/Builtin_Global_Variables/async_load.htm"><span class="inline">async_load</span></a>DS地图的下列值。</p>
   <ul class="colour">
-    <li><b>&quot;status&quot;: </b>This holds the status code, where a negative value denotes an error, a description of which will be contained in the &quot;errorString&quot;. A value of 0 (or a positive value) indicates a success(see below for exact values), and the &quot;resultString&quot; will contain the returned data or a success message.</li>
-    <li><b>&quot;id&quot;: </b>The id which was returned from the called function. If you fire off a series of <span class="inline">cloud_</span> requests then you need to know which one you are getting the reply to, and so you would use this value to compare to the value you stored when you originally sent the request to find the right one.</li>
-    <li><b>&quot;description&quot;: </b>The description of the last uploaded file.</li>
-    <li><b>&quot;resultString&quot;: </b>This holds a string which is the data blob returned from the cloud.</li>
-    <li><b>&quot;errorString&quot;: </b>returns an Error String for any error.</li>
+    <li><b>&quot;状态&quot;。 </b>这是状态代码，负值表示错误，其描述将包含在 &quot;errorString &quot;中。值为0（或正值）表示成功（具体数值见下文），&quot;resultString &quot;将包含返回的数据或成功信息。</li>
+    <li><b>&quot;id&quot;。 </b>从被调用函数返回的id。如果你发射了一系列 <span class="inline">cloud_</span> ，那么你需要知道你得到的是哪一个回复，因此你将使用这个值与你最初发送请求时存储的值进行比较，以找到正确的一个。</li>
+    <li><b>&quot;描述&quot;。最 </b>后上传文件的描述。</li>
+    <li><b>&quot;resultString&quot;。 </b>这持有一个<span class="notranslate">string</span> ，这是从云端返回的数据blob。</li>
+    <li><b>&quot;errorString&quot;： </b>为任何错误返回一个Error<span class="notranslate">String</span> 。</li>
   </ul>
-  <p>The exact meaning of the returned &quot;status&quot; map entry is explained in the following table:</p>
+  <p>下表解释了返回的 &quot;状态 &quot;地图条目的确切含义。</p>
   <table>
     <tbody>
       <tr>
-        <th>Status Value</th>
+        <th>状态值</th>
         <th>errorString / resultString</th>
-        <th>Description</th>
+        <th>描述</th>
       </tr>
       <tr>
-        <td>-1</td>
-        <td>errorString = &quot;Not logged in to &lt;SERVICE&gt;&quot;</td>
-        <td>You have not successfully logged in to the given Cloud Service</td>
+        <td><span class="notranslate">-1</span></td>
+        <td>errorString = &quot;未登录&lt;SERVICE&gt;&quot;</td>
+        <td><span class="notranslate">You have not successfully logged in to the given Cloud Service</span></td>
       </tr>
       <tr>
-        <td>0</td>
-        <td>resultString = recovered data</td>
-        <td>New game data downloaded from the cloud (following a cloud_synchronise call)</td>
+        <td><span class="notranslate">0</span></td>
+        <td>resultString = 恢复的数据</td>
+        <td><span class="notranslate">New game data downloaded from the cloud (following a cloud_synchronise call)</span></td>
       </tr>
       <tr>
-        <td>1</td>
+        <td><span class="notranslate">1</span></td>
         <td>resultString = &quot;AlreadySynchronized&quot;</td>
-        <td>No new data since you last called cloud_synchronise</td>
+        <td><span class="notranslate">No new data since you last called cloud_synchronise</span></td>
       </tr>
       <tr>
-        <td>2</td>
+        <td><span class="notranslate">2</span></td>
         <td>resultString = &quot;ConflictDeferral&quot;</td>
-        <td>A conflict was encountered, but the gamer chose to ignore it</td>
+        <td><span class="notranslate">A conflict was encountered, but the gamer chose to ignore it</span></td>
       </tr>
       <tr>
-        <td>3</td>
+        <td><span class="notranslate">3</span></td>
         <td>resultString = &quot;GameUploadSuccess&quot;</td>
-        <td>data from <a href="cloud_string_save.htm"><span class="inline">cloud_string_save()</span></a> or <a href="cloud_file_save.htm"><span class="inline">cloud_file_save()</span></a> was successfully uploaded to the cloud</td>
+        <td><span class="notranslate">data from <a href="cloud_string_save.htm"><span class="inline">cloud_string_save()</span> 或 <a href="cloud_file_save.htm"><span class="inline">cloud_file_save()</span></a>已成功上传到云端</td>
       </tr>
       <tr>
-        <td>-n</td>
-        <td>errorString = Description of error</td>
-        <td>Any other negative number means a synchronisation failure</td>
+        <td><span class="notranslate">-n</span></td>
+        <td>errorString = 错误描述</td>
+        <td><span class="notranslate">Any other negative number means a synchronisation failure</span></td>
       </tr>
     </tbody>
   </table>
-  <p> </p>
-  <h4>Syntax:</h4>
-  <p class="code"><span data-field="title" data-format="default">cloud_synchronise</span>()</p>
-  <p> </p>
-  <h4>Returns:</h4>
-  <p class="code"><span data-keyref="Type_ID_Async_Event"><a href="../../../../../GameMaker_Language/GML_Reference/Asynchronous_Functions/Asynchronous_Functions.htm" target="_blank">Async Request ID</a></span></p>
-  <p> </p>
-  <h4>Extended Example:</h4>
-  <p>This function would be called in an event like the <strong>Game Start Event</strong> or in an object that is placed in the first room of your game, with the idea being that you check the current data blob from the cloud server to see if it is up to date or not.</p>
+  <p> </p>
+  <h4>语法。</h4>
+  <p class="code"><span data-field="title" data-format="default">cloud_synchronise</span>();</p>
+  <p> </p>
+  <h4>返回。</h4>
+  <p class="code"><span data-keyref="Type_ID_Async_Event">Async Request ID</span></p>
+  <p> </p>
+  <h4>扩展实例。</h4>
+  <p><span class="notranslate">object</span> 这个函数将在一个事件中被调用，如<strong>游戏开始事件</strong>或放在你的游戏的第一个<span class="notranslate">room</span> ，其想法是，你从云端<span class="notranslate">server</span> ，检查当前的数据blob，看看它是否是最新的。</p>
   <p class="code">cloud_check = cloud_synchronise();</p>
-  <p>You would then want to check the returned <span class="inline">DS Map</span> in the asynchronous <b>Cloud Event</b> to get the status and the returned string, if there is one, with something like the following code:</p>
-  <p class="code">if (ds_map_find_value(async_load, &quot;id&quot;) == cloud_check) <br />
+  <p>然后，你要在异步<b>云事件</b>中检查返回的 <span class="inline">DS Map</span> ，以获得状态和返回的<span class="notranslate">string</span> ，如果有的话，用类似以下的代码。</p>
+  <p class="code">if ds_map_find_value(async_load, &quot;id&quot;) == cloud_check<br />
     {<br />
         if (ds_map_find_value(async_load, &quot;status&quot;) &lt; 0) <br />
         {<br />
@@ -92,18 +92,18 @@
             }<br />
         }<br />
     }</p>
-  <p>The above code checks to make sure that the correct asynchronous function call is being revised, then goes on to get the status of the returned cloud DS map. if the status is a negative number, something has gone wrong and the user is informed, otherwise the code will continue and retrieve the synchronised data and write it to a text file for later use.</p>
-  <p> </p>
-  <p> </p>
-  <p> </p>
+  <p>上述代码检查以确保正在修改正确的异步函数调用，然后继续获取返回的云DS地图的状态。如果状态是一个负数，就说明出了问题，并通知用户，否则代码将继续并检索同步数据并将其写入文本文件供以后使用。</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a href="Cloud_Saving.htm">Cloud Saving</a></div>
-        <div style="float:right">Next: <a href="cloud_string_save.htm">cloud_string_save</a></div>
+        <div style="float:left">回来了。<a href="Cloud_Saving.htm">云保存</a></div>
+        <div style="float:right">下一步。 <a href="cloud_string_save.htm"><span class="notranslate">cloud_string_save</span></a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2022 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright<span class="notranslate">YoYo Games Ltd.</span> 2022 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 cloud_synchronise

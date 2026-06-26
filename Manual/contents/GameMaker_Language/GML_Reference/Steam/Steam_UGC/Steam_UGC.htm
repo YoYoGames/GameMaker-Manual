@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>蒸汽UGC</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
+  <script src="../../../../assets/scripts/main_script.js"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Reference section for the different Steam UGC functions" />
+  <meta name="rh-index-keywords" content="" />
+  <meta name="search-keywords" content="Steam UGC,User Generated Content,Workshop,Steam Workshop" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>蒸汽</h1>
+  <p>本节是为那些已经获得访问<span class="notranslate">Steam</span> API的用户准备的，他们可以将自己的游戏发布到该平台，并希望使用<span class="notranslate">Steam</span> 工作室和社区为你提供的可能性，在你的项目中添加和生成用户内容。用户生成内容的最简单形式是用户能够拍摄和分享屏幕截图，这可以通过以下两个功能来实现。</p>
+  <ul class="colour">
+    <li><a href="steam_is_screenshot_requested.htm"><span class="notranslate">steam_is_screenshot_requested</span></a></li>
+    <li><a href="steam_send_screenshot.htm"><span class="notranslate">steam_send_screenshot</span></a></li>
+  </ul>
+  <p> </p>
+  <p>本页的其他功能与使用<strong>Steam Worksop</strong>有关，其中一些功能需要你的项目的<strong>Steam应用ID</strong>，以及玩游戏的人的<strong>用户ID</strong>或他们的用户名，这些可以通过以下功能找到。</p>
+  <ul class="colour">
+    <li><a href="../Steam_API/steam_get_app_id.htm"><span class="notranslate">steam_get_app_id</span></a></li>
+    <li><a href="../Steam_API/steam_get_user_account_id.htm"><span class="notranslate">steam_get_user_account_id</span></a></li>
+    <li><a href="../Steam_API/steam_get_user_persona_name.htm"><span class="notranslate">steam_get_user_persona_name</span></a></li>
+  </ul>
+  <p> </p>
+  <p>在使用<span class="notranslate">Steam</span> UGC<strong>（</strong>用户生成内容）API的任何内置功能之前，你需要在<span class="notranslate">Steam</span> 仪表板上正确设置你的游戏，你应该已经阅读了这里的必要文件。</p>
+  <ul class="colour">
+    <li><a href="https://partner.steamgames.com/documentation/ugc#Tech" target="_blank">分享用户生成的内容</a></li>
+  </ul>
+  <p class="note"><strong>注意</strong>：你需要让你的游戏在<span class="notranslate">Steam</span> 在线商店中被接受，并且能够访问<span class="notranslate">Steam</span> API文档的开发者区域。</p>
+  <p>所有订阅的UGC项目将被<span class="notranslate">Steam</span> 客户端自动下载，你应该在<a href="../../../../The_Asset_Editors/Object_Properties/Async_Events/Steam.htm">Steam异步事件</a>中编写代码来捕捉这一点，并存储已下载的UGC的ID，以便在其他UGC功能中使用。</p>
+  <p class="note"><b>重要的是！</b> <span class="notranslate">Steam</span> UGC ID可能是超过600,000,000的巨大数字。这意味着有时你可能需要将这些数字存储为<span class="notranslate">string</span> ，而不是试图将它们存储为一个真实的值，特别是在使用<span class="notranslate">buffers</span> ，或试图将该值写入一个文本文件时（因为这将把它转换成一个简化的标准格式，如 &quot;6.6624e+003&quot;，这将导致读回的问题）。</p>
+  <p>让UGC进入你的游戏的正常工作流程如下。</p>
+  <ol>
+    <li>用户将订阅一个项目（可以从你的游戏中使用 <a href="steam_ugc_subscribe_item.htm"><tt>steam_ugc_subscribe_item()</tt></a>或从客户端/浏览器订阅一个项目。</li>
+    <li>你的游戏将用<span class="notranslate">Steam</span> Async Event中的适当代码 &quot;监听 &quot;新的订阅。</li>
+    <li>当你得到一个订阅的异步事件时，你将检查该项目是否已经安装（即：下载），用 <a href="steam_ugc_get_item_install_info.htm"><tt>steam_ugc_get_item_install_info()</tt></a>.</li>
+    <li>如果该项目<i>没有</i>安装，你就需要用 <a href="steam_ugc_get_item_update_info.htm"><tt>steam_ugc_get_item_update_info()</tt></a>来跟踪下载进度。</li>
+  </ol>
+  <p>以下部分解释了在GameMaker Studio 2中实现UGC功能所需的所有功能。</p>
+  <h2><label for="a">创建和编辑内容</label></h2>
+  <p>以下函数基本上是<span class="notranslate">Steam</span> API中提供的 &quot;包装 &quot;函数，用于创建和上传内容到其<span class="notranslate">servers</span> 。因此，我们建议你在使用它们之前，先阅读链接的<span class="notranslate">Steam</span> 文档，以便更好地了解它们的工作原理。<a href="https://partner.steamgames.com/documentation/ugc#CreateUploadContent" target="_blank">创建和上传内容</a>。</p>
+  <ul class="colour">
+    <li><a href="steam_ugc_create_item.htm"><span class="notranslate">steam_ugc_create_item</span></a></li>
+    <li><a href="steam_ugc_start_item_update.htm"><span class="notranslate">steam_ugc_start_item_update</span></a></li>
+    <li><a href="steam_ugc_set_item_title.htm"><span class="notranslate">steam_ugc_set_item_title</span></a></li>
+    <li><a href="steam_ugc_set_item_description.htm"><span class="notranslate">steam_ugc_set_item_description</span></a></li>
+    <li><a href="steam_ugc_set_item_visibility.htm"><span class="notranslate">steam_ugc_set_item_visibility</span></a></li>
+    <li><a href="steam_ugc_set_item_tags.htm"><span class="notranslate">steam_ugc_set_item_tags</span></a></li>
+    <li><a href="steam_ugc_set_item_content.htm"><span class="notranslate">steam_ugc_set_item_content</span></a></li>
+    <li><a href="steam_ugc_set_item_preview.htm"><span class="notranslate">steam_ugc_set_item_preview</span></a></li>
+    <li><a href="steam_ugc_submit_item_update.htm"><span class="notranslate">steam_ugc_submit_item_update</span></a></li>
+    <li><a href="steam_ugc_get_item_update_progress.htm"><span class="notranslate">steam_ugc_get_item_update_progress</span></a></li>
+  </ul>
+  <p> </p>
+  <h2><label for="b">摄取内容</label></h2>
+  <p>一旦你的用户内容被创建，并且工作室有它可供下载，人们就可以通过<span class="notranslate">Steam</span> App或通过Web门户订阅它。然而GameMaker Studio 2还包括以下功能，使用<span class="notranslate">Steam</span> API来创建和取消订阅，以及获取用户当前订阅的信息。</p>
+  <ul class="colour">
+    <li><a href="steam_ugc_subscribe_item.htm"><span class="notranslate">steam_ugc_subscribe_item</span></a></li>
+    <li><a href="steam_ugc_unsubscribe_item.htm"><span class="notranslate">steam_ugc_unsubscribe_item</span></a></li>
+    <li><a href="steam_ugc_num_subscribed_items.htm"><span class="notranslate">steam_ugc_num_subscribed_items</span></a></li>
+    <li><a href="steam_ugc_get_subscribed_items.htm"><span class="notranslate">steam_ugc_get_subscribed_items</span></a></li>
+    <li><a href="steam_ugc_get_item_install_info.htm"><span class="notranslate">steam_ugc_get_item_install_info</span></a></li>
+    <li><a href="steam_ugc_get_item_update_info.htm"><span class="notranslate">steam_ugc_get_item_update_info</span></a></li>
+    <li><a href="steam_ugc_request_item_details.htm"><span class="notranslate">steam_ugc_request_item_details</span></a></li>
+  </ul>
+  <p> </p>
+  <p> </p>
+  <h2><label for="c">查询内容</label></h2>
+  <p>也有大量的功能可用于查询<span class="notranslate">Steam</span> API关于可用的UGC项目。</p>
+  <ul class="colour">
+    <li><a href="steam_ugc_create_query_user.htm"><span class="notranslate">steam_ugc_create_query_user</span></a></li>
+    <li><a href="steam_ugc_create_query_user_ex.htm"><span class="notranslate">steam_ugc_create_query_user_ex</span></a></li>
+    <li><a href="steam_ugc_create_query_all.htm"><span class="notranslate">steam_ugc_create_query_all</span></a></li>
+    <li><a href="steam_ugc_create_query_all_ex.htm"><span class="notranslate">steam_ugc_create_query_all_ex</span></a></li>
+    <li><a href="steam_ugc_query_set_cloud_filename_filter.htm"><span class="notranslate">steam_ugc_query_set_cloud_filename_filter</span></a></li>
+    <li><a href="steam_ugc_query_set_match_any_tag.htm"><span class="notranslate">steam_ugc_query_set_match_any_tag</span></a></li>
+    <li><a href="steam_ugc_query_set_search_text.htm"><span class="notranslate">steam_ugc_query_set_search_text</span></a></li>
+    <li><a href="steam_ugc_query_set_ranked_by_trend_days.htm"><span class="notranslate">steam_ugc_query_set_ranked_by_trend_days</span></a></li>
+    <li><a href="steam_ugc_query_add_required_tag.htm"><span class="notranslate">steam_ugc_query_add_required_tag</span></a></li>
+    <li><a href="steam_ugc_query_add_excluded_tag.htm"><span class="notranslate">steam_ugc_query_add_excluded_tag</span></a></li>
+    <li><a href="steam_ugc_query_set_return_long_description.htm"><span class="notranslate">steam_ugc_query_set_return_long_description</span></a></li>
+    <li><a href="steam_ugc_query_set_return_total_only.htm"><span class="notranslate">steam_ugc_query_set_return_total_only</span></a></li>
+    <li><a href="steam_ugc_query_set_allow_cached_response.htm"><span class="notranslate">steam_ugc_query_set_allow_cached_response</span></a></li>
+    <li><a href="steam_ugc_send_query.htm"><span class="notranslate">steam_ugc_send_query</span></a></li>
+  </ul>
+  <p> </p>
+  <p>你可以通过使用函数<tt>steam_ugc_send_query(</tt>)来获取图片的预览文件句柄，然后调用以下函数，从车间获得任何UGC项目的预览图片。</p>
+  <ul class="colour">
+    <li><a href="steam_ugc_download.htm"><span class="notranslate">steam_ugc_download</span></a></li>
+  </ul>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">返回。<a href="../Steam.htm">蒸汽</a></div>
+        <div style="float:right">下一步。<a href="../Steam_API/Steam_API.htm">一般<span class="notranslate">Steam</span> API</a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright<span class="notranslate">YoYo Games Ltd.</span> 2022 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+Steam UGC
+-->
+  <!-- TAGS
+ugc_functions
+-->
+</body>
+</html>

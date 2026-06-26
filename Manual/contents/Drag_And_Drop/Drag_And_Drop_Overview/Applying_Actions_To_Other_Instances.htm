@@ -3,10 +3,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>Applying Actions To Other Instances</title>
-  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <title>将行动应用于其他实例</title>
+  <meta name="generator" content="Adobe RoboHelp 2019" />
   <link rel="stylesheet" href="../../assets/css/default.css" type="text/css" />
-  <script src="../../assets/scripts/main_script.js" type="module"></script>
+  <script src="../../assets/scripts/main_script.js"></script>
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Article explaining how to apply actions to other instances" />
   <meta name="rh-index-keywords" content="GML Visual Overview - Applying Actions To Other Instances" />
@@ -14,50 +14,63 @@
 </head>
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
-  <h1>Applying Actions To Other Instances</h1>
-  <p>Most actions in the GML Visual libraries have an option to apply the action in different ways. This is called setting the <strong>action scope</strong> and it can be one of several things:</p>
-  <p><img alt="GML Visual Applies To" class="center" src="../../assets/Images/Scripting_Reference/Drag_And_Drop/Overview/DnD_Applies_To.png" />Essentially what you are telling <span data-keyref="GameMaker Name">GameMaker</span> is the which instance should run the action. The default action scope is <span class="inline">self</span>, which means that once the object is created as an instance in the room, that instance will run the action code. However this isn&#39;t always what you want, and you may want some actions to affect other, or even all, instances in the room. This is where changing the action scope comes in.</p>
-  <p>The different scopes for performing actions are listed below, but it should be noted that changing the scope on an action in this way will only apply the new scope to that action <em>and not to subsequent actions in the chain</em>. If you want to apply a change of action scope to multiple chained actions, then use the <a href="../Drag_And_Drop_Reference/Common/Apply_To...htm">Apply to...</a> action first.</p>
-  <p> </p>
-  <p><img alt="Self Icon" class="icon" src="../../assets/Images/Scripting_Reference/Drag_And_Drop/Overview/i_Scope_Self.png" /><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down" href="#">Self</a></p>
+  <h1>将行动应用于其他实例</h1>
+  <p><span class="notranslate">GML</span> Visual库中的大多数动作都有一个选项，可以以不同的方式应用该动作。这被称为设置<strong>动作范围</strong>，它可以是几种情况之一。</p>
+  <p><img>本质上，你要告诉<span data-keyref="GameMaker Name">GameMaker</span>的是哪个实例应该运行这个动作。默认的动作范围
+    是 <span class="inline">self</span> ，这意味着一旦<span class="notranslate">object</span> 被创建为<span class="notranslate">room</span> 中的一个实例，该实例将运行动作代码。然而，这并不总是你想要的，你可能希望一些动作影响其他的，甚至是
+   <span class="notranslate">room</span> 这就是改变动作范围的原因。</p>
+  <p>下面列出了执行动作的不同作用域，但应该注意的是，以这种方式改变一个动作的作用域，只会将新的作用域应用于该动作<em>，而不会应用于链中的后续动作</em>。如果你想把行动范围的改变应用到
+    如果你想把动作范围的改变应用于多个连锁动作，那么先使用<a href="../Drag_And_Drop_Reference/Common/Apply_To...htm">应用于</a>...动作。</p>
+  <p> </p>
+  <p><img><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down" href="#">自己</a></p>
   <div class="droptext" data-targetname="drop-down">
-    <p class="dropspot">This is the default scope for an action and simply states that the action should only be called by the instance that is running the code.</p>
-    <p class="dropspot"> </p>
+    <p class="dropspot">这是一个动作的默认作用域，简单地说，这个动作只应该被运行代码的实例调用。</p>
+    <p class="dropspot"> </p>
   </div>
-  <p><img alt="Other Icon" class="icon" src="../../assets/Images/Scripting_Reference/Drag_And_Drop/Overview/i_Scope_Other.png" /><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down1" href="#">Other</a></p>
+  <p><img><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down1" href="#">其他</a></p>
   <div class="droptext" data-targetname="drop-down1">
-    <p class="dropspot">The <span class="inline">other</span> scope has two main functions, and the value it returns will depend on where and how you use it. In the <strong>Collision Event</strong>, <span class="inline">other</span> will return the instance handle, so you can, for example, create a &quot;bullet&quot; instance and have a collision event with a &quot;player&quot; instance and in that use the <span class="inline">other</span> scope to remove hit points from the &quot;player&quot; object and then return to <span class="inline">self</span> scope to destroy the &quot;bullet&quot; instance.</p>
-    <p class="dropspot">Outside of the collision event the <span class="inline">other</span> setting will behave as if it was set to <span class="inline">noone</span> unless it is being called from within a scoped block of actions. What this means is that if you change the scope of a group of actions to a specific object, then while those actions are being called, the <span class="inline">other</span> scope will return the instance ID of the instance that initially called the action group. For example, you could run an <a href="../Drag_And_Drop_Reference/Common/Apply_To...htm">Apply to...</a> action and then in the next code block set the scope to <span class="inline">other</span> to perform an action on the instance running the whole event block, and not the instance that is being scoped in the apply to code blocks. The image below gives an example:</p>
-    <p class="dropspot"><img alt="GML Visual Scope" class="center" src="../../assets/Images/Scripting_Reference/Drag_And_Drop/Overview/DnD_Scope_Other.png" />In the image, we are checking for a mouse press in the instance, and if one is detected we change scope using the <strong>Apply To...</strong> action. The next two action blocks are now being called from the &quot;obj_Player&quot; instance (if there is more than one then it will run for all of them) and so the object will change its sprite and then create an object at the other position, ie: the position of the object that is running the event and detected the mouse press.</p>
-    <p class="dropspot"> </p>
+    <p class="dropspot"> <span class="inline">other</span> 作用域有两个主要功能，它返回的值取决于你在什么地方和如何使用它。在<strong>碰撞事件</strong>中， <span class="inline">other</span> 将返回唯一的实例ID值
+      (这个唯一的值用来区分每个<span class="notranslate">object</span> 的各个实例），所以你可以，例如，创建一个 &quot;子弹 &quot;实例并与一个 &quot;玩家 &quot;实例发生碰撞事件，在这个事件中使用 <span class="inline">other</span> 作用域来移除 &quot;玩家 &quot;<span class="notranslate">object</span> 的打击点，然后返回到 <span class="inline">self</span> 作用域来销毁 &quot;子弹 &quot;实例。</p>
+    <p class="dropspot">在碰撞事件之外， <span class="inline">other</span> 的设置将表现得如同它被设置为 <span class="inline">noone</span> ，除非它被从一个范围内的动作块中调用。这意味着，如果你把一组动作的范围改为
+      的作用域到一个特定的<span class="notranslate">object</span> ，那么当这些动作被调用时， <span class="inline">other</span> 作用域将返回最初调用该动作组的实例的ID。例如，你可以运行
+      一个<a href="../Drag_And_Drop_Reference/Common/Apply_To...htm">Apply to</a>...动作，然后在下一个代码块中把作用域设置为 <span class="inline">other</span> ，以便在运行整个事件块的实例上执行一个动作，而不是在
+      而不是在 apply to 代码块中被范围化的实例。下面的图片给出了一个例子。</p>
+    <p class="dropspot"><img>在图片中，我们正在检查实例中的鼠标按压，如果检测到一个，我们就使用<strong>Apply To...</strong>动作改变范围。接下来的两个动作块现在从 &quot;obj_Player &quot;实例中被调用（如果有多个实例，那么它将为所有的实例运行），因此<span class="notranslate">object</span> 将改变其<span class="notranslate">sprite</span> ，然后在另一个位置创建一个<span class="notranslate">object</span> 。
+      即：正在运行事件并检测到鼠标按下的<span class="notranslate">object</span> 的位置。</p>
+    <p class="dropspot"> </p>
   </div>
-  <p><img alt="All Icon" class="icon" src="../../assets/Images/Scripting_Reference/Drag_And_Drop/Overview/i_Scope_All.png" /><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down2" href="#">All</a></p>
+  <p><img><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down2" href="#">全部</a></p>
   <div class="droptext" data-targetname="drop-down2">
-    <p class="dropspot">When you scope an action for all, you are telling <span data-keyref="GameMaker Name">GameMaker</span> to run that block for <strong>every single active instance within the current room</strong>. For example creating a <a href="../Drag_And_Drop_Reference/Instance/Destroy_Object_Instance.htm">Destroy Object Instance</a> action and setting its scope to <span class="inline">all</span> will cause every instance in the room to disappear, no matter what object they have been created from.</p>
-    <p class="dropspot"> </p>
+    <p class="dropspot">当你为所有动作设定范围时，你是在告诉<span data-keyref="GameMaker Name">GameMaker</span>为<strong>当前房间内的每个活动实例</strong>运行该块。例如，创建一个<a href="../Drag_And_Drop_Reference/Instance/Destroy_Object_Instance.htm">Destroy<span class="notranslate">Object</span> Instance</a>动作
+      并将其范围设置为 <span class="inline">all</span> ，将导致<span class="notranslate">room</span> 中的每个实例消失，无论它们是从哪个<span class="notranslate">object</span> 创建的。</p>
+    <p class="dropspot"> </p>
   </div>
-  <p><img alt="Object Icon" class="icon" src="../../assets/Images/Scripting_Reference/Drag_And_Drop/Overview/i_Scope_Object.png" /><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down3" href="#">Object</a></p>
+  <p><img><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down3" href="#">宗旨</a></p>
   <div class="droptext" data-targetname="drop-down3">
-    <p class="dropspot">An action can also be given an <strong>object</strong> as its scope. What this means is that all instances of the given object will run that action at the same time it is called. So if you have 100 enemy instances in the room, for example, and you want to set them all to point towards a specific point. You&#39;d call the <a href="../Drag_And_Drop_Reference/Movement/Set_Point_Direction.htm">Set Point Direction</a> and set the action scope to the object &quot;obj_Enemy&quot; and when it is called, all instances of that object will change direction.</p>
-    <p class="dropspot"> </p>
+    <p class="dropspot">一个动作也可以被赋予一个<strong>对象</strong>作为它的范围。这意味着所有给定的<span class="notranslate">object</span> 的实例将在它被调用的同时运行该动作。因此，如果你在<span class="notranslate">room</span> ，例如有100个敌人的实例，而你想把它们都指向特定的地方。
+      你想把它们都设置为指向一个特定的点。你可以调用<a href="../Drag_And_Drop_Reference/Movement/Set_Point_Direction.htm">Set Point Direction</a>，并将动作范围设置为<span class="notranslate">object</span> &quot;obj_Enemy&quot;，当它被调用时，所有该实例的
+      被调用时，该<span class="notranslate">object</span> 的所有实例将改变方向。</p>
+    <p class="dropspot"> </p>
   </div>
-  <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down4" href="#">Expression</a></p>
+  <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down4" href="#">表达方式</a></p>
   <div class="droptext" data-targetname="drop-down4">
-    <p class="dropspot">The Expression input field is for you to input the ID of a specific instance that you want the action to work on. It can be the unique ID value assigned to an instance from the Room Editor or it can be the handle of an instance that you&#39;ve stored in a variable (where the variable would be the input value) or it can even be an expression using code, as shown in the image below:</p>
-    <p class="dropspot"><img alt="GML Visual Target" class="center" src="../../assets/Images/Scripting_Reference/Drag_And_Drop/Overview/DnD_Scope_Target.png" />In this case, an instance calls the <a href="../Drag_And_Drop_Reference/Instance/Set_Sprite.htm">Set Sprite</a> from the instance created by the code given for the Expression. Note that in this case, the instance being created will run its Create Event first before the action is applied to it.</p>
-    <p class="dropspot"> </p>
+    <p class="dropspot">表达式输入字段供你输入你希望动作所针对的特定实例的ID。它可以是在<span class="notranslate">Room</span> 编辑器中分配给一个实例的唯一ID值，也可以是你存储在一个变量中的一个实例的ID（变量就是输入值），甚至可以是一个使用代码的表达式，如图所示。
+      在一个变量中的ID（该变量将是输入值），或者它甚至可以是一个使用代码的表达式，如下图所示。</p>
+    <p class="dropspot"><img>在这种情况下，一个实例调用<a href="../Drag_And_Drop_Reference/Instance/Set_Sprite.htm">Set Sprite</a>从
+      表达式的代码所创建的实例。注意，在这种情况下，被创建的实例将在动作应用到它之前首先运行它的创建事件。</p>
+    <p class="dropspot"> </p>
   </div>
-  <p> </p>
-  <p> </p>
-  <p> </p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a href="../../Content.htm">Index</a></div>
-        <div style="float:right">Next: <a href="Action_Block_Functions.htm">Action Block Scripts</a></div>
+        <div style="float:left">返回:<a href="../../Content.htm">索引</a></div>
+        <div style="float:right">下一步。<a href="Action_Block_Functions.htm">动作块脚本</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2025 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright<span class="notranslate">YoYo Games Ltd.</span> 2021 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 GML Visual Applying Actions

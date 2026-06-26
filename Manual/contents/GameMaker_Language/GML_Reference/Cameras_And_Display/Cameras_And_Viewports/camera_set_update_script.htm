@@ -6,7 +6,7 @@
   <title>camera_set_update_script</title>
   <meta name="generator" content="Adobe RoboHelp 2022" />
   <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
-  <script src="../../../../assets/scripts/main_script.js" type="module"></script>
+  <script src="../../../../assets/scripts/main_script.js"></script>
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Reference page for camera_set_update_script" />
   <meta name="rh-index-keywords" content="camera_set_update_script" />
@@ -15,49 +15,59 @@
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
   <h1><span data-field="title" data-format="default">camera_set_update_script</span></h1>
-  <p>This function can be used to set a function that will be called every game frame that the camera is assigned to a visible and active viewport.</p>
-  <p>You give the unique camera ID value (as returned by the different <span class="inline3_func"><a data-xref="{title}" href="camera_create.htm">camera_create</a></span> functions) and the function to be called. <span data-conref="../../../../assets/snippets/Function_Parameter_Can_Be_Anything_Callable.hts"> </span></p>
-  <div data-conref="../../../../assets/snippets/Camera_Scripts_Update_Order.hts"> </div>
-  <p class="note"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> Applying a custom update function to a camera overrides its default update behaviour. For example, if you set your camera to follow an object (say, <span class="inline2">obj_player</span>) when calling <span class="inline3_func"><a data-xref="{title}" href="camera_create_view.htm">camera_create_view</a></span>, or set it so in the <a data-xref="{title}" href="../../../../The_Asset_Editors/Room_Properties/Room_Properties.htm">Room Properties</a>, it will stop following that object once a custom update script is set.</p>
-  <p> </p>
-  <h4>Syntax:</h4>
+  <p>这个函数可以用来设置一个<a href="../../../GML_Overview/Script_Functions.htm">脚本函数</a>，在摄像机被分配到一个可见和活动的视口时，每一个游戏帧都将被调用。你给出唯一的摄像机ID值（由不同的 <span class="inline">camera_create</span> 函数返回）和要调用的函数的ID。连接到摄像机的函数和摄像机视图的实际渲染的顺序如下。</p>
+  <ul class="colour">
+    <li>所有可见和活动视图端口的摄像机的<b>更新函数 </b>都被称为</li>
+    <li>然后对于每个视图。
+      <ul>
+        <li>为该视图的摄像机调用<b>开始函数 </b></li>
+        <li>执行该视图的绘制事件</li>
+        <li>摄像机的<b>结束函数 </b>被调用</li>
+      </ul>
+    </li>
+    <li>移动到下一个活动的可见视图并重复...</li>
+  </ul>
+  <p>将自定义更新函数应用于摄像机，会覆盖其默认更新行为。例如，如果你在调用 <span class="inline"><a href="camera_create_view.htm">camera_create_view()</a></span> ，或在<span class="notranslate">object</span> 属性中设置你的摄像机跟随一个<span class="notranslate">Room</span> （例如，<span class="inline2">obj_player</span>），一旦设置了自定义更新<span class="notranslate">object</span> ，它将停止跟随该<span class="notranslate">script</span> 。</p>
+  <p> </p>
+  <h4>语法。</h4>
   <p class="code"><span data-field="title" data-format="default">camera_set_update_script</span>(camera_id, script)</p>
   <table>
     <tbody>
       <tr>
-        <th>Argument</th>
-        <th>Type</th>
-        <th>Description</th>
+        <th>争论</th>
+        <th>类型</th>
+        <th>描述</th>
       </tr>
       <tr>
-        <td>camera_id</td>
-        <td><span data-keyref="Type_ID_Camera"><a href="camera_create.htm" target="_blank">Camera ID</a></span></td>
-        <td>The unique camera ID value returned when you created the camera</td>
+        <td><span class="notranslate">camera_id</span></td>
+        <td><span data-keyref="Type_ID_Camera">摄像机ID</span></td>
+        <td><span class="notranslate">The unique camera ID value returned when you created the camera.</span></td>
       </tr>
       <tr>
-        <td>script</td>
-        <td><span data-conref="../../../../assets/snippets/Script_Function_Or_Method.hts"> </span></td>
-        <td>The function to run each game frame (or -1 for no update script)</td>
+        <td><span class="notranslate">script</span></td>
+        <td><span data-keyref="Type_Function_Script">脚本功能</span></td>
+        <td><span class="notranslate">The script function to run each game frame</span></td>
       </tr>
     </tbody>
   </table>
-  <p> </p>
-  <h4>Returns:</h4>
+  <p> </p>
+  <h4>返回。</h4>
   <p class="code"><span data-keyref="Type_Void">N/A</span></p>
-  <p> </p>
-  <h4>Example:</h4>
-  <p class="code"><span data-field="title" data-format="default">camera_set_update_script</span>(view_camera[0], updateCamera);</p>
-  <p>The above code sets the update function for the camera assigned to viewport [0].</p>
-  <p> </p>
-  <p> </p>
+  <p> </p>
+  <h4>例子。</h4>
+  <p class="code">camera_set_update_script(view_camera[0], updateCamera);</p>
+  <p>上面的代码设置了分配给视口[0]的摄像机的更新功能。</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a data-xref="{title}" href="Cameras_And_View_Ports.htm">Cameras And Viewports</a></div>
-        <div style="float:right">Next: <a data-xref="{title}" href="camera_set_begin_script.htm">camera_set_begin_script</a></div>
+        <div style="float:left">背面。<a href="Cameras_And_View_Ports.htm">照相机和查看端口</a></div>
+        <div style="float:right">下一步。 <a href="camera_set_begin_script.htm"><span class="notranslate">camera_set_begin_script</span></a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2025 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright<span class="notranslate">YoYo Games Ltd.</span> 2022 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 camera_set_update_script

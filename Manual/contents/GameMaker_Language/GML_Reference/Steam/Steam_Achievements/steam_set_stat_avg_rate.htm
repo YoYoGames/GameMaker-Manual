@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>蒸汽_set_stat_avg_rate</title>
+  <meta name="generator" content="Adobe RoboHelp 2019" />
+  <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
+  <script src="../../../../assets/scripts/main_script.js"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Reference page for steam_set_stat_avg_rate" />
+  <meta name="rh-index-keywords" content="steam_set_stat_avg_rate" />
+  <meta name="search-keywords" content="steam_set_stat_avg_rate" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>蒸汽_set_stat_avg_rate</h1>
+  <p>这个函数允许你设置一个具有 &quot;滑动窗口 &quot;效果的平均统计类型。session_count &quot;值是你希望平均化的当前值，而 &quot;session_length &quot;则是自上次调用该函数以来的游戏时间量。
+    而 "会话长度 "是自上次调用该函数以来的游戏时间。关于如何使用这个函数的进一步细节，请看下面的<b>扩展实例</b>。</p>
+  <p> </p>
+  <h4>语法。</h4>
+  <p class="code">steam_set_stat_avg_rate(stat_name, session_count, session_length);</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>争论</th>
+        <th>描述</th>
+      </tr>
+      <tr>
+        <td><span class="notranslate">stat_name</span></td>
+        <td>要设置的统计数字的名称（一个<span class="notranslate">string</span> ）。</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">session_count</span></td>
+        <td>要获得平均值的数值（一个实数）。</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">session_length</span></td>
+        <td>自上次设置该状态以来所花费的时间（一个实数）。</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>返回。</h4>
+  <p class="code">N/A</p>
+  <p> </p>
+  <h4>扩展实例。</h4>
+  <p>由于平均统计功能的理解可能比较复杂，我们将通过下面的例子来说明其使用。考虑一下这样的情况：你想跟踪一个平均统计数字，比如 &quot;每小时获得的积分&quot;。一种方法是
+    一种方法是有两个统计量：一个是<i>整数</i>统计量 &quot;TotalPoints&quot;，一个是<i>浮点数</i>统计量 &quot;TotalPlayTimeHours&quot;，然后用总点数除以总时间来得到 &quot;每小时点数 &quot;的值。</p>
+  <p>然而，一旦玩家积累了大量的游戏时间，计算出的平均数就会变化得极其缓慢，而且用户玩的游戏越多，这个平均数的反应就越小。如果用户花了100个小时玩这个游戏
+    如果用户花了100个小时玩游戏，计算出来的平均数会 &quot;滞后 &quot;50个小时，如果他们提高技能，他们就不会看到他们所期望的 &quot;每小时积分 &quot;的增加。为了解决这个问题，我们可以使用一个 &quot;滑动窗口&quot;
+    只计算最后10个小时的 &quot;每小时积分&quot;。</p>
+  <p>因此，为了使用这个函数，我们需要创建一个<span class="notranslate">Steam</span> （在工作室的游戏控制面板中）名为 &quot;AvgPointsPerHour &quot;的状态，并将其<b>窗口</b>属性设置为10。现在，在你的游戏中，你需要添加一些全局变量
+    加入到一个实例中，在开始的时候。</p>
+  <p class="code">global.Points = 0;<br/> global.Time = 0;</p>
+  <p>然后你会有一些控制器<span class="notranslate">object</span> ，在一个警报器中每秒计算全局 &quot;时间 &quot;变量（例如），而你的游戏会影响全局 &quot;点数 &quot;变量。在游戏过程中，每隔一段时间（再次。
+    在一个控制器<span class="notranslate">object</span> ，也许在一个报警器中，或者在轮询 &quot;时间 &quot;值的间隔中），你会像这样设置统计。</p>
+  <p class="code">steam_set_stat_avg_rate(&quot;AvgPointsPerHour&quot;, global.Points, (global.Time / 3600));<br/> global.Points = 0;<br/> global.Time = 0;</p>
+  <p>请注意，我们将时间除以3600，因为我们想要的是以<i>小时</i>为单位的时间，而不是以秒为单位的时间，之后我们将全局 &quot;点数 &quot;变量和全局 &quot;时间 &quot;变量重置为0，这样在下次调用该函数时，我们就可以
+    得到一个新的统计量的平均值。现在，<span class="notranslate">Steam</span> 所做的是利用你发送的这个值，在为我们的 &quot;窗口 &quot;设定的时间内创建一个平均值。</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">返回。<a href="Steam_Achievements.htm">成就和统计数据</a></div>
+        <div style="float:right">下一步。 <a href="steam_get_stat_int.htm"><span class="notranslate">steam_get_stat_int</span></a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright<span class="notranslate">YoYo Games Ltd.</span> 2021 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+steam_set_avg_rate
+-->
+  <!-- TAGS
+steam_set_avg_rate
+-->
+</body>
+</html>

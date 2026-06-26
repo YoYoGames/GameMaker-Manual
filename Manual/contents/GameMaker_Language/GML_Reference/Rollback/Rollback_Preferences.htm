@@ -4,40 +4,39 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="generator" content="Adobe RoboHelp 2020" />
-  <title>Player Preferences</title>
+  <title>玩家偏好</title>
   <meta name="topic-status" content="Draft" />
   <link rel="stylesheet" type="text/css" href="../../../assets/css/default.css" />
-  <script src="../../../assets/scripts/main_script.js" type="module"></script>
+  <script src="../../../assets/scripts/main_script.js"></script>
   <meta name="template" content="../../../assets/masterpages/Manual_Page.htt" />
   <meta name="rh-authors" content="Gurpreet S. Matharoo" />
   <meta name="condition-tags" content="Export:Beta" />
 </head>
 <body>
-  <h1>Rollback Preferences</h1>
-  <p>You might want to allow each player to select a character, or customise its properties. Such properties can be set up as &quot;player preferences&quot;.</p>
-  <h2>How To Use Preferences</h2>
-  <p>First, enable preferences by calling <a href="Rollback_Functions/rollback_use_player_prefs.htm"><span class="inline">rollback_use_player_prefs()</span></a> / <a data-xref="{title}" href="../../../Drag_And_Drop/Drag_And_Drop_Reference/Rollback/Use_Player_Prefs.htm">Use Player Prefs (Rollback)</a>. With this function you can optionally set the default preferences for all players.</p>
-  <p>Once you call that function, &quot;auto-start&quot; is disabled, meaning the game won&#39;t start even when all players have joined, and you&#39;ll have to start it manually with <a href="Rollback_Functions/rollback_start_game.htm"><span class="inline">rollback_start_game()</span></a> / <a data-xref="{title}" href="../../../Drag_And_Drop/Drag_And_Drop_Reference/Rollback/Start_Game.htm">Start Rollback Game</a>.</p>
-  <p>Before the game has started, you can set the preferences for a player by calling <a href="Rollback_Functions/rollback_set_player_prefs.htm"><span class="inline">rollback_set_player_prefs()</span></a> / <a data-xref="{title}" href="../../../Drag_And_Drop/Drag_And_Drop_Reference/Rollback/Set_Player_Prefs.htm">Set Player Prefs (Rollback)</a> on that player&#39;s client. These can later be read through <a href="Rollback_Functions/rollback_get_player_prefs.htm"><span class="inline">rollback_get_player_prefs()</span></a> / <a data-xref="{title}" href="../../../Drag_And_Drop/Drag_And_Drop_Reference/Rollback/Get_Player_Prefs.htm">Get Player Prefs (Rollback)</a>, or the <span class="inline">player_prefs</span> variable in a player instance.</p>
-  <h2>Rollback Event</h2>
-  <p>When a player changes its preferences, everyone in the game receives a <span class="inline2">rollback_player_prefs</span> <a data-xref="{text}" href="Rollback_Events.htm#h1">Rollback Event</a>. The player must be completely connected for the event to be sent.</p>
-  <p>If preferences were set before connecting, then on completing the connection, the last preferences set before connecting are sent to all players.</p>
-  <h2>Start Condition</h2>
-  <p>If you&#39;ve enabled preferences, and there are no default preferences set, then the game <strong>will not</strong> start unless the preferences for all players have been set.</p>
-  <p>In such a case, you can either call <a href="Rollback_Functions/rollback_start_game.htm"><span class="inline">rollback_start_game()</span></a> repeatedly in an alarm to try starting the game, or call it whenever the <span class="inline2">rollback_player_prefs</span> <a data-xref="{text}" href="Rollback_Events.htm#h1">Rollback Event</a> is received.</p>
-  <h2>Data Types and Limit</h2>
-  <p>A preference can be of any type, e.g. a number, string, array, etc., but it&#39;s recommended to use a <a href="../../GML_Overview/Structs.htm">struct</a>, which is the easiest way to store a collection of variables.</p>
-  <p>The maximum size of a preference payload is 800 bytes, meaning the data you can send as a preference must be 800 bytes or less. If you&#39;re sending a struct, you can <a href="../File_Handling/Encoding_And_Hashing/json_stringify.htm">convert it to a JSON string</a> and <a href="../Strings/string_byte_length.htm">get its byte size</a> to get an idea of its size. However, in most cases, structs sent directly (i.e. without being converted into JSON) will have a smaller size than their JSON equivalent, due to the way they are encoded internally.</p>
-  <p> </p>
-  <p> </p>
+  <h1>回滚偏好</h1>
+  <p>你可能想让每个玩家选择一个角色，或自定义其属性。这些属性可以被设置为 &quot;玩家偏好&quot;。</p>
+  <h2>如何使用偏好？</h2>
+  <p>首先，通过调用 <a href="Rollback_Functions/rollback_use_player_prefs.htm"><span class="inline">rollback_use_player_prefs()</span></a>/<a data-xref="{title}" href="../../../Drag_And_Drop/Drag_And_Drop_Reference/Rollback/Use_Player_Prefs.htm">使用播放器偏好</a>。通过这个功能，你可以选择性地设置所有球员的默认偏好。</p>
+  <p>一旦你调用该函数，&quot;自动启动 &quot;就会被禁用，这意味着即使所有玩家都加入了，游戏也不会启动，你必须用 <a href="Rollback_Functions/rollback_start_game.htm"><span class="inline">rollback_start_game()</span></a>/<a data-xref="{title}" href="../../../Drag_And_Drop/Drag_And_Drop_Reference/Rollback/Start_Game.htm">开始游戏</a>。</p>
+  <p>在游戏开始之前，你可以通过在玩家的客户端调用 <a href="Rollback_Functions/rollback_set_player_prefs.htm"><span class="inline">rollback_set_player_prefs()</span></a>/<a data-xref="{title}" href="../../../Drag_And_Drop/Drag_And_Drop_Reference/Rollback/Set_Player_Prefs.htm">Set Player Prefs</a>在该玩家的客户端设置。之后可以通过 <a href="Rollback_Functions/rollback_get_player_prefs.htm"><span class="inline">rollback_get_player_prefs()</span></a>/<a data-xref="{title}" href="../../../Drag_And_Drop/Drag_And_Drop_Reference/Rollback/Get_Player_Prefs.htm">Get Player Prefs</a>，或玩家实例中的 <span class="inline">player_prefs</span> 。</p>
+  <h2>回滚事件</h2>
+  <p>当一个玩家改变其偏好时，游戏中的每个人都会收到一个<span class="inline2">rollback_player_prefs</span> <a data-xref="{text}" href="Rollback_Events.htm#h1">Rollback事件</a>。该玩家必须完全连接，才能发送该事件。</p>
+  <p>如果在连接前设置了偏好，那么在完成连接时，连接前设置的最后一个偏好会发送给所有玩家。</p>
+  <h2>启动条件</h2>
+  <p>如果你已经启用了偏好，并且没有设置默认偏好，那么除非所有玩家的偏好都已设置，否则游戏<strong>将不会</strong>启动。</p>
+  <p>在这种情况下，你可以在警报中反复调用 <a href="Rollback_Functions/rollback_start_game.htm"><span class="inline">rollback_start_game()</span></a>来尝试启动游戏，或者在收到<span class="inline2">rollback_player_prefs</span> <a data-xref="{text}" href="Rollback_Events.htm#h1">回滚事件</a>时调用它。</p>
+  <h2>我可以使用哪些类型？</h2>
+  <p>偏好可以是任何类型，如数字、<span class="notranslate">string</span> 、数组等，但建议使用<a href="../../GML_Overview/Structs.htm">结构</a>，这是存储变量集合的最简单方法。</p>
+  <p> </p>
+  <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div>Back: <a data-xref="{title}" href="Rollback_Multiplayer.htm">Rollback Multiplayer</a></div>
-        <div>Next: <a data-xref="{title}" href="Rollback_Functions/Rollback_Functions.htm">Rollback Functions</a></div>
+        <div>回来。<a data-xref="{title}" href="Rollback_Multiplayer.htm">回滚多人游戏</a></div>
+        <div>下一步。<a data-xref="{title}" href="Rollback_Functions/Rollback_Functions.htm">回滚函数</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2022 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright<span class="notranslate">YoYo Games Ltd.</span> 2022 All Rights Reserved</span></h5>
   </div>
 </body>
 </html>

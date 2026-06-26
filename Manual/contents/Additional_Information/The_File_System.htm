@@ -3,10 +3,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>The File System</title>
-  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <title>文件系统</title>
+  <meta name="generator" content="Adobe RoboHelp 2019" />
   <link rel="stylesheet" href="../assets/css/default.css" type="text/css" />
-  <script src="../assets/scripts/main_script.js" type="module"></script>
+  <script src="../assets/scripts/main_script.js"></script>
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Page that explains how the GMS file system works for compiled games" />
   <meta name="rh-index-keywords" content="The File System" />
@@ -14,59 +14,68 @@
 </head>
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
-  <h1><span data-field="title" data-format="default">The File System</span></h1>
-  <p>When using the <a href="../GameMaker_Language/GML_Reference/File_Handling/File_Handling.htm">file system functions</a> or <a href="../Settings/Included_Files.htm">included files</a> with <span data-keyref="GameMaker Name">GameMaker</span>, it&#39;s important to know how the file system works and what things are going on behind the scenes. This section is designed to explain and clarify exactly <em>how</em> things are stored, <em>where</em> they are stored and what possible limits or workarounds there may be to this system.</p>
-  <p>The first thing to note about the file functions is that they are limited - in general and by default - to the <strong>sandbox</strong>. What this means is that <span data-keyref="GameMaker Name">GameMaker</span> <strong>cannot save or load files from anywhere that is not part of the game bundle or the local storage for the device</strong>.</p>
-  <div data-conref="../assets/snippets/Note_Important_File_System_Disable_Sandboxing.hts"> </div>
-  <h2>File Areas</h2>
-  <p>To understand the sandbox first of all you need to understand that there are two distinct areas for files:</p>
+  <h1>文件系统</h1>
+  <p>在<span data-keyref="GameMaker Name">GameMaker</span>中使用<a href="../GameMaker_Language/GML_Reference/File_Handling/File_Handling.htm">文件系统功能</a>或<a href="../Settings/Included_Files.htm">包含的文件</a>时，准确地了解文件系统的工作原理和幕后情况是非常重要的。
+    文件系统是如何工作的，以及在幕后发生了什么事情。为此，本节旨在解释和说明东西是<em>如何</em>存储的，它们被存储<em>在哪里</em>，以及这个系统可能存在的限制或变通方法。
+    可能存在的限制或解决办法。</p>
+  <p>关于文件功能，首先要注意的是，它们被限制在--一般情况下和默认情况下--<strong>沙盒</strong>中。这意味着<span data-keyref="GameMaker Name">GameMaker</span> <strong>不能从任何不属于游戏包或设备本地存储的地方保存或加载文件</strong>，除非用户<em>明确 </em>输入，即使这样，这种输入也只限于<span class="notranslate">Windows</span>,<span class="notranslate">macOS</span> 和<span class="notranslate">Ubuntu</span> (<span class="notranslate">Linux</span>) 目标平台。</p>
+  <p class="note"><strong>重要的是!</strong>然而，在桌面目标（<span class="notranslate">Windows</span>,<span class="notranslate">macOS</span>, 和<span class="notranslate">Ubuntu</span> (<span class="notranslate">Linux</span>)）上，可以通过勾选目标平台的<a href="../Settings/Game_Options.htm">游戏选项</a>中的<strong>禁用文件系统沙箱</strong>选项来关闭沙箱。你这样做的风险自负，虽然这将开放文件的保存和加载，并允许你访问给定系统上的任何地方的文件，但它仍然可能受到操作系统权限的限制，你将不能写入
+    到该 <a href="../GameMaker_Language/GML_Reference/File_Handling/File_Directories/program_directory.htm"><span style="font-size:1px;"><span class="inline" style="font-size: 14px">程序_目录</span></span></a>文件夹。</p>
+  <p>要了解沙盒，首先你需要了解，有两个不同的文件区域。</p>
   <ul class="colour">
-    <li><strong>The File Bundle</strong> - This is where all the files that are packaged with the executable are stored, including the files that you have added to the <strong>Included Files</strong> asset list from the <span data-keyref="GameMaker Name">GameMaker</span> IDE (which are the external files that you want packaged with the game). This area can be accessed through the <span class="inline2"><a data-xref="{title}" href="../GameMaker_Language/GML_Reference/File_Handling/File_Directories/working_directory.htm">working_directory</a></span> variable, however, files will be read from this location automatically when reading, without explicitly needing a path - this is explained more in the next section.</li>
-    <li><strong>The Save Area</strong> - This is an area of device storage that can be safely written to by the game and the game is guaranteed that this is a writable area. This can be accessed through the <span class="inline2"><a data-xref="{title}" href="../GameMaker_Language/GML_Reference/General_Game_Control/game_save_id.htm">game_save_id</a></span> variable, however files will be read from this location too automatically when reading, and any saves are done here by default.</li>
+    <li><strong>文件包</strong> <span class="notranslate">asset</span> <strong></strong>- 这是所有与可执行游戏一起打包的文件存储的地方，包括你在<span data-keyref="GameMaker Name">GameMaker</span> <span class="notranslate">IDE</span> 列表中加入<strong>的</strong>文件（这些文件是你希望与游戏一起打包的外部文件）。
+      这些文件是你希望与游戏一起打包的外部文件）。</li>
+    <li><strong>保存区</strong>--这是设备存储的一个区域，可以被游戏安全地写入，游戏保证这是一个可写区域。</li>
   </ul>
-  <p>The following diagram may help you to visualise this better:</p>
+  <p>下面的图表可能有助于你更好地理解这一点。</p>
   <p><img alt="File System Save Areas" class="center" src="../assets/Images/Scripting_Reference/Additional_Information/Files_SaveAreas.png" /></p>
-  <h2 id="h1">Accessing File Areas</h2>
-  <p>When your game is sandboxed, only the two target areas - <strong>the file bundle</strong> and <strong>the save area</strong> - are available on each target platform, but on each one they will work slightly differently. However <span data-keyref="GameMaker Name">GameMaker</span> has abstracted out the main essence of what can and can&#39;t be done, making it easier to re-target games to multiple environments.</p>
-  <p>To start with, let&#39;s look at how files are looked up in <span data-keyref="GameMaker Name">GameMaker</span>, say if you do a read:</p>
-  <p class="code">buf = buffer_load(&quot;my_file.dat&quot;);</p>
-  <p>or a write:</p>
-  <p class="code">buffer_save(buf, &quot;my_file.dat&quot;);</p>
-  <p>This will do one of two things depending on whether you are reading or writing:</p>
+  <p class="note"><strong>注意</strong>：你永远不能写到文件包（程序）目录。</p>
+  <p>当你的游戏被沙盒化时，两个目标区域--捆绑目录和本地存储区域--在每个目标平台上都是可用的，但在每个平台上它们的工作方式会略有不同。然而<span data-keyref="GameMaker Name">GameMaker</span>已经抽象出了主要的
+    什么可以做，什么不可以做的主要内容，使之更容易将游戏重新定位到多个环境。</p>
+  <p>首先，你应该了解当我们谈论到"...... "时，是什么意思。 <a href="../GameMaker_Language/GML_Reference/File_Handling/File_Directories/working_directory.htm"><span class="inline">working_directory</span></a>.这是两个可能的保存位置的同义词
+    可能的保存位置的同义词（如上图所示），当你使用该目录时，它将做两件事中的一件，这取决于你是在读还是在写，以及你所读的文件是否被修改。</p>
   <ul class="colour">
-    <li><strong>Reading Operations</strong> - This will first check the <a href="../GameMaker_Language/GML_Reference/General_Game_Control/game_save_id.htm">save area</a> to see if the file being accessed is there, and if it is, it uses that. However if the file does not exist in the save area, it then checks the <a href="../GameMaker_Language/GML_Reference/File_Handling/File_Directories/working_directory.htm">file bundle area</a> and uses that (if the file being looked for is an <a href="../Settings/Included_Files.htm">Included File</a> with your game).</li>
-    <li><strong>Writing Operations</strong> - This can only happen in the save area, unless the sandbox is disabled and a path outside the save area is explicitly specified.</li>
+    <li><strong>读取操作</strong>- working_directory将首先检查保存区，看被访问的文件是否在那里，如果是，就使用它。然而，如果该文件不存在于保存区，它就会检查文件捆绑区，并使用该捆绑区。
+      使用它（如果正在寻找的文件是一个包含在你的游戏中的文件）。</li>
+    <li><strong>写入操作</strong>- 这只能发生在保存区。</li>
   </ul>
-  <p>Using these two simple rules we can now see how the following functions work (these are examples to help you to visualise the process for the different functions available):</p>
+  <p class="note"><strong>注意</strong>：一般来说，<span data-keyref="GameMaker Name">GameMaker</span>会为你处理这一切，你<strong>很少 </strong>需要使用<span class="inline" style="font-size: 14px">working_directory</span>这个内置变量。</p>
+  <p>利用这两条简单的规则，我们现在可以看到以下函数是如何工作的（这些例子是为了帮助你直观地了解不同函数的过程）。</p>
   <ul class="colour">
-    <li><span class="inline3_func"><a data-xref="{title}" href="../GameMaker_Language/GML_Reference/File_Handling/File_Directories/directory_create.htm">directory_create</a></span> (and the other directory functions) will only work in the <strong>save </strong>area.</li>
-    <li>The <a href="../GameMaker_Language/GML_Reference/File_Handling/File_System/File_System.htm">file system functions</a> will return information on files from <em>both </em>the <strong>bundle </strong>and the <strong>save </strong>area, but will only <em>write </em>to the <strong>save </strong>area.</li>
-    <li>The functions for writing text, binary or INI files will create a new file in the save area if one does not already exist, copying over any information from the original files included with the game bundle should they exist. Note that the original files will still remain in the read-only part of the save directory, but they won&#39;t be referenced as long as a version exists in the read/write section of the save area.</li>
+    <li><a href="../GameMaker_Language/GML_Reference/File_Handling/File_Directories/directory_create.htm"><span class="inline">directory_create()</span></a>(和其他目录功能）将只在<strong>保存 </strong>区工作。</li>
+    <li><a href="../GameMaker_Language/GML_Reference/File_Handling/File_System/File_System.htm">文件系统函数</a>将返回<strong>捆绑 </strong>区<em>和 </em> <strong>保存 </strong>区的文件信息，但只将
+     <em>写 </em>到<strong>保存 </strong>区。</li>
+    <li>写入文本、二进制或 <span class="inline">INI</span> 文件的函数将在保存区创建一个新的文件，如果一个文件不存在的话，将复制游戏捆绑包中的原始文件的任何信息。
+      注意，原始文件仍将保留在保存目录的只读部分，但只要保存区的读/写部分存在一个版本，它们就不会被引用。</li>
   </ul>
-  <h2>Outside The Sandbox</h2>
-  <p>On the <strong>Windows</strong>, <strong>macOS </strong>and <strong>Ubuntu</strong> (Linux) platforms there are two ways to save and load files from outside of the sandbox and that is either using the functions <span class="inline3_func"><a data-xref="{title}" href="../GameMaker_Language/GML_Reference/File_Handling/File_System/get_open_filename.htm">get_open_filename</a></span> and <span class="inline3_func"><a data-xref="{title}" href="../GameMaker_Language/GML_Reference/File_Handling/File_System/get_save_filename.htm">get_save_filename</a></span> (both of these functions will require that the user select an area for loading and saving, and the returned string can then be used in the rest of the file functions to bypass the sandbox - see the function descriptions for more details). The other way is to disable the sandbox altogether from the <a data-xref="{title}" href="../Settings/Game_Options.htm">Game Options</a> for the target platform (only available for Desktop targets, as discussed further up this page).</p>
-  <p>On <strong>HTML5</strong> it is also possible to load files from outside the sandbox from a server, however this should only be done using the function <span class="inline3_func"><a data-xref="{title}" href="../GameMaker_Language/GML_Reference/Buffers/buffer_load_async.htm">buffer_load_async</a></span> as loading synchronously has been deprecated on most browsers and will eventually be obsoleted. This means that files being loaded in this way should be saved as binary files - for example, you can save an <span class="inline">*.ini</span> as a string (see <span class="inline3_func"><a data-xref="{title}" href="../GameMaker_Language/GML_Reference/File_Handling/Ini_Files/ini_close.htm">ini_close</a></span> for details) and then write that into a buffer which can then be saved and loaded using the async functions. Note that if you are loading images using <span class="inline3_func"><a data-xref="{title}" href="../GameMaker_Language/GML_Reference/Asset_Management/Sprites/Sprite_Manipulation/sprite_add.htm">sprite_add</a></span> then these are already dealt with asynchronously.</p>
-  <h2 id="h">Save Area Locations</h2>
-  <p>Each target platform has its own save area where files and directories can be written to and read from. Below is a list of those areas for each target when sandboxed:</p>
+  <p>在<strong>Windows</strong>、<strong>macOS </strong>和<strong>Ubuntu</strong>（<span class="notranslate">Linux</span> ）平台上，有两种方法可以从沙盒外保存和加载文件，那就是使用函数 <a href="../GameMaker_Language/GML_Reference/File_Handling/File_System/get_open_filename.htm"><span class="inline">get_open_filename()</span></a>和
+    <a href="../GameMaker_Language/GML_Reference/File_Handling/File_System/get_save_filename.htm"><span class="inline">get_save_filename()</span></a>(这两个函数都需要用户选择一个区域来加载和保存，然后返回
+    <span class="notranslate">string</span> 可以在其余的文件函数中使用，以绕过沙盒--更多细节见手册中语言部分的函数描述）。另一种方法是在目标平台的<a href="../Settings/Game_Options.htm">游戏选项</a>中完全禁用沙盒（仅适用于桌面目标，在本页面上进一步讨论）。</p>
+  <p>在HTML5上，也可以从<span class="notranslate">server</span> ，从沙盒外加载文件，但这只能使用函数 <a href="../GameMaker_Language/GML_Reference/Buffers/buffer_load_async.htm"><span class="inline">buffer_load_async()</span></a>因为
+    同步加载在大多数浏览器上已被弃用，并将最终被淘汰。这意味着以这种方式加载的文件应该被保存为二进制文件--例如，你可以将一个 <span class="inline">*.ini</span> 保存为一个字符串
+    (详见 <a href="../GameMaker_Language/GML_Reference/File_Handling/Ini_Files/Ini_Files.htm"><span class="inline">ini_close()</span></a>详见），然后将其写入一个<span class="notranslate">buffer</span> ，然后可以使用异步函数保存和加载。注意
+    注意，如果你使用的是 <a href="../GameMaker_Language/GML_Reference/Asset_Management/Sprites/Sprite_Manipulation/sprite_add.htm"><span class="inline">sprite_add()</span></a>那么这些已经被异步处理了。</p>
+  <p>你还应该知道，每个目标平台都有自己的保存区域，文件和目录可以被写入和读出。下面是每个目标在沙盒中的这些区域的列表。</p>
   <ul class="colour">
-    <li><strong>Windows</strong>: Windows has all files in the <span class="inline">%localappdata%\&lt;Game Name&gt;</span> directory (on Windows this is the <span class="inline">/Users/&lt;User Name&gt;/AppData/Local/&lt;Game Name&gt;</span> directory).</li>
-    <li><strong>HTML5</strong>,<strong> GX.games</strong>: Everything is done through the local storage.</li>
-    <li><strong>macOS</strong>: Storage will depend on whether the application is sandboxed or not (following Apple&#39;s rules, with the path usually being <span class="inline">~/Library/Application Support/&lt;Game Name&gt;</span>).</li>
-    <li><strong>Ubuntu (Linux)</strong>: Files are stored in the <span class="inline">Home/.config/gamename</span> where &quot;Home&quot; is the users home directory - <span class="inline">/home/&lt;username&gt;</span></li>
-    <li><strong>iOS</strong> / <strong>tvOS</strong>: Storage is the standard location (as viewed through iTunes).</li>
-    <li><strong>Android</strong>: Files are in the standard location (which is invisible unless the device is rooted) <span class="inline">/data/&lt;package name&gt;</span>.</li>
+    <li><strong>Windows和<span class="notranslate">Windows</span> </strong><strong>UWP</strong>：Windows的所有文件都在 <span class="inline">%localappdata%\&lt;Game Name&gt;</span> 目录下（在<span class="notranslate">Windows 7</span> ，这是 <span class="inline">/Users/&lt;User Name&gt;/AppData/Local/&lt;Game Name&gt;</span> 目录）。</li>
+    <li><strong>HTML5</strong>。一切都是通过本地存储完成的。</li>
+    <li><strong>macOS</strong>：存储将取决于应用程序是否被沙盒化（遵循苹果的规则，<span class="notranslate">path</span> ，通常为 <span class="inline">~/Library/Application Support/&lt;Game Name&gt;</span> ）。</li>
+    <li><strong>Ubuntu (<span class="notranslate">Linux</span>)</strong>。文件被存储在 <span class="inline">Home/.config/gamename</span> ，其中 &quot;Home &quot;是用户的主目录 - <span class="inline">/home/&lt;username&gt;</span></li>
+    <li><strong>iOS</strong>/<strong>tvOS</strong>：存储是标准位置（通过iTunes查看）。</li>
+    <li><strong>安卓系统</strong>。文件在标准位置（除非设备已被root，否则看不到） <span class="inline">/data/&lt;package name&gt;</span> 。</li>
   </ul>
-  <p>It is worth noting that the HTML5 target module has a limit on local storage (which can be between 1MB and 5MB depending on the browser) meaning that you will not be permitted to save large sprites, screenshots, etc.</p>
-  <p> </p>
-  <p> </p>
+  <p>值得注意的是，HTML5目标模块对本地存储有限制（根据浏览器的不同，可能在1MB到5MB之间），这意味着你将不被允许保存大型<span class="notranslate">sprites</span> 、屏幕截图等。</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a data-xref="{title}" href="../Settings/Game_Settings.htm">GameMaker Runner Settings</a></div>
-        <div style="float:right">Next: <a href="../Settings/Audio_Groups.htm">Audio Groups</a></div>
+        <div style="float:left">返回。<a href="Additional_Information.htm">其他信息</a></div>
+        <div style="float:right">下一步。<a href="Bitwise_Operators.htm">位操作符和二进制</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2025 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright<span class="notranslate">YoYo Games Ltd.</span> 2021 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 The File System

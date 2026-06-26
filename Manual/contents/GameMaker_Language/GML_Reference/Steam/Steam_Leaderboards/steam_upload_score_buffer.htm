@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>蒸汽_上传_分数_缓冲区</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
+  <script src="../../../../assets/scripts/main_script.js"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Reference page for steam_upload_score_buffer" />
+  <meta name="rh-index-keywords" content="steam_upload_score_buffer" />
+  <meta name="search-keywords" content="steam_upload_score_buffer" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>蒸汽_上传分数_缓冲区</h1>
+  <p>这个函数将向给定的排行榜发送一个分数以及一个由<span class="notranslate">buffer</span> 。<span class="notranslate">buffer</span> 的大小不应超过256字节--超过的部分将被砍掉--并且可以包含任何你需要的数据。要上传的分数应该是一个实数，而排行榜的名字是一个<span class="notranslate">string</span> ，这个名字是在你用函数创建排行榜的时候定义的。 <a href="steam_create_leaderboard.htm"><tt>steam_create_leaderboard()</tt></a>.</p>
+  <p>如果函数失败，它将返回一个值-1，而成功的帖子将返回一个唯一的上传ID并触发一个异步<a href="../../../../The_Asset_Editors/Object_Properties/Async_Events/Steam.htm">Steam事件</a>。这个事件将在内置变量<tt>async_load</tt>中创建一个<tt>DS Map</tt>，其中包含以下键/值对。</p>
+  <ul class="colour">
+    <li><b>&quot;event_type</b>&quot; - 这个键在被这个函数触发时将保持<b>&quot;leaderboard_upload</b>&quot;的值。</li>
+    <li>&quot;<b>lb_name</b>&quot; - 这个键持有被发布到的排行榜的名称。</li>
+    <li><b>&quot;成功</b>&quot; - 如果帖子成功，则为1，失败为0</li>
+    <li>&quot;<b>updated</b>&quot; - 如果排行榜上的分数确实被更新了（即：新的分数更好），将是1，否则是0。注意，如果分数被更新，上传的<span class="notranslate">buffer</span> 数据也不会被添加。</li>
+    <li><b>&quot;post_id</b>&quot; - 这个键应该与上传调用返回的ID值相匹配。</li>
+    <li><b>&quot;score</b>&quot;--这个键保存了被张贴的分数。</li>
+  </ul>
+  <p>请注意，在下载排行榜时，地图的 &quot;条目 &quot;键现在会有一个 &quot;数据 &quot;键，这样你就可以检索到上传的数据了。 <a href="../../../GML_Overview/Variables/Builtin_Global_Variables/async_load.htm"><tt>缓冲区_加载</tt></a>地图的 &quot;条目 &quot;键现在会有一个 &quot;数据 &quot;键，所以你可以检索上传的数据<span class="notranslate">buffer</span> （更多细节见<a href="../../../../The_Asset_Editors/Object_Properties/Async_Events/Steam.htm">Steam事件</a>扩展代码示例）<b></b>。这个数据<span class="notranslate">buffer</span> ，将是Base 64编码的，所以你需要在从 读取数据之前，对数据使用函数 <a href="../../Buffers/buffer_base64_decode.htm"><tt>buffer_base64_decode()</tt></a>函数，然后再从<span class="notranslate">buffer</span> 中读取数据。</p>
+  <p> </p>
+  <h4>语法。</h4>
+  <p class="code">steam_upload_score_buffer(lb_name, score, buffer);</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>争论</th>
+        <th>描述</th>
+      </tr>
+      <tr>
+        <td><span class="notranslate">lb_name</span></td>
+        <td>你要上传分数的排行榜的名称（<span class="notranslate">string</span> ）。</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">score</span></td>
+        <td>要上传的分数（一个真实的数字）。</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">buffer</span></td>
+        <td>要附加的<span class="notranslate">buffer</span> 的ID。</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>返回。</h4>
+  <p class="code">Real</p>
+  <p> </p>
+  <h4>扩展实例。</h4>
+  <p>在这个例子中，我们首先上传一个分数，然后解析成功后返回的<tt>async_load</tt>地图。下面的代码显示了一个典型的上传例子，创建了一个<span class="notranslate">buffer</span> ，以容纳一个<span class="notranslate">string</span> ，告诉我们这个分数是从哪个级别上传的。</p>
+  <p class="code">if (hp &lt;= 0)<br />
+    {<br />
+        var buff = buffer_create(256, buffer_fixed, 1 );<br />
+        buffer_write(buff, buffer_string, &quot;Uploaded on level &quot; + string(global.Level));<br />
+        upload_ID = steam_upload_score(&quot;Game Scores&quot;, score, buff);<br />
+        if (!upload_ID)<br />
+        {<br />
+            alarm[0] = room_speed;<br />
+        }<br />
+        buffer_delete(buff);<br />
+    }</p>
+  <p>请注意，如果调用失败，我们已经设置了一个警报。这将被用来在以后的时间里再次尝试上传，你可以在那里添加额外的代码来重新尝试上传，或者在继续失败时将分数保存到文本文件中，等等。还要注意的是，我们立即删除<span class="notranslate">buffer</span> ，因为这个功能不再需要它了。现在我们在控制分数的实例的<b>Steam async事件</b>中添加以下内容。</p>
+  <p class="code">var type = ds_map_find_value(async_load, &quot;event_type&quot;);<br />
+    if (type == &quot;leaderboard_upload&quot;)<br />
+    {<br />
+        var lb_ID = ds_map_find_value(async_load, &quot;post_id&quot;);<br />
+        if lb_ID == upload_ID<br />
+        {<br />
+            var lb_name = ds_map_find_value(async_load, &quot;lb_name&quot;);<br />
+            var lb_done = ds_map_find_value(async_load, &quot;success&quot;);<br />
+            var lb_score = ds_map_find_value(async_load, &quot;score&quot;);<br />
+            var lb_updated = ds_map_find_value(async_load, &quot;updated&quot;);<br />
+            show_debug_message(&quot;leaderboard post id:&quot; + string(lb_ID) + &quot; to lb:&quot; + string(lb_name) + &quot; with score:&quot; + string(lb_score) + &quot; updated=&quot; + string(lb_updated));<br />
+            if (lb_done)<br />
+            {<br />
+                show_debug_message(&quot;- Succeeded&quot;);<br />
+            }<br />
+            else<br />
+            {<br />
+                show_debug_message(&quot;- Failed&quot;);<br />
+            }<br />
+        }<br />
+    }</p>
+  <p>在这个例子中，我们只是将返回值作为调试信息输出到编译器窗口，但你可以用这个事件以任何你选择的方式处理这些信息。</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">返回。<a href="Steam_Leaderboards.htm">排行榜</a></div>
+        <div style="float:right">下一步。 <a href="steam_download_scores.htm"><span class="notranslate">steam_download_scores</span></a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright<span class="notranslate">YoYo Games Ltd.</span> 2022 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+steam_upload_score_buffer
+-->
+  <!-- TAGS
+steam_upload_score_buffer
+-->
+</body>
+</html>

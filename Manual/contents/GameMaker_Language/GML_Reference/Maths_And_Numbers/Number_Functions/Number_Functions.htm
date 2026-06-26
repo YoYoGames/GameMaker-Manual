@@ -3,10 +3,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>Number Functions</title>
-  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <title>数字功能</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
   <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
-  <script src="../../../../assets/scripts/main_script.js" type="module"></script>
+  <script src="../../../../assets/scripts/main_script.js"></script>
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Reference section for Number functions" />
   <meta name="rh-index-keywords" content="Number Functions" />
@@ -14,82 +14,79 @@
 </head>
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
-  <h1><span data-field="title" data-format="default">Number Functions</span></h1>
-  <p>Real numbers in <span data-keyref="GameMaker Name">GameMaker</span> are considered <i>double-precision floating-point numbers</i> - that is to say that they have a decimal point in them with no fixed number of digits either before or after the point - or <i>integers</i> - that is to say they are whole numbers with no decimal point value. 2, for example, is an integer but 2.01 is a floating point real.</p>
-  <p class="note"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> On the <b>HTML5</b> target, all real numbers are doubles.</p>
-  <p>This distinction between integers and floats is very important when dealing with cross-platform development as the precision of calculations made on a Windows PC is <i>not</i> the same as the precision of those same calculations when made on a mobile device. This means that you should pay particular attention when making comparisons, for example:</p>
+  <h1>数字功能</h1>
+  <p><span data-keyref="GameMaker Name">GameMaker</span>中的实数被认为是<i>双精度浮点数</i>--也就是说，它们有一个小数点，在小数点之前或之后都没有固定的数字，或者是<i>整数</i>--也就是说，它们是没有小数点值的整数。例如，2是一个整数，但2.01是一个浮点实数。</p>
+  <p class="note"><b>注意</b>：在<b>HTML5</b>目标上，所有实数都是双数。</p>
+  <p>在处理跨平台开发时，整数和浮点数之间的这种区别非常重要，因为在<span class="notranslate">Windows</span> PC上进行的计算的精度与在移动设备上进行的这些计算的精度是<i>不</i>一样的。这意味着你在进行比较时要特别注意，比如说。</p>
   <p class="code">if (image_index == 1)<br />
     {<br />
         // Do something...<br />
     }</p>
-  <p>In the example above, if we have been setting the <span class="inline2"><a data-xref="{title}" href="../../Asset_Management/Sprites/Sprite_Instance_Variables/image_speed.htm">image_speed</a></span> to 0.25 - for example - then after four steps you may assume that the <span class="inline2"><a data-xref="{title}" href="../../Asset_Management/Sprites/Sprite_Instance_Variables/image_index.htm">image_index</a></span> value would be 1, but it <i>may</i> be a value like 1.0000002 due to the way floating point maths works and so the evaluation will not be <span class="inline2">true</span>. These types of errors can be quite hard to debug and so it is always good to be aware of them and to plan ahead and use other means of checking values or to use the appropriate flooring or rounding functions (listed below) to convert the number to check into an integer (for more information on floating point maths and why this is an issue, please <a href="https://floating-point-gui.de/" target="_blank">see here</a>). For example the above code could be written as:</p>
+  <p>在上面的例子中，如果我们一直将 <span class="inline">image_speed</span> 设置为0.25--例如--那么在四步之后，你可能会认为 <span class="inline">image_index</span> 的值是1，但是由于浮点数学的工作方式，它<i>可能</i>是一个像1.0000002的值，因此评估将不会是 <span class="inline">true</span> 。这些类型的错误可能相当难以调试，因此最好能意识到这些错误，并提前计划，使用其他方法来检查数值，或者使用适当的落地或四舍五入函数（列在下面），将要检查的数字转换成整数（关于浮点数学的更多信息以及为什么这是一个问题，请<a href="https://floating-point-gui.de/" target="_blank">看这里</a>）。例如，上面的代码可以写成。</p>
   <p class="code">if (floor(image_index) == 1)<br />
     {<br />
         // Do something...<br />
     }</p>
-  <p>It is also worth noting that when using the <b>YoYo Compiler</b> targets, all expressions and functions are <i>evaluated from left to right</i>, while on all other target platforms they are evaluated <i>from right to left</i>, meaning that this - for example - will give different results depending on the platform:</p>
+  <p>还值得注意的是，当使用<b>YoYo Compiler</b>目标时，所有的表达式和函数都是<i>从左到右评估</i>的，而在所有其他目标平台上，它们是<i>从右到左</i>评估的，这意味着--例如--会根据平台的不同得到不同的结果。</p>
   <p class="code">val = max(num, ++num, num++);</p>
-  <p class="note"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> For more information, see the section on <a data-xref="{title}" href="../../../GML_Overview/Evaluation_Order.htm">Evaluation Order</a>.</p>
-  <p>You can also use a special function available in <span data-keyref="GameMaker Name">GameMaker</span> to set the <b><a id="epsilon"></a>epsilon</b> value for floating point maths. When a real number is rounded to the nearest floating point number, the epsilon (also know as &quot;machine epsilon&quot;) forms an upper bound on the relative error, and you can set and get the epsilon value using the following functions:</p>
+  <p class="note"><strong>注意</strong>：更多信息，请参见 "<a href="../../../GML_Overview/Evaluation_Order.htm">评价顺序</a>"部分。</p>
+  <p>你还可以使用<span data-keyref="GameMaker Name">GameMaker</span>中的一个特殊函数来设置浮点数学的<b>epsilon</b>值。当一个实数被四舍五入到最接近的浮点数时，epsilon（也称为 &quot;机器epsilon&quot;）形成了相对误差的上限，你可以使用以下函数获得和设置epsilon值。</p>
   <ul class="colour">
-    <li><a data-xref="{title}" href="math_set_epsilon.htm">math_set_epsilon</a></li>
-    <li><a data-xref="{title}" href="math_get_epsilon.htm">math_get_epsilon</a></li>
+    <li><a href="math_set_epsilon.htm"><span class="notranslate">math_set_epsilon</span></a></li>
+    <li><a href="math_get_epsilon.htm"><span class="notranslate">math_get_epsilon</span></a></li>
   </ul>
-  <h2 id="func_ref">Function Reference</h2>
-  <h3 id="random">Random Numbers and Values</h3>
-  <p class="note"><b><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> </b>When using the random functions, <span data-keyref="GameMaker Name">GameMaker</span> maintains the same random seed every time you start the game. This makes debugging much easier as you are guaranteed that the random functions will always initially return the same value, however should you not wish this to happen, you must first set a new random seed at the very start of the game, either using <span class="inline3_func"><a data-xref="{title}" href="randomise.htm">randomise</a></span> or <span class="inline3_func"><a data-xref="{title}" href="random_set_seed.htm">random_set_seed</a></span>.</p>
+  <p> </p>
+  <p id="random">这些函数都涉及到使用随机数和数值。</p>
+  <p class="note"><b><span class="note">注意</span> </b>当使用随机函数时，<span data-keyref="GameMaker Name">GameMaker</span>在你每次启动游戏时都会保持相同的随机种子。这使得<span class="notranslate">debugging</span> ，因为你可以保证随机函数最初总是返回相同的值，但是如果你不希望发生这种情况，你必须在游戏开始时首先设置一个新的随机种子，可以使用 <span style="font-size:1px;"><a href="randomise.htm"><span class="inline">randomise()</span></a></span>或 <span style="font-size:1px;"><a href="random_set_seed.htm"><span class="inline">random_set_seed()</span></a></span>.</p>
   <ul class="colour">
-    <li><a data-xref="{title}" href="choose.htm">choose</a></li>
-    <li><a data-xref="{title}" href="random.htm">random</a></li>
-    <li><a data-xref="{title}" href="random_range.htm">random_range</a></li>
-    <li><a data-xref="{title}" href="irandom.htm">irandom</a></li>
-    <li><a data-xref="{title}" href="irandom_range.htm">irandom_range</a></li>
-    <li><a data-xref="{title}" href="random_set_seed.htm">random_set_seed</a></li>
-    <li><a data-xref="{title}" href="random_get_seed.htm">random_get_seed</a></li>
-    <li><a data-xref="{title}" href="randomise.htm">randomise</a><b></b></li>
+    <li><a href="choose.htm"><span class="notranslate">choose</span></a></li>
+    <li><a href="random.htm"><span class="notranslate">random</span></a></li>
+    <li><a href="random_range.htm"><span class="notranslate">random_range</span></a></li>
+    <li><a href="irandom.htm"><span class="notranslate">irandom</span></a></li>
+    <li><a href="irandom_range.htm"><span class="notranslate">irandom_range</span></a></li>
+    <li><a href="random_set_seed.htm"><span class="notranslate">random_set_seed</span></a></li>
+    <li><a href="random_get_seed.htm"><span class="notranslate">random_get_seed</span></a></li>
+    <li><a href="randomise.htm"><span class="notranslate">randomise</span></a><b></b></li>
   </ul>
-  <h3>Rounding and Truncating</h3>
-  <p>These are all functions that will round values in some way, or select a single value from various given values.</p>
+  <p> </p>
+  <p>这些都是以某种方式对数值进行四舍五入的函数，或者从各种给定的数值中选择一个单一数值。</p>
   <ul class="colour">
-    <li><a data-xref="{title}" href="round.htm">round</a></li>
-    <li><a data-xref="{title}" href="frac.htm">frac</a></li>
-    <li><a data-xref="{title}" href="abs.htm">abs</a></li>
-    <li><a data-xref="{title}" href="sign.htm">sign</a></li>
-    <li><a data-xref="{title}" href="floor.htm">floor</a></li>
-    <li><a data-xref="{title}" href="ceil.htm">ceil</a></li>
-    <li><a data-xref="{title}" href="min.htm">min</a></li>
-    <li><a data-xref="{title}" href="max.htm">max</a></li>
-    <li><a href="mean.htm">mean</a></li>
-    <li><a href="median.htm">median</a></li>
-    <li><a href="lerp.htm">lerp</a></li>
-    <li><a href="clamp.htm">clamp</a></li>
+    <li><a href="round.htm"><span class="notranslate">round</span></a></li>
+    <li><a href="floor.htm"><span class="notranslate">floor</span></a></li>
+    <li><a href="frac.htm"><span class="notranslate">frac</span></a></li>
+    <li><a href="abs.htm"><span class="notranslate">abs</span></a></li>
+    <li><a href="sign.htm"><span class="notranslate">sign</span></a></li>
+    <li><a href="ceil.htm"><span class="notranslate">ceil</span></a></li>
+    <li><a href="max.htm"><span class="notranslate">max</span></a></li>
+    <li><a href="mean.htm"><span class="notranslate">mean</span></a></li>
+    <li><a href="median.htm"><span class="notranslate">median</span></a></li>
+    <li><a href="min.htm"><span class="notranslate">min</span></a></li>
+    <li><a href="lerp.htm"><span class="notranslate">lerp</span></a></li>
+    <li><a href="clamp.htm"><span class="notranslate">clamp</span></a></li>
   </ul>
-  <h3>Comparisons and Precision</h3>
+  <p> </p>
+  <p>最后，我们收集了一些重要的数学函数。</p>
   <ul class="colour">
-    <li><a data-xref="{title}" href="math_set_epsilon.htm">math_set_epsilon</a></li>
-    <li><a data-xref="{title}" href="math_get_epsilon.htm">math_get_epsilon</a></li>
+    <li><a href="exp.htm"><span class="notranslate">exp</span></a></li>
+    <li><a href="ln.htm"><span class="notranslate">ln</span></a></li>
+    <li><a href="power.htm"><span class="notranslate">power</span></a></li>
+    <li><a href="sqr.htm"><span class="notranslate">sqr</span></a></li>
+    <li><a href="sqrt.htm"><span class="notranslate">sqrt</span></a></li>
+    <li><a href="log2.htm"><span class="notranslate">log2</span></a></li>
+    <li><a href="log10.htm"><span class="notranslate">log10</span></a></li>
+    <li><a href="logn.htm"><span class="notranslate">logn</span></a></li>
   </ul>
-  <h3>Mathematical Functions</h3>
-  <ul class="colour">
-    <li><a data-xref="{title}" href="exp.htm">exp</a></li>
-    <li><a data-xref="{title}" href="ln.htm">ln</a></li>
-    <li><a data-xref="{title}" href="power.htm">power</a></li>
-    <li><a data-xref="{title}" href="sqr.htm">sqr</a></li>
-    <li><a data-xref="{title}" href="sqrt.htm">sqrt</a></li>
-    <li><a data-xref="{title}" href="log2.htm">log2</a></li>
-    <li><a data-xref="{title}" href="log10.htm">log10</a></li>
-    <li><a data-xref="{title}" href="logn.htm">logn</a></li>
-  </ul>
-  <p> </p>
-  <p> </p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a data-xref="{title}" href="../Maths_And_Numbers.htm">Maths And Numbers</a></div>
-        <div style="float:right">Next: <a data-xref="{title}" href="../../../../Additional_Information/Vectors.htm">Vectors</a></div>
+        <div style="float:left">返回。<a href="../Maths_And_Numbers.htm">数学和数字</a></div>
+        <div style="float:right">下一步。<a href="../Angles_And_Distance/Angles_And_Distance.htm">传播媒介</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2023 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright<span class="notranslate">YoYo Games Ltd.</span> 2022 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 Number Functions

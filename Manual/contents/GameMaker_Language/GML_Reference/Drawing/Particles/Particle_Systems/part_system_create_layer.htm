@@ -4,9 +4,9 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>part_system_create_layer</title>
-  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <meta name="generator" content="Adobe RoboHelp 2020" />
   <link rel="stylesheet" href="../../../../../assets/css/default.css" type="text/css" />
-  <script src="../../../../../assets/scripts/main_script.js" type="module"></script>
+  <script src="../../../../../assets/scripts/main_script.js"></script>
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Reference page for part_system_create_layer" />
   <meta name="rh-index-keywords" content="part_system_create_layer" />
@@ -16,55 +16,49 @@
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
   <h1><span data-field="title" data-format="default">part_system_create_layer</span></h1>
-  <p>This function creates a new particle system on the given layer and returns its handle.</p>
-  <p>You give the unique layer ID as returned by the function <span class="inline3_func"><a data-xref="{title}" href="../../../Asset_Management/Rooms/General_Layer_Functions/layer_create.htm">layer_create</a></span> or the name of the layer to use as a string - for example <span class="inline2">&quot;instance_layer&quot;</span> - and then flag the system as being persistent or not.</p>
-  <p>Optionally you can provide a <span data-keyref="Type_Asset_ParticleSystem"><a href="../../../../../The_Asset_Editors/Particle_Systems.htm" target="_blank">Particle System Asset</a></span> created using <a data-xref="{title}" href="../../../../../The_Asset_Editors/Particle_Systems.htm">The Particle System Editor</a>. Doing so will create the system defined in that asset, with all of its emitters.</p>
-  <p>A system not flagged as persistent is automatically destroyed at the end of the room it was created in (this is the same as if you had called the function <span class="inline3_func"><a data-xref="{title}" href="part_system_destroy.htm">part_system_destroy</a></span> and will also destroy any emitters associated with the system). However, when flagged as persistent, the system will be carried to the next room when the room is changed, and if the following room does <i>not</i> have a layer with the same name or depth as the one assigned, then a new layer will be created for the system that is persisting across the rooms, and it will be named the same as the original layer. When changing rooms, if there is another layer in the following rooms with the same name, then the persisted instance will be assigned to the layer with that name <i>regardless of the depth of the layer</i>. Finally, if a persisted system moves to a room with a layer at the same depth as the layer the system was created on, it will <i>not</i> be assigned to this layer, but instead a new layer will be created at the same depth (with the same name as the original layer).</p>
-  <p class="note"><span data-conref="../../../../../assets/snippets/Tag_important.hts"> </span> A particle system created using this function flagged as <em>persistent</em> needs to be cleaned up manually using <span class="inline3_func"><a data-xref="{title}" href="part_system_destroy.htm">part_system_destroy</a></span> when no longer used, otherwise you risk a memory leak that will negatively impact your final game.</p>
-  <p> </p>
-  <h4>Syntax:</h4>
-  <p class="code"><span data-field="title" data-format="default">part_system_create_layer</span>(layer_id, persistent, [partsys])</p>
+  <p>这个函数将在一个给定的层上创建一个新的粒子系统。你给函数返回的唯一的层ID <a href="../../../Asset_Management/Rooms/General_Layer_Functions/layer_create.htm"><span class="inline">layer_create()</span></a>或作为<span class="notranslate">string</span> 的层的名称--例如 &quot;instance_layer&quot;--然后<span class="notranslate">flag</span> 该系统是否是持久的。如果该系统没有被标记为持久性，那么它将在其创建的<span class="notranslate">room</span> 结束时被自动销毁（这与你调用函数的情况相同 <a href="part_system_destroy.htm"><span class="inline">part_system_destroy()</span></a>而且还会销毁与该系统相关的任何发射器）。然而，当标记为持久化时，当改变<span class="notranslate">room</span> ，该系统将被带到下一个<span class="notranslate">room</span> ，如果下面的<span class="notranslate">room</span> ，<i>没有</i>与分配的层相同的名称或深度，那么将为该系统创建一个新的层，该层将跨越<span class="notranslate">rooms</span> ，它的名称将与原始层相同。当改变<span class="notranslate">rooms</span> ，如果在下面的<span class="notranslate">rooms</span> ，有另一个具有相同名称的层，那么持久化的实例将被分配到具有该名称的层，<i>而不管该层的深度</i>如何。最后，如果一个持久化的系统移动到一个<span class="notranslate">room</span> ，其层的深度与系统创建的层相同，那么它将<i>不会</i>被分配到这个层，而是在同一深度创建一个新的层（与原层名称相同）。</p>
+  <p>该函数将为粒子系统返回一个唯一的ID值，在所有需要给出系统ID的后续函数调用中应该使用该ID值。</p>
+  <p class="note"><b>重要的是!</b>如果你把粒子系统<span class="notranslate">flag</span> ，那么它（以及分配给它的任何发射器）将需要在不使用时使用适当的销毁功能进行手动清理，否则你将面临内存泄漏的风险，这将对你的最终游戏产生负面影响。</p>
+  <p> </p>
+  <h4>语法。</h4>
+  <p class="code"><span data-field="title" data-format="default">part_system_create_layer</span>(layer_id, persistent);</p>
   <table>
     <tbody>
       <tr>
-        <th>Argument</th>
-        <th>Type</th>
-        <th>Description</th>
+        <th>争论</th>
+        <th>类型</th>
+        <th>描述</th>
       </tr>
       <tr>
-        <td>layer</td>
-        <td><span data-keyref="Type_String"><a href="../../../../GML_Overview/Data_Types.htm" target="_blank">String</a></span> or <span data-keyref="Type_ID_Layer"><a href="../../../Asset_Management/Rooms/General_Layer_Functions/layer_get_id.htm" target="_blank">Layer</a></span></td>
-        <td>The layer ID (or name) to assign the particle system to (can be any layer type)</td>
+        <td><span class="notranslate">layer</span></td>
+        <td><span data-keyref="Type_String">字符串</span> <span data-keyref="Type_ID_Layer">或层ID</span></td>
+        <td><span class="notranslate">The layer ID (or name) to assign the particle system to (can be any layer type)</span></td>
       </tr>
       <tr>
-        <td>persistent</td>
-        <td><span data-keyref="Type_Bool"><a href="../../../../GML_Overview/Data_Types.htm" target="_blank">Boolean</a></span></td>
-        <td>Flag the particle system as persistent (set to <span class="inline2">true</span>) or not (set to <span class="inline2">false</span>)</td>
-      </tr>
-      <tr>
-        <td>partsys</td>
-        <td><span data-keyref="Type_Asset_ParticleSystem"><a href="../../../../../The_Asset_Editors/Particle_Systems.htm" target="_blank">Particle System Asset</a></span></td>
-        <td><span data-conref="../../../../../assets/snippets/Tag_optional.hts"> </span> The particle system asset to create an instance of</td>
+        <td><span class="notranslate">persistent</span></td>
+        <td><span data-keyref="Type_Bool">布尔型</span></td>
+        <td><span class="notranslate">Flag the particle system as persistent (set to <span class="inline">true</span>)或不(设置为 <span class="inline">false</span>)</td>
       </tr>
     </tbody>
   </table>
-  <p> </p>
-  <h4>Returns:</h4>
-  <p class="code"><span data-keyref="Type_ID_PartSys"><a href="part_system_create.htm" target="_blank">Particle System Instance</a></span></p>
-  <p> </p>
-  <h4>Example:</h4>
-  <p class="code">global.part_sys = <span data-field="title" data-format="default">part_system_create_layer</span>(&quot;effects_layer&quot;, true, ps_explosion);</p>
-  <p>The above code creates a new particle system on the given layer from the <span class="inline2">ps_explosion</span> asset, and flags it as persisting over subsequent rooms. The ID of the particle system is stored in a global scope variable <span class="inline2">part_sys</span> for future reference.</p>
-  <p> </p>
-  <p> </p>
+  <p> </p>
+  <h4>返回。</h4>
+  <p class="code"><span data-keyref="Type_ID_PartSys">Particle System ID</span></p>
+  <p> </p>
+  <h4>例子。</h4>
+  <p class="code">global.p_sys = part_system_create_layer(&quot;effects_layer&quot;, true);</p>
+  <p>上面的代码将在给定的层上创建一个新的粒子系统，并且<span class="notranslate">flag</span> ，使其在随后的<span class="notranslate">rooms</span> 。粒子系统的ID被存储在一个全局范围的变量中，以供将来参考。</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a data-xref="{title}" href="Particle_Systems.htm">Particle Systems</a></div>
-        <div style="float:right">Next: <a data-xref="{title}" href="part_system_get_layer.htm">part_system_get_layer</a></div>
+        <div style="float:left">回来了。<a href="Particle_Systems.htm">粒子系统</a></div>
+        <div style="float:right">下一步。 <a href="part_system_get_layer.htm"><span class="notranslate">part_system_get_layer</span></a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2025 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright<span class="notranslate">YoYo Games Ltd.</span> 2022 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 part_system_create_layer

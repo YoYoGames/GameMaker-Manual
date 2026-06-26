@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>绩效_获取挑战</title>
+  <meta name="generator" content="Adobe RoboHelp 2019" />
+  <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
+  <script src="../../../../assets/scripts/main_script.js"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Reference page for achievement_get_challenges" />
+  <meta name="rh-index-keywords" content="achievement_get_challenges,achievement_challenge_list_received,achievement_filter_friends_only,achievement_filter_all_players" />
+  <meta name="search-keywords" content="achievement_get_challenges,achievement_challenge_list_received,achievement_filter_friends_only,achievement_filter_all_players" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>绩效_获取挑战</h1>
+  <p>这个函数将向<span class="notranslate">server</span> ，以获取当前所有挑战的信息，并将触发一个回调<a href="../../../../The_Asset_Editors/Object_Properties/Async_Events/Social.htm">社会异步事件</a>，其中包含
+    <a href="../../../GML_Overview/Variables/Builtin_Global_Variables/async_load.htm"><tt>async_load</tt></a>地图填充了相关的键/值对。这个<tt>DS地图</tt>的<i>id</i>键被用来识别正确的回调（任何事件都可以有多个触发函数）。
+    对于任何给定的异步事件，可以有一个以上的触发函数），并将与<b>常数</b> <tt>achievement_challenge_list_received</tt>以及每个挑战的其他一些键/值对搭配。该地图的具体内容如下
+    地图的具体内容如下所示。</p>
+  <p class="note"><b>注意</b>：该功能仅适用于<b>iOS</b>。</p>
+  <ul class="colour">
+    <li>&quot;<b>id</b>&quot; - 这个函数应该是<tt>achievement_challenge_list_received</tt>。</li>
+    <li>&quot;<b>numchallenges</b>&quot; - 当前可用的挑战数量（本地和远程）。</li>
+    <li>&quot;<b>ChallengeNplayerid</b>&quot; - 挑战赛的玩家ID，其中 &quot;N &quot;是一个整数，例如：&quot;Challenge5playerid &quot;是列表中第五个挑战赛的玩家ID。</li>
+    <li>&quot;<b>ChallengeNissuerid</b>&quot; - 发出挑战的人的ID，其中 &quot;N &quot;是一个整数，例如：&quot;Challenge2issuerid &quot;是列表中第二个挑战的发出者ID。</li>
+    <li>&quot;<b>ChallengeNstate</b>&quot; - 挑战的状态 &quot;N&quot;，其值为0-3（作为<span class="notranslate">string</span> ），表示<i>无效</i>、<i>待定</i>、<i>完成</i>或<i>拒绝</i>。</li>
+    <li>&quot;<b>ChallengeNmessage</b>&quot; - 挑战 &quot;N &quot;的文本信息。</li>
+    <li>&quot;<b>ChallengeNissueddate</b>&quot; - 挑战书 &quot;N &quot;的发行日期。</li>
+    <li>&quot;<b>ChallengeNcompleteddate</b>&quot; - 挑战 &quot;N &quot;的完成日期。</li>
+    <li>&quot;<b>ChallengeNtype</b>&quot; - 给出的挑战类型。可以是两个常数之一。</li>
+  </ul>
+  <table>
+    <tbody>
+      <tr>
+        <th>恒定</th>
+        <th>描述</th>
+      </tr>
+      <tr>
+        <td><span class="notranslate">achievement_filter_friends_only </span></td>
+        <td>只获取玩家朋友的分数。</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">achievement_filter_all_players </span></td>
+        <td>获得所有球员的所有分数。</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <ul class="colour">
+    <li>&quot;<b>ChallengeNidentifier</b>&quot; - 挑战的识别性<span class="notranslate">string</span> 。</li>
+    <li>&quot;<b>ChallengeNscore</b>&quot; - 与挑战有关的分数。</li>
+  </ul>
+  <p> </p>
+  <h4><b>语法。</b></h4>
+  <p class="code">achievement_get_challenges()</p>
+  <p> </p>
+  <h4>返回。</h4>
+  <p class="code">N/A</p>
+  <p> </p>
+  <h4>扩展实例。</h4>
+  <p>下面的代码可能会在玩家登录到他们的游戏账户后被调用，使用的是 <a href="achievement_login.htm"><tt>成就_登录()</tt></a>:</p>
+  <p class="code">achievement_get_challenges();</p>
+  <p>这将发送一个关于当前挑战信息的请求，并生成一个异步回调，其中包含特殊的<tt>async_load</tt>ds_map，其中包含以下数据。</p>
+  <p class="code">var ident = ds_map_find_value(async_load, &quot;id&quot;);<br/> if ident == achievement_challenge_list_received<br/>    {
+    <br/>    var numentries = ds_map_find_value(async_load,&quot;numchallenges&quot;);<br/>    for(var i = 0; i &lt; numentries; i++;)<br/>       {
+    <br/>       player_id[i] = ds_map_find_value(async_load, &quot;Challenge&quot; + string(i)+&quot;playerid&quot;);<br/>       issuer_id[i] = ds_map_find_value(async_load, &quot;Challenge&quot; + string(i) +&quot;issuerid&quot;);<br/>       state[i]
+    = ds_map_find_value(async_load, &quot;Challenge&quot; + string(i)+&quot;state&quot;);<br/>       message[i] = ds_map_find_value(async_load, &quot;Challenge&quot; + string(i)+&quot;message&quot;);<br/>       date_completed[i] = ds_map_find_value(async_load,
+    &quot;Challenge&quot; + string(i)+&quot;completeddate&quot;);<br/>       date_issued[i] = ds_map_find_value(async_load, &quot;Challenge&quot; + string(i)+&quot;issueddate&quot;);<br/>       ach_type[i] = ds_map_find_value(async_load, &quot;Challenge&quot;
+    + string(i)+&quot;type&quot;);<br/>       ach_ident[i] = ds_map_find_value(async_load, &quot;Challenge&quot; + string(i)+&quot;identifier&quot;);<br/>       ach_score[i] = ds_map_find_value(async_load, &quot;Challenge&quot; + string(i)+&quot;score&quot;);<br/>       }
+  </p>
+  <p>上述代码在<b>社交异步事件</b>中检查返回的<tt>DS地图</tt>，如果它的 &quot;id &quot;与被检查的常数相匹配，它就会通过地图<span class="notranslate">loops</span> ，将所有不同的值存储在一些数组中。这些信息
+    然后可以用于，例如，在游戏中创建你自己的、个性化的挑战页面。</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">返回。<a href="Achievements_And_Leaderboards.htm">成就和排行榜</a></div>
+        <div style="float:right">下一步。 <a href="achievement_get_pic.htm"><span class="notranslate">achievement_get_pic</span></a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright<span class="notranslate">YoYo Games Ltd.</span> 2021 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+achievement_get_challenges
+achievement_challenge_list_received
+achievement_filter_friends_only
+achievement_filter_all_players
+-->
+  <!-- TAGS
+achievement_get_challenges
+-->
+</body>
+</html>

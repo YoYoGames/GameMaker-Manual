@@ -1,76 +1,240 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>Instance Keywords</title>
-  <meta name="generator" content="Adobe RoboHelp 2022" />
-  <link rel="stylesheet" href="../../assets/css/default.css" type="text/css" />
-  <script src="../../assets/scripts/main_script.js" type="module"></script>
-  <meta name="rh-authors" content="Mark Alexander" />
-  <meta name="topic-comment" content="Page outlining the different instance &quot;keywords&quot;" />
-  <meta name="rh-index-keywords" content="Instance Keywords,noone,self,other,all" />
-  <meta name="search-keywords" content="self,all,noone,other,instance keywords" />
-</head>
-<body>
-  <!--<div class="body-scroll" style="top: 150px;">-->
-  <h1><span data-field="title" data-format="default">Instance Keywords</span></h1>
-  <p>To make certain things easier in <span data-keyref="GameMaker Name">GameMaker</span>, you can use one of several <b>instance keywords</b> in your code (whether <span data-keyref="GML_Code">GML Code</span> or <span data-keyref="GML_Visual">GML Visual</span>). These keywords are used to identify instances and structs.</p>
-  <ul class="colour">
-    <li><a data-xref="{title}" href="Instance Keywords/self.htm">self</a></li>
-    <li><a data-xref="{title}" href="Instance Keywords/other.htm">other</a></li>
-    <li><a data-xref="{title}" href="Instance Keywords/all.htm">all</a></li>
-    <li><a data-xref="{title}" href="Instance Keywords/noone.htm">noone</a></li>
-  </ul>
-  <h2 id="h">Legacy Values</h2>
-  <p>These variables have historically stored negative integer values which helps <span data-keyref="GameMaker Name">GameMaker</span> identify which keyword is being used. This is referenced in the following table:</p>
-  <table style="width: 616.5px;">
-    <colgroup>
-      <col />
-      <col />
-    </colgroup>
-    <tbody>
-      <tr>
-        <th style="">Variable</th>
-        <th>Value</th>
-      </tr>
-      <tr>
-        <td style=""><strong>self</strong></td>
-        <td>-1</td>
-      </tr>
-      <tr>
-        <td style=""><strong>other</strong></td>
-        <td>-2</td>
-      </tr>
-      <tr>
-        <td style=""><strong>all</strong></td>
-        <td>-3</td>
-      </tr>
-      <tr>
-        <td style=""><strong>noone</strong></td>
-        <td>-4</td>
-      </tr>
-    </tbody>
-  </table>
-  <p>Due to compatibility reasons, these variables still refer to these values before the actual struct or instance it refers to is resolved. These values may appear in some cases, e.g. converting <span class="inline2">self</span> into a <a data-xref="{title}" href="../GML_Reference/Strings/string.htm">string</a> will result in <span class="inline2">&quot;-1&quot;</span> and inversely, using <span class="inline2">-1</span> in places where a scope is expected will refer to <span class="inline2">self</span>.</p>
-  <p>This can be seen in a <span class="inline3_func"><a data-xref="{title}" href="Language_Features/with.htm">with</a></span> block, where if you pass <span class="inline2">-1</span> the block is executed on <span class="inline2">self</span>. This may be unintentional when a <a href="Data_Types.htm">Handle</a> is passed with a value of <span class="inline2">-1</span>, where the expectation would be the <span class="inline3_func"><a data-xref="{title}" href="Language_Features/with.htm">with</a></span> block not executing however it executes on <span class="inline2">self</span> due to this legacy behaviour.</p>
-  <p class="note"><span data-conref="../../assets/snippets/Tag_important.hts"> </span> You <strong>should not</strong> use the numeric values of these keywords directly, always reference each keyword by its name.</p>
-  <p> </p>
-  <p> </p>
-  <div class="footer">
-    <div class="buttons">
-      <div class="clear">
-        <div style="float:left">Back: <a href="GML_Overview.htm">GML Overview</a></div>
-        <div style="float:right">Next: <a data-xref="{title}" href="Evaluation_Order.htm">Evaluation Order</a></div>
-      </div>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>实例关键词</title>
+    <meta name="generator" content="Adobe RoboHelp 2020" />
+    <link rel="stylesheet" href="../../assets/css/default.css" type="text/css" />
+    <script src="../../assets/scripts/main_script.js"></script>
+    <meta name="rh-authors" content="Mark Alexander" />
+    <meta name="topic-comment" content="Page outlining the different instance &quot;keywords&quot;" />
+    <meta name="rh-index-keywords" content="Instance Keywords,noone,self,other,all" />
+    <meta name="search-keywords" content="self,all,noone,other,instance keywords" />
+  </head>
+  <body><!--<div class="body-scroll" style="top: 150px;">-->
+    <h1>实例关键词</h1>
+    <p>为了使<span data-keyref="GameMaker Name">GameMaker</span>中的某些事情变得更容易，你可以在你的代码中使用几个<b>实例关键词</b>之一（无论是<span class="notranslate">GML</span> 还是<span class="notranslate">GML</span> Visual）。这些关键字主要用于识别不同情况下的实例--在某些情况下，<span class="notranslate">structs</span> ，下面的文字中对每一个关键字进行了解释。</p>
+    <p>请注意，所有给定的关键字在内部都是由<strong>负整数值</strong>表示的，所以在针对这些关键字分配或检查变量值时必须小心，因为你可能会在以后得到意想不到的结果，因为<span data-keyref="GameMaker Name">GameMaker</span>将你使用的值解释为其他东西。你还应该注意，在你的代码中直接使用整数值而不是关键词是<b>完全不推荐的</b>，可能会在以后引起问题。</p>
+    <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down" href="#"><span class="inline">self</span></a></p>
+    <div class="droptext" data-targetname="drop-down">
+      <table class=" cke_show_border">
+        <tbody>
+          <tr>
+            <th>关键词</th>
+            <th>描述</th>
+            <th>价值</th>
+          </tr>
+          <tr>
+            <td><span class="notranslate"><span class="inline">self</span></td>
+            <td>正在执行当前代码块的实例/结构。</td>
+            <td><span class="notranslate">   -1</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="dropspot"><span class="inline">self</span> 可以用来识别当前代码块中处于范围内的当前 或实例。比如说。<span class="notranslate">struct</span> </p>
+      <p class="code">var val = 100;
+        <br/>
+        with (instance_create_layer(x, y, &quot;Instances&quot;, obj_Fire))
+        <br/>
+        {
+        <br/>
+        self.val = val;
+        <br/>
+        }</p>
+      <p class="dropspot">在这个例子中，你可以看到我们有一个名为 <span class="inline">val</span> 的<i>局部变量</i>，我们希望它能在新创建的<span class="notranslate">object</span> 实例中设置同名的<i>实例</i>变量。为了正确识别实例变量并告诉<span data-keyref="GameMaker Name">GameMaker</span>在调用代码块的实例中设置它，我们使用 <span class="inline">self</span> 关键字。在大多数情况下，你也可以使用 <span class="inline">id</span> 内置的实例变量来代替 <span class="inline">self</span> ，但 <span class="inline">self</span> 具有某些好处。首先，编译器使用 <span class="inline">self</span> 而不是 <span class="inline">id</span> 来识别实例（或<span class="notranslate">struct</span> ）会更快，因为 <span class="inline">id</span> 的值会经过实例查找表，而 <span class="inline">self</span> 则不会。其次，对于那些制作<span class="notranslate">extensions</span> 的人来说，这对于确保变量的正确范围是非常有用的，因为使用<span class="notranslate">extension</span> 的项目有可能有一个全局范围的变量或者与<span class="notranslate">extension</span> 中的变量同名的东西。</p>
+      <p class="note"><strong>注意</strong>：<span class="inline">self</span> 关键字<strong>不是 </strong>一个实例或<span class="notranslate">struct</span> 的实际ID值的快捷方式，只应在上述情况下使用。如果你需要一个实例的ID<strong>值 </strong>，那么你需要使用<span class="inline">self.id</span> ，例如。</p>
+      <p class="code">var myID = id;
+        <br/>
+        with (all)
+        <br/>
+        {
+        <br/>
+        if self.id == myID
+        <br/>
+        {
+        <br/>
+        // do something
+        <br/>
+        }
+        <br/>
+        }</p>
+      <p class="dropspot">还值得注意的是， <span class="inline">self</span> ，也可以在<a href="Structs.htm">结构</a>内使用--在非常特殊的情况下--引用成员变量，为<span class="notranslate">struct</span> 。</p>
+      <p class="dropspot"> </p>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2025 All Rights Reserved</span></h5>
-  </div>
-  <!-- KEYWORDS
+    <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down1" href="#"><span class="inline">other</span></a></p>
+    <div class="droptext" data-targetname="drop-down1">
+      <table class=" cke_show_border">
+        <tbody>
+          <tr>
+            <th>关键词</th>
+            <th>描述</th>
+            <th>价值</th>
+          </tr>
+          <tr>
+            <td><span class="notranslate"><span class="inline">other</span></td>
+            <td>碰撞事件中涉及的另一个实例，在 <span class="inline">with</span> 函数或函数中。</td>
+            <td><span class="notranslate">   -2</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="dropspot">特殊的关键字 <span class="inline">other</span> ，它有多种方式可以用来引用一个特定的实例（在某些情况下，也可以引用一个<span class="notranslate">struct</span> ）：它可以在一个 <span class="inline">with</span> 语句中使用（<a href="Language_Features/with.htm">这里</a>解释），在一个<a href="../../The_Asset_Editors/Object_Properties/Object_Events.htm">碰撞事件</a>中使用，或者在一个函数中使用。本节将解释后两种使用情况。</p>
+      <p class="dropspot">请注意，在碰撞事件以外的事件中，当在任何函数调用和 <span class="inline">with()</span> 块之外时， <span class="inline">other</span> 只是返回当前实例的<span class="notranslate">struct</span> 。</p>
+      <h2 class="dropspot">碰撞事件</h2>
+      <p class="dropspot">碰撞事件只能发生在<strong>两个 </strong>实例之间。你<i>可以</i>在多个实例之间发生多次碰撞，但它们都被<span data-keyref="GameMaker Name">GameMaker</span>以1对1的方式解决，即拥有碰撞事件的 &quot;自己 &quot;实例和与之发生碰撞的 &quot;其他 &quot;实例。</p>
+      <p class="dropspot">想象一下，你有一个玩家实例，多个敌人实例，以及敌人可以向你发射的多个子弹实例。你可以给每个敌人分配一个子弹实例，但在创建时随机分配一个不同的伤害变量，比如说。</p>
+      <p class="code">var bullet;
+        <br/>
+        bullet = instance_create_layer(x, y, &quot;Bullets&quot;, obj_Bullet);
+        <br/>
+        bullet.damage = 5 + irandom(5);
+        <br/>
+        bullet.speed = 8;
+        <br/>
+        bullet.direction = point_direction(x, y, obj_Player.x, obj_Player.y);</p>
+      <p class="dropspot">你可以看到我们是如何使用点符号来设置它的变量的，正如在 "<a href="Addressing_Variables_In_Other_Instances.htm">在其他实例中寻址变量</a>"一节中所概述的。这将给每个子弹实例一个不同的伤害值，但是当玩家被子弹击中时，将如何检测它所要承受的伤害？</p>
+      <p class="dropspot">为此，玩家需要有一个与 <span class="inline">obj_Bullet</span> 的碰撞事件，并在该事件中使用 <span class="inline">other</span> ，从碰撞的子弹实例中读取变量。</p>
+      <p class="code">hp -= other.damage;
+        <br/>
+        if hp &lt;= 0 instance_destroy();</p>
+      <p class="dropspot">上面的代码将从玩家的 &quot;hp &quot;变量中扣除存储在<i>另一个</i>实例的 &quot;damage &quot;变量中的金额，然后它将检查 &quot;hp &quot;是否低于或等于0。请注意，另一个实例必须有被检查的变量，否则将抛出一个错误。</p>
+      <p class="note"><strong>注意</strong>：碰撞事件是唯一对 <span class="inline">other</span> 关键字有特殊含义的事件。在所有其他的事件和<span class="notranslate">scripts</span> ， <span class="inline">other</span> 的行为将由它所使用的上下文来定义（比如一个 <span class="inline">with() </span>块，一个函数，<span class="notranslate">struct</span> 声明，等等）。</p>
+      <p class="dropspot">你可以给变量赋值，甚至创建新的变量，在碰撞事件中使用 <span class="inline">other</span> ，像这样。</p>
+      <p class="code">// add ten to the other instance &quot;mana&quot; variable
+        <br/>
+        other.mana += 10;
+        <br/>
+        // set the other instance variable &quot;hit&quot; to true, creating the variable if it doesn&#39;t already exist
+        <br/>
+        other.hit = true;</p>
+      <h2 class="dropspot">结构声明</h2>
+      <p class="dropspot">当在<span class="notranslate">struct</span> 声明中使用时， <span class="inline">other</span> 指的是初始化该结构的实例。</p>
+      <p class="code">var _struct =
+        <br/>
+        {
+        <br/>
+        parent_instance : other
+        <br/>
+        }
+        <br/>
+        <br/>
+        show_debug_message(_struct.parent_instance == self);
+        <br/>
+        // This prints &#39;1&#39; (true) meaning that both sides refer to the same instance </p>
+      <p class="dropspot">然而，你不需要使用 <span class="inline">other</span> 来从实例中读取变量，因为你直接引用的任何变量都将从该实例的作用域中读取，正如<a href="Structs.htm#inst_in_struct">本节</a>手册所描述的那样。只有当你想存储对该实例的引用时，你才需要使用这个<span class="notranslate">struct</span> 。</p>
+      <h2 class="dropspot">实例方法</h2>
+      <p class="dropspot">在另一个实例的内部使用 <span class="inline">other</span> <a href="Method_Variables.htm"><span class="notranslate">method</span></a>指的是调用该方法的实例。</p>
+      <p class="dropspot">例如，假设 <span class="inline">Object2</span> 有一个方法引用 <span class="inline">self</span> 和 <span class="inline">other</span> 。然后这个方法在 <span class="inline">Object1</span> 中被调用。由于这个方法是在 <span class="inline">Object2</span> 中创建的，它被<strong>绑定</strong>到了 <span class="inline">Object2</span> 中，并且无论哪个实例调用它，它都会使用 实例作为 &quot;自我&quot;。在这种情况下，调用的实例成为<span class="inline">other</span> 。</p>
+      <p class="code">// In Object2
+        <br/>
+        my_method = function()
+        <br/>
+        {
+        <br/>
+        show_debug_message(object_get_name(self.object_index));
+        <br/>
+        show_debug_message(object_get_name(other.object_index));
+        <br/>
+        }
+        <br/>
+        <br/>
+        // In Object1
+        <br/>
+        Object2.my_method(); </p>
+      <p class="dropspot">这将导致实例首先打印它自己的<span class="notranslate">object</span> 名称（&quot;Object2&quot;），然后是调用实例的<span class="notranslate">object</span> 名称（&quot;Object1&quot;）。</p>
+      <p class="dropspot">同样的情况将适用于一个绑定到<span class="notranslate">struct</span> 的方法。</p>
+      <h2 class="dropspot">构造函数</h2>
+      <p class="dropspot">当在构造函数中使用时， <span class="inline">other</span> 将引用调用该函数的实例，然而这并不推荐用于一般用途，因为构造函数需要使用的任何外部数据都应该作为参数传入。</p>
+      <p class="dropspot"> </p>
+    </div>
+    <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down2" href="#"><span class="inline">all</span></a></p>
+    <div class="droptext" data-targetname="drop-down2">
+      <table class=" cke_show_border">
+        <tbody>
+          <tr>
+            <th>关键词</th>
+            <th>描述</th>
+            <th>价值</th>
+          </tr>
+          <tr>
+            <td><span class="notranslate"><span class="inline">all</span></td>
+            <td>目前在<span class="notranslate">room</span> 中活跃的所有实例。</td>
+            <td><span class="notranslate">   -3</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <p> </p>
+      <p class="dropspot">这个关键字用来告诉<span data-keyref="GameMaker Name">GameMaker</span>，一个函数要被应用，或者检查，<span class="notranslate">room</span> 内的所有活动实例（停用的实例不会被检查或访问）。你<b>不能</b>使用 <span class="inline">all</span> 来访问或设置其他实例中使用点方法的变量（见<a href="Addressing_Variables_In_Other_Instances.htm">这里</a>），但你<strong>可以 </strong>在调用 <a href="Language_Features/with.htm"><span class="inline">with()</span></a>，例如。</p>
+      <p class="code">with (all)
+        <br/>
+        {
+        <br/>
+        speed = 0;
+        <br/>
+        }</p>
+      <p class="dropspot">上面的代码将把<span class="notranslate">room</span> 中的所有实例的速度设置为0。你也可以在函数中使用 <span class="inline">all</span> ，以目标或检查<span class="notranslate">room</span> 中的所有实例，例如。</p>
+      <p class="code">// Check a point for any active instance in the room
+        <br/>
+        inst = instance_position(mouse_x, mouse_y, all);
+        <br/>
+        <br/>
+        // Check all instances for a collision along a line
+        <br/>
+        if collision_line(x, y, mouse_x, mouse_y, all, false, true) {}
+        <br/>
+        <br/>
+        // Add all instances in the room into a motion planning grid
+        <br/>
+        mp_grid_add_instances(grid, all, false); </p>
+      <p class="dropspot"><span class="inline">all</span> 是一个非常有用的关键字，可以在你的代码和动作中的许多情况下使用，通常可以减少你为实现所需效果而需要编写的代码量。</p>
+      <p class="dropspot"> </p>
+    </div>
+    <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down3" href="#"><span class="inline">noone</span></a></p>
+    <div class="droptext" data-targetname="drop-down3">
+      <table class=" cke_show_border">
+        <tbody>
+          <tr>
+            <th>关键词</th>
+            <th>描述</th>
+            <th>价值</th>
+          </tr>
+          <tr>
+            <td><span class="notranslate"><span class="inline">noone</span></td>
+            <td>根本就没有实例。</td>
+            <td><span class="notranslate">   -4</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="dropspot">这可能看起来很奇怪，但很多时候，当你为你的游戏编程时，你会发现需要检查是否在某个位置没有发现实例，或在某个碰撞中没有发现实例等等。在这些情况下，你会使用这个关键字来检查是否有任何东西，像这样。</p>
+      <p class="code">if instance_nearest(x, y, obj_enemy) != noone
+        <br/>
+        {
+        <br/>
+        //do something as there is an enemy instance near
+        <br/>
+        }</p>
+      <p class="dropspot">在这个例子中，函数 <span class="inline">instance_nearest()</span> 将返回 <span class="inline">noone</span> 或最近找到的实例的唯一 ID。基本上，任何时候你需要检查一个实例，你可以期望得到 <span class="inline">noone</span> ，或者返回一个唯一的实例ID。</p>
+      <p class="dropspot"> </p>
+    </div>
+    <p> </p>
+    <p> </p>
+    <p> </p>
+    <div class="footer">
+      <div class="buttons">
+        <div class="clear">
+          <div style="float:left">返回。<a href="GML_Overview.htm">GML概述</a></div>
+          <div style="float:right">下一步。<a data-xref="{title}" href="Evaluation_Order.htm">评价顺序</a></div>
+        </div>
+      </div>
+      <h5><span data-keyref="Copyright Notice">© Copyright<span class="notranslate">YoYo Games Ltd.</span> 2022 All Rights Reserved</span></h5>
+    </div>
+    <!-- KEYWORDS
 Instance Keywords
--->
-  <!-- TAGS
+self
+all
+noone
+other
+--><!-- TAGS
 instance_keywords
--->
-</body>
+--></body>
 </html>

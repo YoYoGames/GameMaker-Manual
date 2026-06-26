@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>下载分数</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
+  <script src="../../../../assets/scripts/main_script.js"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Reference page for steam_download_scores" />
+  <meta name="rh-index-keywords" content="steam_download_scores" />
+  <meta name="search-keywords" content="steam_download_scores" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>下载分数</h1>
+  <p>这个函数用于按排行榜排名检索排行榜条目的顺序范围。<tt>start_idx</tt>和<tt>end_idx</tt>参数控制请求的排名范围，例如，你可以通过设置开始值为1，结束值为10，在排行榜上显示你游戏的前10名。排行榜的名称是一个<span class="notranslate">string</span> ，是在你使用函数创建排行榜时定义的。 <a href="steam_create_leaderboard.htm"><tt>steam_create_leaderboard()</tt></a>该函数将返回一个值，然后可以用来识别<a href="../../../../The_Asset_Editors/Object_Properties/Async_Events/Steam.htm">Steam Async事件</a>中的回调，如果失败则返回-1。请注意，在下载排行榜时，地图的 &quot;条目 &quot;键可能有一个额外的 &quot;数据&quot;。 <a href="../../../GML_Overview/Variables/Builtin_Global_Variables/async_load.htm"><tt>非同步加载</tt></a>地图的 &quot;条目 &quot;键可能有一个额外的 &quot;数据 &quot;键，如果任何额外的<span class="notranslate">buffer</span> 数据与分数一起被上传（见 <a href="steam_upload_score_buffer.htm"><tt>steam_upload_score_buffer()</tt></a><b></b>).这个数据<span class="notranslate">buffer</span> ，将是Base 64编码的，所以你需要在读取数据之前在 上使用函数 <a href="../../Buffers/buffer_base64_decode.htm"><tt>buffer_base64_decode()</tt></a>在读取数据之前，你需要对<span class="notranslate">buffer</span> 。</p>
+  <p> </p>
+  <h4>语法。</h4>
+  <p class="code">steam_download_scores(lb_name, start_idx, end_idx);</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>争论</th>
+        <th>描述</th>
+      </tr>
+      <tr>
+        <td><span class="notranslate">lb_name</span></td>
+        <td>你要下载分数的排行榜名称(a<span class="notranslate">string</span>)。</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">start_idx</span></td>
+        <td>在排行榜上的起始位置。</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">end_idx</span></td>
+        <td>在排行榜上的最终位置。</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>返回。</h4>
+  <p class="code">Real</p>
+  <p> </p>
+  <h4>扩展实例。</h4>
+  <p>在这个扩展的例子中，我们将请求给定排行榜的前十名，并在<b>Steam Async事件</b>中解析其结果。首先，我们需要用以下代码请求分数。</p>
+  <p class="code">score_get = steam_download_scores(&quot;Game Scores&quot;, 1, 10);</p>
+  <p>这将向<span class="notranslate">Steam</span> <span class="notranslate">Server</span> ，请求从排行榜 &quot;游戏分数 &quot;中获取分数，将请求的<b>异步ID</b>存储在变量 &quot;score_get &quot;中。这将在<b>Steam异步事件</b>中以如下方式处理。</p>
+  <p class="code">var async_id = ds_map_find_value(async_load, &quot;id&quot;);<br />
+    if async_id == score_get<br />
+    {<br />
+        var entries = ds_map_find_value(async_load, &quot;entries&quot;);<br />
+        var map = json_decode(entries);<br />
+        if ds_map_exists(map, &quot;default&quot;)<br />
+        {<br />
+            ds_map_destroy(map);<br />
+            exit;<br />
+        }<br />
+        else<br />
+        {<br />
+            var list = ds_map_find_value(map, &quot;entries&quot;);<br />
+            var len = ds_list_size(list);<br />
+            var entry;<br />
+            for(var i = 0; i &lt; len; i++;)<br />
+            {<br />
+                entry = ds_list_find_value(list, i );<br />
+                steam_name[i] = ds_map_find_value(entry, &quot;name&quot;);<br />
+                steam_score[i] = ds_map_find_value(entry, &quot;score&quot;);<br />
+                steam_rank[i] = ds_map_find_value(entry, &quot;rank&quot;);<br />
+            }<br />
+        }<br />
+        ds_map_destroy(map)<br />
+    }</p>
+  <p>我们在这里做的是首先检查特殊<tt>async_load</tt>DS map的 &quot;id &quot;键。如果这个值与原始回调函数的值相同（存储在 &quot;score_get &quot;变量中），我们就继续处理数据。我们做的第一件事是解析<tt>async_load</tt>ds_map中的键&quot; entries&quot;，它将包含一个包含排行榜数据的JSON<span class="notranslate">object</span> 。这个JSON<span class="notranslate">object</span> 然后被解码（见 <a href="../../File_Handling/Encoding_And_Hashing/json_decode.htm"><tt>json_decode()</tt></a>)作为另一个DS地图，这个新的地图ID被存储在变量 &quot;map &quot;中。</p>
+  <p>这个地图会被检查是否有 &quot;default &quot;这个键，如果找到了，那么这个地图就会被销毁，事件也会被退出。如果没有找到 &quot;default &quot;键，代码将解析地图以提取有关排行榜的必要信息，首先从DS地图的&quot; entries &quot;键中提取一个DS列表，然后循环浏览列表中的每一个条目，得到<i>另一个</i>DS地图，其中有每个条目的名称、得分和排名。然后，这些值被存储到数组中。</p>
+  <p>一旦<span class="notranslate">loop</span> ，JSON DS地图就会被销毁（这反过来又会销毁所有的内部地图和列表）。没有必要销毁<tt>async_load</tt>DS地图，因为这是由<span class="notranslate">GameMaker Studio 2</span> 来处理的。</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">返回。<a href="Steam_Leaderboards.htm">排行榜</a></div>
+        <div style="float:right">下一步。 <a href="steam_download_scores_around_user.htm"><span class="notranslate">steam_download_scores_around_user</span></a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright<span class="notranslate">YoYo Games Ltd.</span> 2022 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+steam_download_scores
+-->
+  <!-- TAGS
+steam_download_scores
+-->
+</body>
+</html>

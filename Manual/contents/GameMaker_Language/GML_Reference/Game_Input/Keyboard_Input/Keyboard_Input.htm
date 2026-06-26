@@ -3,10 +3,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>Keyboard Input</title>
-  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <title>键盘输入</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
   <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
-  <script src="../../../../assets/scripts/main_script.js" type="module"></script>
+  <script src="../../../../assets/scripts/main_script.js"></script>
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Reference section for Keyboard Input" />
   <meta name="rh-index-keywords" content="vk_nokey,vk_anykey,vk_left,vk_right,vk_up,vk_down,vk_enter,vk_escape,vk_space,vk_shift,vk_control,vk_alt,vk_backspace,vk_tab,vk_home,vk_end,vk_delete,vk_insert,vk_pageup,vk_pagedown,vk_pause,vk_printscreen,vk_f1,vk_f2,vk_f3,vk_f4,vk_f5,vk_f6,vk_f7,vk_f8,vk_f9,vk_f10,vk_f11,vk_f12,vk_numpad0,vk_numpad1,vk_numpad2,vk_numpad3,vk_numpad4,vk_numpad5,vk_numpad6,vk_numpad7,vk_numpad8,vk_numpad9,vk_multiply,vk_divide,vk_add,vk_subtract,vk_decimal,vk_lshift,vk_lcontrol,vk_lalt,vk_rshift,vk_rcontrol,vk_ralt" />
@@ -14,220 +14,241 @@
 </head>
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
-  <h1><span data-field="title" data-format="default">Keyboard Input</span></h1>
-  <p>When dealing with the keyboard in <span data-keyref="GameMaker Name">GameMaker</span> you have a variety of functions that can be used to recognise different keyboard states like pressed or released. There are also some that store all the key presses as a string or that can tell you what the last key pressed was, as well as others that allow you to clear the keyboard state completely.</p>
-  <p>Each input character from a key (or multiple keys) is defined by its <a href="https://en.wikipedia.org/wiki/UTF-8" target="_blank">UTF-8</a> code, which is a numerical value. This value can be retrieved for any character using the <span class="inline3_func"><a data-xref="{title}" href="../../Strings/ord.htm">ord</a></span> function but, <span data-keyref="GameMaker Name">GameMaker</span> also has a series of <span class="inline">constants</span> for the most used keyboard special keys and a special functions. Typically you&#39;d use a combination of <span class="inline3_func"><a data-xref="{title}" href="../../Strings/ord.htm">ord</a></span> with the <span class="inline3_func">keyboard_check*</span> functions, something like this:</p>
-  <p class="code">if (keyboard_check(ord(&quot;A&quot;)))<br />
+  <h1>键盘输入</h1>
+  <p>在<span data-keyref="GameMaker Name">GameMaker</span>中处理键盘时，你有各种函数可以用来识别不同的键盘状态，如按下或释放。也有一些函数将所有的按键存储为<span class="notranslate">string</span> ，或者可以告诉你最后一个按键是什么，还有一些函数允许你完全清除键盘状态。</p>
+  <p class="note"><b><span class="note">注意</span></b>这些函数只为Windows/Mac/Ubuntu桌面平台设计。你可能会发现一些内置的变量和常量在其他平台上无效，许多函数在手机上也无法使用。</p>
+  <p>一个键（或多个键）的每个输入字符都由其<a href="https://en.wikipedia.org/wiki/UTF-8" target="_blank">UTF8</a>代码定义，这是一个数字值。这个值可以使用函数为任何字符检索 <a href="../../Strings/ord.htm"><span class="inline">ord()</span></a>函数，但<span data-keyref="GameMaker Name">GameMaker</span>也有一系列的 <span class="inline">constants</span> ，用于最常用的键盘特殊键和特殊功能。通常，你会使用 <span class="inline">ord()</span> 与 <span class="inline">keyboard_check*()</span> 函数的组合，类似这样。</p>
+  <p class="code">if keyboard_check(ord(&quot;A&quot;))<br />
     {<br />
         hspeed = -5;<br />
     }</p>
-  <p>So, the above will check the &quot;A&quot; key and if it&#39;s being pressed then it&#39;ll set the horizontal speed of the object to -5. Note, that using <span class="inline3_func"><a data-xref="{title}" href="../../Strings/ord.htm">ord</a></span> with <span class="inline2"><a href="keyboard_check.htm">keyboard_check</a>*()</span> functions will only function correctly if the input string is only one character in length and is a number from 0 to 9 or a <i>capitalised</i> Roman character from A to Z. The function <span class="inline3_func"><a data-xref="{title}" href="../../Strings/ord.htm">ord</a></span> will return a full UTF-8 value, but the <span class="inline3_func">keyboard_check*</span> functions will <i>only detect A - Z and 0 - 9</i>.</p>
-  <p>But what if you want to use the arrow keys? Or if you want to modify an action using the &quot;Shift&quot; key? Well, for that <span data-keyref="GameMaker Name">GameMaker</span> has a series of <span class="inline2">vk_*</span> constants (<span class="inline2">vk_</span> stands for <i>virtual key</i>) that you can use in place of <span class="inline3_func"><a data-xref="{title}" href="../../Strings/ord.htm">ord</a></span>:</p>
-  <table id="table" style="caption-side: top">
-    <caption>Virtual Key Constant (vk_*)</caption>
+  <p>因此，上面将检查 &quot;A &quot;键，如果它被按下，那么它将把<span class="notranslate">object</span> 的水平速度设置为-5。注意，以这种方式使用 <span class="inline">ord()</span> ，只有在输入的<span class="notranslate">string</span> ，只有一个字符的长度，并且是0到9的数字或A到Z的<i>大写</i>罗马字符时，才能正常工作。函数 <span class="inline">ord()</span> ，将返回一个完整的UTF8值，但 <span class="inline">keyboard_check*()</span> 函数将<i>只检测A - Z和0 - 9</i>。但是，如果你想使用方向键呢？或者如果你想用 &quot;shift &quot;键来修改一个动作？那么，对于这一点，<span data-keyref="GameMaker Name">GameMaker</span>有一系列的 <span class="inline">vk_</span> 常量（<span class="inline">vk_</span> 代表<i>虚拟键</i>），你可以用它来代替 <span class="inline">ord()</span> 。</p>
+  <table>
     <colgroup>
       <col />
       <col />
     </colgroup>
     <tbody>
       <tr>
-        <th>Constant</th>
-        <th>Description</th>
+        <th colspan="2"><span data-keyref="Type_Constant_VK"><a data-rhwidget="HyperlinkPopover" href="../../../../../GameMaker_Language/GML_Reference/Game_Input/Keyboard_Input/Keyboard_Input.htm">虚拟钥匙常数（vk_*）。</a></span></th>
       </tr>
       <tr>
-        <td><span class="inline"><a id="vk_nokey"></a>vk_nokey</span></td>
-        <td>keycode representing that no key is pressed</td>
+        <th>恒定</th>
+        <th>描述</th>
       </tr>
       <tr>
-        <td><span class="inline">vk_anykey</span></td>
-        <td>keycode representing that any key is pressed</td>
+        <td><span class="notranslate"><span class="inline">vk_nokey</span></td>
+        <td>代表未按下任何键的键码</td>
       </tr>
       <tr>
-        <td><span class="inline">vk_left</span></td>
-        <td>keycode for the left arrow key</td>
+        <td><span class="notranslate"><span class="inline">vk_anykey</span></td>
+        <td>代表任何键被按下的键码</td>
       </tr>
       <tr>
-        <td><span class="inline">vk_right</span></td>
-        <td>keycode for the right arrow key</td>
+        <td><span class="notranslate"><span class="inline">vk_left</span></td>
+        <td>左方向键的键码</td>
       </tr>
       <tr>
-        <td><span class="inline">vk_up</span></td>
-        <td>keycode for the up arrow key</td>
+        <td><span class="notranslate"><span class="inline">vk_right</span></td>
+        <td>右方向键的键码</td>
       </tr>
       <tr>
-        <td><span class="inline">vk_down</span></td>
-        <td>keycode for the down arrow key</td>
+        <td><span class="notranslate"><span class="inline">vk_up</span></td>
+        <td>上箭头键的键码</td>
       </tr>
       <tr>
-        <td><span class="inline">vk_enter</span></td>
-        <td>enter key</td>
+        <td><span class="notranslate"><span class="inline">vk_down</span></td>
+        <td>下箭头键的键码</td>
       </tr>
       <tr>
-        <td><span class="inline">vk_escape</span></td>
-        <td>escape key</td>
+        <td><span class="notranslate"><span class="inline">vk_enter</span></td>
+        <td>回车键</td>
       </tr>
       <tr>
-        <td><span class="inline">vk_space</span></td>
-        <td>space key</td>
+        <td><span class="notranslate"><span class="inline">vk_escape</span></td>
+        <td>逃生键</td>
       </tr>
       <tr>
-        <td><span class="inline">vk_shift</span></td>
-        <td>either of the shift keys</td>
+        <td><span class="notranslate"><span class="inline">vk_space</span></td>
+        <td>空间键</td>
       </tr>
       <tr>
-        <td><span class="inline">vk_control</span></td>
-        <td>either of the control keys</td>
+        <td><span class="notranslate"><span class="inline">vk_shift</span></td>
+        <td>任何一个移位键</td>
       </tr>
       <tr>
-        <td><span class="inline">vk_alt</span></td>
-        <td>alt key</td>
+        <td><span class="notranslate"><span class="inline">vk_control</span></td>
+        <td>任何一个控制键</td>
       </tr>
       <tr>
-        <td><span class="inline">vk_backspace</span></td>
-        <td>backspace key</td>
+        <td><span class="notranslate"><span class="inline">vk_alt</span></td>
+        <td>Alt键</td>
       </tr>
       <tr>
-        <td><span class="inline">vk_tab</span></td>
-        <td>tab key</td>
+        <td><span class="notranslate"><span class="inline">vk_backspace</span></td>
+        <td>退格键</td>
       </tr>
       <tr>
-        <td><span class="inline">vk_home</span></td>
-        <td>home key</td>
+        <td><span class="notranslate"><span class="inline">vk_tab</span></td>
+        <td>标签键</td>
       </tr>
       <tr>
-        <td><span class="inline">vk_end</span></td>
-        <td>end key</td>
+        <td><span class="notranslate"><span class="inline">vk_home</span></td>
+        <td>主页键</td>
       </tr>
       <tr>
-        <td><span class="inline">vk_delete</span></td>
-        <td>delete key</td>
+        <td><span class="notranslate"><span class="inline">vk_end</span></td>
+        <td>结束键</td>
       </tr>
       <tr>
-        <td><span class="inline">vk_insert</span></td>
-        <td>insert key</td>
+        <td><span class="notranslate"><span class="inline">vk_delete</span></td>
+        <td>删除键</td>
       </tr>
       <tr>
-        <td><span class="inline">vk_pageup</span></td>
-        <td>pageup key</td>
+        <td><span class="notranslate"><span class="inline">vk_insert</span></td>
+        <td>插入钥匙</td>
       </tr>
       <tr>
-        <td><span class="inline">vk_pagedown</span></td>
-        <td>pagedown key</td>
+        <td><span class="notranslate"><span class="inline">vk_pageup</span></td>
+        <td>上页键</td>
       </tr>
       <tr>
-        <td><span class="inline">vk_pause</span></td>
-        <td>pause/break key</td>
+        <td><span class="notranslate"><span class="inline">vk_pagedown</span></td>
+        <td>分页键</td>
       </tr>
       <tr>
-        <td><span class="inline">vk_printscreen</span></td>
-        <td>printscreen/sysrq key</td>
+        <td><span class="notranslate"><span class="inline">vk_pause</span></td>
+        <td>暂停/中断键</td>
       </tr>
       <tr>
-        <td><span class="inline">vk_f1 ... vk_f12</span></td>
-        <td>keycode for the function keys F1 to F12</td>
+        <td><span class="notranslate"><span class="inline">vk_printscreen</span></td>
+        <td>printtscreen/sysrq键</td>
       </tr>
       <tr>
-        <td><span class="inline">vk_numpad0 ... vk_numpad9</span></td>
-        <td>number keys on the numeric keypad</td>
+        <td><span class="notranslate"><span class="inline">vk_f1 ... vk_f12</span></td>
+        <td>功能键F1至F12的键码</td>
       </tr>
       <tr>
-        <td><span class="inline">vk_multiply</span></td>
-        <td>multiply key on the numeric keypad</td>
+        <td><span class="notranslate"><span class="inline">vk_numpad0 ... vk_numpad9</span></td>
+        <td>数字键盘上的数字键</td>
       </tr>
       <tr>
-        <td><span class="inline">vk_divide</span></td>
-        <td>divide key on the numeric keypad</td>
+        <td><span class="notranslate"><span class="inline">vk_multiply</span></td>
+        <td>数字键盘上的乘法键</td>
       </tr>
       <tr>
-        <td><span class="inline">vk_add</span></td>
-        <td>add key on the numeric keypad</td>
+        <td><span class="notranslate"><span class="inline">vk_divide</span></td>
+        <td>数字键盘上的除法键</td>
       </tr>
       <tr>
-        <td><span class="inline">vk_subtract</span></td>
-        <td>subtract key on the numeric keypad</td>
+        <td><span class="notranslate"><span class="inline">vk_add</span></td>
+        <td>数字键盘上的添加键</td>
       </tr>
       <tr>
-        <td><span class="inline">vk_decimal</span></td>
-        <td>decimal dot keys on the numeric keypad</td>
+        <td><span class="notranslate"><span class="inline">vk_subtract</span></td>
+        <td>数字键盘上的减法键</td>
       </tr>
       <tr>
-        <td><span class="inline">vk_lshift</span></td>
-        <td>left shift key</td>
-      </tr>
-      <tr>
-        <td><span class="inline">vk_lcontrol</span></td>
-        <td>left control key</td>
-      </tr>
-      <tr>
-        <td><span class="inline">vk_lalt</span></td>
-        <td>left alt key</td>
-      </tr>
-      <tr>
-        <td><span class="inline">vk_rshift</span></td>
-        <td>right shift key</td>
-      </tr>
-      <tr>
-        <td><span class="inline">vk_rcontrol</span></td>
-        <td>right control key</td>
-      </tr>
-      <tr>
-        <td><span class="inline">vk_ralt</span></td>
-        <td>right alt key</td>
+        <td><span class="notranslate"><span class="inline">vk_decimal</span></td>
+        <td>数字键盘上的小数点键</td>
       </tr>
     </tbody>
   </table>
-  <p class="note"><span data-conref="../../../../assets/snippets/Tag_warning.hts"> </span> Using <span class="inline2">vk_printscreen</span> is not recommended as it is often bound to the Snip functionality in Windows 11. Events will not be generated for key presses.</p>
-  <p><span style="text-align: justify;">The following is a small example of how to use the <span class="inline2">vk_*</span> </span><span style="text-align: justify;">constants:</span></p>
-  <p class="code">if (keyboard_check_pressed(vk_tab))<br />
+  <p> </p>
+  <p>以下常数只能与 <span class="inline">keyboard_check_direct()</span> 。</p>
+  <table>
+    <colgroup>
+      <col />
+      <col />
+    </colgroup>
+    <tbody>
+      <tr>
+        <th colspan="2"><span data-keyref="Type_Constant_VK"><a data-rhwidget="HyperlinkPopover" href="../../../../../GameMaker_Language/GML_Reference/Game_Input/Keyboard_Input/Keyboard_Input.htm">虚拟钥匙常数（vk_*）。</a></span></th>
+      </tr>
+      <tr>
+        <th>恒定</th>
+        <th>描述</th>
+      </tr>
+      <tr>
+        <td><span class="notranslate"><span class="inline">vk_lshift</span></td>
+        <td>左移键</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate"><span class="inline">vk_lcontrol</span></td>
+        <td>左侧控制键</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate"><span class="inline">vk_lalt</span></td>
+        <td>左键</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate"><span class="inline">vk_rshift</span></td>
+        <td>右移键</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate"><span class="inline">vk_rcontrol</span></td>
+        <td>右控制键</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate"><span class="inline">vk_ralt</span></td>
+        <td>右边的alt键</td>
+      </tr>
+    </tbody>
+  </table>
+  <p><span style="text-align: justify;">下面是一个小例子，说明如何使用</span><span style="text-align: justify;"> </span><span class="inline">vk_</span><span style="text-align: justify;"> </span><span style="text-align: justify;">常量。</span></p>
+  <p class="code">if keyboard_check_pressed(vk_tab)<br />
     {<br />
         instance_create_layer(x, y, &quot;Controllers&quot;, obj_Menu);<br />
     }</p>
-  <p>The above code will detect if the &quot;Tab&quot; key is <i>pressed</i> and create an instance of object <span class="inline2">obj_Menu</span> if it is.</p>
-  <p>If you need to check for a key character that is not 0 - 9, A - Z or one of the <span class="inline2">vk_*</span> constants, then you should be checking one of the <span class="inline2">keyboard_*</span> variables, like <span class="inline2"><a data-xref="{title}" href="keyboard_lastchar.htm">keyboard_lastchar</a></span> for example:</p>
-  <p class="code">if (keyboard_lastchar == &quot;ç&quot;)<br />
+  <p>上述代码将检测 &quot;Tab &quot;键是否被<i>按下</i>，如果被按下，将创建一个<span class="notranslate">object</span> &quot;obj_Menu &quot;的实例。</p>
+  <p>如果你需要检查一个不是0-9、A-Z或VK常数之一的按键字符，那么你应该检查一个 <span class="inline">keyboard_*</span> 的变量，例如 <span class="inline">keyboard_lastchar</span> 。</p>
+  <p class="code">var _key = keyboard_lastchar;<br />
+    if ord(_key) == ord(&quot;ç&quot;)<br />
     {<br />
         show_debug_message(&quot;ç key pressed&quot;);<br />
         keyboard_lastchar = &quot;&quot;;<br />
     }</p>
-  <h2 id="func_ref">Function Reference</h2>
-  <h3 id="general">General</h3>
-  <p class="note"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> These functions will <i>not</i> work when using an on-screen <a href="../Virtual_Keys_And_Keyboards/Virtual_Keys_And_Keyboards.htm">Virtual Keyboard</a>.</p>
+  <p>使用键盘工作时，可使用以下功能。</p>
+  <p class="note"><b>注意</b>：在使用屏幕上的<a href="../Virtual_Keys_And_Keyboards/Virtual_Keys_And_Keyboards.htm">虚拟键盘</a>时，这些功能将<i>无法</i>使用。</p>
   <ul class="colour">
-    <li><a data-xref="{title}" href="io_clear.htm">io_clear</a></li>
-    <li><a data-xref="{title}" href="keyboard_check.htm">keyboard_check</a></li>
-    <li><a data-xref="{title}" href="keyboard_check_pressed.htm">keyboard_check_pressed</a></li>
-    <li><a data-xref="{title}" href="keyboard_check_released.htm">keyboard_check_released</a></li>
-    <li><a data-xref="{title}" href="keyboard_check_direct.htm">keyboard_check_direct</a></li>
-    <li><a data-xref="{title}" href="keyboard_clear.htm">keyboard_clear</a></li>
-    <li><a data-xref="{title}" href="keyboard_set_map.htm">keyboard_set_map</a></li>
-    <li><a data-xref="{title}" href="keyboard_get_map.htm">keyboard_get_map</a></li>
-    <li><a data-xref="{title}" href="keyboard_unset_map.htm">keyboard_unset_map</a></li>
-    <li><a data-xref="{title}" href="keyboard_set_numlock.htm">keyboard_set_numlock</a></li>
-    <li><a data-xref="{title}" href="keyboard_get_numlock.htm">keyboard_get_numlock</a></li>
+    <li><a href="io_clear.htm"><span class="notranslate">io_clear</span></a></li>
+    <li><a href="keyboard_check.htm"><span class="notranslate">keyboard_check</span></a></li>
+    <li><a href="keyboard_check_pressed.htm"><span class="notranslate">keyboard_check_pressed</span></a></li>
+    <li><a href="keyboard_check_released.htm"><span class="notranslate">keyboard_check_released</span></a></li>
+    <li><a href="keyboard_check_direct.htm"><span class="notranslate">keyboard_check_direct</span></a></li>
+    <li><a href="keyboard_clear.htm"><span class="notranslate">keyboard_clear</span></a></li>
+    <li><a href="keyboard_set_map.htm"><span class="notranslate">keyboard_set_map</span></a></li>
+    <li><a href="keyboard_get_map.htm"><span class="notranslate">keyboard_get_map</span></a></li>
+    <li><a href="keyboard_unset_map.htm"><span class="notranslate">keyboard_unset_map</span></a></li>
+    <li><a href="keyboard_set_numlock.htm"><span class="notranslate">keyboard_set_numlock</span></a></li>
+    <li><a href="keyboard_get_numlock.htm"><span class="notranslate">keyboard_get_numlock</span></a></li>
   </ul>
-  <h3 id="simulating_keypresses">Simulating Keypresses</h3>
+  <p> </p>
+  <p>还有一些功能可以用来模拟按键。</p>
   <ul class="colour">
-    <li><a data-xref="{title}" href="keyboard_key_press.htm">keyboard_key_press</a></li>
-    <li><a data-xref="{title}" href="keyboard_key_release.htm">keyboard_key_release</a></li>
+    <li><a href="keyboard_key_press.htm"><span class="notranslate">keyboard_key_press</span></a></li>
+    <li><a href="keyboard_key_release.htm"><span class="notranslate">keyboard_key_release</span></a></li>
   </ul>
-  <h3 id="keyboard_state_input">Keyboard State &amp; Input</h3>
-  <p class="note"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> When using the <a href="../Virtual_Keys_And_Keyboards/Virtual_Keys_And_Keyboards.htm">Virtual Keyboard</a>, <i>only</i> the <span class="inline2"><a data-xref="{title}" href="keyboard_string.htm">keyboard_string</a></span> variable will be updated with the keyboard input.</p>
+  <p> </p>
+  <p>最后，以下变量是<span data-keyref="GameMaker Name">GameMaker</span>内置的，可以访问这些变量以获得有关键盘状态和输入的信息。</p>
+  <p class="note"><b>注意</b>：当使用<a href="../Virtual_Keys_And_Keyboards/Virtual_Keys_And_Keyboards.htm">虚拟键盘</a>时，<i>只有</i><span style="font-size:1px;"><span class="inline">keyboard_string</span></span>变量会随着键盘输入而更新。</p>
   <ul class="colour">
-    <li><a data-xref="{title}" href="keyboard_key.htm">keyboard_key</a></li>
-    <li><a data-xref="{title}" href="keyboard_lastkey.htm">keyboard_lastkey</a></li>
-    <li><a data-xref="{title}" href="keyboard_lastchar.htm">keyboard_lastchar</a></li>
-    <li><a data-xref="{title}" href="keyboard_string.htm">keyboard_string</a></li>
+    <li><a href="keyboard_key.htm"><span class="notranslate">keyboard_key</span></a></li>
+    <li><a href="keyboard_lastkey.htm"><span class="notranslate">keyboard_lastkey</span></a></li>
+    <li><a href="keyboard_lastchar.htm"><span class="notranslate">keyboard_lastchar</span></a></li>
+    <li><a href="keyboard_string.htm"><span class="notranslate">keyboard_string</span></a></li>
   </ul>
-  <p> </p>
-  <p> </p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a data-xref="{title}" href="../Game_Input.htm">Game Input</a></div>
-        <div style="float:right">Next: <a data-xref="{title}" href="../Mouse_Input/Mouse_Input.htm">Mouse Input</a></div>
+        <div style="float:left">返回。<a href="../Game_Input.htm">游戏输入</a></div>
+        <div style="float:right">下一步。<a href="../Mouse_Input/Mouse_Input.htm">鼠标输入</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2026 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright<span class="notranslate">YoYo Games Ltd.</span> 2022 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 Keyboard Input Functions

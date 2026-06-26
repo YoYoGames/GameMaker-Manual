@@ -4,9 +4,9 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>buffer_peek</title>
-  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <meta name="generator" content="Adobe RoboHelp 2020" />
   <link rel="stylesheet" href="../../../assets/css/default.css" type="text/css" />
-  <script src="../../../assets/scripts/main_script.js" type="module"></script>
+  <script src="../../../assets/scripts/main_script.js"></script>
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Reference page for buffer_peek" />
   <meta name="rh-index-keywords" content="buffer_peek,buffer_u8,buffer_s8,buffer_u16,buffer_s16,buffer_u32,buffer_s32,buffer_u64,buffer_f16,buffer_f32,buffer_f64,buffer_bool,buffer_string,buffer_text" />
@@ -16,57 +16,57 @@
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
   <h1><span data-field="title" data-format="default">buffer_peek</span></h1>
-  <p>The <span class="inline3_func"><span data-field="title" data-format="default">buffer_peek</span></span> function reads a piece of data of a certain type from the given buffer at an arbitrary offset position (in bytes).</p>
-  <p>Like the <span class="inline3_func"><a data-xref="{title}" href="buffer_read.htm">buffer_read</a></span> function, this function also <em>reads</em> data from a buffer. <span class="inline3_func">buffer_read()</span>, however, always reads at the buffer&#39;s current &quot;seek&quot; position and advances this position by the number of bytes being read. This function allows you to read a given piece of data without changing the current seek position. You simply supply the function with a buffer, and then an offset position (from the buffer start) within that buffer to read from, as well as the data type that you want to read.</p>
-  <p class="note"><b><span data-conref="../../../assets/snippets/Tag_note.hts"> </span></b> Using the incorrect data type for the data being read will result in erroneous values!</p>
-  <p>If the function succeeds it returns the value that was read (a real, string, boolean, etc.), if it fails it returns simply <span class="inline2">undefined</span>.</p>
-  <p> </p>
-  <h4>Syntax:</h4>
-  <p class="code"><span data-field="title" data-format="default">buffer_peek</span>(buffer, offset, type)</p>
+  <p>使用该 <a href="buffer_read.htm"><span class="inline">buffer_read()</span></a>函数，你可以从给定的<span class="notranslate">buffer</span> ，在当前的 &quot;寻址 &quot;位置上读取数据，每一块数据的读取都是通过正在读取或写入的字节来推进这个位置。然而，你可能有必要在不改变当前寻址位置的情况下读取一个给定的数据，这时你就会使用这个函数。你只需向该函数提供一个<span class="notranslate">buffer</span> id，然后在该<span class="notranslate">buffer</span> 中提供一个要读取的偏移位置（从<span class="notranslate">buffer</span> 开始），以及你想要读取的数据类型。</p>
+  <p class="note"><b>注意</b>：对正在读取的数据使用不正确的数据类型，将导致错误的数值!</p>
+  <p>如果函数成功，那么将根据数据类型返回一个值（Real,<span class="notranslate">string</span>, boolean, 等等...），而失败将简单地返回0。</p>
+  <p> </p>
+  <h4>语法。</h4>
+  <p class="code"><span data-field="title" data-format="default">buffer_peek</span>(buffer, offset, type);</p>
   <table>
     <tbody>
       <tr>
-        <th>Argument</th>
-        <th>Type</th>
-        <th>Description</th>
+        <th>争论</th>
+        <th>类型</th>
+        <th>描述</th>
       </tr>
       <tr>
-        <td>buffer</td>
-        <td><span data-keyref="Type_ID_Buffer"><a href="buffer_create.htm" target="_blank">Buffer</a></span></td>
-        <td>The buffer to use.</td>
+        <td><span class="notranslate">buffer</span></td>
+        <td><span data-keyref="Type_ID_Buffer">缓冲区ID</span></td>
+        <td><span class="notranslate">The index of the buffer to use.</span></td>
       </tr>
       <tr>
-        <td>offset</td>
-        <td><span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
-        <td>The offset position (in bytes) within the buffer to read the given data from.</td>
+        <td><span class="notranslate">offset</span></td>
+        <td><span data-keyref="Type_Real">真实的</span></td>
+        <td><span class="notranslate">The offset position (in bytes) within the buffer to read the given data from.</span></td>
       </tr>
       <tr>
-        <td>type</td>
-        <td><span data-keyref="Type_Constant_Buffer_Data_Type"><a href="buffer_write.htm" target="_blank">Buffer Data Type Constant</a></span></td>
-        <td>The type of data that is to be read from the buffer (see the list of constants <a href="buffer_read.htm">here</a>).</td>
+        <td><span class="notranslate">type</span></td>
+        <td><span data-keyref="Type_Constant_Buffer_Data_Type">缓冲区数据类型常数</span></td>
+        <td><span class="notranslate">The type of data that is to be read from the buffer (see the list of constants <a href="buffer_read.htm">here</a>).</span></td>
       </tr>
     </tbody>
   </table>
-  <p> </p>
-  <h4>Returns:</h4>
-  <p class="code"><span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span>, <span data-keyref="Type_Bool"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Boolean</a></span>, <span data-keyref="Type_String"><a href="../../GML_Overview/Data_Types.htm" target="_blank">String</a></span> or undefined (if it fails)</p>
-  <p> </p>
-  <h4>Example:</h4>
-  <p class="code">var _red = buffer_peek(buff, 1, buffer_u8);<br />
-    var _green = buffer_peek(buff, 2, buffer_u8);<br />
-    var _blue = buffer_peek(buff, 3, buffer_u8);<br />
-    image_blend = make_colour_rgb(_red, _green, _blue);</p>
-  <p>The above code gets three values from three different positions within the buffer stored in the variable <span class="inline2">buff</span> and then uses those values to set the <span class="inline2"><a data-xref="{title}" href="../Asset_Management/Sprites/Sprite_Instance_Variables/image_blend.htm">image_blend</a></span> of the calling instance.</p>
-  <p> </p>
-  <p> </p>
+  <p> </p>
+  <h4>返回。</h4>
+  <p class="code"><span data-keyref="Type_Real">Real</span>, <span data-keyref="Type_Bool">Boolean</span>, <span data-keyref="Type_String">String</span> or 0 (if it fails)</p>
+  <p> </p>
+  <h4>例子。</h4>
+  <p class="code">var red = buffer_peek(buff, 1, buffer_u8);<br />
+    var green = buffer_peek(buff, 2, buffer_u8);<br />
+    var blue = buffer_peek(buff, 3, buffer_u8);<br />
+    image_blend = make_colour_rgb(red, green, blue);</p>
+  <p>上述代码将从变量 &quot;buff &quot;中索引的<span class="notranslate">buffer</span> 内的三个不同位置获得三个值，然后使用这些值来设置实例的图像混合。</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a href="Buffers.htm">Buffers</a></div>
-        <div style="float:right">Next: <a href="buffer_poke.htm">buffer_poke</a></div>
+        <div style="float:left">Back:<a href="Buffers.htm">缓冲器</a></div>
+        <div style="float:right">下一步。 <a href="buffer_poke.htm"><span class="notranslate">buffer_poke</span></a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright<span class="notranslate">YoYo Games Ltd.</span> 2022 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 buffer_peek

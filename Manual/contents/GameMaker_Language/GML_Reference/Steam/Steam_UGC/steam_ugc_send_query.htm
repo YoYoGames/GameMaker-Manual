@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>steam_ugc_send_query</title>
+  <meta name="generator" content="Adobe RoboHelp 2019" />
+  <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
+  <script src="../../../../assets/scripts/main_script.js"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Reference page for steam_ugc_send_query" />
+  <meta name="rh-index-keywords" content="steam_ugc_send_query" />
+  <meta name="search-keywords" content="steam_ugc_send_query" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>steam_ugc_send_query</h1>
+  <p>这个函数可以用来发送一个查询请求。你首先使用适当的<tt>steam_ugc_create_query_*()</tt>函数定义查询，这将返回一个 &quot;查询句柄&quot;。然后，这个句柄被用来设置过滤器等....，然后再被这个函数用来发送查询请求。
+    在这个函数中用来发送查询请求。该函数返回一个独特的异步ID值，可用于正确检查<a href="../../../../The_Asset_Editors/Object_Properties/Async_Events/Steam.htm">Steam异步事件</a>中的细节。
+    这个事件将有 <a href="../../../GML_Overview/Variables/Builtin_Global_Variables/async_load.htm"><tt>async_load</tt></a>DS地图，它将用以下键/值对来填充。</p>
+  <ul class="colour">
+    <li>&quot;<b>id</b>&quot; - 触发事件的函数返回的异步ID</li>
+    <li>&quot;<b>result</b>&quot; - 操作的结果（一个实值）。这将是<span class="notranslate">GML</span> 常数<tt>ugc_result_success</tt>或其他实数。所以你应该检查这个常数以确保调用成功，如果
+      否则就会出现工作不正常的情况。其余可能返回的值显示为<span class="notranslate">Steam</span> &quot;EResult &quot;的结果，你应该在SDK头文件中看到<tt>steamclientpublic.h</tt>的所有89个可能值。</li>
+    <li>&quot;<b>event_type</b>&quot; -<span class="notranslate">string</span> &quot;<b>ugc_query</b>&quot;</li>
+    <li>&quot;<b>num_results</b>&quot; - 返回的结果数量（最大50）。</li>
+    <li>&quot;<b>total_matching</b>&quot; - 匹配结果的总数</li>
+    <li>&quot;<b>cached_data</b>&quot; - 表示该数据是否从本地磁盘<span class="notranslate">cache</span> （将为<tt>真</tt>或<tt>假</tt>）。</li>
+    <li><b>&quot;results_list</b>&quot; - 一个DS列表索引，其中每个列表条目是一个DS地图索引，包含特定项目的详细信息</li>
+  </ul>
+  <p>当你得到异步事件类型 &quot;ugc_query &quot;时，你就可以解析结果列表并从每个DS地图中提取以下信息（列表中每个项目一个地图）。</p>
+  <ul class="colour">
+    <li>&quot;<b>published_file_id&quot;</b>&quot; -持有该项目唯一的published文件ID。</li>
+    <li>&quot;<b>file_type</b>&quot; - 使用的文件类型</li>
+    <li>&quot;<b>creator_app_id</b>&quot; - 项目创建者的<span class="notranslate">Steam</span> ID。</li>
+    <li>&quot;<b>consumer_app_id</b>&quot; - 项目消费者的<span class="notranslate">Steam</span> ID。</li>
+    <li><b>&quot;标题</b>&quot; - 项目的标题</li>
+    <li>&quot;<b>描述</b>&quot; - 项目的描述</li>
+    <li>&quot;<b>steam_id_owner</b>&quot; - 项目所有者的<span class="notranslate">Steam</span> ID。</li>
+    <li>&quot;<b>time_created</b>&quot; - 项目首次创建的时间</li>
+    <li>&quot;<b>time_updated</b>&quot; - 项目最后一次被更新的时间</li>
+    <li>&quot;<b>time_added_to_user_list</b>&quot; - 项目被订阅的时间。</li>
+    <li>&quot;<b>visibility</b>&quot; - 项目的可见性（见 <a href="steam_ugc_set_item_visibility.htm"><tt>steam_ugc_set_item_visibility()</tt></a>返回的常数）。)</li>
+    <li>&quot;<b>banned</b>&quot; - 该项目是否已被禁止<tt>（true</tt>）或未被禁止<tt>（false</tt>）。</li>
+    <li>&quot;<b>accepted_for_use</b>&quot; - 项目是否已被接受使用<tt>（真</tt>）或不<tt>（假）</tt>。</li>
+    <li>&quot;<b>tags_truncated</b>&quot; - 作为数组的标签的简短版本。</li>
+    <li>&quot;<b>tags</b>&quot; -<span class="notranslate">string</span> ，包含项目的标签，每个标签用逗号分隔。</li>
+    <li>&quot;<b>handle_file</b>&quot; - 项目的唯一文件柄</li>
+    <li>&quot;<b>handle_preview_file</b>&quot; - 项目预览图片的唯一句柄（可以作为参数与 <a href="steam_ugc_download.htm"><tt>steam_ugc_download()</tt></a>来下载预览图片）。)</li>
+    <li>&quot;<b>文件名</b>&quot; - 项目文件的名称</li>
+    <li>&quot;<b>file_size</b>&quot; - 项目文件的大小</li>
+    <li>&quot;<b>preview_file_size</b>&quot; - 预览图像的大小</li>
+    <li>&quot;<b>url</b>&quot; - 项目的完整URL</li>
+    <li>&quot;<b>votes_up</b>&quot; - 收到的赞成票的数量</li>
+    <li><b>&quot;投票</b>&quot;--收到的反对票的数量</li>
+    <li><b>&quot;得分</b>&quot; - 项目的总得分</li>
+    <li>&quot;<b>account_id_owner</b>&quot; - 来自<span class="notranslate">Steam</span> ID所有者的账户ID（这个可以在函数中使用 <a href="steam_ugc_create_query_user_ex.htm"><tt>steam_ugc_create_query_user_ex()</tt></a>)</li>
+  </ul>
+  <p> </p>
+  <h4>语法。</h4>
+  <p class="code">steam_ugc_send_query(ugc_query_handle);</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>争论</th>
+        <th>描述</th>
+      </tr>
+      <tr>
+        <td><span class="notranslate">ugc_query_handle</span></td>
+        <td>要发送的查询句柄。</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>返回。</h4>
+  <p class="code">Boolean</p>
+  <p> </p>
+  <h4>例子。</h4>
+  <p class="code">var query_handle = steam_ugc_create_query_all(ugc_query_RankedByTrend, ugc_match_Items, 1);<br/> steam_ugc_query_add_required_tag(query_handle, &quot;RPG&quot;);<br/> steam_ugc_query_set_return_long_description(query_handle, true);<br/> steam_ugc_query_set_allow_cached_response(query_handle,
+    true);<br/> query_ID = steam_ugc_send_query(query_handle);</p>
+  <p>上面的代码创建了一个查询请求，并把它的句柄存储在一个局部变量中，以便将来在发送查询之前，在其余的函数中进一步定义查询请求。</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">返回。<a href="Steam_UGC.htm">UGC</a></div>
+        <div style="float:right">下一步。 <a href="steam_ugc_download.htm"><span class="notranslate">steam_ugc_download</span></a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright<span class="notranslate">YoYo Games Ltd.</span> 2021 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+steam_ugc_send_query
+-->
+  <!-- TAGS
+steam_ugc_send_query
+-->
+</body>
+</html>

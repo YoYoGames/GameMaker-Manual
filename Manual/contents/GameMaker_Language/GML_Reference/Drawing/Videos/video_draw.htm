@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <meta name="generator" content="Adobe RoboHelp 2020" />
   <title>video_draw</title>
   <meta name="topic-status" content="Draft" />
   <link rel="stylesheet" type="text/css" href="../../../../assets/css/default.css" />
@@ -17,40 +17,40 @@
 </head>
 <body>
   <h1><span data-field="title" data-format="default">video_draw</span></h1>
-  <p>This function draws the current frame of the <a href="video_open.htm">opened video</a> to a surface (or two surfaces). It returns the surface(s) as part of its return array, which can be <a href="../Surfaces/draw_surface.htm">drawn manually</a>.</p>
-  <p>The function also returns data regarding the status of the video, which is expanded upon below.</p>
-  <p>Ensure that this is only called after a <span class="inline"><a href="video_open.htm">video_open()</a></span> call but before a <span class="inline"><a href="video_close.htm">video_close()</a></span> call, otherwise it will not do anything (as there will not be a video loaded).</p>
-  <h2>Return Data</h2>
-  <p>The function will return an array, the first element (<span class="inline2">[0]</span>) of which will be a real value. This value tells the status of the video, and will be:</p>
+  <p>这个函数将<a href="video_open.htm">打开的视频</a>的当前帧绘制到一个曲面（或两个曲面）上。它将曲面作为其返回数组的一部分返回，可以<a href="../Surfaces/draw_surface.htm">手动绘制</a>。</p>
+  <p>该函数还返回有关视频状态的数据，下文将对此进行阐述。</p>
+  <p>确保只在调用 <span class="inline"><a href="video_open.htm">video_open()</a></span> ，但在调用 <span class="inline"><a href="video_close.htm">video_close()</a></span> 之前调用，否则它不会做任何事情（因为不会有视频加载）。</p>
+  <h2>返回数据</h2>
+  <p>该函数将返回一个数组，其中的第一个元素（<span class="inline2">[0]</span>）将是一个实值。这个值告诉人们视频的状态，并且将是。</p>
   <ul class="colour">
-    <li><strong>0</strong>, if the video is playing without any issues</li>
-    <li><strong>-1</strong>, if there was an error</li>
-    <li>On some platforms, <strong>-2</strong>, if the video finished playing (at which point it can be removed from memory with a <span class="inline"><a href="video_close.htm">video_close()</a></span> call)
+    <li><strong>0</strong>，如果视频播放没有任何问题</li>
+    <li><strong>-1</strong>，如果有一个错误</li>
+    <li>在某些平台上，<strong>-2</strong>，如果视频播放完毕（这时可以通过调用<span class="inline"><a href="video_close.htm">video_close()</a></span> ，将其从内存中删除）
       <ul>
-        <li>It&#39;s recommended to use the <a data-xref="{text}" href="Videos.htm#h">Async Callbacks</a> instead to know when a video ends</li>
+        <li>建议使用<a data-xref="{text}" href="Videos.htm#h">异步回调</a>来代替，以了解视频何时结束</li>
       </ul>
     </li>
   </ul>
-  <p>When this status value is <strong>0</strong>, the array will contain more data, which will depend on the format of the video. You can know the video format by calling <span class="inline"><a href="video_get_format.htm">video_get_format()</a></span>.</p>
-  <h2>RGBA Videos</h2>
-  <p><span>For RGBA videos, the position <span class="inline2">[1]</span> will contain the surface where the video frame was drawn. You can get this surface and <a href="../Surfaces/draw_surface.htm">draw it</a> manually.</span></p>
-  <h2>YUV Videos</h2>
-  <p><span>Some platforms (especially consoles) use the YUV colour format for videos, which makes use of two surfaces. In that case the array will have positions <span class="inline2">[1]</span> and <span class="inline2">[2]</span> with two surfaces:</span></p>
+  <p>当这个状态值为<strong>0</strong>时，数组将包含更多的数据，这将取决于视频的格式。你可以通过调用<span class="inline"><a href="video_get_format.htm">video_get_format()</a></span> 来了解视频格式。</p>
+  <h2>RGBA视频</h2>
+  <p><span>对于RGBA视频，位置<span class="inline2">[1]</span>将包含绘制视频帧的表面。你可以得到这个表面并手动<a href="../Surfaces/draw_surface.htm">绘制它</a>。</span></p>
+  <h2>YUV视频</h2>
+  <p><span>一些平台（特别是控制台）使用YUV颜色格式的视频，它利用了两个表面。在这种情况下，数组会有<span class="inline2">[1]</span>和<span class="inline2">[2]</span>两个面的位置。</span></p>
   <ul class="colour">
-    <li><span><span class="inline2">[1]</span> is the main video surface in black and white</span></li>
-    <li><span><span class="inline2">[2]</span> is the chroma surface that contains all the colour data</span></li>
+    <li><span>[<span class="inline2">1]</span>是黑与白的主要视频面</span></li>
+    <li><span><span class="inline2">[2]</span>是包含所有颜色数据的色度面。</span></li>
   </ul>
-  <p>Both these surfaces are then combined using a YUV shader before being used to texture a custom quad, which will draw the video to the screen.</p>
-  <p>Read <a data-xref="{title}" href="YUV_Videos.htm">YUV Videos</a> for steps on drawing these two surfaces using a shader.</p>
-  <p>For the specific implementation details for a particular console, please refer to its documentation on the <a href="https://github.com/YoYoGames/GameMaker-Bugs/wiki#console-setup-guides">GameMaker Wiki</a>.</p>
-  <p> </p>
-  <h4>Syntax:</h4>
-  <p class="code"><span data-field="title" data-format="default">video_draw</span>()</p>
-  <p> </p>
-  <h4>Returns:</h4>
-  <p class="code"><span data-keyref="Type_Array"><a href="../../../GML_Overview/Arrays.htm" target="_blank">Array</a></span></p>
-  <p> </p>
-  <h4>Example:</h4>
+  <p>然后，这两个表面都使用YUV<span class="notranslate">shader</span> 进行组合，然后用于<span class="notranslate">texture</span> 一个自定义的四边形，将视频绘制到屏幕上。</p>
+  <p>阅读<a data-xref="{title}" href="YUV_Videos.htm">YUV视频</a>，了解使用<span class="notranslate">shader</span> 绘制这两个表面的步骤。</p>
+  <p>关于特定控制台的具体实施细节，请参考<a href="https://help.yoyogames.com/hc/en-us/">YoYo Games Helpdesk</a>上的文件。</p>
+  <p> </p>
+  <h4>语法。</h4>
+  <p class="code"><span data-field="title" data-format="default">video_draw</span>();</p>
+  <p> </p>
+  <h4>返回。</h4>
+  <p class="code"><span data-keyref="Type_Array"><a data-rhwidget="HyperlinkPopover" href="../../../../../GameMaker_Language/GML_Overview/Arrays.htm">Array</a></span></p>
+  <p> </p>
+  <h4>例子。</h4>
   <p class="code">var _data = video_draw();<br />
     var _status = _data[0];<br />
     var _video_status = video_get_status();<br />
@@ -62,17 +62,18 @@
         draw_surface(_surface, x, y);<br />
     }
   </p>
-  <p>The above code calls <span class="inline3_func"><span data-field="title" data-format="default">video_draw</span></span>, and checks if the returned status is 0, meaning the video is playing. It also checks the value returned by <span class="inline3_func"><a data-xref="{title}" href="video_get_status.htm">video_get_status</a></span> to see if it&#39;s equal to <span class="inline2">video_status_playing</span>. In that case it gets the surface ID and draws it at the instance&#39;s position. This will only work for RGBA videos.</p>
-  <p> </p>
-  <p> </p>
+  <p>上面的代码调用 <span class="inline">video_draw()</span> ，并检查返回的状态是否为0，意味着视频正在播放。在这种情况下，它得到表面ID，并在实例的位置上画出它。这只对RGBA视频有效。</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div>Back: <a data-xref="{title}" href="Videos.htm">Video Playback</a></div>
-        <div>Next: <a data-xref="{title}" href="YUV_Videos.htm">YUV Videos</a></div>
+        <div>返回。<a data-xref="{title}" href="Videos.htm">视频播放</a></div>
+        <div>下一步。<a data-xref="{title}" href="YUV_Videos.htm">YUV视频</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2025 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright<span class="notranslate">YoYo Games Ltd.</span> 2022 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 video_draw

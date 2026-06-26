@@ -4,9 +4,9 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>http_get</title>
-  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <meta name="generator" content="Adobe RoboHelp 2020" />
   <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
-  <script src="../../../../assets/scripts/main_script.js" type="module"></script>
+  <script src="../../../../assets/scripts/main_script.js"></script>
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Reference page for http_get" />
   <meta name="rh-index-keywords" content="http_get" />
@@ -15,54 +15,65 @@
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
   <h1><span data-field="title" data-format="default">http_get</span></h1>
-  <p>This function sends a GET request to the specified URL in order to retrieve information.</p>
-  <p>This is an asynchronous function, so <span data-keyref="GameMaker Name">GameMaker</span> will not block while waiting for a reply, but will keep on running unless it gets callback information. This information will be in the form of a string and will trigger an <b>Async HTTP Event</b> in any instance that has one defined in its object events.</p>
-  <div data-conref="../../../../assets/snippets/Note_HTTP_Requests_CrossOrigin.hts"> </div>
-  <h2>Async Callback</h2>
-  <p>This function will generate multiple &quot;callbacks&quot; which are picked up by any <a href="../../../../The_Asset_Editors/Object_Properties/Async_Events/HTTP.htm">HTTP Events</a>. These will generate a <span data-keyref="Type_ID_DS_Map"><a href="../../Data_Structures/DS_Maps/ds_map_create.htm" target="_blank">DS Map</a></span> (more commonly known as a &quot;dictionary&quot;) that is exclusive to this event and is stored in the special variable <span class="inline2"><a data-xref="{title}" href="../../../GML_Overview/Variables/Builtin_Global_Variables/async_load.htm">async_load</a></span>. This DS map will contain different values depending on whether there is data being returned or not. For example, if you have requested a file, the event will trigger multiple times as each packet of data is received so that you can show a progress bar, for example.</p>
-  <div data-conref="../../../../assets/snippets/Note_HTTP_async_load_Contents.hts"> </div>
-  <p> </p>
-  <h4>Syntax:</h4>
-  <p class="code"><span data-field="title" data-format="default">http_get</span>(url)</p>
+  <p>通过这个函数，你连接到指定的URL，以便检索信息。由于这是一个异步函数，<span data-keyref="GameMaker Name">GameMaker</span>在等待回复时不会阻塞，但会继续运行，除非它得到回调信息。这个信息将以<span class="notranslate">string</span> 的形式出现，并将在任何在其<span class="notranslate">object</span> 属性中定义了<b>Async事件</b>的实例中触发<b>Async事件</b>。你还应该注意，HTTP请求参数（当你在网页上提交表单时，有时会 &quot;粘 &quot;在URL的末尾）在使用这个函数时是完全可以接受的，例如。</p>
+  <p class="code">http_get(&quot;http://www.example.com/logon?username=&quot;+name);</p>
+  <p>将把变量 &quot;name &quot;中的<span class="notranslate">string</span> 传递给<span class="notranslate">server</span> ，并从该URL中获取数据。因此，从本质上讲，任何时候都需要将简单、简短的数据从客户端传递给<span class="notranslate">server</span> ，这将是合理的选择，因为要使用这个函数。</p>
+  <p class="note"><b>注意</b>：你应该知道，由于浏览器的XSS保护，从跨域加载资源的请求和尝试会被阻止，并可能出现返回空白结果。请参阅<a href="HTTP.htm">跨域问题</a>一节，了解更多细节。</p>
+  <p>这个函数将产生多个 &quot;回调&quot;，由任何<a href="../../../../The_Asset_Editors/Object_Properties/Async_Events/HTTP.htm">HTTP事件</a>接收。这些将产生一个 <a href="../../Data_Structures/DS_Maps/DS_Maps.htm"><span class="inline">DS Map</span></a>(更常见的是 &quot;字典&quot;)，它是这个事件独有的，并被存储在特殊变量 <a href="../../../GML_Overview/Variables/Builtin_Global_Variables/async_load.htm"><b>同步加载</b></a>.这个DS映射将包含不同的值，取决于是否有数据被返回。例如，如果你请求了一个文件，事件将在收到每个数据包时多次触发，这样你就可以显示一个进度条，例如。DS地图的一般结构将如下。</p>
+  <ul class="colour">
+    <li><b>id:从 </b>命令中返回的ID。如果你发射了一系列 <span class="inline">http_</span> ，那么你需要知道你得到的是哪一个回复，因此你将使用这个值与你最初发送请求时存储的值进行比较，以找到正确的那个。</li>
+    <li><b>status:错 </b>误时返回一个小于0的值，完成时返回0，接收数据包时返回1（详见下文）。</li>
+    <li><b>结果。 </b>收到的数据（仅<span class="notranslate">string</span> ）。</li>
+    <li><b>url。 </b>你要求的完整的URL。</li>
+    <li><b>http_status。 </b>原始的http状态代码（如果有的话）。这将返回大多数浏览器的标准网络状态代码，例如：304表示 &quot;未修改 &quot;或204表示 &quot;无内容&quot;，等等。</li>
+  </ul>
+  <p>如果有多个数据包被返回给你的游戏，回调 &quot;状态 &quot;键将返回1，在这种情况下，DS地图将有以下额外的键。</p>
+  <ul class="colour">
+    <li><b>&quot;contentLength&quot;。 </b>这是网络<span class="notranslate">server</span> ，说你应该期望收到的文件的大小（如果<span class="notranslate">server</span> ，不返回这个数据，可能是-1）。</li>
+    <li><b>&quot;sizeDownloaded&quot;。 </b>已经下载的数据的大小。</li>
+  </ul>
+  <p> </p>
+  <h4>语法。</h4>
+  <p class="code"><span data-field="title" data-format="default">http_get</span>(url);</p>
   <table>
     <tbody>
       <tr>
-        <th>Argument</th>
-        <th>Type</th>
-        <th>Description</th>
+        <th>争论</th>
+        <th>类型</th>
+        <th>描述</th>
       </tr>
       <tr>
-        <td>url</td>
-        <td><span data-keyref="Type_String"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">String</a></span></td>
-        <td>The web address of the server that you wish to get information from. See <a data-xref="{text}" href="HTTP.htm#urls">URLs</a></td>
+        <td><span class="notranslate">url</span></td>
+        <td><span data-keyref="Type_String"><a href="../../../../../GameMaker_Language/GML_Overview/Data_Types.htm" target="_blank">字符串</a></span></td>
+        <td><span class="notranslate">The web address of the server that you wish to get information from</span></td>
       </tr>
     </tbody>
   </table>
-  <p> </p>
-  <h4>Returns:</h4>
-  <p class="code"><span data-keyref="Type_ID_Async_Event"><a href="../Asynchronous_Functions.htm" target="_blank">Async Request ID</a></span> (or -1 if something went wrong)</p>
-  <p> </p>
-  <h4>Example:</h4>
-  <p>The <span class="inline3_func"><span data-field="title" data-format="default">http_get</span></span> function can be called from any event, and since it&#39;s asynchronous the callback can be almost instantaneous or could take several seconds. Calling the function is simple and looks something like this:</p>
-  <p class="code">request_id = http_get($&quot;http://www.macsweeneygames.com/logon?username={name}&quot;);</p>
-  <p>The above code will pass the string held in the variable <span class="inline2">name</span> to the given server as well as retrieve the data from that URL, triggering an Async Event which will contain the <span class="inline2"><a data-xref="{title}" href="../../../GML_Overview/Variables/Builtin_Global_Variables/async_load.htm">async_load</a></span> DS map (the <span class="inline2">async_load</span> map index will be stored in the variable <span class="inline2">request_id</span> so you can check for the correct callback). The Async Event triggered would be the <a data-xref="{title}" href="../../../../The_Asset_Editors/Object_Properties/Async_Events/HTTP.htm">HTTP</a> sub-event, and in that event you would have the following:</p>
-  <p class="code_heading">Async HTTP Event</p>
-  <p class="code">if (async_load[? &quot;id&quot;] == request_id)<br />
+  <p> </p>
+  <h4>返回。</h4>
+  <p class="code"><span data-keyref="Type_ID_Async_Event"><a href="../../../../../GameMaker_Language/GML_Reference/Asynchronous_Functions/Asynchronous_Functions.htm" target="_blank">Async Request ID</a></span></p>
+  <p> </p>
+  <h4>扩展实例。</h4>
+  <p> <span class="inline">http_get()</span> 函数可以从任何事件中调用，由于它是异步的，所以回调可以是即时的，也可以是几秒钟的。调用该函数很简单，看起来像这样。</p>
+  <p class="code">get = http_get(&quot;http://www.MacSweeneyGames.com/logon?username=&quot; + name);</p>
+  <p>上述代码将把变量 &quot;name &quot;中持有的<span class="notranslate">string</span> 传递给给定的<span class="notranslate">server</span> ，以及从该URL中检索数据，触发一个异步事件，该事件将包含async_load DS map（async_load map索引将被存储在变量 &quot;get &quot;中，以便你可以检查正确的回调）。触发的Async事件将是<b>HTTP</b>子事件，在该事件中，你会有以下内容。</p>
+  <p class="code">if ds_map_find_value(async_load, &quot;id&quot;) == get<br />
     {<br />
         var _status = async_load[? &quot;status&quot;];<br />
         var _r_str = (_status == 0) ? async_load[? &quot;result&quot;] : &quot;null&quot;;<br />
     }</p>
-  <p>The above code first checks the ID of the async request, then assigns a value to <span class="inline2">_r_str</span> depending on the <span class="inline2">&quot;status&quot;</span> of the callback. If the value is equal to 0 (signalling the request completed), the result from the callback is stored in a variable for future use, otherwise the variable is set to a default value (in this case <span class="inline2">&quot;null&quot;</span>).</p>
-  <p> </p>
-  <p> </p>
+  <p>上面的代码将首先检查已经创建的DS地图的ID，然后检查回调的 &quot;状态&quot;。如果该值等于0（表示成功），那么回调的结果将被存储在一个变量中供将来使用，否则该变量将被设置为一个默认值（在这里是 &quot;null&quot;）。</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a href="HTTP.htm">HTTP</a></div>
-        <div style="float:right">Next: <a href="http_get.htm">http_get_file</a></div>
+        <div style="float:left">Back:<a href="HTTP.htm">HTTP</a></div>
+        <div style="float:right">下一步。 <a href="http_get.htm"><span class="notranslate">http_get_file</span></a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2025 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright<span class="notranslate">YoYo Games Ltd.</span> 2022 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 http_get

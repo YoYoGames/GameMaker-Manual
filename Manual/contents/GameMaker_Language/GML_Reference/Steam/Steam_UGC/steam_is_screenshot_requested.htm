@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>蒸汽_is_screenshot_requested</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
+  <script src="../../../../assets/scripts/main_script.js"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Reference page for steam_is_screenshot_requested" />
+  <meta name="rh-index-keywords" content="steam_is_screenshot_requested" />
+  <meta name="search-keywords" content="steam_is_screenshot_requested" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>蒸汽_is_screenshot_requested</h1>
+  <p>该函数将轮询<span class="notranslate">Steam</span> API，以查看用于拍摄游戏截图的键是否被按下。当按键被按下时，该函数只在一个步骤（游戏时间）中返回<tt>真</tt>，而在其他时候都会返回<tt>假</tt>。</p>
+  <p>请注意，如果截图键被按下，这个函数在按下的每个步骤中只返回一次 <span class="inline">true</span> ，而在<em>同一步骤中</em>的任何后续调用则返回 <span class="inline">false</span> 。例如，如果在当前帧中要求进行截图，并且你在步骤事件中调用该函数来发现这一点，你将得到 <span class="inline">true</span> ；但是，如果你在Draw GUI中再次调用该函数来检查是否要求进行截图，你将得到 <span class="inline">false</span> ，因为该函数在步骤事件中已经被 &quot;用完&quot;。如果要在同一帧中多次使用该函数的返回值，建议将其存储在一个变量中，然后读取该变量，而不是再次调用该函数。</p>
+  <p class="note"><b>注意</b>：这个函数<b>不会</b>为你拍摄屏幕截图。这只是信号，表明按键已被按下，你必须使用<span class="notranslate">GameMaker Studio 2</span> 函数 <span style="font-size:1px;"><a href="../../Cameras_And_Display/screen_save.htm"><tt style="font-size: 14px">screen_save()</tt></a></span>或 <span style="font-size:1px;"><a href="../../Cameras_And_Display/screen_save_part.htm"><tt style="font-size: 14px">screen_save_part()</tt></a></span>来保存将要上传的文件的本地拷贝。</p>
+  <p> </p>
+  <h4>语法。</h4>
+  <p class="code">steam_is_screenshot_requested();</p>
+  <p> </p>
+  <h4>返回。</h4>
+  <p class="code">Boolean</p>
+  <p> </p>
+  <h4>例子。</h4>
+  <p class="code">if steam_is_screenshot_requested()<br />
+    {<br />
+        var file = &quot;Catch_The_Haggis_&quot; + string(global.scrn_num) + &quot;.png&quot;);<br />
+        screen_save(file)<br />
+        steam_send_screenshot(file, window_get_width(), window_get_height());<br />
+        global.scrn_num += 1;<br />
+    }</p>
+  <p>上述代码将轮询<span class="notranslate">Steam</span> API的截图请求，如果有的话，将为图像文件生成一个唯一的名称，进行截图，并将该文件发送到用户的<span class="notranslate">Steam</span> 社区页面。</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">返回。<a href="Steam_UGC.htm">UGC</a></div>
+        <div style="float:right">下一步。 <a href="steam_send_screenshot.htm"><span class="notranslate">steam_send_screenshot</span></a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright<span class="notranslate">YoYo Games Ltd.</span> 2022 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+steam_is_screenshot_requested
+-->
+  <!-- TAGS
+steam_is_screenshot_requested
+-->
+</body>
+</html>

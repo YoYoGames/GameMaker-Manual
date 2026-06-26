@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>steam_ugc_create_item</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
+  <script src="../../../../assets/scripts/main_script.js"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Reference page for steam_ugc_create_item" />
+  <meta name="rh-index-keywords" content="steam_ugc_create_item,ugc_filetype_community,ugc_filetype_microtrans" />
+  <meta name="search-keywords" content="steam_ugc_create_item,ugc_filetype_community,ugc_filetype_microtrans" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>steam_ugc_create_item</h1>
+  <p>该函数用于准备车间API，并为要添加的项目生成一个已发布的文件ID。在对要上传的物品做任何其他事情之前，<i>必须</i>调用这个函数，因为你需要使用它在<span class="notranslate">Steam</span> Async Event中返回的唯一发布的ID值来更新。要使用这个函数，你需要为你的游戏提供<span class="notranslate">Steam</span> App ID，并使用以下常数之一作为<tt>file_type</tt>参数。</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>恒定</th>
+        <th>描述</th>
+      </tr>
+      <tr>
+        <td><span class="notranslate">ugc_filetype_community</span></td>
+        <td>这被用来创建文件，这些文件将被上传并提供给社区中的任何人使用。</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">ugc_filetype_microtrans</span></td>
+        <td>这是用来描述上传的文件，但只打算让游戏考虑添加为官方内容。</td>
+      </tr>
+    </tbody>
+  </table>
+  <p><br />
+    当使用这个函数时，它将返回一个异步ID值，然后可以在触发<a href="../../../../The_Asset_Editors/Object_Properties/Async_Events/Steam.htm">Steam异步</a>事件来报告项目的创建时进行解析。该事件将包含以下关键/映射值，在 <a href="../../../GML_Overview/Variables/Builtin_Global_Variables/async_load.htm"><tt>异步加载</tt></a>ds_map。</p>
+  <ul class="colour">
+    <li>&quot;<b>id</b>&quot; - 调用函数返回的异步ID</li>
+    <li>&quot;<b>result</b>&quot; - 操作的结果（一个实值）。这将是<span class="notranslate">GML</span> 常数<tt>ugc_result_success</tt>或其他实数。所以你应该检查这个常数，以确保调用成功，否则就会出现工作不正常的情况。其余可能返回的值显示为<span class="notranslate">Steam</span> &quot;EResult &quot;的结果，你应该在SDK头文件中看到<tt>steamclientpublic.h</tt>的所有89个可能值。</li>
+    <li><b>&quot;event_type</b>&quot; - 这个键将持有<b>&quot;ugc_create_item</b>&quot;的值。</li>
+    <li>&quot;<b>legal_agreement_required</b>&quot; - 将为<tt>true</tt>或<tt>false</tt>（更多细节见<a href="https://partner.steamgames.com/documentation/ugc#Legal" target="_blank">Steam文档</a>）。</li>
+    <li>&quot;<b>published_file_id</b>&quot; - 这个键保存项目的唯一发布ID，它是一个int64（当你在随后的函数中使用它时，你可能需要把它铸成这样，使用 <a href="../../Variable_Functions/int64.htm"><tt>int64()</tt></a>函数）。</li>
+  </ul>
+  <p> </p>
+  <h4>语法。</h4>
+  <p class="code">steam_ugc_create_item(consumer_app_id, file_type);</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>争论</th>
+        <th>描述</th>
+      </tr>
+      <tr>
+        <td><span class="notranslate">consumer_app_id</span></td>
+        <td>你的游戏在<span class="notranslate">Steam</span> ，唯一的应用ID。</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">file_type</span></td>
+        <td>可用的文件类型常数之一（列在下面）。</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>返回。</h4>
+  <p class="code">Async ID</p>
+  <p> </p>
+  <h4>扩展实例。</h4>
+  <p>在这个例子中，我们首先调用函数并将异步ID值存储在一个变量中。</p>
+  <p class="code">var app_id = steam_get_app_id();<br />
+    new_item = steam_ugc_create_item(app_id, ugc_filetype_community);</p>
+  <p>然后，这将向<span class="notranslate">Steam</span> API发送一个请求，以创建新的Worksop项目，产生一个异步事件，我们将按如下方式处理。</p>
+  <p class="code">var event_id = async_load[? &quot;id&quot;];<br />
+    if event_id == new_item<br />
+    {<br />
+        var type = async_load[? &quot;event_type&quot;];<br />
+        if type == &quot;ugc_create_item&quot;<br />
+        {<br />
+            global.Publish_ID = async_load[? &quot;published_file_id&quot;];<br />
+        }<br />
+    }</p>
+  <p>上述代码检查事件类型，如果是 &quot;ugc_create_item&quot;，则检索已发布的文件ID，并将其存储在一个全局变量中供将来参考。</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">返回。<a href="Steam_UGC.htm">UGC</a></div>
+        <div style="float:right">下一步。 <a href="steam_ugc_start_item_update.htm"><span class="notranslate">steam_ugc_start_item_update</span></a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright<span class="notranslate">YoYo Games Ltd.</span> 2022 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+steam_ugc_create_item
+ugc_filetype_community
+ugc_filetype_microtrans
+-->
+  <!-- TAGS
+steam_ugc_create_item
+-->
+</body>
+</html>

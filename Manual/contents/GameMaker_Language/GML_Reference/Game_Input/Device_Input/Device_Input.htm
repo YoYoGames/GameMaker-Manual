@@ -3,10 +3,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>Device Input</title>
-  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <title>设备输入</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
   <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
-  <script src="../../../../assets/scripts/main_script.js" type="module"></script>
+  <script src="../../../../assets/scripts/main_script.js"></script>
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Reference section for Device Input" />
   <meta name="rh-index-keywords" content="Device Input" />
@@ -14,49 +14,75 @@
 </head>
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
-  <h1><span data-field="title" data-format="default">Device Input</span></h1>
-  <p>When your game is targeted at those platforms that permit multi-touch, you should be using these functions. They work the same way a PC would work if it had multiple mice attached and the constants that are being checked for are the same as those used for the <a href="../Mouse_Input/Mouse_Input.htm">standard mouse functions</a>:</p>
-  <div data-conref="../../../../assets/snippets/Mouse_input_constants.hts"> </div>
-  <p>The functions can all take a &quot;touch&quot; value that corresponds to a touch on the device display. However, the maximum number of touches that can be detected will depend very much on the device and the OS being run. For example, some low-end Android devices may only be able to detect 2 or 3 touches at the same time, while a Windows device may be able to detect up to 10.</p>
-  <p>On touchscreen devices, a double tap is returned as the equivalent of a <b>right mouse button</b> event. So, if you need to detect multiple taps in quick succession, for example, you will need to check for <b>both</b> <span class="inline2">mb_left</span> and <span class="inline2">mb_right</span>. This functionality can be toggled on or off using <span class="inline3_func"><a data-xref="{title}" href="device_mouse_dbclick_enable.htm">device_mouse_dbclick_enable</a></span>.</p>
-  <p>Please note that on mobile devices (Android, iOS and Windows Phone), you can use the back button at any time, as it is mapped to the keyboard <b>backspace</b> which is the <span data-keyref="GameMaker Name">GameMaker</span> <a href="../Keyboard_Input/Keyboard_Input.htm">keyboard constant</a> <span class="inline2">vk_backspace</span>, so you can do checks for that key and perform actions on those devices as if the back button had been used.</p>
-  <p>Also note that to use the <a href="#func_ref_tilt">tilt functions</a> on GX.games you need to call <span class="inline2"><a data-xref="{title}" href="../../OS_And_Compiler/os_request_permission.htm">os_request_permission</a>(&quot;DeviceMotion&quot;)</span> to access orientation information. This only applies to certain browsers, however. More specifically, it applies to those browsers that have a checkmark in the <a href="https://developer.mozilla.org/en-US/docs/Web/API/DeviceMotionEvent#browser_compatibility">Browser compatibility table</a> (in the <span class="inline2">requestPermission() static method</span> row).</p>
-  <h3>Note on Mouse Coordinates</h3>
-  <div data-conref="../../../../assets/snippets/Mouse_Coordinates_Update_Frequency.hts"> </div>
-  <h2 id="func_ref">Function Reference</h2>
-  <h3 id="func_ref_general">General</h3>
+  <h1>设备输入</h1>
+  <p>当你的游戏是针对那些允许多点触摸的平台时，你应该使用这些功能。它们的工作方式与个人电脑连接多个鼠标时的工作方式相同，被检查的常数与用于<a href="../Mouse_Input/Mouse_Input.htm">标准鼠标功能</a>的常数相同。</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>恒定</th>
+        <th>描述</th>
+      </tr>
+      <tr>
+        <td><span class="notranslate">mb_left</span></td>
+        <td>鼠标左键</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">mb_middle</span></td>
+        <td>鼠标中键（这可能不是对所有目标平台都有效）。</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">mb_right</span></td>
+        <td>鼠标右键</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">mb_side1*</span></td>
+        <td>鼠标侧键1</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">mb_side2*</span></td>
+        <td>鼠标侧键2</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">mb_any</span></td>
+        <td>鼠标的任何一个按钮</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">mb_none</span></td>
+        <td>没有鼠标按钮</td>
+      </tr>
+    </tbody>
+  </table>
+  <p class="note"><span class="note"><strong>注意</strong></span>*<strong>mb_side1</strong>和<strong>mb_side2 </strong>按钮只适用于<span class="notranslate">Windows</span>,<span class="notranslate">macOS</span>,<span class="notranslate">Ubuntu</span> 和 HTML5。</p>
+  <p>这些功能都可以接受一个与设备显示屏上的触摸相对应的 &quot;触摸 &quot;值，但是可以检测到的最大触摸次数在很大程度上取决于设备和正在运行的操作系统。例如，一些低端的<span class="notranslate">Android</span> 设备可能只能同时检测到2或3个触摸，而一个UWP设备可能能够检测到多达10个触摸。还要注意的是，在触摸屏设备上，双击被返回为相当于一个<b>鼠标右键</b>事件。因此，如果你需要检测快速连续的多次点击，例如，你将需要<b>同时</b>检查 <span class="inline">mb_left</span> 和 <span class="inline">mb_right</span> 。这个功能可以通过以下方式切换为开启或关闭 <a href="device_mouse_dbclick_enable.htm"><span class="inline">device_mouse_dbclick_enable()</span></a>.</p>
+  <p>下面你可以找到所有设备特定控制功能的列表。</p>
   <ul class="colour">
-    <li><a href="device_mouse_check_button.htm">device_mouse_check_button</a></li>
-    <li><a href="device_mouse_check_button_pressed.htm">device_mouse_check_button_pressed</a></li>
-    <li><a href="device_mouse_check_button_released.htm">device_mouse_check_button_released</a></li>
-    <li><a href="device_mouse_dbclick_enable.htm">device_mouse_dbclick_enable</a></li>
-    <li><a href="device_mouse_x.htm">device_mouse_x</a></li>
-    <li><a href="device_mouse_y.htm">device_mouse_y</a></li>
-    <li><a href="device_mouse_raw_x.htm">device_mouse_raw_x</a></li>
-    <li><a href="device_mouse_raw_y.htm">device_mouse_raw_y</a></li>
-    <li><a href="device_mouse_x_to_gui.htm">device_mouse_x_to_gui</a></li>
-    <li><a href="device_mouse_y_to_gui.htm">device_mouse_y_to_gui</a></li>
+    <li><a href="device_mouse_check_button.htm"><span class="notranslate">device_mouse_check_button</span></a></li>
+    <li><a href="device_mouse_check_button_pressed.htm"><span class="notranslate">device_mouse_check_button_pressed</span></a></li>
+    <li><a href="device_mouse_check_button_released.htm"><span class="notranslate">device_mouse_check_button_released</span></a></li>
+    <li><a href="device_mouse_dbclick_enable.htm"><span class="notranslate">device_mouse_dbclick_enable</span></a></li>
+    <li><a href="device_mouse_x.htm"><span class="notranslate">device_mouse_x</span></a></li>
+    <li><a href="device_mouse_y.htm"><span class="notranslate">device_mouse_y</span></a></li>
+    <li><a href="device_mouse_raw_x.htm"><span class="notranslate">device_mouse_raw_x</span></a></li>
+    <li><a href="device_mouse_raw_y.htm"><span class="notranslate">device_mouse_raw_y</span></a></li>
+    <li><a href="device_mouse_x_to_gui.htm"><span class="notranslate">device_mouse_x_to_gui</span></a></li>
+    <li><a href="device_mouse_y_to_gui.htm"><span class="notranslate">device_mouse_y_to_gui</span></a></li>
+    <li><a href="device_is_keypad_open.htm"><span class="notranslate">device_is_keypad_open</span></a></li>
+    <li><a href="device_get_tilt_x.htm"><span class="notranslate">device_get_tilt_x</span></a></li>
+    <li><a href="device_get_tilt_y.htm"><span class="notranslate">device_get_tilt_y</span></a></li>
+    <li><a href="device_get_tilt_z.htm"><span class="notranslate">device_get_tilt_z</span></a></li>
   </ul>
-  <h3 id="func_ref_keypad">Keypad</h3>
-  <ul class="colour">
-    <li><a href="device_is_keypad_open.htm">device_is_keypad_open</a></li>
-  </ul>
-  <h3 id="func_ref_tilt">Tilt</h3>
-  <ul class="colour">
-    <li><a href="device_get_tilt_x.htm">device_get_tilt_x</a></li>
-    <li><a href="device_get_tilt_y.htm">device_get_tilt_y</a></li>
-    <li><a href="device_get_tilt_z.htm">device_get_tilt_z</a></li>
-  </ul>
-  <p> </p>
-  <p> </p>
+  <p> </p>
+  <p>请注意，在移动设备上(<span class="notranslate">Android</span>,<span class="notranslate">iOS</span> 和<span class="notranslate">Windows Phone</span>)，你可以随时使用后退键，因为它被映射到键盘<b>退格</b>键，也就是<span data-keyref="GameMaker Name">GameMaker</span>的<a href="../Keyboard_Input/Keyboard_Input.htm">键盘常量</a> <span class="inline">vk_backspace</span> ，所以你可以对该键进行检查，并在这些设备上执行操作，就像使用了后退键。</p>
+  <p> </p>
+  <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a data-xref="{title}" href="../Game_Input.htm">Game Input</a></div>
-        <div style="float:right">Next: <a data-xref="{title}" href="../Gesture_Input/Gesture_Input.htm">Gesture Input</a></div>
+        <div style="float:left">返回。<a href="../Game_Input.htm">游戏输入</a></div>
+        <div style="float:right">下一步。<a href="../Gesture_Input/Gesture_Input.htm">手势输入</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2025 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright<span class="notranslate">YoYo Games Ltd.</span> 2022 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 Device Input Functions

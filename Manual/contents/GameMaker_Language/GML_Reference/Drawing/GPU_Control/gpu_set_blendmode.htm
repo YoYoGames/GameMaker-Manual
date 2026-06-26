@@ -6,7 +6,7 @@
   <title>gpu_set_blendmode</title>
   <meta name="generator" content="Adobe RoboHelp 2022" />
   <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
-  <script src="../../../../assets/scripts/main_script.js" type="module"></script>
+  <script src="../../../../assets/scripts/main_script.js"></script>
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Reference for the function gpu_set_blendmode" />
   <meta name="rh-index-keywords" content="gpu_set_blendmode,bm_normal,bm_add,bm_subtract,bm_reverse_subtract,bm_min,bm_max" />
@@ -15,52 +15,79 @@
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
   <h1><span data-field="title" data-format="default">gpu_set_blendmode</span></h1>
-  <p>This function permits you to set the blend mode to one of the basic blend modes in <span data-keyref="GameMaker Name">GameMaker</span>.</p>
-  <p>When <span data-keyref="GameMaker Name">GameMaker</span> goes to draw a pixel there is a source colour (the colour of the pixel we&#39;re going to draw) and a destination colour (the colour that&#39;s already in the pixel we&#39;re drawing to), so when determining the new colour of the pixel, the source and destination colours are calculated according to the chosen blend mode.</p>
-  <p>Each component of the colours is stored as a floating point value between 0 and 1, and the new colour is calculated by multiplying each component of the source colour by some factor and by multiplying each component of destination colour by some other factor and then adding the results together component by component. The source and destination can also be mixed differently depending on the selected <a href="gpu_set_blendequation.htm">equation</a>.</p>
-  <p>The blend mode can be set to one of the following constants:</p>
-  <div data-conref="../../../../assets/snippets/Table_Gpu_blend_modes.hts"> </div>
-  <p>As you can see from the above table, these blend modes are really composites of <i>extended</i> blend modes which can be found on the page describing <span class="inline3_func"><a data-xref="{title}" href="gpu_set_blendmode_ext.htm">gpu_set_blendmode_ext</a></span>. Some of them also make use of a different <a href="gpu_set_blendequation.htm">blend equation</a>.</p>
-  <p>To help you get the most from blend modes and to help understand how they work and how they affect the final image being drawn to the screen, we recommend that you read the following guide:</p>
-  <ul class="colour">
-    <li><a data-xref="{title}" href="../../../../Additional_Information/Guide_To_Using_Blendmodes.htm">Guide To Using Blendmodes</a></li>
-  </ul>
-  <p> </p>
-  <h4>Syntax:</h4>
-  <p class="code"><span data-field="title" data-format="default">gpu_set_blendmode</span>(mode)</p>
+  <p>当<span data-keyref="GameMaker Name">GameMaker</span>要绘制一个像素时，有一个源颜色（我们要绘制的像素的颜色）和一个目标颜色（我们要绘制的像素中已经存在的颜色），所以在确定像素的新颜色时，源和目标颜色是根据所选择的混合模式计算的。颜色的每个分量都被存储为0到1之间的浮点值，新颜色的计算方法是将源颜色的每个分量乘以某个系数，将目标颜色的每个分量乘以某个其他系数，然后将结果逐个分量相加。</p>
+  <p>这个函数允许你使用以下常数以四种基本方式设置混合模式。</p>
   <table>
     <tbody>
       <tr>
-        <th>Argument</th>
-        <th>Type</th>
-        <th>Description</th>
+        <th>恒定</th>
+        <th>描述</th>
+        <th>扩展混合模式</th>
       </tr>
       <tr>
-        <td>mode</td>
-        <td><span data-keyref="Type_Constant_Draw_Blend_Mode"><a href="gpu_get_blendmode.htm" target="_blank">Blend Mode Constant</a></span></td>
-        <td>The blend mode to use (see the table above)</td>
+        <td><span class="notranslate"><span class="inline">bm_normal</span></td>
+        <td>正常混合（默认混合模式）。</td>
+        <td><span class="notranslate">(<span class="inline">bm_src_alpha</span>, <span class="inline">bm_inv_src_alpha</span>)</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate"><span class="inline">bm_add</span></td>
+        <td>加法混合。光线区域的发光度值被添加。</td>
+        <td><span class="notranslate">(<span class="inline">bm_src_alpha</span>, <span class="inline">bm_one</span>)</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate"><span class="inline">bm_subtract</span></td>
+        <td>减法混合。光线区域的发光度值被减去。</td>
+        <td><span class="notranslate">(<span class="inline">bm_zero</span>, <span class="inline">bm_inv_src_colour</span>)</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate"><span class="inline">bm_max</span></td>
+        <td>最大限度的混合。类似于加法混合。</td>
+        <td><span class="notranslate">(<span class="inline">bm_src_alpha</span>, <span class="inline">bm_inv_src_colour</span>)</td>
       </tr>
     </tbody>
   </table>
-  <p> </p>
-  <h4>Returns:</h4>
+  <p>从上表可以看出，这四种混合模式实际上是<i>扩展</i>混合模式的组合，可以在描述的页面上找到。 <a href="gpu_set_blendmode_ext.htm"><span class="inline">gpu_set_blendmode_ext()</span></a>.</p>
+  <p>为了帮助你从混合模式中获得最大的收益，并帮助理解它们是如何工作的，以及它们是如何影响绘制在屏幕上的最终图像的，我们建议你阅读以下指南。</p>
+  <ul class="colour">
+    <li><a href="../../../../Additional_Information/Guide_To_Using_Blendmodes.htm">Blendmodes使用指南</a></li>
+  </ul>
+  <p> </p>
+  <h4>语法。</h4>
+  <p class="code"><span data-field="title" data-format="default">gpu_set_blendmode</span>(mode);</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>争论</th>
+        <th>类型</th>
+        <th>描述</th>
+      </tr>
+      <tr>
+        <td><span class="notranslate">mode</span></td>
+        <td><span data-keyref="Type_Constant_Draw_Blend_Mode">混合模式常数</span></td>
+        <td><span class="notranslate">The blend mode to use (see the table above)</span></td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>返回。</h4>
   <p class="code"><span data-keyref="Type_Void">N/A</span></p>
-  <p> </p>
-  <h4>Example:</h4>
+  <p> </p>
+  <h4>例子。</h4>
   <p class="code">gpu_set_blendmode(bm_add);<br />
     draw_circle_colour(100, 100, 50, c_white, c_black, 0);<br />
     gpu_set_blendmode(bm_normal);</p>
-  <p>This will turn the black into transparency, creating a &#39;glow&#39; effect from the white being strong on the outside and gradually weakening further from the circle centre. The blend mode is reset after the circle is drawn to ensure additive blending is not also applied to everything else after it.</p>
-  <p> </p>
-  <p> </p>
+  <p>这将把黑色变成透明，创造出一种 "发光 "的效果，白色在外面很强，从圆心开始逐渐减弱。在画完圆之后，混合模式会被重置，以确保加法混合不会同时应用于圆之后的其他东西。</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a data-xref="{title}" href="GPU_Control.htm">GPU Control</a></div>
-        <div style="float:right">Next: <a data-xref="{title}" href="gpu_set_blendmode_ext.htm">gpu_set_blendmode_ext</a></div>
+        <div style="float:left">背面。<a href="GPU_Control.htm">GPU控制</a></div>
+        <div style="float:right">下一步。 <a href="gpu_set_blendmode_ext.htm"><span class="notranslate">gpu_set_blendmode_ext</span></a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2025 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright<span class="notranslate">YoYo Games Ltd.</span> 2022 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 gpu_set_blendmode

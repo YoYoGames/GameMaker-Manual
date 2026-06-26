@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>绩效_send_challenge</title>
+  <meta name="generator" content="Adobe RoboHelp 2019" />
+  <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
+  <script src="../../../../assets/scripts/main_script.js"></script>
+  <meta name="rh-authors" content="Mark Alexander" />
+  <meta name="topic-comment" content="Reference page for achievement_send_challenge" />
+  <meta name="rh-index-keywords" content="achievement_send_challenge,achievement_type_score_challenge ,achievement_type_achievement_challenge ,achievement_leaderboard_info" />
+  <meta name="search-keywords" content="achievement_send_challenge,achievement_type_score_challenge ,achievement_type_achievement_challenge ,achievement_leaderboard_info" />
+</head>
+<body>
+  <!--<div class="body-scroll" style="top: 150px;">-->
+  <h1>绩效_send_challenge</h1>
+  <p>这个函数将通过网络向被选中的玩家发送挑战。你可以用 <a href="achievement_load_friends.htm"><tt>achievement_load_friends()</tt></a>或 <a href="achievement_load_leaderboard.htm"><tt>achievement_load_leaderboard()</tt></a>    函数获得玩家ID，您还必须提供<i>challengeid</i>，即您在iTunes Connect或Google Play仪表板上创建挑战时的唯一值。您还必须提供一个分数和一个简短的文本信息，以及设置
+    挑战<i>类型</i>。这可以是以下<b>常数</b>之一。</p>
+  <p> </p>
+  <table>
+    <tbody>
+      <tr>
+        <th>恒定</th>
+        <th>描述</th>
+      </tr>
+      <tr>
+        <td><span class="notranslate">achievement_type_score_challenge </span></td>
+        <td>基于分数值的挑战。</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">achievement_type_achievement_challenge </span></td>
+        <td>一个基于成就的挑战。</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <p>这个函数将为要接受挑战的玩家触发一个回调的<a href="../../../../The_Asset_Editors/Object_Properties/Async_Events/Social.htm">Social异步事件</a>，在这个事件中，你将有一个DS地图被引用到
+    在变量<tt>async_load</tt>中。这个<tt>DS地图</tt>的<i>id</i>键用于识别正确的回调（任何给定的异步事件都可以有一个以上的触发函数），并将与<b>常数</b> <tt>achievement_challenge_received</tt>以及每个玩家的其他一些键/值对搭配。该地图的具体内容如下所示。</p>
+  <p class="note"><b>注意</b>：用户也可以收到收到的挑战的敬酒通知，但这取决于你使用函数选择的值 <span style="font-size:1px;"><a href="achievement_show_challenge_notifications.htm"><tt style="font-size: 14px">achievement_show_challenge_notifications()</tt></a></span>.</p>
+  <ul class="colour">
+    <li>&quot;<b>id</b>&quot; - 对于这个函数，它应该是<tt>achievement_leaderboard_info</tt></li>
+    <li><b>&quot;playerid</b>&quot; - 挑战的玩家ID。</li>
+    <li><b>&quot;issuerid</b>&quot; - 挑战的发行者ID。</li>
+    <li><b>&quot;状态</b>&quot; - 挑战的状态，其值为0-3（作为<span class="notranslate">string</span> ），表示<i>无效</i>、<i>待定</i>、<i>完成</i>或<i>拒绝</i>。</li>
+    <li><b>&quot;信息</b>&quot; - 挑战的文本信息。</li>
+    <li>&quot;<b>completeddate</b>&quot; - 挑战的完成日期。</li>
+    <li><b>&quot;issuededdate</b>&quot; - 挑战的签发日期。</li>
+    <li><b>&quot;类型</b>&quot; - 给出的挑战的类型。可以是上面列出的两个常数之一</li>
+    <li><b>&quot;标识符</b>&quot; - 挑战的标识<span class="notranslate">string</span> ，如供应商仪表板上设置的那样</li>
+    <li>&quot;<b>分数</b>&quot; - 与挑战赛并列的分数（如果适用）。</li>
+  </ul>
+  <p> </p>
+  <h4><b>语法。</b></h4>
+  <p class="code">achievement_send_challenge(playerid, challengeid, score, type, message)</p>
+  <table>
+    <tbody>
+      <tr>
+        <th>争论</th>
+        <th>描述</th>
+      </tr>
+      <tr>
+        <td><span class="notranslate">playerid</span></td>
+        <td>要挑战的玩家的唯一ID。</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">challengeid</span></td>
+        <td>独特的挑战ID（可在提供者仪表板上找到）。</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">score</span></td>
+        <td>要击败的分数。</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">type</span></td>
+        <td>将要发出的挑战的类型--下面给出的两个<b>常数</b>之一。</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate">message</span></td>
+        <td>要附在挑战上的信息。</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <h4>返回。</h4>
+  <p class="code">N/A</p>
+  <p> </p>
+  <h4>扩展实例。</h4>
+  <p>要通过网络发送挑战，你将有这样的代码。</p>
+  <p class="code">achievement_send_challenge(global.playerid[0], global.challengeid[0], score, achievement_type_score_challenge, &quot;Beat that sucker!&quot;);</p>
+  <p>然后，这个请求将在你的游戏中为挑战所针对的玩家触发<b>社交事件</b>，这可以通过以下方式进行处理。</p>
+  <p class="code">var ident = ds_map_find_value(async_load, &quot;id&quot;);<br/> if ident == achievement_challenge_received<br/>     {
+    <br/>     player_id = ds_map_find_value(async_load, &quot;playerid&quot;);<br/>     issuer_id = ds_map_find_value(async_load, &quot;issuerid&quot;);<br/>     state = ds_map_find_value(async_load, &quot;state&quot;);<br/>     message = ds_map_find_value(async_load,
+    &quot;message&quot;);<br/>     date_completed = ds_map_find_value(async_load, &quot;completeddate&quot;);<br/>     date_issued = ds_map_find_value(async_load, &quot;issueddate&quot;);<br/>     ach_type = ds_map_find_value(async_load, &quot;type&quot;);<br/>        ach_ident = ds_map_find_value(async_load, &quot;identifier&quot;);<br/>     ach_score = ds_map_find_value(async_load, &quot;score&quot;);<br/>     }
+  </p>
+  <p>上面的代码检查了<b>Social Asynchronous Event</b>中返回的<tt>DS Map</tt>，如果它的 &quot;id &quot;与被检查的常量相匹配，它就会为地图中的每个键提取相关的值，并将它们存储在变量中
+    以供将来使用。</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div style="float:left">返回。<a href="Achievements_And_Leaderboards.htm">成就和排行榜</a></div>
+        <div style="float:right">下一步。 <a href="achievement_reset.htm"><span class="notranslate">achievement_reset</span></a></div>
+      </div>
+    </div>
+    <h5><span data-keyref="Copyright Notice">© Copyright<span class="notranslate">YoYo Games Ltd.</span> 2021 All Rights Reserved</span></h5>
+  </div>
+  <!-- KEYWORDS
+achievement_send_challenge
+achievement_type_score_challenge 
+achievement_type_achievement_challenge 
+achievement_leaderboard_info
+-->
+  <!-- TAGS
+achievement_send_challenge
+-->
+</body>
+</html>

@@ -4,9 +4,9 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>show_message_async</title>
-  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <meta name="generator" content="Adobe RoboHelp 2020" />
   <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
-  <script src="../../../../assets/scripts/main_script.js" type="module"></script>
+  <script src="../../../../assets/scripts/main_script.js"></script>
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Reference page for show_message_async" />
   <meta name="rh-index-keywords" content="show_message_async" />
@@ -15,58 +15,55 @@
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
   <h1><span data-field="title" data-format="default">show_message_async</span></h1>
-  <p>This function opens a window and displays the message you define in the function to the user.</p>
-  <p>This is an asynchronous function, and as such <span data-keyref="GameMaker Name">GameMaker</span> does <i>not</i> block the device it is being run on while waiting for an answer, but rather keeps on running events as normal. Once the user has pressed the &quot;Okay&quot; button, an asynchronous <a href="../../../../The_Asset_Editors/Object_Properties/Async_Events/Dialog.htm"><b>Dialog</b></a> event is triggered which, for the duration of that event <i>only</i>, will have a <span data-keyref="Type_ID_DS_Map"><a href="../../Data_Structures/DS_Maps/ds_map_create.htm" target="_blank">DS Map</a></span> stored in the variable <a href="../../../GML_Overview/Variables/Builtin_Global_Variables/async_load.htm"><span class="inline2">async_load</span></a>.</p>
-  <p>This map will contain the two keys <span class="inline2">&quot;id&quot;</span> and <span class="inline2">&quot;status&quot;</span>, with <span class="inline2">&quot;id&quot;</span> being the value that was returned by the function when called, and the <span class="inline2">&quot;status&quot;</span> being either <span class="inline2">true</span> for the <strong>Okay</strong> button being pressed, or <span class="inline2">false</span> if the message was cancelled (where available as not all target platforms permit the cancellation of dialogues).</p>
-  <div data-conref="../../../../assets/snippets/Note_dialog_not_async_on_GX_games.hts"> </div>
-  <div data-conref="../../../../assets/snippets/Note_Dialog_For_Debug_Only.hts"> </div>
-  <p> </p>
-  <h4>Syntax:</h4>
-  <p class="code"><span data-field="title" data-format="default">show_message_async</span>(string)</p>
+  <p>这个函数打开一个窗口，向用户显示你在函数中定义的信息。这是一个异步函数，因此<span data-keyref="GameMaker Name">GameMaker</span>在等待回答时<i>不会</i>阻止它所运行的设备，而是继续正常地运行事件。一旦用户按下了 &quot;好 &quot;的按钮，一个异步的 <a href="../../../../The_Asset_Editors/Object_Properties/Async_Events/Dialog.htm"><b>对话框</b></a>事件被触发，<i>仅</i>在该事件的持续时间内，将有一个ds_map存储在变量 <a href="../../../GML_Overview/Variables/Builtin_Global_Variables/async_load.htm"><span class="inline">async_load</span></a>.</p>
+  <p>这个映射将包含两个键，&quot;id &quot;和 &quot;status&quot;，&quot;id &quot;是函数调用时返回的值，&quot;status &quot;是 <span class="inline">true</span> ，表示 &quot;Okay &quot;按钮被按下，或者 <span class="inline">false</span> ，表示消息被取消（如果有，因为不是所有目标平台都允许取消对话）。</p>
+  <p class="note"><strong><em><span class="note">注意</span></em></strong><em>这个功能<span data-keyref="Dialog for debug only"> <strong>只</strong>用于<strong>调试和测试</strong>，不应该在已发布的游戏中使用。为此，你应该创建一个自定义的用户界面来接收玩家的输入，这样你就可以完全控制对话框的外观和行为。</span></em></p>
+  <p> </p>
+  <h4>语法。</h4>
+  <p class="code"><span data-field="title" data-format="default">show_message_async</span>(string);</p>
   <table>
     <tbody>
       <tr>
-        <th>Argument</th>
-        <th>Type</th>
-        <th>Description</th>
+        <th>争论</th>
+        <th>类型</th>
+        <th>描述</th>
       </tr>
       <tr>
-        <td>string</td>
-        <td><span data-keyref="Type_String"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">String</a></span></td>
-        <td>The message to show to the user</td>
+        <td><span class="notranslate">string</span></td>
+        <td><span data-keyref="Type_String">字符串</span></td>
+        <td><span class="notranslate">The message to show to the user.</span></td>
       </tr>
     </tbody>
   </table>
-  <p> </p>
-  <h4>Returns:</h4>
-  <p class="code"><span data-keyref="Type_ID_Async_Event"><a href="../Asynchronous_Functions.htm" target="_blank">Async Request ID</a></span></p>
-  <p> </p>
-  <h4>Example:</h4>
-  <p>The <b>Mouse Left Pressed Event</b> (for example) of the object that is showing the message would have the following code:</p>
-  <p class="code_heading">Mouse Left Pressed Event</p>
-  <p class="code">msg = <span data-field="title" data-format="default">show_message_async</span>(&quot;You will now be taken to the store&quot;);</p>
-  <p>The above will show a message with the given string. The message ID is stored in the variable <span class="inline2">msg</span> and will be used in the asynchronous <a data-xref="{title}" href="../../../../The_Asset_Editors/Object_Properties/Async_Events/Dialog.htm">Dialog</a> event as shown below:</p>
-  <p class="code_heading">Async Dialog Event</p>
-  <p class="code">var _id, _stat;<br />
-    _id = ds_map_find_value(async_load, &quot;id&quot;);<br />
-    if (_id == msg)<br />
+  <p> </p>
+  <h4>返回。</h4>
+  <p class="code"><span data-keyref="Type_ID_Async_Event">Async Request ID</span></p>
+  <p> </p>
+  <h4>扩展实例。</h4>
+  <p>正在显示信息的<span class="notranslate">object</span> 的<b>鼠标左键事件</b>（例如）将有以下代码。</p>
+  <p class="code">msg = show_message_async(&quot;You will now be taken to the store&quot;);</p>
+  <p>以上将显示一个给定的消息<span class="notranslate">string</span> 。消息ID被存储在变量 &quot;msg &quot;中，并将在异步对话框事件中使用，如下所示。</p>
+  <p class="code">var i_d, stat;<br />
+    i_d = ds_map_find_value(async_load, &quot;id&quot;);<br />
+    if (i_d == msg) <br />
     {<br />
         if (ds_map_find_value(async_load, &quot;status&quot;))<br />
         {<br />
             url_open(&quot;https://play.google.com/store&quot;);<br />
         }<br />
     }</p>
-  <p>The above code checks the <span class="inline2">&quot;id&quot;</span> key of the returned <span data-keyref="Type_ID_DS_Map"><a href="../../Data_Structures/DS_Maps/ds_map_create.htm" target="_blank">DS Map</a></span> against the value stored in the variable <span class="inline2">msg</span>. If they are the same, it then checks to see if the <strong>Okay</strong> button was pressed (rather than the window being closed/cancelled) and if it returns <span class="inline2">true</span> it opens a url.</p>
-  <p> </p>
-  <p> </p>
+  <p>上述代码将返回的 <span class="inline">DS Map</span> 的 &quot;id &quot;键与存储在变量 &quot;msg &quot;中的值进行检查。如果它们相同，它就会检查 &quot;好 &quot;按钮是否被按下（而不是窗口被关闭/取消），如果返回 <span class="inline">true</span> ，就会打开一个网址。</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a data-xref="{title}" href="Dialog.htm">Dialog</a></div>
-        <div style="float:right">Next: <a data-xref="{title}" href="show_question_async.htm">show_question_async</a></div>
+        <div style="float:left">返回。<a href="Dialog.htm">对话</a></div>
+        <div style="float:right">下一步。 <a href="show_question_async.htm"><span class="notranslate">show_question_async</span></a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2025 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright<span class="notranslate">YoYo Games Ltd.</span> 2022 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 show_message_async

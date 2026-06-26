@@ -6,7 +6,7 @@
   <title>http_get_file</title>
   <meta name="generator" content="Adobe RoboHelp 2022" />
   <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
-  <script src="../../../../assets/scripts/main_script.js" type="module"></script>
+  <script src="../../../../assets/scripts/main_script.js"></script>
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Reference page for http_get_file" />
   <meta name="rh-index-keywords" content="http_get_file" />
@@ -15,44 +15,52 @@
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
   <h1><span data-field="title" data-format="default">http_get_file</span></h1>
-  <p>This function connects to the specified URL in order to retrieve information in the form of a file.</p>
-  <p>As this is an asynchronous function, <span data-keyref="GameMaker Name">GameMaker</span> will not block while waiting for a reply, but will keep on running unless it gets callback information. This information will be in the form of a string and will trigger an <b>Async HTTP Event</b> in any instance that has one defined in their object events.</p>
-  <div data-conref="../../../../assets/snippets/Note_HTTP_Requests_CrossOrigin.hts"> </div>
-  <h2>Async Callback</h2>
-  <p>This event will generate a &quot;callback&quot; which is picked up by any <a href="../../../../The_Asset_Editors/Object_Properties/Async_Events/HTTP.htm">HTTP Events</a>, in which case it will generate a <span data-keyref="Type_ID_DS_Map"><a href="../../Data_Structures/DS_Maps/ds_map_create.htm" target="_blank">DS Map</a></span> (more commonly known as a &quot;dictionary&quot;) that is exclusive to this event and is stored in the special variable <span class="inline2"><a data-xref="{title}" href="../../../GML_Overview/Variables/Builtin_Global_Variables/async_load.htm">async_load</a></span>. This DS map will contain different values depending on the data being returned, i.e.: the event will trigger multiple times as each packet of data is received so that you can show a progress bar, for example.</p>
-  <div data-conref="../../../../assets/snippets/Note_HTTP_async_load_Contents.hts"> </div>
-  <p> </p>
-  <h4>Syntax:</h4>
-  <p class="code"><span data-field="title" data-format="default">http_get_file</span>(url, local_target)</p>
+  <p>通过这个函数，你可以连接到指定的URL，以便以文件的形式检索信息。由于这是一个异步函数，<span data-keyref="GameMaker Name">GameMaker</span>在等待回复时不会阻塞，但会继续运行，除非它得到回调信息。该信息将以<span class="notranslate">string</span> 的形式出现，并将在任何在其<span class="notranslate">object</span> 属性中定义了<b>Async Event</b>的实例中触发一个<b>Async Event</b>。</p>
+  <p class="note"><b><span class="note">注意</span> </b>你应该知道，由于浏览器的XSS保护，对跨域资源的请求和尝试会被阻止，并可能出现返回空白结果。请参阅<a href="HTTP.htm">跨域问题</a>部分以了解更多细节。</p>
+  <p>这个事件将产生一个 &quot;回调&quot;，被任何<a href="../../../../The_Asset_Editors/Object_Properties/Async_Events/HTTP.htm">HTTP事件</a>所接收，在这种情况下，它将产生一个 <a href="../../Data_Structures/DS_Maps/DS_Maps.htm"><span class="inline">DS Map</span></a>(更常见的是 &quot;字典&quot;)，它是这个事件独有的，并被存储在特殊变量 <a href="../../../GML_Overview/Variables/Builtin_Global_Variables/async_load.htm"><b>异步加载</b></a>.这个DS map将包含不同的值，这取决于被返回的数据，即：事件将在每个数据包被接收时触发多次，这样你就可以显示一个进度条，例如。DS地图的一般结构如下。</p>
+  <ul class="colour">
+    <li><b>id:从 </b>命令中返回的ID。如果你发射了一系列的 <span class="inline">http_</span> ，那么你需要知道你得到的是哪一个回复，因此你将使用这个值与你最初发送请求时存储的值进行比较，以找到正确的那个。</li>
+    <li><b>status:错 </b>误时返回一个小于0的值，完成时返回0，接收数据包时返回1（详见下文）。</li>
+    <li><b>结果。 </b>收到的数据（仅<span class="notranslate">string</span> ）。</li>
+    <li><b>url。 </b>你要求的完整的URL。</li>
+    <li><b>http_status。 </b>原始的http状态代码（如果有的话）。这将返回大多数浏览器的标准网络状态代码，例如：304表示 &quot;未修改 &quot;或204表示 &quot;无内容&quot;，等等。</li>
+  </ul>
+  <p>如果有多个数据包被返回给你的游戏，回调 &quot;状态 &quot;键将返回1，在这种情况下，DS地图将有以下额外的键。</p>
+  <ul class="colour">
+    <li><b>&quot;contentLength&quot;。 </b>这是网络<span class="notranslate">server</span> ，说你应该期望收到的文件的大小（如果<span class="notranslate">server</span> ，不返回这个数据，可能是-1）。</li>
+    <li><b>&quot;sizeDownloaded&quot;。 </b>已经下载的数据的大小。</li>
+  </ul>
+  <p> </p>
+  <h4>语法。</h4>
+  <p class="code"><span data-field="title" data-format="default">http_get_file</span>(url, local_target);</p>
   <table>
     <tbody>
       <tr>
-        <th>Argument</th>
-        <th>Type</th>
-        <th>Description</th>
+        <th>争论</th>
+        <th>类型</th>
+        <th>描述</th>
       </tr>
       <tr>
-        <td>url</td>
-        <td><span data-keyref="Type_String"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">String</a></span></td>
-        <td>The web address of the server that you wish to get the file from. See <a data-xref="{text}" href="HTTP.htm#urls">URLs</a></td>
+        <td><span class="notranslate">url</span></td>
+        <td><span data-keyref="Type_String">字符串</span></td>
+        <td><span class="notranslate">The web address of the server that you wish to get file from</span></td>
       </tr>
       <tr>
-        <td>local_target</td>
-        <td><span data-keyref="Type_String"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">String</a></span></td>
-        <td>The local storage path to save the file to</td>
+        <td><span class="notranslate">local_target</span></td>
+        <td><span data-keyref="Type_String">字符串</span></td>
+        <td><span class="notranslate">The local storage path to save the file to</span></td>
       </tr>
     </tbody>
   </table>
-  <p> </p>
-  <h4>Returns:</h4>
-  <p class="code"><span data-keyref="Type_ID_Async_Event"><a href="../Asynchronous_Functions.htm" target="_blank">Async Request ID</a></span> (or -1 if something went wrong)</p>
-  <p> </p>
-  <h4>Example:</h4>
-  <p>The <span class="inline3_func"><span data-field="title" data-format="default">http_get_file</span></span> function can be called from any event, and since it is asynchronous the callback can be almost instantaneous or could take several seconds. Calling the function is simple and would look something like this:</p>
-  <p class="code">request_id = http_get_file(&quot;http://www.macsweeneygames.com/downloads/upgrade.zip&quot;, &quot;\Downloads\Upgrade.zip&quot;);</p>
-  <p>The above code will request a file from the given URL and set it to be downloaded to the local storage area (as specified in the HTML5 Game Options), in a directory &quot;Downloads&quot; with the given file name (this does not have to be the same as the source file name, but should use the same file extension). The <span class="inline2"><a data-xref="{title}" href="../../../GML_Overview/Variables/Builtin_Global_Variables/async_load.htm">async_load</a></span> map&#39;s <span class="inline2">&quot;id&quot;</span> will be stored in the variable <span class="inline2">request_id</span> so you can check for the correct callback in the Asynchronous Event, and if the save directory does not exist, it will be created. The Asynchronous Event triggered would be the <a data-xref="{title}" href="../../../../The_Asset_Editors/Object_Properties/Async_Events/HTTP.htm">HTTP</a> sub-event, and in that event you would have something like the following:</p>
-  <p class="code_heading">Async HTTP Event</p>
-  <p class="code">if (async_load[? &quot;id&quot;] == request_id)<br />
+  <p> </p>
+  <h4>返回。</h4>
+  <p class="code"><span data-keyref="Type_ID_Async_Event">Async Request ID</span></p>
+  <p> </p>
+  <h4>扩展实例。</h4>
+  <p> <span class="inline">http_get_file()</span> 函数可以从任何事件中调用，由于它是异步的，所以回调可以是即时的，也可以是几秒钟的。调用该函数很简单，看起来像这样。</p>
+  <p class="code">file = http_get_file(&quot;http://www.macsweeneygames.com/downloads/upgrade.zip&quot;, &quot;\Downloads\Upgrade.zip&quot;);</p>
+  <p>上述代码将从给定的URL中请求一个文件，并将其设置为下载到本地存储区（如HTML5游戏选项中指定的），目录为 &quot;Downloads&quot;，文件名为给定的文件（这不必与源文件名相同，但应使用相同的文件<span class="notranslate">extension</span> ）。 <span class="inline">async_load</span> 地图索引将被存储在变量 &quot;file &quot;中，所以你可以在异步事件中检查正确的回调，如果保存目录不存在，它将被创建。触发的异步事件将是<b>HTTP</b>子事件，在该事件中你会有如下内容。</p>
+  <p class="code">if ds_map_find_value(async_load, &quot;id&quot;) == file<br />
     {<br />
         var _status = async_load[? &quot;status&quot;];<br />
         if (_status == 0)<br />
@@ -65,17 +73,18 @@
             }<br />
         }<br />
     }</p>
-  <p>The above code will first check the <span class="inline2">&quot;id&quot;</span> of the request, then check the status of the request. If the value is equal to 0 (signalling completed), the result will then be used along with the <span class="inline3_func"><a data-xref="{title}" href="../../File_Handling/Encoding_And_Hashing/zip_unzip.htm">zip_unzip</a></span> function to unzip the downloaded file to the given directory. If the unzip succeeds a global variable is set to <span class="inline2">true</span>.</p>
-  <p> </p>
-  <p> </p>
+  <p>上面的代码将首先检查已经创建的ds_map的 &quot;id&quot;，然后检查回调的状态。如果该值等于0（表示成功），那么回调的结果将与 <a href="../../File_Handling/Encoding_And_Hashing/zip_unzip.htm"><span class="inline">zip_unzip()</span></a>函数来解压下载的文件到指定的目录。如果解压成功，一个全局变量被设置为真。</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a data-xref="{title}" href="HTTP.htm">HTTP</a></div>
-        <div style="float:right">Next: <a data-xref="{title}" href="http_post_string.htm">http_post_string</a></div>
+        <div style="float:left">Back:<a href="HTTP.htm">HTTP</a></div>
+        <div style="float:right">下一步。 <a href="http_post_string.htm"><span class="notranslate">http_post_string</span></a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright<span class="notranslate">YoYo Games Ltd.</span> 2022 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 http_get_file

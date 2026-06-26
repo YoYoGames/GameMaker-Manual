@@ -6,7 +6,7 @@
   <title>instance_destroy</title>
   <meta name="generator" content="Adobe RoboHelp 2022" />
   <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
-  <script src="../../../../assets/scripts/main_script.js" type="module"></script>
+  <script src="../../../../assets/scripts/main_script.js"></script>
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Page outlining the function instance_destroy" />
   <meta name="rh-index-keywords" content="instance_destroy" />
@@ -16,59 +16,59 @@
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
   <h1><span data-field="title" data-format="default">instance_destroy</span></h1>
-  <p>You call this function whenever you wish to &quot;destroy&quot; an instance, normally triggering a <a href="../../../../The_Asset_Editors/Object_Properties/Object_Events.htm">Destroy Event</a> and also a <a href="../../../../The_Asset_Editors/Object_Properties/Object_Events.htm">Clean Up Event</a>. This will remove it from the room until the room is restarted (unless the room is persistent). Calling the function with no arguments will simply destroy the instance that is currently in scope and running the code, but you can provide an optional <span class="inline2">id</span> argument and target a specific instance by using the instance <span class="inline2"><a data-xref="{title}" href="Instance_Variables/id.htm">id</a></span> handle, or you can target all instances of a particular object by using an <span class="inline2"><a data-xref="{title}" href="../Objects/object_index.htm">object_index</a></span>. For example:</p>
+  <p>每当你想 &quot;销毁 &quot;一个实例时，你就会调用这个函数，通常会触发一个<a href="../../../../The_Asset_Editors/Object_Properties/Object_Events.htm">销毁事件</a>和一个<a href="../../../../The_Asset_Editors/Object_Properties/Object_Events.htm">清理事件</a>。这将把它从<span class="notranslate">room</span> ，直到<span class="notranslate">room</span> 重新启动（除非<span class="notranslate">room</span> 是持久的）。<span class="notranslate">object</span> 调用不带参数的函数将简单地销毁当前在范围内并运行代码的实例，但你可以提供一个可选的 &quot;id &quot;参数，并通过使用实例 <span class="inline"><a href="Instance_Variables/id.htm">id</a></span> 的值来锁定一个特定的实例，或者你可以通过使用一个 <a href="../Objects/object_index.htm"><span class="inline">object_index</span></a>.比如说</p>
   <p class="code">instance_destroy(other);      // destroy the &quot;other&quot; instance in a Collision Event<br />
-    instance_destroy(obj_bullet); // destroy ALL instances of the object &quot;obj_bullet&quot;</p>
-  <p>The second <i>optional</i> flag permits you to &quot;switch off&quot; the Destroy Event for the instance being destroyed. By default the Destroy Event will <i>always</i> be performed, but if you set this flag to <span class="inline2">false</span> then you can make the instance destroy itself and skip performing that event.</p>
-  <p class="note"><span data-conref="../../../../assets/snippets/Tag_important.hts"> </span> This will skip the Destroy Event, but the Clean Up event will still be called.</p>
-  <p>It is worth noting that when you destroy an instance, its Destroy event is called <i>immediately</i> after the code or action that calls the destroy function. Also, although the Destroy event is performed, the instance <i>is not immediately removed from the game</i>, and it will continue to perform the code contained in the current event. Only when the current event is over will it be removed from the game.</p>
-  <p>So, if you have, for example, this code:</p>
+    instance_destroy(obj_Bullet); // destroy ALL instances of the object &quot;obj_Bullet&quot;</p>
+  <p>第二个<i>可选的</i> <span class="notranslate">flag</span> ，允许你 &quot;关闭 &quot;正在销毁的实例的Destroy事件。默认情况下，Destroy事件将<i>一直</i>被执行，但是如果你把这个<span class="notranslate">flag</span> 设置为 <span class="inline">false</span> ，那么你可以让实例自己销毁，并跳过执行该事件。</p>
+  <p class="note"><b>重要的是!</b>这将跳过销毁事件，但清理事件仍将被调用。</p>
+  <p>值得注意的是，当你销毁一个实例时，其销毁事件会在调用销毁函数的代码或动作之后<i>立即</i>被调用。另外，虽然执行了destroy事件，但该实例<i>并没有立即从游戏中移除</i>，它将继续执行当前事件中包含的代码。只有当当前事件结束时，它才会被从游戏中删除。</p>
+  <p>所以，如果你有，比如说，这个代码。</p>
   <p class="code">if (hp &lt;= 0) instance_destroy();<br />
     score += 10;</p>
-  <p>The variable <span class="inline2">score</span> will be incremented <i>even though the <span class="inline3_func"><a data-xref="{title}" href="instance_destroy.htm">instance_destroy</a></span> function has been called</i>, and the instance will finally be removed from your game at the end of the event. Be careful of this, as if you have (for example) created a dynamic resource for the instance, like a data structure, and then have destroyed that resource in the Destroy event, if there are any references to it after the destroy function or action has been performed then you will get an &quot;unknown resource&quot; error, as the Destroy event removed it from the game.</p>
-  <p class="note"><span data-conref="../../../../assets/snippets/Tag_important.hts"> </span> This function does <strong>not</strong> destroy <a href="Deactivating_Instances/Deactivating_Instances.htm">deactivated instances</a>. You need to make sure that all instances you want to destroy are activated using the <a data-xref="{text}" href="Deactivating_Instances/Deactivating_Instances.htm#func_ref_instance_activation">Instance Activation</a> functions.</p>
-  <p> </p>
-  <h4>Syntax:</h4>
-  <p class="code"><span data-field="title" data-format="default">instance_destroy</span>([id, execute_event_flag])</p>
+  <p>变量 &quot;score &quot;将被递增，<i>即使 <span class="inline">instance_destroy</span> 函数已经被调用</i>，而实例最终将在事件结束时从你的游戏中删除。要注意这一点，因为如果你（例如）为这个实例创建了一个动态资源，像一个数据结构，然后在destroy事件中销毁了这个资源，如果在执行了destroy函数或动作后还有对它的引用，那么你会得到一个 &quot;未知资源 &quot;的错误，因为destroy事件把它从游戏中删除了。</p>
+  <p> </p>
+  <h4>语法。</h4>
+  <p class="code"><span data-field="title" data-format="default">instance_destroy</span>([id, execute_event_flag]);</p>
   <table>
     <tbody>
       <tr>
-        <th>Argument</th>
-        <th>Type</th>
-        <th>Description</th>
+        <th>争论</th>
+        <th>类型</th>
+        <th>描述</th>
       </tr>
       <tr>
-        <td>id</td>
-        <td><span data-keyref="Type_ID_Instance"><a href="Instance_Variables/id.htm" target="_blank">Object Instance</a></span> or <span data-keyref="Type_Asset_Object"><a href="../../../../The_Asset_Editors/Objects.htm" target="_blank">Object Asset</a></span></td>
-        <td><span data-conref="../../../../assets/snippets/Tag_optional.hts"> </span> The instance ID to destroy, or the object asset to destroy instances of (optional, default is the calling instance)</td>
+        <td><span class="notranslate">id</span></td>
+        <td><span data-keyref="Type_ID_Instance">实例ID</span>或<span data-keyref="Type_Asset_Object">对象资产</span></td>
+        <td><span class="notranslate"><span class="optional">OPTIONAL</span> 要销毁的实例ID，或 销毁的实例（可选，默认为调用实例）。<span class="notranslate">object</span> <span class="notranslate">asset</span> </td>
       </tr>
       <tr>
-        <td>execute_event_flag</td>
-        <td><span data-keyref="Type_Bool"><a href="../../../GML_Overview/Data_Types.htm" target="_blank">Boolean</a></span></td>
-        <td><span data-conref="../../../../assets/snippets/Tag_optional.hts"> </span> Set to <span class="inline2">true</span> or <span class="inline2">false</span> to perform the Destroy event or not (optional, default is <span class="inline2">true</span>)</td>
+        <td><span class="notranslate">execute_event_flag</span></td>
+        <td><span data-keyref="Type_Bool">布尔型</span></td>
+        <td><span class="notranslate"><span class="optional">OPTIONAL</span> 设置为 或 ，以执行或不执行销毁事件（可选，默认为 ）。 <span class="inline">true</span> <span class="inline">false</span> <span class="inline">true</span></td>
       </tr>
     </tbody>
   </table>
-  <p> </p>
-  <h4>Returns:</h4>
+  <p> </p>
+  <h4>返回。</h4>
   <p class="code"><span data-keyref="Type_Void">N/A</span></p>
-  <p> </p>
-  <h4>Example:</h4>
+  <p> </p>
+  <h4>例子。</h4>
   <p class="code">if (bbox_right &lt; 0 || bbox_left &gt; room_width || bbox_bottom &lt; 0 || bbox_top &gt; room_height)<br />
     {<br />
         instance_destroy(id, false);<br />
     }</p>
-  <p>The above code will destroy the instance running the code without calling the Destroy event if the instance is outside the room bounds.</p>
-  <p> </p>
-  <p> </p>
+  <p>如果实例在<span class="notranslate">room</span> 界限之外，上述代码将销毁运行代码的实例而不调用Destroy事件。</p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a data-xref="{title}" href="Instances.htm">Instances</a></div>
-        <div style="float:right">Next: <a data-xref="{title}" href="instance_exists.htm">instance_exists</a></div>
+        <div style="float:left">返回:<a href="Instances.htm">实例</a></div>
+        <div style="float:right">下一步。 <a href="instance_exists.htm"><span class="notranslate">instance_exists</span></a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2025 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright<span class="notranslate">YoYo Games Ltd.</span> 2022 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 instance_destroy

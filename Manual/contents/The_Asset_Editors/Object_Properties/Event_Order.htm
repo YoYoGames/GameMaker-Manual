@@ -1,96 +1,61 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>Event Order</title>
-  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <title>活动顺序</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Page detailing the async events." />
   <meta name="rh-index-keywords" content="Objects - Event Order" />
   <meta name="search-keywords" content="event order" />
   <link rel="stylesheet" type="text/css" href="../../assets/css/default.css" />
-  <script src="../../assets/scripts/main_script.js" type="module"></script>
+  <script src="../../assets/scripts/main_script.js"></script>
 </head>
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
-  <h1><span data-field="title" data-format="default">Event Order</span></h1>
-  <p>When considering Events in <span data-keyref="GameMaker Name">GameMaker</span>, it should be noted that <strong>the exact order that ALL the events are going to occur in each step cannot be clearly stated</strong>, simply because it depends on the internal workings of <span data-keyref="GameMaker Name">GameMaker</span> and this is subject to change as the software develops or based on the platform where the game is running. However, there are certain events that will <em>always </em>run in the same order.</p>
-  <h2 id="upon_entering_a_room">Upon Entering a Room</h2>
-  <p>The first set of events that will always happen the same way are those that occur when a room is first entered. The order that the different events will fire is:</p>
+  <h1>活动顺序</h1>
+  <p>在考虑<span data-keyref="GameMaker Name">GameMaker</span>中的事件时，应该注意的是，<strong>不能明确说明所有事件在每一步中发生的确切顺序</strong>，这只是因为它取决于<span data-keyref="GameMaker Name">GameMaker</span>的内部运作，而且随着软件的发展，这可能会改变。然而，有一些事件<em>总是 </em>以相同的顺序运行。</p>
+  <p>第一组总是以相同方式发生的事件是那些在第一次进入<span class="notranslate">room</span> 。不同事件发生的顺序是。</p>
   <ul class="colour">
-    <li>All instances are created one after the other, according to the room&#39;s <a data-xref="{text}" href="../Room_Properties/Room_Properties.htm#creation_order">Instance Creation Order</a>. More specifically, for every instance: 
-      <ul>
-        <li>It is created: 
-          <ul>
-            <li>The instance&#39;s <a data-xref="{title}" href="Object_Variables.htm">Object Variables</a> are initialised (<a data-xref="{text}" href="Object_Variables.htm#h">Pre-creation Code</a>).</li>
-            <li>The <strong>Create Event</strong> is executed for the instance.</li>
-          </ul>
-        </li>
-        <li>It executes its <strong>Instance Creation Code</strong>, if it has any.</li>
-      </ul>
-    </li>
-    <li><strong>Game Start Event</strong> - this event is triggered once in the very first room of the game for all instances placed in the room from <a data-xref="{title}" href="../Rooms.htm">The Room Editor</a> (note that calling <span class="inline3_func"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/General_Game_Control/game_restart.htm">game_restart</a></span> will trigger this event again).</li>
-    <li><strong>Room Creation Code</strong> - this is the one-off code written in <a data-xref="{title}" href="../Rooms.htm">The Room Editor</a> for when a room is first entered.</li>
-    <li><strong>Room Start Event of all instances</strong> - one of the &quot;Other&quot; category of events and will fire for all instances, <a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Asset_Management/Instances/Instance_Variables/persistent.htm">persistent</a> or otherwise.</li>
+    <li><strong>对象变量/实例变量被初始化</strong>（这些是你可以在<a href="../Objects.htm">对象</a>编辑器或<a href="../Rooms.htm">房间编辑器</a>的<a class="glossterm" data-glossterm="IDE" href="#">IDE</a>中定义的变量）。
+      如果你有一个附加有变量的<span class="notranslate">object</span> ，那么它们将在其他东西之前被创建，然后任何附加有变量的实例将在之后被定义，所以你可以在房间里用特定的实例覆盖<span class="notranslate">object</span> 变量。
+      编辑。</li>
+    <li><strong><strong>创建</strong> </strong>事件，然后是<em>每个 </em>实例的实例<strong> 创建代码 </strong>--所以当每个实例被创建时，它将首先运行其创建事件，然后是其实例创建代码
+      然后再转到下一个要创建的实例。</li>
+    <li><strong>游戏开始事件</strong>- 这个事件在游戏的第一个<span class="notranslate">room</span> ，对于从<span class="notranslate">room</span> 编辑器中放置在<span class="notranslate">room</span> 的所有实例都会被触发一次（注意，调用game_restart()将再次触发这个事件。</li>
+    <li><strong>房间创建代码</strong>- 这是在<span class="notranslate">Room</span> 编辑器中写的一次性代码，用于首次进入<span class="notranslate">room</span> 。</li>
+    <li><strong>所有实例的房间开始事件</strong>- &quot;其他 &quot;类别的事件之一，将对所有实例发射，无论是否持久存在</li>
   </ul>
-  <h2 id="every_step_frame">Every Step/Frame</h2>
-  <p>Other than those specific events, events in a game step also always occur in the same order. However, the order of the instances within an event is not always guaranteed, it may vary between different <span data-field="title" data-format="default">Event Order</span> versions and target platforms and may also not correspond to the order in which the instances were created (see <a data-xref="{text}" href="../Room_Properties/Room_Properties.htm#creation_order">Instance Creation Order</a>).</p>
-  <p>As a general rule, you can rely on the order of the events listed below, but not on the order in which the instances in the room execute one event.</p>
-  <p>For example, you will see below that the &quot;Step&quot; event always executes after the &quot;Begin Step&quot; event, however you cannot guarantee that, for example, Object2 will always execute its Step event after Object1. If you require such an execution order, then making use of a different event is recommended (e.g. putting Object2&#39;s Step code in End Step, if you need it to execute after Object1&#39;s Step).</p>
-  <p>So when you have code that relies on specific timing during each step of your game, make use of the events as listed below. To put it simply, first all Begin Step events are executed, then all Step events are executed, after that all End Step events are executed, then all Draw events, etc.</p>
+  <p>值得注意的是，你也可以在<span class="notranslate">room</span> 编辑器本身中设置特定实例的创建顺序，方法是在<a href="../Room_Properties/Layer_Properties.htm">实例层属性</a>窗口的列表中向上或向下移动它们。</p>
+  <p>除了这些特定的事件之外，唯一已知的顺序是无论如何都会以相同的方式发生的，属于<strong>三步 </strong>事件和不同的<strong>抽签 </strong>事件。这些事件将始终保持一致，所以如果
+    你的代码在游戏的每一步都依赖于特定的时间，你应该使用。</p>
   <ul class="colour">
-    <li><strong>Begin Step Event</strong></li>
-    <li><a href="../Timelines.htm"><strong>Timelines</strong></a></li>
-    <li><a href="../../GameMaker_Language/GML_Reference/Time_Sources/Time_Sources.htm"><strong>Time Sources</strong></a>
-      <ul>
-        <li><strong>&quot;Ticks&quot; (updates)</strong></li>
-        <li><strong>Callbacks</strong>
-          <ul>
-            <li>Children of <span class="inline2">time_source_global</span> (see <a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Time_Sources/Built_In_Time_Sources.htm">Built-In Time Sources</a>)</li>
-            <li>Time sources spawned by <span class="inline2"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Time_Sources/call_later.htm">call_later</a></span></li>
-            <li>Children of <span class="inline2">time_source_game</span> (see <a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Time_Sources/Built_In_Time_Sources.htm">Built-In Time Sources</a>)</li>
-          </ul>
-        </li>
-      </ul>
-    </li>
-    <li><a href="../../GameMaker_Language/GML_Reference/Asset_Management/Instances/Instance_Variables/alarm.htm"><strong>Alarms</strong></a></li>
-    <li><strong>Step Event</strong></li>
-    <li>All instances are moved their new positions (based on their <span class="inline2"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Asset_Management/Instances/Instance_Variables/hspeed.htm">hspeed</a></span> and <span class="inline2"><a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Asset_Management/Instances/Instance_Variables/vspeed.htm">vspeed</a></span>), also when following a path</li>
-    <li>Collisions are checked
-      <ul>
-        <li>If  a collision is detected and one of the colliding instances is solid then both instances are moved back to their previous frame&#39;s position (if not solid they are left at their new positions) and their collision events are called.
-          <p class="note"><span data-conref="../../assets/snippets/Tag_note.hts"> </span> In <a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Movement_And_Collisions/Collisions/Collision_Compatibility_Mode.htm">Collision Compatibility Mode</a> the instances are moved back to their previous position before <em>and</em> after the Collision events instead.</p>
-        </li>
-      </ul>
-    </li>
-    <li><strong>End Step Event</strong></li>
+    <li><strong>开始步骤事件</strong></li>
+    <li><strong>步骤事件</strong>（注意，步骤事件是在实例被放到新位置之前执行的）。</li>
+    <li><strong>结束步骤事件</strong></li>
   </ul>
-  <p>After all Step events are complete, <span data-keyref="GameMaker Name">GameMaker</span> executes the Draw events for all instances, in the same game step. Within a particular event (e.g. Draw End), the order in which instances run that event depends on the layer order, e.g. the layer with the highest depth has its instances drawn first, and the layer with the lowest depth is drawn last.</p>
-  <p class="note"><span data-conref="../../assets/snippets/Tag_note.hts"> </span> The layer with the highest depth (which draws first) is displayed at the bottom of the Room Editor&#39;s <a href="../Room_Properties/Layer_Properties.htm">layer list</a>, while the lowest depth layer is at the top (as it is &quot;closer&quot; to the viewer).</p>
-  <p>Each Draw event draws instances in this order (based on the <a data-xref="{title}" href="../../GameMaker_Language/GML_Reference/Asset_Management/Instances/Instance_Variables/depth.htm">depth</a> value), and then moves on to the next event, repeating the same instance order (e.g. Draw Begin moving to Draw and then Draw End).</p>
-  <p>This is the order of the Draw events:</p>
+  <p>绘图的所有事件也总是按照以下相同的顺序处理（除了<strong>窗口调整大小 </strong>事件，它的触发方式不同）。</p>
   <ul class="colour">
-    <li><strong>Pre-Draw Event</strong></li>
-    <li><strong>Draw Begin Event</strong></li>
-    <li><strong>Draw Event</strong></li>
-    <li><strong>Draw End Event</strong></li>
-    <li><strong>Post-Draw Event</strong></li>
-    <li><strong>Draw GUI Begin Event</strong></li>
-    <li><strong>Draw GUI Event</strong></li>
-    <li><strong>Draw GUI End Event</strong></li>
+    <li><strong>抽签前活动</strong></li>
+    <li><strong>绘制开始事件</strong></li>
+    <li><strong>抽奖活动</strong></li>
+    <li><strong>绘制结束事件</strong></li>
+    <li><strong>抽签后的活动</strong></li>
+    <li><strong>绘制GUI开始事件</strong></li>
+    <li><strong>绘制GUI事件</strong></li>
+    <li><strong>绘制GUI结束事件</strong></li>
   </ul>
-  <p>For more detailed information on how these events are related to <span data-keyref="GameMaker Name">GameMaker</span>&#39;s drawing, see <a data-xref="{title}" href="Draw_Events.htm">Draw Events</a>.</p>
-  <p> </p>
-  <p> </p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a data-xref="{title}" href="Object_Events.htm">Object Events</a></div>
-        <div style="float:right">Next: <a data-xref="{title}" href="Other_Events.htm">Other Events</a></div>
+        <div style="float:left">返回。<a href="Object_Events.htm">对象事件</a></div>
+        <div style="float:right">下一步。<a href="Other_Events.htm">其他活动</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2025 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright<span class="notranslate">YoYo Games Ltd.</span> 2021 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 Event Order
@@ -98,5 +63,5 @@ Event Order
   <!-- TAGS
 object_event_order
 -->
-</body>
-</html>
+
+</body></html>

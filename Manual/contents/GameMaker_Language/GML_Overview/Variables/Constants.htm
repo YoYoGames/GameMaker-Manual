@@ -3,10 +3,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>Constants</title>
-  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <title>常数</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
   <link rel="stylesheet" href="../../../assets/css/default.css" type="text/css" />
-  <script src="../../../assets/scripts/main_script.js" type="module"></script>
+  <script src="../../../assets/scripts/main_script.js"></script>
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Page explaining the different GML constants" />
   <meta name="rh-index-keywords" content="Constants,macro,enum,pointer_invalid,pointer_null,undefined,NaN,infinity,true,false,pi" />
@@ -14,23 +14,61 @@
 </head>
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
-  <h1><span data-field="title" data-format="default">Constants</span></h1>
-  <p>A constant is a type of variable that is set once at the start of the game and then never changes. In fact, constant values <em>cannot be changed after they have been declared</em>. This makes them ideal for holding values that are used throughout the game to identify special data.</p>
-  <p>Constants in <span data-keyref="GameMaker Name">GameMaker</span> are global, i.e. they are accessible from any <a data-xref="{text}" href="../Variables_And_Variable_Scope.htm#h">Variable Scope</a> in the game, and note that unlike <a data-xref="{title}" href="Global_Variables.htm">Global Variables</a>, they do not require use of the <span class="inline2">global.</span> prefix.</p>
-  <p>In the GameMaker Language there are two types of user-defined constants: <b>enums </b>and <b>macros</b>, both of which are explained below. Also note that any value that is always the same is classed as a constant, regardless of the <a href="../Data_Types.htm">data type</a>, for example, a string or the number 3.</p>
-  <p class="note"><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> The GameMaker Language also has a number of built-in constant values that are used to identify specific things. These are outlined on the appropriate pages for the runtime functions that require them in the <a data-xref="{title}" href="../../GML_Reference/GML_Reference.htm">GML Code Reference</a> section and some general ones are mentioned at the bottom of this page.</p>
-  <h2 id="enumhead">Enums</h2>
-  <p>An enum is a <strong>global identifier</strong> that holds <strong>a list of constant integer values</strong>.</p>
-  <p>Enum is short for &quot;enumerator&quot;; it essentially permits you to create your own limited data type with a list of constant values. They have the following structure:</p>
-  <p class="code">enum <i>&lt;NAME&gt;</i><br />
+  <h1>常数</h1>
+  <p>常数是一种变量，在游戏开始时被设置一次，然后永远不会改变。事实上，常量值<em>在被声明后不能被改变</em>。这使它们成为保存整个游戏中用于识别特殊数据的数值的理想选择。</p>
+  <p>在<span class="notranslate">GameMaker Language</span> ，有两种类型的用户定义的常量：<strong>宏</strong>和<strong>枚举</strong>，这两种类型的常量将在下面解释。还要注意的是，任何总是相同的值都被归类为常量，无论其<a href="../Data_Types.htm">数据类型</a>如何，例如，<span class="notranslate">string</span> 或数字 3。</p>
+  <p class="note"><span class="note">注意</span> <span class="notranslate">GameMaker Language</span> 也有一些内置的常量值，用于识别特定的东西。这些常量值在<a href="../../GML_Reference/GML_Reference.htm">GML参考</a>部分中需要它们的<span class="notranslate">runtime</span> 功能的相应页面上有概述。</p>
+  <h2>巨集</h2>
+  <p>虽然不完全是变量，但宏在使用方式上与它们相似，即：它们是命名的值，你可以在整个代码中使用，以取代<a class="glossterm" data-glossterm="硬编码" href="#">硬编码</a>的值。基本上，宏是一个持有一个表达式的命名变量。你可以使用<a href="../Script_Functions.htm">脚本编辑器</a>定义你自己的宏，然后在你的代码和动作中使用它们，就像它们是普通变量一样，唯一的区别是它们<i>在游戏中不能被改变</i>。</p>
+  <p>宏的语法结构如下。</p>
+  <p class="code">#macro <i>&lt;variable&gt;</i> <i>&lt;expression&gt;</i></p>
+  <p>例如，假设你定义了以下宏 &quot;<span class="inline">total_weapons</span>&quot;。</p>
+  <p class="code">#macro total_weapons 10</p>
+  <p class="note_heading">宏程序语法...</p>
+  <p class="note">必须正确使用上述语法来定义宏。你不能使用等号（像在变量中）或在结尾处放一个分号（像在常规语句中）。这样做将导致你的宏定义无效。<br />
+    <br />
+    例如，这不是定义宏的正确方法。<br />
+    <br />
+   <span class="inline2">#macro total_weapons = 10;</span><br />
+    <br />
+    去掉等号和冒号会使它成为一个有效的宏定义。
+  </p>
+  <p>然后你可以在你的代码中这样使用它。</p>
+  <p class="code">pos++;<br />
+    <br />
+    if (pos &gt;= TOTAL_WEAPONS)<br />
+    {<br />
+        pos = 0;<br />
+    }
+  </p>
+  <p>注意，你将不能改变常数的值，所以像这样的代码将导致游戏崩溃。</p>
+  <p class="code">total_weapons = 11;</p>
+  <p>你可以在你的代码或脚本中的任何地方定义一个宏，它将被<i>预先编译</i>并包含在你的游戏中，就像它一开始就在那里一样，但我们建议你创建一个专门的<span class="notranslate">script</span> <span class="notranslate">asset</span> ，并在那里定义所有的宏。这将更容易组织和调试。</p>
+  <p>如果你需要一个宏的值在运行时改变，那么你可能应该把它变成一个<a href="Global_Variables.htm">全局变量</a>，因为这些变量可以在游戏中从代码中改变，除非你把宏设置为一个<span> <a href="../Runtime_Functions.htm">运行时 </a></span><a href="../Runtime_Functions.htm"><span class="notranslate">function</span></a>.将宏设置为一个函数，意味着每次使用宏时都会调用这个函数。比如说</p>
+  <p class="code">#macro col make_colour_hsv(irandom(255), 255, 255)</p>
+  <p>然后你可以这样调用这个宏。</p>
+  <p class="code">image_blend = col;</p>
+  <p>使用这段代码将使图像在每次使用宏时混合出不同的颜色。值得注意的是，你也可以用 <span class="inline"><span class="inline">\</span> 字符将宏分成多行，以显示断行的位置。一个例子是这样的。</p>
+  <p class="code">#macro hello show_debug_message(&quot;Hello&quot; + \<br />
+    string(player_name) + \<br />
+    &quot;, how are you today?&quot;);</p>
+  <p>这纯粹是表面现象，因为这样拆分宏不会对最终宏的结果产生任何影响，只是为了在代码行较长的宏上提供对多行文本的支持。</p>
+  <p>宏的一个非常重要的特点是，它们可以被定义为与特定的<a href="../../../Settings/Configurations.htm">配置</a>（configs）一起使用，这意味着你可以有相同的宏名称，但根据当前选择的配置给它不同的值。例如，假设你有一个用于<span class="notranslate">Android</span> 广告的配置和另一个用于<span class="notranslate">iOS</span> 广告的配置，那么你可以定义一个宏来保持所需的应用程序ID值。</p>
+  <p class="code">#macro ad_id &quot;&quot;;<br />
+    #macro Android:ad_id &quot;com.yoyogames.googlegame&quot;<br />
+    #macro iOS:ad_id &quot;com.yoyogames.appstoregame&quot;</p>
+  <p>正如你所看到的，你首先给出配置名称，然后是冒号 <span class="inline">:</span> ，然后是宏的名称和值。请注意，在冒号 <span class="inline">:</span> 和配置名称或宏名称之间不能有任何白字，否则你会得到一个错误。</p>
+  <h2 id="enumhead">枚举</h2>
+  <p>枚举是一种 &quot;枚举器&quot;，它本质上允许你用一个常量值的列表来创建你自己的有限的数据类型，它们有以下结构。</p>
+  <p class="code">enum <i>&lt;variable&gt;</i><br />
     {<br />
     <i>    &lt;MEMBER&gt;</i> [= <i>&lt;VALUE&gt;</i>],<br />
     <i>    &lt;<i>MEMBER</i>&gt;</i> [= <i>&lt;<i>VALUE</i>&gt;</i>],<br />
         // etc...<br />
     }
   </p>
-  <p>In the following example, we create an enum for the colours of the rainbow and assign it various constants and default values:</p>
-  <p class="code">enum RAINBOW<br />
+  <p>在下面的例子中，我们为彩虹的颜色创建了一个枚举，并给它分配了各种常数和默认值。</p>
+  <p class="code">enum rainbowcolours<br />
     {<br />
         RED,<br />
         ORANGE,<br />
@@ -40,9 +78,9 @@
         INDIGO,<br />
         VIOLET<br />
     }</p>
-  <p>The enum entries can only be <b>integer numbers</b> or <b><a class="glossterm" data-glossterm="expression" href="#">expression</a><span class="glossextra">s</span> with previous enums or built-in function calls that evaluate to an integer number</b>, and by default are numbered from 0 upwards, so our example given above would default to <span class="inline">RED = 0</span>, <span class="inline">ORANGE = 1</span>, <span class="inline">YELLOW = 2</span>, etc.</p>
-  <p>You can also assign custom values to the enum variables at the time of creation:</p>
-  <p class="code">enum ENUM_TEST<br />
+  <p>枚举条目只能是<b>整数</b>或<b>与之前的枚举一起评估为整数</b>的<b><span class="glossextra">表达式</span></b>，默认从0往上编号，所以我们上面给出的例子将默认为 <span class="inline">red = 0</span>, <span class="inline">orange = 1</span>, <span class="inline">yellow = 2</span>, 等等。</p>
+  <p>你也可以在创建时给枚举变量赋值。</p>
+  <p class="code">enum enum_test<br />
     {<br />
         VAL = 10<br />
     }<br />
@@ -58,127 +96,72 @@
         VIOLET = 35 * ENUM_TEST.VAL<br />
     }
   </p>
-  <p>Notice in the above example we use another enum to create an expression for &quot;VIOLET&quot;. This only works if the enum being referenced was created <i>before</i> the enum that is using it in an expression, but it will not work for user-created variables or functions, since the enum value must be able to be evaluated as a constant when the project is <a class="glossterm" data-glossterm="Compiling" href="#">Compiling</a>.</p>
-  <p>Also note that all enum values evaluate to <b>integer</b> values, and when you create your own you should be aware that <i>only integer values are permitted</i> for enums to work. This value can be any integer number that a <strong>floating point double precision</strong> number can represent, including negative values.</p>
-  <p>To later access the value within a given enum type, use the point <span class="inline">&quot;.&quot;</span> method, like this:</p>
-  <p class="code">variable = &lt;ENUM_NAME&gt;.&lt;<em>ENUM_MEMBER</em>&gt;;</p>
-  <p>As an example, let&#39;s use the &quot;<span class="inline">RAINBOW</span>&quot; enum that we created in the code above:</p>
-  <p class="code">colour_value = RAINBOW.GREEN * RAINBOW.RED;</p>
-  <p>The <span class="inline">colour_value</span> variable would now hold the value 100 (20 * 5).</p>
-  <p class="note"><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> You <em>cannot </em>modify the values for any enum constant after it has been created.</p>
-  <p class="note"><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> Enum values are stored as int64s, so running <span class="inline2"><a data-xref="{title}" href="../../GML_Reference/Variable_Functions/is_real.htm">is_real</a></span> on them will return <span class="inline2">false</span>.</p>
-  <h2 id="h">Macros</h2>
-  <p>A macro is a <strong>global identifier</strong> that holds an <strong>expression</strong> (which may be just a value).</p>
-  <p>You can see it as being similar to a variable, as it can hold any type of value (e.g. <span class="inline2">10</span>, <span class="inline2">&quot;hello world&quot;</span>, etc.). The main difference is that a macro <strong>cannot be changed</strong> at runtime once it&#39;s defined, as it needs to have a known value when your game is <a class="glossterm" data-glossterm="Compiling" href="#">Compiling</a>.</p>
-  <p>In addition to that, a macro can be an expression (e.g. <span class="inline2">sin(current_time) + 10</span>), which can then be used on its own in a statement, or as part of a larger expression. This does mean that the use of such a macro will not always be <em>constant</em>, as any function calls or identifiers included in the macro may return different values at different points in time in your game.</p>
-  <h3>Syntax</h3>
-  <p>The syntax structure for a macro is as follows:</p>
-  <p class="code">#macro <i>&lt;NAME&gt;</i> <i>&lt;VALUE&gt;</i></p>
-  <p>For example, say you define the following macro &quot;<span class="inline">TOTAL_WEAPONS</span>&quot;:</p>
-  <p class="code">#macro TOTAL_WEAPONS 10</p>
-  <p class="note_heading">Macro syntax...</p>
-  <p class="note">The syntax shown above must be used correctly to define macros. You cannot use an equal sign (like in variables) or put a semicolon at the end (like in a regular statement). Doing so will cause your macro definition to become invalid.<br />
-    <br />
-    For example, this is not a correct way to define a macro:<br />
-    <br />
-    <span class="inline2">#macro TOTAL_WEAPONS = 10;</span><br />
-    <br />
-    Removing the equal sign and colon will make it a valid macro definition.<br />
-    <br />
-    <span data-conref="../../../assets/snippets/Tag_note.hts"> </span> The recommended GML naming conventions recommend <span class="inline2">UPPERCASE_NAMING</span> for constants, however you may use lower case or any other naming conventions you like.
-  </p>
-  <p>You could then use this in your code like this:</p>
-  <p class="code">pos++;<br />
-    <br />
-    if (pos &gt;= TOTAL_WEAPONS)<br />
-    {<br />
-        pos = 0;<br />
-    }
-  </p>
-  <p>This may be in any object or script in your game, as a macro is <strong>global</strong> and can be used from anywhere.</p>
-  <p>Note that you would not be able to change the constant&#39;s value, so code like this will cause the game to crash:</p>
-  <p class="code">TOTAL_WEAPONS = 11;</p>
-  <p>You can define a macro anywhere in your code or in a script and it will be <i>pre-compiled</i> and included in your game as if it was there from the start, but we recommend that you create a dedicated script asset and define all your macros in there. It will be easier to organise and debug later!</p>
-  <p class="note"><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> It&#39;s recommended to define macros in a Script asset (outside of a function). Placing macro declarations inside statements or literals (e.g. in an array) may cause syntax errors to appear in the IDE.</p>
-  <h3>Expression As Macro</h3>
-  <p>As previously mentioned, a macro has the capability of holding an expression. This means if there&#39;s a function that you have to repeatedly call in your game with the same parameters, you can make it a macro:</p>
-  <p class="code">#macro COL make_colour_hsv(irandom(255), 255, 255)</p>
-  <p>You would then call this macro something like this:</p>
-  <p class="code">image_blend = COL;</p>
-  <p>Using this code will make the image blend a different colour every time the macro is used.</p>
-  <p>You can also split macros over multiple lines using the <span class="inline"><span class="inline">\</span></span> character to show where the line breaks are. An example would be something like:</p>
-  <p class="code">#macro HELLO show_debug_message(&quot;Hello&quot; + \<br />
-    string(player_name) + \<br />
-    &quot;, how are you today?&quot;);</p>
-  <p>This is purely cosmetic, in that splitting a macro like this will have no effect over the result of the final macro when used, and is simply to provide support for multi-line text on macros that have longer lines of code.</p>
-  <h3 id="h1">Configuration Override</h3>
-  <p>One very important feature of macros is that they can be defined for use with specific <a data-xref="{title}" href="../../../Settings/Configurations.htm">Configurations</a>, meaning you can override the value of a macro when running in a given configuration.</p>
-  <p>For example, say you have a configuration for Android ads and another for iOS ads, then you could define a single macro to hold the required app ID value, and override it for each configuration:</p>
-  <p class="code">#macro AD_ID &quot;&quot;<br />
-    #macro Android:AD_ID &quot;com.yoyogames.googlegame&quot;<br />
-    #macro iOS:AD_ID &quot;com.yoyogames.appstoregame&quot;</p>
-  <p>Configurations do not necessarily have to be named after a platform. You might e.g. also have a specific configuration for a demo version of your game: </p>
-  <p class="code">#macro DemoVersion:AD_ID &quot;&quot;</p>
-  <p>As you can see, you give the config name first then a colon <span class="inline">:</span> and then the macro name and override value. Note that you cannot have any white-space between the colon <span class="inline">:</span> and either the config name nor the macro name otherwise you will get an error.</p>
-  <p>Macro overrides are inherited by child configurations. Say you have the following configuration set-up:</p>
-  <p><img class="center" src="../../../assets/Images/Settings/Configs_Children.png" />Here, any macro overrides set for <span class="inline2">MobileAds</span> will be inherited by <span class="inline2">MobileNoAds</span>, and you can override an inherited value by setting a macro for that child configuration.</p>
-  <h2>Built-In Constants</h2>
-  <p>The following table shows a list of the built-in constants that can be returned by some functions and operations in your projects:</p>
+  <p>注意在上面的例子中，我们使用另一个枚举来创建 &quot;紫罗兰 &quot;的表达式。这只有在被引用的枚举是在表达式中使用它的枚举<i>之前</i>创建的情况下才行得通，但对于变量或函数来说是行不通的，因为枚举值在项目<a class="glossterm" data-glossterm="汇编" href="#">编译</a>时必须能够被评估为一个常量。还要注意的是，所有的枚举值都评估为<b>整数</b>值，当你创建自己的枚举时，你应该注意<i>只有整数值才允许</i>枚举工作。这个值可以是浮点双精度数字可以表示的任何整数，包括负值。</p>
+  <p>为了以后访问给定枚举类型内的值，你可以使用点 <span class="inline">&quot;.&quot;</span> 方法，像这样。</p>
+  <p class="code">variable = &lt;enum_name&gt;.&lt;<em>enum_variable</em>&gt;;</p>
+  <p>作为一个例子，让我们使用我们在上面的代码中创建的 &quot;<span class="inline">rainbowcolours</span>&quot; 枚举。</p>
+  <p class="code">colour_value = rainbowcolours.green * rainbowcolours.red;</p>
+  <p> <span class="inline">colour_value</span> 变量现在将持有100（20*5）的数值。</p>
+  <p>请注意，在任何枚举常量被创建后，你<em>不能 </em>修改它的值，就像你在创建后不能修改宏一样。</p>
+  <p class="note"><strong>注意</strong>：枚举值被存储为<span class="notranslate">int64s</span> ，因此对其运行 <span class="inline"><a href="../../GML_Reference/Variable_Functions/is_real.htm">is_real()</a></span> ，将返回 <span class="inline">false</span> 。</p>
+  <p> </p>
+  <h2>内置常量</h2>
+  <p>下表显示了一个内置常数的列表，这些常数可以由你项目中的一些函数和操作返回。</p>
   <table>
     <tbody>
       <tr>
-        <th>Constant</th>
-        <th>Description</th>
+        <th>恒定</th>
+        <th>描述</th>
       </tr>
       <tr>
-        <td><span class="inline">pointer_null</span></td>
-        <td>This constant indicates that the pointer is not pointing to anything meaningful (the same as<span> </span><span class="inline">NULL</span><span> </span>in C++ or <span class="inline">null</span> in C#).<br />
-          This value is <a class="glossterm" data-glossterm="falsy" href="../Data_Types.htm#">falsy</a>.</td>
+        <td><span class="notranslate"><span class="inline">pointer_null</span></td>
+        <td>这个常数表示指针没有指向任何有意义的东西（与C++中的<span> </span><span class="inline">NULL</span> <span> </span> 或C#中的 <span class="inline">null</span> 相同）。<br />
+          这个值是虚假<a class="glossterm" data-glossterm="虚张声势" href="../Data_Types.htm#">的</a>。</td>
       </tr>
       <tr>
-        <td><span class="inline">pointer_invalid</span></td>
-        <td>This constant simply means that the value is not a valid pointer</td>
+        <td><span class="notranslate"><span class="inline">pointer_invalid</span></td>
+        <td>这个常数仅仅意味着该值不是一个有效的指针</td>
       </tr>
       <tr>
-        <td><span class="inline">undefined</span></td>
-        <td>This constant is returned when a function has to return <em>something</em> but has no appropriate or &quot;correct&quot; value to return.<br />
-          This value is <a class="glossterm" data-glossterm="falsy" href="../Data_Types.htm#">falsy</a>.</td>
+        <td><span class="notranslate"><span class="inline">undefined</span></td>
+        <td>当一个函数需要返回<em>一些东西</em>，但没有合适或 &quot;正确 &quot;的值来返回时，这个常数就会被返回。<br />
+          这个值是<a class="glossterm" data-glossterm="虚张声势" href="../Data_Types.htm#">假</a>的。</td>
       </tr>
       <tr>
-        <td><span class="inline">NaN</span></td>
-        <td><span>This constant that can be returned when the compiler cannot evaluate the results of an operation as a number - for example, 0 / 0 cannot be defined as a real number, and is therefore represented by </span><span class="inline">NaN</span></td>
+        <td><span class="notranslate"><span class="inline">NaN</span></td>
+        <td><span>这个常数，当编译器不能将运算结果作为一个数字来评估时，可以返回--例如，0 / 0不能被定义为实数，因此表示为 </span><span class="inline">NaN</span></td>
       </tr>
       <tr>
-        <td><span class="inline">infinity</span></td>
+        <td><span class="notranslate"><span class="inline">infinity</span></td>
         <td><span class="inline"><span data-highlight-container="true"><span data-highlight="true">
-                <font face="open_sansregular"><span style="font-size: 18px; font-weight: 400;">This constant </span></font>
-              </span></span></span><span>refers to a number that is considered infinite, such as the result you would get when dividing any floating point value by zero, e.g. 1.0/0.</span></td>
+                <font face="open_sansregular"><span style="font-size: 18px; font-weight: 400;">This constant </span>
+              <span>指的是一个被认为是无限的数字，例如，当你用任何浮点数除以0时，你会得到一个结果，例如：1.0/0。</span></td>
       </tr>
       <tr>
-        <td><span class="inline">true</span></td>
-        <td>This constant represents the value 1, which is what <span data-keyref="GameMaker Name">GameMaker</span> will evaluate as a boolean &quot;true&quot; (note that any value equal to or greater than 1 will evaluate as <span class="inline">true</span>).</td>
+        <td><span class="notranslate"><span class="inline">true</span></td>
+        <td>这个常数代表值1，<span data-keyref="GameMaker Name">GameMaker</span>会将其评估为布尔值 &quot;true&quot;（注意，任何等于或大于1的值都会评估为 <span class="inline">true</span> ）。</td>
       </tr>
       <tr>
-        <td><span class="inline">false</span></td>
-        <td>This constant represents the value 0, which is what <span data-keyref="GameMaker Name">GameMaker</span> will evaluate as a boolean &quot;false&quot; (note that any value less than or equal to 0 will evaluate as <span class="inline">false</span>).</td>
+        <td><span class="notranslate"><span class="inline">false</span></td>
+        <td>这个常数代表值0，<span data-keyref="GameMaker Name">GameMaker</span>会将其评估为布尔值 &quot;false&quot;（注意，任何小于或等于0的值都会评估为 <span class="inline">false</span> ）。</td>
       </tr>
       <tr>
-        <td><span class="inline">pi</span></td>
-        <td>This constant represents the value of pi: 3.141592653589793280..., although the exact value will depend on various factors like the OS or the platform being targeted.</td>
+        <td><span class="notranslate"><span class="inline">pi</span></td>
+        <td>这个常数代表π的值：3.141592653589793280等......尽管确切的值将取决于各种因素，如操作系统或目标平台。</td>
       </tr>
     </tbody>
   </table>
-  <p>See <a data-xref="{text}" href="../../../Additional_Information/Type_Tables.htm#h">Equality Table</a> for information on equality comparisons for a few of the constants listed above.</p>
-  <p> </p>
-  <p> </p>
+  <p>有关上述几个常数的平等比较的信息，请参见<a data-xref="{text}" href="../../../Additional_Information/Type_Tables.htm#h">平等表</a>。</p>
+  <p> </p>
+  <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a data-xref="{title}" href="../Variables_And_Variable_Scope.htm">Variables And Variable Scope</a></div>
-        <div style="float:right">Next: <a data-xref="{title}" href="Local_Variables.htm">Local Variables</a></div>
+        <div style="float:left">回来。<a href="../Variables_And_Variable_Scope.htm">变量和变量范围</a></div>
+        <div style="float:right">下一步。<a href="Local_Variables.htm">本地变量</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2025 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright<span class="notranslate">YoYo Games Ltd.</span> 2022 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 constants

@@ -3,10 +3,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>Method Variables</title>
-  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <title>方法变量</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
   <link rel="stylesheet" href="../../assets/css/default.css" type="text/css" />
-  <script src="../../assets/scripts/main_script.js" type="module"></script>
+  <script src="../../assets/scripts/main_script.js"></script>
   <meta name="rh-authors" content="Gurpreet S. Matharoo" />
   <meta name="topic-comment" content="Page outlining the use of Method Variables" />
   <meta name="rh-index-keywords" content="Method Variables" />
@@ -14,19 +14,19 @@
 </head>
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
-  <h1><span data-field="title" data-format="default">Method Variables</span></h1>
-  <p>A method variable is essentially a variable that has had a function assigned to it, &quot;binding&quot; the function to an instance or struct and enabling you to use the variable to refer to the function - much like you use a <a href="Runtime_Functions.htm">runtime function name</a> to refer to a built-in GML function. The variable used can be <em>local</em>, <em>instance</em> or <em>global</em> in scope (see <a href="Variables_And_Variable_Scope.htm">here</a> for more information on variable scope).</p>
-  <p>Also see: <a data-xref="{title}" href="Script_Functions_vs_Methods.htm">Script Functions vs. Methods</a></p>
-  <h2>Creating Methods</h2>
-  <p>The syntax for creating a method variable is as follows:</p>
-  <p class="code">name = function( parameter1, parameter2, ... )<br />
+  <h1>方法变量</h1>
+  <p>方法变量本质上是一个被分配了一个函数的变量，将该函数 &quot;绑定 &quot;到一个实例上，使你能够使用该变量来引用该函数--就像你使用一个<a href="Runtime_Functions.htm">运行时函数名来</a>引用一个内置的<span class="notranslate">GML</span> 函数。使用的变量在范围上可以是<em>局部的</em>、<em>实例</em>的或<em>全局的</em>（关于变量范围的更多信息，请看<a href="Variables_And_Variable_Scope.htm">这里</a>）。</p>
+  <p>也请看。<a data-xref="{title}" href="Script_Functions_vs_Methods.htm">脚本函数与方法</a></p>
+  <h2>创建方法</h2>
+  <p>创建一个方法变量的语法如下。</p>
+  <p class="code"><span><span>name = </span>function( parameter1, parameter2, ... )</span><br />
     <span>{</span><br />
     <span>    statement1;</span><br />
     <span>    statement2;</span><br />
     <span>    ...</span><br />
     <span>}</span>
   </p>
-  <p>or</p>
+  <p>或</p>
   <p class="code"><span>function name( parameter1, parameter2, ... )<br />
       {</span><br />
     <span>    statement1;</span><br />
@@ -34,25 +34,11 @@
     <span>    ...</span><br />
     <span>}</span>
   </p>
-  <p class="note"><span data-conref="../../assets/snippets/Tag_note.hts"> </span> To create a function in <span data-keyref="GML_Visual">GML Visual</span>, use <a data-xref="{title}" href="../../Drag_And_Drop/Drag_And_Drop_Reference/Common/Declare_A_New_Function.htm">Declare A New Function</a>.</p>
-  <p>It is recommended that you should use the <em>first </em>form for methods, and the second form for defining <a href="Script_Functions.htm">script functions</a>, since the second form will also assign a script index to the function while the first form will be a &quot;true&quot; method. Using the second form introduces differences that are covered in <a data-xref="{text}" href="Script_Functions_vs_Methods.htm#h">Overridden Script Functions</a>.</p>
-  <p>Defining a function in an Object&#39;s event using either syntax will make the function only available in the context of its instance (i.e. using the script function syntax will <strong>not</strong> make the function globally available unless it is in a Script asset).</p>
-  <p class="note"><span data-conref="../../assets/snippets/Tag_note.hts"> </span> You can check this by using both forms in a script and then calling the runtime function <span class="inline3_func"><a data-xref="{title}" href="../GML_Reference/Variable_Functions/typeof.htm">typeof</a></span> on each of them. One will be classed as a &quot;ref&quot; - since it returns a script function reference - and the other will be classed as a &quot;method&quot;.</p>
-  <p class="note"><span data-conref="../../assets/snippets/Tag_note.hts"> </span> A function defined in an Object&#39;s event using the script function syntax will be available to its instances throughout their lifetime, even when the event has not run yet. For example, defining a script function in the Alarm 0 event will make the function available to call in the Create event, regardless of when that alarm event runs (or whether it runs at all).</p>
-  <p>So, keep in mind that - in general - we will always be referring to functions that have <em>not </em>been defined with a script index when we are talking about methods and method variables.</p>
-  <p>The syntax for defining a method inside a <strong>struct literal</strong> is similar to the first syntax above, however the <span class="inline2">=</span> is replaced by a <span class="inline2">:</span> as required by struct literals:</p>
-  <p class="code">struct =<br />
-    {<br />
-        func : function( parameter1, parameter2, ... )<br />
-        {<br />
-            statement1;<br />
-            ...<br />
-        }<br />
-    }</p>
-  <h3>Method Scoping</h3>
-  <p>A method created in an instance or a struct will be <strong>bound</strong> to that instance or struct, which means that during the execution of that method, the <span class="inline2"><a href="Instance Keywords/self.htm">self</a></span> variable will refer to the instance or struct that the method is bound to, no matter where the method is being called from, and all variables will be read from and applied to that instance or struct. This bound instance or struct can be changed with the <span class="inline3_func"><a data-xref="{title}" href="../GML_Reference/Variable_Functions/method.htm">method</a></span> function.</p>
-  <p class="note"><span data-conref="../../assets/snippets/Tag_note.hts"> </span> A function defined with the script function syntax will not be bound to its current context. Its <a href="../GML_Reference/Variable_Functions/method_get_self.htm">bound self</a> will return <span class="inline2">&quot;undefined&quot;</span> until <a href="../GML_Reference/Variable_Functions/method.htm">changed</a>.</p>
-  <p>Below you can see three simple examples of creating a method variable using different scopes:</p>
+  <p class="note">要在<span class="notranslate">GML</span> Visual中创建一个函数，使用<a data-xref="{title}" href="../../Drag_And_Drop/Drag_And_Drop_Reference/Common/Declare_A_New_Function.htm">Declare A New Function</a>。启用其 &quot;Temp &quot;选项来创建一个方法变量（上面显示的第一个语法）。</p>
+  <p>然而，一般来说，你会对方法使用<em>第一种 </em>形式，而对定义<a href="Script_Functions.htm">脚本函数</a>使用第二种形式，因为第二种形式也会给函数名分配一个<span class="notranslate">script</span> ，而第一种形式将是一个 &quot;真正的 &quot;方法（如果用于定义脚本函数，需要使用 <a href="Variables/Global_Variables.htm"><span class="notranslate">global</span></a>前缀，如果用于定义脚本函数）。</p>
+  <p class="note"><span class="note">注意</span>你可以通过在项目中使用两个表单，然后分别调用<span class="notranslate">runtime</span> <a href="../GML_Reference/Variable_Functions/typeof.htm">typeof()</a>函数来检查这一点。一个将被归类为 &quot;数字&quot;--因为它返回一个<span class="notranslate">script</span> 索引ID--而另一个将被归类为 &quot;方法&quot;。</p>
+  <p>因此，请记住--一般来说--当我们谈论方法和方法变量时，我们将总是指那些<em>没有 </em>被定义的函数，并有一个<span class="notranslate">script</span> 的索引。 </p>
+  <p>下面你可以看到三个使用不同作用域创建方法变量的简单例子。</p>
   <p class="code">// Local<br />
     var _debug = function(message)<br />
     {<br />
@@ -71,10 +57,10 @@
         return point_distance(_x1, _y1, _x2, _y2);<br />
     }
   </p>
-  <p>Notice that in the above code, the various parameters that are given as inputs for the function are all named and these names are what should be used within the function to refer to the different inputs. Also note that you can use the <span class="inline"><a href="Language_Features/return.htm">return</a></span> statement to return a value from a function for use elsewhere in your code, and that a function with <em>no</em> return value defined, will return <span class="inline">undefined</span> by default.</p>
-  <p>While the variable will be in the chosen scope, the actual function will be bound to the scope that it was initially defined in. For example, <a href="Script_Functions.htm">script functions</a> are all global scope and &quot;unbound&quot; (i.e.: they are not associated with any instances), but if you have a script function that creates another function as a method variable within it and then you call this script function from an instance, the function used within the script will <strong>be bound to the instance as a method</strong>.</p>
-  <p>Once created, the method variable can be used just as you would a runtime function or a script function, for example:</p>
-  <p class="code">create_vec = function(_x1, _y1, _x2, _y2)<br />
+  <p>请注意，在上面的代码中，作为函数输入的各种参数都被命名了，这些名称是应该在函数中用来指代不同的输入。还要注意的是，你可以使用 <span class="inline"><a href="Language_Features/return.htm">return</a></span> 语句从一个函数中返回一个值，以便在你的代码中使用，一个<em>没有</em>定义返回值的函数，将默认返回<span class="inline">undefined</span> 。</p>
+  <p class="note"><span class="note">注意</span>虽然变量将在选择的作用域中，但实际的函数将被绑定到它最初定义的作用域中。例如，<a href="Script_Functions.htm">脚本函数</a>都是全局范围和 &quot;非绑定 &quot;的（即：它们不与任何实例相关联），但是如果你有一个<span class="notranslate">script</span> 函数，在其中创建了另一个函数作为方法变量，然后你从一个实例中调用这个<span class="notranslate">script</span> 函数，在<span class="notranslate">script</span> 中使用的函数将<strong>作为一个方法绑定到实例变量</strong>。一般来说，这不是你需要考虑的问题，但对于使用方法变量的更复杂的操作，这是值得考虑的。这也适用于使用其他结构，例如 <a href="Language_Features/with.htm"><span class="inline">with</span></a>- 当你在with里面创建一个方法变量时，该函数将被绑定到当前范围内的实例。</p>
+  <p>一旦创建，方法变量就可以像使用<span class="notranslate">runtime</span> 函数或<span class="notranslate">script</span> 函数那样使用。</p>
+  <p class="code">create_vec = function(_x1, _y1, _x2, _y2);<br />
     {<br />
         var _array;<br />
         _array[0] = point_distance(_x1, _y1, _x2, _y2);<br />
@@ -84,58 +70,33 @@
     <br />
     vec = create_vec(x, y, mouse_x, mouse_y);
   </p>
-  <p>Variables created within a function will follow the same rules as normal and will be scoped according to the keyword used or the scope of the function call. In the above example, we use <span class="inline">var</span> so the array variable is in the <em>local </em>scope of the function. If we didn&#39;t use the keyword, then the variable would have been created in the scope of the instance that created the function.</p>
-  <h3>Optional Arguments</h3>
-  <p>Methods, just like script functions, can also take optional arguments that have default values for when they&#39;re not passed in:</p>
+  <p>在一个函数中创建的变量将遵循与正常情况相同的规则，并根据所使用的关键字或函数调用的范围来确定范围。在上面的例子中，我们使用了 <span class="inline">var</span> ，所以数组变量是在函数的<em>局部 </em>范围内。如果我们没有使用这个关键字，那么这个变量就会在调用函数的实例的范围内被创建。</p>
+  <p>方法，就像<span class="notranslate">script</span> 函数一样，也可以接受可选的参数，这些参数在没有传入时有默认值。</p>
   <p class="code">create_attachment = function(_attachment, <strong>_x = x</strong>, <strong>_y = y</strong>)<br />
     {<br />
         return instance_create_layer(_x, _y, layer, _attachment);<br />
     }</p>
-  <p>The above function takes three arguments, where the last two are optional. If they are not passed in when the function is called, then they&#39;ll use the instance&#39;s <span class="inline">x</span> and <span class="inline">y</span> coordinates by default.</p>
-  <p>Note that if an argument is not passed in, and it does not have a default value, then it will be equal to <span class="inline">undefined</span>.</p>
-  <p>Methods can also make use of static variables, which maintain their values throughout every function call. Please <a href="Functions/Static_Variables.htm">read this page</a> for more information.</p>
-  <h3>Method Overriding</h3>
-  <p>Methods created inside instances or structs can be overridden later by assigning a new function to the same variable, e.g. in the same event in a child object:</p>
-  <p class="code">// obj_parent Create event<br />
-    say_hello = function()<br />
-    {<br />
-       show_message(&quot;I am the parent!&quot;);<br />
-    }<br />
-    <br />
-    // obj_child Create event<br />
-    event_inherited();<br />
-    <br />
-    say_hello = function()<br />
-    {<br />
-       show_message(&quot;I am the child!&quot;);<br />
-    }
-  </p>
-  <p>All calls to <span class="inline2">say_hello</span> in <span class="inline2">obj_child</span> will print <span class="inline2">&quot;I am the child!&quot;</span>.</p>
-  <p>Also see: <a data-xref="{text}" href="Script_Functions_vs_Methods.htm#h">Overridden Script Functions</a></p>
-  <h3 id="h">Methods Are Structs</h3>
-  <p><span data-keyref="GameMaker Name">GameMaker</span> stores methods as structs, where each &quot;method struct&quot; holds a reference to the script function to call and the struct or instance to which it is bound. You can get the script function behind a method by calling <span class="inline3_func"><a href="../GML_Reference/Variable_Functions/method_get_index.htm">method_get_index</a></span> and its bound struct or instance with <span class="inline3_func"><a href="../GML_Reference/Variable_Functions/method_get_self.htm">method_get_self</a></span>.</p>
-  <p><strong>Methods being structs is irrelevant in most cases</strong> as you would call them as functions and pass them into other functions that take methods - you would not use them as structs. However this detail can be important in a few edge cases, for example with the <a data-xref="{title}" href="Structs/Static_Structs.htm">Static Struct</a>, as each function in <span data-keyref="GameMaker Name">GameMaker</span> has a static struct and each struct can have its own static struct that forms the <a data-xref="{text}" href="Structs/Static_Structs.htm#h">Static Chain</a>. However the static struct functionality for method structs is <strong>disabled</strong> so you can directly access the static struct of the function behind it. Calling <span class="inline3_func"><a data-xref="{title}" href="../GML_Reference/Variable_Functions/static_get.htm">static_get</a></span> will give you the static struct for the function behind the method and calling <span class="inline3_func"><a data-xref="{title}" href="../GML_Reference/Variable_Functions/static_set.htm">static_set</a></span> on a method will do nothing.</p>
-  <h2>Function Reference</h2>
-  <p>Below we list a few helper functions associated with method variables:</p>
+  <p>上述函数需要三个参数，其中最后两个参数是可选的。如果在调用函数时没有传入它们，那么它们将默认使用实例的 <span class="inline">x</span> 和 <span class="inline">y</span> 坐标。</p>
+  <p>请注意，如果一个参数没有被传入，并且它没有默认值，那么它将等于 <span class="inline">undefined</span> 。</p>
+  <p>方法也可以利用静态变量，这些变量在每次函数调用时都保持其数值。请<a href="Functions/Static_Variables.htm">阅读本页</a>以了解更多信息。</p>
+  <p>下面我们列出一些与方法变量相关的辅助函数。</p>
   <ul class="colour">
-    <li><a href="../GML_Reference/Variable_Functions/is_method.htm">is_method</a></li>
-    <li><a href="../GML_Reference/Variable_Functions/method.htm">method</a></li>
-    <li><a href="../GML_Reference/Variable_Functions/method_get_self.htm">method_get_self</a></li>
-    <li><a href="../GML_Reference/Variable_Functions/method_get_index.htm">method_get_index</a></li>
-    <li><a href="../GML_Reference/Variable_Functions/method_call.htm">method_call</a></li>
+    <li><a href="../GML_Reference/Variable_Functions/is_method.htm"><span class="notranslate">is_method</span></a></li>
+    <li><a href="../GML_Reference/Variable_Functions/method.htm"><span class="notranslate">method</span></a></li>
+    <li><a href="../GML_Reference/Variable_Functions/method_get_self.htm"><span class="notranslate">method_get_self</span></a></li>
+    <li><a href="../GML_Reference/Variable_Functions/method_get_index.htm"><span class="notranslate">method_get_index</span></a></li>
   </ul>
-  <p> </p>
-  <p> </p>
-  <p> </p>
-  <p> </p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a href="GML_Overview.htm">GML Overview</a></div>
-        <div style="float:right">Next: <a data-xref="{title}" href="Script_Functions_vs_Methods.htm">Script Functions vs. Methods</a></div>
+        <div style="float:left">返回。<a href="GML_Overview.htm">GML概述</a></div>
+        <div style="float:right">下一步。<a data-xref="{title}" href="Script_Functions_vs_Methods.htm">脚本函数与方法</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2025 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright<span class="notranslate">YoYo Games Ltd.</span> 2022 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 Script Functions

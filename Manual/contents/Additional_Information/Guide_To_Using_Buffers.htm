@@ -3,10 +3,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>Guide To Using Buffers</title>
-  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <title>缓冲器使用指南</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
   <link rel="stylesheet" href="../assets/css/default.css" type="text/css" />
-  <script src="../assets/scripts/main_script.js" type="module"></script>
+  <script src="../assets/scripts/main_script.js"></script>
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Page that explains how buffers work" />
   <meta name="rh-index-keywords" content="Guide To Using Buffers" />
@@ -14,102 +14,212 @@
 </head>
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
-  <h1><span data-field="title" data-format="default">Guide To Using Buffers</span></h1>
-  <p>A buffer (in programming) is basically a space within the system memory that is used to store small packets of data for just about anything (for example: data transfer, collisions, colour data, etc.). Since it is held in system memory it is very fast to access, and a buffer would generally be used for very short-term storage, like receiving network information before processing it, or for storing a checkpoint in your game (this is explained in the example given further down the page).</p>
-  <p><img alt="Buffer Memory" class="center" height="163" src="../assets/Images/Scripting_Reference/Additional_Information/Buffer_Memory.png" width="480" />Buffers are created by allocating a space in the system memory, calculated in <a class="glossterm" data-glossterm="byte" href="#">byte</a> <span class="glossextra">s</span>, which is then reserved for your game as long as your game is running or until you delete the buffer using the appropriate function (you can find all the GML buffer functions listed <a href="../GameMaker_Language/GML_Reference/Buffers/Buffers.htm">here</a>). This means that even when your game is not in focus (for example, on a mobile device when you take a call the game will be put into the background) the buffer will still exist, however if the game is closed or re-started the buffer will be lost.</p>
-  <p class="note"><span data-conref="../assets/snippets/Tag_note.hts"> </span> Restarting the game will not clear or delete the buffer! But it will prevent any further access to the previously created buffer as the ID handle will have been lost, causing a memory leak which will crash your game eventually. So, when re-starting a game, remember to delete any buffers first.</p>
-  <p><span data-keyref="GameMaker Name">GameMaker</span> permits the creation of four different buffer types. The reason for this is that buffers are designed to be a highly optimised temporary storage medium, and as such you should create a buffer that is appropriate to the type of data that you wish it to store, otherwise you could get errors or cause a bottleneck in your code. Before explaining this further, let&#39;s look at the four available buffer types (defined as <strong>constants </strong>in GML):</p>
-  <p> </p>
-  <div data-conref="../assets/snippets/Table_Buffer_Type_Constant.hts"> </div>
-  <p> </p>
-  <p>Those are the buffer types available to you when using <span data-keyref="GameMaker Name">GameMaker</span>, and which one you choose will greatly depend on the use you wish to put it to. For example, a grow buffer would be used for storing a &quot;snapshot&quot; of data to create a save game since you do not know the actual amount of data that is going to be placed in it, or a fast buffer would be used when you know that the values you are working with are all between 0 and 255 or -128 and 127, for example when processing <a class="glossterm" data-glossterm="ARGB" href="#">ARGB</a> data from an image.</p>
-  <p><img alt="Buffer Types" class="center" src="../assets/Images/Scripting_Reference/Additional_Information/Buffer_Types.png" />When creating a buffer, you should always try to create it to a size that is appropriate to the type, with the general rule being that it should be created to accommodate the maximum size of data that it is to store, and if in doubt, use a grow buffer to prevent overwrite errors.</p>
-  <p>The actual code to create a buffer would look something like this:</p>
+  <h1>缓冲器使用指南</h1>
+  <p><span class="notranslate">buffer</span> （在编程中）基本上是系统内存中的一个空间，用来存储任何东西的小数据包（例如：数据传输、碰撞、颜色数据等......）。由于它被保存在系统内存中，所以访问速度非常快，<span class="notranslate">buffer</span> ，一般用于非常短期的存储，比如在处理网络信息之前接收网络信息，或者用于存储你的游戏中的检查点（这在本页下边给出的例子中有所解释）。</p>
+  <p><img>缓冲区是通过在系统内存中分配一个空间来创建的，以<span class="glossextra">字节数</span>计算，然后只要你的游戏在运行或直到你使用适当的函数删除<span class="notranslate">buffer</span> （你可以<a href="../GameMaker_Language/GML_Reference/Buffers/Buffers.htm">在这里</a>找到所有的<span class="notranslate">GML</span> <span class="notranslate">buffer</span> 函数），这个空间就会为你的游戏保留。这意味着，即使你的游戏不在焦点上（例如，在移动设备上，当你接电话时，游戏将被放到后台），<span class="notranslate">buffer</span> 仍然存在，然而，如果游戏被关闭或重新启动，<span class="notranslate">buffer</span> 将被丢失。</p>
+  <p class="note"><strong>注意</strong>：重启游戏不会清除或删除<span class="notranslate">buffer</span>!但它会阻止对以前创建的<span class="notranslate">buffer</span> 的任何进一步访问，因为ID句柄已经丢失，导致内存泄漏，最终会使你的游戏崩溃。因此，当重新启动游戏时，记得先删除任何<span class="notranslate">buffers</span> 。</p>
+  <p><span data-keyref="GameMaker Name">GameMaker</span>允许创建四种不同的<span class="notranslate">buffer</span> 类型。这样做的原因是，<span class="notranslate">buffers</span> 被设计成高度优化的临时存储介质，因此你应该创建一个与你希望它存储的数据类型相适应的<span class="notranslate">buffer</span> ，否则你可能会出现错误或导致你的代码出现瓶颈。在进一步解释之前，让我们看一下四种可用的<span class="notranslate">buffer</span> 类型（在<span class="notranslate">GML</span> 中定义为<strong>常量 </strong>）。</p>
+  <p> </p>
+  <table>
+    <tbody>
+      <tr>
+        <th>恒定</th>
+        <th>描述</th>
+      </tr>
+      <tr>
+        <td><span class="notranslate"><span class="inline">buffer_fixed</span></td>
+        <td><br />
+          一个以字节为单位的固定大小的<span class="notranslate">buffer</span> 。这个大小是在创建<span class="notranslate">buffer</span> 时设置的，不能再改变。</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate"><span class="inline">buffer_grow</span></td>
+        <td><br />
+          一个<span class="notranslate">buffer</span> ，它将随着数据的增加而动态<i>增长</i>。你创建它时有一个初始大小（应该是预期要存储的数据大小的近似值），然后它将扩展以接受超出这个初始大小的进一步数据。</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate"><span class="inline">buffer_wrap</span></td>
+        <td><br />
+          一个<span class="notranslate">buffer</span> ，数据将被<i>包裹</i>在其中。当被添加的数据达到<span class="notranslate">buffer</span> 大小的极限时，被覆盖的数据将被放回<span class="notranslate">buffer</span> 的起点，并从该点继续写入。</td>
+      </tr>
+      <tr>
+        <td><span class="notranslate"><span class="inline">buffer_fast</span></td>
+        <td><br />
+          这是一个特殊的 &quot;剥离 &quot;<span class="notranslate">buffer</span> ，读/写速度极快。然而，它只能与 <span class="inline"><span class="inline">buffer_u8</span> 数据类型一起使用，并且必须是1字节对齐的。(关于<b>数据类型</b>和<b>字节对齐</b>的信息可以在本页面下边找到）。</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <p>这些是你在使用<span data-keyref="GameMaker Name">GameMaker</span>时可用的<span class="notranslate">buffer</span> ，你选择哪种类型将在很大程度上取决于你想把它用于什么用途。例如，增长型<span class="notranslate">buffer</span> 将用于存储数据的 &quot;快照&quot;，以创建一个保存游戏，因为你不知道要放在里面的实际数据量，或者当你知道你要处理的数值都在0到255或-128到127之间时，将使用快速<span class="notranslate">buffer</span> ，例如在处理图像的<a class="glossterm" data-glossterm="ARGB" href="#">ARGB</a>数据时。</p>
+  <p><img>当创建一个<span class="notranslate">buffer</span> ，你应该总是尝试创建一个与类型相适应的大小，一般的规则是，它应该被创建为容纳它要存储的数据的最大尺寸，如果有疑问，使用一个增长<span class="notranslate">buffer</span> ，以防止覆盖错误。</p>
+  <p>创建一个<span class="notranslate">buffer</span> 的实际代码将看起来像这样。</p>
   <p class="code">player_buffer = buffer_create(16384, buffer_fixed, 2);</p>
   <p><br />
-    That would create a fixed buffer of 16384 bytes and byte-aligned to 2, with the function returning a buffer handle that is stored in a variable for later referencing of this buffer.</p>
-  <p>When reading and writing data to a buffer, you do it in &quot;chunks&quot; of data defined by their &quot;data type&quot;. The &quot;data type&quot; sets the number of bytes allocated within the buffer for the value being written, and it is essential that you get this correct, otherwise you will get some very strange results (or even errors) for your code.</p>
-  <p>Buffers are written to (and read from) <strong>sequentially</strong>, in that one piece of data is written after another, with each piece of data being of a set type. This means that you should ideally be aware of what data you are writing to the buffer at all times. These data types are defined in GML by the following constants:</p>
-  <div data-conref="../assets/snippets/buffer_data_type_constants.hts"> </div>
-  <p>So, say you have created a buffer and you want to write information to it, then you would use something like the following code:</p>
+    这将创建一个16384字节的固定<span class="notranslate">buffer</span> ，字节对齐为2，函数返回一个唯一的ID值，存储在一个变量中，以便以后引用这个<span class="notranslate">buffer</span> 。</p>
+  <p>当读和写数据到一个<span class="notranslate">buffer</span> ，你是以 &quot;数据类型 &quot;定义的数据 &quot;块 &quot;进行的。数据类型 &quot;设定了在<span class="notranslate">buffer</span> 中为被写入的值分配的字节数，你必须正确掌握这一点，否则你的代码会得到一些非常奇怪的结果（甚至是错误）。</p>
+  <p>缓冲区是<strong>按顺序</strong>写入（和读出）的，即一块数据是在另一块数据之后写入的，每块数据都是一个固定的类型。这意味着，你最好随时了解你正在向<span class="notranslate">buffer</span> 写什么数据。这些数据类型在<span class="notranslate">GML</span> ，由以下常数定义。</p>
+  <p> </p>
+  <table>
+    <tbody>
+      <tr>
+        <th>数据类型 常数</th>
+        <th>字节数</th>
+        <th>描述</th>
+      </tr>
+      <tr>
+        <td><span class="inline">buffer_u8</span></td>
+        <td>1</td>
+        <td><br />
+          一个无符号、8位的整数。这是一个从0到255的正值。</td>
+      </tr>
+      <tr>
+        <td><span class="inline">buffer_s8</span></td>
+        <td>1</td>
+        <td><br />
+          一个有符号的、8位的整数。这可以是一个从-128到127的正值或负值（0被认为是正值）。</td>
+      </tr>
+      <tr>
+        <td><span class="inline">buffer_u16</span></td>
+        <td>2</td>
+        <td><br />
+          一个无符号、16位的整数。这是一个从0-65,535的正值。</td>
+      </tr>
+      <tr>
+        <td><span class="inline">buffer_s16</span></td>
+        <td>2</td>
+        <td><br />
+          一个有符号的、16位的整数。这可以是一个从-32,768到32,767的正值或负值（0被认为是正值）。</td>
+      </tr>
+      <tr>
+        <td><span class="inline">buffer_f16</span></td>
+        <td>2</td>
+        <td><br />
+          一个16位的浮点数字。这可以是+/-65504范围内的一个正值或负值。<b>(目前不支持！)</b></td>
+      </tr>
+      <tr>
+        <td><span class="inline">buffer_u32</span></td>
+        <td>4</td>
+        <td><br />
+          一个无符号、32位的整数。这是一个从0到4,294,967,295的正值。</td>
+      </tr>
+      <tr>
+        <td><span class="inline">buffer_s32</span></td>
+        <td>4</td>
+        <td><br />
+          一个有符号的、32位的整数。这可以是一个从-2,147,483,648到2,147,483,647的正值或负值（0被归类为正值）。</td>
+      </tr>
+      <tr>
+        <td><span class="inline">buffer_f32</span></td>
+        <td>4</td>
+        <td><br />
+          一个32位的浮点数字。这可以是+/-16777216范围内的一个正值或负值。</td>
+      </tr>
+      <tr>
+        <td><span class="inline">buffer_u64</span></td>
+        <td>8</td>
+        <td><br />
+          一个64位无符号整数值。<b>(目前不是所有的<span class="notranslate">buffer</span> 函数都支持！)</b></td>
+      </tr>
+      <tr>
+        <td><span class="inline">buffer_f64</span></td>
+        <td>8</td>
+        <td><br />
+          一个64位的浮点数。</td>
+      </tr>
+      <tr>
+        <td><span class="inline">buffer_bool</span></td>
+        <td>1</td>
+        <td><br />
+          一个布尔值。只能是1或0 (<span class="inline">true</span> 或 <span class="inline">false</span>)</td>
+      </tr>
+      <tr>
+        <td><span class="inline">buffer_string</span></td>
+        <td>不适用</td>
+        <td><br />
+          这是一个UTF-8空结束的（0x00）<span class="notranslate">string</span> 。基本上，一个<span class="notranslate">GameMaker</span> <span class="notranslate">string</span> 被倾倒在<span class="notranslate">buffer</span> ，并在最后放上一个0。</td>
+      </tr>
+    </tbody>
+  </table>
+  <p> </p>
+  <p>因此，假设你已经创建了一个<span class="notranslate">buffer</span> ，你想把信息写入其中，那么你将使用类似以下的代码。</p>
   <p class="code">buffer_write(buff, buffer_bool, global.Sound);<br />
     buffer_write(buff, buffer_bool, global.Music);<br />
     buffer_write(buff, buffer_s16, obj_Player.x);<br />
     buffer_write(buff, buffer_s16, obj_Player.y);<br />
     buffer_write(buff, buffer_string, global.Player_Name);</p>
-  <p>looking at the example above you can see that you can write different types of data to a buffer at the same time (you are only limited to a specific data type when using the <em>fast </em>buffer type), and this data will be added into the buffer sequentially (although its actual position in the buffer will depend on its byte-alignment, explained below). This is the same for reading information from the buffer too, and in the case of the example given above, you would read from the buffer in the same order that you wrote the data, checking for the same data type, e.g.:</p>
+  <p>看了上面的例子，你可以看到你可以同时向<span class="notranslate">buffer</span> 写不同类型的数据（当使用<em>快速 </em>缓冲区类型时，你只限于特定的数据类型），这些数据将被按顺序添加到<span class="notranslate">buffer</span> （尽管它在<span class="notranslate">buffer</span> 的实际位置将取决于它的字节对齐，下面会解释）。这对于从<span class="notranslate">buffer</span> 中读取信息也是一样的，在上面给出的例子中，你会按照你写数据的顺序从<span class="notranslate">buffer</span> 中读取，检查是否有相同的数据类型，例如。</p>
   <p class="code">global.Sound = buffer_read(buff, buffer_bool);<br />
     global.Music = buffer_read(buff, buffer_bool);<br />
     obj_Player.x = buffer_read(buff, buffer_s16);<br />
     obj_Player.y = buffer_read(buff, buffer_s16);<br />
     global.Player_Name = buffer_read(buff, buffer_string);</p>
-  <p>As you can see, you read out information in the same order that you read it into the buffer. For further information on how to add and remove data from the buffer please see the examples given below.</p>
-  <p>If you have been reading through this page you will have seen references to the <strong>byte-alignment </strong>of a buffer. This basically refers to the position that new data will stored at within a given buffer. How does this work? Well, for a single byte aligned buffer, each piece of data is written to the buffer sequentially, with each new data piece being added directly after the previous. However a 2 byte aligned buffer will write each piece of data to intervals of 2 bytes, so that even if your initial write is 1 byte of data, the next write will be moved to align to two bytes:</p>
-  <p><img alt="Buffer Byte Alignment" class="center" src="../assets/Images/Scripting_Reference/Additional_Information/Buffer_Byte_Alignment.png" />So, if your byte-alignment is set to, say, 4 bytes and you write a single piece of data which is 1 byte in size then do a buffer <strong>tell </strong>(a tell gets the current position for reading/writing for the buffer), you&#39;ll get an <strong>offset </strong>of 1 byte (the offset in this case is the number of bytes from the start of the buffer to the current read/write position).</p>
-  <p>However, if you write another piece of data, also 1 byte in size, <em>then </em>do a buffer tell, you&#39;ll get an offset of 5 bytes (even though you have only written 2 bytes of data) as the alignment has padded the data to align it with the 4 byte buffer alignment.</p>
-  <p>Basically, what this means is that alignment will only affect <em>where </em>things are written to, so if you do a buffer tell after you write something, it&#39;ll return the current write position which immediately follows the data you&#39;ve previously written. Note, however, that if you then write another piece of data, internally the buffer will move the write position along to the next multiple of the alignment size before actually writing the piece of data.</p>
-  <p>Below we have a couple of examples of how to use buffers in a project:</p>
-  <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down" href="#">Buffer Checkpoint</a></p>
+  <p>正如你所看到的，你读出信息的顺序与你读入<span class="notranslate">buffer</span> 。关于如何从<span class="notranslate">buffer</span> ，添加和删除数据的进一步信息，请看下面给出的例子。</p>
+  <p>如果你一直在阅读本页面，你会看到关于<span class="notranslate">buffer</span> 的<strong>字节对齐 </strong>的参考。这基本上是指新的数据将存储在一个给定的<span class="notranslate">buffer</span> 的位置。它是如何工作的？那么，对于一个单字节对齐的<span class="notranslate">buffer</span> ，每个数据都是按顺序写入<span class="notranslate">buffer</span> ，每个新的数据都是直接加在前一个数据之后。然而，一个2字节对齐的<span class="notranslate">buffer</span> ，每块数据将以2字节的间隔写入，因此，即使你最初写入的是1字节的数据，下一次写入将被移至2字节对齐。</p>
+  <p><img>所以，如果你的字节对齐设置为，比如说，4个字节，你写了一个大小为1个字节的数据，然后做了一个<span class="notranslate">buffer</span> <strong>告诉 </strong>（告诉得到了当前读/写的位置，为<span class="notranslate">buffer</span> ），你会得到一个1个字节的<strong>偏移量 </strong>（这里的偏移量是指从<span class="notranslate">buffer</span> 的开始到当前读/写位置的字节数）。</p>
+  <p>然而，如果你写另一个数据，也是1字节大小，<em>然后 </em>做一个<span class="notranslate">buffer</span> 告诉，你会得到一个5字节的偏移量（尽管你只写了2字节的数据），因为对齐方式已经填充了数据，使其与4字节的<span class="notranslate">buffer</span> 对齐。</p>
+  <p>基本上，这意味着对齐方式只影响事物被写入的<em>位置 </em>，所以如果你在写完东西后做一个<span class="notranslate">buffer</span> ，它将返回当前的写入位置，紧接着你之前写的数据。然而，请注意，如果你接着写另一个数据，在内部，<span class="notranslate">buffer</span> 会在实际写数据之前，将写的位置移动到对齐尺寸的下一个倍数。</p>
+  <p>下面我们有几个例子说明如何在一个项目中使用<span class="notranslate">buffers</span> 。</p>
+  <p> </p>
+  <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down" href="#">缓冲区检查点</a></p>
   <div class="droptext" data-targetname="drop-down">
-    <p class="dropspot">A simple example of how a buffer can be used in any <span data-keyref="GameMaker Name">GameMaker</span> game for any platform, is the function <a href="../GameMaker_Language/GML_Reference/General_Game_Control/game_save_buffer.htm"><span class="inline">game_save_buffer()</span></a>. This function will take a &quot;snapshot&quot; of the current game state and save it to a pre-defined buffer, which can then be read from to load the game at that point again.</p>
-    <p class="note"><span data-conref="../assets/snippets/Tag_note.hts"> </span> This function is very limited and it is designed for the beginner to get a checkpoint system up and running quickly, but more advanced users may prefer to code their own system using the File functions, due to the fact that the game will not save any of the dynamic resources that you can create at run-time like data structures, surfaces, added sprites, etc...</p>
-    <p class="dropspot">The first thing we need to do is create a new object to control the saving and loading, so you would make one and give it a <strong>Create Event</strong>. In this event, you could place the following code:</p>
+    <p class="dropspot">一个简单的例子是，<span class="notranslate">buffer</span> ，可以在任何平台的<span data-keyref="GameMaker Name">GameMaker</span>游戏中使用，该函数为 <a href="../GameMaker_Language/GML_Reference/General_Game_Control/game_save_buffer.htm"><span class="inline">game_save_buffer()</span></a>.这个函数将获取当前游戏状态的 &quot;快照&quot;，并将其保存到一个预定义的<span class="notranslate">buffer</span> ，然后可以从该处读取，以再次加载游戏。</p>
+    <p class="note"><strong>注意</strong>：这个功能非常有限，它是为初学者设计的，以便快速建立和运行一个检查点系统，但更高级的用户可能更愿意使用文件功能来编码他们自己的系统，因为游戏不会保存任何你可以在运行时创建的动态资源，如数据结构、表面、添加<span class="notranslate">sprites</span> ，等等。</p>
+    <p class="dropspot">我们需要做的第一件事是创建一个新的<span class="notranslate">object</span> 来控制保存和加载，所以你要做一个，并给它一个<strong>创建事件</strong>。在这个事件中，你可以放置以下代码。</p>
     <p class="code">SaveBuffer = buffer_create(1024, buffer_grow, 1);<br />
       StateSaved = false;</p>
-    <p class="dropspot">The first line creates a grow buffer (since we don&#39;t know the final size of the saved data) of 1024 bytes and aligned to 1 byte. A variable is then created to check against and see if the game has been saved or not (this will be used for loading).</p>
-    <p class="dropspot">Next we would add a <strong>Keypress Event</strong> (for example) in which we will save the current game state to the created buffer:</p>
+    <p class="dropspot">第一行创建了一个1024字节的增长<span class="notranslate">buffer</span> （因为我们不知道保存数据的最终大小），并对齐到1字节。然后创建一个变量来检查，看游戏是否已经被保存（这将用于加载）。</p>
+    <p class="dropspot">接下来我们将添加一个<strong>按键事件</strong>（例如），在这个<strong>事件</strong>中我们将把当前的游戏状态保存到创建的缓冲区中。</p>
     <p class="code">StateSaved = true;<br />
       buffer_seek(SaveBuffer, buffer_seek_start, 0);<br />
       game_save_buffer(SaveBuffer);</p>
-    <p class="dropspot">The above will first set the control variable to <span class="inline">true </span>(so that this is saved when we save the game to the buffer) and then seek to the start of the buffer before writing the current save state into it. Why do we use <a href="../GameMaker_Language/GML_Reference/Buffers/buffer_seek.htm"><span class="inline">buffer_seek()</span></a>? Well, as mentioned already on this page, you read and write to a buffer from the last position that data was added to it. This means that if you don&#39;t set the buffer tell back to the start then when you save you will be adding the data into the buffer at the current buffer read/write position. So, we use the function <span class="inline">buffer_seek()</span> to move the tell to the buffer start.</p>
-    <p class="dropspot">We have now saved the current game state to a buffer. The next step would be to code how to load it, probably in another <strong>Keypress Event</strong>:</p>
-    <p class="code">if (StateSaved) <br />
+    <p class="dropspot">上面将首先把控制变量设置为 <span class="inline">true </span> （这样当我们把游戏保存到<span class="notranslate">buffer</span> ），然后在把当前的保存状态写进<span class="notranslate">buffer</span> ，寻求到它的开始。为什么我们要用 <a href="../GameMaker_Language/GML_Reference/Buffers/buffer_seek.htm"><span class="inline">buffer_seek()</span></a>?好吧，正如本页已经提到的，你从最后一个数据被添加到<span class="notranslate">buffer</span> 的位置开始读和写。这意味着，如果你不把<span class="notranslate">buffer</span> 告诉回到开始的位置，那么当你保存时，你将在当前<span class="notranslate">buffer</span> 读/写的位置上把数据加入到<span class="notranslate">buffer</span> 。因此，我们使用函数 <span class="inline">buffer_seek()</span> ，将告诉移到<span class="notranslate">buffer</span> 的开始位置。</p>
+    <p class="dropspot">我们现在已经把当前的游戏状态保存到了<span class="notranslate">buffer</span> 。下一步将是编写如何加载它的代码，可能在另一个<strong>按键事件</strong>中。</p>
+    <p class="code">if StateSaved<br />
       {<br />
           buffer_seek(SaveBuffer, buffer_seek_start, 0);<br />
           game_load_buffer(SaveBuffer);<br />
       }</p>
-    <p class="dropspot">The game will then be loaded at the end of the event in which you place the above code.</p>
-    <p class="note"><span data-conref="../assets/snippets/Tag_note.hts"> </span> This is only for use in the same room, and not for generating complete saved games for after your game has been closed or restarted!</p>
-    <p class="dropspot">The final thing to add to the controller object is some &quot;clean up&quot; code. Buffers are stored in memory and as such if you do not clean up when you are finished with them, you can get memory leaks that will eventually lag and crash your game. So you would probably add a <strong>Room End Event</strong> (from the <strong>Other</strong> event category) with:</p>
+    <p class="dropspot">然后，游戏将在你放置上述代码的事件结束时被加载。</p>
+    <p class="note"><strong>注意</strong>：这只适用于同一<span class="notranslate">room</span> ，而不是在你的游戏关闭或重新启动后生成完整的保存游戏!</p>
+    <p class="dropspot">最后要添加到控制器<span class="notranslate">object</span> 的是一些 &quot;清理 &quot;代码。<span class="notranslate">Buffers</span> 是存储在内存中的，因此，如果你不在用完后进行清理，你会得到内存泄漏，最终会滞后和崩溃你的游戏。因此，你可能会添加一个<strong>房间结束事件</strong>（来自<strong>其他</strong>事件类别），其中包括。</p>
     <p class="code">buffer_delete(SaveBuffer);</p>
-    <p class="dropspot">This object can now be placed into a room and on a key press save and load the room state from a buffer.</p>
-    <p class="dropspot"> </p>
+    <p class="dropspot">这个<span class="notranslate">object</span> ，现在可以放到一个<span class="notranslate">room</span> ，并在一个按键上保存和加载<span class="notranslate">room</span> 状态，从<span class="notranslate">buffer</span> 。</p>
+    <p class="dropspot"> </p>
   </div>
-  <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down1" href="#">Network Buffers</a></p>
+  <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down1" href="#">网络缓冲区</a></p>
   <div class="droptext" data-targetname="drop-down1">
-    <p class="dropspot">When working with the <span data-keyref="GameMaker Name">GameMaker</span> <a href="../GameMaker_Language/GML_Reference/Networking/Networking.htm">networking functions</a>, you have to use buffers to create the data packet that is being sent over the network connection. This example intends to show how this is done, but due to the scope of the networking possibilities, it is only designed to show how to use the buffers themselves, and not the full networking system.</p>
-    <p class="dropspot">The first thing we will show is the creation and use of a buffer for the client side of the network connection. This buffer will be used to create small data packets that can then be sent to the server, so in the <strong>Create Event</strong> of an instance we would assign a buffer like this:</p>
+    <p class="dropspot">在使用<span data-keyref="GameMaker Name">GameMaker</span> <a href="../GameMaker_Language/GML_Reference/Networking/Networking.htm">网络功能</a>时，你必须使用<span class="notranslate">buffers</span> 来创建通过网络连接发送的数据包。这个例子打算展示如何做到这一点，但由于网络可能性的范围，它只被设计为展示如何使用<span class="notranslate">buffers</span> 本身，而不是完整的网络系统。</p>
+    <p class="dropspot">我们将展示的第一件事是为网络连接的客户端创建和使用一个<span class="notranslate">buffer</span> 。这个<span class="notranslate">buffer</span> 将被用来创建小的数据包，然后可以发送到<span class="notranslate">server</span> ，所以在一个实例的<strong>创建事件</strong>中，我们会像这样分配一个<span class="notranslate">buffer</span> 。</p>
     <p class="code">send_buff = buffer_create(256, buffer_grow, 1);</p>
-    <p class="dropspot">We make the buffer small (256 bytes) - as it is not intended for holding large amounts of data - then we make it a grow buffer to ensure no errors should we need to add more data to be sent at any time, and the alignment is set to one for convenience.</p>
-    <p class="dropspot">Now, let&#39;s say that we want our client to send data to the server. For that we need to create a buffer &quot;packet&quot;, and in this example we are going to send a <strong>Key Press Event</strong>, like when the player presses <em>Left Arrow </em>to move around the game. To do this we write the necessary data to the buffer first then send it off:</p>
+    <p class="dropspot">我们使<span class="notranslate">buffer</span> 小（256字节）--因为它不是用来存放大量数据的--然后我们使它成为一个增长的<span class="notranslate">buffer</span> ，以确保在任何时候需要增加要发送的数据时不会出错，并且为了方便，对齐方式被设置为1。</p>
+    <p class="dropspot">现在，假设我们想让我们的客户端发送数据到<span class="notranslate">server</span> 。为此，我们需要创建一个<span class="notranslate">buffer</span> &quot;数据包&quot;，在这个例子中，我们将发送一个<strong>按键事件</strong>，比如当玩家按下<em>左箭头 </em>在游戏中移动时。要做到这一点，我们首先将必要的数据写入<span class="notranslate">buffer</span> ，然后再发送出去。</p>
     <p class="code">buffer_seek(buff, buffer_seek_start, 0);<br />
       buffer_write(buff, buffer_u8, 1);<br />
       buffer_write(buff, buffer_s16, vk_left);<br />
       buffer_write(buff, buffer_bool, true);<br />
       network_send_packet(client, buff, buffer_tell(buff));</p>
-    <p class="dropspot">Before writing to the buffer we have set the &quot;tell&quot; to the start of the buffer as networking always takes the data from the start of a buffer. We then write the check value (this will be used by the server to determine the type of event to be processed), then the key being used, and then the state of the key (in this case true for pressed). This buffer is then sent as a data packet by the network function. Note that we do not send the whole buffer! We only send the data written, using the buffer_tell function to return the current read/write position of the buffer (remember that writing to the buffer moves the &quot;tell&quot; to the end of what has been written). This is simply to avoid sending more bytes than is necessary.</p>
-    <p class="dropspot">What about receiving the data on the server? The received data packet that must be written into the buffer on the server and then used to update the game. For that we would use the <a href="../The_Asset_Editors/Object_Properties/Async_Events.htm">Networking Asynchronous Event</a> in the network controller object of the server, as this simplified code below shows:</p>
+    <p class="dropspot">在写入<span class="notranslate">buffer</span> 之前，我们将 &quot;告诉 &quot;设置为<span class="notranslate">buffer</span> 的开头，因为网络总是从<span class="notranslate">buffer</span> 的开头获取数据。然后我们写下检查值（这将被<span class="notranslate">server</span> 用来确定要处理的事件类型），然后是正在使用的键，然后是键的状态（在这种情况下，真表示按下）。这个<span class="notranslate">buffer</span> ，然后由网络函数作为一个数据包发送。请注意，我们不发送整个<span class="notranslate">buffer</span>!我们只发送所写的数据，使用buffer_tell函数来返回<span class="notranslate">buffer</span> 的当前读写位置（记住，向<span class="notranslate">buffer</span> 写入时，&quot;tell &quot;会移动到所写内容的末端）。这只是为了避免发送超过必要的字节数。</p>
+    <p class="dropspot"><span class="notranslate">server</span> 那么在<span class="notranslate">buffer</span> 上接收数据呢？收到的数据包必须写进<span class="notranslate">server</span> ，然后用于更新游戏。为此，我们将在<span class="notranslate">object</span> 的网络控制器<span class="notranslate">server</span> 中使用<a href="../The_Asset_Editors/Object_Properties/Async_Events.htm">网络异步事件</a>，正如下面的简化代码所示。</p>
     <p class="code">var buff = ds_map_find_value(async_load, &quot;buffer&quot;);<br />
       if (cmd == buffer_read(buff, buffer_u8)) <br />
       {<br />
           key = buffer_read(buff, buffer_s16);<br />
           key_state = buffer_read(buff, buffer_bool);<br />
       }</p>
-    <p class="dropspot">The asynchronous event will contain a special temporary DS map <span class="inline">async_load</span> (it is removed from memory at the end of the event automatically) which contains different information depending on the type of incoming data from the network. In this case, we are assuming that the map has been checked and found to be a buffer data packet sent from a client. We now check the first piece of data that is in the buffer to see what kind of event has been sent - in this case the value &quot;1&quot; represents a key event, however when coding these things you should define constants to hold these values to simplify things - and then store the key being pressed and its state (<span class="inline">true</span> = pressed, <span class="inline">false</span> = released). This information would then be used to update all the clients with the new status of the sending client player.</p>
-    <p class="note"><span data-conref="../assets/snippets/Tag_note.hts"> </span> The buffer that is created from the DS map is automatically removed at the end of the Network Asynchronous Event so there is no need to use <span class="inline" style="font-size: 14px">buffer_delete()</span> here.</p>
-    <p class="dropspot"> </p>
+    <p class="dropspot">异步事件将包含一个特殊的临时DS地图 <span class="inline">async_load</span> （它在事件结束时自动从内存中删除），它包含不同的信息，取决于从网络传入的数据的类型。在这种情况下，我们假设该地图已被检查并发现是一个从客户端发送的<span class="notranslate">buffer</span> 数据包。我们现在检查<span class="notranslate">buffer</span> 中的第一条数据，看看发送的是什么类型的事件--在这种情况下，值 &quot;1 &quot;代表一个按键事件，然而在对这些东西进行编码时，你应该定义常量来保存这些值以简化事情--然后存储被按下的按键及其状态（<span class="inline">true</span> = pressed, <span class="inline">false</span> = release）。然后，这些信息将被用来更新所有的客户端，使其具有发送客户端播放器的新状态。</p>
+    <p class="note"><strong>注意</strong>：从DS地图中创建的<span class="notranslate">buffer</span> ，在网络异步事件结束时被自动删除，所以这里不需要使用<span class="inline" style="font-size: 14px">buffer_delete()</span>。</p>
+    <p class="dropspot"> </p>
   </div>
-  <p> </p>
-  <p> </p>
-  <p> </p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a href="Additional_Information.htm">Additional Information</a></div>
-        <div style="float:right">Next: <a href="Bitwise_Operators.htm">Bitwise Operators</a></div>
+        <div style="float:left">返回。<a href="Additional_Information.htm">其他信息</a></div>
+        <div style="float:right">下一步。<a href="Bitwise_Operators.htm">比特运算法则</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2025 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright<span class="notranslate">YoYo Games Ltd.</span> 2021 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 Buffers

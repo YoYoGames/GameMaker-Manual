@@ -3,11 +3,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <meta name="generator" content="Adobe RoboHelp 2022" />
-  <title>Video Playback</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
+  <title>视频播放</title>
   <meta name="topic-status" content="Draft" />
   <link rel="stylesheet" type="text/css" href="../../../../assets/css/default.css" />
-  <script src="../../../../assets/scripts/main_script.js" type="module"></script>
+  <script src="../../../../assets/scripts/main_script.js"></script>
   <meta name="rh-authors" content="Gurpreet S. Matharoo" />
   <meta name="topic-comment" content="Overview of video drawing functions" />
   <meta name="template" content="../../../../assets/masterpages/Manual_Page.htt" />
@@ -16,71 +16,68 @@
   <meta name="condition-tags" content="" />
 </head>
 <body>
-  <h1 id="h1">Video Playback</h1>
-  <h2>How to play videos?</h2>
-  <p>Follow these steps to load videos at runtime and play them:</p>
+  <h1 id="h1">视频播放</h1>
+  <h2>如何播放视频？</h2>
+  <p>按照这些步骤，在<span class="notranslate">runtime</span> ，加载视频并播放它们。</p>
   <ul class="colour">
-    <li>Add a video file to the <a data-xref="{text}" href="../../../../Settings/Included_Files.htm#h">Included Files</a> (<span class="inline2">/<span data-keyref="Const_IncludedFiles_FolderName">datafiles</span></span> directory) of your project.</li>
-    <li>Load the video using <span class="inline"><a href="video_open.htm">video_open()</a></span>.
+    <li>添加一个视频文件到你项目的<a data-xref="{text}" href="../../../../Settings/Included_Files.htm#h">Included Files</a><span class="inline2">（/datafiles</span>目录）。</li>
+    <li>使用 <span class="inline"><a href="video_open.htm">video_open()</a></span> 加载视频。
       <ul>
-        <li>Alternatively, load a video from a URL.</li>
+        <li>或者，从一个URL中加载一个视频。</li>
       </ul>
     </li>
-    <li>Draw it in a Draw event using <span class="inline"><a href="video_draw.htm">video_draw()</a></span>.
+    <li>在绘图事件中使用 <span class="inline"><a href="video_draw.htm">video_draw()</a></span> 绘制它。
       <ul>
-        <li>This functions draws the video to an internal surface, which it returns as part of its return array.</li>
-        <li>You must draw that surface manually using <span class="inline"><a href="../Surfaces/draw_surface.htm">draw_surface()</a></span> for the video to appear.
+        <li>这个函数将视频绘制到一个内部表面，并将其作为返回数组的一部分返回。</li>
+        <li>你必须使用 <span class="inline"><a href="../Surfaces/draw_surface.htm">draw_surface()</a></span> 手动绘制该表面，以使视频出现。
           <ul>
-            <li>Drawing <a data-xref="{title}" href="YUV_Videos.htm">YUV Videos</a> will require extra steps.</li>
+            <li>绘制<a data-xref="{title}" href="YUV_Videos.htm">YUV视频</a>将需要额外的步骤。</li>
           </ul>
         </li>
       </ul>
     </li>
-    <li>When the video is finished, remove it from memory by calling <span class="inline"><a href="video_close.htm">video_close()</a></span>.
+    <li>当视频结束时，通过调用 <span class="inline"><a href="video_close.htm">video_close()</a></span> ，将其从内存中删除。
       <ul>
-        <li>Use the <a href="#h">Async Callbacks</a> to run code when the video ends.</li>
+        <li>当视频结束时，使用<a href="#h">Async Callbacks</a>来运行代码。</li>
       </ul>
     </li>
   </ul>
-  <h2>Video Codecs &amp; Licensing</h2>
-  <p><span data-keyref="GameMaker Name">GameMaker</span> does not ship with any codecs, and makes use of the codecs present on the platform that the game is running on. This means your videos must be encoded in a format that can be decoded on your intended target platform(s).</p>
-  <p>Making use of certain formats may require you to pay licensing fees depending on the related codec&#39;s licence and your game&#39;s revenue, and in such a case, the developer will be legally liable for any fees that is to be paid to the codec owners. Codecs are also licensed differently on each platform and so care must be taken for games that are distributed on multiple platforms.</p>
-  <p>Note that video formats (such as <span class="inline2">.mp4</span>, <span class="inline2">.avi</span>, <span class="inline2">.mkv</span>, etc.) are simply containers that wrap <strong>video</strong> and <strong>audio</strong> streams, both of which may be encoded separately and may require separate licences.</p>
-  <p>For distribution on console platforms, check with your account representative to find out what formats you are allowed to use without having to pay extra licencing fees.</p>
-  <h2>Audio Limitations</h2>
-  <p>On some platforms, the video playback implementation is not associated with the audio engine used for that platform. This means the audio playback from your video may be subject to the limitations of the audio engine on that platform, such as it requiring the audio to be encoded in a specific format and sample rate (e.g. requiring 48kHz audio). When facing issues with audio playback, please check the SDK for the platform to ensure your audio is encoded according to the requirements for that platform.</p>
-  <h2>Formats</h2>
-  <p>The video formats that you are able to load and play in your game will depend on your target platform, and the codecs that are supported on that platform.</p>
-  <p><span data-conref="../../../../assets/snippets/Video_formats.hts"> </span></p>
-  <h2 id="func_ref">Functions</h2>
-  <p>You can load, play and manipulate video files at runtime using the following functions:</p>
+  <h2>视频编解码器和许可证</h2>
+  <p><span data-keyref="GameMaker Name">GameMaker</span>不附带任何编解码器，而是使用游戏运行平台上的编解码器。这意味着你的视频必须以一种可以在你的目标平台上解码的格式进行编码。</p>
+  <p>使用某些格式可能需要你支付许可费，这取决于相关编解码器的许可和你的游戏收入，在这种情况下，开发商将在法律上负责向编解码器所有者支付任何费用。编解码器在每个平台上的许可也是不同的，因此对于在多个平台上发行的游戏必须小心谨慎。</p>
+  <p>请注意，视频格式（如<span class="inline2">.mp4</span>、<span class="inline2">.avi</span>、<span class="inline2">.mkv</span>等）只是包裹<strong>视频</strong>和<strong>音频</strong>流的容器，这两种格式可能是单独编码的，可能需要单独的许可证。</p>
+  <p>对于在控制台平台上的发行，请向你的客户代表查询，以了解你被允许使用哪些格式而不必支付额外的许可费。</p>
+  <h2>格式</h2>
+  <p>你能够在游戏中加载和播放的视频格式将取决于你的目标平台，以及该平台所支持的编解码器。</p>
+  <h2>职能</h2>
+  <p>你可以在<span class="notranslate">runtime</span> ，使用以下功能加载、播放和操作视频文件。</p>
   <ul class="colour">
-    <li><a data-xref="{title}" href="video_open.htm">video_open</a></li>
-    <li><a data-xref="{title}" href="video_close.htm">video_close</a></li>
-    <li><a data-xref="{title}" href="video_draw.htm">video_draw</a></li>
-    <li><a data-xref="{title}" href="video_set_volume.htm">video_set_volume</a></li>
-    <li><a href="video_pause.htm">video_pause</a></li>
-    <li><a href="video_resume.htm">video_resume</a></li>
-    <li><a href="video_enable_loop.htm">video_enable_loop</a></li>
-    <li><a href="video_seek_to.htm">video_seek_to</a></li>
+    <li><a data-xref="{title}" href="video_open.htm">视频_打开</a></li>
+    <li><a data-xref="{title}" href="video_close.htm">视频_关闭</a></li>
+    <li><a data-xref="{title}" href="video_draw.htm">视频_画图</a></li>
+    <li><a data-xref="{title}" href="video_set_volume.htm">视频_set_volume</a></li>
+    <li><a href="video_pause.htm">视频_暂停</a></li>
+    <li><a href="video_resume.htm">视频_简历</a></li>
+    <li><a href="video_enable_loop.htm">视频_启用_循环</a></li>
+    <li><a href="video_seek_to.htm">视频_搜索_到</a></li>
   </ul>
-  <p> </p>
-  <p>The following functions are used to get information about the currently loaded video:</p>
+  <p> </p>
+  <p>以下函数用于获取当前加载的视频的信息。</p>
   <ul class="colour">
-    <li><a href="video_is_looping.htm">video_is_looping</a></li>
-    <li><a href="video_get_volume.htm">video_get_volume</a></li>
-    <li><a href="video_get_duration.htm">video_get_duration </a></li>
-    <li><a href="video_get_position.htm">video_get_position</a></li>
-    <li><a href="video_get_status.htm">video_get_status</a></li>
-    <li><a href="video_get_format.htm">video_get_format </a></li>
+    <li><a href="video_is_looping.htm">视频_is_looping</a></li>
+    <li><a href="video_get_volume.htm">视频_get_volume</a></li>
+    <li><a href="video_get_duration.htm">视频_get_duration </a></li>
+    <li><a href="video_get_position.htm">视频_get_position</a></li>
+    <li><a href="video_get_status.htm">视频_get_status</a></li>
+    <li><a href="video_get_format.htm">视频_get_format </a></li>
   </ul>
-  <h2 id="h">Async Callbacks</h2>
-  <p>The <a href="../../../../The_Asset_Editors/Object_Properties/Async_Events/Social.htm">Async Social</a> event is triggered at the stages given below, with the <span class="inline2">&quot;type&quot;</span> key in its <span class="inline2">async_load</span> map set to the given value:</p>
+  <h2 id="h">异步回调</h2>
+  <p><a href="../../../../The_Asset_Editors/Object_Properties/Async_Events/Social.htm">Async Social</a>事件在下面给出的阶段被触发，其<span class="inline2">async_load</span>map中的<span class="inline2">&quot;type &quot;</span>键被设置为给定值。</p>
   <ul class="colour">
-    <li><span class="inline2">&quot;video_start&quot;</span>: When the video starts playing, which is when its <a href="video_get_status.htm">status</a> changes from <span class="inline2">video_status_preparing</span> to <span class="inline2">video_status_playing</span>.</li>
-    <li><span class="inline2">&quot;video_end&quot;</span>: When the video ends. This does not trigger when the video is <a href="video_enable_loop.htm">set to loop</a>.</li>
+    <li><span class="inline2">&quot;video_start&quot;</span>: 当视频开始播放时，也就是它的<a href="video_get_status.htm">状态</a>从<span class="inline2">video_status_preparing</span>变为<span class="inline2">video_status_playing</span>时。</li>
+    <li><span class="inline2">&quot;video_end&quot;</span>: 当视频结束时。当视频被<a href="video_enable_loop.htm">设置为循环</a>时，这不会触发。</li>
   </ul>
-  <p>Here is an example of an Async Social event listening to video callbacks:</p>
+  <p>下面是一个监听视频回调的Async Social事件的例子。</p>
   <p class="code">var _type = async_load[? &quot;type&quot;];<br />
     <br />
     if (_type == &quot;video_start&quot;)<br />
@@ -93,18 +90,18 @@
         video_close();<br />
     }
   </p>
-  <p>The above code reads the type from the <span class="inline2">async_load</span> map. When the video starts, it sets a variable in an object to <span class="inline2">true</span>, so it can display the video.</p>
-  <p>When the video ends, it sets that same variable to <span class="inline2">false</span>, and then calls <span class="inline"><a href="video_close.htm">video_close()</a></span> to remove the video from memory.</p>
-  <p> </p>
-  <p> </p>
+  <p>上面的代码从<span class="inline2">async_load</span>map中读取类型。当视频启动时，它将<span class="notranslate">object</span> 中的一个变量设置为<span class="inline2">true</span>，这样就可以显示视频。</p>
+  <p>当视频结束时，它将同一变量设置为<span class="inline2">false</span>，然后调用 <span class="inline"><a href="video_close.htm">video_close()</a></span> ，从内存中删除视频。</p>
+  <p> </p>
+  <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div>Back: <a data-xref="{title}" href="../Drawing.htm">Drawing</a></div>
-        <div>Next: <a data-xref="{title}" href="../Depth_And_Stencil_Buffer/The_Depth_And_Stencil_Buffer.htm">The Depth And Stencil Buffer</a></div>
+        <div>返回。<a data-xref="{title}" href="../Drawing.htm">绘画</a></div>
+        <div>下一步。<a data-xref="{title}" href="../Colour_And_Alpha/Colour_And_Alpha.htm">颜色和阿尔法</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2024 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright<span class="notranslate">YoYo Games Ltd.</span> 2022 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 	Videos

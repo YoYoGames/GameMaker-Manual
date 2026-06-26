@@ -3,10 +3,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>Fixtures</title>
-  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <title>固定装置</title>
+  <meta name="generator" content="Adobe RoboHelp 2020" />
   <link rel="stylesheet" href="../../../../assets/css/default.css" type="text/css" />
-  <script src="../../../../assets/scripts/main_script.js" type="module"></script>
+  <script src="../../../../assets/scripts/main_script.js"></script>
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Reference section for Physics Fixture functions" />
   <meta name="rh-index-keywords" content="Fixtures,Physics" />
@@ -14,99 +14,70 @@
 </head>
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
-  <h1><span data-field="title" data-format="default"> Fixtures</span></h1>
-  <p>Before an instance in <span data-keyref="GameMaker Name">GameMaker</span> can have physical properties it must have a fixture assigned to it. A fixture binds a shape or form to the instance and this adds material properties such as density, friction, and restitution.</p>
-  <p>Your physics object will already have a basic fixture assigned to it via <a data-xref="{title}" href="../../../../The_Asset_Editors/Objects.htm">The Object Editor</a> if it has <strong>Uses Physics</strong> checked. This fixture cannot be changed at runtime, although you can assign additional fixtures using the functions listed on this page. If you do not wish to use the default fixture, disable <strong>Uses Physics</strong> for your object and assign a fixture at runtime which will enable Physics for the instance.</p>
-  <p>Fixtures can be boxes, circles, polygons or any other simple shape you wish as <span data-keyref="GameMaker Name">GameMaker</span> provides functions that enable you to define your own shape point by point, and then once you have your shape you can go ahead and define its physical properties too. These properties are what govern the way the instance with the fixture assigned to it will react with other instances in the physics world.</p>
-  <h3>Creating a Basic Fixture</h3>
-  <p>Creating a fixture requires you to call and store the value from <span class="inline3_func"><a data-xref="{title}" href="physics_fixture_create.htm">physics_fixture_create</a></span>, set up a shape (see shape functions in the list below), add <a href="physics_fixture_add_point.htm">points</a>, assign any optional properties and then <a href="physics_fixture_bind.htm">bind</a> the fixture to an instance:</p>
-  <p class="code">fix = physics_fixture_create();<br />
-    <br />
-    physics_fixture_set_polygon_shape(fix);<br />
-    <br />
-    // Basic 60x60 square<br />
-    physics_fixture_add_point(fix, -30, -30);<br />
-    physics_fixture_add_point(fix, 30, -30);<br />
-    physics_fixture_add_point(fix, 30, 30);<br />
-    physics_fixture_add_point(fix, -30, 30);<br />
-    <br />
-    physics_fixture_set_collision_group(fix, 1);<br />
-    physics_fixture_set_density(fix, 1);<br />
-    <br />
-    fix_bound = physics_fixture_bind(fix, id);
-  </p>
-  <p>The code above sets the collision group to 1 so the fixture collides with other fixtures (as this is the default collision group for fixtures created via the IDE) and sets a density so it is affected by gravity. It then binds the fixture to the current instance. You can test this by calling <span class="inline3_func"><a data-xref="{title}" href="../The_Physics_World/physics_draw_debug.htm">physics_draw_debug</a></span> in a Draw event to draw the fixtures associated with the instance to the screen for debugging purposes.</p>
-  <div data-conref="../../../../assets/snippets/Note_physics_fixture_define.hts"> </div>
-  <p class="note"><span data-conref="../../../../assets/snippets/Tag_note.hts"> </span> You can define one fixture and have it bound to multiple instances (think of a pool table, where all the balls have the same physical properties, yet each one is a discreet entity). You can also bind multiple fixtures to a single instance and combine the physical properties (for example, using two triangular polygon fixtures to create a star).</p>
-  <h3>Properties</h3>
-  <p>You can define the following properties for a fixture:</p>
+  <h1>固定装置</h1>
+  <p>在<span data-keyref="GameMaker Name">GameMaker</span>中的一个实例能够拥有物理属性之前，它必须有一个分配给它的夹具。夹具将一个形状或形式绑定到实例上，这增加了材料属性，如密度、摩擦力和恢复力。夹具可以是盒子、圆、多边形或任何其他你想要的简单形状，因为<span data-keyref="GameMaker Name">GameMaker</span>提供了一些功能，使你能够逐点定义你自己的形状，然后一旦你有了你的形状，你也可以继续定义其物理属性。这些属性是管理分配给它的夹具的实例与物理世界中的其他实例的反应方式，它们被列在下面。</p>
   <ul class="colour">
-    <li><b>Density:</b> A material&#39;s density is defined as its mass per unit volume. It is, essentially, a measurement of how tightly matter is crammed together. If you wish your fixture to be <i>static</i> (i.e.: immovable) then the density should be set to 0, essentially making it infinitely dense. <i>Kinematic</i> objects that move with constant velocity and are not physically affected by collisions are also defined using a density of 0.</li>
-    <li><b>Friction:</b> Friction is the force resisting the relative motion of solid surfaces, fluid layers, and material elements sliding against each other.</li>
-    <li><b>Linear Damping:</b> This is the generalised force that causes a moving object to lose momentum. In the &quot;real world&quot; things don&#39;t generally happen forever. For example, a paper airplane will fly for a short while but eventually it will fall due to the air friction that acts upon it causing it to slow down. In the physics world that we create such things are difficult to model and so each fixture is given its own linear damping to simulate this type of &quot;generalised friction&quot;.</li>
-    <li><b>Angular Damping:</b> As above, this is a generalised force that is applied to an object to stop it spinning eternally.</li>
-    <li><b>Restitution:</b> In physics, restitution is defined as &quot;the return of an object or system to its original state after elastic deformation&quot;, but as the fixtures in <span data-keyref="GameMaker Name">GameMaker</span> are really rigid bodies and cannot be deformed, think of this as basically how &quot;bouncy&quot; the fixture is.</li>
+    <li><b>密度。</b>一种材料的密度被定义为其每单位体积的质量。从本质上讲，它是对物质挤在一起的紧密程度的一种测量。如果你希望你的夹具是<i>静态</i>的（即：不可移动的），那么密度应该设置为0，基本上是使它的密度无限大。<i>运动型</i> <span class="notranslate">objects</span> ，以恒定的速度移动，并且不受碰撞的物理影响，也可以用0的密度来定义。</li>
+    <li><b>摩擦。</b>摩擦是抵制固体表面、流体层和材料元素相互滑动的相对运动的力量。</li>
+    <li><b>线性阻尼。</b>这是导致运动的<span class="notranslate">object</span> ，失去动力的一般化的力量。在 &quot;现实世界 &quot;中，事情一般不会永远发生。例如，一架纸飞机会飞一会儿，但最终会由于空气摩擦力的作用而下降，导致其速度减慢。在我们创造的物理世界中，这样的事情很难建模，所以每个夹具都有自己的线性阻尼来模拟这种 &quot;一般化的摩擦&quot;。</li>
+    <li><b>角度阻尼。如</b>上所述，这是对一个<span class="notranslate">object</span> ，以阻止其永远旋转的一般化的力。</li>
+    <li><b>恢复原状。</b>在物理学中，恢复被定义为 &quot;一个<span class="notranslate">object</span> 或系统在弹性变形后恢复到原来的状态&quot;，但由于<span data-keyref="GameMaker Name">GameMaker</span>中的夹具是真正的刚性体，不能变形，可以认为这基本上是夹具的 &quot;弹跳 &quot;程度。</li>
   </ul>
-  <p>So as you can see, with just a few simple functions, <span data-keyref="GameMaker Name">GameMaker</span> can help you to create complex systems and interactions which will give your games an unprecedented sense of realism.<b></b></p>
-  <h3 id="h">Updating Existing Contacts</h3>
-  <p>Two physics instances are &quot;in contact&quot; when their bounding boxes overlap (i.e. the rectangular regions surrounding their actual shapes). In this case, calling one of the <span class="inline3_func">physics_set_*</span> functions on a bound fixture <em>will change</em> the value of the property, but in order to force the physics engine to also <em>take this new value into account</em>, you&#39;ll need to deactivate and reactivate the physics instance using <span class="inline2"><a data-xref="{title}" href="../Physics_Variables/phy_active.htm">phy_active</a></span>: </p>
-  <p class="code">var _new_friction = 100;<br />
-    phy_active = false;<br />
-    physics_set_friction(bound_fixture_id, _new_friction);<br />
-    phy_active = true;</p>
-  <h2 id="func_ref">Function Reference</h2>
-  <h3 id="func_ref_general">General</h3>
-  <p>The following functions are used to create, bind and delete fixtures:</p>
+  <p>所以你可以看到，只需几个简单的功能，<span data-keyref="GameMaker Name">GameMaker</span>就可以帮助你创建复杂的系统和互动，这将使你的游戏具有前所未有的真实感。</p>
+  <p class="note"><b><span class="note">注意</span> </b>您可以定义一个灯具并将其绑定到多个实例上（想想台球桌，所有的球都有相同的物理属性，但每个球都是一个单独的实体）。您也可以将多个灯具绑定到一个实例上，并结合物理属性（例如，使用两个三角形的多边形灯具来创建一个星星）。</p>
+  <p>以下函数用于创建、绑定、设置碰撞，然后删除固定装置。</p>
   <ul class="colour">
-    <li><a data-xref="{title}" href="physics_fixture_create.htm">physics_fixture_create</a></li>
-    <li><a data-xref="{title}" href="physics_fixture_bind.htm">physics_fixture_bind</a></li>
-    <li><a data-xref="{title}" href="physics_fixture_bind_ext.htm">physics_fixture_bind_ext</a></li>
-    <li><a data-xref="{title}" href="physics_fixture_delete.htm">physics_fixture_delete</a></li>
+    <li><a href="physics_fixture_create.htm"><span class="notranslate">physics_fixture_create</span></a></li>
+    <li><a href="physics_fixture_bind.htm"><span class="notranslate">physics_fixture_bind</span></a></li>
+    <li><a href="physics_fixture_bind_ext.htm"><span class="notranslate">physics_fixture_bind_ext</span></a></li>
+    <li><a href="physics_fixture_set_collision_group.htm"><span class="notranslate">physics_fixture_set_collision_group</span></a></li>
+    <li><a href="physics_fixture_delete.htm"><span class="notranslate">physics_fixture_delete</span></a></li>
+    <li><a href="physics_remove_fixture.htm"><span class="notranslate">physics_remove_fixture</span></a></li>
   </ul>
-  <h3 id="func_ref_shapes">Shapes</h3>
-  <p>A fixture must be given a shape or else it will not be detected by the physics world, and this shape can be defined by the following functions:</p>
+  <p> </p>
+  <p>一个夹具必须被赋予一个形状，否则它将不会被物理学世界检测到，这个形状可以由以下函数来定义。</p>
   <ul class="colour">
-    <li><a data-xref="{title}" href="physics_fixture_set_box_shape.htm">physics_fixture_set_box_shape</a></li>
-    <li><a data-xref="{title}" href="physics_fixture_set_circle_shape.htm">physics_fixture_set_circle_shape</a></li>
-    <li><a data-xref="{title}" href="physics_fixture_set_edge_shape.htm">physics_fixture_set_edge_shape</a></li>
-    <li><a data-xref="{title}" href="physics_fixture_set_chain_shape.htm">physics_fixture_set_chain_shape</a></li>
-    <li><a data-xref="{title}" href="physics_fixture_set_polygon_shape.htm">physics_fixture_set_polygon_shape</a></li>
-    <li><a data-xref="{title}" href="physics_fixture_add_point.htm">physics_fixture_add_point</a></li>
+    <li><a href="physics_fixture_set_box_shape.htm"><span class="notranslate">physics_fixture_set_box_shape</span></a></li>
+    <li><a href="physics_fixture_set_circle_shape.htm"><span class="notranslate">physics_fixture_set_circle_shape</span></a></li>
+    <li><a href="physics_fixture_set_edge_shape.htm"><span class="notranslate">physics_fixture_set_edge_shape</span></a></li>
+    <li><a href="physics_fixture_set_chain_shape.htm"><span class="notranslate">physics_fixture_set_chain_shape</span></a></li>
+    <li><a href="physics_fixture_set_polygon_shape.htm"><span class="notranslate">physics_fixture_set_polygon_shape</span></a></li>
+    <li><a href="physics_fixture_add_point.htm"><span class="notranslate">physics_fixture_add_point</span></a></li>
   </ul>
-  <h3 id="func_ref_setters">Setting Properties</h3>
-  <p>In order for your physics enabled instance to react properly to the world around it, the fixtures you use must have specific properties defined that will give the fixture bounce, friction, mass, etc. The following functions are used to set these properties of the fixture:</p>
+  <p> </p>
+  <p>为了使你的物理实例对它周围的世界做出正确的反应，你使用的灯具必须有特定的属性，这些属性将赋予灯具反弹、摩擦、质量等。下面的函数用来设置灯具的这些属性。</p>
   <ul class="colour">
-    <li><a data-xref="{title}" href="physics_fixture_set_density.htm">physics_fixture_set_density</a></li>
-    <li><a data-xref="{title}" href="physics_fixture_set_friction.htm">physics_fixture_set_friction</a></li>
-    <li><a data-xref="{title}" href="physics_fixture_set_linear_damping.htm">physics_fixture_set_linear_damping</a></li>
-    <li><a data-xref="{title}" href="physics_fixture_set_angular_damping.htm">physics_fixture_set_angular_damping</a></li>
-    <li><a data-xref="{title}" href="physics_fixture_set_restitution.htm">physics_fixture_set_restitution</a></li>
-    <li><a data-xref="{title}" href="physics_fixture_set_sensor.htm">physics_fixture_set_sensor</a></li>
-    <li><a data-xref="{title}" href="physics_fixture_set_kinematic.htm">physics_fixture_set_kinematic</a></li>
-    <li><a data-xref="{title}" href="physics_fixture_set_awake.htm">physics_fixture_set_awake</a></li>
-    <li><a data-xref="{title}" href="physics_fixture_set_collision_group.htm">physics_fixture_set_collision_group</a></li>
+    <li><a href="physics_fixture_set_density.htm"><span class="notranslate">physics_fixture_set_density</span></a></li>
+    <li><a href="physics_fixture_set_friction.htm"><span class="notranslate">physics_fixture_set_friction</span></a></li>
+    <li><a href="physics_fixture_set_linear_damping.htm"><span class="notranslate">physics_fixture_set_linear_damping</span></a></li>
+    <li><a href="physics_fixture_set_angular_damping.htm"><span class="notranslate">physics_fixture_set_angular_damping</span></a></li>
+    <li><a href="physics_fixture_set_restitution.htm"><span class="notranslate">physics_fixture_set_restitution</span></a></li>
+    <li><a href="physics_fixture_set_sensor.htm"><span class="notranslate">physics_fixture_set_sensor</span></a></li>
+    <li><a href="physics_fixture_set_kinematic.htm"><span class="notranslate">physics_fixture_set_kinematic</span></a></li>
+    <li><a href="physics_fixture_set_awake.htm"><span class="notranslate">physics_fixture_set_awake</span></a></li>
   </ul>
-  <h3 id="func_ref_modify">Modifying Bound Fixtures</h3>
-  <p>You can also set certain properties of the fixture <i>after</i> it has been <a href="physics_fixture_bind.htm">bound</a> to an instance. When binding the &quot;base&quot; fixture, you can choose to store the unique index for the bound physical properties in a variable. This can then be used in the following functions to change certain properties, or to get the current values for them: </p>
+  <p> </p>
+  <p>你也可以在灯具被绑定到一个实例<i>后</i>设置它的某些属性。当绑定 &quot;基本 &quot;灯具时，你可以选择将绑定的物理属性的唯一索引存储在一个变量中。这可以在下面的函数中使用，以改变某些属性，或获得它们的当前值。</p>
   <ul class="colour">
-    <li><a href="physics_get_friction.htm">physics_get_friction</a></li>
-    <li><a href="physics_get_density.htm">physics_get_density</a></li>
-    <li><a href="physics_get_restitution.htm">physics_get_restitution</a></li>
-    <li><a href="physics_set_friction.htm">physics_set_friction</a></li>
-    <li><a href="physics_set_density.htm">physics_set_density</a></li>
-    <li><a href="physics_set_restitution.htm">physics_set_restitution</a></li>
-    <li><a data-xref="{title}" href="physics_remove_fixture.htm">physics_remove_fixture</a></li>
+    <li><a href="physics_get_friction.htm"><span class="notranslate">physics_get_friction</span></a></li>
+    <li><a href="physics_get_density.htm"><span class="notranslate">physics_get_density</span></a></li>
+    <li><a href="physics_get_restitution.htm"><span class="notranslate">physics_get_restitution</span></a></li>
+    <li><a href="physics_set_friction.htm"><span class="notranslate">physics_set_friction</span></a></li>
+    <li><a href="physics_set_density.htm"><span class="notranslate">physics_set_density</span></a></li>
+    <li><a href="physics_set_restitution.htm"><span class="notranslate">physics_set_restitution</span></a></li>
+    <li><a href="../physics_mass_properties.htm"><span class="notranslate">physics_mass_properties</span></a></li>
   </ul>
-  <p> </p>
-  <p> </p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
   <div class="footer">
     <div class="buttons">
       <div class="clear">
-        <div style="float:left">Back: <a data-xref="{title}" href="../Physics.htm">Physics</a></div>
-        <div style="float:right">Next: <a data-xref="{title}" href="../Joints/Joints.htm">Joints</a></div>
+        <div style="float:left">返回。<a href="../Physics.htm">物理学</a></div>
+        <div style="float:right">下一步。<a href="../Joints/Joints.htm">关节</a></div>
       </div>
     </div>
-    <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2026 All Rights Reserved</span></h5>
+    <h5><span data-keyref="Copyright Notice">© Copyright<span class="notranslate">YoYo Games Ltd.</span> 2022 All Rights Reserved</span></h5>
   </div>
   <!-- KEYWORDS
 Fixtures
