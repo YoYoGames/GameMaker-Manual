@@ -4,7 +4,7 @@ on:
     workflow_dispatch:
     pull_request:
       branches:
-        - main-lts
+        - 2026.0.0-main
     
 env:
      S3_BUCKET: ${{ secrets.S3_BUCKET }}
@@ -45,29 +45,3 @@ jobs:
           path: output\RoboHelp\*.zip
           if-no-files-found: error
     
-
-  Slack-Notification:
-     name: "Slack Notification"
-     if: github.event_name == 'workflow_dispatch'
-     runs-on: ubuntu-24.04
-     needs: RoboHelp
-     env:
-        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-     steps:
-      - name: Send Slack Notification Triggered while Nightly Build
-        run: |
-          set -euo pipefail
-
-          ARTIFACT_URL="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}#artifacts"
-
-          if [[ "${{ job.status }}" == "success" ]]; then
-              MSG="📘 English Manual build completed successfully  
-              *Artifacts*: ${ARTIFACT_URL}"
-          else
-              MSG="⚠️ English Manual build failed
-              *Check logs*: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-          fi
-
-          curl -X POST -H 'Content-type: application/json' \
-            --data "{\"text\":\"$MSG\"}" \
-            "$SLACK_WEBHOOK_URL"

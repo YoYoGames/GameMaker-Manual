@@ -110,8 +110,8 @@ if /i %robohelpPreset%=="GMS2 Manual Responsive HTML5 BETA" (
     set "S3_PATH=%S3_BUCKET%/Green"
     echo Branch is Main - Choose Green
 ) else (
-    set "S3_PATH=%S3_BUCKET%/LTS"
-    echo Branch is neither develop nor main - Choose LTS
+    set "S3_PATH=%S3_BUCKET%/LTS2026"
+    echo Branch is neither develop nor main - Choose LTS2026
 )
 
 rem ── Temp directory for comparison ────────────────────────────────────
