@@ -9,6 +9,11 @@ on:
 env:
    S3_BUCKET: ${{ secrets.S3_BUCKET }}
    ZIP_FILE: ${{ secrets.ZIP_FILE }}
+   GITHUB_REPOSITORY: ${{ github.repository }}
+
+permissions:
+  contents: read
+  id-token: write  
   
 jobs:
   
@@ -18,18 +23,19 @@ jobs:
        env:
         LANGUAGE: ${{ vars.LANGUAGE }}
        steps:
-        - uses: aws-actions/configure-aws-credentials@v4
+        - name: Configure AWS Credentials
+          uses: aws-actions/configure-aws-credentials@v6
           with:
-            aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-            aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-            aws-region: ${{ secrets.REGION }}
+            role-session-name: github-actions-s3-upload-${{ github.run_id }}
+            role-to-assume: ${{ secrets.CORETECH_ASSUME_ROLE_ARN }}
+            aws-region: eu-west-1
         - name: Enable git long paths to bypass path limit on Windows
           run: git config --system core.longpaths true
         - name: Check out the GMS2_Documentation repo
           uses: actions/checkout@v6
           with:
             path: Manual  
-            token: ${{ secrets.GH_TOKEN }}
+            token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
         - name: Monthly Builds
           if: github.event.pull_request.base.ref == 'main' || github.event_name == 'workflow_dispatch'
           env:

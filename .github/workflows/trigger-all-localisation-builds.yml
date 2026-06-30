@@ -49,7 +49,7 @@ jobs:
         with:
           workflow: ${{ github.event.inputs.BUILD_TYPE }}.yml
           repo: YoYoGames/GameMaker-Manual-${{ matrix.language }}
-          token: ${{ secrets.GH_TOKEN }} 
+          token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }} 
         continue-on-error: false     
 
   Trigger-Localisation-Builds-Single-Repo:
@@ -62,7 +62,7 @@ jobs:
         with:
           workflow: ${{ github.event.inputs.BUILD_TYPE }}.yml
           repo: YoYoGames/GameMaker-Manual-${{ github.event.inputs.COUNTRY }}
-          token: ${{ secrets.GH_TOKEN }} 
+          token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }} 
         continue-on-error: false
 
   Slack-Notification:
@@ -73,7 +73,7 @@ jobs:
      env:
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         WORKFLOW: ${{ github.event.inputs.BUILD_TYPE }}.yml
-        GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        GH_PERSONAL_ACCESS_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
      steps:
       - name: Checkout the repository
         uses: actions/checkout@v6
