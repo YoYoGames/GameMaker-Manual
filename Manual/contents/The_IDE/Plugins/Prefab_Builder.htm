@@ -23,11 +23,53 @@
   <p>This includes doing the following:</p>
   <ul class="colour">
     <li>Listing the assets that will be exposed in the Prefab Collection, so they can be dragged or referenced by the user in their own project</li>
-    <li>Exposing functions and constants from Script assets that users can reference in code, see: <a data-xref="{text}" href="../../IDE_Tools/Prefab_Library.htm#h1">Referencing Code Symbols</a></li>
+    <li>Exposing functions and constants from Script assets that users can reference in code (see <strong>Exporting Code Symbols</strong> below)</li>
   </ul>
-  <p>Prefab Collections can themselves make use of other Prefab Collections, so ensure such Collections are properly added and referenced in your project</p>
+  <p>Prefab Collections can themselves make use of other Prefab Collections, so ensure such Collections are properly added and referenced in your project.</p>
   <p>Once your project is ready, use the Prefab Builder to export it as a Prefab Collection.</p>
-  <h2>Exporting a Prefab Collection</h2>
+  <h2 id="h2">Exporting Code Symbols</h2>
+  <p>Scripts in your Prefab Collection may export <a href="../../GameMaker_Language/GML_Overview/Variables/Constants.htm">Enums</a>, <a href="../../GameMaker_Language/GML_Overview/Variables/Constants.htm">Macros</a> and <a href="../../GameMaker_Language/GML_Overview/Script_Functions.htm">Script Functions</a> using the following syntax:</p>
+  <p class="code">#export symbol1,symbol2,symbol3,...</p>
+  <p>Any project that has a reference to such a Collection can use the exported symbols in code, e.g. to make use of an Enum/Macro or call a Script Function.</p>
+  <p>A function exported with the above syntax may implicitly call any other functions or constants from the Collection&#39;s included scripts, without those symbols needing to be exported. This means you only export those functions and constants which the user will explicitly call.</p>
+  <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down" href="#">Export Example</a></p>
+  <div class="droptext" data-targetname="drop-down">
+    <p class="dropspot">See the following example of a Script included in a Prefab Collection:</p>
+    <p class="code">#export HelloWorld,Vector3,LIB_RELEASE_MODE<br />
+      <br />
+      function HelloWorld(text){<br />
+          PrintMessage($&quot;Hello World!\n{text}&quot;);<br />
+      }<br />
+      <br />
+      function Vector3(_x=0,_y=0,_z=0) constructor <br />
+      {<br />
+          x=_x;<br />
+          y=_y;<br />
+          z=_z;<br />
+          PrintMessage($&quot;Vector3 created with values: {x},{y},{z}&quot;)<br />
+      }<br />
+      <br />
+      function PrintMessage(text)<br />
+      {<br />
+          show_debug_message($&quot;{LIB_NAME}::{text}&quot;)<br />
+      }<br />
+      <br />
+      #macro LIB_NAME &quot;TEST LIBRARY&quot;<br />
+      <br />
+      enum LIB_RELEASE_MODE<br />
+      {<br />
+          BETA,<br />
+          PUBLIC<br />
+      }
+    </p>
+    <p class="dropspot">This Script asset is not marked as visible, only included, however it can be used in a project where a reference to the Collection has been added (see: <a data-xref="{text}" href="../../IDE_Tools/Prefab_Library.htm#h2">Referencing Prefab Assets In Code</a>).</p>
+    <p class="dropspot">The Script exports two functions: <span class="inline2">HelloWorld</span> and constructor <span class="inline2">Vector3</span>, along with an enum <span class="inline2">LIB_RELEASE_MODE</span>.</p>
+    <p class="dropspot">Both functions make use of a <span class="inline2">PrintMessage</span> function which is placed within the same Script but not explicitly exported. This will still work, as it is part of the Collection (it may even be placed in a different Script as long as it is included).</p>
+    <p class="dropspot">The <span class="inline2">PrintMessage</span> function then references the macro <span class="inline2">LIB_NAME</span> which is also not exported but is part of the Script.</p>
+    <p class="dropspot">In a project that references this Collection, you can call the exposed <span class="inline2">HelloWorld</span> and <span class="inline2">Vector3</span> functions and they should work as expected.</p>
+    <p class="dropspot"> </p>
+  </div>
+  <h2 id="h1">Exporting a Prefab Collection</h2>
   <p>Open the Prefab Builder from the Tools menu:</p>
   <p><span data-condition="Misc:Need_change">SCREENSHOT</span></p>
   <h3>Collection Details</h3>
@@ -37,7 +79,7 @@
     <li><strong>Package Name</strong>: This is the name of your package. It must include a name and optionally a scope, used to filter assets in the <a data-xref="{title}" href="../../IDE_Tools/Package_Manager.htm">Package Manager</a>.</li>
     <li><strong>Collection Name</strong>: This is the name of your Prefab Collection as it appears in the <a data-xref="{title}" href="../../IDE_Tools/Prefab_Library.htm">Prefab Library</a></li>
     <li><strong>Package ID</strong>: This is the unique ID of your package, used as its main identifier in the Package Manager and in projects that reference this Collection.</li>
-    <li><strong>Icon</strong>: </li>
+    <li><strong>Icon</strong>: A default icon is provided, however it is recommended to use a custom icon up to a size of 172x172.</li>
   </ul>
   <p>You can then enter optional details including the Publisher Name, Version and Descriptions.</p>
   <p>The &quot;<strong>Package Dependencies</strong>&quot; section shows the packages that are being used by the current project, so they are included in the Collection. You can additionally attach a License file to your Collection and specify the minimum IDE versions required for this Collection.</p>
