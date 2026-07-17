@@ -16,7 +16,7 @@
   <!--<div class="body-scroll" style="top: 150px;">-->
   <h1>Events, Moments and Broadcast Messages</h1>
   <p>Apart from all the properties listed <a href="Sequences.htm">here</a> for a sequence struct, you also have the possibility of adding in special &quot;action&quot; properties to a sequence. There are three different types of these &quot;action&quot; properties that can be added to a sequence object - <b>Events,</b> <b>Moments</b> and <b>Broadcast Messages</b> - and each of these is explained in more detail in the sections below.</p>
-  <h2>Sequence Events</h2>
+  <h2 id="events">Events</h2>
   <p>Sequence objects can have <b>events</b> added to them, and these events are analogous to the events used by object assets. The events you assign to a sequence object will occur in a specific order, either once at a defined moment in the sequence life-cycle, or every frame that the sequence is running. In this section, we discuss how these events are handled using code, but they can also be added using <a data-xref="{title}" href="../../../../The_Asset_Editors/Sequences.htm">The Sequence Editor</a>. Note that the order of events listed here is not influenced by the <a class="glossterm" data-glossterm="playhead" href="#">playhead</a> direction, and even if the sequence is playing backwards, the events will still be run in the order given below.</p>
   <p>The available events are:<b></b></p>
   <ul class="colour">
@@ -63,7 +63,7 @@
   <p class="code">var _seq = sequence_get(Sequence1);<br />
     _seq.event_step = method(_seq, seq_reverse);</p>
   <p>We have now assigned a step event to the sequence <i>object</i> with a function to detect when a mouse is pressed and then change the playhead direction of the sequence <i>instance</i> after it has been created in a room.</p>
-  <h2><label for="2">Moments</label></h2>
+  <h2><label for="2" id="moments">Moments</label></h2>
   <p>A sequence <b>moment</b> is a unique code action that is fired on one or more specified frames as the sequence plays. These code moments are - like with events (explained above) - simply predefined <a href="../../../GML_Overview/Method_Variables.htm">method variables</a> that are triggered on the given frame. For example, say you want a sequence to create a &quot;bullet&quot; instance on a specific frame of the animation - first you&#39;d need to create the function that is to be used for this action, something like this:</p>
   <p class="code">/// @function seq_shoot();<br />
     <br />
@@ -91,7 +91,7 @@
     _seq.momentKeyframes = _k;</p>
   <p>The above code will simply set frames 60, 120, and 180 of the &quot;moment&quot; track to call the method <span class="inline">seq_shoot</span>. You&#39;ll notice that currently you are not able to pass any parameters to the functions which are used for each moment, and in all cases the <span class="inline">self</span> variable within the scope of the function is assigned to be the sequence instance (you generally don&#39;t need to use <span class="inline">self</span> but under some special cases it may be useful).</p>
   <p>The self scope of a moment function is the <a href="Sequence_Structs/The_Sequence_Instance_Struct.htm">sequence instance struct</a>, same as a sequence event.</p>
-  <h2><label for="3">Broadcast Messages</label></h2>
+  <h2><label for="3" id="broadcast_messages">Broadcast Messages</label></h2>
   <p>Sequences can be made to generate <b>broadcast messages</b>, which simple strings that are added to specific frames along the animation timeline, and when that point in the timeline is reached, then the string will be broadcast out to all object instances that listen for it. You can add these messages in the IDE using <a data-xref="{title}" href="../../../../The_Asset_Editors/Sequences.htm">The Sequence Editor</a>, but they can also be created and edited using code.</p>
   <p>To create a broadcast message on a sequence using GML, you need to add them to a frame in the <span class="inline">messageEventKeyframes</span> property of the sequence struct. This is essentially a &quot;special&quot; track that is only used for this purpose and so can only take keyframe data that is associated with the broadcast messages that you want the sequence to have. This track is created in much the same way as you would create any other track, by creating keyframe structs and filling them with keyframe data, where channel 0 is the only channel that you can use and the track type is <span class="inline">seqtracktype_message</span>. Below is an example of how this would be created:</p>
   <p class="code">var _seq = sequence_get(my_Seq);<br />
