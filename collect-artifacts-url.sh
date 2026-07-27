@@ -3,7 +3,7 @@ set -euo pipefail
 
 REPOS=(EN PT-BR DE ES FR IT JA KO PL RU ZH)
 WORKFLOW="${WORKFLOW:-main.yml}"
-GH_TOKEN="${GH_TOKEN:?GH_TOKEN is required}"
+GH_PERSONAL_ACCESS_TOKEN="${GH_PERSONAL_ACCESS_TOKEN:?GH_PERSONAL_ACCESS_TOKEN is required}"
 SLACK_WEBHOOK_URL="${SLACK_WEBHOOK_URL:?SLACK_WEBHOOK_URL is required}"
 
 RESULTS=""
@@ -16,7 +16,7 @@ for LANG in "${REPOS[@]}"; do
   echo "➡️ Checking $REPO"
 
   # Get latest workflow run
-  RUN_JSON=$(curl -s -H "Authorization: token $GH_TOKEN" \
+  RUN_JSON=$(curl -s -H "Authorization: token $GH_PERSONAL_ACCESS_TOKEN" \
     "https://api.github.com/repos/$REPO/actions/workflows/$WORKFLOW/runs?per_page=1")
 
   RUN_ID=$(echo "$RUN_JSON" | jq -r '.workflow_runs[0].id')
