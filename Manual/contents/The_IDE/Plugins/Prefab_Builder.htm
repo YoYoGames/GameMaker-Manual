@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <title>Prefab Builder</title>
+  <link rel="stylesheet" type="text/css" href="../../assets/css/default.css" />
+  <meta name="template" content="../../assets/masterpages/Manual_Page.htt" />
+  <meta name="rh-authors" content="Gurpreet S. Matharoo" />
+  <meta name="topic-comment" content="The Prefab Builder is used to create Prefab Collections for use within other GameMaker projects" />
+  <meta name="rh-index-keywords" content="Prefab Builder" />
+  <meta name="search-keywords" content="prefab builder,create prefab, make prefab" />
+</head>
+<body>
+  <h1><span data-field="title" data-format="default">Prefab Builder</span></h1>
+  <p>The <strong>Prefab Builder</strong> lets you create <a href="../../IDE_Tools/Prefab_Library.htm">Prefab Collections</a> for use among your projects and for sharing with other developers.</p>
+  <p>Using the <a data-xref="{title}" href="../../IDE_Tools/Package_Manager.htm">Package Manager</a>, navigate to the &quot;<strong>Plugins</strong>&quot; source from the drop-down menu and install the &quot;<strong>Prefab Builder</strong>&quot; package.</p>
+  <p><img class="center" src="../../assets/Images/The_IDE/Plugins/PrefabBuilder_Install.png" />Once installed, enable it with the <img class="icon" src="../../assets/Images/Icons/Icon_Tick_Check_Green.png" /> checkbox and restart the IDE when you are prompted.</p>
+  <h2>Building a Prefab Collection</h2>
+  <p>Creating your own Prefab Collection starts way before you open the Prefab Builder. You must plan and structure the project according to the intended use of your Prefab Collection.</p>
+  <p>This includes doing the following:</p>
+  <ul class="colour">
+    <li>Listing the assets that will be exposed in the Prefab Collection, so they can be dragged or referenced by the user in their own project</li>
+    <li>Exposing functions and constants from Script assets that users can reference in code (see <strong>Exporting Code Symbols</strong> below)</li>
+  </ul>
+  <p>Prefab Collections can themselves make use of other Prefab Collections, so ensure such Collections are properly added and referenced in your project.</p>
+  <p>Once your project is ready, use the Prefab Builder to export it as a Prefab Collection.</p>
+  <h2 id="h2">Exporting Code Symbols</h2>
+  <p>Scripts in your Prefab Collection may export <a href="../../GameMaker_Language/GML_Overview/Variables/Constants.htm">Enums</a>, <a href="../../GameMaker_Language/GML_Overview/Variables/Constants.htm">Macros</a> and <a href="../../GameMaker_Language/GML_Overview/Script_Functions.htm">Script Functions</a> using the following syntax:</p>
+  <p class="code">#export symbol1,symbol2,symbol3,...</p>
+  <p>Any project that has a reference to such a Collection can use the exported symbols in code, e.g. to make use of an Enum/Macro or call a Script Function.</p>
+  <p>A function exported with the above syntax may implicitly call any other functions or constants from the Collection&#39;s included scripts, without those symbols needing to be exported. This means you only export those functions and constants which the user will explicitly call.</p>
+  <p><a class="dropspot" data-rhwidget="DropSpot" data-target="drop-down" href="#">Export Example</a></p>
+  <div class="droptext" data-targetname="drop-down">
+    <p class="dropspot">See the following example of a Script included in a Prefab Collection:</p>
+    <p class="code">#export HelloWorld,Vector3,LIB_RELEASE_MODE<br />
+      <br />
+      function HelloWorld(text){<br />
+          PrintMessage($&quot;Hello World!\n{text}&quot;);<br />
+      }<br />
+      <br />
+      function Vector3(_x=0,_y=0,_z=0) constructor <br />
+      {<br />
+          x=_x;<br />
+          y=_y;<br />
+          z=_z;<br />
+          PrintMessage($&quot;Vector3 created with values: {x},{y},{z}&quot;)<br />
+      }<br />
+      <br />
+      function PrintMessage(text)<br />
+      {<br />
+          show_debug_message($&quot;{LIB_NAME}::{text}&quot;)<br />
+      }<br />
+      <br />
+      #macro LIB_NAME &quot;TEST LIBRARY&quot;<br />
+      <br />
+      enum LIB_RELEASE_MODE<br />
+      {<br />
+          BETA,<br />
+          PUBLIC<br />
+      }
+    </p>
+    <p class="dropspot">This Script asset is not marked as visible, only included, however it can be used in a project where a reference to the Collection has been added (see: <a data-xref="{text}" href="../../IDE_Tools/Prefab_Library.htm#h2">Referencing Prefab Assets In Code</a>).</p>
+    <p class="dropspot">The Script exports two functions: <span class="inline2">HelloWorld</span> and constructor <span class="inline2">Vector3</span>, along with an enum <span class="inline2">LIB_RELEASE_MODE</span>.</p>
+    <p class="dropspot">Both functions make use of a <span class="inline2">PrintMessage</span> function which is placed within the same Script but not explicitly exported. This will still work, as it is part of the Collection (it may even be placed in a different Script as long as it is included).</p>
+    <p class="dropspot">The <span class="inline2">PrintMessage</span> function then references the macro <span class="inline2">LIB_NAME</span> which is also not exported but is part of the Script.</p>
+    <p class="dropspot">In a project that references this Collection, you can call the exposed <span class="inline2">HelloWorld</span> and <span class="inline2">Vector3</span> functions and they should work as expected.</p>
+    <p class="dropspot"> </p>
+  </div>
+  <h2 id="h1">Exporting a Prefab Collection</h2>
+  <p>Open the Prefab Builder from the Tools menu:</p>
+  <p><img class="center" src="../../assets/Images/The_IDE/Plugins/PrefabBuilder_Open.png" /></p>
+  <h3>Collection Details</h3>
+  <p><img class="center" src="../../assets/Images/The_IDE/Plugins/PrefabBuilder_Details.png" />Here you must enter the following required details for your Prefab Collection:</p>
+  <ul class="colour">
+    <li><strong>Package Name</strong>: This is the name of your package. It must include a name and optionally a <a href="https://docs.npmjs.com/about-scopes">scope</a>, based on naming rules for <strong>npm</strong>.</li>
+    <li><strong>Collection Name</strong>: This is the name of your Prefab Collection as it appears in the <a data-xref="{title}" href="../../IDE_Tools/Prefab_Library.htm">Prefab Library</a></li>
+    <li><strong>Package ID</strong>: This is the unique ID of your package, used as its main identifier in the Package Manager and in projects that reference this Collection.</li>
+    <li><strong>Icon</strong>: A default icon is provided, however it is recommended to use a custom icon up to a size of 172x172.</li>
+  </ul>
+  <p>You can then enter optional details including the Publisher Name, Version and Descriptions.</p>
+  <p>The &quot;<strong>Package Dependencies</strong>&quot; section shows the packages that are being used by the current project, so they are included in the Collection. You can additionally attach a License file to your Collection and specify the minimum IDE versions required for this Collection.</p>
+  <h3>Assets</h3>
+  <p><img class="center" src="../../assets/Images/The_IDE/Plugins/PrefabBuilder_Assets.png" />This section lets you pick the assets that will be included and exposed with the Prefab Collection. You can mark assets as &quot;<strong>Included</strong>&quot; or &quot;<strong>Visible</strong>&quot;.</p>
+  <p><strong>Included</strong> assets are included in the exported Prefab Collection. <strong>Visible</strong> assets are included and exposed in the Prefab Library so they can be dragged into a project by a user of the Collection.</p>
+  <p>An <strong>Included</strong> asset may be referenced by an asset that is <strong>Visible</strong>. For example, <span class="inline2">obj_player</span> may be visible so a user could drag it into their Room, and <span class="inline2">obj_player</span>, in its Create event, creates an instance of <span class="inline2">obj_camera</span> which is not exposed to a user of the Collection, however it is still used at runtime. In such a scenario, <span class="inline2">obj_camera</span> would only be marked as <strong>Included</strong>.</p>
+  <h3>Dependencies</h3>
+  <p>The <strong>Dependencies</strong> view displays any assets (local or referenced through another Collection) that are attached to the selected asset in the <strong>Assets</strong> view, e.g. Sprites used by an Object or Sounds used in a Sequence. </p>
+  <p>Any assets that are required for an asset but not automatically detected by the IDE, can be added using the <img class="icon" src="../../assets/Images/Icons/Icon_AddParticleEmitter.png" /> <strong>Add </strong>button. Such assets will be marked as <strong>Included </strong>but not <strong>Visible</strong> (unless you choose to mark them as <strong>Visible</strong> yourself).</p>
+  <h3>Exporting</h3>
+  <p>Once your Prefab Collection details are ready, click on &quot;<strong>Package and Install</strong>&quot;. This will export a <span class="inline2">.yymps</span> file and show the following prompt:</p>
+  <p><img class="center" src="../../assets/Images/The_IDE/Plugins/PrefabBuilder_Exported.png" />Clicking on &quot;<strong>Install Prefab</strong>&quot; will install the Prefab Collection locally. It will appear in your <a data-xref="{title}" href="../../IDE_Tools/Prefab_Library.htm">Prefab Library</a>, ready for use in other projects.</p>
+  <h2>Preferences</h2>
+  <p>Preferences for the Prefab Builder will appear under <strong>Preferences -&gt; Plugins</strong>, containing the following options:</p>
+  <p><img class="center" src="../../assets/Images/The_IDE/Plugins/PrefabBuilder_Preferences.png" /></p>
+  <ul class="colour">
+    <li><strong>Prefab Builder save location</strong>: This sets the automatic save location for the Prefab Builder asset data. By default, the IDE saves the information in the project directory so the Prefab Builder asset configuration can be backed up with the project and synchronised with team members. This can be changed to the user directory that is local to the current system.</li>
+    <li><strong>Invalid package name confirmation</strong>: When trying to package a Prefab Collection with an invalid Package Name, you will see a warning prompt, as a correct name is required for publishing on npm if you wish to do so. You can choose to disable this prompt by setting this preference to &quot;<strong>OK</strong>&quot;.</li>
+  </ul>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div>Back: <a data-xref="{title}" href="Plugins.htm">IDE Plugins</a></div>
+        <div>Next: <a data-xref="{title}" href="../General_Asset_Editors.htm">General Asset Editors</a></div>
+      </div>
+    </div>
+    <h5><span data-conref="../../assets/snippets/Copyright_Notice_AutoUpdate.hts"> </span></h5>
+  </div>
+</body>
+</html>
