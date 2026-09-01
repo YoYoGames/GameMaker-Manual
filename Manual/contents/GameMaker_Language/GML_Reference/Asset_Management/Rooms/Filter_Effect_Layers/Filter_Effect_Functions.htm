@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <title>Filter and Effect Functions</title>
-  <meta name="generator" content="Adobe RoboHelp 2022" />
-  <link rel="stylesheet" href="../../../../../assets/css/default.css" type="text/css" />
+  <meta name="generator" content="Adobe RoboHelp 2022"/>
+  <link rel="stylesheet" href="../../../../../assets/css/default.css" type="text/css"/>
   <script src="../../../../../assets/scripts/main_script.js" type="module"></script>
-  <meta name="rh-authors" content="Gurpreet S. Matharoo" />
-  <meta name="topic-comment" content="Page outlining the different functions and variables associated with Filter/Effect Layers" />
-  <meta name="rh-index-keywords" content="Filter and Effect Functions" />
-  <meta name="search-keywords" content="Filter and Effect Functions" />
+  <meta name="rh-authors" content="Gurpreet S. Matharoo"/>
+  <meta name="topic-comment" content="Page outlining the different functions and variables associated with Filter/Effect Layers"/>
+  <meta name="rh-index-keywords" content="Filter and Effect Functions"/>
+  <meta name="search-keywords" content="Filter and Effect Functions"/>
 </head>
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
@@ -20,12 +19,12 @@
   <div data-conref="../../../../../assets/snippets/FX_only_added_through_IDE.hts"> </div>
   <p>The latter method (of specifying the filter/effect in your code) only works with string <a class="glossterm" data-glossterm="literal" href="#">literal</a><span class="glossextra">s</span> directly specified in the function argument, which means that if you use a variable or any logic to come up with the filter/effect name string, then the asset compiler will not detect that and the filter/effect will not be loaded.</p>
   <p>Consider the following examples:</p>
-  <p class="code">// This will work on its own<br />
-    var _fxshake = fx_create(&quot;_filter_screenshake&quot;);<br />
-    <br />
-    // This will NOT work on its own<br />
-    var _myfilters = { screenshake: &quot;_screenshake&quot; }<br />
-    var _filter_to_use = &quot;_filter&quot; + _myfilters.screenshake;<br />
+  <p class="code">// This will work on its own<br/>
+    var _fxshake = fx_create(&quot;_filter_screenshake&quot;);<br/>
+    <br/>
+    // This will NOT work on its own<br/>
+    var _myfilters = { screenshake: &quot;_screenshake&quot; }<br/>
+    var _filter_to_use = &quot;_filter&quot; + _myfilters.screenshake;<br/>
     var _fxshake = fx_create(_filter_to_use);
   </p>
   <p>To ensure that the latter method works, you can simply add the filter to at least one room in your project, or ensure that <span class="inline"><a href="fx_create.htm">fx_create()</a></span> is called anywhere in your project with the filter name as a string constant (and not a variable).</p>
@@ -73,17 +72,17 @@
   </ul>
   <p>Here is example code for the workflow mentioned above:</p>
   <p class="code_heading">Create Event</p>
-  <p class="code">// Store the FX struct, and its parameters struct, in variables<br />
-    pixelate_fx = layer_get_fx(&quot;Effect_1&quot;);<br />
+  <p class="code">// Store the FX struct, and its parameters struct, in variables<br/>
+    pixelate_fx = layer_get_fx(&quot;Effect_1&quot;);<br/>
     pixelate_fx_params = fx_get_parameters(pixelate_fx);</p>
   <p class="code_heading">Step Event</p>
-  <p class="code">// Change param as variable<br />
-    pixelate_fx_params.g_CellSize = round((mouse_x / room_width) * 64);<br />
-    <br />
-    // Or, change param as string<br />
-    pixelate_fx_params[$ &quot;g_CellSize&quot;] = round((mouse_x / room_width) * 64);<br />
-    <br />
-    // Apply updated parameters struct to the FX struct<br />
+  <p class="code">// Change param as variable<br/>
+    pixelate_fx_params.g_CellSize = round((mouse_x / room_width) * 64);<br/>
+    <br/>
+    // Or, change param as string<br/>
+    pixelate_fx_params[$ &quot;g_CellSize&quot;] = round((mouse_x / room_width) * 64);<br/>
+    <br/>
+    // Apply updated parameters struct to the FX struct<br/>
     fx_set_parameters(pixelate_fx, pixelate_fx_params);
   </p>
   <h2>FX Runtime Parameters</h2>
@@ -102,10 +101,10 @@
   <p>By default, a filter/effect is applied to the layer that it is <a href="layer_set_fx.htm">assigned to</a> and all layers below that layer, however you can use <a href="fx_set_single_layer.htm"><span class="inline">fx_set_single_layer()</span></a> to enable <strong>Single Layer</strong> mode for a filter/effect to make sure that it&#39;s only applied to the layer that it is assigned to.</p>
   <p>The following visual shows a filter being applied to multiple layers (which is the default behaviour for all FX layers), and then the same filter with Single Layer mode enabled and applied to a non-FX layer:</p>
   <div class="image_columns">
-    <figure><img alt="Fire Jump man is woozy with the universe" class="center_shadow" src="../../../../../assets/Images/Scripting_Reference/GML/Reference/Rooms/FX_single_layer_off.png" title="Fire Jump man is woozy with the universe" />
+    <figure><img alt="Fire Jump man is woozy with the universe" class="center_shadow" src="../../../../../assets/Images/Scripting_Reference/GML/Reference/Rooms/FX_single_layer_off.png" title="Fire Jump man is woozy with the universe"/>
       <figcaption>Single Layer Mode OFF</figcaption>
     </figure>
-    <figure><img alt="Fire Jump man is woozy... alone" class="center_shadow" src="../../../../../assets/Images/Scripting_Reference/GML/Reference/Rooms/FX_single_layer_on.png" style="cursor: nesw-resize;" title="Fire Jump man is woozy... alone" />
+    <figure><img alt="Fire Jump man is woozy... alone" class="center_shadow" src="../../../../../assets/Images/Scripting_Reference/GML/Reference/Rooms/FX_single_layer_on.png" style="cursor: nesw-resize;" title="Fire Jump man is woozy... alone"/>
       <figcaption>Single Layer Mode ON</figcaption>
     </figure>
   </div>
@@ -116,7 +115,7 @@
     <div class="buttons">
       <div class="clear">
         <div style="float:left">Back: <a href="../Rooms.htm">Rooms</a></div>
-        <div style="float:right">Next: <a data-xref="{title}" href="../UI_Layers/layer_get_flexpanel_node-copy.htm">UI Layers</a></div>
+        <div style="float:right">Next: <a data-xref="{title}" href="../UI_Layers/ui_layer_funcs.htm">UI Layers</a></div>
       </div>
     </div>
     <h5><span data-keyref="Copyright Notice">© Copyright YoYo Games Ltd. 2025 All Rights Reserved</span></h5>
@@ -128,5 +127,5 @@ Filter/Effect Layers
   <!-- TAGS
 fx_layer_functions
 -->
-</body>
-</html>
+
+</body></html>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="Adobe RoboHelp 2022" />
+  <title>Making UI</title>
+  <meta name="topic-status" content="Draft" />
+  <link rel="stylesheet" type="text/css" href="../assets/css/default.css" />
+  <meta name="rh-authors" content="Gurpreet S. Matharoo" />
+  <meta name="template" content="../assets/masterpages/Manual_Page.htt" />
+</head>
+<body>
+  <h1><span data-field="title" data-format="default">Making UI</span></h1>
+  <p>On the <a data-xref="{title}" href="Drawing.htm">Drawing</a> page, we talked about drawing things within objects that are displayed in the room. Now, let&#39;s look at drawing things on the screen, to display GUI information, HUD etc. to the player. For this we make use of <a data-xref="{title}" href="../The_Asset_Editors/Room_Properties/UI_Layers.htm">UI Layers</a>.</p>
+  <p>UI Layers display their contents on the <strong> <a class="glossterm" data-glossterm="GUI" href="Drawing.htm#">GUI</a> Layer</strong>, which is a special drawing layer of a fixed width and height that is drawn over the contents of the room. The great thing about the GUI layer is that <em> it doesn&#39;t move with the room&#39;s <a href="../GameMaker_Language/GML_Reference/Cameras_And_Display/Cameras_And_Viewports/Cameras_And_View_Ports.htm">camera</a></em>, so it&#39;s the ideal place to add static GUI (or HUD) items, like scores, healthbars and other information that your game requires to communicate to the user. You can find out more information on the GUI layer from the <a href="../The_Asset_Editors/Object_Properties/Draw_Events.htm">Draw Events</a> section of the manual.</p>
+  <p class="note"><b><span data-conref="../assets/snippets/Tag_note.hts"> </span> </b>Rooms can be larger than the screen size, so you can have large levels for the player to move around in. This means that in the Room Editor (or in code) you need to define a <a href="../GameMaker_Language/GML_Reference/Cameras_And_Display/Cameras_And_Viewports/Cameras_And_View_Ports.htm">camera</a><strong> </strong>that follows the action of your game.<br />
+    <br />
+    This is basically a way of setting up a fixed area of the screen to display different parts of the larger room based on - for example - the player position in the room, and is used in a lot of games. Think of the way that the view always follows the main character in classic games like Mario or Zelda. That&#39;s done with cameras. For information on setting up cameras, see <a data-xref="{text}" href="../The_Asset_Editors/Room_Properties/Room_Properties.htm#h">Cameras And Viewports</a>.
+  </p>
+  <h2>Drawing on GUI</h2>
+  <p>All the drawing techniques covered on the <a data-xref="{title}" href="Drawing.htm">Drawing</a> page can be used on GUI, by creating an object and placing it in a UI layer in a room:</p>
+  <figure><img class="center" src="../assets/Images/Asset_Editors/Editor_Room_UI_CreateLayer.png" />
+    <figcaption>Create a UI layer</figcaption>
+  </figure>
+  <figure><img class="center" src="../assets/Images/QS_Guide/QS_UI_Object.png" />
+    <figcaption>Drop an object into the layer</figcaption>
+  </figure>
+  <p>Anything you draw in the Draw event of that object will appear on the GUI layer. At runtime you will see it stick to the screen, and not move as the camera pans:</p>
+  <figure><img class="center" src="../assets/Images/QS_Guide/QS_ButtonSticks.gif" />
+    <figcaption>Button object from the <strong>User Interfaces</strong> <a href="../IDE_Tools/Prefab_Library.htm">Prefab</a></figcaption>
+  </figure>
+  <p>You can extend this to <a href="../GameMaker_Language/GML_Reference/Drawing/Text/draw_text.htm">text</a>, <a href="../GameMaker_Language/GML_Reference/Drawing/Basic_Forms/draw_healthbar.htm">healthbars</a>, or anything that can be drawn by an object. Everything will appear on the UI layer that it is placed on.</p>
+  <p>However, UI layers also come equipped with their own features, and you can place text and images natively in the Room Editor.</p>
+  <h2>Placing Elements In UI Layers</h2>
+  <p>Text can be placed directly in a UI layer by dragging a font asset into the canvas, and images can also be placed by dragging sprite assets in. They are placed inside Flex Panels by default (this can be changed in the <a href="../Setting_Up_And_Version_Information/IDE_Preferences/Room_Editor_Preferences.htm">preferences</a>):</p>
+  <p><img class="center" src="../assets/Images/QS_Guide/QS_Flex_ImageFont.png" />These elements appear at runtime as they were in the editor. You can modify text elements at runtime using the <a href="../GameMaker_Language/GML_Reference/Asset_Management/Rooms/Text_Functions/Text_Elements.htm">Text Element</a> functions:</p>
+  <p class="code">// Get element<br />
+    var _text_element = layer_text_get_id(&quot;UILayer_1&quot;, &quot;text_33B7665A&quot;); // Use the default element ID or a custom one<br />
+    <br />
+    // Modify element<br />
+    layer_text_text(_text_element, &quot;Start Recipe&quot;);
+  </p>
+  <p><img class="center" src="../assets/Images/QS_Guide/QS_Flex_Rename.png" /></p>
+  <h2>Mouse Input</h2>
+  <p>Objects use GUI mouse coordinates when placed on a UI layer. This means all Mouse events and the coordinates returned by <span class="inline2"><a data-xref="{title}" href="../GameMaker_Language/GML_Reference/Game_Input/Mouse_Input/mouse_x.htm">mouse_x</a></span>/<span class="inline2"><a data-xref="{title}" href="../GameMaker_Language/GML_Reference/Game_Input/Mouse_Input/mouse_y.htm">mouse_y</a></span> are on the GUI layer.</p>
+  <p>For example, you can use the <strong>Mouse Enter</strong> and <strong>Mouse Leave</strong> events to change the opacity of a button object and the <strong>Mouse Left Pressed</strong> event to run some code:</p>
+  <p class="code_heading">Mouse Enter</p>
+  <p class="code">image_alpha = 0.7;</p>
+  <p class="code_heading">Mouse Leave</p>
+  <p class="code">image_alpha = 1;</p>
+  <p class="code_heading">Left Pressed</p>
+  <p class="code">var _text_element = layer_text_get_id(&quot;UILayer_1&quot;, &quot;text_33B7665A&quot;);<br />
+    layer_text_text(_text_element, &quot;Button (Clicked)&quot;);</p>
+  <p><img class="center" src="../assets/Images/QS_Guide/QS_ButtonInteraction.gif" /></p>
+  <h2>Designing Layouts</h2>
+  <p>By now you know how to place objects, images and text in UI layers, and how to interact with them. The next step is to design a layout, using the example of a HUD screen used to display player information.</p>
+  <p class="note"><span data-conref="../assets/snippets/Tag_tip.hts"> </span> For this example, we will use the <strong>User Interfaces</strong> prefab collection which can be used from the <a data-xref="{title}" href="../IDE_Tools/Prefab_Library.htm">Prefab Library</a>. Use the &quot;<strong>Package Manager</strong>&quot; button in the Prefab Library to install the collection.</p>
+  <h3>Setting the Canvas Size</h3>
+  <p>UI layers always adapt to the size of the game window.</p>
+  <p>However, the editor uses the size of the room as the preview canvas for UI layers, so everything you place in UI layers stretches to the entire size of the room.</p>
+  <p>This is inconvenient if your room is too large. While designing UI, use the &quot;<strong>UI canvas preview</strong>&quot; feature to set a size for your UI preview canvas:</p>
+  <p><img class="center" src="../assets/Images/QS_Guide/QS_Flex_CanvasPreview.png" /></p>
+  <p>In the above image, the editor is using a 1280x720 canvas to preview UI. At runtime, this stretches to the game window.</p>
+  <p>You can use this menu to preview your UI at different sizes and orientations, for example to see how the UI would look on mobile.</p>
+  <h3>Left Panel</h3>
+  <p>In this example, we will create a HUD that has progress bars on the left of the screen and text on the right.</p>
+  <p><img class="center" src="../assets/Images/QS_Guide/QS_Flex_1.png" />Let&#39;s first build the left side of the UI.</p>
+  <p>Create a UI layer, then add a new Flex Panel through the right-click menu.</p>
+  <p><img class="center" src="../assets/Images/QS_Guide/QS_Flex_2.png" /></p>
+  <p>Set its name to &quot;<strong>Left</strong>&quot; (using F2 or the RMB menu), as this will our panel containing our UI elements on the left side of the screen.</p>
+  <p>Set its width and height to auto and position to &quot;<strong>Absolute</strong>&quot;.</p>
+  <p><img class="center" src="../assets/Images/QS_Guide/QS_Flex_3.png" />This does two things:</p>
+  <ul class="colour">
+    <li>With the size set to auto, the panel resizes itself to fit its contents (i.e. the progress bars we will place inside it)</li>
+    <li>With the position set to &quot;Absolute&quot;, you can move this panel anywhere on your screen with your mouse</li>
+  </ul>
+  <p class="note"><span data-conref="../assets/snippets/Tag_note.hts"> </span> Using Absolute panels is an easier, more WYSIWYG approach to designing UI in GameMaker. To create more complicated and expandable interfaces, it is recommended to use Relative panels and play with the Flex Properties to control how panels are laid out. See <a data-xref="{title}" href="../The_Asset_Editors/Room_Properties/UI_Element_Propert.htm">UI Element Properties</a> for information on those options.</p>
+  <p>From the <strong>User Interfaces</strong> prefab collection, drag the <strong>ProgressBar</strong> object into your <strong>Left</strong> panel. </p>
+  <p><img class="center" src="../assets/Images/QS_Guide/QS_Flex_4.png" />This will create a new flex panel under <strong>Left</strong>, with the <strong>ProgressBar</strong> instance inside it.</p>
+  <p><img class="center" src="../assets/Images/QS_Guide/QS_Flex_5.png" />With that new flex panel selected, hit <span class="shortcut">CTRL/CMD+D</span> twice to create two copies, as shown in the image above.</p>
+  <p>In the UI layer list on the left, select your <strong>Left</strong> panel. In the Inspector, scroll to the bottom and set the vertical gap to 10:</p>
+  <p><img class="center" src="../assets/Images/QS_Guide/QS_Flex_6.png" /></p>
+  <p>With the <strong>Left</strong> panel selected, in the canvas, drag it to the bottom-left corner of the screen.</p>
+  <p><img class="center" src="../assets/Images/QS_Guide/QS_Flex_Gif1.gif" /></p>
+  <p>It should now remain there, and you can add/remove panels as you need.</p>
+  <h3>Right Panel</h3>
+  <p>For the text on the right side of the screen, create a new Flex Panel under the layer root and rename it &quot;Right&quot;.</p>
+  <p><img class="center" src="../assets/Images/QS_Guide/QS_Flex_7.png" />Similar to the <strong>Left</strong> panel, set its width/height to auto and position to &quot;<strong>Absolute</strong>&quot;.</p>
+  <p>In your <a data-xref="{title}" href="../Introduction/The_Asset_Browser.htm">The Asset Browser</a>, create a <span data-keyref="Type_Asset_Font"><a href="../The_Asset_Editors/Fonts.htm" target="_blank">Font Asset</a></span> and set it to the font and size you want.</p>
+  <p>Drag and drop the font into the <strong>Right</strong> panel and use <span class="shortcut">CTRL+D</span> again to duplicate it. Select each text element and edit its text in the Inspector.</p>
+  <p><img class="center" src="../assets/Images/QS_Guide/QS_Flex_8.png" />After duplication, add a vertical gap to the <strong>Right</strong> panel as well, and then drag the panel to the bottom-right corner of the screen:</p>
+  <p><img class="center" src="../assets/Images/QS_Guide/QS_Flex_9.png" />We want to align the text to the right edge of the panel. For this, set the <strong>Align Items</strong> property of the <strong>Right</strong> panel to &quot;<strong>Flex End</strong>&quot;:</p>
+  <figure><img class="center" height="254" src="../assets/Images/QS_Guide/QS_Flex_10.png" width="794" />
+    <figcaption><strong>Left</strong>: Center alignment     <strong>Right</strong>: Flex End alignment</figcaption>
+  </figure>
+  <p>For information on this property and others, see <a data-xref="{title}" href="../The_Asset_Editors/Room_Properties/UI_Element_Propert.htm">UI Element Properties</a>.</p>
+  <h3>Editing At Runtime</h3>
+  <p>To modify the text, first edit their element names in the Inspector. Change the default &quot;<strong>text_XXXXXX</strong>&quot; identifier to something you can identify easily, and use the code shown above under the &quot;<strong>Placing Elements in UI Layers</strong>&quot; section to modify the text at runtime.</p>
+  <p>To modify the progress bars, also edit their identifiers, for example we will use &quot;<strong>bar_health</strong>&quot; for one ProgressBar instance:</p>
+  <p><img class="center" src="../assets/Images/QS_Guide/QS_Flex_11.png" /></p>
+  <p>In your code, modify its <span class="inline2">current_value</span> variable to a value between 0 and 100:</p>
+  <p class="code">bar_health.current_value = 20;</p>
+  <p>At runtime, this will cause that specific progress bar to be filled 20%:</p>
+  <p><img class="center" src="../assets/Images/QS_Guide/QS_Flex_12.png" /></p>
+  <h2>Further Reading</h2>
+  <p>See the following pages for more information on UI layers:</p>
+  <ul class="colour">
+    <li><a data-xref="{title}" href="../The_Asset_Editors/Room_Properties/UI_Layers.htm">UI Layers</a>: Creating and editing UI layers</li>
+    <li><a data-xref="{title}" href="../The_Asset_Editors/Room_Properties/UI_Element_Propert.htm">UI Element Properties</a>: Describes all Flex Panel and element properties, crucial for understanding UI design in <span data-keyref="GameMaker Name">GameMaker</span></li>
+    <li><a data-xref="{title}" href="../The_Asset_Editors/Room_Properties/UI_Layers_At_Runtime.htm">UI Layers At Runtime</a>: Interacting with and modifying UI layer contents at runtime</li>
+  </ul>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <p> </p>
+  <div class="footer">
+    <div class="buttons">
+      <div class="clear">
+        <div>Back: <a data-xref="{title}" href="Quick_Start_Guide.htm">Quick Start Guide</a></div>
+        <div>Next: <a data-xref="{title}" href="Summary.htm">Summary</a></div>
+      </div>
+    </div>
+    <h5><span data-conref="../assets/snippets/Copyright_Notice_AutoUpdate.hts"> </span></h5>
+  </div>
+</body>
+</html>
