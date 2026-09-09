@@ -58,14 +58,19 @@
   </ul>
   <p>It is worth noting that the HTML5 target module has a limit on local storage (which can be between 1MB and 5MB depending on the browser) meaning that you will not be permitted to save large sprites, screenshots, etc.</p>
   <h2 id="h2">Preventing Data Loss</h2>
-  <p>This section contains tips on preventing data loss, to ensure your players do not lose their game saves.</p>
-  <p>If a file save operation goes wrong, e.g. system failure or power loss occurs while writing to a file, the file being written to <strong>may be lost</strong>. Adopt any of the following strategies to prevent such issues and secure your saves:</p>
+  <p>This section contains tips on preventing data loss, so you can ensure your players do not lose their game saves.</p>
+  <p>If a file save operation goes wrong, e.g. system failure or power loss occurs during a writing process, the file being written to <strong>may be lost</strong>. Adopt any of the following strategies to prevent such issues and secure your saves:</p>
   <ul class="colour">
-    <li>Implement frequent auto saving to ensure save backups are available</li>
+    <li>Implement a validation method to ensure a file is intact before reading contents, e.g. add a checksum and/or ensure its schema is correct. This ensures you can catch a bad save before attempting to load it.</li>
+    <li>Implement frequent auto-saving to ensure save backups are available.</li>
     <li>Do not keep file handles open longer than necessary, i.e. keep a short span of time between <span class="inline3_func"><a data-xref="{title}" href="../GameMaker_Language/GML_Reference/File_Handling/Text_Files/file_text_open_write.htm">file_text_open_write</a></span> and <span class="inline3_func"><a data-xref="{title}" href="../GameMaker_Language/GML_Reference/File_Handling/Text_Files/file_text_close.htm">file_text_close</a></span>, or <span class="inline3_func"><a data-xref="{title}" href="../GameMaker_Language/GML_Reference/File_Handling/Ini_Files/ini_open.htm">ini_open</a></span> and <span class="inline3_func"><a data-xref="{title}" href="../GameMaker_Language/GML_Reference/File_Handling/Ini_Files/ini_close.htm">ini_close</a></span> (or similar functions) to ensure a small window of time where system failures may occur.</li>
-    <li>Instead of overwriting the last file that was saved, create a new file. Once you have verified that the new file saved properly, delete the old file and rename the new file to what it needs to be.</li>
+    <li>Instead of overwriting the last file that was saved, create a new file; for example, create <span class="inline2">game.sav.new</span> instead of <span class="inline2">game.sav</span>. Once you have verified that the new file saved properly, delete the old file and rename the new file to what it needs to be.
+      <ul>
+        <li>On loading a save, if the expected name (<span class="inline2">game.sav</span>) does not exist, look for <span class="inline2">game.sav.new</span> in case the file was saved but the rename operation could not run.</li>
+      </ul>
+    </li>
+    <li>Save multiple files and ensure they are the same in content; if not, use the one that is valid (using a validation method from the first bullet point).</li>
   </ul>
-  <p> </p>
   <p> </p>
   <p> </p>
   <p> </p>
