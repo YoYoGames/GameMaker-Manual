@@ -172,6 +172,7 @@ export default function(hljs) {
     "buffer_u32",
     "buffer_u64",
     "buffer_u8",
+    "buffer_utf8",
     "buffer_vbuffer",
     "buffer_wrap",
     "button_type",

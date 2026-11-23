@@ -19,10 +19,11 @@
   <p>The <span class="inline3_func"><span data-field="title" data-format="default">buffer_peek</span></span> function reads a piece of data of a certain type from the given buffer at an arbitrary offset position (in bytes).</p>
   <p>Like the <span class="inline3_func"><a data-xref="{title}" href="buffer_read.htm">buffer_read</a></span> function, this function also <em>reads</em> data from a buffer. <span class="inline3_func">buffer_read()</span>, however, always reads at the buffer&#39;s current &quot;seek&quot; position and advances this position by the number of bytes being read. This function allows you to read a given piece of data without changing the current seek position. You simply supply the function with a buffer, and then an offset position (from the buffer start) within that buffer to read from, as well as the data type that you want to read.</p>
   <p class="note"><b><span data-conref="../../../assets/snippets/Tag_note.hts"> </span></b> Using the incorrect data type for the data being read will result in erroneous values!</p>
+  <p>When reading a <span class="inline2">buffer_text</span> or <span class="inline2">buffer_string</span> you can give a <span class="inline2">size</span> in bytes to read exactly that many bytes from the offset, instead of reading up to the next null byte. This works the same as the <span class="inline2">size</span> argument of <span class="inline3_func"><a data-xref="{title}" href="buffer_read.htm">buffer_read</a></span>, except that the seek position isn&#39;t changed.</p>
   <p>If the function succeeds it returns the value that was read (a real, string, boolean, etc.), if it fails it returns simply <span class="inline2">undefined</span>.</p>
   <p> </p>
   <h4>Syntax:</h4>
-  <p class="code"><span data-field="title" data-format="default">buffer_peek</span>(buffer, offset, type)</p>
+  <p class="code"><span data-field="title" data-format="default">buffer_peek</span>(buffer, offset, type, [size])</p>
   <table>
     <tbody>
       <tr>
@@ -45,18 +46,31 @@
         <td><span data-keyref="Type_Constant_Buffer_Data_Type"><a href="buffer_write.htm" target="_blank">Buffer Data Type Constant</a></span></td>
         <td>The type of data that is to be read from the buffer (see the list of constants <a href="buffer_read.htm">here</a>).</td>
       </tr>
+      <tr>
+        <td>size</td>
+        <td><span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td><span data-conref="../../../assets/snippets/Tag_optional.hts"> </span> The number of bytes to read, for <span class="inline2">buffer_text</span> and <span class="inline2">buffer_string</span> only (ignored for the other types). Leave it out, or use a negative value, to read up to the next null byte.</td>
+      </tr>
     </tbody>
   </table>
   <p> </p>
   <h4>Returns:</h4>
   <p class="code"><span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span>, <span data-keyref="Type_Bool"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Boolean</a></span>, <span data-keyref="Type_String"><a href="../../GML_Overview/Data_Types.htm" target="_blank">String</a></span> or undefined (if it fails)</p>
   <p> </p>
-  <h4>Example:</h4>
+  <h4>Example 1: Basic Use</h4>
   <p class="code">var _red = buffer_peek(buff, 1, buffer_u8);<br />
     var _green = buffer_peek(buff, 2, buffer_u8);<br />
     var _blue = buffer_peek(buff, 3, buffer_u8);<br />
     image_blend = make_colour_rgb(_red, _green, _blue);</p>
   <p>The above code gets three values from three different positions within the buffer stored in the variable <span class="inline2">buff</span> and then uses those values to set the <span class="inline2"><a data-xref="{title}" href="../Asset_Management/Sprites/Sprite_Instance_Variables/image_blend.htm">image_blend</a></span> of the calling instance.</p>
+  <p> </p>
+  <h4>Example 2: Reading Part of a String</h4>
+  <p class="code">var _tag = buffer_peek(buff, 0, buffer_text, 4);<br />
+    if (_tag == &quot;RIFF&quot;)<br />
+    {<br />
+        show_debug_message(&quot;This is a RIFF file&quot;);<br />
+    }</p>
+  <p>The above code reads the first 4 bytes of the buffer <span class="inline2">buff</span> as a string, by passing a <span class="inline2">size</span> of 4, and checks whether they hold the tag <span class="inline2">&quot;RIFF&quot;</span>. The seek position of the buffer isn&#39;t changed.</p>
   <p> </p>
   <p> </p>
   <div class="footer">
