@@ -9,8 +9,8 @@
   <script src="../../../assets/scripts/main_script.js" type="module"></script>
   <meta name="rh-authors" content="Mark Alexander" />
   <meta name="topic-comment" content="Reference page for buffer_read" />
-  <meta name="rh-index-keywords" content="buffer_read,buffer_u8,buffer_s8,buffer_u16,buffer_s16,buffer_u32,buffer_s32,buffer_u64,buffer_f16,buffer_f32,buffer_f64,buffer_bool,buffer_string,buffer_text" />
-  <meta name="search-keywords" content="buffer_read,buffer_u8,buffer_s8,buffer_u16,buffer_s16,buffer_u32,buffer_s32,buffer_u64,buffer_f16,buffer_f32,buffer_f64,buffer_bool,buffer_string,buffer_text" />
+  <meta name="rh-index-keywords" content="buffer_read,buffer_u8,buffer_s8,buffer_u16,buffer_s16,buffer_u32,buffer_s32,buffer_u64,buffer_f16,buffer_f32,buffer_f64,buffer_bool,buffer_string,buffer_text,buffer_utf8" />
+  <meta name="search-keywords" content="buffer_read,buffer_u8,buffer_s8,buffer_u16,buffer_s16,buffer_u32,buffer_s32,buffer_u64,buffer_f16,buffer_f32,buffer_f64,buffer_bool,buffer_string,buffer_text,buffer_utf8" />
 </head>
 <body>
   <!--<div class="body-scroll" style="top: 150px;">-->
@@ -22,11 +22,12 @@
   <p>The return value depends on the type of data that you are reading, which can be one of the following constants:</p>
   <div data-conref="../../../assets/snippets/buffer_data_type_constants.hts"> </div>
   <p>If the function succeeds, it will return a value of the given type. If it fails, however, it will cause a <a href="../../../Additional_Information/Errors/Runner_Errors.htm">runner error</a>.</p>
+  <p>When reading a <span class="inline2">buffer_text</span> or <span class="inline2">buffer_string</span> you can give a <span class="inline2">size</span> in bytes. The function then reads exactly that many bytes instead of reading up to the next null byte, and advances the seek position by the whole span. If the span goes past the end of the buffer it stops at the end of the buffer. The size counts bytes, not characters, so a span that ends partway through a multi-byte character gives only the bytes that are there. If the span contains a null byte, the returned string stops there, but the seek position still advances by the whole span. A size of 0 returns an empty string and doesn&#39;t move the seek position.</p>
   <p class="note"><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> Using the incorrect data type for the data being read will result in erroneous values being returned.</p>
   <p class="note"><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> Reading a <span class="inline2">buffer_s32</span> or <span class="inline2">buffer_u32</span> on HTML5 returns the value as a <span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span>, which is a 64-bit double, as int32 is not supported on that platform.</p>
   <p> </p>
   <h4>Syntax:</h4>
-  <p class="code"><span data-field="title" data-format="default">buffer_read</span>(buffer, type)</p>
+  <p class="code"><span data-field="title" data-format="default">buffer_read</span>(buffer, type, [size])</p>
   <table>
     <tbody>
       <tr>
@@ -44,13 +45,18 @@
         <td><span data-keyref="Type_Constant_Buffer_Data_Type"><a href="buffer_write.htm" target="_blank">Buffer Data Type Constant</a></span></td>
         <td>The type of data to be read from the buffer (see the list of constants above).</td>
       </tr>
+      <tr>
+        <td>size</td>
+        <td><span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span></td>
+        <td><span data-conref="../../../assets/snippets/Tag_optional.hts"> </span> The number of bytes to read, for <span class="inline2">buffer_text</span> and <span class="inline2">buffer_string</span> only (ignored for the other types). Leave it out, or use a negative value, to read up to the next null byte.</td>
+      </tr>
     </tbody>
   </table>
   <p> </p>
   <h4>Returns:</h4>
   <p class="code"><span data-keyref="Type_Real"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Real</a></span>, <span data-keyref="Type_Bool"><a href="../../GML_Overview/Data_Types.htm" target="_blank">Boolean</a></span> or <span data-keyref="Type_String"><a href="../../GML_Overview/Data_Types.htm" target="_blank">String</a></span></p>
   <p> </p>
-  <h4>Example:</h4>
+  <h4>Example 1: Basic Use</h4>
   <p class="code">buffer = buffer_create(10240, buffer_grow, 1);<br />
     <br />
     // buffer_seek(buffer, buffer_seek_start, 0);<br />
@@ -63,6 +69,24 @@
   </p>
   <p>The above code creates a buffer, writes a string to it and reads it back.</p>
   <p>First a new grow buffer with an initial size of 10240 bytes is created using <span class="inline3_func"><a data-xref="{title}" href="buffer_create.htm">buffer_create</a></span>. At this point you can explicitly call <span class="inline3_func"><a data-xref="{title}" href="buffer_seek.htm">buffer_seek</a></span> to set the seek position to 0, but this isn&#39;t necessary since a newly created buffer&#39;s seek position is 0. Next the string <span class="inline2">&quot;Hello World&quot;</span> is written to the buffer with a call to <span class="inline3_func"><a data-xref="{title}" href="buffer_write.htm">buffer_write</a></span>. This advances the seek position by 12 bytes: 11 bytes for the characters of the string followed by a final null byte. After this, the string is read back from the buffer. To read the correct data, the seek position is first set back to 0 with a call to <span class="inline3_func"><a data-xref="{title}" href="buffer_seek.htm">buffer_seek</a></span>. The data is then read into a variable <span class="inline2">result</span> using <span class="inline3_func"><a data-xref="{title}" href="buffer_read.htm">buffer_read</a></span>, which is shown in a debug message.</p>
+  <p> </p>
+  <h4>Example 2: Reading a Length-Prefixed String</h4>
+  <p class="code">var _len = buffer_read(buff, buffer_u16);<br />
+    var _name = buffer_read(buff, buffer_text, _len);</p>
+  <p>The above code reads a string that is stored in the buffer <span class="inline2">buff</span> as its length in bytes followed by the string&#39;s bytes, with no null byte at the end. The length is read first as an unsigned 16-bit integer. It is then passed as the <span class="inline2">size</span> argument to read exactly that many bytes as a <span class="inline2">buffer_text</span>, which leaves the seek position at the data that follows the string.</p>
+  <p> </p>
+  <h4>Example 3: Reading UTF-8 Characters</h4>
+  <p class="code">var _buff = buffer_load(&quot;dialogue.txt&quot;);<br />
+    var _size = buffer_get_size(_buff);<br />
+    var _lines = 1;<br />
+    while (buffer_tell(_buff) &lt; _size)<br />
+    {<br />
+        var _codepoint = buffer_read(_buff, buffer_utf8);<br />
+        if (_codepoint == 10) _lines++;<br />
+    }<br />
+    buffer_delete(_buff);<br />
+    show_debug_message($&quot;{_lines} lines&quot;);</p>
+  <p>The above code loads a text file into a buffer and reads it one character at a time with <span class="inline2">buffer_utf8</span>, counting the lines by looking for the code point of the newline character (10). Each read returns the code point of the next character and moves the seek position past all of the character&#39;s bytes, however many there are.</p>
   <p> </p>
   <p> </p>
   <div class="footer">
@@ -89,6 +113,7 @@ buffer_f64
 buffer_bool
 buffer_string
 buffer_text
+buffer_utf8
 -->
   <!-- TAGS
 buffer_read
