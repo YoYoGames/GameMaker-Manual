@@ -898,18 +898,18 @@
   <h4>Example 4: Object Variables of Instances in Another Room</h4>
   <p class="code">var _info = <span data-field="title" data-format="default">room_get_info</span>(rm_level_2, false, true, false, false, false, false, true);<br />
     var _instances = _info.instances;<br />
-    if (_instances != 0)<br />
+    if (is_array(_instances))<br />
     {<br />
         for (var i = 0; i &lt; array_length(_instances); i++)<br />
         {<br />
             var _inst = _instances[i];<br />
             if (_inst.variables != undefined)<br />
             {<br />
-                show_debug_message($&quot;{object_get_name(_inst.object_index)}: {_inst.variables}&quot;);<br />
+                show_debug_message($&quot;{_inst.object_index}: {_inst.variables}&quot;);<br />
             }<br />
         }<br />
     }</p>
-  <p>The above code gets the instances placed in the room <span class="inline2">rm_level_2</span> together with the values of their Object Variables, by setting the <span class="inline2">variables</span> argument to <span class="inline2">true</span>. It then loops through the instances and, for each one that has Object Variables, outputs the object&#39;s name and the instance&#39;s <span class="inline2">variables</span> struct in a debug message. The struct holds every Object Variable of the instance, including those still at their default value, not only the ones overridden in the Room Editor.</p>
+  <p>The above code gets the instances placed in the room <span class="inline2">rm_level_2</span> together with the values of their Object Variables, by setting the <span class="inline2">variables</span> argument to <span class="inline2">true</span>. If the room has any instances (the <span class="inline2">instances</span> member is 0 when it has none), it loops through them and, for each one that has Object Variables, outputs its object&#39;s name (<span class="inline2">object_index</span> holds the name as a string) and the instance&#39;s <span class="inline2">variables</span> struct in a debug message. The struct holds every Object Variable of the instance, including those still at their default value, not only the ones overridden in the Room Editor.</p>
   <p> </p>
   <p> </p>
   <div class="footer">
