@@ -16,14 +16,126 @@
   <!--<div class="body-scroll" style="top: 150px;">-->
   <h1><span data-field="title" data-format="default">Output Windows Preferences</span></h1>
   <p><img alt="Output Window Prefs" class="center" src="../../../assets/Images/Setup_And_Version/Preferences/General_OutputWindow_Prefs.png" /></p>
-  <p>The <a href="../../../Introduction/The_Output_Window.htm"><strong>Output Window</strong></a> preferences control the different colour and formatting options for the various different output windows in the IDE. Each of the different windows has the same set of options, which are listed below:</p>
+  <p>The <a href="../../../Introduction/The_Output_Window.htm"><strong>Output Window</strong></a> preferences control how text is shown in the Output, Source Control, Project Tool and Project Health windows: the font and background, the colours that build tools write into their output, and the highlight rules that colour text and turn it into links. The <strong>Terminal</strong> window uses the same font, background and colours, and the Search Results window uses the highlight rules.</p>
+  <p>The defaults for the background, the text colour and the ANSI colours come from the current skin, so they change when you change the skin (including a skin made with the Skin Generator). Any of them that you change yourself is kept when the skin changes.</p>
+  <h2>Font Settings</h2>
+  <p>Each output window has its own group of font settings, named after the window: <strong>Output</strong>, <strong>Breakpoints</strong>, <strong>Compile Errors</strong>, <strong>Syntax Errors</strong>, <strong>Search Results</strong>, <strong>Project Health</strong>, <strong>Source Control</strong> and <strong>Project Tool</strong>. The Terminal window uses the <strong>Output</strong> group. Each group has the same options:</p>
   <ul class="colour">
-    <li><strong>Colour</strong>: The default colour for the text being written to the window.</li>
-    <li><strong>Font Name</strong>: The name of the font to use (available fonts will depend on those installed on your system).</li>
-    <li><strong>Style</strong>: The font style to use, like <strong>bold </strong>or <em>italics </em>(note that not all windows will permit the same styles and it will also depend on the font used).</li>
-    <li><strong>Size</strong>: The size to set the font to for the given output window.</li>
-    <li><strong>Anti-Aliasing</strong>: Here you can set the <a class="tooltip" title=" ">anti-aliasing</a> mode for the output windows font rendering. You can choose to let the IDE decide by selecting <em>Use Default</em>, or you can force it <em>On </em>or <em>Off </em>by selecting either of those options.</li>
+    <li><strong>Colour</strong>: The default colour for the text being written to the window. For the Output group it comes from the current skin until you change it.</li>
+    <li><strong>Font Name</strong>: The name of the font to use (available fonts will depend on those installed on your system), or <em>Use Default</em> for the code editor&#39;s font. The Terminal window needs a monospaced font, so if the font you choose isn&#39;t one, the Terminal uses the IDE&#39;s built-in monospaced font instead.</li>
+    <li><strong>Style</strong>: The font style to use, like <strong>bold </strong>or <em>italics </em>(note that not all windows will permit the same styles and it will also depend on the font used).</li>
+    <li><strong>Size</strong>: The size to set the font to for the window.</li>
+    <li><strong>Anti-Aliasing</strong>: Here you can set the <a class="tooltip" title=" ">anti-aliasing</a> mode for the output windows font rendering. You can choose to let the IDE decide by selecting <em>Use Default</em>, or you can force it <em>On </em>or <em>Off </em>by selecting either of those options.</li>
   </ul>
+  <h2>Background</h2>
+  <p><strong>Background</strong>: The background colour of the output windows and the Terminal window. By default it is the code editor background of the current skin.</p>
+  <h2>Colour From Tool Output</h2>
+  <p>Build tools and other programs can colour and style their output with ANSI escape codes. These options control how that is shown:</p>
+  <ul class="colour">
+    <li><strong>Show colours from tool output</strong>: Shows the colours and text styles (bold, italic, underline and so on) that tools write. When this is off the escape codes are still removed, so the text is plain. Default is on.</li>
+    <li><strong>Ask build tools for coloured output</strong>: Asks the build tools that <span data-keyref="GameMaker Name">GameMaker</span> runs to colour their output, which many tools only do when they write to a terminal. Default is on.</li>
+    <li><strong>Keep coloured text readable (minimum contrast)</strong>: Adjusts the colour of any text that is hard to read against the colour behind it, for example dark blue text on a dark background. This applies to tool colours and highlight rule colours alike. Default is on.</li>
+    <li><strong>Show bold ANSI colours as bright colours</strong>: Shows bold text in one of the 8 basic ANSI colours in its bright variant (bold red in bright red, and so on), as many terminals do. It only changes text that a tool coloured with an ANSI colour, not the colours of highlight rules. Default is off.</li>
+    <li><strong>ANSI Colours</strong>: The 16 standard ANSI colours (palette entries 0 to 15): Black, Red, Green, Yellow, Blue, Magenta, Cyan and White, and the bright version of each. The defaults come from the current skin.</li>
+  </ul>
+  <p><img alt="Output Windows ANSI Colours" class="center" src="../../../assets/Images/Setup_And_Version/Preferences/General_OutputWindow_ANSI_Colours.png" /></p>
+  <p class="note"><span data-conref="../../../assets/snippets/Tag_note.hts"> </span> Changing any of these options and pressing <strong>Apply</strong> changes the text already in the windows as well as new output.</p>
+  <h2>Highlight Rules</h2>
+  <p>Highlight rules colour text that matches a pattern, can mark the line as an error or a warning, and can turn the text into a link that you open with <img alt="Icon Ctrl" class="icon" height="20" src="../../../assets/Images/Icons/Icon_Ctrl.png" width="55" /> / <img alt="Icon Cmd" class="icon" height="20" src="../../../assets/Images/Icons/Icon_Cmd.png" width="55" /> + <img alt="Icon LMB" class="icon" src="../../../assets/Images/Icons/Icon_LMB.png" />. Untick <strong>Use highlight rules</strong> to turn them all off.</p>
+  <p><img alt="Output Windows Highlight Rules" class="center" src="../../../assets/Images/Setup_And_Version/Preferences/General_OutputWindow_Highlight_Rules.png" /></p>
+  <p>Each rule is a row with these columns:</p>
+  <ul class="colour">
+    <li><strong>On</strong>: Whether the rule is used.</li>
+    <li><strong>Name</strong>: A name for the rule, so you can tell the rules apart.</li>
+    <li><strong>Pattern (regex)</strong>: A .NET regular expression that is matched against each line of output.</li>
+    <li><strong>FG</strong> and <strong>BG</strong>: The text and background colours for matching text. Leave either unset to keep the colour the text already has.</li>
+    <li><strong>B</strong>, <strong>I</strong> and <strong>U</strong>: Make matching text bold, italic or underlined.</li>
+    <li><strong>Line</strong>: Colour the whole line, not just the matching text.</li>
+  </ul>
+  <p>The menu button at the end of a row has these options for the rule:</p>
+  <ul class="colour">
+    <li><strong>Duplicate</strong>, <strong>Move Up</strong>, <strong>Move Down</strong> and <strong>Remove</strong>.</li>
+    <li><strong>Move to Project Rules</strong> / <strong>Move to Your Rules</strong>: Move the rule between your own rules and the open project&#39;s shared rules (see below).</li>
+    <li><strong>Ignore Case</strong>: Match the pattern whatever the case of the text.</li>
+    <li><strong>Stop Lower-Priority Rules on Match</strong>: When this rule matches a line, rules with a lower priority aren&#39;t tried on it.</li>
+    <li><strong>Use Code Editor Asset Colour</strong>: Use the colour that the code editor shows asset names in, rather than the rule&#39;s own FG colour. The colour then follows the code editor, so it changes with the skin and with your code editor colour preferences. The default <em>Asset names</em> rule uses this.</li>
+    <li><strong>Doesn&#39;t Mark the Line</strong> / <strong>Marks the Line as an Error</strong> / <strong>Marks the Line as a Warning</strong>: Lines marked as errors and warnings are counted in the bar at the top of the window, and <strong>F8</strong> and <img alt="Icon Shift" class="icon" height="20" src="../../../assets/Images/Icons/Icon_Shift.png" width="55" /> + <strong>F8</strong> jump to the next and previous one.</li>
+    <li><strong>Not a Link</strong> / <strong>Link: Open Location</strong> / <strong>Link: Open Web Address</strong>: What clicking matching text does. An <em>Open Location</em> rule opens the file or asset named by the pattern&#39;s named groups: <span class="inline">file</span> or <span class="inline">symbol</span> (a GML symbol such as <span class="inline">gml_Object_obj_player_Step_0</span>), with <span class="inline">line</span> and <span class="inline">column</span> (or <span class="inline">line0</span> for a line counted from 0). An <em>Open Web Address</em> rule opens the <span class="inline">url</span> group, or the whole match, in your browser.</li>
+    <li><strong>Apply to Output</strong>, <strong>Apply to Source Control</strong>, <strong>Apply to Project Tool</strong>, <strong>Apply to Project Health</strong> and <strong>Apply to Search Results</strong>: Which windows the rule is used in.</li>
+  </ul>
+  <p>Below the rules:</p>
+  <ul class="colour">
+    <li><strong>Add Rule</strong>: Adds a new rule.</li>
+    <li><strong>Reset to Defaults</strong>: Replaces your rules with the default rules.</li>
+    <li><strong>Import...</strong> and <strong>Export...</strong>: Load rules from, or save them to, a rules file, to share them with other people.</li>
+    <li><strong>Show Rules File</strong>: Shows the file your rules are stored in, <span class="inline">output_highlight_rules.json</span>. It is in the same folder as your other preferences (see <a href="../../IDE_Preferences.htm#back_up_preferences">Back Up Preferences</a> for where that is), so back it up with them. You can also edit it by hand.</li>
+    <li><strong>Preview (type or paste sample output)</strong>: Shows how the rules colour the text you type or paste, as you change them. It starts with some sample output.</li>
+  </ul>
+  <p><img alt="Output Windows Highlight Rules Preview" class="center" src="../../../assets/Images/Setup_And_Version/Preferences/General_OutputWindow_Highlight_Rules_Preview.png" /></p>
+  <p>A project can also have its own rules, stored in <span class="inline">options/output_highlight_rules.json</span> in the project folder, so that everyone working on the project gets them. Use <strong>Create Project Rules</strong> to start them. A project rule with the same name as one of yours replaces it while the project is open, so a project can also turn one of your rules off.</p>
+  <p>You can also add a rule from the output itself: select some text, right-click it and choose <strong>Highlight This</strong> (or <strong>Highlight in Project</strong>) and a colour. <strong>Remove Highlight</strong> takes the rule away again, and <strong>Edit Highlight Rules...</strong> opens these preferences.</p>
+  <h3>The Default Rules</h3>
+  <table>
+    <colgroup>
+      <col style="width:30%" />
+      <col style="width:70%" />
+    </colgroup>
+    <tbody>
+      <tr>
+        <th>Rule</th>
+        <th>What it highlights</th>
+      </tr>
+      <tr>
+        <td>Errors</td>
+        <td>Errors such as <span class="inline">error:</span>, <span class="inline">Error :</span>, <span class="inline">error CS1002:</span> or a capitalised <span class="inline">ERROR</span>, in bold red, and marks the line as an error. The word &quot;error&quot; in ordinary text (such as &quot;Create Error Form&quot; or &quot;0 errors&quot;) isn&#39;t highlighted.</td>
+      </tr>
+      <tr>
+        <td>Warnings</td>
+        <td>Warnings in the same forms, in bold yellow, and marks the line as a warning.</td>
+      </tr>
+      <tr>
+        <td>Build succeeded</td>
+        <td><span class="inline">Igor complete.</span>, <span class="inline">Build succeeded</span> and <span class="inline">SUCCESS</span>, in bold green.</td>
+      </tr>
+      <tr>
+        <td>Build failed</td>
+        <td>The whole line for <span class="inline">Build failed</span>, <span class="inline">Compile failed</span> and <span class="inline">FAILED</span>, in bold red. It isn&#39;t counted as another error.</td>
+      </tr>
+      <tr>
+        <td>Asset names</td>
+        <td>The names of assets in the open project, underlined in the code editor&#39;s asset colour. Clicking one opens the asset, as a double-click in the Asset Browser does.</td>
+      </tr>
+      <tr>
+        <td>GML runtime error locations</td>
+        <td>Locations in runtime errors and stack traces, such as <span class="inline">gml_Object_obj_player_Step_0 (line 12)</span>. Clicking one opens the code at that line.</td>
+      </tr>
+      <tr>
+        <td>GML compile error locations</td>
+        <td>Locations in compile errors, such as <span class="inline">gml_Script_scr_move(10)</span>. Clicking one opens the code at that line.</td>
+      </tr>
+      <tr>
+        <td>Web links</td>
+        <td>Web addresses. Clicking one opens it in your browser.</td>
+      </tr>
+      <tr>
+        <td>Absolute paths</td>
+        <td>Full file and folder paths, with an optional line and column. Clicking a project GML file opens it as its asset. A text or image file opens in its default application, and anything else (such as a program or script) is only shown in its folder, so clicking output never runs anything.</td>
+      </tr>
+      <tr>
+        <td>File references</td>
+        <td>Files with a line number, such as <span class="inline">main.c:3:1</span> or <span class="inline">Foo.cs(1,2)</span>. Clicking one opens a project GML file at that line, and other files as <em>Absolute paths</em> does.</td>
+      </tr>
+      <tr>
+        <td>Shader compilation</td>
+        <td><span class="inline">Compiling Shader</span> lines in the Output window, in blue.</td>
+      </tr>
+      <tr>
+        <td>Runner banners</td>
+        <td>The runner&#39;s <span class="inline">****</span> lines around &quot;Entering main loop.&quot;, the <span class="inline">####</span> lines around a runtime error, and the <span class="inline">###game_end###</span> line, in blue.</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>When a new version of <span data-keyref="GameMaker Name">GameMaker</span> changes the default rules, any default rule you haven&#39;t changed is updated to the new version, and new default rules are added. Rules you have changed or added yourself are always kept as they are.</p>
   <p> </p>
   <p> </p>
   <p> </p>
